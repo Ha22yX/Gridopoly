@@ -488,6 +488,17 @@ bool runLogicTests(Stream &out)
                  "debt post-mortgage balance preserves int32 minimum");
 
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
+    const AppState ordinaryDebt = state;
+    TransportEvent unsolicitedBankruptcy{};
+    unsolicitedBankruptcy.kind = TransportEventKind::BankruptcyResolved;
+    unsolicitedBankruptcy.transactionId = 90;
+    unsolicitedBankruptcy.stateVersion = 3;
+    unsolicitedBankruptcy.cash = 0;
+    appHandleTransportEvent(state, unsolicitedBankruptcy, 1);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, ordinaryDebt),
+                 "matching bankruptcy resolution is inert outside pending bankruptcy");
+
+    openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
     ok &= expect(out, appDebtShortfall(state) == 440,
                  "debt computes exact shortfall");
     focusDebtAsset(state, 0);
@@ -643,6 +654,41 @@ bool runLogicTests(Stream &out)
     }
     ok &= expect(out, terminalEventsIgnored,
                  "accepted bankruptcy ignores every later transport event kind");
+
+    openVoluntaryMortgageFixture(state, 2800);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 2810}, 2810);
+    appTick(state, 4010);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 4010}, 4010);
+    TransportCommand voluntaryMortgage{};
+    ok &= expect(out, appPollCommand(state, voluntaryMortgage) &&
+                      voluntaryMortgage.kind == TransportCommandKind::MortgageBatchRequest &&
+                      voluntaryMortgage.transactionId == 0 && voluntaryMortgage.assetMask == 0x01,
+                 "voluntary mortgage submits zero transaction with selected mask");
+    DemoTransport voluntaryTransport;
+    voluntaryTransport.setScenario(DemoScenario::DebtMortgage);
+    voluntaryTransport.begin(0);
+    ok &= expect(out, voluntaryTransport.send(voluntaryMortgage, 0),
+                 "demo accepts voluntary mortgage command");
+    voluntaryTransport.tick(150);
+    TransportEvent voluntaryCompleted{};
+    ok &= expect(out, voluntaryTransport.poll(voluntaryCompleted) &&
+                      voluntaryCompleted.kind == TransportEventKind::MortgageBatchCompleted &&
+                      voluntaryCompleted.requestId == voluntaryMortgage.requestId &&
+                      voluntaryCompleted.transactionId != 0 && voluntaryCompleted.assetMask == 0x01,
+                 "demo assigns transaction to voluntary mortgage completion");
+    const AppState submittedVoluntaryMortgage = state;
+    TransportEvent wrongVoluntaryMask = voluntaryCompleted;
+    wrongVoluntaryMask.assetMask = 0x02;
+    appHandleTransportEvent(state, wrongVoluntaryMask, 4020);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, submittedVoluntaryMortgage),
+                 "wrong voluntary mortgage mask leaves submission unchanged");
+    appHandleTransportEvent(state, voluntaryCompleted, 4030);
+    ok &= expect(out, state.modal.kind == ModalKind::None && state.money == voluntaryCompleted.cash,
+                 "assigned voluntary mortgage completion applies cash and dismisses once");
+    const AppState acceptedVoluntaryMortgage = state;
+    appHandleTransportEvent(state, voluntaryCompleted, 4040);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, acceptedVoluntaryMortgage),
+                 "duplicate voluntary mortgage completion is inert");
 
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
     focusDebtAsset(state, 0);

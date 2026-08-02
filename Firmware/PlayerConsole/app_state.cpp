@@ -281,13 +281,14 @@ bool isVoluntaryMortgageCompletion(const AppState &state, const TransportEvent &
     const uint8_t mortgageIndex = commandIndex(TransportCommandKind::MortgageBatchRequest);
     return state.modal.kind == ModalKind::VoluntaryMortgage && state.modal.submitting &&
            event.requestId != 0 && event.requestId == state.pendingRequestIds[mortgageIndex] &&
-           event.transactionId == state.modal.transactionId &&
+           (state.modal.transactionId == 0 || event.transactionId == state.modal.transactionId) &&
            event.assetMask == (static_cast<uint32_t>(1u) << state.selectedAsset);
 }
 
 bool isMatchingBankruptcyResolution(const AppState &state, const TransportEvent &event)
 {
-    return event.kind == TransportEventKind::BankruptcyResolved && state.debt.transactionId != 0 &&
+    return event.kind == TransportEventKind::BankruptcyResolved && state.debt.bankruptcyPending &&
+           state.debt.transactionId != 0 &&
            event.transactionId == state.debt.transactionId;
 }
 
