@@ -4,6 +4,8 @@ import argparse
 import subprocess
 from pathlib import Path
 
+from ui_glyph_source import required_characters
+
 
 ROOT = Path(__file__).resolve().parents[1]
 FONT_DIR = ROOT / "src" / "fonts"
@@ -13,16 +15,7 @@ DEFAULT_NPX = Path(r"D:\Program Files\nodejs\npx.cmd")
 
 
 def source_characters() -> str:
-    characters: set[str] = set()
-    extensions = {".h", ".hpp", ".c", ".cpp", ".ino"}
-    for path in ROOT.rglob("*"):
-        if path.suffix.lower() not in extensions:
-            continue
-        if FONT_DIR in path.parents or path.name == "sample_assets.c":
-            continue
-        text = path.read_text(encoding="utf-8")
-        characters.update(character for character in text if ord(character) > 0x7E)
-    return "".join(sorted(characters, key=ord))
+    return "".join(sorted(required_characters(ROOT, FONT_DIR), key=ord))
 
 
 def generate(size: int, symbols: str, font_path: Path, npx_path: Path) -> None:
