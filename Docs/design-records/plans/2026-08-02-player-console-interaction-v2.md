@@ -16,7 +16,7 @@
 - The stand supplies `60 degrees` clockwise mechanical correction and firmware remains at `0 degrees`; rotation direction is inverted only in `hardware_input.cpp`.
 - Home focus motion lasts `220 ms` with ease-out. Center-list motion lasts `180-220 ms` with ease-out.
 - Carousel center/adjacent/outer opacity targets are `100% / 34% / 6%`; adjacent and outer scale targets are about `83% / 70%`.
-- Dangerous confirmation requires an uninterrupted `1200 ms` hold. Early release clears progress and does not submit.
+- Dangerous confirmation requires an uninterrupted `1200 ms` hold. Early release clears progress, does not submit, and keeps the confirmation open.
 - Forced payment has a `10 s` authorization window. Rent claiming retains its `20 s` window.
 - Dice presentation lasts `1800-2000 ms`; final faces always come from a transport event and are never rerolled locally.
 - RFID fallback appears after `12000 ms`; manual arrival requires a `1200 ms` hold, while RFID remains active.
@@ -796,7 +796,7 @@ ok &= expect(out, appDebtSelectedProceeds(state) == 375 &&
              "debt preview updates after every toggle");
 ```
 
-Select asset 6 after the shown assertions so proceeds become `$495` and cross the `$440` shortfall. Assert already mortgaged, building, and rule-locked rows cannot be toggled. Assert the footer does nothing below the threshold, opens `DebtMortgageConfirm` at/above it, Cancel returns only to `DebtAssets`, and a 1200 ms hold queues exactly one `MortgageBatchRequest`.
+Select asset 6 after the shown assertions so proceeds become `$495` and cross the `$440` shortfall. Assert already mortgaged, building, and rule-locked rows cannot be toggled. Assert the footer does nothing below the threshold, opens inescapable `DebtMortgageConfirm` at/above it with no Back/Cancel binding, and a 1200 ms hold queues exactly one `MortgageBatchRequest`.
 
 Inject `MortgageBatchCompleted`; assert the original `ForcedPayment` returns with a new full `10000 ms` deadline. Inject a fixture whose total legal mortgage value is below the shortfall; assert it goes directly to `Bankruptcy` with no Back.
 
@@ -1319,12 +1319,16 @@ git commit -m "feat: polish round-screen navigation motion"
 **Files:**
 - Create: `Firmware/PlayerConsole/ui_modal.h`
 - Create: `Firmware/PlayerConsole/ui_modal.cpp`
+- Modify: `Firmware/PlayerConsole/transport_types.h`
+- Modify: `Firmware/PlayerConsole/app_state.cpp`
+- Modify: `Firmware/PlayerConsole/demo_transport.cpp`
 - Modify: `Firmware/PlayerConsole/ui_renderer.cpp`
+- Modify: `Firmware/PlayerConsole/logic_tests.cpp`
 - Modify: `Firmware/PlayerConsole/tools/verify-ui-layout.py`
 
 **Interfaces:**
-- Consumes: `ModalState`, hold/countdown queries, debt queries, and fixed `UiEvent` bindings.
-- Produces: dimmed top-level modal, cancel/confirm focus, red insufficient state, debt selection page, and read-only bankruptcy page.
+- Consumes: `ModalState`, hold/countdown queries, debt queries, completion events, and fixed `UiEvent` bindings.
+- Produces: dimmed top-level modal, Back/confirm focus, clipped hold progress, request-correlated completion, red insufficient state, debt selection page, and read-only bankruptcy page.
 
 Expose:
 
@@ -1333,8 +1337,10 @@ struct UiModal {
     lv_obj_t *shade = nullptr;
     lv_obj_t *panel = nullptr;
     lv_obj_t *confirm = nullptr;
+    lv_obj_t *holdTrack = nullptr;
     lv_obj_t *confirmFill = nullptr;
-    lv_obj_t *cancel = nullptr;
+    lv_obj_t *holdLabel = nullptr;
+    lv_obj_t *back = nullptr;
     lv_obj_t *countdown = nullptr;
 };
 
@@ -1351,8 +1357,13 @@ Extend `verify-ui-layout.py` so it fails while `ui_modal.cpp` is absent, then ch
 - shade opacity is `72%` or the nearest LVGL 8-bit value;
 - shade is created after the page scene and before the panel;
 - panel equals `kModalRect`;
+- hold track is inside Confirm with at least `12 px` horizontal inset, `8 px` height,
+  at least `10 px` bottom inset, and at least `6 px` label gap;
+- Confirm, hold track, and fill disable overflow; fill width is clamped to the track inner width;
+- `0`、`500`、`1000` permille fixtures prove the fill cannot cross Confirm border,
+  rounded corners, hold label, or the outer countdown;
 - hold fill is created before the hold label, so fill cannot cover text;
-- cancel is absent when `cancelAllowed == false`;
+- Back is absent when `cancelAllowed == false` or `submitting == true`, and is visible/touchable only for a cancelable pre-submit confirmation;
 - background objects are not clickable while modal exists.
 - an offline authority shade blocks dangerous page controls and remains until `StateSnapshotApplied`.
 
@@ -1364,10 +1375,13 @@ Run `compile.ps1` and expect `UI LAYOUT CHECK FAIL` because the V2 modal compone
 
 Voluntary modal:
 
-- confirm and cancel are both in the rotary focus sequence;
+- before submission, confirm and fixed `返回` are both in the rotary focus sequence and have touch bindings;
 - only confirm starts hold progress;
-- cancel closes to the exact source page/focus;
+- Back closes without emitting a command and restores the exact source page, list anchor, and focus;
 - release before 1200 ms resets fill to zero but keeps the modal open.
+- at 1200 ms exactly one command is queued and the modal remains in a stable submitting state.
+- continuing to hold or tick cannot queue a duplicate command.
+- after the command is queued, Back is removed or disabled until a matching authority event completes the operation.
 
 Forced payment modal:
 
@@ -1376,22 +1390,37 @@ Forced payment modal:
 - insufficient state changes ring/title/action to red and replaces Confirm with `处理资产`;
 - entering debt hides the modal and pauses its deadline.
 
-- [ ] **Step 4: Render the compact forced debt page**
+- [ ] **Step 4: Complete voluntary commands with correlated authority events**
+
+Add `TransportEventKind::CommandCompleted` for generic voluntary command completion.
+`DemoTransport` returns a matching nonzero `requestId` within `150 ms` for `ClaimRent` and
+`TradeCreate`. Existing `MortgageBatchCompleted` and `PaymentCompleted` remain the specific
+completion events for mortgage and payment flows.
+
+Only a completion event whose type is valid for the active operation and whose nonzero
+`requestId` matches the active request may dismiss the modal. Ignore zero, stale, duplicate,
+or mismatched events. A matching voluntary completion clears pending state, dismisses the
+modal, restores the source page/focus, and shows a short success toast.
+
+- [ ] **Step 5: Render the compact forced debt page**
 
 Use a fixed summary band for amount due, shortfall, selected proceeds, and post-mortgage balance; use a slightly shorter center-list viewport underneath; put `还差 $N` or `抵押 $X` in the fixed footer. No Back action or long-press escape is bound.
 
-- [ ] **Step 5: Render bankruptcy as read-only terminal output**
+- [ ] **Step 6: Render bankruptcy as read-only terminal output**
 
 Use a red outer ring, cause, creditor, and liquidation status. Do not draw Back, Continue, or a status strip styled as a button.
 
-- [ ] **Step 6: Run green build guards and hardware self-tests**
+- [ ] **Step 7: Run green build guards and hardware self-tests**
 
-Expected: all layout/layer checks PASS and existing modal/debt state tests remain PASS.
+Expected: all layout/layer checks PASS; modal/debt tests cover ClaimRent, TradeCreate,
+VoluntaryMortgage, ForcedPayment, and DebtMortgageConfirm; and hardware checks verify the
+progress at `0%`、`50%`、`100%`, voluntary Back by rotary/touch, `1199 ms` release,
+single submission at `1200 ms`, mismatched completion retention, and matching completion exit.
 
-- [ ] **Step 7: Commit forced-flow views**
+- [ ] **Step 8: Commit forced-flow views**
 
 ```powershell
-git add Firmware/PlayerConsole/ui_modal.h Firmware/PlayerConsole/ui_modal.cpp Firmware/PlayerConsole/ui_renderer.cpp Firmware/PlayerConsole/tools/verify-ui-layout.py
+git add Firmware/PlayerConsole/ui_modal.h Firmware/PlayerConsole/ui_modal.cpp Firmware/PlayerConsole/transport_types.h Firmware/PlayerConsole/app_state.cpp Firmware/PlayerConsole/demo_transport.cpp Firmware/PlayerConsole/ui_renderer.cpp Firmware/PlayerConsole/logic_tests.cpp Firmware/PlayerConsole/tools/verify-ui-layout.py
 git commit -m "feat: render modal and debt authority flows"
 ```
 
