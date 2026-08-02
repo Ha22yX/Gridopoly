@@ -25,6 +25,7 @@
 - A bottom button has width at most `176 px`, bottom edge at or above logical `y=408`, and all four corners inside radius `192 px`.
 - Adjacent controls have at least `8 px` visual separation. Labels, icons, progress fills, and animated children stay inside their own containers.
 - The home carousel has no persistent operation hint. A first-use hint may appear as a top toast for `1500 ms`.
+- Every editable option or numeric field has explicit Browse and Editing modes. Focus/rotation in Browse never mutates the value; press/tap enters Editing, rotation changes only that field, and a second press/tap commits the local draft and exits Editing.
 - Target performance is `30 FPS`, sustained at least `24 FPS`, with local input feedback under `80 ms` where hardware permits.
 - No new runtime library is introduced. All queues and strings use bounded storage suitable for ESP32-S3 memory.
 - Source text remains UTF-8. Every new non-ASCII glyph must pass `tools/verify-ui-glyphs.py`, and generated font files remain checked in.
@@ -37,8 +38,8 @@
 
 ### Existing files to modify
 
-- `Firmware/PlayerConsole/app_types.h`: authoritative pages, navigation, modal, debt, dice, movement, UI-event, and protocol-facing state structures.
-- `Firmware/PlayerConsole/app_state.h`: public state-machine queries and command/event entry points.
+- `Firmware/PlayerConsole/app_types.h`: authoritative pages, navigation, modal, debt, dice, movement, inline-field editing, trade-entry, UI-event, and protocol-facing state structures.
+- `Firmware/PlayerConsole/app_state.h`: public state-machine queries, inline-editor helpers, and command/event entry points.
 - `Firmware/PlayerConsole/app_state.cpp`: navigation, focus, hold, payment, debt, dice, RFID, and timeout transitions.
 - `Firmware/PlayerConsole/app_config.h`: exact V2 timing and geometry constants; hardware pins remain unchanged.
 - `Firmware/PlayerConsole/demo_data.h`: bounded counts and deterministic scenario declarations.
@@ -1049,14 +1050,16 @@ git commit -m "feat: animate the home action carousel"
 **Files:**
 - Create: `Firmware/PlayerConsole/ui_center_list.h`
 - Create: `Firmware/PlayerConsole/ui_center_list.cpp`
+- Modify: `Firmware/PlayerConsole/app_types.h`
+- Modify: `Firmware/PlayerConsole/app_state.h`
 - Modify: `Firmware/PlayerConsole/ui_renderer.cpp`
 - Modify: `Firmware/PlayerConsole/app_state.cpp`
 - Modify: `Firmware/PlayerConsole/logic_tests.cpp`
 - Modify: `Firmware/PlayerConsole/tools/verify-ui-layout.py`
 
 **Interfaces:**
-- Consumes: page item views, selected anchor, footer focus, `ListPrevious/ListNext`, and motion helpers.
-- Produces: retained row track, fixed selected frame, centered short progress/count, fixed Back/Confirm footer, and discrete swipe-to-row behavior.
+- Consumes: page item views, selected anchor, footer focus, `ListPrevious/ListNext`, motion helpers, trade-entry context, and inline field-edit state.
+- Produces: retained row track, fixed selected frame, centered short progress/count, fixed Back/Confirm footer, discrete swipe-to-row behavior, and a reusable Browse/Editing contract for option and numeric fields.
 
 Use this item and component API:
 
@@ -1090,6 +1093,26 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
                         bool footerFocused, bool animate);
 ```
 
+Add these authoritative interaction types in `app_types.h`:
+
+```cpp
+enum class InlineEditField : uint8_t {
+    None,
+    TradeReceiver,
+    TradeAmount,
+};
+
+enum class TradeEntryMode : uint8_t {
+    HomeEditable,
+    PlayerLocked,
+};
+```
+
+`AppState` stores `InlineEditField inlineEditField` and `TradeEntryMode tradeEntryMode`.
+Expose `bool appInlineFieldEditing(const AppState &state, InlineEditField field)` and
+`bool appTradeReceiverLocked(const AppState &state)` as pure queries.
+Future option and numeric fields extend `InlineEditField`; they do not invent page-local press/rotate modes.
+
 - [ ] **Step 1: Write failing list focus and scroll tests**
 
 Assert:
@@ -1108,9 +1131,21 @@ ok &= expect(out, state.nav.current.focus == kAssetCount - 1 &&
 
 Send `UiEventKind::ListNext` and `ListPrevious` and assert they move one row and clamp. Touch a nonfocused row and assert focus synchronizes without activation; touch it again and assert it opens detail.
 
-- [ ] **Step 2: Run the red list test**
+Add trade editor tests with these exact state transitions:
 
-Expected: FAIL until clamp/swipe/touch behavior is implemented.
+- Home `Trade` enters `TradeEntryMode::HomeEditable`. Focusing Receiver or Amount leaves
+  `inlineEditField == None`; rotating in this state moves focus and does not mutate either value.
+- Short-pressing or tapping an already focused editable field enters its matching `InlineEditField`.
+  While active, rotary deltas change only that value with existing field step/min/max rules and leave focus fixed.
+- A second short press or touch on that field commits the local draft and sets `inlineEditField == None`.
+- Touching a different field while editing exits the old editor and only focuses the target; it does not enter or mutate the target in the same event.
+- Player Detail -> Trade sets `TradeEntryMode::PlayerLocked`, copies `selectedPlayer` to `tradeReceiver`, keeps the receiver unchanged under all rotary/press/touch input, and starts the focus sequence at Amount.
+- Page changes, forced-flow replacement, and authoritative snapshot/event handling clear `inlineEditField`.
+- Submit remains a separate action that opens `TradeCreate`; field editing never queues a transport command.
+
+- [ ] **Step 2: Run the red list and editor tests**
+
+Expected: FAIL until clamp/swipe/touch behavior and explicit Browse/Editing state exist.
 
 - [ ] **Step 3: Create a clipped row track and fixed center frame**
 
@@ -1122,18 +1157,22 @@ Convert a touch drag into one discrete list step only when vertical displacement
 
 Use a `72 x 4 px` progress track centered at `x=240` and the `current / total` text centered below it. Do not create a right-side scrollbar object. The progress and count remain tied to the selected row when the footer is focused.
 
-- [ ] **Step 5: Integrate all ordinary lists**
+- [ ] **Step 5: Integrate all ordinary lists and compact editors**
 
 Use the component for Assets, Players, and Demo Lab. Give each page a fixed Back footer. Keep Trade and details as compact forms, but their fixed Back action must use the same `kNormalFooter` rectangle and centerline.
 
+Trade fields use the same unified focus model as lists. In Browse, the focused field has the normal focus frame and rotary input navigates fields. In Editing, the same field gains a stable edit icon/text marker plus a distinct inner outline; rotary input edits without moving focus. Do not add a persistent instruction sentence.
+
+Home Trade renders Receiver as editable. Player Detail -> Trade renders the selected receiver as a read-only `已锁定` value and omits it from the rotary/touch edit sequence. A nonfocused field tap only synchronizes focus; a second tap enters Editing. A tap on another field exits the current editor and only focuses the new field. Submit and Back are never interpreted as value-editor toggles.
+
 - [ ] **Step 6: Run green self-tests and layout guard**
 
-Expected: eight assets scroll without wrapping, footer focus works in both directions, swipe steps discretely, no vertical scrollbar exists, and all centerline checks PASS.
+Expected: eight assets scroll without wrapping, footer focus works in both directions, swipe steps discretely, no vertical scrollbar exists, all centerline checks PASS, focus alone never changes a trade value, Home Trade edits the receiver, Player Detail Trade locks it, and every numeric/option edit follows Browse -> Editing -> Browse.
 
 - [ ] **Step 7: Commit reusable list behavior**
 
 ```powershell
-git add Firmware/PlayerConsole/ui_center_list.h Firmware/PlayerConsole/ui_center_list.cpp Firmware/PlayerConsole/ui_renderer.cpp Firmware/PlayerConsole/app_state.cpp Firmware/PlayerConsole/logic_tests.cpp Firmware/PlayerConsole/tools/verify-ui-layout.py
+git add Firmware/PlayerConsole/ui_center_list.h Firmware/PlayerConsole/ui_center_list.cpp Firmware/PlayerConsole/app_types.h Firmware/PlayerConsole/app_state.h Firmware/PlayerConsole/ui_renderer.cpp Firmware/PlayerConsole/app_state.cpp Firmware/PlayerConsole/logic_tests.cpp Firmware/PlayerConsole/tools/verify-ui-layout.py
 git commit -m "feat: add center locked round screen lists"
 ```
 
