@@ -236,6 +236,20 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
     draw_home_body = function_body(renderer_code, "drawHome")
     if not re.search(r"\buiCarouselCreate\s*\(", draw_home_body):
         fail("drawHome() does not create the retained carousel")
+    if not re.search(
+        r"\buiCarouselActions\s*\(\s*state\.homePhase\s*,\s*actions\s*\).*"
+        r"\buiCarouselCreate\s*\(\s*homeCarousel\s*,\s*root\s*,\s*actions\s*,\s*"
+        r"actionCount\s*,\s*state\.focus\s*\)",
+        draw_home_body,
+        re.DOTALL,
+    ):
+        fail("drawHome() does not rebuild count and order from the current Home phase")
+    create_body = function_body(carousel_code, "uiCarouselCreate")
+    if not re.search(
+        r"\buiBindTap\s*\(\s*item\s*,\s*UiEventKind::SelectHomeAction\s*,\s*index\s*\)",
+        create_body,
+    ):
+        fail("rebuilt carousel items do not bind their current action indexes")
     if re.search(r"\bdrawHomeWheel\b", renderer_code):
         fail("legacy bounce-only Home wheel remains active")
     if "准备好旋钮与触摸操作" in renderer_source:
@@ -314,13 +328,20 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         fail("drawToast() does not use a signed elapsed-time deadline comparison")
 
     render_body = function_body(renderer_code, "uiRendererRender")
+    if not re.search(
+        r"\bconst\s+bool\s+homeActionsUnchanged\s*=\s*"
+        r"state\.page\s*!=\s*ScreenPage::Home\s*\|\|\s*"
+        r"state\.homePhase\s*==\s*previousHomePhase\s*;",
+        render_body,
+    ):
+        fail("renderer does not compare the current and rendered Home phases")
     same_page_match = re.search(
         r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage\s*&&\s*"
-        r"state\.focus\s*!=\s*previousFocus\s*\)\s*\{",
+        r"state\.focus\s*!=\s*previousFocus\s*&&\s*homeActionsUnchanged\s*\)\s*\{",
         render_body,
     )
     if not same_page_match:
-        fail("same-page focus-update branch was not found")
+        fail("same-page focus-update branch is not guarded by the rendered Home phase")
     same_page_body = block_after(render_body, same_page_match)
     if re.search(r"\blv_obj_clean\s*\(\s*root\s*\)", same_page_body):
         fail("same-page focus update clears the root")
@@ -333,6 +354,13 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         fail("same-page Home focus update does not call uiCarouselSetSelection")
     if re.search(r"\b(?:uiCarouselCreate|drawHome|animateFocusEntry)\s*\(", same_page_body):
         fail("same-page Home focus update recreates or bounce-animates the scene")
+    if not re.search(
+        r"\brebuild\s*\(\s*state\s*,\s*nowMs\s*\)\s*;.*"
+        r"\bpreviousHomePhase\s*=\s*state\.homePhase\s*;",
+        render_body,
+        re.DOTALL,
+    ):
+        fail("Home rebuild does not retain the rendered phase for later focus-only updates")
 
     assert_modal_contract(renderer_code)
 
@@ -377,7 +405,13 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
                     renderer_source.replace("uiCarouselSetSelection(homeCarousel, state.focus, true);",
                                             "drawHome(state);", 1),
                     carousel_header, carousel_source)
-    print("UI LAYOUT NEGATIVE TEST PASS: conditional spelling, inactive duplicates, and dummy modal bypasses rejected")
+    expect_rejected("Home phase guard removed", layout_source,
+                    renderer_source.replace(" && homeActionsUnchanged", "", 1),
+                    carousel_header, carousel_source)
+    expect_rejected("rendered Home phase update removed", layout_source,
+                    renderer_source.replace("previousHomePhase = state.homePhase;", "", 1),
+                    carousel_header, carousel_source)
+    print("UI LAYOUT NEGATIVE TEST PASS: inactive bypasses and Home retained-phase mutations rejected")
 
 
 def main() -> int:

@@ -49,6 +49,7 @@ int8_t focusMotion = 0;
 bool hasRenderedState = false;
 ScreenPage previousPage = ScreenPage::Home;
 uint8_t previousFocus = 0;
+HomePhase previousHomePhase = HomePhase::Waiting;
 lv_style_transition_dsc_t pressTransition;
 const lv_style_prop_t pressTransitionProps[] = {
     LV_STYLE_TRANSFORM_ZOOM,
@@ -520,7 +521,10 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
 {
     if (root == nullptr) return;
     if (state.revision != renderedRevision) {
-        if (hasRenderedState && state.page == previousPage && state.focus != previousFocus) {
+        const bool homeActionsUnchanged = state.page != ScreenPage::Home ||
+                                          state.homePhase == previousHomePhase;
+        if (hasRenderedState && state.page == previousPage &&
+            state.focus != previousFocus && homeActionsUnchanged) {
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
             if (state.page == ScreenPage::Home) {
@@ -539,6 +543,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         renderedRevision = state.revision;
         previousPage = state.page;
         previousFocus = state.focus;
+        previousHomePhase = state.homePhase;
         hasRenderedState = true;
         lastDynamicDrawMs = nowMs;
         return;
