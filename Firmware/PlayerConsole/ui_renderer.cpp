@@ -9,6 +9,7 @@
 #include "demo_data.h"
 #include "src/assets/sample_assets.h"
 #include "src/fonts/ui_fonts.h"
+#include "ui_primitives.h"
 
 // Keep the call sites compact while replacing LVGL's incomplete built-in CJK
 // font with the project's verified Noto Sans SC subset.
@@ -16,7 +17,6 @@
 
 namespace {
 
-lv_color_t color(uint32_t rgb) { return lv_color_hex(rgb); }
 constexpr uint32_t kBg = 0x090E10;
 constexpr uint32_t kPanel = 0x11191B;
 constexpr uint32_t kLine = 0x263234;
@@ -32,6 +32,12 @@ uint32_t renderedRevision = 0;
 uint32_t lastDynamicDrawMs = 0;
 lv_obj_t *modalFill = nullptr;
 lv_obj_t *modalCountdown = nullptr;
+struct TapBinding {
+    lv_obj_t *object;
+    TouchAction action;
+};
+TapBinding tapBindings[12] = {};
+uint8_t tapBindingCount = 0;
 TouchAction touchQueue[12] = {};
 uint8_t touchHead = 0;
 uint8_t touchTail = 0;
@@ -92,56 +98,27 @@ void enqueueTouch(TouchAction action)
     ++touchCount;
 }
 
-void clickCallback(lv_event_t *event)
+void handleUiEvent(const UiEvent &event)
 {
-    if (lv_event_get_code(event) != LV_EVENT_CLICKED) return;
-    const intptr_t raw = reinterpret_cast<intptr_t>(lv_event_get_user_data(event));
-    enqueueTouch(static_cast<TouchAction>(raw));
-}
-
-void holdCallback(lv_event_t *event)
-{
-    const lv_event_code_t code = lv_event_get_code(event);
-    if (code == LV_EVENT_PRESSED) enqueueTouch(TouchAction::PressDown);
-    else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST) enqueueTouch(TouchAction::PressUp);
-}
-
-void baseObject(lv_obj_t *obj)
-{
-    lv_obj_remove_style_all(obj);
-    lv_obj_set_style_bg_opa(obj, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(obj, 0, 0);
-    lv_obj_set_style_pad_all(obj, 0, 0);
+    if (event.kind == UiEventKind::HoldDown) {
+        enqueueTouch(TouchAction::PressDown);
+    } else if (event.kind == UiEventKind::HoldUp) {
+        enqueueTouch(TouchAction::PressUp);
+    } else if (event.kind == UiEventKind::ActivateFocused) {
+        enqueueTouch(static_cast<TouchAction>(event.value));
+    }
 }
 
 lv_obj_t *label(lv_obj_t *parent, const char *text, int16_t x, int16_t y, int16_t width,
                 const lv_font_t *font, uint32_t rgb, lv_text_align_t align = LV_TEXT_ALIGN_CENTER)
 {
-    lv_obj_t *obj = lv_label_create(parent);
-    baseObject(obj);
-    lv_label_set_text(obj, text);
-    lv_label_set_long_mode(obj, LV_LABEL_LONG_DOT);
-    lv_obj_set_size(obj, width, 32);
-    lv_obj_set_pos(obj, x, y);
-    lv_obj_set_style_text_font(obj, font, 0);
-    lv_obj_set_style_text_color(obj, color(rgb), 0);
-    lv_obj_set_style_text_align(obj, align, 0);
-    return obj;
+    return uiLabel(parent, text, UiRect{x, y, width, 32}, font, rgb, align);
 }
 
 lv_obj_t *box(lv_obj_t *parent, int16_t x, int16_t y, int16_t w, int16_t h, uint32_t bg,
               uint32_t border, uint8_t radius = 6)
 {
-    lv_obj_t *obj = lv_obj_create(parent);
-    lv_obj_remove_style_all(obj);
-    lv_obj_set_pos(obj, x, y);
-    lv_obj_set_size(obj, w, h);
-    lv_obj_set_style_bg_color(obj, color(bg), 0);
-    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_color(obj, color(border), 0);
-    lv_obj_set_style_border_width(obj, 1, 0);
-    lv_obj_set_style_radius(obj, radius, 0);
-    return obj;
+    return uiBox(parent, UiRect{x, y, w, h}, bg, border, radius);
 }
 
 void makeClickable(lv_obj_t *obj, TouchAction action)
@@ -153,8 +130,76 @@ void makeClickable(lv_obj_t *obj, TouchAction action)
     lv_obj_set_style_transition(obj, &pressTransition, LV_STATE_DEFAULT);
     lv_obj_set_style_transform_zoom(obj, 244, LV_STATE_PRESSED);
     lv_obj_set_style_bg_opa(obj, LV_OPA_80, LV_STATE_PRESSED);
-    lv_obj_add_event_cb(obj, clickCallback, LV_EVENT_CLICKED,
-                        reinterpret_cast<void *>(static_cast<intptr_t>(action)));
+    uiBindTap(obj, UiEventKind::ActivateFocused, static_cast<int16_t>(action));
+    if (tapBindingCount < sizeof(tapBindings) / sizeof(tapBindings[0])) {
+        tapBindings[tapBindingCount++] = TapBinding{obj, action};
+    }
+}
+
+const char *homeMenuName(uint8_t index);
+TouchAction homeMenuAction(uint8_t index);
+
+uint32_t focusAccent(const AppState &state)
+{
+    switch (state.page) {
+        case ScreenPage::Players:
+        case ScreenPage::PlayerDetail: return kYellow;
+        case ScreenPage::Trade:
+        case ScreenPage::DemoLab: return kBlue;
+        case ScreenPage::Debt: return kRed;
+        default: return kGreen;
+    }
+}
+
+bool bindingIsFocused(const AppState &state, TouchAction action)
+{
+    switch (state.page) {
+        case ScreenPage::Home:
+            return state.homePhase == HomePhase::MyTurn && state.focus == 0 &&
+                   action == TouchAction::DetailPrimary;
+        case ScreenPage::Assets:
+            return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Asset0) + state.focus);
+        case ScreenPage::Players:
+            return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Player0) + state.focus);
+        case ScreenPage::AssetDetail:
+        case ScreenPage::PlayerDetail:
+            return action == (state.focus == 0 ? TouchAction::DetailPrimary : TouchAction::DetailBack);
+        case ScreenPage::Trade:
+            return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::TradeReceiver) + state.focus);
+        case ScreenPage::More:
+            return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::MoreDemoLab) + state.focus);
+        case ScreenPage::DemoLab:
+            return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::DemoWaiting) + state.focus);
+        default: return false;
+    }
+}
+
+void refreshSamePageFocus(const AppState &state)
+{
+    const uint32_t accent = focusAccent(state);
+    uint8_t menuFocus = state.focus;
+    if (state.page == ScreenPage::Home && state.homePhase == HomePhase::MyTurn) {
+        menuFocus = state.focus == 0 ? 0 : state.focus - 1;
+    }
+    for (uint8_t index = 0; index < tapBindingCount; ++index) {
+        TapBinding &binding = tapBindings[index];
+        if (state.page == ScreenPage::Home &&
+            binding.action >= TouchAction::HomeAssets && binding.action <= TouchAction::HomeMore) {
+            const int16_t x = lv_obj_get_x(binding.object);
+            const int8_t offset = x < 180 ? -1 : (x > 260 ? 1 : 0);
+            const uint8_t menuIndex = static_cast<uint8_t>((menuFocus + offset + 4) % 4);
+            binding.action = homeMenuAction(menuIndex);
+            uiBindTap(binding.object, UiEventKind::ActivateFocused, static_cast<int16_t>(binding.action));
+            lv_label_set_text(lv_obj_get_child(binding.object, 0), homeMenuName(menuIndex));
+        }
+        const bool focused = (state.page == ScreenPage::Home &&
+                              binding.action >= TouchAction::HomeAssets && binding.action <= TouchAction::HomeMore)
+                                 ? lv_obj_get_x(binding.object) == 207
+                                 : bindingIsFocused(state, binding.action);
+        lv_obj_set_style_bg_color(binding.object, lv_color_hex(focused ? 0x16302A : kPanel), 0);
+        lv_obj_set_style_border_color(binding.object, lv_color_hex(focused ? accent : kLine), 0);
+        if (focused) animateFocusEntry(binding.object);
+    }
 }
 
 void drawOuterRing(uint32_t accent = kGreen)
@@ -407,7 +452,7 @@ void drawModal(const AppState &state, uint32_t nowMs)
 
     lv_obj_t *hold = box(modal, 34, 196, 272, 72, 0x172224, kGreen, 6);
     lv_obj_add_flag(hold, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_event_cb(hold, holdCallback, LV_EVENT_ALL, nullptr);
+    uiBindHold(hold);
     const uint16_t progress = appHoldProgressPermille(state, nowMs);
     modalFill = box(hold, 0, 0, static_cast<int16_t>(272 * progress / 1000), 72, 0x20483E, kGreen, 6);
     lv_obj_clear_flag(modalFill, LV_OBJ_FLAG_CLICKABLE);
@@ -418,6 +463,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
 {
     modalFill = nullptr;
     modalCountdown = nullptr;
+    tapBindingCount = 0;
     lv_obj_clean(root);
     switch (state.page) {
         case ScreenPage::Home: drawHome(state); break;
@@ -455,7 +501,7 @@ bool uiRendererBegin()
     root = lv_obj_create(nullptr);
     if (root == nullptr) return false;
     lv_obj_remove_style_all(root);
-    lv_obj_set_style_bg_color(root, color(kBg), 0);
+    lv_obj_set_style_bg_color(root, lv_color_hex(kBg), 0);
     lv_obj_set_style_bg_opa(root, LV_OPA_COVER, 0);
     lv_obj_clear_flag(root, LV_OBJ_FLAG_SCROLLABLE);
     lv_style_transition_dsc_init(
@@ -467,6 +513,7 @@ bool uiRendererBegin()
         nullptr
     );
     lv_scr_load(root);
+    uiSetEventSink(handleUiEvent);
     renderedRevision = 0;
     return true;
 }
@@ -478,6 +525,11 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         if (hasRenderedState && state.page == previousPage && state.focus != previousFocus) {
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
+            refreshSamePageFocus(state);
+            renderedRevision = state.revision;
+            previousFocus = state.focus;
+            lastDynamicDrawMs = nowMs;
+            return;
         } else {
             focusMotion = 0;
         }

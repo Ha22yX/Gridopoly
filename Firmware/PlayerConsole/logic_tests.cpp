@@ -4,6 +4,8 @@
 #include "app_state.h"
 #include "demo_data.h"
 #include "demo_transport.h"
+#include "ui_layout.h"
+#include "ui_motion.h"
 
 #include <limits.h>
 #include <string.h>
@@ -84,6 +86,54 @@ bool debtAuthorityStateUnchanged(const AppState &state, const AppState &before)
 bool runLogicTests(Stream &out)
 {
     bool ok = true;
+    ok &= expect(out, uiRectInsideCircle(kNormalFooter),
+                 "footer stays inside round safe area");
+    ok &= expect(out, uiRectInsideCircle(kModalRect),
+                 "modal corners stay inside round safe area");
+    ok &= expect(out, !uiRectInsideCircle(UiRect{0, 0, 32, 32}),
+                 "corner geometry rejects rectangles outside round safe area");
+    ok &= expect(out, uiCarouselPose(0).centerX == 240 &&
+                      uiCarouselPose(0).opacity == 255 &&
+                      uiCarouselPose(1).opacity == 87 &&
+                      uiCarouselPose(2).opacity == 15,
+                 "carousel uses approved opacity hierarchy");
+    ok &= expect(out, uiCarouselPose(-1).centerX == 152 &&
+                      uiCarouselPose(1).centerX == 328 &&
+                      uiCarouselPose(3).opacity == 0,
+                 "carousel keeps neighboring slots symmetric and hides distant slots");
+    ok &= expect(out, uiCenterListTrackY(3, 220, 58) == 46,
+                 "center list track locks selected row");
+    ok &= expect(out, uiListProgressPermille(0, 8) == 0 &&
+                      uiListProgressPermille(7, 8) == 1000 &&
+                      uiListProgressPermille(2, 1) == 0,
+                 "list progress spans complete item range");
+    ok &= expect(out, uiMoneyFontPx(1860) == 40 &&
+                      uiMoneyFontPx(12345678) == 24 &&
+                      uiMoneyFontPx(-123456) == 32,
+                 "large balances select a round-safe font size");
+    ok &= expect(out, uiMoneyFontPx(99999) == 40 &&
+                      uiMoneyFontPx(100000) == 32 &&
+                      uiMoneyFontPx(10000000) == 24,
+                 "money font counts separators at exact display thresholds");
+    const DicePose dieZeroStart = uiDicePose(0, 0, 4);
+    const DicePose dieZeroLift = uiDicePose(150, 0, 4);
+    const DicePose dieZeroSpin = uiDicePose(1050, 0, 4);
+    const DicePose dieZeroLand = uiDicePose(1500, 0, 4);
+    const DicePose dieZeroPreSettle = uiDicePose(1899, 0, 4);
+    const DicePose dieZeroFinal = uiDicePose(1900, 0, 4);
+    const DicePose dieOneFinal = uiDicePose(1900, 1, 6);
+    ok &= expect(out, dieZeroStart.x != dieZeroLift.x &&
+                      dieZeroLift.x != dieZeroSpin.x &&
+                      dieZeroSpin.x != dieZeroLand.x,
+                 "dice pose traverses all motion segments");
+    ok &= expect(out, dieZeroStart.face != 4 && dieZeroLift.face != 4 &&
+                      dieZeroSpin.face != 4 && dieZeroLand.face != 4 &&
+                      dieZeroPreSettle.face != 4,
+                 "dice never selects its final face before settling");
+    ok &= expect(out, dieZeroFinal.face == 4 && dieZeroFinal.angleTenths == 0 &&
+                      dieZeroFinal.zoom == 256 && dieOneFinal.face == 6 &&
+                      dieOneFinal.angleTenths == 0 && dieOneFinal.zoom == 256,
+                 "dice settles on its final face for both dice at 1900ms");
     ok &= expect(out, static_cast<uint8_t>(ModalKind::None) == 0 &&
                       static_cast<uint8_t>(ModalKind::CollectRent) == 1 &&
                       static_cast<uint8_t>(ModalKind::ForcedPayment) == 2 &&
