@@ -1,18 +1,20 @@
 [CmdletBinding()]
 param(
     [string]$Port = 'COM4',
-    [int]$TimeoutSeconds = 35
+    [int]$TimeoutSeconds = 35,
+    [int]$CompileTimeoutSeconds = 180,
+    [int]$UploadTimeoutSeconds = 90
 )
 
 $ErrorActionPreference = 'Stop'
 $tools = $PSScriptRoot
-& powershell -ExecutionPolicy Bypass -File (Join-Path $tools 'compile.ps1') -SelfTest
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-& powershell -ExecutionPolicy Bypass -File (Join-Path $tools 'upload.ps1') -Port $Port
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+Import-Module (Join-Path $tools 'selftest-runner.psm1') -Force
+Invoke-SelfTestPhase -Name 'compile' -ScriptPath (Join-Path $tools 'compile.ps1') -ScriptArguments @('-SelfTest') -TimeoutSeconds $CompileTimeoutSeconds
+Invoke-SelfTestPhase -Name 'upload' -ScriptPath (Join-Path $tools 'upload.ps1') -ScriptArguments @('-Port', $Port) -TimeoutSeconds $UploadTimeoutSeconds
 
 $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
-$captured = [Text.StringBuilder]::new()
+$captured = ''
+$markerWindowSize = 128
 $serial = $null
 try {
     while ([DateTime]::UtcNow -lt $deadline) {
@@ -44,9 +46,9 @@ try {
                 continue
             }
             Write-Host -NoNewline $chunk
-            [void]$captured.Append($chunk)
-            if ($captured.ToString().Contains('SELFTEST FAILED')) { exit 1 }
-            if ($captured.ToString().Contains('SELFTEST PASS')) { exit 0 }
+            $captured = Add-SelfTestMarkerText -Window $captured -Chunk $chunk -MaximumLength $markerWindowSize
+            if ($captured.Contains('SELFTEST FAILED')) { exit 1 }
+            if ($captured.Contains('SELFTEST PASS')) { exit 0 }
         } catch {
             $serial.Close()
             $serial.Dispose()
