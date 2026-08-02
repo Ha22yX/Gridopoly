@@ -15,7 +15,7 @@ bool expect(Stream &out, bool condition, const char *name)
     return condition;
 }
 
-void press(AppState &state, uint32_t downMs, uint32_t upMs)
+void shortPress(AppState &state, uint32_t downMs, uint32_t upMs)
 {
     appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, downMs}, downMs);
     appTick(state, upMs);
@@ -29,26 +29,27 @@ bool runLogicTests(Stream &out)
     bool ok = true;
     AppState state{};
     appInit(state, 0);
-    ok &= expect(out, state.page == ScreenPage::Home && state.focus == 0, "starts on home");
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 0,
+                 "starts on home");
 
     appHandleInput(state, InputEvent{InputKind::Rotate, -1, 10}, 10);
-    ok &= expect(out, state.focus == 3, "focus wraps left");
+    ok &= expect(out, state.nav.current.focus == 3, "home focus wraps left");
     appHandleInput(state, InputEvent{InputKind::Rotate, 2, 20}, 20);
-    ok &= expect(out, state.focus == 1, "focus advances by delta");
+    ok &= expect(out, state.nav.current.focus == 1, "home focus advances by delta");
 
-    press(state, 100, 300);
-    ok &= expect(out, state.page == ScreenPage::Players, "short press activates focus");
-    press(state, 400, 1000);
-    ok &= expect(out, state.page == ScreenPage::Players, "500-799ms dead band does nothing");
-    press(state, 1100, 1950);
-    ok &= expect(out, state.page == ScreenPage::Home, "800ms hold returns home");
+    shortPress(state, 100, 300);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Players, "short press activates focus");
+    shortPress(state, 400, 1000);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Players, "500-799ms dead band does nothing");
+    shortPress(state, 1100, 1950);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home, "800ms hold returns home");
 
-    state.page = ScreenPage::Home;
-    press(state, 2000, 5100);
-    ok &= expect(out, state.page == ScreenPage::DemoLab, "3s hold opens demo lab");
+    state.nav.current = NavigationEntry{ScreenPage::Home, 0, 0};
+    shortPress(state, 2000, 5100);
+    ok &= expect(out, state.nav.current.page == ScreenPage::DemoLab, "3s hold opens demo lab");
 
-    state.focus = 3;
-    press(state, 5200, 5400);
+    state.nav.current.focus = 3;
+    shortPress(state, 5200, 5400);
     ok &= expect(out, state.modal.kind == ModalKind::CollectRent, "demo opens rent modal");
     appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 5500}, 5500);
     appTick(state, 6699);
@@ -56,12 +57,106 @@ bool runLogicTests(Stream &out)
     appTick(state, 6700);
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == 1980, "1.2s confirms rent");
 
-    state.page = ScreenPage::DemoLab;
-    state.focus = 4;
-    press(state, 7000, 7200);
+    state.nav.current = NavigationEntry{ScreenPage::DemoLab, 4, 0};
+    shortPress(state, 7000, 7200);
     ok &= expect(out, state.modal.kind == ModalKind::Payment, "demo opens payment modal");
     appTick(state, 17200);
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == 1805, "payment auto-runs after 10s");
+
+    appInit(state, 0);
+    state.homePhase = HomePhase::Waiting;
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 10}, 10);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 100}, 100);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Assets,
+                 "home asset action opens assets");
+    ok &= expect(out, appFocusCount(state) == kAssetCount + 1,
+                 "assets include fixed back footer");
+
+    state.nav.current.focus = kAssetCount;
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 200}, 200);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 300}, 300);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home &&
+                      state.nav.current.focus == 0,
+                 "footer back restores home asset focus");
+
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 310);
+    state.nav.current.focus = 2;
+    state.assetListIndex = 2;
+    shortPress(state, 320, 400);
+    ok &= expect(out, state.nav.current.page == ScreenPage::AssetDetail,
+                 "asset row opens detail");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 410);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Assets &&
+                      state.nav.current.focus == 2 && state.assetListIndex == 2,
+                 "asset detail back restores assets focus and anchor");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 420);
+
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 430);
+    state.nav.current.focus = 3;
+    state.playerListIndex = 3;
+    shortPress(state, 440, 520);
+    ok &= expect(out, state.nav.current.page == ScreenPage::PlayerDetail,
+                 "player row opens detail");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 530);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Players &&
+                      state.nav.current.focus == 3 && state.playerListIndex == 3,
+                 "player detail back restores players focus and anchor");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 540);
+
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 2}, 550);
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 560);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 2,
+                 "trade back restores home trade focus");
+
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 3}, 570);
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 580);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 3,
+                 "more back restores home more focus");
+
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 3}, 590);
+    appHandleUiEvent(state, UiEvent{UiEventKind::ActivateFocused, 0}, 600);
+    ok &= expect(out, state.nav.current.page == ScreenPage::DemoLab, "more opens demo lab");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 610);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 3,
+                 "demo lab back restores home more focus");
+
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 620);
+    appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, 630);
+    ok &= expect(out, state.nav.current.focus == 0 && state.assetListIndex == 0,
+                 "list previous clamps at first row");
+    for (uint8_t i = 0; i < kAssetCount + 2; ++i) {
+        appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, 640 + i);
+    }
+    ok &= expect(out, appFocusIsFooter(state) && state.assetListIndex == kAssetCount - 1,
+                 "list next clamps at footer without moving list anchor");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, 1}, 650);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Assets && state.nav.current.focus == 1,
+                 "touching an unfocused list row selects it");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, 1}, 660);
+    ok &= expect(out, state.nav.current.page == ScreenPage::AssetDetail,
+                 "touching the selected list row activates it");
+
+    const ScreenPage forcedPages[] = {
+        ScreenPage::DiceStage,
+        ScreenPage::MoveGuide,
+        ScreenPage::DebtAssets,
+        ScreenPage::Bankruptcy,
+    };
+    for (uint8_t i = 0; i < sizeof(forcedPages) / sizeof(forcedPages[0]); ++i) {
+        appInit(state, 0);
+        state.nav.current = NavigationEntry{forcedPages[i], 0, 0};
+        appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 10}, 10);
+        appTick(state, 810);
+        appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 810}, 810);
+        ok &= expect(out, !appCanNavigateBack(state) && state.nav.current.page == forcedPages[i],
+                     "forced page ignores 800ms exit");
+
+        appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 1000}, 1000);
+        appTick(state, 4000);
+        appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 4000}, 4000);
+        ok &= expect(out, !appCanNavigateBack(state) && state.nav.current.page == forcedPages[i],
+                     "forced page ignores 3s exit");
+    }
 
     DemoTransport transport;
     transport.begin(0);

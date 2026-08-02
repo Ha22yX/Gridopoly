@@ -24,6 +24,10 @@ enum class ScreenPage : uint8_t {
     More,
     DemoLab,
     Debt,
+    DiceStage,
+    MoveGuide,
+    DebtAssets,
+    Bankruptcy,
 };
 
 enum class HomePhase : uint8_t {
@@ -106,13 +110,47 @@ struct ModalState {
     bool holding = false;
 };
 
+struct NavigationEntry {
+    ScreenPage page = ScreenPage::Home;
+    uint8_t focus = 0;
+    uint8_t listAnchor = 0;
+};
+
+struct NavigationState {
+    NavigationEntry current{};
+    NavigationEntry stack[4]{};
+    uint8_t depth = 0;
+};
+
+enum class UiEventKind : uint8_t {
+    ActivateFocused,
+    SelectHomeAction,
+    SelectListItem,
+    Back,
+    HoldDown,
+    HoldUp,
+    ListPrevious,
+    ListNext,
+};
+
+struct UiEvent {
+    UiEventKind kind = UiEventKind::ActivateFocused;
+    int16_t value = 0;
+};
+
 struct AppState {
+    NavigationState nav{};
+    // Kept synchronized with nav for the existing renderer until it moves to NavigationState.
     ScreenPage page = ScreenPage::Home;
     HomePhase homePhase = HomePhase::Waiting;
     ModalState modal{};
     uint8_t focus = 0;
     uint8_t selectedAsset = 0;
     uint8_t selectedPlayer = 1;
+    uint8_t assetListIndex = 0;
+    uint8_t playerListIndex = 0;
+    uint8_t demoListIndex = 0;
+    uint8_t debtListIndex = 0;
     uint8_t tradeReceiver = 1;
     int32_t tradeAmount = 100;
     int32_t money = 1860;
