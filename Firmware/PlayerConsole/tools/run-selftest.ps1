@@ -9,8 +9,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $tools = $PSScriptRoot
 Import-Module (Join-Path $tools 'selftest-runner.psm1') -Force
-Invoke-SelfTestPhase -Name 'compile' -ScriptPath (Join-Path $tools 'compile.ps1') -ScriptArguments @('-SelfTest') -TimeoutSeconds $CompileTimeoutSeconds
-Invoke-SelfTestPhase -Name 'upload' -ScriptPath (Join-Path $tools 'upload.ps1') -ScriptArguments @('-Port', $Port) -TimeoutSeconds $UploadTimeoutSeconds
+$compileOutput = Invoke-SelfTestPhase -Name 'compile' -ScriptPath (Join-Path $tools 'compile.ps1') -ScriptArguments @('-SelfTest') -TimeoutSeconds $CompileTimeoutSeconds
+$uploadOutput = Invoke-SelfTestPhase -Name 'upload' -ScriptPath (Join-Path $tools 'upload.ps1') -ScriptArguments @('-Port', $Port) -TimeoutSeconds $UploadTimeoutSeconds
+if ($uploadOutput.SawSelfTestFailed) { exit 1 }
+if ($uploadOutput.SawSelfTestPass) { exit 0 }
 
 $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
 $captured = ''
@@ -46,6 +48,8 @@ try {
                 continue
             }
             Write-Host -NoNewline $chunk
+            if ($chunk -match 'SELFTEST\s+FAILED') { exit 1 }
+            if ($chunk -match 'SELFTEST\s+PASS') { exit 0 }
             $captured = Add-SelfTestMarkerText -Window $captured -Chunk $chunk -MaximumLength $markerWindowSize
             if ($captured.Contains('SELFTEST FAILED')) { exit 1 }
             if ($captured.Contains('SELFTEST PASS')) { exit 0 }
