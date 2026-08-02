@@ -84,7 +84,7 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
         case ScreenPage::Trade: return appTradeReceiverLocked(state) ? 2 : 3;
         case ScreenPage::More: return 2;
         case ScreenPage::DemoLab: return 6;
-        case ScreenPage::Debt: return 0;
+        case ScreenPage::Debt: return 1;
         case ScreenPage::DiceStage:
         case ScreenPage::MoveGuide:
             return 0;
@@ -593,6 +593,19 @@ void selectListItem(AppState &state, int16_t item, uint32_t nowMs)
     else setFocus(state, static_cast<uint8_t>(item));
 }
 
+void selectFooter(AppState &state, uint32_t nowMs)
+{
+    if (state.nav.current.page == ScreenPage::Home ||
+        !isInteractiveListPage(state.nav.current.page)) return;
+    const uint8_t footerFocus = contentCount(state, state.nav.current.page);
+    if (state.nav.current.focus != footerFocus) {
+        clearInlineEditing(state);
+        setFocus(state, footerFocus);
+        return;
+    }
+    activate(state, nowMs);
+}
+
 } // namespace
 
 void appInit(AppState &state, uint32_t nowMs)
@@ -701,6 +714,9 @@ void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
             return;
         case UiEventKind::SelectListItem:
             selectListItem(state, event.value, nowMs);
+            return;
+        case UiEventKind::SelectFooter:
+            selectFooter(state, nowMs);
             return;
         case UiEventKind::Back:
             back(state);
@@ -903,6 +919,10 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
     }
     if (action == TouchAction::Back) {
         appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, nowMs);
+        return;
+    }
+    if (action == TouchAction::Footer) {
+        appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, nowMs);
         return;
     }
     if (raw >= 100 && raw <= 104) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, static_cast<int16_t>(raw - 100)}, nowMs); return; }

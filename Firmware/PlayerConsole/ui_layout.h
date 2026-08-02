@@ -12,7 +12,7 @@ struct UiRect {
 constexpr UiRect kNormalListViewport{78, 128, 324, 184};
 constexpr UiRect kNormalListFocus{104, 195, 272, 50};
 constexpr UiRect kNormalListProgress{168, 320, 144, 8};
-constexpr UiRect kNormalListCount{202, 104, 76, 24};
+constexpr UiRect kNormalListCount{202, 328, 76, 16};
 constexpr UiRect kNormalFooter{152, 352, 176, 56};
 constexpr UiRect kModalRect{104, 106, 272, 268};
 constexpr UiRect kModalConfirm{128, 256, 224, 64};
@@ -44,8 +44,8 @@ static_assert(kNormalListFocus.x == 104 && kNormalListFocus.y == 195 &&
 static_assert(kNormalListProgress.x == 168 && kNormalListProgress.y == 320 &&
               kNormalListProgress.w == 144 && kNormalListProgress.h == 8,
               "normal list progress must retain its V2 rectangle");
-static_assert(kNormalListCount.x == 202 && kNormalListCount.y == 104 &&
-              kNormalListCount.w == 76 && kNormalListCount.h == 24,
+static_assert(kNormalListCount.x == 202 && kNormalListCount.y == 328 &&
+              kNormalListCount.w == 76 && kNormalListCount.h == 16,
               "normal list count must retain its V2 rectangle");
 static_assert(kNormalFooter.x == 152 && kNormalFooter.y == 352 &&
               kNormalFooter.w == 176 && kNormalFooter.h == 56,
@@ -64,6 +64,9 @@ static_assert(kNormalListFocus.x + kNormalListFocus.w / 2 == 240 &&
               kNormalListCount.x + kNormalListCount.w / 2 == 240 &&
               kNormalFooter.x + kNormalFooter.w / 2 == 240,
               "normal controls must remain centered");
+static_assert(kNormalListProgress.y + kNormalListProgress.h <= kNormalListCount.y &&
+              kNormalListCount.y + kNormalListCount.h <= kNormalFooter.y,
+              "normal list count must stay below progress and above footer");
 static_assert(kModalCancel.y - (kModalConfirm.y + kModalConfirm.h) >= 8,
               "modal controls require an 8px vertical gap");
 static_assert(uiRectInsideCircle(kNormalFooter) && uiRectInsideCircle(kModalRect) &&

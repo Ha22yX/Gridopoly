@@ -871,6 +871,8 @@ Named V2 rectangles must include:
 ```cpp
 constexpr UiRect kNormalListViewport{78, 128, 324, 184};
 constexpr UiRect kNormalListFocus{104, 195, 272, 50};
+constexpr UiRect kNormalListProgress{168, 320, 144, 8};
+constexpr UiRect kNormalListCount{202, 328, 76, 16};
 constexpr UiRect kNormalFooter{152, 352, 176, 56};
 constexpr UiRect kModalRect{104, 106, 272, 268};
 constexpr UiRect kModalConfirm{128, 256, 224, 64};
@@ -1156,7 +1158,7 @@ Convert a touch drag into one discrete list step only when vertical displacement
 
 - [ ] **Step 4: Add centered progress and remove the vertical scrollbar**
 
-Use a `72 x 4 px` progress track centered at `x=240` and the `current / total` text centered below it. Do not create a right-side scrollbar object. The progress and count remain tied to the selected row when the footer is focused.
+Use a `72 x 4 px` progress track centered at `x=240` inside `kNormalListProgress`. Put the centered `current / total` text in the authoritative `kNormalListCount{202, 328, 76, 16}`, below progress and above `kNormalFooter`. Do not create a right-side scrollbar object. The progress and count remain tied to the selected row when the footer is focused.
 
 - [ ] **Step 5: Integrate all ordinary lists and compact editors**
 

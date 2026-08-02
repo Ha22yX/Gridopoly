@@ -193,6 +193,8 @@ void handleUiEvent(const UiEvent &event)
         enqueueTouch(TouchAction::ListPrevious);
     } else if (event.kind == UiEventKind::ListNext) {
         enqueueTouch(TouchAction::ListNext);
+    } else if (event.kind == UiEventKind::SelectFooter) {
+        enqueueTouch(TouchAction::Footer);
     } else if (event.kind == UiEventKind::Back) {
         enqueueTouch(TouchAction::Back);
     }
@@ -254,7 +256,9 @@ uint8_t tradeFocusForAction(const AppState &state, TouchAction action)
 
 bool bindingIsFocused(const AppState &state, TouchAction action)
 {
-    if (action == TouchAction::Back) return appFocusIsFooter(state);
+    if (action == TouchAction::Footer || action == TouchAction::Back) {
+        return appFocusIsFooter(state);
+    }
     switch (state.page) {
         case ScreenPage::Home:
             return false;
@@ -271,6 +275,8 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
             return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::MoreDemoLab) + state.focus);
         case ScreenPage::DemoLab:
             return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::DemoWaiting) + state.focus);
+        case ScreenPage::Debt:
+            return action == TouchAction::DetailPrimary && state.focus == 0;
         default: return false;
     }
 }
@@ -346,7 +352,7 @@ lv_obj_t *drawFooter(const char *text, bool focused)
     if (footer == nullptr) return nullptr;
     uiLabel(footer, text, UiRect{8, 16, static_cast<int16_t>(kNormalFooter.w - 16), 28},
             &ui_font_16, focused ? kGreen : kText);
-    makeClickable(footer, TouchAction::Back);
+    makeClickable(footer, TouchAction::Footer);
     if (focused) animateFocusEntry(footer);
     return footer;
 }
@@ -584,15 +590,22 @@ void drawDemoLab(const AppState &state)
 
 void drawDebt(const AppState &state)
 {
-    (void)state;
     drawOuterRing(kRed);
     drawHeader("资金不足", "DEBT RESOLUTION");
     label(root, "还需筹集", 150, 140, 180, &lv_font_simsun_16_cjk, kMuted);
     label(root, "$ 240", 100, 176, 280, &lv_font_montserrat_40, kRed);
     label(root, "出售房屋或抵押地产后继续付款", 70, 246, 340, &lv_font_simsun_16_cjk, kText);
-    lv_obj_t *button = box(root, 130, 305, 220, 56, 0x2B1718, kRed, 6);
-    label(button, "查看可处理资产", 12, 17, 196, &lv_font_simsun_16_cjk, kRed);
-    makeClickable(button, TouchAction::DetailPrimary);
+    lv_obj_t *button = uiBox(root, kDetailPrimary,
+                             state.focus == 0 ? 0x2B1718 : kPanel,
+                             state.focus == 0 ? kRed : kLine, 6);
+    if (button != nullptr) {
+        uiLabel(button, "查看可处理资产",
+                UiRect{8, 16, static_cast<int16_t>(kDetailPrimary.w - 16), 28},
+                &lv_font_simsun_16_cjk, state.focus == 0 ? kRed : kText);
+        makeClickable(button, TouchAction::DetailPrimary);
+        if (state.focus == 0) animateFocusEntry(button);
+    }
+    drawFooter("返回", state.focus == 1);
 }
 
 void drawModal(const AppState &state, uint32_t nowMs)
@@ -637,8 +650,8 @@ void rebuild(const AppState &state, uint32_t nowMs)
     modalCountdown = nullptr;
     tapBindingCount = 0;
     uiCarouselDestroy(homeCarousel);
+    uiCenterListDestroy(centerList);
     lv_obj_clean(root);
-    centerList = UiCenterList{};
     switch (state.page) {
         case ScreenPage::Home: drawHome(state); break;
         case ScreenPage::Assets: drawAssets(state); break;
@@ -746,8 +759,8 @@ void uiRendererShowFault(const char *code)
 {
     if (root == nullptr && !uiRendererBegin()) return;
     uiCarouselDestroy(homeCarousel);
+    uiCenterListDestroy(centerList);
     lv_obj_clean(root);
-    centerList = UiCenterList{};
     drawOuterRing(kRed);
     drawHeader("设备故障", "GRIDOPOLY");
     label(root, code, 90, 205, 300, &lv_font_montserrat_24, kRed);

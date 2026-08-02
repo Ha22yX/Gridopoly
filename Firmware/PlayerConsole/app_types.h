@@ -97,6 +97,7 @@ enum class TouchAction : uint16_t {
     ListPrevious = 816,
     ListNext = 817,
     Back = 818,
+    Footer = 819,
 };
 
 struct PlayerData {
@@ -162,6 +163,7 @@ enum class UiEventKind : uint8_t {
     ActivateFocused,
     SelectHomeAction,
     SelectListItem,
+    SelectFooter,
     Back,
     HoldDown,
     HoldUp,

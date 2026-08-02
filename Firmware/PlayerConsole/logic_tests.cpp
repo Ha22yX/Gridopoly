@@ -28,6 +28,151 @@ void shortPress(AppState &state, uint32_t downMs, uint32_t upMs)
     appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, upMs}, upMs);
 }
 
+UiEvent centerListEvents[8]{};
+uint8_t centerListEventCount = 0;
+
+void captureCenterListEvent(const UiEvent &event)
+{
+    if (centerListEventCount < sizeof(centerListEvents) / sizeof(centerListEvents[0])) {
+        centerListEvents[centerListEventCount++] = event;
+    }
+}
+
+void centerListFlush(lv_disp_drv_t *driver, const lv_area_t *, lv_color_t *)
+{
+    lv_disp_flush_ready(driver);
+}
+
+void centerListRead(lv_indev_drv_t *, lv_indev_data_t *data)
+{
+    data->state = LV_INDEV_STATE_RELEASED;
+    data->point = lv_point_t{0, 0};
+}
+
+bool centerListTreeMatches(const UiCenterList &list, lv_obj_t *parent, uint8_t count)
+{
+    if (list.viewport == nullptr || list.track == nullptr || list.focusFrame == nullptr ||
+        list.progressFill == nullptr || list.countLabel == nullptr || list.footer == nullptr) {
+        return false;
+    }
+    lv_obj_t *progressTrack = lv_obj_get_parent(list.progressFill);
+    return list.count == count && lv_obj_get_parent(list.viewport) == parent &&
+           lv_obj_get_parent(list.track) == list.viewport &&
+           lv_obj_get_parent(list.focusFrame) == parent &&
+           progressTrack != nullptr && lv_obj_get_parent(progressTrack) == parent &&
+           lv_obj_get_parent(list.countLabel) == parent &&
+           lv_obj_get_parent(list.footer) == parent &&
+           lv_obj_get_child_cnt(list.track) == count &&
+           !lv_obj_has_flag(list.viewport, LV_OBJ_FLAG_SCROLLABLE) &&
+           !lv_obj_has_flag(list.viewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
+}
+
+bool runCenterListComponentTests(Stream &out)
+{
+    bool ok = true;
+    if (!lv_is_initialized()) lv_init();
+
+    static lv_color_t pixels[480]{};
+    static lv_disp_draw_buf_t drawBuffer{};
+    static lv_disp_drv_t displayDriver{};
+    static lv_indev_drv_t inputDriver{};
+    static UiListItemView items[8]{};
+    static UiCenterList list{};
+    drawBuffer = lv_disp_draw_buf_t{};
+    displayDriver = lv_disp_drv_t{};
+    inputDriver = lv_indev_drv_t{};
+    list = UiCenterList{};
+    lv_disp_draw_buf_init(&drawBuffer, pixels, nullptr, 480);
+    lv_disp_drv_init(&displayDriver);
+    displayDriver.draw_buf = &drawBuffer;
+    displayDriver.flush_cb = centerListFlush;
+    displayDriver.hor_res = 480;
+    displayDriver.ver_res = 480;
+    lv_disp_t *display = lv_disp_drv_register(&displayDriver);
+
+    lv_indev_drv_init(&inputDriver);
+    inputDriver.type = LV_INDEV_TYPE_POINTER;
+    inputDriver.disp = display;
+    inputDriver.read_cb = centerListRead;
+    lv_indev_t *input = lv_indev_drv_register(&inputDriver);
+    lv_obj_t *parent = display == nullptr ? nullptr : lv_obj_create(nullptr);
+
+    for (uint8_t index = 0; index < 8; ++index) {
+        items[index] = UiListItemView{"Item", "Meta", "", true, false};
+    }
+    uiSetEventSink(captureCenterListEvent);
+
+    uiCenterListCreate(list, parent, nullptr, 0, 0, "Back", true, false);
+    ok &= expect(out, centerListTreeMatches(list, parent, 0),
+                 "center list creates a clipped runtime tree for zero rows");
+    uiCenterListDestroy(list);
+    ok &= expect(out, list.viewport == nullptr && parent != nullptr &&
+                      lv_obj_get_child_cnt(parent) == 0,
+                 "center list destroys every retained object for zero rows");
+
+    uiCenterListCreate(list, parent, items, 1, 0, "Back", true, false);
+    ok &= expect(out, centerListTreeMatches(list, parent, 1),
+                 "center list creates one runtime row under its track");
+    uiCenterListUpdate(list, items, 8, 0, "Back", true, false, false);
+    ok &= expect(out, centerListTreeMatches(list, parent, 8),
+                 "center list rebuilds its runtime tree when count grows to eight");
+
+    uiCenterListUpdate(list, items, 8, 7, "Back", true, false, true);
+    lv_tick_inc(80);
+    lv_anim_refr_now();
+    lv_obj_update_layout(list.track);
+    const int16_t interruptedY = lv_obj_get_y(list.track);
+    uiCenterListUpdate(list, items, 8, 2, "Back", true, false, true);
+    lv_anim_t *retargeted = lv_anim_get(list.track, nullptr);
+    const bool retargetMatches = retargeted != nullptr &&
+        retargeted->start_value == interruptedY &&
+        retargeted->end_value == uiCenterListTrackY(2, 67, 58) &&
+        retargeted->time == 200 && retargeted->path_cb == lv_anim_path_ease_out;
+    if (!retargetMatches && retargeted != nullptr) {
+        out.printf("[INFO] retarget visual=%d start=%ld end=%ld time=%lu path=%d\n",
+                   interruptedY, static_cast<long>(retargeted->start_value),
+                   static_cast<long>(retargeted->end_value),
+                   static_cast<unsigned long>(retargeted->time),
+                   retargeted->path_cb == lv_anim_path_ease_out);
+    }
+    ok &= expect(out, retargetMatches,
+                 "center list retargets interrupted travel from the current visual y");
+
+    uiCenterListUpdate(list, items, 1, 0, "Back", true, false, true);
+    ok &= expect(out, centerListTreeMatches(list, parent, 1) &&
+                      lv_anim_get(list.track, nullptr) == nullptr,
+                 "center list count change cancels travel and leaves one valid row");
+    uiCenterListUpdate(list, items, 8, 0, "Back", true, false, false);
+
+    centerListEventCount = 0;
+    lv_obj_t *row = lv_obj_get_child(list.track, 0);
+    input->proc.types.pointer.act_point = lv_point_t{240, 220};
+    lv_event_send(row, LV_EVENT_PRESSED, input);
+    input->proc.types.pointer.act_point = lv_point_t{240, 170};
+    lv_event_send(row, LV_EVENT_RELEASED, input);
+    lv_event_send(row, LV_EVENT_CLICKED, input);
+    ok &= expect(out, centerListEventCount == 1 &&
+                      centerListEvents[0].kind == UiEventKind::ListNext,
+                 "center list swipe emits one row step and suppresses follow-up activation");
+
+    centerListEventCount = 0;
+    lv_event_send(list.footer, LV_EVENT_CLICKED, input);
+    ok &= expect(out, centerListEventCount == 1 &&
+                      centerListEvents[0].kind == UiEventKind::SelectFooter,
+                 "center list footer emits semantic focused-footer selection");
+
+    uiCenterListDestroy(list);
+    ok &= expect(out, list.viewport == nullptr && lv_obj_get_child_cnt(parent) == 0,
+                 "center list destroys the eight-row runtime tree without stale ownership");
+    uiSetEventSink(nullptr);
+    if (input != nullptr) lv_indev_delete(input);
+    if (display != nullptr) {
+        display->act_scr = nullptr;
+        lv_disp_remove(display);
+    }
+    return ok;
+}
+
 void openVoluntaryMortgageFixture(AppState &state, uint32_t nowMs)
 {
     appInit(state, nowMs);
@@ -89,6 +234,7 @@ bool debtAuthorityStateUnchanged(const AppState &state, const AppState &before)
 bool runLogicTests(Stream &out)
 {
     bool ok = true;
+    ok &= runCenterListComponentTests(out);
     ok &= expect(out, uiBox(nullptr, kModalRect, 0, 0, 0) == nullptr &&
                       uiLabel(nullptr, "", kModalRect, nullptr, 0) == nullptr,
                  "ui primitives reject null parents without allocation");
@@ -97,6 +243,9 @@ bool runLogicTests(Stream &out)
     ok &= expect(out, true, "ui primitive bindings ignore null objects");
     ok &= expect(out, uiRectInsideCircle(kNormalFooter),
                  "footer stays inside round safe area");
+    ok &= expect(out, kNormalListCount.x == 202 && kNormalListCount.y == 328 &&
+                      kNormalListCount.w == 76 && kNormalListCount.h == 16,
+                 "list count uses the approved below-progress rectangle");
     ok &= expect(out, uiRectInsideCircle(kModalRect),
                  "modal corners stay inside round safe area");
     ok &= expect(out, !uiRectInsideCircle(UiRect{0, 0, 32, 32}),
@@ -336,6 +485,30 @@ bool runLogicTests(Stream &out)
     ok &= expect(out, state.nav.current.page == ScreenPage::AssetDetail &&
                       state.selectedAsset == 2,
                  "second center list row touch activates the focused row");
+
+    appInit(state, 0);
+    state.nav.stack[0] = NavigationEntry{ScreenPage::Home, 0, 0};
+    state.nav.depth = 1;
+    state.nav.current = NavigationEntry{ScreenPage::Assets, 0, 0};
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 70);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Assets && appFocusIsFooter(state),
+                 "first ordinary footer touch only synchronizes focus");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 80);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home,
+                 "second ordinary footer touch activates Back");
+
+    appInit(state, 0);
+    state.nav.stack[0] = NavigationEntry{ScreenPage::Home, 3, 3};
+    state.nav.depth = 1;
+    state.nav.current = NavigationEntry{ScreenPage::Debt, 0, 0};
+    ok &= expect(out, appFocusCount(state) == 2 && !appFocusIsFooter(state),
+                 "ordinary Debt has one action followed by fixed Back");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 90);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Debt && appFocusIsFooter(state),
+                 "first Debt footer touch focuses fixed Back without activation");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 100);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 3,
+                 "second Debt footer touch activates fixed Back");
 
     appInit(state, 0);
     const uint8_t initialTradeReceiver = state.tradeReceiver;
@@ -796,6 +969,18 @@ bool runLogicTests(Stream &out)
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
     ok &= expect(out, appDebtShortfall(state) == 440,
                  "debt computes exact shortfall");
+    state.debt.selectedMask = 0x55;
+    state.nav.current.focus = 0;
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 2);
+    ok &= expect(out, appFocusIsFooter(state) && state.modal.kind == ModalKind::None,
+                 "first forced Confirm footer touch only synchronizes focus");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 3);
+    ok &= expect(out, state.modal.kind == ModalKind::DebtMortgageConfirm,
+                 "second forced Confirm footer touch activates focused confirmation");
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 4}, 4);
+    shortPress(state, 5, 50);
+    state.debt.selectedMask = 0;
+    state.nav.current.focus = 0;
     focusDebtAsset(state, 0);
     shortPress(state, 10, 100);
     focusDebtAsset(state, 2);

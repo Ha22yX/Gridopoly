@@ -34,6 +34,7 @@ struct UiSwipeContext {
     lv_obj_t *nextTarget = nullptr;
     lv_point_t start{};
     bool tracking = false;
+    lv_obj_t *suppressedClickTarget = nullptr;
 };
 
 UiSwipeContext swipeContext{};
@@ -118,9 +119,15 @@ void destroyListObjects(UiCenterList &list)
     list = UiCenterList{};
 }
 
-bool readPointer(lv_point_t &point)
+lv_indev_t *eventInput(lv_event_t *event)
 {
-    lv_indev_t *input = lv_indev_get_act();
+    lv_indev_t *input = event == nullptr ? nullptr : lv_event_get_indev(event);
+    return input == nullptr ? lv_indev_get_act() : input;
+}
+
+bool readPointer(lv_event_t *event, lv_point_t &point)
+{
+    lv_indev_t *input = eventInput(event);
     if (input == nullptr) return false;
     lv_indev_get_point(input, &point);
     return true;
@@ -130,8 +137,16 @@ void swipeCallback(lv_event_t *event)
 {
     if (event == nullptr) return;
     const lv_event_code_t code = lv_event_get_code(event);
+    lv_obj_t *target = lv_event_get_target(event);
+    if (lv_event_get_current_target(event) != target) return;
+    if (code == LV_EVENT_CLICKED && swipeContext.suppressedClickTarget == target) {
+        swipeContext.suppressedClickTarget = nullptr;
+        lv_event_stop_processing(event);
+        return;
+    }
     if (code == LV_EVENT_PRESSED) {
-        swipeContext.tracking = readPointer(swipeContext.start);
+        swipeContext.suppressedClickTarget = nullptr;
+        swipeContext.tracking = readPointer(event, swipeContext.start);
         return;
     }
     if (code == LV_EVENT_PRESS_LOST) {
@@ -141,14 +156,15 @@ void swipeCallback(lv_event_t *event)
     if (code == LV_EVENT_RELEASED && swipeContext.tracking) {
         lv_point_t finish{};
         swipeContext.tracking = false;
-        if (!readPointer(finish)) return;
+        if (!readPointer(event, finish)) return;
         const int8_t step = uiCenterListSwipeStep(
             static_cast<int16_t>(finish.x - swipeContext.start.x),
             static_cast<int16_t>(finish.y - swipeContext.start.y)
         );
-        lv_indev_t *input = lv_indev_get_act();
+        lv_indev_t *input = eventInput(event);
         if (step != 0 && input != nullptr) {
-            lv_indev_reset(input, lv_event_get_target(event));
+            swipeContext.suppressedClickTarget = target;
+            lv_indev_reset(input, target);
         }
         if (step < 0 && swipeContext.previousTarget != nullptr) {
             lv_event_send(swipeContext.previousTarget, LV_EVENT_CLICKED, nullptr);
@@ -211,6 +227,7 @@ void uiCenterListCreate(UiCenterList &list, lv_obj_t *parent,
                                  kNormalListFocus.w, kRowHeight};
             lv_obj_t *row = uiBox(list.track, rowRect, kPanel, kLine, 6);
             if (row == nullptr) continue;
+            lv_obj_add_event_cb(row, swipeCallback, LV_EVENT_ALL, nullptr);
             uiLabel(row, "", UiRect{12, 8, 138, 28}, &ui_font_16, kText,
                     LV_TEXT_ALIGN_LEFT);
             uiLabel(row, "", UiRect{150, 8, 90, 28}, &ui_font_14, kMuted,
@@ -255,12 +272,17 @@ void uiCenterListCreate(UiCenterList &list, lv_obj_t *parent,
         uiLabel(list.footer, footerText == nullptr ? "" : footerText,
                 UiRect{8, 16, static_cast<int16_t>(kNormalFooter.w - 16), 28},
                 &ui_font_16, kText);
-        uiBindTap(list.footer, UiEventKind::Back);
+        uiBindTap(list.footer, UiEventKind::SelectFooter);
     }
 
     list.count = count;
     uiCenterListUpdate(list, items, count, selected, footerText,
                        footerEnabled, footerFocused, false);
+}
+
+void uiCenterListDestroy(UiCenterList &list)
+{
+    destroyListObjects(list);
 }
 
 void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,

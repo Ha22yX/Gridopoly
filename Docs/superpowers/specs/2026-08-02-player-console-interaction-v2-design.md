@@ -137,6 +137,10 @@
 
 ### 6.1 布局
 
+Authoritative V2 geometry is `kNormalListProgress{168, 320, 144, 8}`,
+`kNormalListCount{202, 328, 76, 16}`, and `kNormalFooter{152, 352, 176, 56}`.
+The 72x4 progress track is centered inside its named rectangle; the centered count is below it and above the footer.
+
 - 列表视口约显示 3 项。
 - 选中框固定在视口中央，列表内容从其下方纵向滚动。
 - 单项滚动使用 180–220ms ease-out。

@@ -31,4 +31,5 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
                         uint8_t count, uint8_t selected,
                         const char *footerText, bool footerEnabled,
                         bool footerFocused, bool animate);
+void uiCenterListDestroy(UiCenterList &list);
 int8_t uiCenterListSwipeStep(int16_t dx, int16_t dy);

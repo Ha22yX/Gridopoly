@@ -19,7 +19,7 @@ EXPECTED_RECTANGLES = {
     "kNormalListViewport": (78, 128, 324, 184),
     "kNormalListFocus": (104, 195, 272, 50),
     "kNormalListProgress": (168, 320, 144, 8),
-    "kNormalListCount": (202, 104, 76, 24),
+    "kNormalListCount": (202, 328, 76, 16),
     "kNormalFooter": (152, 352, 176, 56),
     "kModalRect": (104, 106, 272, 268),
     "kModalConfirm": (128, 256, 224, 64),
@@ -284,7 +284,8 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     for member in ("selected", "count"):
         if not re.search(rf"\buint8_t\s+{member}\s*=\s*0\s*;", header_code):
             fail(f"UiCenterList does not retain {member}")
-    for api in ("uiCenterListCreate", "uiCenterListUpdate", "uiCenterListSwipeStep"):
+    for api in ("uiCenterListCreate", "uiCenterListUpdate", "uiCenterListDestroy",
+                "uiCenterListSwipeStep"):
         if not re.search(rf"\b{api}\s*\(", header_code):
             fail(f"{api} is missing from the center-list API")
 
@@ -325,6 +326,8 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
          "center list count does not use kNormalListCount"),
         (r"\buiBox\s*\(\s*parent\s*,\s*kNormalFooter\b",
          "center list footer does not use kNormalFooter"),
+        (r"\buiBindTap\s*\(\s*list\.footer\s*,\s*UiEventKind::SelectFooter\s*\)",
+         "center list footer does not emit semantic footer selection"),
     )
     for pattern, message in required_create:
         if not re.search(pattern, create_body, re.DOTALL):
@@ -377,6 +380,13 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
             fail(f"{function_name} does not build the complete retained item view")
         if not re.search(rf"\buiCenterListCreate\s*\([^;]*\b{count_token}\b", body, re.DOTALL):
             fail(f"{function_name} does not create one retained center list")
+
+    if not re.search(r"\bmakeClickable\s*\(\s*footer\s*,\s*TouchAction::Footer\s*\)",
+                     renderer_code):
+        fail("ordinary fixed footer does not emit semantic footer selection")
+    draw_debt_body = function_body(renderer_code, "drawDebt")
+    if not re.search(r"\bdrawFooter\s*\(", draw_debt_body):
+        fail("ordinary Debt page does not render its fixed footer")
 
     render_body = function_body(renderer_code, "uiRendererRender")
     same_page_match = re.search(
@@ -442,6 +452,13 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         x, _, width, _ = rectangles[name]
         if x + width // 2 != CENTER:
             fail(f"{name} center is x={x + width // 2}, expected {CENTER}")
+
+    progress_bottom = rectangles["kNormalListProgress"][1] + rectangles["kNormalListProgress"][3]
+    count_y = rectangles["kNormalListCount"][1]
+    count_bottom = count_y + rectangles["kNormalListCount"][3]
+    footer_y = rectangles["kNormalFooter"][1]
+    if count_y < progress_bottom or count_bottom > footer_y:
+        fail("list count must stay below progress and above the fixed footer")
 
     confirm_y = rectangles["kModalConfirm"][1]
     confirm_height = rectangles["kModalConfirm"][3]
@@ -573,7 +590,7 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
         ("swipe dominance changed", center_source.replace("kSwipeDominance = 12;",
                                                          "kSwipeDominance = 11;", 1)),
         ("swipe click cancellation removed",
-         center_source.replace("lv_indev_reset(input, lv_event_get_target(event));", "", 1)),
+         center_source.replace("lv_indev_reset(input, target);", "", 1)),
     )
     for name, mutated_center in center_mutations:
         try:
