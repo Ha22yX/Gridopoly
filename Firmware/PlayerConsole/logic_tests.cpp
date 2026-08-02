@@ -6,6 +6,7 @@
 #include "demo_transport.h"
 #include "ui_layout.h"
 #include "ui_motion.h"
+#include "ui_primitives.h"
 
 #include <limits.h>
 #include <string.h>
@@ -86,6 +87,12 @@ bool debtAuthorityStateUnchanged(const AppState &state, const AppState &before)
 bool runLogicTests(Stream &out)
 {
     bool ok = true;
+    ok &= expect(out, uiBox(nullptr, kModalRect, 0, 0, 0) == nullptr &&
+                      uiLabel(nullptr, "", kModalRect, nullptr, 0) == nullptr,
+                 "ui primitives reject null parents without allocation");
+    uiBindTap(nullptr, UiEventKind::ActivateFocused);
+    uiBindHold(nullptr);
+    ok &= expect(out, true, "ui primitive bindings ignore null objects");
     ok &= expect(out, uiRectInsideCircle(kNormalFooter),
                  "footer stays inside round safe area");
     ok &= expect(out, uiRectInsideCircle(kModalRect),

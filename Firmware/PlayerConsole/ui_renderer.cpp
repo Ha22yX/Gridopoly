@@ -53,6 +53,40 @@ const lv_style_prop_t pressTransitionProps[] = {
     static_cast<lv_style_prop_t>(0),
 };
 
+constexpr UiRect childRect(UiRect absolute, UiRect parent)
+{
+    return UiRect{static_cast<int16_t>(absolute.x - parent.x),
+                  static_cast<int16_t>(absolute.y - parent.y), absolute.w, absolute.h};
+}
+
+constexpr UiRect modalChildRect(UiRect absolute)
+{
+    return childRect(absolute, kModalRect);
+}
+
+constexpr UiRect kModalTitle{120, 120, 240, 28};
+constexpr UiRect kModalAmount{128, 156, 224, 36};
+constexpr UiRect kModalDetail{120, 198, 240, 28};
+constexpr UiRect kModalCountdown{128, 230, 224, 20};
+constexpr UiRect kModalConfirmLabel{140, 272, 200, 32};
+
+constexpr bool rectInside(UiRect child, UiRect parent)
+{
+    return child.x >= parent.x && child.y >= parent.y &&
+           child.x + child.w <= parent.x + parent.w && child.y + child.h <= parent.y + parent.h;
+}
+
+static_assert(rectInside(kModalTitle, kModalRect) && rectInside(kModalAmount, kModalRect) &&
+              rectInside(kModalDetail, kModalRect) && rectInside(kModalCountdown, kModalRect) &&
+              rectInside(kModalConfirm, kModalRect) && rectInside(kModalConfirmLabel, kModalConfirm),
+              "modal children must remain inside their parent rectangles");
+static_assert(kModalTitle.y + kModalTitle.h <= kModalAmount.y &&
+              kModalAmount.y + kModalAmount.h <= kModalDetail.y &&
+              kModalDetail.y + kModalDetail.h <= kModalCountdown.y &&
+              kModalCountdown.y + kModalCountdown.h <= kModalConfirm.y &&
+              kModalConfirmLabel.y + kModalConfirmLabel.h <= kModalConfirm.y + kModalConfirm.h - 6,
+              "modal content bands must not overlap");
+
 void setAnimatedX(void *object, int32_t value)
 {
     lv_obj_set_x(static_cast<lv_obj_t *>(object), static_cast<lv_coord_t>(value));
@@ -433,30 +467,35 @@ void drawModal(const AppState &state, uint32_t nowMs)
     if (state.modal.kind == ModalKind::None) return;
     lv_obj_t *shade = box(root, 0, 0, 480, 480, 0x000000, 0x000000, 0);
     lv_obj_set_style_bg_opa(shade, LV_OPA_70, 0);
-    lv_obj_t *modal = box(root, 70, 88, 340, 304, 0x101719, kGreen, 8);
-    label(modal, state.modal.title, 24, 22, 292, &lv_font_simsun_16_cjk, kText);
+    lv_obj_t *modal = uiBox(root, kModalRect, 0x101719, kGreen, 8);
+    if (modal == nullptr) return;
+    uiLabel(modal, state.modal.title, modalChildRect(kModalTitle), &lv_font_simsun_16_cjk, kText);
     char amount[32];
     snprintf(amount, sizeof(amount), "$ %ld", static_cast<long>(state.modal.amount));
-    label(modal, amount, 30, 63, 280, &lv_font_montserrat_36, kGreen);
+    uiLabel(modal, amount, modalChildRect(kModalAmount), &lv_font_montserrat_36, kGreen);
     char detail[96];
     snprintf(detail, sizeof(detail), "%s · %s", state.modal.counterparty, state.modal.purpose);
-    label(modal, detail, 20, 116, 300, &lv_font_simsun_16_cjk, kMuted);
+    uiLabel(modal, detail, modalChildRect(kModalDetail), &lv_font_simsun_16_cjk, kMuted);
 
     const uint32_t remaining = appModalRemainingMs(state, nowMs);
     if (state.modal.deadlineMs != 0) {
         char countdown[32];
         snprintf(countdown, sizeof(countdown), "剩余 %.1f 秒", remaining / 1000.0f);
-        modalCountdown = label(modal, countdown, 70, 148, 200, &lv_font_simsun_16_cjk,
-                               state.modal.kind == ModalKind::ForcedPayment ? kYellow : kMuted);
+        modalCountdown = uiLabel(modal, countdown, modalChildRect(kModalCountdown),
+                                 &lv_font_simsun_16_cjk,
+                                 state.modal.kind == ModalKind::ForcedPayment ? kYellow : kMuted);
     }
 
-    lv_obj_t *hold = box(modal, 34, 196, 272, 72, 0x172224, kGreen, 6);
-    lv_obj_add_flag(hold, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_t *hold = uiBox(modal, modalChildRect(kModalConfirm), 0x172224, kGreen, 6);
+    if (hold == nullptr) return;
     uiBindHold(hold);
     const uint16_t progress = appHoldProgressPermille(state, nowMs);
-    modalFill = box(hold, 0, 0, static_cast<int16_t>(272 * progress / 1000), 72, 0x20483E, kGreen, 6);
-    lv_obj_clear_flag(modalFill, LV_OBJ_FLAG_CLICKABLE);
-    label(hold, "按住 1.2 秒确认", 12, 24, 248, &lv_font_simsun_16_cjk, kText);
+    modalFill = uiBox(hold, UiRect{0, static_cast<int16_t>(kModalConfirm.h - 6),
+                                   static_cast<int16_t>(kModalConfirm.w * progress / 1000), 6},
+                        0x20483E, kGreen, 3);
+    if (modalFill != nullptr) lv_obj_clear_flag(modalFill, LV_OBJ_FLAG_CLICKABLE);
+    uiLabel(hold, "按住 1.2 秒确认", childRect(kModalConfirmLabel, kModalConfirm),
+            &lv_font_simsun_16_cjk, kText);
 }
 
 void rebuild(const AppState &state, uint32_t nowMs)
@@ -485,7 +524,7 @@ void updateDynamic(const AppState &state, uint32_t nowMs)
     if (state.modal.kind == ModalKind::None) return;
     if (modalFill != nullptr) {
         const uint16_t progress = appHoldProgressPermille(state, nowMs);
-        lv_obj_set_width(modalFill, static_cast<int16_t>(272 * progress / 1000));
+        lv_obj_set_width(modalFill, static_cast<int16_t>(kModalConfirm.w * progress / 1000));
     }
     if (modalCountdown != nullptr && state.modal.deadlineMs != 0) {
         char countdown[32];

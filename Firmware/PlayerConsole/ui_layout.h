@@ -34,3 +34,38 @@ constexpr bool uiRectInsideCircle(UiRect rect, int16_t radius = 192)
     }
     return true;
 }
+
+static_assert(kNormalListViewport.x == 78 && kNormalListViewport.y == 128 &&
+              kNormalListViewport.w == 324 && kNormalListViewport.h == 184,
+              "normal list viewport must retain its V2 rectangle");
+static_assert(kNormalListFocus.x == 104 && kNormalListFocus.y == 195 &&
+              kNormalListFocus.w == 272 && kNormalListFocus.h == 50,
+              "normal list focus must retain its V2 rectangle");
+static_assert(kNormalListProgress.x == 168 && kNormalListProgress.y == 320 &&
+              kNormalListProgress.w == 144 && kNormalListProgress.h == 8,
+              "normal list progress must retain its V2 rectangle");
+static_assert(kNormalListCount.x == 202 && kNormalListCount.y == 104 &&
+              kNormalListCount.w == 76 && kNormalListCount.h == 24,
+              "normal list count must retain its V2 rectangle");
+static_assert(kNormalFooter.x == 152 && kNormalFooter.y == 352 &&
+              kNormalFooter.w == 176 && kNormalFooter.h == 56,
+              "normal footer must retain its V2 rectangle");
+static_assert(kModalRect.x == 104 && kModalRect.y == 106 &&
+              kModalRect.w == 272 && kModalRect.h == 268,
+              "modal must retain its V2 rectangle");
+static_assert(kModalConfirm.x == 128 && kModalConfirm.y == 256 &&
+              kModalConfirm.w == 224 && kModalConfirm.h == 64,
+              "modal confirmation must retain its V2 rectangle");
+static_assert(kModalCancel.x == 152 && kModalCancel.y == 328 &&
+              kModalCancel.w == 176 && kModalCancel.h == 40,
+              "modal cancellation must retain its V2 rectangle");
+static_assert(kNormalListFocus.x + kNormalListFocus.w / 2 == 240 &&
+              kNormalListProgress.x + kNormalListProgress.w / 2 == 240 &&
+              kNormalListCount.x + kNormalListCount.w / 2 == 240 &&
+              kNormalFooter.x + kNormalFooter.w / 2 == 240,
+              "normal controls must remain centered");
+static_assert(kModalCancel.y - (kModalConfirm.y + kModalConfirm.h) >= 8,
+              "modal controls require an 8px vertical gap");
+static_assert(uiRectInsideCircle(kNormalFooter) && uiRectInsideCircle(kModalRect) &&
+              uiRectInsideCircle(kModalConfirm) && uiRectInsideCircle(kModalCancel),
+              "named V2 rectangles must fit the round safe area");
