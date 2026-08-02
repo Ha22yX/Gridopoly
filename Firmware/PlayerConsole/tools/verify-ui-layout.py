@@ -84,6 +84,20 @@ def code_only(source: str) -> str:
     return "".join(result)
 
 
+def splice_translation_lines(source: str) -> str:
+    """Apply C/C++ translation-phase backslash-newline splicing."""
+    return re.sub(r"\\(?:\r\n|\r|\n)", "", source)
+
+
+def normalized_code(source: str) -> str:
+    return code_only(splice_translation_lines(source))
+
+
+def normalized_preprocessor_code(source: str) -> str:
+    # Comments and literals are already blank, so only real %: digraphs remain.
+    return normalized_code(source).replace("%:", "#")
+
+
 def block_after(source: str, match: re.Match) -> str:
     open_brace = source.find("{", match.start(), match.end() + 1)
     if open_brace < 0:
@@ -107,7 +121,10 @@ def function_body(source: str, name: str) -> str:
 
 
 def reject_inactive_blocks(source: str, path: str) -> None:
-    directive = re.search(r"(?m)^\s*#\s*(?:if|ifdef|ifndef|elif|else|endif)\b", code_only(source))
+    directive = re.search(
+        r"(?m)^[ \t]*#[ \t]*(?:if|ifdef|ifndef|elif|else|endif)\b",
+        normalized_preprocessor_code(source),
+    )
     if directive:
         fail(f"{path} contains conditional preprocessing: {directive.group(0).strip()}")
 
@@ -175,8 +192,8 @@ def assert_modal_contract(renderer: str) -> None:
 def verify_contract(layout_source: str, renderer_source: str) -> None:
     reject_inactive_blocks(layout_source, "ui_layout.h")
     reject_inactive_blocks(renderer_source, "ui_renderer.cpp")
-    layout_code = code_only(layout_source)
-    renderer_code = code_only(renderer_source)
+    layout_code = normalized_code(layout_source)
+    renderer_code = normalized_code(renderer_source)
     draw_modal_definitions = re.findall(r"\bvoid\s+drawModal\s*\([^)]*\)\s*\{", renderer_code)
     if len(draw_modal_definitions) != 1:
         fail(f"ui_renderer.cpp requires exactly one drawModal() definition, found {len(draw_modal_definitions)}")
@@ -267,6 +284,7 @@ def expect_rejected(name: str, layout_source: str, renderer_source: str) -> None
 
 
 def run_self_test(layout_source: str, renderer_source: str) -> None:
+    verify_contract(layout_source, renderer_source)
     inactive_duplicate = layout_source + "\n#if 0\nconstexpr UiRect kModalRect{70, 88, 340, 304};\n#endif\n"
     expect_rejected("inactive duplicate", inactive_duplicate, renderer_source)
     unused_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
@@ -278,7 +296,11 @@ def run_self_test(layout_source: str, renderer_source: str) -> None:
                     "#if false\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal)
     expect_rejected("#if 0x0 dummy modal", layout_source,
                     "#if 0x0\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal)
-    print("UI LAYOUT NEGATIVE TEST PASS: inactive duplicates and dummy modal bypasses rejected")
+    expect_rejected("%:if false inactive renderer", layout_source,
+                    "%:if false\n" + renderer_source + "\n%:endif\n")
+    expect_rejected("line-spliced #if false inactive renderer", layout_source,
+                    "#\\\nif false\n" + renderer_source + "\n#\\\nendif\n")
+    print("UI LAYOUT NEGATIVE TEST PASS: conditional spelling, inactive duplicates, and dummy modal bypasses rejected")
 
 
 def main() -> int:
