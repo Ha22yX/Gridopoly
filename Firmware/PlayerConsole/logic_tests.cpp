@@ -2,6 +2,7 @@
 
 #include "app_config.h"
 #include "app_state.h"
+#include "demo_transport.h"
 
 namespace {
 
@@ -58,6 +59,40 @@ bool runLogicTests(Stream &out)
     ok &= expect(out, state.modal.kind == ModalKind::Payment, "demo opens payment modal");
     appTick(state, 17200);
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == 1805, "payment auto-runs after 10s");
+
+    DemoTransport transport;
+    transport.begin(0);
+    TransportCommand roll{TransportCommandKind::RollRequest, 7, 41, 0, 0};
+    ok &= expect(out, transport.send(roll, 10), "demo accepts roll request");
+    TransportEvent event{};
+    transport.tick(129);
+    ok &= expect(out, !transport.poll(event), "roll result is not emitted early");
+    transport.tick(130);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::RollResult &&
+                      event.requestId == 7 && event.dieA == 3 && event.dieB == 4,
+                 "demo emits deterministic authoritative dice");
+    transport.tick(160);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::MoveGuidanceStarted &&
+                      event.targetPosition == 24,
+                 "demo starts physical movement guidance");
+
+    DemoTransport duplicateTransport;
+    duplicateTransport.begin(0);
+    TransportCommand duplicateRoll{TransportCommandKind::RollRequest, 8, 41, 0, 0};
+    ok &= expect(out, duplicateTransport.send(duplicateRoll, 10), "demo accepts first duplicate-id roll");
+    ok &= expect(out, duplicateTransport.send(duplicateRoll, 11), "demo accepts duplicate-id roll");
+    duplicateTransport.tick(130);
+    ok &= expect(out, duplicateTransport.poll(event) &&
+                      event.kind == TransportEventKind::RollResult &&
+                      event.requestId == 8 && event.dieA == 3 && event.dieB == 4,
+                 "duplicate-id roll preserves deterministic dice");
+    duplicateTransport.tick(160);
+    ok &= expect(out, duplicateTransport.poll(event) &&
+                      event.kind == TransportEventKind::MoveGuidanceStarted &&
+                      event.targetPosition == 24 && !duplicateTransport.poll(event),
+                 "duplicate-id roll creates no second transaction");
 
     ok &= expect(out, kMechanicalCorrectionDeg == 60 && kFirmwareRotationDeg == 0,
                  "M4 pin 3 is mechanically aligned at six o'clock");

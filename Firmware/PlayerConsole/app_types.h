@@ -83,11 +83,15 @@ struct PlayerData {
 };
 
 struct AssetData {
+    uint8_t id;
     const char *name;
     const char *group;
     int16_t value;
     int16_t rent;
+    int16_t mortgageValue;
+    uint8_t buildingLevel;
     bool mortgaged;
+    bool ruleLocked;
 };
 
 struct ModalState {
