@@ -246,6 +246,9 @@ void uiCarouselCreate(UiCarousel &carousel, lv_obj_t *parent,
         lv_obj_t *item = uiBox(carousel.container, kItemRect, kPanel, kSignalCyan, 8);
         carousel.items[index] = item;
         if (item == nullptr) continue;
+        // The container owns both gesture recognition and two-tap activation.
+        lv_obj_clear_flag(item, LV_OBJ_FLAG_CLICKABLE);
+        lv_obj_add_flag(item, LV_OBJ_FLAG_EVENT_BUBBLE);
         lv_obj_set_style_transform_pivot_x(item, kItemRect.w / 2, 0);
         lv_obj_set_style_transform_pivot_y(item, kItemRect.h / 2, 0);
         if (index >= carousel.count) {

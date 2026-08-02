@@ -9,6 +9,7 @@
 #include "ui_center_list.h"
 #include "ui_motion.h"
 #include "ui_primitives.h"
+#include "ui_renderer.h"
 
 #include <limits.h>
 #include <string.h>
@@ -120,29 +121,29 @@ bool runCarouselComponentTests(Stream &out)
     const int16_t firstX = lv_obj_get_x(carousel.items[0]);
     carouselEventCount = 0;
     input->proc.types.pointer.act_point = lv_point_t{300, 332};
-    lv_event_send(carousel.container, LV_EVENT_PRESSED, input);
+    lv_event_send(carousel.items[0], LV_EVENT_PRESSED, input);
     input->proc.types.pointer.act_point = lv_point_t{252, 336};
-    lv_event_send(carousel.container, LV_EVENT_RELEASED, input);
-    lv_event_send(carousel.container, LV_EVENT_CLICKED, input);
+    lv_event_send(carousel.items[0], LV_EVENT_RELEASED, input);
+    lv_event_send(carousel.items[0], LV_EVENT_CLICKED, input);
     appInit(rotary, 0);
     appInit(swipe, 0);
     appHandleInput(rotary, InputEvent{InputKind::Rotate, 1, 1}, 1);
     if (carouselEventCount == 1) appHandleUiEvent(swipe, carouselEvents[0], 1);
     ok &= expect(out, carouselEventCount == 1 && carouselEvents[0].kind == UiEventKind::ListNext &&
                       swipe.nav.current.focus == rotary.nav.current.focus,
-                 "Home left swipe emits one forward focus step and suppresses its click");
+                 "Home item-hit left swipe emits one forward focus step and suppresses its click");
 
     carouselEventCount = 0;
     input->proc.types.pointer.act_point = lv_point_t{252, 332};
-    lv_event_send(carousel.container, LV_EVENT_PRESSED, input);
+    lv_event_send(carousel.items[0], LV_EVENT_PRESSED, input);
     input->proc.types.pointer.act_point = lv_point_t{300, 336};
-    lv_event_send(carousel.container, LV_EVENT_RELEASED, input);
-    lv_event_send(carousel.container, LV_EVENT_CLICKED, input);
+    lv_event_send(carousel.items[0], LV_EVENT_RELEASED, input);
+    lv_event_send(carousel.items[0], LV_EVENT_CLICKED, input);
     appHandleInput(rotary, InputEvent{InputKind::Rotate, -1, 2}, 2);
     if (carouselEventCount == 1) appHandleUiEvent(swipe, carouselEvents[0], 2);
     ok &= expect(out, carouselEventCount == 1 && carouselEvents[0].kind == UiEventKind::ListPrevious &&
                       swipe.nav.current.focus == rotary.nav.current.focus,
-                 "Home right swipe matches reverse rotary focus including wrap");
+                 "Home item-hit right swipe matches reverse rotary focus including wrap");
 
     uiCarouselSetSelection(carousel, 1, true);
     lv_anim_t *master = lv_anim_get(&carousel, nullptr);
@@ -246,6 +247,7 @@ bool runCenterListComponentTests(Stream &out)
                  "center list count change cancels travel and leaves one valid row");
     uiCenterListUpdate(list, items, 8, 0, "Back", true, false, false);
 
+    lv_obj_update_layout(list.track);
     const int16_t firstRowRestY = lv_obj_get_y(list.track);
     uiCenterListBoundaryPulse(list, -1, 1);
     lv_anim_t *pulse = lv_anim_get(&list, nullptr);
@@ -264,19 +266,49 @@ bool runCenterListComponentTests(Stream &out)
     uiCenterListBoundaryPulse(list, -1, 2);
     pulse = lv_anim_get(&list, nullptr);
     ok &= expect(out, pulse != nullptr && pulse->start_value == restartY &&
-                      pulse->end_value == restartY + 8 && pulse->time == 60,
-                 "a second first-row pulse restarts from the current visual position");
+                      pulse->end_value == firstRowRestY + 8 && pulse->time == 60,
+                 "a second first-row pulse restarts from current y toward the fixed +8px bound");
+    lv_tick_inc(30);
+    lv_anim_refr_now();
+    lv_obj_update_layout(list.track);
+    const int16_t outwardRestartY = lv_obj_get_y(list.track);
+    uiCenterListBoundaryPulse(list, -1, 3);
+    pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->start_value == outwardRestartY &&
+                      pulse->end_value == firstRowRestY + 8 &&
+                      pulse->end_value <= firstRowRestY + 8,
+                 "outward first-row interruption never accumulates beyond the +8px bound");
 
     uiCenterListUpdate(list, items, 8, 7, "Back", true, true, false);
     const int16_t footerRestY = lv_obj_get_y(list.footer);
-    uiCenterListBoundaryPulse(list, 1, 3);
+    uiCenterListBoundaryPulse(list, 1, 4);
     pulse = lv_anim_get(&list, nullptr);
     ok &= expect(out, pulse != nullptr && pulse->start_value == footerRestY &&
                       pulse->end_value == footerRestY + 6 && pulse->time == 60,
                  "footer boundary feedback starts a +6px 60ms local pulse");
+    lv_tick_inc(30);
+    lv_anim_refr_now();
+    lv_obj_update_layout(list.footer);
+    const int16_t footerOutwardRestartY = lv_obj_get_y(list.footer);
+    uiCenterListBoundaryPulse(list, 1, 5);
+    pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->start_value == footerOutwardRestartY &&
+                      pulse->end_value == footerRestY + 6 &&
+                      pulse->end_value <= footerRestY + 6,
+                 "outward footer interruption never accumulates beyond the +6px bound");
     lv_tick_inc(60);
     lv_anim_refr_now();
-    lv_tick_inc(120);
+    lv_tick_inc(20);
+    lv_anim_refr_now();
+    lv_obj_update_layout(list.footer);
+    const int16_t footerReturnRestartY = lv_obj_get_y(list.footer);
+    uiCenterListBoundaryPulse(list, 1, 6);
+    pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->start_value == footerReturnRestartY &&
+                      pulse->end_value == footerRestY + 6 &&
+                      pulse->end_value <= footerRestY + 6,
+                 "returning footer interruption retargets from current y without overshoot");
+    lv_tick_inc(240);
     lv_anim_refr_now();
     ok &= expect(out, lv_anim_get(&list, nullptr) == nullptr &&
                       lv_obj_get_y(list.footer) == footerRestY,
@@ -347,6 +379,74 @@ void focusDebtAsset(AppState &state, uint8_t index)
     state.debtListIndex = index;
 }
 
+uint8_t renderedTurnDots(lv_obj_t *screen, uint8_t expectedFilled)
+{
+    uint8_t matches = 0;
+    for (uint8_t index = 0; index < 5; ++index) {
+        const int16_t x = static_cast<int16_t>(200 + index * 18);
+        for (lv_obj_t *child = lv_obj_get_child(screen, 0); child != nullptr;
+             child = lv_obj_get_child(screen, lv_obj_get_index(child) + 1)) {
+            if (lv_obj_get_x(child) != x || lv_obj_get_y(child) != 114) continue;
+            const bool filled = lv_obj_get_style_bg_opa(child, 0) != LV_OPA_TRANSP;
+            if (filled == (index < expectedFilled)) ++matches;
+            break;
+        }
+    }
+    return matches;
+}
+
+bool runHomeRendererTests(Stream &out)
+{
+    bool ok = true;
+    static lv_color_t pixels[480]{};
+    static lv_disp_draw_buf_t drawBuffer{};
+    static lv_disp_drv_t driver{};
+    static AppState state{};
+    drawBuffer = lv_disp_draw_buf_t{};
+    driver = lv_disp_drv_t{};
+    lv_disp_draw_buf_init(&drawBuffer, pixels, nullptr, 480);
+    lv_disp_drv_init(&driver);
+    driver.draw_buf = &drawBuffer;
+    driver.flush_cb = centerListFlush;
+    driver.hor_res = 480;
+    driver.ver_res = 480;
+    lv_disp_t *display = lv_disp_drv_register(&driver);
+    appInit(state, 0);
+    ok &= expect(out, display != nullptr && uiRendererBegin(),
+                 "Home render fixture initializes a real LVGL screen");
+    const uint8_t dotCases[] = {0, 1, 3, 5};
+    for (uint8_t filled : dotCases) {
+        state.homePhase = HomePhase::Waiting;
+        state.turnsUntilYou = filled;
+        ++state.revision;
+        uiRendererRender(state, filled);
+        ok &= expect(out, renderedTurnDots(lv_scr_act(), filled) == 5,
+                     "Home renders the exact filled and hollow dot set");
+    }
+    state.homePhase = HomePhase::MyTurn;
+    ++state.revision;
+    uiRendererRender(state, 6);
+    lv_obj_t *screen = lv_scr_act();
+    lv_obj_t *ring = nullptr;
+    lv_obj_t *carousel = nullptr;
+    for (lv_obj_t *child = lv_obj_get_child(screen, 0); child != nullptr;
+         child = lv_obj_get_child(screen, lv_obj_get_index(child) + 1)) {
+        if (lv_obj_get_x(child) == 31 && lv_obj_get_y(child) == 31) ring = child;
+        if (lv_obj_get_x(child) == 48 && lv_obj_get_y(child) == 300) carousel = child;
+    }
+    lv_obj_t *dice = carousel == nullptr ? nullptr : lv_obj_get_child(carousel, 0);
+    ok &= expect(out, ring != nullptr &&
+                      lv_obj_get_style_border_color(ring, 0).full == lv_color_hex(0x52DCB7).full &&
+                      dice != nullptr &&
+                      lv_obj_get_style_border_color(dice, 0).full == lv_color_hex(0xF2C453).full,
+                 "My Turn uses the green ring while Dice retains yellow priority");
+    if (display != nullptr) {
+        display->act_scr = nullptr;
+        lv_disp_remove(display);
+    }
+    return ok;
+}
+
 bool debtAuthorityStateUnchanged(const AppState &state, const AppState &before)
 {
     const uint8_t mortgageIndex = static_cast<uint8_t>(TransportCommandKind::MortgageBatchRequest);
@@ -368,13 +468,45 @@ bool debtAuthorityStateUnchanged(const AppState &state, const AppState &before)
            state.toast == before.toast && state.toastUntilMs == before.toastUntilMs;
 }
 
+struct BoundaryInvariant {
+    ScreenPage page;
+    uint8_t focus;
+    uint8_t anchor;
+    uint8_t selected;
+    uint16_t progress;
+    uint8_t count;
+    uint32_t activationCount;
+    uint32_t pulseRevision;
+};
+
+BoundaryInvariant captureAssetBoundaryInvariant(const AppState &state)
+{
+    return BoundaryInvariant{
+        state.nav.current.page,
+        state.nav.current.focus,
+        state.nav.current.listAnchor,
+        state.assetListIndex,
+        uiListProgressPermille(state.assetListIndex, kAssetCount),
+        appFocusCount(state),
+        state.commandCount,
+        state.boundaryPulseRevision,
+    };
+}
+
+bool boundaryInvariantMatches(const AppState &state, const BoundaryInvariant &before)
+{
+    const BoundaryInvariant after = captureAssetBoundaryInvariant(state);
+    return after.page == before.page && after.focus == before.focus &&
+           after.anchor == before.anchor && after.selected == before.selected &&
+           after.progress == before.progress && after.count == before.count &&
+           after.activationCount == before.activationCount;
+}
+
 } // namespace
 
-bool runLogicTests(Stream &out)
+bool runStateLogicTests(Stream &out)
 {
     bool ok = true;
-    ok &= runCenterListComponentTests(out);
-    ok &= runCarouselComponentTests(out);
     ok &= expect(out, uiBox(nullptr, kModalRect, 0, 0, 0) == nullptr &&
                       uiLabel(nullptr, "", kModalRect, nullptr, 0) == nullptr,
                  "ui primitives reject null parents without allocation");
@@ -576,20 +708,35 @@ bool runLogicTests(Stream &out)
 
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 620);
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 621);
-    const AppState firstBoundaryBefore = state;
+    const BoundaryInvariant firstBoundaryBefore = captureAssetBoundaryInvariant(state);
     appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, 630);
-    ok &= expect(out, state.nav.current.focus == firstBoundaryBefore.nav.current.focus &&
-                      state.assetListIndex == firstBoundaryBefore.assetListIndex &&
-                      appFocusCount(state) == appFocusCount(firstBoundaryBefore) &&
-                      state.commandCount == firstBoundaryBefore.commandCount &&
+    ok &= expect(out, boundaryInvariantMatches(state, firstBoundaryBefore) &&
                       state.boundaryPulseDirection == -1 &&
-                      state.boundaryPulseRevision == firstBoundaryBefore.boundaryPulseRevision + 1,
+                      state.boundaryPulseRevision == firstBoundaryBefore.pulseRevision + 1,
                  "first-row rotary boundary changes only its local pulse revision");
+    const BoundaryInvariant firstSwipeBoundaryBefore = captureAssetBoundaryInvariant(state);
+    appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, 631);
+    ok &= expect(out, boundaryInvariantMatches(state, firstSwipeBoundaryBefore) &&
+                      state.boundaryPulseDirection == -1 &&
+                      state.boundaryPulseRevision == firstSwipeBoundaryBefore.pulseRevision + 1,
+                 "qualifying first-row swipe boundary preserves navigation invariants");
     for (uint8_t i = 0; i < kAssetCount + 2; ++i) {
         appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, 640 + i);
     }
     ok &= expect(out, appFocusIsFooter(state) && state.assetListIndex == kAssetCount - 1,
                  "list next clamps at footer without moving list anchor");
+    const BoundaryInvariant footerBoundaryBefore = captureAssetBoundaryInvariant(state);
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 649}, 649);
+    ok &= expect(out, boundaryInvariantMatches(state, footerBoundaryBefore) &&
+                      state.boundaryPulseDirection == 1 &&
+                      state.boundaryPulseRevision == footerBoundaryBefore.pulseRevision + 1,
+                 "bottom rotary boundary preserves page focus anchor progress count and activation");
+    const BoundaryInvariant footerSwipeBoundaryBefore = captureAssetBoundaryInvariant(state);
+    appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, 650);
+    ok &= expect(out, boundaryInvariantMatches(state, footerSwipeBoundaryBefore) &&
+                      state.boundaryPulseDirection == 1 &&
+                      state.boundaryPulseRevision == footerSwipeBoundaryBefore.pulseRevision + 1,
+                 "qualifying footer swipe preserves page focus anchor progress count and activation");
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, 1}, 650);
     ok &= expect(out, state.nav.current.page == ScreenPage::Assets && state.nav.current.focus == 1,
                  "touching an unfocused list row selects it");
@@ -1538,5 +1685,15 @@ bool runLogicTests(Stream &out)
 
     ok &= expect(out, kMechanicalCorrectionDeg == 60 && kFirmwareRotationDeg == 0,
                  "M4 pin 3 is mechanically aligned at six o'clock");
+    return ok;
+}
+
+bool runLogicTests(Stream &out)
+{
+    bool ok = true;
+    ok &= runCenterListComponentTests(out);
+    ok &= runCarouselComponentTests(out);
+    ok &= runHomeRendererTests(out);
+    ok &= runStateLogicTests(out);
     return ok;
 }

@@ -63,9 +63,14 @@ void setBoundaryPulseY(void *object, int32_t value)
     }
 }
 
-void returnBoundaryPulse(lv_anim_t *completed)
+void finishBoundaryPulse(lv_anim_t *completed)
 {
     UiCenterList &list = *static_cast<UiCenterList *>(completed->var);
+    list.pulseTarget = nullptr;
+}
+
+void startBoundaryReturn(UiCenterList &list)
+{
     if (list.pulseTarget == nullptr) return;
     lv_anim_t animation;
     lv_anim_init(&animation);
@@ -74,16 +79,22 @@ void returnBoundaryPulse(lv_anim_t *completed)
     lv_anim_set_values(&animation, lv_obj_get_y(list.pulseTarget), list.pulseRestY);
     lv_anim_set_time(&animation, kBoundaryPulseReturnMs);
     lv_anim_set_path_cb(&animation, lv_anim_path_ease_out);
+    lv_anim_set_ready_cb(&animation, finishBoundaryPulse);
     lv_anim_start(&animation);
 }
 
-void cancelBoundaryPulse(UiCenterList &list, bool resetFooter)
+void returnBoundaryPulse(lv_anim_t *completed)
 {
+    UiCenterList &list = *static_cast<UiCenterList *>(completed->var);
+    startBoundaryReturn(list);
+}
+
+lv_obj_t *cancelBoundaryPulse(UiCenterList &list)
+{
+    lv_obj_t *target = list.pulseTarget;
     lv_anim_del(&list, setBoundaryPulseY);
-    if (resetFooter && list.pulseTarget == list.footer && list.footer != nullptr) {
-        lv_obj_set_y(list.footer, list.footerRestY);
-    }
     list.pulseTarget = nullptr;
+    return target;
 }
 
 void animateTrack(lv_obj_t *track, int16_t targetY, bool animate)
@@ -331,7 +342,7 @@ void uiCenterListBoundaryPulse(UiCenterList &list, int8_t direction,
     if (target == nullptr) return;
     list.pulseRevision = revision;
     lv_obj_update_layout(target);
-    cancelBoundaryPulse(list, false);
+    cancelBoundaryPulse(list);
     list.pulseTarget = target;
     list.pulseRestY = firstRow ? list.trackRestY : list.footerRestY;
     const int16_t currentY = lv_obj_get_y(target);
@@ -340,7 +351,7 @@ void uiCenterListBoundaryPulse(UiCenterList &list, int8_t direction,
     lv_anim_init(&animation);
     lv_anim_set_var(&animation, &list);
     lv_anim_set_exec_cb(&animation, setBoundaryPulseY);
-    lv_anim_set_values(&animation, currentY, static_cast<int16_t>(currentY + offset));
+    lv_anim_set_values(&animation, currentY, static_cast<int16_t>(list.pulseRestY + offset));
     lv_anim_set_time(&animation, kBoundaryPulseOutMs);
     lv_anim_set_ready_cb(&animation, returnBoundaryPulse);
     lv_anim_start(&animation);
@@ -362,7 +373,7 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
     if (count == 0) selected = 0;
     else if (selected >= count) selected = count - 1;
     list.selected = selected;
-    cancelBoundaryPulse(list, true);
+    lv_obj_t *const interruptedPulse = cancelBoundaryPulse(list);
 
     for (uint8_t index = 0; index < count; ++index) {
         styleRow(lv_obj_get_child(list.track, index), items[index], index == selected,
@@ -372,6 +383,13 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
                                                       kNormalListViewport.y);
     list.trackRestY = uiCenterListTrackY(selected, selectedTop, kRowStride);
     animateTrack(list.track, list.trackRestY, animate);
+
+    if (interruptedPulse == list.footer && list.footer != nullptr &&
+        lv_obj_get_y(list.footer) != list.footerRestY) {
+        list.pulseTarget = list.footer;
+        list.pulseRestY = list.footerRestY;
+        startBoundaryReturn(list);
+    }
 
     if (list.focusFrame != nullptr) {
         lv_obj_set_style_border_color(list.focusFrame,

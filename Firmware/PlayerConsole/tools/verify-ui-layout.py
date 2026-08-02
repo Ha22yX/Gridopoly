@@ -281,6 +281,11 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
         fail("Home swipe is not bound to the full retained carousel container")
     if re.search(r"\buiBindTap\s*\(\s*item\s*", create_body):
         fail("Home carousel still binds gestures to individual item objects")
+    if not re.search(r"\blv_obj_clear_flag\s*\(\s*item\s*,\s*LV_OBJ_FLAG_CLICKABLE\s*\)",
+                     create_body) or not re.search(
+                         r"\blv_obj_add_flag\s*\(\s*item\s*,\s*LV_OBJ_FLAG_EVENT_BUBBLE\s*\)",
+                         create_body):
+        fail("Home carousel item hit paths do not reach the container gesture handler")
     if re.search(r"\bdrawHomeWheel\b", renderer_code):
         fail("legacy bounce-only Home wheel remains active")
 
@@ -411,7 +416,7 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
 
     pulse_body = function_body(center_code, "uiCenterListBoundaryPulse")
     for pattern, message in (
-        (r"\bcancelBoundaryPulse\s*\(\s*list\s*,\s*false\s*\)",
+        (r"\bcancelBoundaryPulse\s*\(\s*list\s*\)",
          "boundary pulse does not cancel an in-flight pulse before restarting"),
         (r"\bkTrackBoundaryPulsePx\b", "first-row boundary pulse is not +8px"),
         (r"\bkFooterBoundaryPulsePx\b", "footer boundary pulse is not +6px"),
@@ -421,11 +426,16 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     ):
         if not re.search(pattern, pulse_body):
             fail(message)
-    return_body = function_body(center_code, "returnBoundaryPulse")
+    if not re.search(r"\blv_anim_set_values\s*\([^,]+,\s*currentY\s*,\s*"
+                     r"static_cast<int16_t>\(list\.pulseRestY\s*\+\s*offset\)\s*\)",
+                     pulse_body):
+        fail("boundary pulse target is not anchored to its fixed rest position")
+    return_body = function_body(center_code, "startBoundaryReturn")
     if not re.search(r"\bkBoundaryPulseReturnMs\b", return_body) or not re.search(
             r"\blv_anim_path_ease_out\b", return_body):
         fail("boundary pulse does not return over 120ms with ease-out")
-    if not re.search(r"\bcancelBoundaryPulse\s*\(\s*list\s*,\s*true\s*\)", update_body):
+    if not re.search(r"\binterruptedPulse\s*==\s*list\.footer", update_body) or not re.search(
+            r"\bstartBoundaryReturn\s*\(\s*list\s*\)", update_body):
         fail("normal list focus movement does not cancel boundary feedback")
 
     swipe_match = re.search(r"\bint8_t\s+uiCenterListSwipeStep\s*\([^)]*\)\s*\{", center_code)
@@ -672,6 +682,8 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
          carousel_source + "\nvoid animateProperty() {}\n"),
         ("Home swipe click reset removed",
          carousel_source.replace("lv_indev_reset(input, carousel->container);", "", 1)),
+        ("item event path removed",
+         carousel_source.replace("lv_obj_add_flag(item, LV_OBJ_FLAG_EVENT_BUBBLE);", "", 1)),
     )
     for name, mutated_carousel in carousel_mutations:
         try:
@@ -698,7 +710,9 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
          center_source.replace("kBoundaryPulseOutMs = 60;",
                                "kBoundaryPulseOutMs = 61;", 1)),
         ("boundary restart cancellation removed",
-         center_source.replace("cancelBoundaryPulse(list, false);", "", 1)),
+         center_source.replace("cancelBoundaryPulse(list);", "", 1)),
+        ("boundary fixed-rest target removed",
+         center_source.replace("list.pulseRestY + offset", "currentY + offset", 1)),
     )
     for name, mutated_center in center_mutations:
         try:
