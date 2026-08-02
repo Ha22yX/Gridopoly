@@ -29,6 +29,7 @@
 - Target performance is `30 FPS`, sustained at least `24 FPS`, with local input feedback under `80 ms` where hardware permits.
 - No new runtime library is introduced. All queues and strings use bounded storage suitable for ESP32-S3 memory.
 - Source text remains UTF-8. Every new non-ASCII glyph must pass `tools/verify-ui-glyphs.py`, and generated font files remain checked in.
+- Glyph discovery decodes live C/C++ `\xNN` UTF-8 string bytes and verifies required code points against both generated font CMaps; manifest-only coverage is insufficient.
 - Preserve unrelated dirty files. Each commit stages only paths explicitly listed by its task.
 - The final production image is compiled and uploaded to `COM4`; self-test images must not be left on the device.
 
@@ -1178,6 +1179,78 @@ git commit -m "feat: add center locked round screen lists"
 
 ---
 
+### Task 8.5: Repair Escaped UTF-8 Glyph Coverage And Regenerate Fonts
+
+**Files:**
+- Create: `Firmware/PlayerConsole/tools/ui_glyph_source.py`
+- Modify: `Firmware/PlayerConsole/tools/generate-ui-fonts.py`
+- Modify: `Firmware/PlayerConsole/tools/verify-ui-glyphs.py`
+- Modify: `Firmware/PlayerConsole/src/fonts/ui_glyphs.txt`
+- Modify: `Firmware/PlayerConsole/src/fonts/ui_font_14.c`
+- Modify: `Firmware/PlayerConsole/src/fonts/ui_font_16.c`
+
+**Interfaces:**
+- Consumes: raw UTF-8 source text, C/C++ string literals containing contiguous `\xNN` byte escapes, the glyph manifest, and LVGL sparse CMaps.
+- Produces: one shared required-character collector used by generator and verifier, strict generated-font coverage checks, and regenerated fonts containing all live UI strings.
+
+Expose from `ui_glyph_source.py`:
+
+```python
+def required_characters(root: Path, font_dir: Path) -> set[str]: ...
+def generated_font_codepoints(font_path: Path) -> set[int]: ...
+```
+
+- [ ] **Step 1: Write failing escaped-glyph and CMap tests**
+
+Add `verify-ui-glyphs.py --self-test` fixtures that prove:
+
+- a C literal containing `"\\xE5\\x85\\x89\\xE6\\xA0\\x85\\xE5\\x85\\xAC\\xE5\\xAF\\x93"` contributes `光栅公寓`;
+- comments and unrelated Python/text escapes do not become UI glyph requirements;
+- malformed or non-UTF-8 byte runs fail with a source path and byte offset instead of being ignored;
+- manifest coverage without matching entries in either `ui_font_14.c` or `ui_font_16.c` fails;
+- raw UTF-8 literals continue to work.
+
+Run the current verifier against decoded live strings and record RED with these 16 missing glyphs:
+
+```text
+光 栅 寓 数 据 高 廊 极 码 头 状 态 变 化 重 新
+```
+
+Deduplicate the list by code point in the assertion; repeated `光` appears once in the expected set.
+
+- [ ] **Step 2: Implement one shared source collector**
+
+Scan only `.h`, `.hpp`, `.c`, `.cpp`, and `.ino` sources outside generated font/sample assets. Preserve raw Unicode collection. Parse C/C++ string literal content sufficiently to join contiguous `\xNN` bytes, decode each run as strict UTF-8, and add decoded non-ASCII characters. Do not interpret escape-looking text inside comments as runtime strings.
+
+Both `generate-ui-fonts.py` and `verify-ui-glyphs.py` must import this collector; duplicate scanners are forbidden.
+
+- [ ] **Step 3: Verify the actual generated font CMaps**
+
+Parse each generated font's sparse `unicode_list_*`, `range_start`, and `list_length`; reconstruct its Unicode code points and require every discovered non-ASCII character in both 14 px and 16 px files. Keep the manifest check, but never treat the existence of a `.c` file as coverage.
+
+- [ ] **Step 4: Regenerate and verify fonts**
+
+Run:
+
+```powershell
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\Firmware\PlayerConsole\tools\generate-ui-fonts.py
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\Firmware\PlayerConsole\tools\verify-ui-glyphs.py --self-test
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\Firmware\PlayerConsole\tools\verify-ui-glyphs.py
+```
+
+Expected: both fonts and the manifest include every decoded live string; the four escaped asset names and debt-refresh toast no longer have missing descriptors.
+
+- [ ] **Step 5: Run firmware gates and commit**
+
+Run `compile.ps1`, the full COM4 self-test, and `git diff --check`.
+
+```powershell
+git add Firmware/PlayerConsole/tools/ui_glyph_source.py Firmware/PlayerConsole/tools/generate-ui-fonts.py Firmware/PlayerConsole/tools/verify-ui-glyphs.py Firmware/PlayerConsole/src/fonts/ui_glyphs.txt Firmware/PlayerConsole/src/fonts/ui_font_14.c Firmware/PlayerConsole/src/fonts/ui_font_16.c
+git commit -m "fix: cover escaped utf8 ui glyphs"
+```
+
+---
+
 ### Task 9: Render Top-Level Confirmations, Debt Selection, And Bankruptcy
 
 **Files:**
@@ -1483,7 +1556,7 @@ Expected: FAIL until the complete scenario list/reset function exists.
 
 `DemoTransport::setScenario` clears scheduled/output queues and duplicate-request cache before installing the selected fixture. It emits standard events only; it never calls a page draw function.
 
-- [ ] **Step 4: Regenerate the CJK subset after final copy is present**
+- [ ] **Step 4: Re-run strict CJK generation after final copy is present**
 
 Run:
 
@@ -1492,7 +1565,7 @@ Run:
 & 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\Firmware\PlayerConsole\tools\verify-ui-glyphs.py
 ```
 
-Expected: generator reports both fonts, then verifier reports every source glyph covered. Do not hand-edit generated `.c` font output.
+Expected: generator reports both fonts, then the Task 8.5 verifier decodes raw/escaped runtime strings and proves both generated CMaps cover every source glyph. Do not hand-edit generated `.c` font output.
 
 - [ ] **Step 5: Synchronize protocol and scenario documentation**
 
