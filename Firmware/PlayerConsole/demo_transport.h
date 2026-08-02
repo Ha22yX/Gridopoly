@@ -57,6 +57,10 @@ private:
     TransportEvent lastRollResult_{};
     bool lastRollResultValid_ = false;
     bool lastRollResultEmitted_ = false;
+    uint32_t paymentCashDeadlineMs_ = 0;
+    uint32_t paymentCashTransactionId_ = 0;
+    bool paymentCashActive_ = false;
+    bool paymentCashCompleted_ = false;
     bool activeRoll_ = false;
     bool offline_ = false;
 };

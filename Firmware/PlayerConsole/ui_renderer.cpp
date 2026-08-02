@@ -402,7 +402,7 @@ void drawModal(const AppState &state, uint32_t nowMs)
         char countdown[32];
         snprintf(countdown, sizeof(countdown), "剩余 %.1f 秒", remaining / 1000.0f);
         modalCountdown = label(modal, countdown, 70, 148, 200, &lv_font_simsun_16_cjk,
-                               state.modal.kind == ModalKind::Payment ? kYellow : kMuted);
+                               state.modal.kind == ModalKind::ForcedPayment ? kYellow : kMuted);
     }
 
     lv_obj_t *hold = box(modal, 34, 196, 272, 72, 0x172224, kGreen, 6);

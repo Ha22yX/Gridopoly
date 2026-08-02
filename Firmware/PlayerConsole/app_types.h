@@ -45,10 +45,6 @@ enum class ModalKind : uint8_t {
     VoluntaryMortgage,
     TradeCreate,
     DebtMortgageConfirm,
-    // Renderer compatibility aliases until its Task 4 modal visuals are updated.
-    Payment = ForcedPayment,
-    Mortgage = VoluntaryMortgage,
-    Trade = TradeCreate,
 };
 
 enum class ModalFocus : uint8_t { Confirm, Cancel, ResolveAssets };

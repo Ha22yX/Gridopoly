@@ -7,6 +7,7 @@ constexpr int32_t kAuthoritativeCash = 1860;
 constexpr uint8_t kAuthoritativePosition = 17;
 constexpr uint8_t kRollTargetPosition = 24;
 constexpr uint32_t kEligibleMortgageAssets = 0x57;
+constexpr uint32_t kPaymentCashDeadlineMs = 10000;
 constexpr char kRollTargetName[] = "霓虹港湾";
 
 bool isDue(uint32_t nowMs, uint32_t dueMs)
@@ -30,8 +31,35 @@ void DemoTransport::begin(uint32_t nowMs)
     lastRollResult_ = TransportEvent{};
     lastRollResultValid_ = false;
     lastRollResultEmitted_ = false;
+    paymentCashDeadlineMs_ = 0;
+    paymentCashTransactionId_ = 0;
+    paymentCashActive_ = false;
+    paymentCashCompleted_ = false;
     activeRoll_ = false;
     offline_ = scenario_ == DemoScenario::ConnectionDropAndRecover;
+
+    if (scenario_ == DemoScenario::PaymentCash) {
+        TransportEvent events[2]{};
+        uint32_t dueMs[2]{};
+        paymentCashDeadlineMs_ = nowMs + kPaymentCashDeadlineMs;
+        paymentCashTransactionId_ = nextTransactionId_++;
+        events[0].kind = TransportEventKind::PaymentRequired;
+        events[0].stateVersion = kAuthoritativeStateVersion;
+        events[0].transactionId = paymentCashTransactionId_;
+        events[0].amount = 175;
+        events[0].cash = kAuthoritativeCash;
+        events[0].deadlineMs = paymentCashDeadlineMs_;
+        events[0].targetName = kRollTargetName;
+        dueMs[0] = nowMs;
+        events[1].kind = TransportEventKind::PaymentCompleted;
+        events[1].stateVersion = kAuthoritativeStateVersion;
+        events[1].transactionId = paymentCashTransactionId_;
+        events[1].amount = 175;
+        events[1].cash = kAuthoritativeCash - events[1].amount;
+        dueMs[1] = paymentCashDeadlineMs_;
+        paymentCashActive_ = scheduleBatch(events, dueMs, 2);
+        return;
+    }
 
     if (!offline_) return;
 
@@ -98,6 +126,11 @@ void DemoTransport::tick(uint32_t nowMs)
         const TransportEvent event = scheduled.event;
         scheduled = ScheduledEvent{};
         if (event.kind == TransportEventKind::StateSnapshotApplied) offline_ = false;
+        if (event.kind == TransportEventKind::PaymentCompleted &&
+            event.transactionId == paymentCashTransactionId_) {
+            paymentCashActive_ = false;
+            paymentCashCompleted_ = true;
+        }
         if (event.kind == TransportEventKind::RollResult &&
             event.transactionId == activeRollTransactionId_) {
             lastRollResultEmitted_ = true;
@@ -234,6 +267,25 @@ bool DemoTransport::scheduleRoll(const TransportCommand &command, uint32_t nowMs
 
 bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uint32_t nowMs)
 {
+    if (scenario_ == DemoScenario::PaymentCash && command.kind == TransportCommandKind::PayNow) {
+        if (!paymentCashActive_) return paymentCashCompleted_;
+        const uint32_t responseDueMs = nowMs + 120;
+        if (isDue(responseDueMs, paymentCashDeadlineMs_)) return true;
+
+        for (ScheduledEvent &scheduled : scheduled_) {
+            if (!scheduled.active || scheduled.event.kind != TransportEventKind::PaymentCompleted ||
+                scheduled.event.transactionId != paymentCashTransactionId_) {
+                continue;
+            }
+            if (static_cast<int32_t>(responseDueMs - scheduled.dueMs) >= 0) return true;
+            scheduled.event.requestId = command.requestId;
+            scheduled.dueMs = responseDueMs;
+            scheduled.sequence = nextScheduleSequence_++;
+            return true;
+        }
+        return false;
+    }
+
     TransportEvent event{};
     event.requestId = command.requestId;
     event.stateVersion = kAuthoritativeStateVersion;
@@ -245,10 +297,6 @@ bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uin
         event.cash = kAuthoritativeCash;
         event.deadlineMs = nowMs + 20000;
         event.targetName = kRollTargetName;
-    } else if (scenario_ == DemoScenario::PaymentCash && command.kind == TransportCommandKind::PayNow) {
-        event.kind = TransportEventKind::PaymentCompleted;
-        event.amount = 175;
-        event.cash = kAuthoritativeCash - event.amount;
     } else if (scenario_ == DemoScenario::PaymentDebt && command.kind == TransportCommandKind::PayNow) {
         TransportEvent events[2]{};
         uint32_t dueMs[2]{};

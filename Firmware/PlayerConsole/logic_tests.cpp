@@ -42,6 +42,13 @@ void openTradeFixture(AppState &state, uint32_t nowMs)
 bool runLogicTests(Stream &out)
 {
     bool ok = true;
+    ok &= expect(out, static_cast<uint8_t>(ModalKind::None) == 0 &&
+                      static_cast<uint8_t>(ModalKind::CollectRent) == 1 &&
+                      static_cast<uint8_t>(ModalKind::ForcedPayment) == 2 &&
+                      static_cast<uint8_t>(ModalKind::VoluntaryMortgage) == 3 &&
+                      static_cast<uint8_t>(ModalKind::TradeCreate) == 4 &&
+                      static_cast<uint8_t>(ModalKind::DebtMortgageConfirm) == 5,
+                 "exact modal kind names compile in contract order");
     AppState state{};
     appInit(state, 0);
     ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 0,
@@ -232,7 +239,7 @@ bool runLogicTests(Stream &out)
     state.selectedAsset = 0;
     state.nav.current = NavigationEntry{ScreenPage::AssetDetail, 1, 0};
     appHandleTouch(state, TouchAction::DetailPrimary, 100);
-    ok &= expect(out, state.modal.kind == ModalKind::Mortgage,
+    ok &= expect(out, state.modal.kind == ModalKind::VoluntaryMortgage,
                  "detail primary remains an immediate detail action");
 
     appInit(state, 0);
@@ -255,7 +262,7 @@ bool runLogicTests(Stream &out)
     state.nav.current = NavigationEntry{ScreenPage::DemoLab, 4, 0};
     shortPress(state, deadlineWrapStartMs + 10u, deadlineWrapStartMs + 100u);
     appTick(state, deadlineWrapStartMs + 200u);
-    ok &= expect(out, state.modal.kind == ModalKind::Payment &&
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment &&
                       appModalRemainingMs(state, deadlineWrapStartMs + 200u) == 9900,
                  "modal deadline remains pending before millis wrap");
     appTick(state, deadlineWrapStartMs + 10100u);
@@ -442,25 +449,81 @@ bool runLogicTests(Stream &out)
                  "post-result retry replays the cached authoritative dice");
 
     transport.setScenario(DemoScenario::PaymentCash);
+    const uint32_t paymentStartMs = 1000;
+    transport.begin(paymentStartMs);
+    transport.tick(paymentStartMs);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentRequired &&
+                      event.deadlineMs == paymentStartMs + 10000 && event.transactionId != 0,
+                 "payment cash exposes an absolute ten second deadline");
+    const uint32_t paymentTransactionId = event.transactionId;
+    transport.tick(paymentStartMs + 9999);
+    ok &= expect(out, !transport.poll(event), "payment cash does not complete before its deadline");
+    transport.tick(paymentStartMs + 10000);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
+                      event.transactionId == paymentTransactionId && !transport.poll(event),
+                 "payment cash auto-completes exactly at its deadline once");
+
+    transport.begin(paymentStartMs);
+    transport.tick(paymentStartMs);
+    transport.poll(event);
+    const uint32_t earlyPaymentTransactionId = event.transactionId;
+    TransportCommand earlyPayNow{TransportCommandKind::PayNow, 801, 41, earlyPaymentTransactionId, 0};
+    ok &= expect(out, transport.send(earlyPayNow, paymentStartMs + 100), "early PayNow is accepted");
+    transport.tick(paymentStartMs + 219);
+    ok &= expect(out, !transport.poll(event), "early PayNow completion waits 120ms");
+    transport.tick(paymentStartMs + 220);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
+                      event.requestId == 801 && event.transactionId == earlyPaymentTransactionId,
+                 "early PayNow response wins before payment deadline");
+    transport.tick(paymentStartMs + 10000);
+    ok &= expect(out, !transport.poll(event), "early PayNow cancels deadline completion duplicate");
+
+    transport.begin(paymentStartMs);
+    transport.tick(paymentStartMs);
+    transport.poll(event);
+    const uint32_t latePaymentTransactionId = event.transactionId;
+    TransportCommand latePayNow{TransportCommandKind::PayNow, 802, 41, latePaymentTransactionId, 0};
+    ok &= expect(out, transport.send(latePayNow, paymentStartMs + 9881), "late PayNow is accepted without duplication");
+    transport.tick(paymentStartMs + 9999);
+    ok &= expect(out, !transport.poll(event), "late PayNow cannot complete before deadline");
+    transport.tick(paymentStartMs + 10000);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
+                      event.transactionId == latePaymentTransactionId && !transport.poll(event),
+                 "payment deadline wins over a late PayNow response");
+
+    const uint32_t paymentWrapStartMs = 0xFFFFFF00u;
+    transport.begin(paymentWrapStartMs);
+    transport.tick(paymentWrapStartMs);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentRequired &&
+                      event.deadlineMs == paymentWrapStartMs + 10000u,
+                 "payment cash deadline wraps from scenario start");
+    transport.tick(paymentWrapStartMs + 9999u);
+    ok &= expect(out, !transport.poll(event), "wrapped payment deadline is not early");
+    transport.tick(paymentWrapStartMs + 10000u);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
+                      !transport.poll(event),
+                 "wrapped payment deadline completes exactly once");
+
+    transport.setScenario(DemoScenario::Waiting);
     transport.begin(0);
     bool paymentQueueFilled = true;
     for (uint32_t requestId = 100; requestId < 108; ++requestId) {
         paymentQueueFilled &= transport.send(
-            TransportCommand{TransportCommandKind::PayNow, requestId, 41, 0, 0}, 0);
+            TransportCommand{TransportCommandKind::MoveManualConfirmRequest, requestId, 41, 0, 0, 0, 17}, 0);
     }
-    ok &= expect(out, paymentQueueFilled, "payment commands fill the scheduled queue");
+    ok &= expect(out, paymentQueueFilled, "commands fill the scheduled queue");
     ok &= expect(out, !transport.send(
-                      TransportCommand{TransportCommandKind::PayNow, 108, 41, 0, 0}, 0),
-                 "full scheduled queue rejects payment command");
+                      TransportCommand{TransportCommandKind::MoveManualConfirmRequest, 108, 41, 0, 0, 0, 17}, 0),
+                 "full scheduled queue rejects command atomically");
     TransportCommand blockedRoll{TransportCommandKind::RollRequest, 109, 41, 0, 0};
     ok &= expect(out, !transport.send(blockedRoll, 0),
                  "full scheduled queue atomically rejects roll");
     transport.tick(120);
     uint8_t paymentEventCount = 0;
     while (transport.poll(event)) {
-        paymentEventCount += event.kind == TransportEventKind::PaymentCompleted ? 1 : 0;
+        paymentEventCount += event.kind == TransportEventKind::RfidPositionConfirmed ? 1 : 0;
     }
-    ok &= expect(out, paymentEventCount == 8, "full queue retains all scheduled payments at 120ms");
+    ok &= expect(out, paymentEventCount == 8, "full queue retains all scheduled commands at 120ms");
     TransportCommand recoveredRoll{TransportCommandKind::RollRequest, 110, 41, 0, 0};
     ok &= expect(out, transport.send(recoveredRoll, 120),
                  "atomic roll rejection leaves later roll available");
