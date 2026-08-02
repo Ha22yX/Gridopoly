@@ -268,6 +268,7 @@ bool DemoTransport::scheduleRoll(const TransportCommand &command, uint32_t nowMs
 bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uint32_t nowMs)
 {
     if (scenario_ == DemoScenario::PaymentCash && command.kind == TransportCommandKind::PayNow) {
+        if (command.transactionId != paymentCashTransactionId_) return false;
         if (!paymentCashActive_) return paymentCashCompleted_;
         const uint32_t responseDueMs = nowMs + 120;
         if (isDue(responseDueMs, paymentCashDeadlineMs_)) return true;

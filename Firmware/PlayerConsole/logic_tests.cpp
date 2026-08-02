@@ -466,6 +466,29 @@ bool runLogicTests(Stream &out)
     transport.begin(paymentStartMs);
     transport.tick(paymentStartMs);
     transport.poll(event);
+    const uint32_t correlatedPaymentTransactionId = event.transactionId;
+    TransportCommand wrongPayNow{TransportCommandKind::PayNow, 800, 41,
+                                  correlatedPaymentTransactionId + 1, 0};
+    ok &= expect(out, !transport.send(wrongPayNow, paymentStartMs + 100),
+                 "wrong payment transaction is rejected");
+    transport.tick(paymentStartMs + 220);
+    ok &= expect(out, !transport.poll(event),
+                 "wrong payment transaction cannot settle the active payment early");
+    TransportCommand correlatedPayNow{TransportCommandKind::PayNow, 803, 41,
+                                       correlatedPaymentTransactionId, 0};
+    ok &= expect(out, transport.send(correlatedPayNow, paymentStartMs + 200),
+                 "matching payment transaction is accepted");
+    transport.tick(paymentStartMs + 319);
+    ok &= expect(out, !transport.poll(event), "matching PayNow completion waits 120ms");
+    transport.tick(paymentStartMs + 320);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
+                      event.requestId == 803 && event.transactionId == correlatedPaymentTransactionId &&
+                      !transport.poll(event),
+                 "matching payment transaction settles exactly once");
+
+    transport.begin(paymentStartMs);
+    transport.tick(paymentStartMs);
+    transport.poll(event);
     const uint32_t earlyPaymentTransactionId = event.transactionId;
     TransportCommand earlyPayNow{TransportCommandKind::PayNow, 801, 41, earlyPaymentTransactionId, 0};
     ok &= expect(out, transport.send(earlyPayNow, paymentStartMs + 100), "early PayNow is accepted");
