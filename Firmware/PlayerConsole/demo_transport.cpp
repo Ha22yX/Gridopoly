@@ -22,26 +22,29 @@ void DemoTransport::begin(uint32_t nowMs)
     outputHead_ = 0;
     outputTail_ = 0;
     outputCount_ = 0;
+    nextScheduleSequence_ = 0;
     nextTransactionId_ = 1;
     activeRollRequestId_ = 0;
     activeRollTransactionId_ = 0;
     lastRollRequestId_ = 0;
     lastRollResult_ = TransportEvent{};
+    lastRollResultValid_ = false;
+    lastRollResultEmitted_ = false;
     activeRoll_ = false;
     offline_ = scenario_ == DemoScenario::ConnectionDropAndRecover;
 
     if (!offline_) return;
 
-    TransportEvent lost{};
-    lost.kind = TransportEventKind::ConnectionLost;
-    schedule(lost, nowMs);
-
-    TransportEvent snapshot{};
-    snapshot.kind = TransportEventKind::StateSnapshotApplied;
-    snapshot.stateVersion = kAuthoritativeStateVersion;
-    snapshot.cash = kAuthoritativeCash;
-    snapshot.playerPosition = kAuthoritativePosition;
-    schedule(snapshot, nowMs + 3000);
+    TransportEvent events[2]{};
+    uint32_t dueMs[2]{};
+    events[0].kind = TransportEventKind::ConnectionLost;
+    dueMs[0] = nowMs;
+    events[1].kind = TransportEventKind::StateSnapshotApplied;
+    events[1].stateVersion = kAuthoritativeStateVersion;
+    events[1].cash = kAuthoritativeCash;
+    events[1].playerPosition = kAuthoritativePosition;
+    dueMs[1] = nowMs + 3000;
+    scheduleBatch(events, dueMs, 2);
 }
 
 bool DemoTransport::send(const TransportCommand &command, uint32_t nowMs)
@@ -49,12 +52,13 @@ bool DemoTransport::send(const TransportCommand &command, uint32_t nowMs)
     if (offline_) return false;
 
     if (command.kind != TransportCommandKind::RollRequest) {
-        scheduleScenarioCommand(command, nowMs);
-        return true;
+        return scheduleScenarioCommand(command, nowMs);
     }
 
-    if (activeRoll_ && command.requestId == activeRollRequestId_) return true;
-    if (command.requestId == lastRollRequestId_) return push(lastRollResult_);
+    if (activeRoll_ && command.requestId == activeRollRequestId_) {
+        return lastRollResultEmitted_ ? push(lastRollResult_) : true;
+    }
+    if (lastRollResultValid_ && command.requestId == lastRollRequestId_) return push(lastRollResult_);
 
     if (activeRoll_) {
         TransportEvent rejected{};
@@ -65,19 +69,39 @@ bool DemoTransport::send(const TransportCommand &command, uint32_t nowMs)
         return push(rejected);
     }
 
-    scheduleRoll(command, nowMs);
-    return true;
+    return scheduleRoll(command, nowMs);
 }
 
 void DemoTransport::tick(uint32_t nowMs)
 {
-    for (ScheduledEvent &scheduled : scheduled_) {
-        if (!scheduled.active || !isDue(nowMs, scheduled.dueMs)) continue;
-        if (!push(scheduled.event)) return;
+    while (true) {
+        int8_t selected = -1;
+        for (uint8_t i = 0; i < kQueueCapacity; ++i) {
+            const ScheduledEvent &candidate = scheduled_[i];
+            if (!candidate.active || !isDue(nowMs, candidate.dueMs)) continue;
+            if (selected < 0) {
+                selected = i;
+                continue;
+            }
+            const ScheduledEvent &current = scheduled_[selected];
+            const int32_t dueDifference = static_cast<int32_t>(candidate.dueMs - current.dueMs);
+            if (dueDifference < 0 ||
+                (dueDifference == 0 &&
+                 static_cast<int32_t>(candidate.sequence - current.sequence) < 0)) {
+                selected = i;
+            }
+        }
+        if (selected < 0) return;
 
+        ScheduledEvent &scheduled = scheduled_[selected];
+        if (!push(scheduled.event)) return;
         const TransportEvent event = scheduled.event;
         scheduled = ScheduledEvent{};
         if (event.kind == TransportEventKind::StateSnapshotApplied) offline_ = false;
+        if (event.kind == TransportEventKind::RollResult &&
+            event.transactionId == activeRollTransactionId_) {
+            lastRollResultEmitted_ = true;
+        }
         if (event.transactionId == activeRollTransactionId_ &&
             (event.kind == TransportEventKind::MoveGuidanceStarted ||
              event.kind == TransportEventKind::RfidPositionConfirmed ||
@@ -101,14 +125,23 @@ void DemoTransport::setScenario(DemoScenario scenario)
     scenario_ = scenario;
 }
 
-bool DemoTransport::schedule(const TransportEvent &event, uint32_t dueMs)
+bool DemoTransport::scheduleBatch(const TransportEvent *events, const uint32_t *dueMs, uint8_t count)
 {
+    uint8_t available = 0;
+    for (ScheduledEvent &scheduled : scheduled_) {
+        if (!scheduled.active) ++available;
+    }
+    if (available < count) return false;
+
+    uint8_t index = 0;
     for (ScheduledEvent &scheduled : scheduled_) {
         if (scheduled.active) continue;
-        scheduled.event = event;
-        scheduled.dueMs = dueMs;
+        scheduled.event = events[index];
+        scheduled.dueMs = dueMs[index];
+        scheduled.sequence = nextScheduleSequence_++;
         scheduled.active = true;
-        return true;
+        ++index;
+        if (index == count) return true;
     }
     return false;
 }
@@ -130,14 +163,14 @@ bool DemoTransport::hasScheduledTransaction(uint32_t transactionId) const
     return false;
 }
 
-void DemoTransport::scheduleRoll(const TransportCommand &command, uint32_t nowMs)
+bool DemoTransport::scheduleRoll(const TransportCommand &command, uint32_t nowMs)
 {
-    const uint32_t transactionId = nextTransactionId_++;
-    activeRoll_ = true;
-    activeRollRequestId_ = command.requestId;
-    activeRollTransactionId_ = transactionId;
+    const uint32_t transactionId = nextTransactionId_;
+    TransportEvent events[4]{};
+    uint32_t dueMs[4]{};
+    uint8_t eventCount = 2;
 
-    TransportEvent result{};
+    TransportEvent &result = events[0];
     result.kind = TransportEventKind::RollResult;
     result.requestId = command.requestId;
     result.stateVersion = kAuthoritativeStateVersion;
@@ -145,13 +178,11 @@ void DemoTransport::scheduleRoll(const TransportCommand &command, uint32_t nowMs
     result.dieA = 3;
     result.dieB = 4;
     result.playerPosition = kAuthoritativePosition;
-    lastRollRequestId_ = command.requestId;
-    lastRollResult_ = result;
 
     const uint32_t resultDelay = scenario_ == DemoScenario::RollAuthorityDelayed ? 420 : 120;
-    schedule(result, nowMs + resultDelay);
+    dueMs[0] = nowMs + resultDelay;
 
-    TransportEvent guidance{};
+    TransportEvent &guidance = events[1];
     guidance.kind = TransportEventKind::MoveGuidanceStarted;
     guidance.requestId = command.requestId;
     guidance.stateVersion = kAuthoritativeStateVersion;
@@ -162,36 +193,51 @@ void DemoTransport::scheduleRoll(const TransportCommand &command, uint32_t nowMs
     guidance.manual = command.targetPosition != 0;
 
     const uint32_t guidanceDelay = resultDelay + 30;
-    schedule(guidance, nowMs + guidanceDelay);
+    dueMs[1] = nowMs + guidanceDelay;
 
     if (scenario_ == DemoScenario::RollRfidSuccess) {
-        TransportEvent confirmed = guidance;
+        TransportEvent &confirmed = events[eventCount];
+        confirmed = guidance;
         confirmed.kind = TransportEventKind::RfidPositionConfirmed;
         confirmed.observedPosition = kRollTargetPosition;
-        schedule(confirmed, nowMs + guidanceDelay + 200);
+        dueMs[eventCount++] = nowMs + guidanceDelay + 200;
     } else if (scenario_ == DemoScenario::RollRfidWrongThenSuccess) {
-        TransportEvent rejected = guidance;
+        TransportEvent &rejected = events[eventCount];
+        rejected = guidance;
         rejected.kind = TransportEventKind::RfidPositionRejected;
         rejected.observedPosition = 23;
-        schedule(rejected, nowMs + guidanceDelay + 150);
-        TransportEvent confirmed = guidance;
+        dueMs[eventCount++] = nowMs + guidanceDelay + 150;
+        TransportEvent &confirmed = events[eventCount];
+        confirmed = guidance;
         confirmed.kind = TransportEventKind::RfidPositionConfirmed;
         confirmed.observedPosition = kRollTargetPosition;
-        schedule(confirmed, nowMs + guidanceDelay + 300);
+        dueMs[eventCount++] = nowMs + guidanceDelay + 300;
     } else if (scenario_ == DemoScenario::RollRfidTimeout) {
-        TransportEvent rejected = guidance;
+        TransportEvent &rejected = events[eventCount];
+        rejected = guidance;
         rejected.kind = TransportEventKind::RfidPositionRejected;
         rejected.deadlineMs = nowMs + guidanceDelay + 3000;
-        schedule(rejected, nowMs + guidanceDelay + 3000);
+        dueMs[eventCount++] = nowMs + guidanceDelay + 3000;
     }
+
+    if (!scheduleBatch(events, dueMs, eventCount)) return false;
+    ++nextTransactionId_;
+    activeRoll_ = true;
+    activeRollRequestId_ = command.requestId;
+    activeRollTransactionId_ = transactionId;
+    lastRollRequestId_ = command.requestId;
+    lastRollResult_ = result;
+    lastRollResultValid_ = true;
+    lastRollResultEmitted_ = false;
+    return true;
 }
 
-void DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uint32_t nowMs)
+bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uint32_t nowMs)
 {
     TransportEvent event{};
     event.requestId = command.requestId;
     event.stateVersion = kAuthoritativeStateVersion;
-    event.transactionId = command.transactionId == 0 ? nextTransactionId_++ : command.transactionId;
+    event.transactionId = command.transactionId == 0 ? nextTransactionId_ : command.transactionId;
 
     if (scenario_ == DemoScenario::RentClaim && command.kind == TransportCommandKind::ClaimRent) {
         event.kind = TransportEventKind::PaymentRequired;
@@ -230,5 +276,8 @@ void DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uin
         event.error = TransportError::ActionNotAllowed;
     }
 
-    schedule(event, nowMs + 100);
+    const uint32_t dueMs = nowMs + 100;
+    if (!scheduleBatch(&event, &dueMs, 1)) return false;
+    if (command.transactionId == 0) ++nextTransactionId_;
+    return true;
 }

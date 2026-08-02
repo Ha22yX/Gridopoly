@@ -2,7 +2,10 @@
 
 #include "app_config.h"
 #include "app_state.h"
+#include "demo_data.h"
 #include "demo_transport.h"
+
+#include <string.h>
 
 namespace {
 
@@ -78,21 +81,131 @@ bool runLogicTests(Stream &out)
                       event.targetPosition == 24,
                  "demo starts physical movement guidance");
 
-    DemoTransport duplicateTransport;
-    duplicateTransport.begin(0);
+    transport.begin(0);
     TransportCommand duplicateRoll{TransportCommandKind::RollRequest, 8, 41, 0, 0};
-    ok &= expect(out, duplicateTransport.send(duplicateRoll, 10), "demo accepts first duplicate-id roll");
-    ok &= expect(out, duplicateTransport.send(duplicateRoll, 11), "demo accepts duplicate-id roll");
-    duplicateTransport.tick(130);
-    ok &= expect(out, duplicateTransport.poll(event) &&
+    ok &= expect(out, transport.send(duplicateRoll, 10), "demo accepts first duplicate-id roll");
+    ok &= expect(out, transport.send(duplicateRoll, 11), "demo accepts duplicate-id roll");
+    transport.tick(130);
+    ok &= expect(out, transport.poll(event) &&
                       event.kind == TransportEventKind::RollResult &&
                       event.requestId == 8 && event.dieA == 3 && event.dieB == 4,
                  "duplicate-id roll preserves deterministic dice");
-    duplicateTransport.tick(160);
-    ok &= expect(out, duplicateTransport.poll(event) &&
+    transport.tick(160);
+    ok &= expect(out, transport.poll(event) &&
                       event.kind == TransportEventKind::MoveGuidanceStarted &&
-                      event.targetPosition == 24 && !duplicateTransport.poll(event),
+                      event.targetPosition == 24 && !transport.poll(event),
                  "duplicate-id roll creates no second transaction");
+
+    ok &= expect(out, kAssets[6].mortgageValue == 120 &&
+                      strcmp(kAssets[6].name, "\xE6\x97\xA7\xE5\x9F\x8E\xE8\x8A\xAF\xE5\xBB\x8A") == 0,
+                 "asset seven is the exact mortgage fixture");
+
+    transport.setScenario(DemoScenario::Waiting);
+    transport.begin(0);
+    TransportCommand zeroRequestRoll{TransportCommandKind::RollRequest, 0, 41, 0, 0};
+    ok &= expect(out, transport.send(zeroRequestRoll, 10), "zero request-id roll is accepted");
+    transport.tick(130);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::RollResult && event.requestId == 0 &&
+                      event.dieA == 3 && event.dieB == 4,
+                 "zero request-id roll gets authoritative dice");
+
+    transport.begin(0);
+    TransportCommand replayRoll{TransportCommandKind::RollRequest, 12, 41, 0, 0};
+    ok &= expect(out, transport.send(replayRoll, 10), "post-result retry test accepts initial roll");
+    transport.tick(130);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::RollResult,
+                 "post-result retry test receives initial dice");
+    const uint32_t replayTransactionId = event.transactionId;
+    ok &= expect(out, transport.send(replayRoll, 131), "post-result retry is accepted");
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::RollResult &&
+                      event.transactionId == replayTransactionId && event.dieA == 3 && event.dieB == 4,
+                 "post-result retry replays the cached authoritative dice");
+
+    transport.setScenario(DemoScenario::PaymentCash);
+    transport.begin(0);
+    bool paymentQueueFilled = true;
+    for (uint32_t requestId = 100; requestId < 108; ++requestId) {
+        paymentQueueFilled &= transport.send(
+            TransportCommand{TransportCommandKind::PayNow, requestId, 41, 0, 0}, 0);
+    }
+    ok &= expect(out, paymentQueueFilled, "payment commands fill the scheduled queue");
+    ok &= expect(out, !transport.send(
+                      TransportCommand{TransportCommandKind::PayNow, 108, 41, 0, 0}, 0),
+                 "full scheduled queue rejects payment command");
+    TransportCommand blockedRoll{TransportCommandKind::RollRequest, 109, 41, 0, 0};
+    ok &= expect(out, !transport.send(blockedRoll, 0),
+                 "full scheduled queue atomically rejects roll");
+    transport.tick(100);
+    uint8_t paymentEventCount = 0;
+    while (transport.poll(event)) {
+        paymentEventCount += event.kind == TransportEventKind::PaymentCompleted ? 1 : 0;
+    }
+    ok &= expect(out, paymentEventCount == 8, "full queue retains all scheduled payments");
+    TransportCommand recoveredRoll{TransportCommandKind::RollRequest, 110, 41, 0, 0};
+    ok &= expect(out, transport.send(recoveredRoll, 100),
+                 "atomic roll rejection leaves later roll available");
+    transport.tick(220);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::RollResult && event.requestId == 110,
+                 "later roll is not stranded after capacity rejection");
+
+    transport.begin(0);
+    transport.send(TransportCommand{TransportCommandKind::PayNow, 201, 41, 0, 0}, 0);
+    transport.send(TransportCommand{TransportCommandKind::PayNow, 202, 41, 0, 0}, 200);
+    transport.tick(100);
+    transport.poll(event);
+    transport.send(TransportCommand{TransportCommandKind::PayNow, 203, 41, 0, 0}, 400);
+    transport.tick(500);
+    ok &= expect(out, transport.poll(event) && event.requestId == 202,
+                 "scheduled events use chronological due order after slot reuse");
+    ok &= expect(out, transport.poll(event) && event.requestId == 203,
+                 "scheduled events keep later due event after older due event");
+
+    transport.setScenario(DemoScenario::Waiting);
+    transport.begin(0);
+    ok &= expect(out, transport.send(
+                      TransportCommand{TransportCommandKind::RollRequest, 301, 41, 0, 0}, 0),
+                 "first unresolved roll is accepted");
+    ok &= expect(out, transport.send(
+                      TransportCommand{TransportCommandKind::RollRequest, 302, 41, 0, 0}, 1),
+                 "different unresolved roll gets a rejection event");
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::CommandRejected &&
+                      event.error == TransportError::ActionNotAllowed && event.requestId == 302,
+                 "different unresolved roll is rejected deterministically");
+
+    transport.begin(0);
+    const uint32_t wrapStartMs = 0xFFFFFFF0u;
+    ok &= expect(out, transport.send(
+                      TransportCommand{TransportCommandKind::RollRequest, 401, 41, 0, 0}, wrapStartMs),
+                 "wraparound roll is accepted");
+    transport.tick(0x67u);
+    ok &= expect(out, !transport.poll(event), "wraparound roll is not emitted early");
+    transport.tick(0x68u);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::RollResult && event.requestId == 401,
+                 "wraparound roll emits at the wrapped deadline");
+
+    transport.setScenario(DemoScenario::ConnectionDropAndRecover);
+    transport.begin(1000);
+    transport.tick(1000);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::ConnectionLost,
+                 "connection scenario emits loss");
+    ok &= expect(out, !transport.send(
+                      TransportCommand{TransportCommandKind::RollRequest, 501, 41, 0, 0}, 1001),
+                 "connection scenario does not queue offline roll");
+    transport.tick(3999);
+    ok &= expect(out, !transport.poll(event), "connection snapshot waits three seconds");
+    transport.tick(4000);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::StateSnapshotApplied && event.cash == 1860 &&
+                      event.playerPosition == 17 && event.stateVersion == 42,
+                 "connection scenario applies authoritative recovery snapshot");
+    ok &= expect(out, transport.send(
+                      TransportCommand{TransportCommandKind::RollRequest, 502, 41, 0, 0}, 4001),
+                 "connection recovery accepts a new roll");
 
     ok &= expect(out, kMechanicalCorrectionDeg == 60 && kFirmwareRotationDeg == 0,
                  "M4 pin 3 is mechanically aligned at six o'clock");

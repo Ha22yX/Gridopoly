@@ -15,6 +15,6 @@ const AssetData kAssets[kAssetCount] = {
     {4, "云轨总站", "交通", 200, 25, 100, 0, true, false},
     {5, "量子电网", "公用事业", 150, 18, 75, 0, false, false},
     {6, "天穹广场", "蓝色组", 350, 35, 175, 3, false, false},
-    {7, "旧城芯巷", "红色组", 240, 20, 120, 0, false, false},
+    {7, "\xE6\x97\xA7\xE5\x9F\x8E\xE8\x8A\xAF\xE5\xBB\x8A", "红色组", 240, 20, 120, 0, false, false},
     {8, "\xE6\x9E\x81\xE5\x85\x89\xE7\xA0\x81\xE5\xA4\xB4", "红色组", 320, 30, 160, 0, false, true},
 };
