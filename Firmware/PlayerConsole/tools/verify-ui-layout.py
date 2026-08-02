@@ -11,6 +11,7 @@ LAYOUT_PATH = PROJECT_ROOT / "ui_layout.h"
 RENDERER_PATH = PROJECT_ROOT / "ui_renderer.cpp"
 CAROUSEL_HEADER_PATH = PROJECT_ROOT / "ui_carousel.h"
 CAROUSEL_SOURCE_PATH = PROJECT_ROOT / "ui_carousel.cpp"
+MOTION_SOURCE_PATH = PROJECT_ROOT / "ui_motion.cpp"
 CENTER_LIST_HEADER_PATH = PROJECT_ROOT / "ui_center_list.h"
 CENTER_LIST_SOURCE_PATH = PROJECT_ROOT / "ui_center_list.cpp"
 PLAYER_CONSOLE_PATH = PROJECT_ROOT / "PlayerConsole.ino"
@@ -203,6 +204,8 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
 
     if not re.search(r"\blv_obj_t\s*\*items\s*\[\s*5\s*\]", carousel_header_code):
         fail("UiCarousel does not retain exactly five item objects")
+    if not re.search(r"\bCarouselPath\s+paths\s*\[\s*5\s*\]", carousel_header_code):
+        fail("UiCarousel does not retain one wrap-safe path per item")
     if re.search(r"\blv_obj_t\s*\*labels\s*\[", carousel_header_code):
         fail("UiCarousel retains child labels instead of flattened item canvases")
     if re.search(r"\b(?:new|malloc|calloc|realloc|vector|list|deque)\b", carousel_code):
@@ -234,13 +237,55 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
         selection_body,
     ):
         fail("carousel selection invalidates more than the old and new selected cards")
+    static_style_body = function_body(carousel_code, "configureItemStaticStyle")
+    selection_style_body = function_body(carousel_code, "applyItemSelectionStyle")
+    for token in ("lv_obj_set_style_radius", "lv_obj_set_style_outline_width",
+                  "lv_obj_set_style_outline_pad"):
+        if token not in static_style_body:
+            fail("carousel create-only style is missing static geometry or outline setup")
+    if any(token in selection_style_body for token in ("outline", "radius", "pad")):
+        fail("carousel selection path rewrites create-only outline/radius/pad styles")
+    for token in ("lv_obj_set_style_bg_color", "lv_obj_set_style_border_width"):
+        if token not in selection_style_body:
+            fail("carousel selection style does not retain guarded background/border updates")
+    if "configureItemStaticStyle(" in selection_body:
+        fail("carousel selection reconfigures static item styles")
+    if not re.search(r"\bapplyItemSelectionStyle\s*\(", selection_body):
+        fail("carousel selection does not update only old/new selection visuals")
 
     if re.search(r"\b(?:animateProperty|setAnimatedX|setAnimatedZoom|setAnimatedOpacity)\b",
                  carousel_code):
         fail("carousel retains independent property animation callbacks")
+    if re.search(r"\b(?:iconFont|labelFont)\s*\(", carousel_code):
+        fail("carousel restores hard single-font zoom thresholds")
     progress_body = function_body(carousel_code, "setCarouselTransitionProgress")
     if not re.search(r"\bapplyCarouselVisual\s*\(", progress_body):
         fail("carousel progress does not apply every synchronized visual pose")
+    if not re.search(r"\btransitionVisual\s*\(", progress_body):
+        fail("carousel master progress does not evaluate wrap-safe piecewise poses")
+    path_body = function_body(carousel_code, "carouselPath")
+    for token in ("WrapLeftToRight", "WrapRightToLeft", "Linear"):
+        if token not in path_body:
+            fail(f"carousel path selection omits {token}")
+    piecewise_body = function_body(carousel_code, "transitionVisual")
+    for token, message in (
+        ("kWrapSwapProgress", "carousel wrap does not define an invisible side swap"),
+        ("leftExit", "carousel wrap does not exit beyond the left clip edge"),
+        ("rightExit", "carousel wrap does not exit beyond the right clip edge"),
+        ("WrapLeftToRight", "carousel wrap pose omits forward cycling"),
+        ("carousel.startOpacity[index], 0",
+         "carousel wrap does not fade fully out before changing sides"),
+        ("0, carousel.targetOpacity[index]",
+         "carousel wrap does not fade back in after changing sides"),
+    ):
+        if token not in piecewise_body:
+            fail(message)
+    if not re.search(
+        r"\bcarousel\.paths\s*\[\s*index\s*\]\s*=\s*carouselPath\s*\(\s*"
+        r"carousel\.startX\s*\[\s*index\s*\]\s*,\s*targetX\s*,\s*direction\s*\)",
+        selection_body,
+    ):
+        fail("carousel retarget does not choose wrap from the current visual X")
     visual_body = function_body(carousel_code, "applyCarouselVisual")
     for pattern, message in (
         (r"\blv_obj_set_pos\s*\(", "carousel visual update does not move the item"),
@@ -301,6 +346,9 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
     ):
         fail("drawHome() does not rebuild count and order from the current Home phase")
     create_body = function_body(carousel_code, "uiCarouselCreate")
+    if not re.search(r"\bconfigureItemStaticStyle\s*\(", create_body) or not re.search(
+            r"\bapplyItemSelectionStyle\s*\(", create_body):
+        fail("carousel creation does not initialize static and selection styles separately")
     if not re.search(
         r"\blv_timer_set_period\s*\(\s*display->refr_timer\s*,\s*"
         r"kCarouselRefreshPeriodMs\s*\)",
@@ -324,8 +372,11 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
     ):
         fail("carousel item does not custom-draw its icon and label without child layers")
     draw_body = function_body(carousel_code, "drawCarouselItem")
-    if len(re.findall(r"\blv_draw_label\s*\(", draw_body)) < 2:
-        fail("carousel item draw path does not render both icon and label")
+    if len(re.findall(r"\bdrawCrossfadedLabel\s*\(", draw_body)) < 2:
+        fail("carousel item draw path does not crossfade both icon and label")
+    crossfade_body = function_body(carousel_code, "drawCrossfadedLabel")
+    if len(re.findall(r"\blv_draw_label\s*\(", crossfade_body)) < 2:
+        fail("carousel text crossfade does not blend adjacent retained font sizes")
     if not re.search(r"\blv_obj_add_event_cb\s*\(\s*carousel\.container\s*,\s*carouselSwipeCallback",
                      create_body):
         fail("Home swipe is not bound to the full retained carousel container")
@@ -379,6 +430,24 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
             fail(message)
 
 
+def assert_carousel_motion_contract(motion_source: str) -> None:
+    pose_body = function_body(normalized_code(motion_source), "uiCarouselPose")
+    expected = {
+        "-2": (64, 179, 15),
+        "-1": (152, 213, 87),
+        "0": (240, 256, 255),
+        "1": (328, 213, 87),
+        "2": (416, 179, 15),
+    }
+    for slot, (center_x, zoom, opacity) in expected.items():
+        pattern = (
+            rf"\bcase\s+{re.escape(slot)}\s*:\s*return\s+CarouselPose\s*\{{\s*"
+            rf"{center_x}\s*,\s*{zoom}\s*,\s*{opacity}\s*\}}"
+        )
+        if not re.search(pattern, pose_body):
+            fail(f"carousel slot {slot} does not preserve 256/213/179 zoom hierarchy")
+
+
 def assert_carousel_perf_contract(player_console_source: str) -> None:
     console_code = normalized_code(player_console_source)
     required_constants = {
@@ -387,6 +456,10 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
         "kCarouselPerfMinFps": 24,
         "kCarouselPerfMaxGapMs": 42,
         "kCarouselPerfObserveMs": 320,
+        "kCarouselPerfRetargetMs": 80,
+        "kCenterListPerfTransitionMs": 200,
+        "kPerfSceneQuietMs": 250,
+        "kPerfSceneTimeoutMs": 2500,
     }
     for name, value in required_constants.items():
         if not re.search(rf"\b{name}\s*=\s*{value}\s*;", console_code):
@@ -410,6 +483,54 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     if not re.search(r"\bcarouselPerfProbe\.maxGapMs\b", monitor_body):
         fail("display monitor callback does not retain the largest adjacent refresh gap")
 
+    if re.search(r"\bkPerfSceneSettleMs\b", console_code):
+        fail("performance fixture still substitutes a fixed delay for scene stability")
+    settle_monitor_body = function_body(console_code, "sceneSettleMonitor")
+    for token, message in (
+        ("sceneSettleProbe.frames", "scene settle monitor does not count completed refreshes"),
+        ("sceneSettleProbe.lastFrameMs", "scene settle monitor does not timestamp its last refresh"),
+        ("sceneSettleProbe.previousMonitor", "scene settle monitor does not preserve callback chaining"),
+    ):
+        if token not in settle_monitor_body:
+            fail(message)
+    settle_body = function_body(console_code, "waitForStablePerfScene")
+    for pattern, message in (
+        (r"\blv_anim_count_running\s*\(\s*\)",
+         "scene settle barrier does not wait for preparation animations to finish"),
+        (r"\bkPerfSceneQuietMs\b",
+         "scene settle barrier does not require a post-refresh quiet window"),
+        (r"\bkPerfSceneTimeoutMs\b",
+         "scene settle barrier is not bounded by a timeout"),
+        (r"\bsceneSettleProbe\.frames\b",
+         "scene settle barrier can pass before a preparation frame completes"),
+        (r"\bdisplay->driver->monitor_cb\s*=\s*sceneSettleProbe\.previousMonitor\s*;",
+         "scene settle barrier does not restore the preparation monitor hook"),
+    ):
+        if not re.search(pattern, settle_body):
+            fail(message)
+
+    prepare_body = function_body(console_code, "preparePerfScenario")
+    required_prepare = (
+        (r"\bdisplay->driver->monitor_cb\s*=\s*sceneSettleMonitor\s*;",
+         "scene preparation does not install its refresh monitor while unarmed"),
+        (r"\buiRendererRender\s*\(",
+         "scene preparation does not render the target state while unarmed"),
+        (r"\blv_timer_ready\s*\(\s*display->refr_timer\s*\)",
+         "scene preparation does not force its pending refresh to run"),
+        (r"\bwaitForStablePerfScene\s*\(",
+         "scene preparation does not wait for completed stable refreshes"),
+    )
+    for pattern, message in required_prepare:
+        if not re.search(pattern, prepare_body):
+            fail(message)
+    install_settle = prepare_body.find("display->driver->monitor_cb = sceneSettleMonitor;")
+    prepare_render = prepare_body.find("uiRendererRender(")
+    prepare_unlock = prepare_body.find("lvgl_port_unlock();", prepare_render)
+    stable_wait = prepare_body.find("waitForStablePerfScene(", prepare_unlock)
+    if min(install_settle, prepare_render, prepare_unlock, stable_wait) < 0 or not (
+            install_settle < prepare_render < prepare_unlock < stable_wait):
+        fail("scene preparation is not monitored before render and settled after unlocking")
+
     fixture_body = function_body(console_code, "runCarouselPerfFixture")
     required_fixture = (
         (r"\blv_disp_get_default\s*\(\s*\)",
@@ -420,6 +541,16 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
          "live carousel performance fixture does not restore the display monitor hook"),
         (r"\bappHandleInput\s*\(",
          "live carousel performance fixture does not use the production focus path"),
+        (r"\bappHandleUiEvent\s*\(",
+         "live carousel performance fixture does not exercise the touch-swipe UiEvent path"),
+        (r"\bUiEventKind::ListNext\b",
+         "live carousel performance fixture does not dispatch the touch-swipe focus step"),
+        (r"\buiRendererResetTestStats\s*\(\s*\)",
+         "live performance fixture does not reset renderer path evidence before input"),
+        (r"\buiRendererGetTestStats\s*\(\s*\)",
+         "live performance fixture does not capture incremental/rebuild evidence"),
+        (r"\bdelay\s*\(\s*kCarouselPerfRetargetMs\s*\)",
+         "live carousel performance fixture does not retarget during the visible animation"),
         (r"\buiRendererRender\s*\(",
          "live carousel performance fixture does not start the retained Home transition"),
         (r"\bdelay\s*\(\s*kCarouselPerfObserveMs\s*\)",
@@ -429,7 +560,15 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
         if not re.search(pattern, fixture_body):
             fail(message)
     first_lock = fixture_body.find("lvgl_port_lock(")
+    prepare = fixture_body.find("preparePerfScenario(")
+    arm = fixture_body.find("carouselPerfProbe.armed = true;")
     install = fixture_body.find("display->driver->monitor_cb = carouselPerfMonitor;")
+    rotate_input = fixture_body.find("appHandleInput(", arm)
+    swipe_input = fixture_body.find("appHandleUiEvent(", arm)
+    input_positions = [position for position in (rotate_input, swipe_input) if position >= 0]
+    if not input_positions:
+        fail("live carousel fixture does not dispatch a measured user input")
+    first_input = min(input_positions)
     render = fixture_body.find("uiRendererRender(")
     first_unlock = fixture_body.find("lvgl_port_unlock();", render)
     wait = fixture_body.find("delay(kCarouselPerfObserveMs);", first_unlock)
@@ -437,9 +576,13 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     restore = fixture_body.find(
         "display->driver->monitor_cb = carouselPerfProbe.previousMonitor;", second_lock
     )
-    if min(first_lock, install, render, first_unlock, wait, second_lock, restore) < 0 or not (
-            first_lock < install < render < first_unlock < wait < second_lock < restore):
+    if min(prepare, first_lock, arm, install, first_input, render, first_unlock,
+           wait, second_lock, restore) < 0 or not (
+            prepare < first_lock < arm < install < first_input < render < first_unlock <
+            wait < second_lock < restore):
         fail("live carousel fixture does not mutate under lock, run unlocked, then restore under lock")
+    if "preparePerfScenario(" in fixture_body[arm:]:
+        fail("live carousel fixture rebuilds its target scene after measurement is armed")
 
     setup_body = function_body(console_code, "setup")
     component_logic = setup_body.find("runLvglComponentTests(testOutput)")
@@ -449,7 +592,7 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     display_init = setup_body.find("lvgl_port_init(")
     renderer_init = setup_body.find("uiRendererBegin(")
     initial_render = setup_body.find("uiRendererRender(app")
-    perf = setup_body.find("runCarouselPerfFixture(app)")
+    perf = setup_body.find("runCarouselPerfFixture(")
     if min(component_logic, restart, pure_logic, board, display_init, renderer_init,
            initial_render, perf) < 0:
         fail("setup does not contain both pre-display logic and post-display performance phases")
@@ -465,13 +608,28 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     if len(re.findall(r"\blv_is_initialized\s*\(\s*\)", setup_body)) < 2:
         fail("pure logic phase does not prove that LVGL stays uninitialized")
     if not re.search(
-        r"\bconst\s+bool\s+passed\s*=\s*purePassed\s*&&\s*componentPassed\s*&&\s*perf\.passed\s*;",
+        r"\bconst\s+bool\s+passed\s*=\s*purePassed\s*&&\s*componentPassed\s*&&\s*"
+        r"livePerfPassed\s*;",
         setup_body,
     ):
-        fail("SELFTEST PASS is not gated by pure, component, and live performance results")
-    if player_console_source.count("CAROUSEL PERF frames=") != 1 or (
-            "CAROUSEL PERF frames=%u fps=%u max_gap_ms=%u %s\\n" not in player_console_source):
-        fail("self-test must emit exactly one auditable CAROUSEL PERF marker")
+        fail("SELFTEST PASS is not gated by pure, component, and the complete live matrix")
+    for marker in (
+        "CAROUSEL PERF WAIT_FWD",
+        "CAROUSEL PERF WAIT_WRAP_REV",
+        "CAROUSEL PERF MYTURN_5",
+        "CAROUSEL PERF RETARGET",
+        "CAROUSEL PERF SWIPE_EVENT",
+        "LIST PERF ASSETS_SCROLL",
+    ):
+        if marker not in player_console_source:
+            fail(f"self-test is missing auditable scenario marker: {marker}")
+    if "coverage_ms=%u" not in player_console_source:
+        fail("live performance evidence does not print full transition coverage")
+    if "incremental=%u rebuild=%u" not in player_console_source:
+        fail("live performance evidence does not print renderer path counters")
+    if not re.search(r"\bincrementalOnly\b[^;]*result\.incrementalRenders\s*>\s*0[^;]*"
+                     r"result\.rebuildRenders\s*==\s*0", fixture_body, re.DOTALL):
+        fail("live performance gate does not reject renderer rebuilds during measured input")
 
 
 def assert_component_fixture_contract(logic_tests_source: str,
@@ -518,6 +676,14 @@ def assert_component_fixture_contract(logic_tests_source: str,
     ):
         if not re.search(rf"\b{function_name}\s*\(", component_body):
             fail(f"post-init component phase omits {function_name}")
+    for evidence in (
+        "My Turn Dice-to-Assets selection updates two dynamic cards without static restyle",
+        "center-list focus updates only previous/new rows without duplicate content writes",
+        "center-list still refreshes changed asset text, check state, and enabled flag",
+        "My Turn focus change uses retained incremental renderer path",
+    ):
+        if evidence not in logic_tests_source:
+            fail(f"component tests omit incremental invalidation evidence: {evidence}")
 
 
 def assert_center_list_contract(renderer_source: str, center_header: str,
@@ -550,6 +716,7 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
         "kProgressHeight": 4,
         "kSwipeThreshold": 36,
         "kSwipeDominance": 12,
+        "kCenterListRefreshPeriodMs": 16,
         "kTrackBoundaryPulsePx": 8,
         "kFooterBoundaryPulsePx": 6,
         "kBoundaryPulseOutMs": 60,
@@ -587,6 +754,19 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     for pattern, message in required_create:
         if not re.search(pattern, create_body, re.DOTALL):
             fail(message)
+    if not re.search(
+        r"\blv_timer_set_period\s*\(\s*display->refr_timer\s*,\s*"
+        r"kCenterListRefreshPeriodMs\s*\)",
+        create_body,
+    ):
+        fail("center list does not prepare a bounded 16ms display refresh cadence")
+    destroy_body = function_body(center_code, "destroyListObjects")
+    if not re.search(
+        r"\blv_timer_set_period\s*\(\s*display->refr_timer\s*,\s*"
+        r"LV_DISP_DEF_REFR_PERIOD\s*\)",
+        destroy_body,
+    ):
+        fail("center-list destruction does not restore the default display cadence")
 
     animate_body = function_body(center_code, "animateTrack")
     if not re.search(r"\blv_obj_get_y\s*\(", animate_body):
@@ -596,6 +776,8 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     if not re.search(r"\blv_anim_set_path_cb\s*\([^,]+,\s*lv_anim_path_ease_out\s*\)",
                      animate_body):
         fail("center-list track travel does not use ease-out")
+    if not re.search(r"\blv_timer_ready\s*\(\s*display->refr_timer\s*\)", animate_body):
+        fail("center-list track travel does not schedule its first physical refresh")
 
     update_body = function_body(center_code, "uiCenterListUpdate")
     if not re.search(r"\buiCenterListTrackY\s*\(", update_body):
@@ -604,6 +786,26 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
         fail("center-list update does not use selected-row progress")
     if re.search(r"\b(?:lv_bar_create|lv_slider_create|LV_SCROLLBAR_MODE)\b", center_code):
         fail("center list creates a forbidden scrollbar")
+    label_guard_body = function_body(center_code, "setLabelTextIfChanged")
+    if not re.search(r"\bstrcmp\s*\(", label_guard_body) or not re.search(
+            r"\blv_label_get_text\s*\(", label_guard_body):
+        fail("center-list labels are not guarded against identical text rewrites")
+    flag_guard_body = function_body(center_code, "setClickableIfChanged")
+    if not re.search(r"\blv_obj_has_flag\s*\(", flag_guard_body):
+        fail("center-list clickable flags are not guarded against identical rewrites")
+    content_body = function_body(center_code, "updateRowContent")
+    if "setLabelTextIfChanged(" not in content_body or "setClickableIfChanged(" not in content_body:
+        fail("center-list row content does not use text and flag change guards")
+    selection_row_body = function_body(center_code, "applyRowSelectionStyle")
+    if "lv_label_set_text(" in selection_row_body or "setLabelTextIfChanged(" in selection_row_body:
+        fail("center-list selection path rewrites row text")
+    if "styleRow(" in update_body:
+        fail("center-list update still restyles every row through the legacy combined path")
+    if update_body.count("applyRowSelectionStyle(") != 2:
+        fail("center-list update must dynamically style only previous and new focus rows")
+    if not re.search(r"\bconst\s+uint8_t\s+previousSelected\s*=\s*list\.selected\s*;",
+                     update_body):
+        fail("center-list update does not retain the previous focus row")
 
     pulse_body = function_body(center_code, "uiCenterListBoundaryPulse")
     for pattern, message in (
@@ -810,6 +1012,13 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
     ):
         fail("rebuild does not retain Home phase and inline editor for focus-only updates")
 
+    if not re.search(r"\+\+\s*rendererTestStats\.incrementalRenders\b", same_page_body):
+        fail("renderer self-test evidence does not count retained incremental renders")
+    rebuild_counter = render_body.find("++rendererTestStats.rebuildRenders;")
+    rebuild_call = render_body.find("rebuild(state, nowMs);")
+    if rebuild_counter < 0 or rebuild_call < 0 or rebuild_counter > rebuild_call:
+        fail("renderer self-test evidence does not count rebuild renders")
+
     assert_modal_contract(renderer_code)
 
 
@@ -830,6 +1039,14 @@ def expect_perf_rejected(name: str, player_console_source: str) -> None:
     raise AssertionError(f"{name} fixture unexpectedly passed")
 
 
+def expect_motion_rejected(name: str, motion_source: str) -> None:
+    try:
+        assert_carousel_motion_contract(motion_source)
+    except LayoutError:
+        return
+    raise AssertionError(f"{name} fixture unexpectedly passed")
+
+
 def expect_component_rejected(name: str, logic_tests_source: str,
                               renderer_source: str) -> None:
     try:
@@ -840,10 +1057,12 @@ def expect_component_rejected(name: str, logic_tests_source: str,
 
 
 def run_self_test(layout_source: str, renderer_source: str, carousel_header: str,
-                  carousel_source: str, center_header: str, center_source: str,
-                  player_console_source: str, logic_tests_source: str) -> None:
+                  carousel_source: str, motion_source: str, center_header: str,
+                  center_source: str, player_console_source: str,
+                  logic_tests_source: str) -> None:
     verify_contract(layout_source, renderer_source, carousel_header, carousel_source,
                     center_header, center_source)
+    assert_carousel_motion_contract(motion_source)
     assert_carousel_perf_contract(player_console_source)
     assert_component_fixture_contract(logic_tests_source, renderer_source)
     inactive_duplicate = layout_source + "\n#if 0\nconstexpr UiRect kModalRect{70, 88, 340, 304};\n#endif\n"
@@ -886,6 +1105,13 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
     expect_rejected("rendered inline editor update removed", layout_source,
                     renderer_source.replace("previousInlineEditField = state.inlineEditField;", "", 1),
                     carousel_header, carousel_source)
+    expect_rejected(
+        "wrap path storage removed",
+        layout_source,
+        renderer_source,
+        carousel_header.replace("CarouselPath paths[5]{};", "", 1),
+        carousel_source,
+    )
     carousel_mutations = (
         ("master progress range changed",
          carousel_source.replace("lv_anim_set_values(&animation, 0, 1000);",
@@ -908,6 +1134,8 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
          carousel_source.replace(
              "lv_timer_set_period(display->refr_timer, LV_DISP_DEF_REFR_PERIOD);", "", 1
          )),
+        ("font crossfade restored to one hard font",
+         carousel_source.replace("drawCrossfadedLabel(", "drawSingleLabel(", 1)),
     )
     for name, mutated_carousel in carousel_mutations:
         try:
@@ -916,6 +1144,10 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
         except LayoutError:
             continue
         raise AssertionError(f"{name} fixture unexpectedly passed")
+    expect_motion_rejected(
+        "neighbor zoom hierarchy changed",
+        motion_source.replace("152, 213, 87", "152, 224, 87", 1),
+    )
     center_mutations = (
         ("viewport clipping removed",
          center_source.replace("lv_obj_clear_flag(list.viewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);", "", 1)),
@@ -937,6 +1169,16 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
          center_source.replace("cancelBoundaryPulse(list);", "", 1)),
         ("boundary fixed-rest target removed",
          center_source.replace("list.pulseRestY + offset", "currentY + offset", 1)),
+        ("center-list refresh cadence removed",
+         center_source.replace(
+             "lv_timer_set_period(display->refr_timer, kCenterListRefreshPeriodMs);", "", 1
+         )),
+        ("center-list first refresh scheduling removed",
+         center_source.replace("lv_timer_ready(display->refr_timer);", "", 1)),
+        ("center-list default cadence restore removed",
+         center_source.replace(
+             "lv_timer_set_period(display->refr_timer, LV_DISP_DEF_REFR_PERIOD);", "", 1
+         )),
     )
     for name, mutated_center in center_mutations:
         try:
@@ -968,8 +1210,17 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
                                        "kCarouselPerfMinFps = 23;", 1)),
         ("logic result removed from final gate",
          player_console_source.replace(
-             "purePassed && componentPassed && perf.passed", "componentPassed && perf.passed", 1
+             "purePassed && componentPassed && livePerfPassed",
+             "componentPassed && livePerfPassed", 1
          )),
+        ("reverse wrap evidence removed",
+         player_console_source.replace("CAROUSEL PERF WAIT_WRAP_REV", "CAROUSEL PERF WAIT_REV", 1)),
+        ("scene settle monitor removed",
+         player_console_source.replace(
+             "display->driver->monitor_cb = sceneSettleMonitor;", "", 1
+         )),
+        ("scene settle quiet window removed",
+         player_console_source.replace("nowMs - lastFrameMs >= kPerfSceneQuietMs", "true", 1)),
         ("clean checkpoint reboot removed",
          player_console_source.replace("esp_restart();", "", 1)),
     )
@@ -1004,13 +1255,14 @@ def main() -> int:
             fail("retained ui_center_list component files are missing")
         carousel_header = CAROUSEL_HEADER_PATH.read_text(encoding="utf-8")
         carousel_source = CAROUSEL_SOURCE_PATH.read_text(encoding="utf-8")
+        motion_source = MOTION_SOURCE_PATH.read_text(encoding="utf-8")
         center_header = CENTER_LIST_HEADER_PATH.read_text(encoding="utf-8")
         center_source = CENTER_LIST_SOURCE_PATH.read_text(encoding="utf-8")
         player_console_source = PLAYER_CONSOLE_PATH.read_text(encoding="utf-8")
         logic_tests_source = LOGIC_TESTS_PATH.read_text(encoding="utf-8")
         if len(sys.argv) == 2 and sys.argv[1] == "--self-test":
             run_self_test(layout_source, renderer_source, carousel_header, carousel_source,
-                          center_header, center_source, player_console_source,
+                          motion_source, center_header, center_source, player_console_source,
                           logic_tests_source)
             return 0
         if len(sys.argv) != 1:
@@ -1018,6 +1270,7 @@ def main() -> int:
             return 2
         verify_contract(layout_source, renderer_source, carousel_header, carousel_source,
                         center_header, center_source)
+        assert_carousel_motion_contract(motion_source)
         assert_carousel_perf_contract(player_console_source)
         assert_component_fixture_contract(logic_tests_source, renderer_source)
     except LayoutError as error:

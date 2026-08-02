@@ -54,6 +54,7 @@ uint8_t previousFocus = 0;
 HomePhase previousHomePhase = HomePhase::Waiting;
 InlineEditField previousInlineEditField = InlineEditField::None;
 uint32_t previousBoundaryPulseRevision = 0;
+UiRendererTestStats rendererTestStats{};
 lv_style_transition_dsc_t pressTransition;
 const lv_style_prop_t pressTransitionProps[] = {
     LV_STYLE_TRANSFORM_ZOOM,
@@ -731,6 +732,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         if (hasRenderedState && state.page == previousPage &&
             (state.focus != previousFocus || boundaryPulseChanged) &&
             homeActionsUnchanged && inlineEditUnchanged) {
+            ++rendererTestStats.incrementalRenders;
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
             if (state.page == ScreenPage::Home) {
@@ -750,6 +752,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         } else {
             focusMotion = 0;
         }
+        ++rendererTestStats.rebuildRenders;
         rebuild(state, nowMs);
         renderedRevision = state.revision;
         previousPage = state.page;
@@ -797,7 +800,18 @@ void uiRendererResetForTest()
     previousHomePhase = HomePhase::Waiting;
     previousInlineEditField = InlineEditField::None;
     previousBoundaryPulseRevision = 0;
+    rendererTestStats = UiRendererTestStats{};
     uiSetEventSink(nullptr);
+}
+
+void uiRendererResetTestStats()
+{
+    rendererTestStats = UiRendererTestStats{};
+}
+
+UiRendererTestStats uiRendererGetTestStats()
+{
+    return rendererTestStats;
 }
 
 void uiRendererShowFault(const char *code)

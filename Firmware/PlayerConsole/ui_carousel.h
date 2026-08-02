@@ -14,6 +14,12 @@ enum class HomeAction : uint8_t {
     More,
 };
 
+enum class CarouselPath : uint8_t {
+    Linear,
+    WrapLeftToRight,
+    WrapRightToLeft,
+};
+
 struct UiCarousel {
     lv_obj_t *container = nullptr;
     lv_obj_t *items[5]{};
@@ -29,11 +35,16 @@ struct UiCarousel {
     uint8_t startOpacity[5]{};
     uint8_t targetOpacity[5]{};
     uint8_t currentOpacity[5]{};
+    CarouselPath paths[5]{};
     lv_point_t swipeStart{};
     bool swipeTracking = false;
     bool suppressClick = false;
     uint8_t count = 0;
     uint8_t selected = 0;
+#if GRIDOPOLY_SELF_TEST == 1
+    uint32_t staticStyleConfigurations = 0;
+    uint32_t selectionStyleUpdates = 0;
+#endif
 };
 
 uint8_t uiCarouselActions(HomePhase phase, HomeAction (&actions)[5]);

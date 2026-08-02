@@ -45,6 +45,13 @@ constexpr uint32_t kCarouselPerfMinFrames = 6;
 constexpr uint32_t kCarouselPerfMinFps = 24;
 constexpr uint32_t kCarouselPerfMaxGapMs = 42;
 constexpr uint32_t kCarouselPerfObserveMs = 320;
+constexpr uint32_t kCarouselPerfRetargetMs = 80;
+constexpr uint32_t kCenterListPerfTransitionMs = 200;
+// Mode-3 anti-tearing can finish a second full-frame buffer sync well after the first flush.
+constexpr uint32_t kPerfSceneQuietMs = 250;
+constexpr uint32_t kPerfSceneTimeoutMs = 2500;
+constexpr uint32_t kPerfRevisionStride = 16;
+constexpr uint8_t kPerfTraceCapacity = 16;
 constexpr uint32_t kSelfTestCheckpointMagic = 0x47525034;
 char testBuffer[kTestCapacity] = {};
 RomConsoleStream testOutput(testBuffer, sizeof(testBuffer));
@@ -63,26 +70,71 @@ struct CarouselPerfResult {
     uint32_t fps = 0;
     uint32_t maxGapMs = 0;
     uint32_t coverageMs = 0;
+    uint16_t gaps[kPerfTraceCapacity]{};
+    uint16_t renderTimes[kPerfTraceCapacity]{};
+    uint32_t pixelCounts[kPerfTraceCapacity]{};
+    uint8_t traceCount = 0;
+    uint32_t incrementalRenders = 0;
+    uint32_t rebuildRenders = 0;
     bool passed = false;
+};
+
+enum class PerfScenario : uint8_t {
+    WaitingForward,
+    WaitingReverseWrap,
+    MyTurnFive,
+    Retarget,
+    SwipeEvent,
+    AssetsList,
 };
 
 struct CarouselPerfProbe {
     volatile bool armed = false;
     volatile uint32_t startedMs = 0;
+    volatile uint32_t requiredCoverageMs = 0;
     volatile uint32_t previousFrameMs = 0;
     volatile uint32_t lastFrameMs = 0;
     volatile uint32_t frames = 0;
     volatile uint32_t maxGapMs = 0;
+    volatile uint16_t gaps[kPerfTraceCapacity]{};
+    volatile uint16_t renderTimes[kPerfTraceCapacity]{};
+    volatile uint32_t pixelCounts[kPerfTraceCapacity]{};
+    void (*previousMonitor)(lv_disp_drv_t *, uint32_t, uint32_t) = nullptr;
+};
+
+struct SceneSettleProbe {
+    volatile bool watching = false;
+    volatile uint32_t frames = 0;
+    volatile uint32_t lastFrameMs = 0;
     void (*previousMonitor)(lv_disp_drv_t *, uint32_t, uint32_t) = nullptr;
 };
 
 CarouselPerfProbe carouselPerfProbe{};
+SceneSettleProbe sceneSettleProbe{};
+uint32_t perfRevisionSeed = 1000;
 
 constexpr bool carouselPerfMeetsGate(uint32_t frames, uint32_t fps,
-                                     uint32_t maxGapMs, uint32_t coverageMs)
+                                     uint32_t maxGapMs, uint32_t coverageMs,
+                                     uint32_t requiredCoverageMs = kCarouselPerfTransitionMs)
 {
     return frames >= kCarouselPerfMinFrames && fps >= kCarouselPerfMinFps &&
-           maxGapMs <= kCarouselPerfMaxGapMs && coverageMs >= kCarouselPerfTransitionMs;
+           maxGapMs <= kCarouselPerfMaxGapMs &&
+           requiredCoverageMs >= kCarouselPerfTransitionMs &&
+           coverageMs >= requiredCoverageMs;
+}
+
+constexpr bool centerListPerfMeetsGate(uint32_t frames, uint32_t fps,
+                                       uint32_t maxGapMs, uint32_t coverageMs)
+{
+    return frames >= 5 && fps >= kCarouselPerfMinFps &&
+           maxGapMs <= kCarouselPerfMaxGapMs &&
+           coverageMs >= kCenterListPerfTransitionMs;
+}
+
+constexpr bool perfCoverageReached(uint32_t nowMs, uint32_t startedMs,
+                                   uint32_t requiredCoverageMs)
+{
+    return nowMs - startedMs >= requiredCoverageMs;
 }
 
 static_assert(carouselPerfMeetsGate(6, 24, 42, 220), "carousel performance boundary must pass");
@@ -90,6 +142,18 @@ static_assert(!carouselPerfMeetsGate(5, 24, 42, 220), "carousel frame count must
 static_assert(!carouselPerfMeetsGate(6, 23, 42, 220), "carousel FPS floor must be enforced");
 static_assert(!carouselPerfMeetsGate(6, 24, 43, 220), "carousel frame gap ceiling must be enforced");
 static_assert(!carouselPerfMeetsGate(6, 24, 42, 219), "carousel measurement must span 220ms");
+static_assert(carouselPerfMeetsGate(8, 24, 42, 300, 300),
+              "retarget performance boundary must span both visible transitions");
+static_assert(centerListPerfMeetsGate(5, 24, 42, 200),
+              "center-list performance boundary must pass");
+static_assert(kPerfRevisionStride > 2,
+              "each performance scene needs revisions beyond its input sequence");
+static_assert(!perfCoverageReached(219, 0, 220),
+              "performance probe must remain armed before full transition coverage");
+static_assert(perfCoverageReached(220, 0, 220),
+              "performance probe must stop at exact transition coverage");
+static_assert(perfCoverageReached(0x00000020U, 0xfffffff0U, 48),
+              "performance probe coverage must remain wrap safe");
 
 void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixelCount)
 {
@@ -99,16 +163,126 @@ void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixe
         carouselPerfProbe.previousFrameMs = nowMs;
         carouselPerfProbe.lastFrameMs = nowMs;
         if (gapMs > carouselPerfProbe.maxGapMs) carouselPerfProbe.maxGapMs = gapMs;
+        if (carouselPerfProbe.frames < kPerfTraceCapacity) {
+            const uint8_t index = static_cast<uint8_t>(carouselPerfProbe.frames);
+            carouselPerfProbe.gaps[index] = static_cast<uint16_t>(gapMs);
+            carouselPerfProbe.renderTimes[index] = static_cast<uint16_t>(renderMs);
+            carouselPerfProbe.pixelCounts[index] = pixelCount;
+        }
         ++carouselPerfProbe.frames;
+        if (perfCoverageReached(nowMs, carouselPerfProbe.startedMs,
+                                carouselPerfProbe.requiredCoverageMs)) {
+            carouselPerfProbe.armed = false;
+        }
     }
     if (carouselPerfProbe.previousMonitor != nullptr) {
         carouselPerfProbe.previousMonitor(driver, renderMs, pixelCount);
     }
 }
 
-CarouselPerfResult runCarouselPerfFixture(AppState &state)
+void sceneSettleMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixelCount)
+{
+    if (sceneSettleProbe.watching && pixelCount > 0) {
+        sceneSettleProbe.lastFrameMs = millis();
+        ++sceneSettleProbe.frames;
+    }
+    if (sceneSettleProbe.previousMonitor != nullptr) {
+        sceneSettleProbe.previousMonitor(driver, renderMs, pixelCount);
+    }
+}
+
+bool waitForStablePerfScene(lv_disp_t *display)
+{
+    const uint32_t startedMs = millis();
+    bool stable = false;
+    while (millis() - startedMs < kPerfSceneTimeoutMs) {
+        bool animationsRunning = true;
+        if (lvgl_port_lock(100)) {
+            animationsRunning = lv_anim_count_running() != 0;
+            lvgl_port_unlock();
+        }
+
+        const uint32_t nowMs = millis();
+        const uint32_t completedFrames = sceneSettleProbe.frames;
+        const uint32_t lastFrameMs = sceneSettleProbe.lastFrameMs;
+        if (completedFrames > 0 && !animationsRunning &&
+            nowMs - lastFrameMs >= kPerfSceneQuietMs) {
+            stable = true;
+            break;
+        }
+        delay(5);
+    }
+
+    if (!lvgl_port_lock(-1)) return false;
+    sceneSettleProbe.watching = false;
+    if (display != nullptr && display->driver != nullptr &&
+        display->driver->monitor_cb == sceneSettleMonitor) {
+        display->driver->monitor_cb = sceneSettleProbe.previousMonitor;
+    } else {
+        stable = false;
+    }
+    lvgl_port_unlock();
+    return stable;
+}
+
+bool preparePerfScenario(AppState &state, PerfScenario scenario)
+{
+    if (!lvgl_port_lock(1000)) return false;
+    lv_disp_t *display = lv_disp_get_default();
+    if (display == nullptr || display->driver == nullptr ||
+        display->refr_timer == nullptr ||
+        display->driver->monitor_cb == carouselPerfMonitor ||
+        display->driver->monitor_cb == sceneSettleMonitor) {
+        lvgl_port_unlock();
+        return false;
+    }
+
+    const uint32_t nowMs = millis();
+    sceneSettleProbe.previousMonitor = display->driver->monitor_cb;
+    sceneSettleProbe.frames = 0;
+    sceneSettleProbe.lastFrameMs = nowMs;
+    sceneSettleProbe.watching = true;
+    display->driver->monitor_cb = sceneSettleMonitor;
+    appInit(state, nowMs);
+    state.toastUntilMs = 0;
+    state.nav = NavigationState{};
+    if (scenario == PerfScenario::AssetsList) {
+        state.nav.current = NavigationEntry{ScreenPage::Assets, 0, 0};
+        state.page = ScreenPage::Assets;
+        state.focus = 0;
+        state.assetListIndex = 0;
+    } else {
+        state.homePhase = scenario == PerfScenario::MyTurnFive ||
+                                  scenario == PerfScenario::Retarget
+                              ? HomePhase::MyTurn
+                              : HomePhase::Waiting;
+        state.turnsUntilYou = state.homePhase == HomePhase::MyTurn ? 0 : 3;
+        state.nav.current = NavigationEntry{ScreenPage::Home, 0, 0};
+        state.page = ScreenPage::Home;
+        state.focus = 0;
+    }
+    perfRevisionSeed += kPerfRevisionStride;
+    state.revision = perfRevisionSeed;
+    uiRendererRender(state, nowMs);
+    lv_timer_ready(display->refr_timer);
+    lvgl_port_unlock();
+    return waitForStablePerfScene(display);
+}
+
+bool retargetCarouselFixture(AppState &state)
+{
+    if (!lvgl_port_lock(1000)) return false;
+    const uint32_t nowMs = millis();
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, nowMs}, nowMs);
+    uiRendererRender(state, nowMs);
+    lvgl_port_unlock();
+    return true;
+}
+
+CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario)
 {
     CarouselPerfResult result{};
+    if (!preparePerfScenario(state, scenario)) return result;
     if (!lvgl_port_lock(1000)) return result;
     lv_disp_t *display = lv_disp_get_default();
     if (display == nullptr || display->driver == nullptr ||
@@ -120,19 +294,42 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state)
     carouselPerfProbe.previousMonitor = display->driver->monitor_cb;
     carouselPerfProbe.frames = 0;
     carouselPerfProbe.maxGapMs = 0;
+    uiRendererResetTestStats();
     carouselPerfProbe.startedMs = millis();
+    carouselPerfProbe.requiredCoverageMs = scenario == PerfScenario::Retarget
+        ? kCarouselPerfTransitionMs + kCarouselPerfRetargetMs
+        : (scenario == PerfScenario::AssetsList
+               ? kCenterListPerfTransitionMs
+               : kCarouselPerfTransitionMs);
     carouselPerfProbe.previousFrameMs = carouselPerfProbe.startedMs;
     carouselPerfProbe.lastFrameMs = carouselPerfProbe.startedMs;
     carouselPerfProbe.armed = true;
     display->driver->monitor_cb = carouselPerfMonitor;
-    appHandleInput(
-        state,
-        InputEvent{InputKind::Rotate, 1, carouselPerfProbe.startedMs},
-        carouselPerfProbe.startedMs
-    );
+    if (scenario == PerfScenario::WaitingReverseWrap) {
+        appHandleInput(
+            state,
+            InputEvent{InputKind::Rotate, -1, carouselPerfProbe.startedMs},
+            carouselPerfProbe.startedMs
+        );
+    } else if (scenario == PerfScenario::SwipeEvent) {
+        appHandleUiEvent(
+            state, UiEvent{UiEventKind::ListNext, 0}, carouselPerfProbe.startedMs
+        );
+    } else {
+        appHandleInput(
+            state,
+            InputEvent{InputKind::Rotate, 1, carouselPerfProbe.startedMs},
+            carouselPerfProbe.startedMs
+        );
+    }
     uiRendererRender(state, carouselPerfProbe.startedMs);
     lvgl_port_unlock();
 
+    bool scenarioCompleted = true;
+    if (scenario == PerfScenario::Retarget) {
+        delay(kCarouselPerfRetargetMs);
+        scenarioCompleted = retargetCarouselFixture(state);
+    }
     delay(kCarouselPerfObserveMs);
 
     if (!lvgl_port_lock(1000)) return result;
@@ -141,15 +338,63 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state)
     result.frames = carouselPerfProbe.frames;
     result.maxGapMs = carouselPerfProbe.maxGapMs;
     result.coverageMs = carouselPerfProbe.lastFrameMs - carouselPerfProbe.startedMs;
+    result.traceCount = static_cast<uint8_t>(
+        result.frames < kPerfTraceCapacity ? result.frames : kPerfTraceCapacity
+    );
+    for (uint8_t index = 0; index < result.traceCount; ++index) {
+        result.gaps[index] = carouselPerfProbe.gaps[index];
+        result.renderTimes[index] = carouselPerfProbe.renderTimes[index];
+        result.pixelCounts[index] = carouselPerfProbe.pixelCounts[index];
+    }
+    const UiRendererTestStats rendererStats = uiRendererGetTestStats();
+    result.incrementalRenders = rendererStats.incrementalRenders;
+    result.rebuildRenders = rendererStats.rebuildRenders;
     lvgl_port_unlock();
 
     if (result.coverageMs > 0) {
         result.fps = result.frames * 1000U / result.coverageMs;
     }
-    result.passed = carouselPerfMeetsGate(
-        result.frames, result.fps, result.maxGapMs, result.coverageMs
-    );
+    const bool incrementalOnly = result.incrementalRenders > 0 &&
+                                 result.rebuildRenders == 0;
+    if (scenario == PerfScenario::AssetsList) {
+        result.passed = scenarioCompleted && incrementalOnly && centerListPerfMeetsGate(
+            result.frames, result.fps, result.maxGapMs, result.coverageMs
+        );
+    } else {
+        const uint32_t requiredCoverage = scenario == PerfScenario::Retarget
+            ? kCarouselPerfTransitionMs + kCarouselPerfRetargetMs
+            : kCarouselPerfTransitionMs;
+        result.passed = scenarioCompleted && incrementalOnly && carouselPerfMeetsGate(
+            result.frames, result.fps, result.maxGapMs, result.coverageMs,
+            requiredCoverage
+        );
+    }
     return result;
+}
+
+void printPerfResult(const char *marker, const CarouselPerfResult &result)
+{
+    esp_rom_printf(
+        "%s frames=%u fps=%u max_gap_ms=%u coverage_ms=%u incremental=%u rebuild=%u %s\n",
+        marker,
+        static_cast<unsigned>(result.frames),
+        static_cast<unsigned>(result.fps),
+        static_cast<unsigned>(result.maxGapMs),
+        static_cast<unsigned>(result.coverageMs),
+        static_cast<unsigned>(result.incrementalRenders),
+        static_cast<unsigned>(result.rebuildRenders),
+        result.passed ? "PASS" : "FAIL"
+    );
+    esp_rom_printf("%s DIAG", marker);
+    for (uint8_t index = 0; index < result.traceCount; ++index) {
+        esp_rom_printf(
+            " [%u:%u/%u]",
+            static_cast<unsigned>(result.gaps[index]),
+            static_cast<unsigned>(result.renderTimes[index]),
+            static_cast<unsigned>(result.pixelCounts[index])
+        );
+    }
+    esp_rom_printf("\n");
 }
 #endif
 
@@ -247,16 +492,41 @@ void setup()
 #if GRIDOPOLY_SELF_TEST == 1
     // Leave enough time to attach a monitor after the uploader resets native USB.
     delay(12000);
-    const CarouselPerfResult perf = runCarouselPerfFixture(app);
-    const bool passed = purePassed && componentPassed && perf.passed;
-    esp_rom_printf("%s\n", testOutput.data());
-    esp_rom_printf(
-        "CAROUSEL PERF frames=%u fps=%u max_gap_ms=%u %s\n",
-        static_cast<unsigned>(perf.frames),
-        static_cast<unsigned>(perf.fps),
-        static_cast<unsigned>(perf.maxGapMs),
-        perf.passed ? "PASS" : "FAIL"
+    static CarouselPerfResult waitingForward;
+    static CarouselPerfResult waitingReverseWrap;
+    static CarouselPerfResult myTurnFive;
+    static CarouselPerfResult retarget;
+    static CarouselPerfResult swipeEvent;
+    static CarouselPerfResult assetsList;
+    waitingForward = runCarouselPerfFixture(
+        app, PerfScenario::WaitingForward
     );
+    waitingReverseWrap = runCarouselPerfFixture(
+        app, PerfScenario::WaitingReverseWrap
+    );
+    myTurnFive = runCarouselPerfFixture(
+        app, PerfScenario::MyTurnFive
+    );
+    retarget = runCarouselPerfFixture(
+        app, PerfScenario::Retarget
+    );
+    swipeEvent = runCarouselPerfFixture(
+        app, PerfScenario::SwipeEvent
+    );
+    assetsList = runCarouselPerfFixture(
+        app, PerfScenario::AssetsList
+    );
+    const bool livePerfPassed = waitingForward.passed && waitingReverseWrap.passed &&
+                                myTurnFive.passed && retarget.passed &&
+                                swipeEvent.passed && assetsList.passed;
+    const bool passed = purePassed && componentPassed && livePerfPassed;
+    esp_rom_printf("%s\n", testOutput.data());
+    printPerfResult("CAROUSEL PERF WAIT_FWD", waitingForward);
+    printPerfResult("CAROUSEL PERF WAIT_WRAP_REV", waitingReverseWrap);
+    printPerfResult("CAROUSEL PERF MYTURN_5", myTurnFive);
+    printPerfResult("CAROUSEL PERF RETARGET", retarget);
+    printPerfResult("CAROUSEL PERF SWIPE_EVENT", swipeEvent);
+    printPerfResult("LIST PERF ASSETS_SCROLL", assetsList);
     esp_rom_printf("%s\n", passed ? "SELFTEST PASS" : "SELFTEST FAILED");
     if (!passed) while (true) delay(1000);
 #endif

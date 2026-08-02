@@ -19,11 +19,11 @@ int16_t diceBaseX(uint8_t dieIndex)
 CarouselPose uiCarouselPose(int8_t relativeSlot)
 {
     switch (relativeSlot) {
-        case -2: return CarouselPose{64, 192, 15};
-        case -1: return CarouselPose{152, 224, 87};
+        case -2: return CarouselPose{64, 179, 15};
+        case -1: return CarouselPose{152, 213, 87};
         case 0: return CarouselPose{240, 256, 255};
-        case 1: return CarouselPose{328, 224, 87};
-        case 2: return CarouselPose{416, 192, 15};
+        case 1: return CarouselPose{328, 213, 87};
+        case 2: return CarouselPose{416, 179, 15};
         default: return CarouselPose{240, 0, 0};
     }
 }

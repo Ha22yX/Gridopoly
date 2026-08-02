@@ -1,6 +1,7 @@
 #include "ui_center_list.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "src/fonts/ui_fonts.h"
 #include "ui_layout.h"
@@ -21,6 +22,7 @@ constexpr int16_t kProgressWidth = 72;
 constexpr int16_t kProgressHeight = 4;
 constexpr int16_t kSwipeThreshold = 36;
 constexpr int16_t kSwipeDominance = 12;
+constexpr uint32_t kCenterListRefreshPeriodMs = 16;
 constexpr int16_t kTrackBoundaryPulsePx = 8;
 constexpr int16_t kFooterBoundaryPulsePx = 6;
 constexpr uint32_t kBoundaryPulseOutMs = 60;
@@ -102,9 +104,12 @@ void animateTrack(lv_obj_t *track, int16_t targetY, bool animate)
     if (track == nullptr) return;
     lv_obj_update_layout(track);
     const int16_t currentY = lv_obj_get_y(track);
+    lv_anim_t *running = lv_anim_get(track, setTrackY);
+    if (animate && running != nullptr && running->end_value == targetY) return;
+    if (running == nullptr && currentY == targetY) return;
     lv_anim_del(track, setTrackY);
     if (!animate || currentY == targetY) {
-        lv_obj_set_y(track, targetY);
+        if (currentY != targetY) lv_obj_set_y(track, targetY);
         return;
     }
     lv_anim_t animation;
@@ -115,18 +120,74 @@ void animateTrack(lv_obj_t *track, int16_t targetY, bool animate)
     lv_anim_set_time(&animation, 200);
     lv_anim_set_path_cb(&animation, lv_anim_path_ease_out);
     lv_anim_start(&animation);
+    lv_disp_t *display = lv_obj_get_disp(track);
+    if (display != nullptr && display->refr_timer != nullptr) {
+        lv_timer_ready(display->refr_timer);
+    }
 }
 
-void styleRow(lv_obj_t *row, const UiListItemView &item, bool selected,
-              bool footerFocused)
+void setLabelTextIfChanged(UiCenterList &list, lv_obj_t *label,
+                           const char *text)
+{
+    if (label == nullptr) return;
+    const char *desired = text == nullptr ? "" : text;
+    const char *current = lv_label_get_text(label);
+    if (current != nullptr && strcmp(current, desired) == 0) return;
+    lv_label_set_text(label, desired);
+#if GRIDOPOLY_SELF_TEST == 1
+    ++list.labelTextWrites;
+#endif
+}
+
+void setClickableIfChanged(UiCenterList &list, lv_obj_t *object, bool enabled)
+{
+    if (object == nullptr) return;
+    const bool clickable = lv_obj_has_flag(object, LV_OBJ_FLAG_CLICKABLE);
+    if (clickable == enabled) return;
+    if (enabled) lv_obj_add_flag(object, LV_OBJ_FLAG_CLICKABLE);
+    else lv_obj_clear_flag(object, LV_OBJ_FLAG_CLICKABLE);
+#if GRIDOPOLY_SELF_TEST == 1
+    ++list.clickableFlagWrites;
+#endif
+}
+
+void setTextColorIfChanged(lv_obj_t *object, uint32_t color)
+{
+    if (object == nullptr) return;
+    const lv_color_t desired = lv_color_hex(color);
+    if (lv_obj_get_style_text_color(object, 0).full == desired.full) return;
+    lv_obj_set_style_text_color(object, desired, 0);
+}
+
+void applyRowSelectionStyle(UiCenterList &list, lv_obj_t *row,
+                            const UiListItemView &item, bool focused)
 {
     if (row == nullptr) return;
-    const bool focused = selected && !footerFocused;
-    lv_obj_set_style_bg_color(row, lv_color_hex(focused ? kSelected : kPanel), 0);
-    lv_obj_set_style_border_color(row, lv_color_hex(focused ? kAccent : kLine), 0);
-    lv_obj_set_style_border_width(row, focused ? 2 : 1, 0);
-    if (item.enabled) lv_obj_add_flag(row, LV_OBJ_FLAG_CLICKABLE);
-    else lv_obj_clear_flag(row, LV_OBJ_FLAG_CLICKABLE);
+    const lv_color_t background = lv_color_hex(focused ? kSelected : kPanel);
+    if (lv_obj_get_style_bg_color(row, 0).full != background.full) {
+        lv_obj_set_style_bg_color(row, background, 0);
+    }
+    const lv_color_t border = lv_color_hex(focused ? kAccent : kLine);
+    if (lv_obj_get_style_border_color(row, 0).full != border.full) {
+        lv_obj_set_style_border_color(row, border, 0);
+    }
+    const lv_coord_t borderWidth = focused ? 2 : 1;
+    if (lv_obj_get_style_border_width(row, 0) != borderWidth) {
+        lv_obj_set_style_border_width(row, borderWidth, 0);
+    }
+    setTextColorIfChanged(
+        lv_obj_get_child(row, 0), item.enabled ? (focused ? kAccent : kText) : kMuted
+    );
+#if GRIDOPOLY_SELF_TEST == 1
+    ++list.rowSelectionUpdates;
+#endif
+}
+
+void updateRowContent(UiCenterList &list, lv_obj_t *row,
+                      const UiListItemView &item, bool focused)
+{
+    if (row == nullptr) return;
+    setClickableIfChanged(list, row, item.enabled);
 
     lv_obj_t *title = lv_obj_get_child(row, 0);
     lv_obj_t *meta = lv_obj_get_child(row, 1);
@@ -135,24 +196,21 @@ void styleRow(lv_obj_t *row, const UiListItemView &item, bool selected,
                                    item.disabledReason[0] != '\0'
                                ? item.disabledReason
                                : (item.meta == nullptr ? "" : item.meta);
-    if (title != nullptr) {
-        lv_label_set_text(title, item.title == nullptr ? "" : item.title);
-        lv_obj_set_style_text_color(title,
-                                    lv_color_hex(item.enabled ? (focused ? kAccent : kText) : kMuted), 0);
-    }
-    if (meta != nullptr) {
-        lv_label_set_text(meta, metaText);
-        lv_obj_set_style_text_color(meta, lv_color_hex(kMuted), 0);
-    }
-    if (check != nullptr) {
-        lv_label_set_text(check, item.checked ? "[x]" : "");
-        lv_obj_set_style_text_color(check, lv_color_hex(kAccent), 0);
-    }
+    setLabelTextIfChanged(list, title, item.title);
+    setLabelTextIfChanged(list, meta, metaText);
+    setLabelTextIfChanged(list, check, item.checked ? "[x]" : "");
+    setTextColorIfChanged(title, item.enabled ? (focused ? kAccent : kText) : kMuted);
 }
 
 void destroyListObjects(UiCenterList &list)
 {
     if (swipeContext.viewport == list.viewport) swipeContext = UiSwipeContext{};
+    if (list.viewport != nullptr) {
+        lv_disp_t *display = lv_obj_get_disp(list.viewport);
+        if (display != nullptr && display->refr_timer != nullptr) {
+            lv_timer_set_period(display->refr_timer, LV_DISP_DEF_REFR_PERIOD);
+        }
+    }
     lv_obj_t *progressTrack = list.progressFill == nullptr
                                   ? nullptr
                                   : lv_obj_get_parent(list.progressFill);
@@ -257,6 +315,10 @@ void uiCenterListCreate(UiCenterList &list, lv_obj_t *parent,
 
     list.viewport = uiBox(parent, kNormalListViewport, 0x090E10, 0x090E10, 0);
     if (list.viewport == nullptr) return;
+    lv_disp_t *display = lv_obj_get_disp(list.viewport);
+    if (display != nullptr && display->refr_timer != nullptr) {
+        lv_timer_set_period(display->refr_timer, kCenterListRefreshPeriodMs);
+    }
     lv_obj_set_style_bg_opa(list.viewport, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(list.viewport, 0, 0);
     lv_obj_clear_flag(list.viewport, LV_OBJ_FLAG_SCROLLABLE);
@@ -376,13 +438,34 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
     }
     if (count == 0) selected = 0;
     else if (selected >= count) selected = count - 1;
-    list.selected = selected;
+    const uint8_t previousSelected = list.selected;
+    const bool previousFooterFocused = list.footerFocused;
+    const bool selectionChanged = !list.selectionInitialized ||
+                                  previousSelected != selected ||
+                                  previousFooterFocused != footerFocused;
     lv_obj_t *const interruptedPulse = cancelBoundaryPulse(list);
 
     for (uint8_t index = 0; index < count; ++index) {
-        styleRow(lv_obj_get_child(list.track, index), items[index], index == selected,
-                 footerFocused);
+        updateRowContent(
+            list, lv_obj_get_child(list.track, index), items[index],
+            index == selected && !footerFocused
+        );
     }
+    if (count > 0 && selectionChanged) {
+        if (list.selectionInitialized && previousSelected < count &&
+            previousSelected != selected) {
+            applyRowSelectionStyle(
+                list, lv_obj_get_child(list.track, previousSelected),
+                items[previousSelected], false
+            );
+        }
+        applyRowSelectionStyle(
+            list, lv_obj_get_child(list.track, selected), items[selected], !footerFocused
+        );
+    }
+    list.selected = selected;
+    list.footerFocused = footerFocused;
+    list.selectionInitialized = true;
     const int16_t selectedTop = static_cast<int16_t>(kNormalListFocus.y -
                                                       kNormalListViewport.y);
     list.trackRestY = uiCenterListTrackY(selected, selectedTop, kRowStride);
@@ -396,33 +479,46 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
     }
 
     if (list.focusFrame != nullptr) {
-        lv_obj_set_style_border_color(list.focusFrame,
-                                      lv_color_hex(footerFocused ? kLine : kAccent), 0);
-        lv_obj_set_style_border_width(list.focusFrame, footerFocused ? 1 : 2, 0);
+        const lv_color_t border = lv_color_hex(footerFocused ? kLine : kAccent);
+        if (lv_obj_get_style_border_color(list.focusFrame, 0).full != border.full) {
+            lv_obj_set_style_border_color(list.focusFrame, border, 0);
+        }
+        const lv_coord_t borderWidth = footerFocused ? 1 : 2;
+        if (lv_obj_get_style_border_width(list.focusFrame, 0) != borderWidth) {
+            lv_obj_set_style_border_width(list.focusFrame, borderWidth, 0);
+        }
     }
     const uint16_t progress = uiListProgressPermille(selected, count);
     if (list.progressFill != nullptr) {
-        lv_obj_set_width(list.progressFill,
-                         static_cast<int16_t>(kProgressWidth * progress / 1000));
+        const int16_t width = static_cast<int16_t>(kProgressWidth * progress / 1000);
+        if (lv_obj_get_width(list.progressFill) != width) {
+            lv_obj_set_width(list.progressFill, width);
+        }
     }
     if (list.countLabel != nullptr) {
         char value[16];
         snprintf(value, sizeof(value), "%u / %u", count == 0 ? 0 : selected + 1, count);
-        lv_label_set_text(list.countLabel, value);
+        setLabelTextIfChanged(list, list.countLabel, value);
     }
     if (list.footer != nullptr) {
-        lv_obj_set_style_bg_color(list.footer, lv_color_hex(footerFocused ? kSelected : kPanel), 0);
-        lv_obj_set_style_border_color(list.footer,
-                                      lv_color_hex(footerFocused ? kAccent : kLine), 0);
-        lv_obj_set_style_border_width(list.footer, footerFocused ? 2 : 1, 0);
-        if (footerEnabled) lv_obj_add_flag(list.footer, LV_OBJ_FLAG_CLICKABLE);
-        else lv_obj_clear_flag(list.footer, LV_OBJ_FLAG_CLICKABLE);
+        const lv_color_t background = lv_color_hex(footerFocused ? kSelected : kPanel);
+        if (lv_obj_get_style_bg_color(list.footer, 0).full != background.full) {
+            lv_obj_set_style_bg_color(list.footer, background, 0);
+        }
+        const lv_color_t border = lv_color_hex(footerFocused ? kAccent : kLine);
+        if (lv_obj_get_style_border_color(list.footer, 0).full != border.full) {
+            lv_obj_set_style_border_color(list.footer, border, 0);
+        }
+        const lv_coord_t borderWidth = footerFocused ? 2 : 1;
+        if (lv_obj_get_style_border_width(list.footer, 0) != borderWidth) {
+            lv_obj_set_style_border_width(list.footer, borderWidth, 0);
+        }
+        setClickableIfChanged(list, list.footer, footerEnabled);
         lv_obj_t *footerLabel = lv_obj_get_child(list.footer, 0);
         if (footerLabel != nullptr) {
-            lv_label_set_text(footerLabel, footerText == nullptr ? "" : footerText);
-            lv_obj_set_style_text_color(
-                footerLabel,
-                lv_color_hex(footerEnabled ? (footerFocused ? kAccent : kText) : kMuted), 0
+            setLabelTextIfChanged(list, footerLabel, footerText);
+            setTextColorIfChanged(
+                footerLabel, footerEnabled ? (footerFocused ? kAccent : kText) : kMuted
             );
         }
     }

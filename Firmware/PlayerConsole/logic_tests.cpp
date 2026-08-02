@@ -14,10 +14,6 @@
 #include <limits.h>
 #include <string.h>
 
-#if GRIDOPOLY_SELF_TEST == 1
-void uiRendererResetForTest();
-#endif
-
 namespace {
 
 bool expect(Stream &out, bool condition, const char *name)
@@ -176,9 +172,13 @@ bool runCarouselComponentTests(Stream &out)
     ok &= expect(out, master != nullptr && master->start_value == 0 && master->end_value == 1000 &&
                       master->time == 220 && lv_anim_get(carousel.items[0], nullptr) == nullptr,
                  "carousel runs one master progress timeline instead of per-item property animations");
-    lv_tick_inc(80);
-    lv_anim_refr_now();
+    if (master != nullptr && master->exec_cb != nullptr) {
+        master->exec_cb(master->var, 250);
+    }
+    lv_obj_update_layout(carousel.container);
     const int16_t interruptedX = lv_obj_get_x(carousel.items[0]);
+    const int16_t interruptedWrapX = lv_obj_get_x(carousel.items[3]);
+    const uint8_t interruptedWrapOpacity = carousel.currentOpacity[3];
     bool completePoseChanged = true;
     for (uint8_t index = 0; index < count; ++index) {
         completePoseChanged &= lv_obj_get_width(carousel.items[index]) != initialWidths[index] &&
@@ -191,6 +191,104 @@ bool runCarouselComponentTests(Stream &out)
     ok &= expect(out, master != nullptr && carousel.container == retainedContainer &&
                       carousel.items[0] == retainedFirst && interruptedX != firstX,
                  "carousel retargets its retained action sequence from current visual poses");
+    const int16_t retargetStartX = lv_obj_get_x(carousel.items[3]);
+    const uint8_t retargetStartOpacity = carousel.currentOpacity[3];
+    if (master != nullptr && master->exec_cb != nullptr) {
+        master->exec_cb(master->var, 250);
+    }
+    lv_obj_update_layout(carousel.container);
+    out.printf(
+        "CAROUSEL TEST DIAG retarget path=%u start_x=%d target_x=%d before_x=%d after_x=%d "
+        "before_opa=%u after_opa=%u\n",
+        static_cast<unsigned>(carousel.paths[3]),
+        static_cast<int>(carousel.startX[3]), static_cast<int>(carousel.targetX[3]),
+        static_cast<int>(retargetStartX), static_cast<int>(lv_obj_get_x(carousel.items[3])),
+        static_cast<unsigned>(retargetStartOpacity),
+        static_cast<unsigned>(carousel.currentOpacity[3])
+    );
+    ok &= expect(out, retargetStartX == interruptedWrapX &&
+                      retargetStartOpacity == interruptedWrapOpacity &&
+                      lv_obj_get_x(carousel.items[3]) <= retargetStartX &&
+                      carousel.currentOpacity[3] <= retargetStartOpacity,
+                 "carousel mid-transition retarget continues the current wrap exit without flashing");
+
+    uiCarouselDestroy(carousel);
+    uiCarouselCreate(carousel, parent, actions, 4, 0);
+    uiCarouselSetSelection(carousel, 1, true);
+    master = lv_anim_get(&carousel, nullptr);
+    if (master != nullptr && master->exec_cb != nullptr) {
+        master->exec_cb(master->var, 500);
+    }
+    lv_obj_update_layout(carousel.container);
+    const int16_t forwardWrapX = lv_obj_get_x(carousel.items[3]);
+    const int16_t forwardWrapWidth = lv_obj_get_width(carousel.items[3]);
+    const int16_t carouselWidth = lv_obj_get_width(carousel.container);
+    out.printf(
+        "CAROUSEL TEST DIAG four_fwd path=%u start_x=%d target_x=%d x=%d w=%d cw=%d opa=%u\n",
+        static_cast<unsigned>(carousel.paths[3]),
+        static_cast<int>(carousel.startX[3]), static_cast<int>(carousel.targetX[3]),
+        static_cast<int>(forwardWrapX), static_cast<int>(forwardWrapWidth),
+        static_cast<int>(carouselWidth), static_cast<unsigned>(carousel.currentOpacity[3])
+    );
+    ok &= expect(out, carousel.currentOpacity[3] == 0 &&
+                      (forwardWrapX >= carouselWidth ||
+                       forwardWrapX + forwardWrapWidth <= 0),
+                 "four-item forward wrap becomes invisible before changing sides");
+    if (master != nullptr && master->exec_cb != nullptr) {
+        master->exec_cb(master->var, 1000);
+    }
+    uiCarouselSetSelection(carousel, 0, true);
+    master = lv_anim_get(&carousel, nullptr);
+    if (master != nullptr && master->exec_cb != nullptr) {
+        master->exec_cb(master->var, 500);
+    }
+    lv_obj_update_layout(carousel.container);
+    const int16_t reverseWrapX = lv_obj_get_x(carousel.items[3]);
+    const int16_t reverseWrapWidth = lv_obj_get_width(carousel.items[3]);
+    out.printf(
+        "CAROUSEL TEST DIAG four_rev path=%u start_x=%d target_x=%d x=%d w=%d cw=%d opa=%u\n",
+        static_cast<unsigned>(carousel.paths[3]),
+        static_cast<int>(carousel.startX[3]), static_cast<int>(carousel.targetX[3]),
+        static_cast<int>(reverseWrapX), static_cast<int>(reverseWrapWidth),
+        static_cast<int>(carouselWidth), static_cast<unsigned>(carousel.currentOpacity[3])
+    );
+    ok &= expect(out, carousel.currentOpacity[3] == 0 &&
+                      (reverseWrapX >= carouselWidth ||
+                       reverseWrapX + reverseWrapWidth <= 0),
+                 "four-item reverse wrap becomes invisible before changing sides");
+
+    uiCarouselDestroy(carousel);
+    const uint8_t turnCount = uiCarouselActions(HomePhase::MyTurn, actions);
+    uiCarouselCreate(carousel, parent, actions, turnCount, 0);
+#if GRIDOPOLY_SELF_TEST == 1
+    const uint32_t staticStylesBeforeSelection = carousel.staticStyleConfigurations;
+    const uint32_t selectionStylesBeforeSelection = carousel.selectionStyleUpdates;
+#endif
+    uiCarouselSetSelection(carousel, 1, true);
+#if GRIDOPOLY_SELF_TEST == 1
+    ok &= expect(out,
+                 carousel.staticStyleConfigurations == staticStylesBeforeSelection &&
+                 carousel.selectionStyleUpdates == selectionStylesBeforeSelection + 2,
+                 "My Turn Dice-to-Assets selection updates two dynamic cards without static restyle");
+#endif
+    master = lv_anim_get(&carousel, nullptr);
+    if (master != nullptr && master->exec_cb != nullptr) {
+        master->exec_cb(master->var, 500);
+    }
+    lv_obj_update_layout(carousel.container);
+    const int16_t fiveItemWrapX = lv_obj_get_x(carousel.items[3]);
+    const int16_t fiveItemWrapWidth = lv_obj_get_width(carousel.items[3]);
+    out.printf(
+        "CAROUSEL TEST DIAG five_fwd path=%u start_x=%d target_x=%d x=%d w=%d cw=%d opa=%u\n",
+        static_cast<unsigned>(carousel.paths[3]),
+        static_cast<int>(carousel.startX[3]), static_cast<int>(carousel.targetX[3]),
+        static_cast<int>(fiveItemWrapX), static_cast<int>(fiveItemWrapWidth),
+        static_cast<int>(carouselWidth), static_cast<unsigned>(carousel.currentOpacity[3])
+    );
+    ok &= expect(out, carousel.currentOpacity[3] == 0 &&
+                      (fiveItemWrapX >= carouselWidth ||
+                       fiveItemWrapX + fiveItemWrapWidth <= 0),
+                 "five-item forward wrap becomes invisible before changing sides");
 
     uiCarouselDestroy(carousel);
     uiSetEventSink(nullptr);
@@ -244,9 +342,14 @@ bool runCenterListComponentTests(Stream &out)
     uiCenterListCreate(list, parent, nullptr, 0, 0, "Back", true, false);
     ok &= expect(out, centerListTreeMatches(list, parent, 0),
                  "center list creates a clipped runtime tree for zero rows");
+    ok &= expect(out, display != nullptr && display->refr_timer != nullptr &&
+                      display->refr_timer->period == 16,
+                 "center list prepares a 16ms display refresh cadence");
     uiCenterListDestroy(list);
     ok &= expect(out, list.viewport == nullptr && parent != nullptr &&
-                      lv_obj_get_child_cnt(parent) == 0,
+                      lv_obj_get_child_cnt(parent) == 0 &&
+                      display != nullptr && display->refr_timer != nullptr &&
+                      display->refr_timer->period == LV_DISP_DEF_REFR_PERIOD,
                  "center list destroys every retained object for zero rows");
 
     uiCenterListCreate(list, parent, items, 1, 0, "Back", true, false);
@@ -255,6 +358,30 @@ bool runCenterListComponentTests(Stream &out)
     uiCenterListUpdate(list, items, 8, 0, "Back", true, false, false);
     ok &= expect(out, centerListTreeMatches(list, parent, 8),
                  "center list rebuilds its runtime tree when count grows to eight");
+
+#if GRIDOPOLY_SELF_TEST == 1
+    const uint32_t labelsBeforeFocus = list.labelTextWrites;
+    const uint32_t flagsBeforeFocus = list.clickableFlagWrites;
+    const uint32_t stylesBeforeFocus = list.rowSelectionUpdates;
+#endif
+    uiCenterListUpdate(list, items, 8, 1, "Back", true, false, true);
+#if GRIDOPOLY_SELF_TEST == 1
+    ok &= expect(out, list.labelTextWrites == labelsBeforeFocus + 1 &&
+                      list.clickableFlagWrites == flagsBeforeFocus &&
+                      list.rowSelectionUpdates == stylesBeforeFocus + 2 &&
+                      list.countLabel != nullptr &&
+                      strcmp(lv_label_get_text(list.countLabel), "2 / 8") == 0,
+                 "center-list focus updates only previous/new rows without duplicate content writes");
+    const uint32_t labelsBeforeAssetChange = list.labelTextWrites;
+    const uint32_t flagsBeforeAssetChange = list.clickableFlagWrites;
+    items[3] = UiListItemView{"Changed", "Meta", "Disabled", false, true};
+    uiCenterListUpdate(list, items, 8, 1, "Back", true, false, false);
+    ok &= expect(out, list.labelTextWrites == labelsBeforeAssetChange + 3 &&
+                      list.clickableFlagWrites == flagsBeforeAssetChange + 1,
+                 "center-list still refreshes changed asset text, check state, and enabled flag");
+    items[3] = UiListItemView{"Item", "Meta", "", true, false};
+    uiCenterListUpdate(list, items, 8, 1, "Back", true, false, false);
+#endif
 
     uiCenterListUpdate(list, items, 8, 7, "Back", true, false, true);
     lv_tick_inc(80);
@@ -536,6 +663,14 @@ bool runHomeRendererTests(Stream &out)
                       lv_obj_get_style_border_color(dice, 0).full == lv_color_hex(0xF2C453).full,
                  "My Turn uses the green ring while Dice retains yellow priority");
 #if GRIDOPOLY_SELF_TEST == 1
+    uiRendererResetTestStats();
+    state.focus = 1;
+    ++state.revision;
+    uiRendererRender(state, 7);
+    const UiRendererTestStats rendererStats = uiRendererGetTestStats();
+    ok &= expect(out, rendererStats.incrementalRenders == 1 &&
+                      rendererStats.rebuildRenders == 0,
+                 "My Turn focus change uses retained incremental renderer path");
     uiRendererResetForTest();
 #endif
     lv_disp_set_default(previousDisplay);
@@ -622,10 +757,13 @@ bool runStateLogicTests(Stream &out)
     ok &= expect(out, !uiRectInsideCircle(UiRect{0, 0, 32, 32}),
                  "corner geometry rejects rectangles outside round safe area");
     ok &= expect(out, uiCarouselPose(0).centerX == 240 &&
+                      uiCarouselPose(0).zoom == 256 &&
+                      uiCarouselPose(1).zoom == 213 &&
+                      uiCarouselPose(2).zoom == 179 &&
                       uiCarouselPose(0).opacity == 255 &&
                       uiCarouselPose(1).opacity == 87 &&
                       uiCarouselPose(2).opacity == 15,
-                 "carousel uses approved opacity hierarchy");
+                 "carousel uses approved 100 83 70 percent zoom and opacity hierarchy");
     ok &= expect(out, uiCarouselPose(-1).centerX == 152 &&
                       uiCarouselPose(1).centerX == 328 &&
                       uiCarouselPose(3).opacity == 0,

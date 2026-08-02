@@ -26,6 +26,13 @@ struct UiCenterList {
     uint32_t pulseRevision = 0;
     uint8_t selected = 0;
     uint8_t count = 0;
+    bool selectionInitialized = false;
+    bool footerFocused = false;
+#if GRIDOPOLY_SELF_TEST == 1
+    uint32_t rowSelectionUpdates = 0;
+    uint32_t labelTextWrites = 0;
+    uint32_t clickableFlagWrites = 0;
+#endif
 };
 
 void uiCenterListCreate(UiCenterList &list, lv_obj_t *parent,
