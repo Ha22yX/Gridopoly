@@ -22,6 +22,21 @@ void shortPress(AppState &state, uint32_t downMs, uint32_t upMs)
     appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, upMs}, upMs);
 }
 
+void openVoluntaryMortgageFixture(AppState &state, uint32_t nowMs)
+{
+    appInit(state, nowMs);
+    state.selectedAsset = 0;
+    state.nav.current = NavigationEntry{ScreenPage::AssetDetail, 0, 0};
+    shortPress(state, nowMs + 10, nowMs + 100);
+}
+
+void openTradeFixture(AppState &state, uint32_t nowMs)
+{
+    appInit(state, nowMs);
+    state.nav.current = NavigationEntry{ScreenPage::Trade, 2, 0};
+    shortPress(state, nowMs + 10, nowMs + 100);
+}
+
 } // namespace
 
 bool runLogicTests(Stream &out)
@@ -55,13 +70,20 @@ bool runLogicTests(Stream &out)
     appTick(state, 6699);
     ok &= expect(out, state.modal.kind == ModalKind::CollectRent, "hold is not early");
     appTick(state, 6700);
-    ok &= expect(out, state.modal.kind == ModalKind::None && state.money == 1980, "1.2s confirms rent");
+    TransportCommand command{};
+    ok &= expect(out, state.modal.kind == ModalKind::CollectRent && state.money == 1860 &&
+                      appPollCommand(state, command) && command.kind == TransportCommandKind::ClaimRent,
+                 "1.2s queues a rent claim without local cash mutation");
 
+    appInit(state, 0);
     state.nav.current = NavigationEntry{ScreenPage::DemoLab, 4, 0};
     shortPress(state, 7000, 7200);
-    ok &= expect(out, state.modal.kind == ModalKind::Payment, "demo opens payment modal");
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment, "demo opens payment modal");
     appTick(state, 17200);
-    ok &= expect(out, state.modal.kind == ModalKind::None && state.money == 1805, "payment auto-runs after 10s");
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.submitting &&
+                      state.money == 1860 && appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::PayNow,
+                 "payment deadline queues PayNow without local cash mutation");
 
     appInit(state, 0);
     state.homePhase = HomePhase::Waiting;
@@ -202,8 +224,9 @@ bool runLogicTests(Stream &out)
     state.homePhase = HomePhase::MyTurn;
     state.nav.current = NavigationEntry{ScreenPage::Home, 4, 0};
     appHandleTouch(state, TouchAction::DetailPrimary, 90);
-    ok &= expect(out, state.position == 24 && state.nav.current.focus == 0,
-                 "home My Turn dice touch activates the roll action");
+    ok &= expect(out, state.position == 17 && state.nav.current.focus == 0 &&
+                      appPollCommand(state, command) && command.kind == TransportCommandKind::RollRequest,
+                 "home My Turn dice touch queues the roll action");
 
     appInit(state, 0);
     state.selectedAsset = 0;
@@ -236,8 +259,127 @@ bool runLogicTests(Stream &out)
                       appModalRemainingMs(state, deadlineWrapStartMs + 200u) == 9900,
                  "modal deadline remains pending before millis wrap");
     appTick(state, deadlineWrapStartMs + 10100u);
-    ok &= expect(out, state.modal.kind == ModalKind::None,
-                 "modal deadline expires after millis wrap");
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.submitting &&
+                      appPollCommand(state, command) && command.kind == TransportCommandKind::PayNow,
+                 "modal deadline queues authority payment after millis wrap");
+
+    openVoluntaryMortgageFixture(state, 1000);
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 1110}, 1110);
+    shortPress(state, 1120, 1200);
+    ok &= expect(out, state.modal.kind == ModalKind::None &&
+                      state.nav.current.page == ScreenPage::AssetDetail,
+                 "voluntary modal cancels to source");
+
+    openTradeFixture(state, 2000);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 2200}, 2200);
+    appTick(state, 2799);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 2799}, 2799);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      appHoldProgressPermille(state, 2799) == 0,
+                 "early modal release resets without closing");
+
+    appInit(state, 0);
+    const int32_t initialCash = state.money;
+    TransportEvent payment{TransportEventKind::PaymentRequired};
+    payment.transactionId = 90;
+    payment.amount = 680;
+    payment.cash = 240;
+    payment.deadlineMs = 13000;
+    appHandleTransportEvent(state, payment, 3000);
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment &&
+                      !state.modal.cancelAllowed && state.money == initialCash,
+                 "forced payment is not cancelable");
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 3010}, 3010);
+    shortPress(state, 3020, 3100);
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment,
+                 "forced payment cannot cancel through modal focus");
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 3200}, 3200);
+    appTick(state, 4400);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 4400}, 4400);
+    ok &= expect(out, appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::PayNow && command.transactionId == 90,
+                 "forced payment queues one PayNow command");
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 4500}, 4500);
+    appTick(state, 5700);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 5700}, 5700);
+    ok &= expect(out, !appPollCommand(state, command),
+                 "repeated PayNow activation is ignored while submitting");
+    TransportEvent insufficient{TransportEventKind::CommandRejected};
+    insufficient.requestId = command.requestId;
+    insufficient.transactionId = 90;
+    insufficient.error = TransportError::InsufficientCash;
+    appHandleTransportEvent(state, insufficient, 5800);
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.insufficient &&
+                      state.modal.focus == ModalFocus::ResolveAssets && !state.modal.submitting,
+                 "insufficient cash exposes resolve assets");
+    appTick(state, 13000);
+    ok &= expect(out, state.money == initialCash,
+                 "payment countdown never mutates cash locally");
+    TransportEvent completed{TransportEventKind::PaymentCompleted};
+    completed.requestId = command.requestId;
+    completed.transactionId = 90;
+    completed.cash = 240;
+    appHandleTransportEvent(state, completed, 13100);
+    ok &= expect(out, state.money == 240 && state.modal.kind == ModalKind::None,
+                 "payment completion event is the only cash mutation");
+
+    appInit(state, 0);
+    state.homePhase = HomePhase::MyTurn;
+    appHandleTransportEvent(state, TransportEvent{TransportEventKind::ConnectionLost}, 10);
+    shortPress(state, 20, 100);
+    ok &= expect(out, !state.authorityOnline && !appPollCommand(state, command),
+                 "offline authority blocks dangerous commands");
+    state.modal.kind = ModalKind::TradeCreate;
+    state.modal.submitting = true;
+    TransportEvent snapshot{TransportEventKind::StateSnapshotApplied};
+    snapshot.stateVersion = 9;
+    snapshot.cash = 1775;
+    snapshot.playerPosition = 17;
+    appHandleTransportEvent(state, snapshot, 110);
+    shortPress(state, 120, 200);
+    ok &= expect(out, state.authorityOnline && state.money == 1775 && state.position == 17 &&
+                      state.stateVersion == 9 && !state.modal.submitting &&
+                      appPollCommand(state, command) && command.kind == TransportCommandKind::RollRequest,
+                 "snapshot restores authority fields before commands unlock");
+
+    TransportEvent stale{TransportEventKind::PaymentCompleted};
+    stale.stateVersion = 8;
+    stale.cash = 1;
+    appHandleTransportEvent(state, stale, 210);
+    ok &= expect(out, state.money == 1775 && state.stateVersion == 9,
+                 "lower state version is ignored");
+    TransportEvent newer{TransportEventKind::PaymentCompleted};
+    newer.stateVersion = 10;
+    newer.cash = 1600;
+    appHandleTransportEvent(state, newer, 220);
+    appHandleTransportEvent(state, newer, 230);
+    ok &= expect(out, state.money == 1600 && state.stateVersion == 10,
+                 "higher state version applies authoritative cash once");
+
+    appInit(state, 0);
+    openTradeFixture(state, 100);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 300}, 300);
+    appTick(state, 1500);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 1500}, 1500);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 1600}, 1600);
+    appTick(state, 2800);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 2800}, 2800);
+    ok &= expect(out, state.commandCount == 1 && appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::TradeCreate && !appPollCommand(state, command),
+                 "command outbox is fixed and modal requests are idempotent");
+
+    appInit(state, 0);
+    state.nav.current = NavigationEntry{ScreenPage::DemoLab, 3, 0};
+    shortPress(state, 10, 100);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 200}, 200);
+    appTick(state, 1400);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 1400}, 1400);
+    ok &= expect(out, appPollCommand(state, command) && command.kind == TransportCommandKind::ClaimRent,
+                 "rent claim is transport-driven");
+    const int32_t rentCash = state.money;
+    appTick(state, 20100);
+    ok &= expect(out, state.modal.kind == ModalKind::None && state.money == rentCash,
+                 "unclaimed rent expires after twenty seconds without cash mutation");
 
     DemoTransport transport;
     transport.begin(0);
@@ -313,16 +455,16 @@ bool runLogicTests(Stream &out)
     TransportCommand blockedRoll{TransportCommandKind::RollRequest, 109, 41, 0, 0};
     ok &= expect(out, !transport.send(blockedRoll, 0),
                  "full scheduled queue atomically rejects roll");
-    transport.tick(100);
+    transport.tick(120);
     uint8_t paymentEventCount = 0;
     while (transport.poll(event)) {
         paymentEventCount += event.kind == TransportEventKind::PaymentCompleted ? 1 : 0;
     }
-    ok &= expect(out, paymentEventCount == 8, "full queue retains all scheduled payments");
+    ok &= expect(out, paymentEventCount == 8, "full queue retains all scheduled payments at 120ms");
     TransportCommand recoveredRoll{TransportCommandKind::RollRequest, 110, 41, 0, 0};
-    ok &= expect(out, transport.send(recoveredRoll, 100),
+    ok &= expect(out, transport.send(recoveredRoll, 120),
                  "atomic roll rejection leaves later roll available");
-    transport.tick(220);
+    transport.tick(240);
     ok &= expect(out, transport.poll(event) &&
                       event.kind == TransportEventKind::RollResult && event.requestId == 110,
                  "later roll is not stranded after capacity rejection");
@@ -330,10 +472,10 @@ bool runLogicTests(Stream &out)
     transport.begin(0);
     transport.send(TransportCommand{TransportCommandKind::PayNow, 201, 41, 0, 0}, 0);
     transport.send(TransportCommand{TransportCommandKind::PayNow, 202, 41, 0, 0}, 200);
-    transport.tick(100);
+    transport.tick(120);
     transport.poll(event);
     transport.send(TransportCommand{TransportCommandKind::PayNow, 203, 41, 0, 0}, 400);
-    transport.tick(500);
+    transport.tick(520);
     ok &= expect(out, transport.poll(event) && event.requestId == 202,
                  "scheduled events use chronological due order after slot reuse");
     ok &= expect(out, transport.poll(event) && event.requestId == 203,

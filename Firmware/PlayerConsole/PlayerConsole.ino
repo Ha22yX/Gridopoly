@@ -6,6 +6,7 @@
 
 #include "app_config.h"
 #include "app_state.h"
+#include "demo_transport.h"
 #include "hardware_input.h"
 #include "logic_tests.h"
 #include "lvgl_v8_port.h"
@@ -26,6 +27,7 @@ using namespace esp_panel::board;
 namespace {
 
 AppState app;
+DemoTransport transport;
 bool ready = false;
 bool lvglReady = false;
 
@@ -79,7 +81,9 @@ void setup()
     lvglReady = true;
     if (!hardwareInputBegin()) { fault("INPUT_INIT"); return; }
 
-    appInit(app, millis());
+    const uint32_t startedMs = millis();
+    appInit(app, startedMs);
+    transport.begin(startedMs);
     if (!lvgl_port_lock(-1)) { fault("LVGL_LOCK"); return; }
     const bool rendererReady = uiRendererBegin();
     if (rendererReady) uiRendererRender(app, millis());
@@ -95,13 +99,23 @@ void loop()
 {
     if (!ready) { delay(5); return; }
     const uint32_t nowMs = millis();
-    InputEvent event{};
-    while (hardwareInputPoll(event)) appHandleInput(app, event, nowMs);
+    InputEvent input{};
+    TransportCommand command{};
+    TransportEvent transportEvent{};
+    while (hardwareInputPoll(input)) appHandleInput(app, input, nowMs);
 
     if (lvgl_port_lock(-1)) {
         TouchAction action = TouchAction::None;
         while (uiRendererPollTouch(action)) appHandleTouch(app, action, nowMs);
-        appTick(app, nowMs);
+        lvgl_port_unlock();
+    }
+
+    while (appPollCommand(app, command)) transport.send(command, nowMs);
+    transport.tick(nowMs);
+    while (transport.poll(transportEvent)) appHandleTransportEvent(app, transportEvent, nowMs);
+    appTick(app, nowMs);
+
+    if (lvgl_port_lock(-1)) {
         uiRendererRender(app, nowMs);
         lvgl_port_unlock();
     }

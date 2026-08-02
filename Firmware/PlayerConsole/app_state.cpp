@@ -164,18 +164,78 @@ void showToast(AppState &state, const char *message, uint32_t nowMs)
     touchRevision(state);
 }
 
-void showModal(AppState &state, ModalKind kind, const char *title, const char *counterparty,
-               const char *purpose, int32_t amount, uint32_t durationMs, uint32_t nowMs)
+uint8_t commandIndex(TransportCommandKind kind)
 {
+    return static_cast<uint8_t>(kind);
+}
+
+uint8_t commandMask(TransportCommandKind kind)
+{
+    return static_cast<uint8_t>(1u << commandIndex(kind));
+}
+
+bool queueCommand(AppState &state, TransportCommandKind kind, uint32_t transactionId, uint32_t nowMs,
+                  uint32_t assetMask = 0, uint8_t targetPosition = 0)
+{
+    const uint8_t index = commandIndex(kind);
+    const uint8_t mask = commandMask(kind);
+    if (!state.authorityOnline || state.commandCount == 4 || (state.pendingCommandMask & mask) != 0) return false;
+
+    TransportCommand &command = state.commandQueue[state.commandTail];
+    command = TransportCommand{};
+    command.kind = kind;
+    command.requestId = state.nextRequestId++;
+    command.stateVersion = state.stateVersion;
+    command.transactionId = transactionId;
+    command.clientTimeMs = nowMs;
+    command.assetMask = assetMask;
+    command.targetPosition = targetPosition;
+    state.commandTail = static_cast<uint8_t>((state.commandTail + 1) % 4);
+    ++state.commandCount;
+    state.pendingCommandMask |= mask;
+    state.pendingRequestIds[index] = command.requestId;
+    return true;
+}
+
+void clearPendingRequest(AppState &state, uint32_t requestId)
+{
+    if (requestId == 0) return;
+    for (uint8_t index = 0; index < 6; ++index) {
+        if (state.pendingRequestIds[index] != requestId) continue;
+        state.pendingRequestIds[index] = 0;
+        state.pendingCommandMask &= static_cast<uint8_t>(~(1u << index));
+        return;
+    }
+}
+
+void clearPendingKind(AppState &state, TransportCommandKind kind)
+{
+    const uint8_t index = commandIndex(kind);
+    state.pendingRequestIds[index] = 0;
+    state.pendingCommandMask &= static_cast<uint8_t>(~commandMask(kind));
+}
+
+void clearStaleSubmissions(AppState &state)
+{
+    state.pendingCommandMask = 0;
+    for (uint32_t &requestId : state.pendingRequestIds) requestId = 0;
+    state.modal.submitting = false;
+}
+
+void showModal(AppState &state, ModalKind kind, bool cancelAllowed, const char *title,
+               const char *counterparty, const char *purpose, int32_t amount, uint32_t transactionId,
+               uint32_t deadlineMs)
+{
+    state.modal = ModalState{};
     state.modal.kind = kind;
+    state.modal.focus = ModalFocus::Confirm;
+    state.modal.cancelAllowed = cancelAllowed;
+    state.modal.transactionId = transactionId;
+    state.modal.deadlineMs = deadlineMs;
+    state.modal.amount = amount;
     state.modal.title = title;
     state.modal.counterparty = counterparty;
     state.modal.purpose = purpose;
-    state.modal.amount = amount;
-    state.modal.openedMs = nowMs;
-    state.modal.deadlineMs = durationMs == 0 ? 0 : nowMs + durationMs;
-    state.modal.holdStartMs = 0;
-    state.modal.holding = false;
     state.buttonHeld = false;
     state.holdActionConsumed = false;
     touchRevision(state);
@@ -192,7 +252,7 @@ void dismissModal(AppState &state)
 void back(AppState &state)
 {
     if (state.modal.kind != ModalKind::None) {
-        dismissModal(state);
+        if (state.modal.cancelAllowed && state.modal.focus == ModalFocus::Cancel) dismissModal(state);
         return;
     }
     if (!appCanNavigateBack(state)) return;
@@ -202,27 +262,39 @@ void back(AppState &state)
     touchRevision(state);
 }
 
-void completeModal(AppState &state, uint32_t nowMs)
+void submitModal(AppState &state, uint32_t nowMs)
 {
+    if (state.modal.submitting) return;
     switch (state.modal.kind) {
         case ModalKind::CollectRent:
-            state.money += state.modal.amount;
-            dismissModal(state);
-            showToast(state, "已确认收租", nowMs);
+            if (queueCommand(state, TransportCommandKind::ClaimRent, state.modal.transactionId, nowMs)) {
+                state.modal.submitting = true;
+            }
             return;
-        case ModalKind::Payment:
-            state.money -= state.modal.amount;
-            dismissModal(state);
-            showToast(state, "付款已发送", nowMs);
+        case ModalKind::ForcedPayment:
+            if (state.modal.focus == ModalFocus::ResolveAssets) {
+                showModal(state, ModalKind::DebtMortgageConfirm, false, "Resolve assets", "City Bank",
+                          "Mortgage assets", state.modal.amount, state.modal.transactionId, 0);
+            } else if (queueCommand(state, TransportCommandKind::PayNow, state.modal.transactionId, nowMs)) {
+                state.modal.submitting = true;
+            }
             return;
-        case ModalKind::Mortgage:
-            state.money += state.modal.amount;
-            dismissModal(state);
-            showToast(state, "抵押请求已发送", nowMs);
+        case ModalKind::VoluntaryMortgage:
+            if (queueCommand(state, TransportCommandKind::MortgageBatchRequest, state.modal.transactionId, nowMs,
+                             static_cast<uint32_t>(1u << state.selectedAsset))) {
+                state.modal.submitting = true;
+            }
             return;
-        case ModalKind::Trade:
-            dismissModal(state);
-            showToast(state, "交易提案已发送", nowMs);
+        case ModalKind::TradeCreate:
+            if (queueCommand(state, TransportCommandKind::TradeCreate, state.modal.transactionId, nowMs)) {
+                state.modal.submitting = true;
+            }
+            return;
+        case ModalKind::DebtMortgageConfirm:
+            if (queueCommand(state, TransportCommandKind::MortgageBatchRequest, state.modal.transactionId, nowMs,
+                             static_cast<uint32_t>(1u << state.selectedAsset))) {
+                state.modal.submitting = true;
+            }
             return;
         case ModalKind::None:
             return;
@@ -243,8 +315,9 @@ void activate(AppState &state, uint32_t nowMs)
     switch (page) {
         case ScreenPage::Home: {
             if (state.homePhase == HomePhase::MyTurn && focus == 0) {
-                showToast(state, "骰子结果 3 + 4 = 7", nowMs);
-                state.position = static_cast<uint8_t>((state.position + 7) % 28);
+                if (queueCommand(state, TransportCommandKind::RollRequest, 0, nowMs)) {
+                    showToast(state, "骰子请求已发送", nowMs);
+                }
                 return;
             }
             const uint8_t menuFocus = state.homePhase == HomePhase::MyTurn ? focus - 1 : focus;
@@ -259,8 +332,8 @@ void activate(AppState &state, uint32_t nowMs)
             pushPage(state, ScreenPage::AssetDetail);
             return;
         case ScreenPage::AssetDetail:
-            showModal(state, ModalKind::Mortgage, "确认抵押", "城市银行",
-                      kAssets[state.selectedAsset].name, kAssets[state.selectedAsset].value / 2, 0, nowMs);
+            showModal(state, ModalKind::VoluntaryMortgage, true, "确认抵押", "城市银行",
+                      kAssets[state.selectedAsset].name, kAssets[state.selectedAsset].value / 2, 0, 0);
             return;
         case ScreenPage::Players:
             state.selectedPlayer = focus;
@@ -273,8 +346,8 @@ void activate(AppState &state, uint32_t nowMs)
         case ScreenPage::Trade:
             if (focus == 0) state.tradeReceiver = static_cast<uint8_t>((state.tradeReceiver + 1) % kPlayerCount);
             else if (focus == 1) state.tradeAmount = state.tradeAmount >= 500 ? 50 : state.tradeAmount + 50;
-            else showModal(state, ModalKind::Trade, "发送交易", kPlayers[state.tradeReceiver].name,
-                           "现金转账", state.tradeAmount, 0, nowMs);
+            else showModal(state, ModalKind::TradeCreate, true, "发送交易", kPlayers[state.tradeReceiver].name,
+                           "现金转账", state.tradeAmount, 0, 0);
             touchRevision(state);
             return;
         case ScreenPage::More:
@@ -285,8 +358,10 @@ void activate(AppState &state, uint32_t nowMs)
             if (focus == 0) { state.homePhase = HomePhase::Waiting; resetHome(state, 3); }
             else if (focus == 1) { state.homePhase = HomePhase::NextPlayer; resetHome(state, 3); }
             else if (focus == 2) { state.homePhase = HomePhase::MyTurn; resetHome(state, 4); }
-            else if (focus == 3) showModal(state, ModalKind::CollectRent, "等待收租", "砾川", "霓虹港湾地租", 120, 20000, nowMs);
-            else if (focus == 4) showModal(state, ModalKind::Payment, "即将付款", "岑蓝", "天穹广场地租", 175, 10000, nowMs);
+            else if (focus == 3) showModal(state, ModalKind::CollectRent, true, "等待收租", "砾川",
+                                            "霓虹港湾地租", 120, 0, nowMs + 20000);
+            else if (focus == 4) showModal(state, ModalKind::ForcedPayment, false, "即将付款", "岑蓝",
+                                            "天穹广场地租", 175, 0, nowMs + 10000);
             else replaceForcedPage(state, ScreenPage::DebtAssets);
             return;
         case ScreenPage::Debt:
@@ -318,13 +393,27 @@ void endPress(AppState &state, uint32_t nowMs)
     const bool consumed = state.holdActionConsumed;
     state.buttonHeld = false;
     state.modal.holding = false;
-    if (state.modal.kind != ModalKind::None || consumed) return;
+    if (state.modal.kind != ModalKind::None) {
+        if (!consumed && heldMs <= kShortPressMaxMs && state.modal.cancelAllowed &&
+            state.modal.focus == ModalFocus::Cancel) {
+            dismissModal(state);
+        }
+        return;
+    }
+    if (consumed) return;
     if (heldMs <= kShortPressMaxMs) activate(state, nowMs);
     else if (heldMs >= kBackPressMs && heldMs < kHomePressMs && isOrdinaryPage(state.nav.current.page)) back(state);
 }
 
 void moveFocus(AppState &state, int16_t delta)
 {
+    if (state.modal.kind != ModalKind::None) {
+        if (delta != 0 && state.modal.cancelAllowed && !state.modal.submitting) {
+            state.modal.focus = state.modal.focus == ModalFocus::Confirm ? ModalFocus::Cancel : ModalFocus::Confirm;
+            touchRevision(state);
+        }
+        return;
+    }
     const uint8_t count = appFocusCount(state);
     if (count == 0 || delta == 0 || !isOrdinaryPage(state.nav.current.page)) return;
 
@@ -434,8 +523,109 @@ void appHandleInput(AppState &state, const InputEvent &event, uint32_t nowMs)
         endPress(state, event.timestampMs);
         return;
     }
-    if (event.kind != InputKind::Rotate || state.modal.kind != ModalKind::None) return;
+    if (event.kind != InputKind::Rotate) return;
     moveFocus(state, event.delta);
+}
+
+bool appPollCommand(AppState &state, TransportCommand &command)
+{
+    if (state.commandCount == 0) return false;
+    command = state.commandQueue[state.commandHead];
+    state.commandHead = static_cast<uint8_t>((state.commandHead + 1) % 4);
+    --state.commandCount;
+    return true;
+}
+
+void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs)
+{
+    if (event.stateVersion != 0 && event.stateVersion < state.stateVersion) return;
+    if (event.stateVersion > state.stateVersion) state.stateVersion = event.stateVersion;
+
+    const bool matchesPayNow = event.requestId != 0 &&
+                              event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::PayNow)];
+    clearPendingRequest(state, event.requestId);
+
+    switch (event.kind) {
+        case TransportEventKind::None:
+            return;
+        case TransportEventKind::ConnectionLost:
+            state.authorityOnline = false;
+            touchRevision(state);
+            return;
+        case TransportEventKind::StateSnapshotApplied:
+            state.money = event.cash;
+            state.position = event.playerPosition;
+            state.commandHead = 0;
+            state.commandTail = 0;
+            state.commandCount = 0;
+            clearStaleSubmissions(state);
+            dismissModal(state);
+            state.authorityOnline = true;
+            touchRevision(state);
+            return;
+        case TransportEventKind::RollResult:
+            if (event.playerPosition != 0) state.position = event.playerPosition;
+            touchRevision(state);
+            return;
+        case TransportEventKind::MoveGuidanceStarted:
+            return;
+        case TransportEventKind::RfidPositionConfirmed:
+            state.position = event.observedPosition != 0 ? event.observedPosition : event.targetPosition;
+            touchRevision(state);
+            return;
+        case TransportEventKind::RfidPositionRejected:
+            return;
+        case TransportEventKind::PaymentRequired:
+            showModal(state, ModalKind::ForcedPayment, false, "Payment required", event.targetName,
+                      "Authority payment", event.amount, event.transactionId, event.deadlineMs);
+            return;
+        case TransportEventKind::PaymentCompleted:
+            state.money = event.cash;
+            if (state.modal.kind == ModalKind::ForcedPayment &&
+                (event.transactionId == 0 || event.transactionId == state.modal.transactionId)) {
+                dismissModal(state);
+            }
+            touchRevision(state);
+            return;
+        case TransportEventKind::DebtResolutionRequired:
+            if (state.modal.kind == ModalKind::ForcedPayment &&
+                (event.transactionId == 0 || event.transactionId == state.modal.transactionId)) {
+                state.modal.submitting = false;
+                state.modal.insufficient = true;
+                state.modal.focus = ModalFocus::ResolveAssets;
+                state.modal.deadlineMs = 0;
+                touchRevision(state);
+            }
+            return;
+        case TransportEventKind::MortgageBatchCompleted:
+            state.money = event.cash;
+            if (state.modal.kind == ModalKind::VoluntaryMortgage ||
+                state.modal.kind == ModalKind::DebtMortgageConfirm) {
+                dismissModal(state);
+            }
+            touchRevision(state);
+            return;
+        case TransportEventKind::BankruptcyResolved:
+            state.money = event.cash;
+            dismissModal(state);
+            touchRevision(state);
+            return;
+        case TransportEventKind::CommandRejected:
+            if (matchesPayNow && event.error == TransportError::InsufficientCash &&
+                state.modal.kind == ModalKind::ForcedPayment) {
+                state.modal.submitting = false;
+                state.modal.insufficient = true;
+                state.modal.focus = ModalFocus::ResolveAssets;
+                state.modal.deadlineMs = 0;
+                touchRevision(state);
+                return;
+            }
+            if (state.modal.submitting) {
+                state.modal.submitting = false;
+                touchRevision(state);
+            }
+            return;
+    }
 }
 
 void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
@@ -487,10 +677,14 @@ void appTick(AppState &state, uint32_t nowMs)
 
     if (state.modal.kind != ModalKind::None && state.modal.deadlineMs != 0 &&
         hasReachedDeadline(nowMs, state.modal.deadlineMs)) {
-        const bool autoPay = state.modal.kind == ModalKind::Payment;
-        if (autoPay) state.money -= state.modal.amount;
-        dismissModal(state);
-        showToast(state, autoPay ? "倒计时结束，已自动付款" : "收租超时，已放弃", nowMs);
+        if (state.modal.kind == ModalKind::CollectRent) {
+            dismissModal(state);
+            showToast(state, "收租超时，已放弃", nowMs);
+            return;
+        }
+        if (state.modal.kind == ModalKind::ForcedPayment && !state.modal.submitting) {
+            submitModal(state, nowMs);
+        }
         return;
     }
 
@@ -499,7 +693,10 @@ void appTick(AppState &state, uint32_t nowMs)
     if (state.modal.kind != ModalKind::None) {
         if (heldMs >= kConfirmHoldMs) {
             state.holdActionConsumed = true;
-            completeModal(state, nowMs);
+            if (state.modal.focus == ModalFocus::Confirm ||
+                state.modal.focus == ModalFocus::ResolveAssets) {
+                submitModal(state, nowMs);
+            }
         }
         return;
     }

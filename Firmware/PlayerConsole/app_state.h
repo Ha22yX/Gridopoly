@@ -11,5 +11,7 @@ uint8_t appPageContentCount(const AppState &state);
 uint8_t appFocusCount(const AppState &state);
 bool appFocusIsFooter(const AppState &state);
 void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs);
+bool appPollCommand(AppState &state, TransportCommand &command);
+void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs);
 uint16_t appHoldProgressPermille(const AppState &state, uint32_t nowMs);
 uint32_t appModalRemainingMs(const AppState &state, uint32_t nowMs);

@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#include "transport_types.h"
+
 enum class InputKind : uint8_t {
     Rotate,
     ButtonDown,
@@ -39,10 +41,17 @@ enum class HomePhase : uint8_t {
 enum class ModalKind : uint8_t {
     None,
     CollectRent,
-    Payment,
-    Mortgage,
-    Trade,
+    ForcedPayment,
+    VoluntaryMortgage,
+    TradeCreate,
+    DebtMortgageConfirm,
+    // Renderer compatibility aliases until its Task 4 modal visuals are updated.
+    Payment = ForcedPayment,
+    Mortgage = VoluntaryMortgage,
+    Trade = TradeCreate,
 };
+
+enum class ModalFocus : uint8_t { Confirm, Cancel, ResolveAssets };
 
 enum class TouchAction : uint16_t {
     None = 0,
@@ -100,14 +109,18 @@ struct AssetData {
 
 struct ModalState {
     ModalKind kind = ModalKind::None;
+    ModalFocus focus = ModalFocus::Confirm;
+    bool cancelAllowed = false;
+    bool holding = false;
+    bool submitting = false;
+    bool insufficient = false;
+    uint32_t transactionId = 0;
+    uint32_t deadlineMs = 0;
+    uint32_t holdStartMs = 0;
+    int32_t amount = 0;
     const char *title = "";
     const char *counterparty = "";
     const char *purpose = "";
-    int32_t amount = 0;
-    uint32_t openedMs = 0;
-    uint32_t deadlineMs = 0;
-    uint32_t holdStartMs = 0;
-    bool holding = false;
 };
 
 struct NavigationEntry {
@@ -155,6 +168,15 @@ struct AppState {
     int32_t tradeAmount = 100;
     int32_t money = 1860;
     uint8_t position = 17;
+    bool authorityOnline = true;
+    TransportCommand commandQueue[4]{};
+    uint8_t commandHead = 0;
+    uint8_t commandTail = 0;
+    uint8_t commandCount = 0;
+    uint32_t nextRequestId = 1;
+    uint32_t stateVersion = 1;
+    uint8_t pendingCommandMask = 0;
+    uint32_t pendingRequestIds[6]{};
     uint32_t buttonDownMs = 0;
     bool buttonHeld = false;
     bool holdActionConsumed = false;
