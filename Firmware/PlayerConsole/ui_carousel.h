@@ -17,7 +17,6 @@ enum class HomeAction : uint8_t {
 struct UiCarousel {
     lv_obj_t *container = nullptr;
     lv_obj_t *items[5]{};
-    lv_obj_t *labels[5]{};
     lv_obj_t *actionTargets[5]{};
     lv_obj_t *previousTarget = nullptr;
     lv_obj_t *nextTarget = nullptr;
@@ -26,8 +25,10 @@ struct UiCarousel {
     int16_t targetX[5]{};
     uint16_t startZoom[5]{};
     uint16_t targetZoom[5]{};
+    uint16_t currentZoom[5]{};
     uint8_t startOpacity[5]{};
     uint8_t targetOpacity[5]{};
+    uint8_t currentOpacity[5]{};
     lv_point_t swipeStart{};
     bool swipeTracking = false;
     bool suppressClick = false;

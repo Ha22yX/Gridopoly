@@ -12,22 +12,13 @@ constexpr uint32_t kSignalCyan = 0x52DCB7;
 constexpr uint32_t kDiceFill = 0x2B2618;
 constexpr uint32_t kDiceYellow = 0xF2C453;
 constexpr uint32_t kMuted = 0x81908C;
+constexpr uint32_t kCarouselBackground = 0x090E10;
 constexpr UiRect kCarouselRect{48, 300, 384, 74};
 constexpr UiRect kItemRect{0, 0, 72, 74};
-constexpr UiRect kIconRect{8, 6, 56, 28};
-constexpr UiRect kLabelRect{2, 42, 68, 24};
 constexpr int16_t kSwipeThreshold = 36;
 constexpr int16_t kSwipeDominance = 12;
-
-constexpr bool rectInside(UiRect child, UiRect parent)
-{
-    return child.x >= parent.x && child.y >= parent.y &&
-           child.x + child.w <= parent.x + parent.w &&
-           child.y + child.h <= parent.y + parent.h;
-}
-
-static_assert(rectInside(kIconRect, kItemRect) && rectInside(kLabelRect, kItemRect),
-              "carousel icon and text must stay inside their item box");
+constexpr uint8_t kItemCapacity = 5;
+constexpr uint32_t kCarouselRefreshPeriodMs = 16;
 
 const char *actionLabel(HomeAction action)
 {
@@ -58,21 +49,116 @@ int32_t interpolate(int32_t start, int32_t target, int32_t progress)
     return start + (target - start) * progress / 1000;
 }
 
+lv_coord_t scaledDimension(lv_coord_t base, uint16_t zoom)
+{
+    return static_cast<lv_coord_t>((static_cast<int32_t>(base) * zoom + 128) / 256);
+}
+
+const lv_font_t *iconFont(uint16_t zoom)
+{
+    if (zoom >= 240) return &lv_font_montserrat_20;
+    if (zoom >= 208) return &lv_font_montserrat_18;
+    return &lv_font_montserrat_16;
+}
+
+const lv_font_t *labelFont(uint16_t zoom)
+{
+    if (zoom >= 240) return &lv_font_montserrat_14;
+    if (zoom >= 208) return &lv_font_montserrat_12;
+    return &lv_font_montserrat_10;
+}
+
+uint8_t carouselItemIndex(const UiCarousel &carousel, const lv_obj_t *item)
+{
+    for (uint8_t index = 0; index < carousel.count; ++index) {
+        if (carousel.items[index] == item) return index;
+    }
+    return kItemCapacity;
+}
+
+void drawCarouselItem(lv_event_t *event)
+{
+    if (event == nullptr) return;
+    UiCarousel *carousel = static_cast<UiCarousel *>(lv_event_get_user_data(event));
+    lv_obj_t *item = lv_event_get_current_target(event);
+    if (carousel == nullptr || item == nullptr) return;
+    const uint8_t index = carouselItemIndex(*carousel, item);
+    if (index >= carousel->count) return;
+
+    lv_draw_ctx_t *drawContext = lv_event_get_draw_ctx(event);
+    if (drawContext == nullptr) return;
+    lv_area_t itemArea{};
+    lv_obj_get_coords(item, &itemArea);
+    const lv_coord_t height = lv_area_get_height(&itemArea);
+    const uint16_t zoom = carousel->currentZoom[index];
+    const lv_opa_t opacity = carousel->currentOpacity[index];
+    const bool dice = carousel->actions[index] == HomeAction::Dice;
+    const lv_color_t accent = lv_color_hex(dice ? kDiceYellow : kSignalCyan);
+
+    lv_draw_label_dsc_t icon{};
+    lv_draw_label_dsc_init(&icon);
+    icon.font = iconFont(zoom);
+    icon.color = accent;
+    icon.opa = opacity;
+    icon.align = LV_TEXT_ALIGN_CENTER;
+    lv_area_t iconArea{
+        itemArea.x1,
+        static_cast<lv_coord_t>(itemArea.y1 + height * 6 / kItemRect.h),
+        itemArea.x2,
+        static_cast<lv_coord_t>(itemArea.y1 + height * 34 / kItemRect.h)
+    };
+    lv_draw_label(drawContext, &icon, &iconArea, actionIcon(carousel->actions[index]), nullptr);
+
+    lv_draw_label_dsc_t label{};
+    lv_draw_label_dsc_init(&label);
+    label.font = labelFont(zoom);
+    label.color = lv_color_hex(dice ? kDiceYellow : kMuted);
+    label.opa = opacity;
+    label.align = LV_TEXT_ALIGN_CENTER;
+    lv_area_t labelArea{
+        itemArea.x1,
+        static_cast<lv_coord_t>(itemArea.y1 + height * 42 / kItemRect.h),
+        itemArea.x2,
+        itemArea.y2
+    };
+    lv_draw_label(drawContext, &label, &labelArea, actionLabel(carousel->actions[index]), nullptr);
+}
+
+void applyCarouselVisual(UiCarousel &carousel, uint8_t index, int16_t x,
+                         uint16_t zoom, uint8_t opacity)
+{
+    if (index >= carousel.count || carousel.items[index] == nullptr) return;
+    lv_obj_t *item = carousel.items[index];
+    const lv_coord_t width = scaledDimension(kItemRect.w, zoom);
+    const lv_coord_t height = scaledDimension(kItemRect.h, zoom);
+    lv_obj_set_pos(item, x, static_cast<lv_coord_t>((kItemRect.h - height) / 2));
+    lv_obj_set_size(item, width, height);
+    lv_obj_set_style_bg_opa(item, opacity, 0);
+    lv_obj_set_style_border_opa(item, opacity, 0);
+    lv_obj_set_style_outline_opa(item, opacity, 0);
+    lv_obj_set_style_text_opa(item, opacity, 0);
+    carousel.currentZoom[index] = zoom;
+    carousel.currentOpacity[index] = opacity;
+}
+
 void setCarouselTransitionProgress(void *object, int32_t progress)
 {
     UiCarousel &carousel = *static_cast<UiCarousel *>(object);
     for (uint8_t index = 0; index < carousel.count; ++index) {
         lv_obj_t *item = carousel.items[index];
         if (item == nullptr) continue;
-        lv_obj_set_x(item, static_cast<lv_coord_t>(
-            interpolate(carousel.startX[index], carousel.targetX[index], progress)
-        ));
-        lv_obj_set_style_transform_zoom(item, static_cast<uint16_t>(
-            interpolate(carousel.startZoom[index], carousel.targetZoom[index], progress)
-        ), 0);
-        lv_obj_set_style_opa(item, static_cast<lv_opa_t>(
-            interpolate(carousel.startOpacity[index], carousel.targetOpacity[index], progress)
-        ), 0);
+        applyCarouselVisual(
+            carousel, index,
+            static_cast<int16_t>(interpolate(
+                carousel.startX[index], carousel.targetX[index], progress
+            )),
+            static_cast<uint16_t>(interpolate(
+                carousel.startZoom[index], carousel.targetZoom[index], progress
+            )),
+            static_cast<uint8_t>(interpolate(
+                carousel.startOpacity[index], carousel.targetOpacity[index], progress
+            ))
+        );
     }
 }
 
@@ -86,7 +172,12 @@ void startCarouselTransition(UiCarousel &carousel)
     lv_anim_set_values(&animation, 0, 1000);
     lv_anim_set_time(&animation, 220);
     lv_anim_set_path_cb(&animation, lv_anim_path_ease_out);
+    lv_anim_set_early_apply(&animation, false);
     lv_anim_start(&animation);
+    lv_disp_t *display = lv_obj_get_disp(carousel.container);
+    if (display != nullptr && display->refr_timer != nullptr) {
+        lv_timer_ready(display->refr_timer);
+    }
 }
 
 int8_t relativeSlot(uint8_t index, uint8_t selected, uint8_t count)
@@ -103,10 +194,10 @@ void styleItem(lv_obj_t *item, HomeAction action, bool selected)
     if (item == nullptr) return;
     const bool dice = action == HomeAction::Dice;
     const uint32_t accent = dice ? kDiceYellow : kSignalCyan;
-    const uint32_t fill = dice ? kDiceFill : (selected ? kCyanFill : kPanel);
-    lv_obj_set_style_bg_color(item, lv_color_hex(fill), 0);
+    lv_obj_set_style_bg_color(item, lv_color_hex(dice ? kDiceFill : (selected ? kCyanFill : kPanel)), 0);
     lv_obj_set_style_border_color(item, lv_color_hex(accent), 0);
     lv_obj_set_style_border_width(item, selected ? 2 : 1, 0);
+    lv_obj_set_style_radius(item, 8, 0);
     lv_obj_set_style_outline_color(item, lv_color_hex(accent), 0);
     lv_obj_set_style_outline_width(item, dice ? 1 : 0, 0);
     lv_obj_set_style_outline_pad(item, dice ? 3 : 0, 0);
@@ -233,8 +324,12 @@ void uiCarouselCreate(UiCarousel &carousel, lv_obj_t *parent,
     uiCarouselDestroy(carousel);
     if (parent == nullptr || actions == nullptr) return;
 
-    carousel.container = uiBox(parent, kCarouselRect, 0x090E10, 0x090E10, 0);
+    carousel.container = uiBox(parent, kCarouselRect, kCarouselBackground, kCarouselBackground, 0);
     if (carousel.container == nullptr) return;
+    lv_disp_t *display = lv_obj_get_disp(carousel.container);
+    if (display != nullptr && display->refr_timer != nullptr) {
+        lv_timer_set_period(display->refr_timer, kCarouselRefreshPeriodMs);
+    }
     lv_obj_set_style_bg_opa(carousel.container, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(carousel.container, 0, 0);
     lv_obj_clear_flag(carousel.container, LV_OBJ_FLAG_SCROLLABLE);
@@ -243,25 +338,21 @@ void uiCarouselCreate(UiCarousel &carousel, lv_obj_t *parent,
     carousel.selected = selected < carousel.count ? selected : 0;
 
     for (uint8_t index = 0; index < 5; ++index) {
-        lv_obj_t *item = uiBox(carousel.container, kItemRect, kPanel, kSignalCyan, 8);
+        lv_obj_t *item = lv_obj_create(carousel.container);
         carousel.items[index] = item;
         if (item == nullptr) continue;
+        lv_obj_remove_style_all(item);
+        lv_obj_set_style_pad_all(item, 0, 0);
         // The container owns both gesture recognition and two-tap activation.
         lv_obj_clear_flag(item, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_add_flag(item, LV_OBJ_FLAG_EVENT_BUBBLE);
-        lv_obj_set_style_transform_pivot_x(item, kItemRect.w / 2, 0);
-        lv_obj_set_style_transform_pivot_y(item, kItemRect.h / 2, 0);
+        lv_obj_add_event_cb(item, drawCarouselItem, LV_EVENT_DRAW_POST, &carousel);
         if (index >= carousel.count) {
             lv_obj_add_flag(item, LV_OBJ_FLAG_HIDDEN);
             continue;
         }
         const HomeAction action = actions[index];
         carousel.actions[index] = action;
-        uiLabel(item, actionIcon(action), kIconRect, &lv_font_montserrat_20,
-                action == HomeAction::Dice ? kDiceYellow : kSignalCyan);
-        carousel.labels[index] = uiLabel(item, actionLabel(action), kLabelRect,
-                                         &lv_font_montserrat_14,
-                                         action == HomeAction::Dice ? kDiceYellow : kMuted);
         styleItem(item, action, index == carousel.selected);
     }
     lv_obj_add_flag(carousel.container, LV_OBJ_FLAG_CLICKABLE);
@@ -279,20 +370,25 @@ void uiCarouselCreate(UiCarousel &carousel, lv_obj_t *parent,
 void uiCarouselSetSelection(UiCarousel &carousel, uint8_t selected, bool animate)
 {
     if (carousel.container == nullptr || carousel.count == 0 || selected >= carousel.count) return;
+    const uint8_t previousSelected = carousel.selected;
     for (uint8_t index = 0; index < carousel.count; ++index) {
         lv_obj_t *item = carousel.items[index];
         if (item == nullptr) continue;
         lv_obj_update_layout(item);
         carousel.startX[index] = lv_obj_get_x(item);
-        carousel.startZoom[index] = lv_obj_get_style_transform_zoom(item, 0);
-        carousel.startOpacity[index] = lv_obj_get_style_opa(item, 0);
+        carousel.startZoom[index] = carousel.currentZoom[index];
+        carousel.startOpacity[index] = carousel.currentOpacity[index];
         const CarouselPose target = uiCarouselPose(relativeSlot(index, selected, carousel.count));
+        const lv_coord_t targetWidth = scaledDimension(kItemRect.w, target.zoom);
         carousel.targetX[index] = static_cast<int16_t>(
-            target.centerX - kCarouselRect.x - kItemRect.w / 2
+            target.centerX - kCarouselRect.x - targetWidth / 2
         );
         carousel.targetZoom[index] = target.zoom;
         carousel.targetOpacity[index] = target.opacity;
-        styleItem(item, carousel.actions[index], index == selected);
+        if (previousSelected != selected &&
+            (index == previousSelected || index == selected)) {
+            styleItem(item, carousel.actions[index], index == selected);
+        }
     }
     carousel.selected = selected;
     if (animate) startCarouselTransition(carousel);
@@ -305,6 +401,12 @@ void uiCarouselSetSelection(UiCarousel &carousel, uint8_t selected, bool animate
 void uiCarouselDestroy(UiCarousel &carousel)
 {
     lv_anim_del(&carousel, setCarouselTransitionProgress);
-    if (carousel.container != nullptr) lv_obj_del(carousel.container);
+    if (carousel.container != nullptr) {
+        lv_disp_t *display = lv_obj_get_disp(carousel.container);
+        if (display != nullptr && display->refr_timer != nullptr) {
+            lv_timer_set_period(display->refr_timer, LV_DISP_DEF_REFR_PERIOD);
+        }
+        lv_obj_del(carousel.container);
+    }
     carousel = UiCarousel{};
 }

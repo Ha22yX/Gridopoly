@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <esp_display_panel.hpp>
+#include <esp_attr.h>
 #include <esp_rom_sys.h>
+#include <esp_system.h>
 #include <lvgl.h>
 #include <new>
 
@@ -24,6 +26,11 @@
 using namespace esp_panel::drivers;
 using namespace esp_panel::board;
 
+#if GRIDOPOLY_SELF_TEST == 1
+bool runPureLogicTests(Stream &out);
+bool runLvglComponentTests(Stream &out);
+#endif
+
 namespace {
 
 AppState app;
@@ -33,8 +40,117 @@ bool lvglReady = false;
 
 #if GRIDOPOLY_SELF_TEST == 1
 constexpr size_t kTestCapacity = 8192;
+constexpr uint32_t kCarouselPerfTransitionMs = 220;
+constexpr uint32_t kCarouselPerfMinFrames = 6;
+constexpr uint32_t kCarouselPerfMinFps = 24;
+constexpr uint32_t kCarouselPerfMaxGapMs = 42;
+constexpr uint32_t kCarouselPerfObserveMs = 320;
+constexpr uint32_t kSelfTestCheckpointMagic = 0x47525034;
 char testBuffer[kTestCapacity] = {};
 RomConsoleStream testOutput(testBuffer, sizeof(testBuffer));
+
+struct SelfTestCheckpoint {
+    uint32_t magic;
+    uint32_t inverseMagic;
+    uint32_t componentPassed;
+    uint32_t inverseComponentPassed;
+};
+
+RTC_NOINIT_ATTR SelfTestCheckpoint selfTestCheckpoint;
+
+struct CarouselPerfResult {
+    uint32_t frames = 0;
+    uint32_t fps = 0;
+    uint32_t maxGapMs = 0;
+    uint32_t coverageMs = 0;
+    bool passed = false;
+};
+
+struct CarouselPerfProbe {
+    volatile bool armed = false;
+    volatile uint32_t startedMs = 0;
+    volatile uint32_t previousFrameMs = 0;
+    volatile uint32_t lastFrameMs = 0;
+    volatile uint32_t frames = 0;
+    volatile uint32_t maxGapMs = 0;
+    void (*previousMonitor)(lv_disp_drv_t *, uint32_t, uint32_t) = nullptr;
+};
+
+CarouselPerfProbe carouselPerfProbe{};
+
+constexpr bool carouselPerfMeetsGate(uint32_t frames, uint32_t fps,
+                                     uint32_t maxGapMs, uint32_t coverageMs)
+{
+    return frames >= kCarouselPerfMinFrames && fps >= kCarouselPerfMinFps &&
+           maxGapMs <= kCarouselPerfMaxGapMs && coverageMs >= kCarouselPerfTransitionMs;
+}
+
+static_assert(carouselPerfMeetsGate(6, 24, 42, 220), "carousel performance boundary must pass");
+static_assert(!carouselPerfMeetsGate(5, 24, 42, 220), "carousel frame count must span the transition");
+static_assert(!carouselPerfMeetsGate(6, 23, 42, 220), "carousel FPS floor must be enforced");
+static_assert(!carouselPerfMeetsGate(6, 24, 43, 220), "carousel frame gap ceiling must be enforced");
+static_assert(!carouselPerfMeetsGate(6, 24, 42, 219), "carousel measurement must span 220ms");
+
+void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixelCount)
+{
+    if (carouselPerfProbe.armed && pixelCount > 0) {
+        const uint32_t nowMs = millis();
+        const uint32_t gapMs = nowMs - carouselPerfProbe.previousFrameMs;
+        carouselPerfProbe.previousFrameMs = nowMs;
+        carouselPerfProbe.lastFrameMs = nowMs;
+        if (gapMs > carouselPerfProbe.maxGapMs) carouselPerfProbe.maxGapMs = gapMs;
+        ++carouselPerfProbe.frames;
+    }
+    if (carouselPerfProbe.previousMonitor != nullptr) {
+        carouselPerfProbe.previousMonitor(driver, renderMs, pixelCount);
+    }
+}
+
+CarouselPerfResult runCarouselPerfFixture(AppState &state)
+{
+    CarouselPerfResult result{};
+    if (!lvgl_port_lock(1000)) return result;
+    lv_disp_t *display = lv_disp_get_default();
+    if (display == nullptr || display->driver == nullptr ||
+        display->driver->monitor_cb == carouselPerfMonitor) {
+        lvgl_port_unlock();
+        return result;
+    }
+
+    carouselPerfProbe.previousMonitor = display->driver->monitor_cb;
+    carouselPerfProbe.frames = 0;
+    carouselPerfProbe.maxGapMs = 0;
+    carouselPerfProbe.startedMs = millis();
+    carouselPerfProbe.previousFrameMs = carouselPerfProbe.startedMs;
+    carouselPerfProbe.lastFrameMs = carouselPerfProbe.startedMs;
+    carouselPerfProbe.armed = true;
+    display->driver->monitor_cb = carouselPerfMonitor;
+    appHandleInput(
+        state,
+        InputEvent{InputKind::Rotate, 1, carouselPerfProbe.startedMs},
+        carouselPerfProbe.startedMs
+    );
+    uiRendererRender(state, carouselPerfProbe.startedMs);
+    lvgl_port_unlock();
+
+    delay(kCarouselPerfObserveMs);
+
+    if (!lvgl_port_lock(1000)) return result;
+    carouselPerfProbe.armed = false;
+    display->driver->monitor_cb = carouselPerfProbe.previousMonitor;
+    result.frames = carouselPerfProbe.frames;
+    result.maxGapMs = carouselPerfProbe.maxGapMs;
+    result.coverageMs = carouselPerfProbe.lastFrameMs - carouselPerfProbe.startedMs;
+    lvgl_port_unlock();
+
+    if (result.coverageMs > 0) {
+        result.fps = result.frames * 1000U / result.coverageMs;
+    }
+    result.passed = carouselPerfMeetsGate(
+        result.frames, result.fps, result.maxGapMs, result.coverageMs
+    );
+    return result;
+}
 #endif
 
 void fault(const char *code)
@@ -54,12 +170,50 @@ void setup()
     delay(200);
 
 #if GRIDOPOLY_SELF_TEST == 1
-    // Leave enough time to attach a monitor after the uploader resets native USB.
-    delay(12000);
+    const bool resumedComponentPhase =
+        esp_reset_reason() == ESP_RST_SW &&
+        selfTestCheckpoint.magic == kSelfTestCheckpointMagic &&
+        selfTestCheckpoint.inverseMagic == ~kSelfTestCheckpointMagic &&
+        selfTestCheckpoint.componentPassed <= 1 &&
+        selfTestCheckpoint.inverseComponentPassed == ~selfTestCheckpoint.componentPassed;
+    if (!resumedComponentPhase) {
+        // The uploader releases native USB after this boot has already started.
+        delay(3000);
+        testOutput.reset();
+        const bool cleanStart = !lv_is_initialized();
+        const bool componentTestsPassed = runLvglComponentTests(testOutput);
+        const bool cleanObjects = lv_disp_get_next(nullptr) == nullptr &&
+                                  lv_indev_get_next(nullptr) == nullptr;
+        const bool componentPhasePassed = cleanStart && componentTestsPassed && cleanObjects;
+        testOutput.printf(
+            "[%s] fake-display component phase releases every display and input\n",
+            cleanObjects ? "PASS" : "FAIL"
+        );
+        selfTestCheckpoint.componentPassed = componentPhasePassed ? 1U : 0U;
+        selfTestCheckpoint.inverseComponentPassed = ~selfTestCheckpoint.componentPassed;
+        selfTestCheckpoint.inverseMagic = ~kSelfTestCheckpointMagic;
+        selfTestCheckpoint.magic = kSelfTestCheckpointMagic;
+        esp_rom_printf("%s\n", testOutput.data());
+        esp_rom_printf("COMPONENT TESTS %s\n", componentPhasePassed ? "PASS" : "FAIL");
+        delay(100);
+        esp_restart();
+        while (true) delay(1000);
+    }
+
+    const bool componentPassed = selfTestCheckpoint.componentPassed == 1U;
+    selfTestCheckpoint.magic = 0;
+    selfTestCheckpoint.inverseMagic = 0;
+    selfTestCheckpoint.componentPassed = 0;
+    selfTestCheckpoint.inverseComponentPassed = 0;
     testOutput.reset();
-    const bool passed = runLogicTests(testOutput);
-    esp_rom_printf("%s%s\n", testOutput.data(), passed ? "SELFTEST PASS" : "SELFTEST FAILED");
-    if (!passed) while (true) delay(1000);
+    const bool cleanBeforePure = !lv_is_initialized();
+    const bool pureTestsPassed = runPureLogicTests(testOutput);
+    const bool cleanAfterPure = !lv_is_initialized();
+    const bool purePassed = cleanBeforePure && pureTestsPassed && cleanAfterPure;
+    testOutput.printf(
+        "[%s] pure logic leaves LVGL uninitialized before physical port setup\n",
+        cleanBeforePure && cleanAfterPure ? "PASS" : "FAIL"
+    );
 #endif
 
     Board *board = new (std::nothrow) Board();
@@ -89,6 +243,23 @@ void setup()
     if (rendererReady) uiRendererRender(app, millis());
     lvgl_port_unlock();
     if (!rendererReady) { fault("UI_INIT"); return; }
+
+#if GRIDOPOLY_SELF_TEST == 1
+    // Leave enough time to attach a monitor after the uploader resets native USB.
+    delay(12000);
+    const CarouselPerfResult perf = runCarouselPerfFixture(app);
+    const bool passed = purePassed && componentPassed && perf.passed;
+    esp_rom_printf("%s\n", testOutput.data());
+    esp_rom_printf(
+        "CAROUSEL PERF frames=%u fps=%u max_gap_ms=%u %s\n",
+        static_cast<unsigned>(perf.frames),
+        static_cast<unsigned>(perf.fps),
+        static_cast<unsigned>(perf.maxGapMs),
+        perf.passed ? "PASS" : "FAIL"
+    );
+    esp_rom_printf("%s\n", passed ? "SELFTEST PASS" : "SELFTEST FAILED");
+    if (!passed) while (true) delay(1000);
+#endif
 
     ready = true;
     Serial.printf("Gridopoly Player Console ready; mechanical=%d firmware=%d\n",

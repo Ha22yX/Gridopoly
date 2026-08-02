@@ -18,9 +18,14 @@ $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
 $captured = ''
 $markerWindowSize = 128
 $serial = $null
+$serialOpenAttempts = 0
+$serialOpenCount = 0
+$serialReadFailures = 0
+$componentBoundaryHandled = $false
 try {
     while ([DateTime]::UtcNow -lt $deadline) {
         if ($null -eq $serial) {
+            ++$serialOpenAttempts
             try {
                 $serial = [IO.Ports.SerialPort]::new(
                     $Port,
@@ -33,6 +38,8 @@ try {
                 $serial.DtrEnable = $false
                 $serial.RtsEnable = $false
                 $serial.Open()
+                ++$serialOpenCount
+                Write-Host "SELFTEST SERIAL OPEN attempts=$serialOpenAttempts opens=$serialOpenCount"
             } catch {
                 if ($null -ne $serial) { $serial.Dispose() }
                 $serial = $null
@@ -53,13 +60,27 @@ try {
             $captured = Add-SelfTestMarkerText -Window $captured -Chunk $chunk -MaximumLength $markerWindowSize
             if ($captured.Contains('SELFTEST FAILED')) { exit 1 }
             if ($captured.Contains('SELFTEST PASS')) { exit 0 }
+            if (-not $componentBoundaryHandled -and
+                $captured -match 'COMPONENT TESTS (PASS|FAIL)') {
+                $componentBoundaryHandled = $true
+                Write-Host 'SELFTEST SERIAL RECONNECT component-boundary'
+                if ($serial.IsOpen) { $serial.Close() }
+                $serial.Dispose()
+                $serial = $null
+                $captured = ''
+                Start-Sleep -Milliseconds 250
+            }
         } catch {
-            $serial.Close()
-            $serial.Dispose()
+            ++$serialReadFailures
+            if ($null -ne $serial) {
+                if ($serial.IsOpen) { $serial.Close() }
+                $serial.Dispose()
+            }
             $serial = $null
             Start-Sleep -Milliseconds 250
         }
     }
+    Write-Host "SELFTEST SERIAL TIMEOUT attempts=$serialOpenAttempts opens=$serialOpenCount read_failures=$serialReadFailures"
     Write-Error "Timed out waiting for a self-test marker on $Port."
     exit 1
 } finally {

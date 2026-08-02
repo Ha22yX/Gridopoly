@@ -776,6 +776,30 @@ bool uiRendererPollTouch(TouchAction &action)
     return true;
 }
 
+void uiRendererResetForTest()
+{
+    uiCarouselDestroy(homeCarousel);
+    uiCenterListDestroy(centerList);
+    if (root != nullptr) lv_obj_clean(root);
+    root = nullptr;
+    modalFill = nullptr;
+    modalCountdown = nullptr;
+    renderedRevision = 0;
+    lastDynamicDrawMs = 0;
+    tapBindingCount = 0;
+    touchHead = 0;
+    touchTail = 0;
+    touchCount = 0;
+    focusMotion = 0;
+    hasRenderedState = false;
+    previousPage = ScreenPage::Home;
+    previousFocus = 0;
+    previousHomePhase = HomePhase::Waiting;
+    previousInlineEditField = InlineEditField::None;
+    previousBoundaryPulseRevision = 0;
+    uiSetEventSink(nullptr);
+}
+
 void uiRendererShowFault(const char *code)
 {
     if (root == nullptr && !uiRendererBegin()) return;

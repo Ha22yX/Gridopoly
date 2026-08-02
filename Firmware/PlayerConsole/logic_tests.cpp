@@ -14,6 +14,10 @@
 #include <limits.h>
 #include <string.h>
 
+#if GRIDOPOLY_SELF_TEST == 1
+void uiRendererResetForTest();
+#endif
+
 namespace {
 
 bool expect(Stream &out, bool condition, const char *name)
@@ -82,6 +86,7 @@ bool runCarouselComponentTests(Stream &out)
 {
     bool ok = true;
     if (!lv_is_initialized()) lv_init();
+    lv_disp_t *const previousDisplay = lv_disp_get_default();
 
     static lv_color_t pixels[480]{};
     static lv_disp_draw_buf_t drawBuffer{};
@@ -105,6 +110,7 @@ bool runCarouselComponentTests(Stream &out)
     displayDriver.hor_res = 480;
     displayDriver.ver_res = 480;
     lv_disp_t *display = lv_disp_drv_register(&displayDriver);
+    if (display != nullptr) lv_disp_set_default(display);
 
     lv_indev_drv_init(&inputDriver);
     inputDriver.type = LV_INDEV_TYPE_POINTER;
@@ -115,6 +121,15 @@ bool runCarouselComponentTests(Stream &out)
     const uint8_t count = uiCarouselActions(HomePhase::Waiting, actions);
     uiSetEventSink(captureCarouselEvent);
     uiCarouselCreate(carousel, parent, actions, count, 0);
+
+    bool flattenedItems = true;
+    for (uint8_t index = 0; index < count; ++index) {
+        flattenedItems &= carousel.items[index] != nullptr &&
+                          lv_obj_check_type(carousel.items[index], &lv_obj_class) &&
+                          lv_obj_get_child_cnt(carousel.items[index]) == 0;
+    }
+    ok &= expect(out, flattenedItems,
+                 "carousel draws each action in one retained childless geometry object");
 
     lv_obj_t *const retainedContainer = carousel.container;
     lv_obj_t *const retainedFirst = carousel.items[0];
@@ -150,6 +165,12 @@ bool runCarouselComponentTests(Stream &out)
                       uiCarouselSwipeStep(-36, 25) == 0 && uiCarouselSwipeStep(36, -25) == 0,
                  "Home swipe accepts exact 36px and 12px dominance edges in both directions");
 
+    int16_t initialWidths[5]{};
+    uint8_t initialOpacities[5]{};
+    for (uint8_t index = 0; index < count; ++index) {
+        initialWidths[index] = lv_obj_get_width(carousel.items[index]);
+        initialOpacities[index] = carousel.currentOpacity[index];
+    }
     uiCarouselSetSelection(carousel, 1, true);
     lv_anim_t *master = lv_anim_get(&carousel, nullptr);
     ok &= expect(out, master != nullptr && master->start_value == 0 && master->end_value == 1000 &&
@@ -158,6 +179,13 @@ bool runCarouselComponentTests(Stream &out)
     lv_tick_inc(80);
     lv_anim_refr_now();
     const int16_t interruptedX = lv_obj_get_x(carousel.items[0]);
+    bool completePoseChanged = true;
+    for (uint8_t index = 0; index < count; ++index) {
+        completePoseChanged &= lv_obj_get_width(carousel.items[index]) != initialWidths[index] &&
+                               carousel.currentOpacity[index] != initialOpacities[index];
+    }
+    ok &= expect(out, completePoseChanged,
+                 "one master callback updates every action scale and opacity together");
     uiCarouselSetSelection(carousel, 2, true);
     master = lv_anim_get(&carousel, nullptr);
     ok &= expect(out, master != nullptr && carousel.container == retainedContainer &&
@@ -168,6 +196,7 @@ bool runCarouselComponentTests(Stream &out)
     uiSetEventSink(nullptr);
     if (parent != nullptr) lv_obj_del(parent);
     if (input != nullptr) lv_indev_delete(input);
+    lv_disp_set_default(previousDisplay);
     if (display != nullptr) {
         display->act_scr = nullptr;
         lv_disp_remove(display);
@@ -179,6 +208,7 @@ bool runCenterListComponentTests(Stream &out)
 {
     bool ok = true;
     if (!lv_is_initialized()) lv_init();
+    lv_disp_t *const previousDisplay = lv_disp_get_default();
 
     static lv_color_t pixels[480]{};
     static lv_disp_draw_buf_t drawBuffer{};
@@ -197,6 +227,7 @@ bool runCenterListComponentTests(Stream &out)
     displayDriver.hor_res = 480;
     displayDriver.ver_res = 480;
     lv_disp_t *display = lv_disp_drv_register(&displayDriver);
+    if (display != nullptr) lv_disp_set_default(display);
 
     lv_indev_drv_init(&inputDriver);
     inputDriver.type = LV_INDEV_TYPE_POINTER;
@@ -313,8 +344,11 @@ bool runCenterListComponentTests(Stream &out)
                       pulse->end_value == footerRestY + 6 &&
                       pulse->end_value <= footerRestY + 6,
                  "returning footer interruption retargets from current y without overshoot");
-    lv_tick_inc(240);
+    lv_tick_inc(60);
     lv_anim_refr_now();
+    lv_tick_inc(120);
+    lv_anim_refr_now();
+    lv_obj_update_layout(list.footer);
     ok &= expect(out, lv_anim_get(&list, nullptr) == nullptr &&
                       lv_obj_get_y(list.footer) == footerRestY,
                  "boundary feedback returns to rest without queued travel");
@@ -365,6 +399,7 @@ bool runCenterListComponentTests(Stream &out)
     centerListEventCount = 0;
     const uint32_t footerRevision = footerBoundary.boundaryPulseRevision;
     const uint32_t footerActivation = footerBoundary.commandCount;
+    const uint8_t footerAnchor = footerBoundary.nav.current.listAnchor;
     const bool footerDispatched = uiCenterListDispatchSwipe(
         list.viewport, input, lv_point_t{240, 220}, lv_point_t{240, 184}
     );
@@ -373,6 +408,7 @@ bool runCenterListComponentTests(Stream &out)
                       centerListEvents[0].kind == UiEventKind::ListNext &&
                       footerBoundary.nav.current.page == ScreenPage::Assets &&
                       appFocusIsFooter(footerBoundary) &&
+                      footerBoundary.nav.current.listAnchor == footerAnchor &&
                       footerBoundary.assetListIndex == kAssetCount - 1 &&
                       uiListProgressPermille(footerBoundary.assetListIndex, kAssetCount) == 1000 &&
                       appFocusCount(footerBoundary) == kAssetCount + 1 &&
@@ -393,6 +429,7 @@ bool runCenterListComponentTests(Stream &out)
     uiSetEventSink(nullptr);
     if (parent != nullptr) lv_obj_del(parent);
     if (input != nullptr) lv_indev_delete(input);
+    lv_disp_set_default(previousDisplay);
     if (display != nullptr) {
         display->act_scr = nullptr;
         lv_disp_remove(display);
@@ -454,6 +491,7 @@ uint8_t renderedTurnDots(lv_obj_t *screen, uint8_t expectedFilled)
 bool runHomeRendererTests(Stream &out)
 {
     bool ok = true;
+    lv_disp_t *const previousDisplay = lv_disp_get_default();
     static lv_color_t pixels[480]{};
     static lv_disp_draw_buf_t drawBuffer{};
     static lv_disp_drv_t driver{};
@@ -467,6 +505,7 @@ bool runHomeRendererTests(Stream &out)
     driver.hor_res = 480;
     driver.ver_res = 480;
     lv_disp_t *display = lv_disp_drv_register(&driver);
+    if (display != nullptr) lv_disp_set_default(display);
     appInit(state, 0);
     ok &= expect(out, display != nullptr && uiRendererBegin(),
                  "Home render fixture initializes a real LVGL screen");
@@ -496,6 +535,10 @@ bool runHomeRendererTests(Stream &out)
                       dice != nullptr &&
                       lv_obj_get_style_border_color(dice, 0).full == lv_color_hex(0xF2C453).full,
                  "My Turn uses the green ring while Dice retains yellow priority");
+#if GRIDOPOLY_SELF_TEST == 1
+    uiRendererResetForTest();
+#endif
+    lv_disp_set_default(previousDisplay);
     if (display != nullptr) {
         display->act_scr = nullptr;
         lv_disp_remove(display);
@@ -1744,12 +1787,23 @@ bool runStateLogicTests(Stream &out)
     return ok;
 }
 
-bool runLogicTests(Stream &out)
+bool runPureLogicTests(Stream &out)
+{
+    return runStateLogicTests(out);
+}
+
+bool runLvglComponentTests(Stream &out)
 {
     bool ok = true;
     ok &= runCenterListComponentTests(out);
     ok &= runCarouselComponentTests(out);
     ok &= runHomeRendererTests(out);
-    ok &= runStateLogicTests(out);
+    return ok;
+}
+
+bool runLogicTests(Stream &out)
+{
+    bool ok = runLvglComponentTests(out);
+    ok &= runPureLogicTests(out);
     return ok;
 }
