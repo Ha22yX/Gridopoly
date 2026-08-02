@@ -533,7 +533,7 @@ void appInit(AppState &state, uint32_t nowMs)
 {
     state = AppState{};
     state.toast = "旋转浏览 · 按下选择";
-    state.toastUntilMs = nowMs + 2500;
+    state.toastUntilMs = nowMs + 1500;
     syncLegacyState(state);
 }
 
@@ -613,10 +613,9 @@ void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
             return;
         case UiEventKind::SelectHomeAction:
             if (state.nav.current.page != ScreenPage::Home) return;
-            if (event.value < 0 || event.value >= 4) return;
+            if (event.value < 0 || event.value >= contentCount(state, ScreenPage::Home)) return;
             {
-                const uint8_t actionFocus = static_cast<uint8_t>(event.value +
-                    (state.homePhase == HomePhase::MyTurn ? 1 : 0));
+                const uint8_t actionFocus = static_cast<uint8_t>(event.value);
                 if (state.nav.current.focus != actionFocus) {
                     setFocus(state, actionFocus);
                     return;
@@ -805,7 +804,7 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
     if (state.modal.kind != ModalKind::None) return;
 
     const uint16_t raw = static_cast<uint16_t>(action);
-    if (raw >= 100 && raw <= 103) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, static_cast<int16_t>(raw - 100)}, nowMs); return; }
+    if (raw >= 100 && raw <= 104) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, static_cast<int16_t>(raw - 100)}, nowMs); return; }
     if (raw >= 200 && raw <= 204) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 200)}, nowMs); return; }
     if (raw >= 300 && raw <= 304) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 300)}, nowMs); return; }
     if (raw >= 400 && raw <= 403) {

@@ -9,6 +9,8 @@
 #include "demo_data.h"
 #include "src/assets/sample_assets.h"
 #include "src/fonts/ui_fonts.h"
+#include "ui_carousel.h"
+#include "ui_motion.h"
 #include "ui_primitives.h"
 
 // Keep the call sites compact while replacing LVGL's incomplete built-in CJK
@@ -32,6 +34,7 @@ uint32_t renderedRevision = 0;
 uint32_t lastDynamicDrawMs = 0;
 lv_obj_t *modalFill = nullptr;
 lv_obj_t *modalCountdown = nullptr;
+UiCarousel homeCarousel{};
 struct TapBinding {
     lv_obj_t *object;
     TouchAction action;
@@ -69,6 +72,11 @@ constexpr UiRect kModalAmount{128, 156, 224, 36};
 constexpr UiRect kModalDetail{120, 198, 240, 28};
 constexpr UiRect kModalCountdown{128, 230, 224, 20};
 constexpr UiRect kModalConfirmLabel{140, 272, 200, 32};
+constexpr UiRect kHomeTitle{70, 66, 340, 44};
+constexpr UiRect kHomeCashLabel{150, 132, 180, 22};
+constexpr UiRect kHomeCashAmount{70, 158, 340, 48};
+constexpr UiRect kHomeLocation{90, 226, 300, 28};
+constexpr UiRect kHomeDivider{96, 270, 288, 1};
 
 constexpr bool rectInside(UiRect child, UiRect parent)
 {
@@ -140,6 +148,8 @@ void handleUiEvent(const UiEvent &event)
         enqueueTouch(TouchAction::PressUp);
     } else if (event.kind == UiEventKind::ActivateFocused) {
         enqueueTouch(static_cast<TouchAction>(event.value));
+    } else if (event.kind == UiEventKind::SelectHomeAction && event.value >= 0 && event.value < 5) {
+        enqueueTouch(static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::HomeAssets) + event.value));
     }
 }
 
@@ -170,9 +180,6 @@ void makeClickable(lv_obj_t *obj, TouchAction action)
     }
 }
 
-const char *homeMenuName(uint8_t index);
-TouchAction homeMenuAction(uint8_t index);
-
 uint32_t focusAccent(const AppState &state)
 {
     switch (state.page) {
@@ -189,8 +196,7 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
 {
     switch (state.page) {
         case ScreenPage::Home:
-            return state.homePhase == HomePhase::MyTurn && state.focus == 0 &&
-                   action == TouchAction::DetailPrimary;
+            return false;
         case ScreenPage::Assets:
             return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Asset0) + state.focus);
         case ScreenPage::Players:
@@ -211,25 +217,9 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
 void refreshSamePageFocus(const AppState &state)
 {
     const uint32_t accent = focusAccent(state);
-    uint8_t menuFocus = state.focus;
-    if (state.page == ScreenPage::Home && state.homePhase == HomePhase::MyTurn) {
-        menuFocus = state.focus == 0 ? 0 : state.focus - 1;
-    }
     for (uint8_t index = 0; index < tapBindingCount; ++index) {
         TapBinding &binding = tapBindings[index];
-        if (state.page == ScreenPage::Home &&
-            binding.action >= TouchAction::HomeAssets && binding.action <= TouchAction::HomeMore) {
-            const int16_t x = lv_obj_get_x(binding.object);
-            const int8_t offset = x < 180 ? -1 : (x > 260 ? 1 : 0);
-            const uint8_t menuIndex = static_cast<uint8_t>((menuFocus + offset + 4) % 4);
-            binding.action = homeMenuAction(menuIndex);
-            uiBindTap(binding.object, UiEventKind::ActivateFocused, static_cast<int16_t>(binding.action));
-            lv_label_set_text(lv_obj_get_child(binding.object, 0), homeMenuName(menuIndex));
-        }
-        const bool focused = (state.page == ScreenPage::Home &&
-                              binding.action >= TouchAction::HomeAssets && binding.action <= TouchAction::HomeMore)
-                                 ? lv_obj_get_x(binding.object) == 207
-                                 : bindingIsFocused(state, binding.action);
+        const bool focused = bindingIsFocused(state, binding.action);
         lv_obj_set_style_bg_color(binding.object, lv_color_hex(focused ? 0x16302A : kPanel), 0);
         lv_obj_set_style_border_color(binding.object, lv_color_hex(focused ? accent : kLine), 0);
         if (focused) animateFocusEntry(binding.object);
@@ -260,68 +250,36 @@ void drawToast(const AppState &state, uint32_t nowMs)
     label(toast, state.toast, 8, 7, 240, &lv_font_simsun_16_cjk, kText);
 }
 
-const char *homeMenuName(uint8_t index)
-{
-    static const char *names[4] = {"资产", "玩家", "交易", "更多"};
-    return names[index % 4];
-}
-
-TouchAction homeMenuAction(uint8_t index)
-{
-    return static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::HomeAssets) + index);
-}
-
-void drawHomeWheel(const AppState &state)
-{
-    uint8_t menuFocus = state.focus;
-    if (state.homePhase == HomePhase::MyTurn) menuFocus = state.focus == 0 ? 0 : state.focus - 1;
-    const uint8_t indexes[3] = {
-        static_cast<uint8_t>((menuFocus + 3) % 4), menuFocus, static_cast<uint8_t>((menuFocus + 1) % 4)
-    };
-    const int16_t xs[3] = {126, 207, 288};
-    for (uint8_t i = 0; i < 3; ++i) {
-        const bool selected = i == 1 && !(state.homePhase == HomePhase::MyTurn && state.focus == 0);
-        lv_obj_t *item = box(root, xs[i], 326, 66, 58, selected ? 0x16302A : kPanel,
-                             selected ? kGreen : kLine, 29);
-        label(item, homeMenuName(indexes[i]), 3, 18, 60, &lv_font_simsun_16_cjk,
-              selected ? kGreen : kMuted);
-        makeClickable(item, homeMenuAction(indexes[i]));
-        if (selected) animateFocusEntry(item);
-    }
-}
-
 void drawHome(const AppState &state)
 {
-    const uint32_t accent = state.homePhase == HomePhase::MyTurn ? kGreen : kYellow;
+    const uint32_t accent = state.homePhase == HomePhase::MyTurn ? kYellow : kGreen;
     drawOuterRing(accent);
+    const char *title = "WAITING | 3 PLAYERS AHEAD";
     if (state.homePhase == HomePhase::Waiting) {
-        drawHeader("3 位玩家后轮到你", "回合队列  ● ● ● ○ ○");
-        label(root, "可用资金", 150, 137, 180, &lv_font_simsun_16_cjk, kMuted);
-        char money[24];
-        snprintf(money, sizeof(money), "$ %ld", static_cast<long>(state.money));
-        label(root, money, 70, 167, 340, &lv_font_montserrat_40, kText);
-        label(root, "第 17 格 · 霓虹港湾", 90, 235, 300, &lv_font_simsun_16_cjk, kGreen);
+        title = "WAITING | 3 PLAYERS AHEAD";
     } else if (state.homePhase == HomePhase::NextPlayer) {
-        drawHeader("下一位就是你", "回合即将开始");
-        lv_obj_t *avatar = box(root, 197, 128, 86, 86, 0x211A1A, kRed, 43);
-        label(avatar, "砾", 27, 25, 32, &lv_font_simsun_16_cjk, kRed);
-        label(root, "砾川正在行动", 100, 224, 280, &lv_font_simsun_16_cjk, kText);
-        label(root, "准备好旋钮与触摸操作", 90, 252, 300, &lv_font_simsun_16_cjk, kMuted);
+        title = "NEXT | YOUR TURN IS CLOSE";
     } else {
-        drawHeader("你的回合", "行动阶段");
-        const bool diceFocused = state.focus == 0;
-        lv_obj_t *dice = box(root, 191, 119, 98, 98, diceFocused ? 0x16302A : kPanel,
-                             diceFocused ? kGreen : kLine, 8);
-        label(dice, "•  •\n  •\n•  •", 15, 12, 68, &lv_font_montserrat_20, kGreen);
-        makeClickable(dice, TouchAction::DetailPrimary);
-        if (diceFocused) animateFocusEntry(dice);
-        label(root, "按下掷骰", 120, 226, 240, &lv_font_simsun_16_cjk,
-              diceFocused ? kGreen : kText);
-        char summary[48];
-        snprintf(summary, sizeof(summary), "$ %ld    第 %u 格", static_cast<long>(state.money), state.position);
-        label(root, summary, 100, 268, 280, &lv_font_simsun_16_cjk, kMuted);
+        title = "MY TURN | ACTIONS";
     }
-    drawHomeWheel(state);
+    uiLabel(root, title, kHomeTitle, &lv_font_montserrat_16, kText);
+    uiLabel(root, "AVAILABLE CASH", kHomeCashLabel, &lv_font_montserrat_14, kMuted);
+    char money[24];
+    snprintf(money, sizeof(money), "$ %ld", static_cast<long>(state.money));
+    const uint8_t moneyPx = uiMoneyFontPx(state.money);
+    const lv_font_t *moneyFont = moneyPx == 40 ? &lv_font_montserrat_40 :
+                                 (moneyPx == 32 ? &lv_font_montserrat_32 :
+                                                  &lv_font_montserrat_24);
+    uiLabel(root, money, kHomeCashAmount, moneyFont, kText);
+    char location[48];
+    snprintf(location, sizeof(location), "TILE %u | RAINBOW HARBOR", state.position);
+    uiLabel(root, location, kHomeLocation, &lv_font_montserrat_14, kGreen);
+    lv_obj_t *divider = uiBox(root, kHomeDivider, kLine, kLine, 0);
+    if (divider != nullptr) lv_obj_set_style_border_width(divider, 0, 0);
+
+    HomeAction actions[5]{};
+    const uint8_t actionCount = uiCarouselActions(state.homePhase, actions);
+    uiCarouselCreate(homeCarousel, root, actions, actionCount, state.focus);
 }
 
 void drawListRow(int16_t y, const char *title, const char *meta, bool selected, TouchAction action)
@@ -503,6 +461,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
     modalFill = nullptr;
     modalCountdown = nullptr;
     tapBindingCount = 0;
+    uiCarouselDestroy(homeCarousel);
     lv_obj_clean(root);
     switch (state.page) {
         case ScreenPage::Home: drawHome(state); break;
@@ -564,7 +523,11 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         if (hasRenderedState && state.page == previousPage && state.focus != previousFocus) {
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
-            refreshSamePageFocus(state);
+            if (state.page == ScreenPage::Home) {
+                uiCarouselSetSelection(homeCarousel, state.focus, true);
+            } else {
+                refreshSamePageFocus(state);
+            }
             renderedRevision = state.revision;
             previousFocus = state.focus;
             lastDynamicDrawMs = nowMs;
@@ -598,6 +561,7 @@ bool uiRendererPollTouch(TouchAction &action)
 void uiRendererShowFault(const char *code)
 {
     if (root == nullptr && !uiRendererBegin()) return;
+    uiCarouselDestroy(homeCarousel);
     lv_obj_clean(root);
     drawOuterRing(kRed);
     drawHeader("设备故障", "GRIDOPOLY");

@@ -5,6 +5,7 @@
 #include "demo_data.h"
 #include "demo_transport.h"
 #include "ui_layout.h"
+#include "ui_carousel.h"
 #include "ui_motion.h"
 #include "ui_primitives.h"
 
@@ -108,6 +109,29 @@ bool runLogicTests(Stream &out)
                       uiCarouselPose(1).centerX == 328 &&
                       uiCarouselPose(3).opacity == 0,
                  "carousel keeps neighboring slots symmetric and hides distant slots");
+    HomeAction waitingActions[5]{};
+    HomeAction nextActions[5]{};
+    HomeAction turnActions[5]{};
+    const uint8_t waitingActionCount = uiCarouselActions(HomePhase::Waiting, waitingActions);
+    const uint8_t nextActionCount = uiCarouselActions(HomePhase::NextPlayer, nextActions);
+    const uint8_t turnActionCount = uiCarouselActions(HomePhase::MyTurn, turnActions);
+    ok &= expect(out, waitingActionCount == 4 && nextActionCount == 4 &&
+                      waitingActions[0] == HomeAction::Assets &&
+                      waitingActions[1] == HomeAction::Players &&
+                      waitingActions[2] == HomeAction::Trade &&
+                      waitingActions[3] == HomeAction::More &&
+                      nextActions[0] == HomeAction::Assets &&
+                      nextActions[1] == HomeAction::Players &&
+                      nextActions[2] == HomeAction::Trade &&
+                      nextActions[3] == HomeAction::More,
+                 "waiting and next expose Assets Players Trade More in order");
+    ok &= expect(out, turnActionCount == 5 &&
+                      turnActions[0] == HomeAction::Dice &&
+                      turnActions[1] == HomeAction::Assets &&
+                      turnActions[2] == HomeAction::Players &&
+                      turnActions[3] == HomeAction::Trade &&
+                      turnActions[4] == HomeAction::More,
+                 "my turn exposes Dice Assets Players Trade More in order");
     ok &= expect(out, uiCenterListTrackY(3, 220, 58) == 46,
                  "center list track locks selected row");
     ok &= expect(out, uiListProgressPermille(0, 8) == 0 &&
@@ -300,6 +324,32 @@ bool runLogicTests(Stream &out)
                  "home touch activates the focused action on second tap");
 
     appInit(state, 0);
+    state.homePhase = HomePhase::MyTurn;
+    state.nav.current.focus = 4;
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 30);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home &&
+                      state.nav.current.focus == 1 && state.nav.depth == 0,
+                 "my turn side tap centers Assets without activating it");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 40);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Assets && state.nav.depth == 1,
+                 "my turn centered Assets tap activates it");
+
+    appInit(state, 0);
+    state.homePhase = HomePhase::MyTurn;
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 50);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home &&
+                      appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::RollRequest,
+                 "my turn centered Dice tap activates the roll action");
+
+    appInit(state, 0);
+    state.homePhase = HomePhase::MyTurn;
+    state.nav.current.focus = 2;
+    shortPress(state, 60, 140);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Players,
+                 "knob short press activates the centered my turn action");
+
+    appInit(state, 0);
     state.nav.stack[0] = NavigationEntry{ScreenPage::Home, 0, 0};
     state.nav.stack[1] = NavigationEntry{ScreenPage::Assets, 1, 1};
     state.nav.stack[2] = NavigationEntry{ScreenPage::AssetDetail, 0, 0};
@@ -350,12 +400,14 @@ bool runLogicTests(Stream &out)
 
     const uint32_t deadlineWrapStartMs = 0xFFFFFF00u;
     appInit(state, deadlineWrapStartMs);
-    appTick(state, deadlineWrapStartMs + 200u);
+    ok &= expect(out, state.toastUntilMs == deadlineWrapStartMs + 1500u,
+                 "first-use toast has an exact 1500ms deadline");
+    appTick(state, deadlineWrapStartMs + 1499u);
     ok &= expect(out, state.toastUntilMs != 0,
-                 "toast deadline remains pending before millis wrap");
-    appTick(state, deadlineWrapStartMs + 2500u);
+                 "first-use toast remains visible through 1499ms across millis wrap");
+    appTick(state, deadlineWrapStartMs + 1500u);
     ok &= expect(out, state.toastUntilMs == 0,
-                 "toast deadline expires after millis wrap");
+                 "first-use toast expires at exactly 1500ms across millis wrap");
 
     appInit(state, deadlineWrapStartMs);
     state.nav.current = NavigationEntry{ScreenPage::DemoLab, 4, 0};

@@ -9,6 +9,8 @@ import sys
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LAYOUT_PATH = PROJECT_ROOT / "ui_layout.h"
 RENDERER_PATH = PROJECT_ROOT / "ui_renderer.cpp"
+CAROUSEL_HEADER_PATH = PROJECT_ROOT / "ui_carousel.h"
+CAROUSEL_SOURCE_PATH = PROJECT_ROOT / "ui_carousel.cpp"
 RADIUS = 192
 CENTER = 240
 EXPECTED_RECTANGLES = {
@@ -189,11 +191,75 @@ def assert_modal_contract(renderer: str) -> None:
             fail("drawModal() retains legacy unsafe modal geometry")
 
 
-def verify_contract(layout_source: str, renderer_source: str) -> None:
+def assert_carousel_contract(renderer_source: str, carousel_header: str,
+                             carousel_source: str) -> None:
+    renderer_code = normalized_code(renderer_source)
+    carousel_header_code = normalized_code(carousel_header)
+    carousel_code = normalized_code(carousel_source)
+
+    if not re.search(r"\blv_obj_t\s*\*items\s*\[\s*5\s*\]", carousel_header_code):
+        fail("UiCarousel does not retain exactly five item objects")
+    if not re.search(r"\blv_obj_t\s*\*labels\s*\[\s*5\s*\]", carousel_header_code):
+        fail("UiCarousel does not retain exactly five label objects")
+    if re.search(r"\b(?:new|malloc|calloc|realloc|vector|list|deque)\b", carousel_code):
+        fail("ui_carousel.cpp uses heap-backed storage")
+    if not re.search(r"\bUiRect\s+kCarouselRect\s*\{\s*48\s*,\s*300\s*,\s*384\s*,\s*74\s*\}",
+                     carousel_code):
+        fail("carousel container does not occupy the approved y=300..374 clipping band")
+
+    selection_body = function_body(carousel_code, "uiCarouselSetSelection")
+    required_selection = (
+        (r"\blv_obj_get_x\s*\(", "carousel does not restart x from the current visual value"),
+        (r"\blv_obj_get_style_transform_zoom\s*\(",
+         "carousel does not restart zoom from the current visual value"),
+        (r"\blv_obj_get_style_opa\s*\(",
+         "carousel does not restart opacity from the current visual value"),
+        (r"\buiCarouselPose\s*\(", "carousel selection does not use uiCarouselPose targets"),
+    )
+    for pattern, message in required_selection:
+        if not re.search(pattern, selection_body):
+            fail(message)
+
+    animation_body = function_body(carousel_code, "animateProperty")
+    if not re.search(r"\blv_anim_del\s*\(\s*object\s*,\s*callback\s*\)", animation_body):
+        fail("carousel animation does not delete only the object's prior property animation")
+    if not re.search(r"\blv_anim_set_time\s*\([^,]+,\s*220\s*\)", animation_body):
+        fail("carousel properties do not animate for exactly 220ms")
+    if not re.search(r"\blv_anim_set_path_cb\s*\([^,]+,\s*lv_anim_path_ease_out\s*\)",
+                     animation_body):
+        fail("carousel properties do not use ease-out motion")
+    if len(re.findall(r"\banimateProperty\s*\(", selection_body)) < 3:
+        fail("carousel selection does not animate x, zoom, and opacity")
+
+    if len(re.findall(r"\buiCarouselCreate\s*\(", renderer_code)) != 1:
+        fail("Home must allocate exactly one carousel scene")
+    draw_home_body = function_body(renderer_code, "drawHome")
+    if not re.search(r"\buiCarouselCreate\s*\(", draw_home_body):
+        fail("drawHome() does not create the retained carousel")
+    if re.search(r"\bdrawHomeWheel\b", renderer_code):
+        fail("legacy bounce-only Home wheel remains active")
+    if "准备好旋钮与触摸操作" in renderer_source:
+        fail("persistent Home operation hint remains in the renderer")
+
+    approved_bands = (
+        (r"\bkHomeTitle\s*\{[^}]*\b66\s*,[^}]*\b44\s*\}", "Home title is not y=66..110"),
+        (r"\bkHomeCashLabel\s*\{[^}]*\b132\s*,[^}]*\b22\s*\}", "Home cash label is not y=132..154"),
+        (r"\bkHomeCashAmount\s*\{[^}]*\b158\s*,[^}]*\b48\s*\}", "Home cash amount is not y=158..206"),
+        (r"\bkHomeLocation\s*\{[^}]*\b226\s*,[^}]*\b28\s*\}", "Home location is not y=226..254"),
+        (r"\bkHomeDivider\s*\{[^}]*\b270\s*,[^}]*\b1\s*\}", "Home divider is not at y=270"),
+    )
+    for pattern, message in approved_bands:
+        if not re.search(pattern, renderer_code):
+            fail(message)
+
+
+def verify_contract(layout_source: str, renderer_source: str, carousel_header: str,
+                    carousel_source: str) -> None:
     reject_inactive_blocks(layout_source, "ui_layout.h")
     reject_inactive_blocks(renderer_source, "ui_renderer.cpp")
     layout_code = normalized_code(layout_source)
     renderer_code = normalized_code(renderer_source)
+    assert_carousel_contract(renderer_source, carousel_header, carousel_source)
     draw_modal_definitions = re.findall(r"\bvoid\s+drawModal\s*\([^)]*\)\s*\{", renderer_code)
     if len(draw_modal_definitions) != 1:
         fail(f"ui_renderer.cpp requires exactly one drawModal() definition, found {len(draw_modal_definitions)}")
@@ -238,17 +304,6 @@ def verify_contract(layout_source: str, renderer_source: str) -> None:
     if layout_refresh < 0 or coordinate_read < 0 or layout_refresh > coordinate_read:
         fail("animateFocusEntry() does not refresh layout before reading x")
 
-    positions_match = re.search(
-        r"\bconst\s+int16_t\s+xs\s*\[\s*3\s*\]\s*=\s*\{\s*(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)\s*\}\s*;",
-        renderer_code,
-    )
-    if not positions_match:
-        fail("home-wheel button positions were not found")
-    positions = [int(value) for value in positions_match.groups()]
-    centers = [position + 33 for position in positions]
-    if centers[1] != CENTER or CENTER - centers[0] != centers[2] - CENTER:
-        fail(f"home-wheel buttons are not centered and symmetric: centers={centers}")
-
     toast_body = function_body(renderer_code, "drawToast")
     if re.search(r"\bnowMs\s*>=\s*state\.toastUntilMs\b", toast_body):
         fail("drawToast() uses a wrap-unsafe toast deadline comparison")
@@ -271,49 +326,75 @@ def verify_contract(layout_source: str, renderer_source: str) -> None:
         fail("same-page focus update clears the root")
     if re.search(r"\brebuild\s*\(", same_page_body):
         fail("same-page focus update enters the root rebuilding path")
+    if not re.search(r"\bif\s*\(\s*state\.page\s*==\s*ScreenPage::Home\s*\)", same_page_body):
+        fail("same-page focus update has no retained Home branch")
+    if not re.search(r"\buiCarouselSetSelection\s*\(\s*homeCarousel\s*,\s*state\.focus\s*,\s*true\s*\)",
+                     same_page_body):
+        fail("same-page Home focus update does not call uiCarouselSetSelection")
+    if re.search(r"\b(?:uiCarouselCreate|drawHome|animateFocusEntry)\s*\(", same_page_body):
+        fail("same-page Home focus update recreates or bounce-animates the scene")
 
     assert_modal_contract(renderer_code)
 
 
-def expect_rejected(name: str, layout_source: str, renderer_source: str) -> None:
+def expect_rejected(name: str, layout_source: str, renderer_source: str,
+                    carousel_header: str, carousel_source: str) -> None:
     try:
-        verify_contract(layout_source, renderer_source)
+        verify_contract(layout_source, renderer_source, carousel_header, carousel_source)
     except LayoutError:
         return
     raise AssertionError(f"{name} fixture unexpectedly passed")
 
 
-def run_self_test(layout_source: str, renderer_source: str) -> None:
-    verify_contract(layout_source, renderer_source)
+def run_self_test(layout_source: str, renderer_source: str, carousel_header: str,
+                  carousel_source: str) -> None:
+    verify_contract(layout_source, renderer_source, carousel_header, carousel_source)
     inactive_duplicate = layout_source + "\n#if 0\nconstexpr UiRect kModalRect{70, 88, 340, 304};\n#endif\n"
-    expect_rejected("inactive duplicate", inactive_duplicate, renderer_source)
+    expect_rejected("inactive duplicate", inactive_duplicate, renderer_source,
+                    carousel_header, carousel_source)
     unused_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
-    expect_rejected("unused modal rectangle", layout_source, unused_modal)
+    expect_rejected("unused modal rectangle", layout_source, unused_modal,
+                    carousel_header, carousel_source)
     modal_body = function_body(code_only(renderer_source), "drawModal")
     dummy_modal = "void drawModal(const AppState &state, uint32_t nowMs) {" + modal_body + "}"
     noncompliant_live_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
     expect_rejected("#if false dummy modal", layout_source,
-                    "#if false\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal)
+                    "#if false\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal,
+                    carousel_header, carousel_source)
     expect_rejected("#if 0x0 dummy modal", layout_source,
-                    "#if 0x0\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal)
+                    "#if 0x0\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal,
+                    carousel_header, carousel_source)
     expect_rejected("%:if false inactive renderer", layout_source,
-                    "%:if false\n" + renderer_source + "\n%:endif\n")
+                    "%:if false\n" + renderer_source + "\n%:endif\n",
+                    carousel_header, carousel_source)
     expect_rejected("line-spliced #if false inactive renderer", layout_source,
-                    "#\\\nif false\n" + renderer_source + "\n#\\\nendif\n")
+                    "#\\\nif false\n" + renderer_source + "\n#\\\nendif\n",
+                    carousel_header, carousel_source)
+    expect_rejected("retained Home selection removed", layout_source,
+                    renderer_source.replace("uiCarouselSetSelection(homeCarousel, state.focus, true);", "", 1),
+                    carousel_header, carousel_source)
+    expect_rejected("retained Home recreated", layout_source,
+                    renderer_source.replace("uiCarouselSetSelection(homeCarousel, state.focus, true);",
+                                            "drawHome(state);", 1),
+                    carousel_header, carousel_source)
     print("UI LAYOUT NEGATIVE TEST PASS: conditional spelling, inactive duplicates, and dummy modal bypasses rejected")
 
 
 def main() -> int:
-    layout_source = LAYOUT_PATH.read_text(encoding="utf-8")
-    renderer_source = RENDERER_PATH.read_text(encoding="utf-8")
-    if len(sys.argv) == 2 and sys.argv[1] == "--self-test":
-        run_self_test(layout_source, renderer_source)
-        return 0
-    if len(sys.argv) != 1:
-        print("usage: verify-ui-layout.py [--self-test]", file=sys.stderr)
-        return 2
     try:
-        verify_contract(layout_source, renderer_source)
+        layout_source = LAYOUT_PATH.read_text(encoding="utf-8")
+        renderer_source = RENDERER_PATH.read_text(encoding="utf-8")
+        if not CAROUSEL_HEADER_PATH.exists() or not CAROUSEL_SOURCE_PATH.exists():
+            fail("retained ui_carousel component files are missing")
+        carousel_header = CAROUSEL_HEADER_PATH.read_text(encoding="utf-8")
+        carousel_source = CAROUSEL_SOURCE_PATH.read_text(encoding="utf-8")
+        if len(sys.argv) == 2 and sys.argv[1] == "--self-test":
+            run_self_test(layout_source, renderer_source, carousel_header, carousel_source)
+            return 0
+        if len(sys.argv) != 1:
+            print("usage: verify-ui-layout.py [--self-test]", file=sys.stderr)
+            return 2
+        verify_contract(layout_source, renderer_source, carousel_header, carousel_source)
     except LayoutError as error:
         print(f"UI LAYOUT CHECK FAIL: {error}", file=sys.stderr)
         return 1
