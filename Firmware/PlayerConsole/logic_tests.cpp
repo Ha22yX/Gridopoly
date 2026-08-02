@@ -92,6 +92,7 @@ bool runLogicTests(Stream &out)
     appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 420);
 
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 430);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 431);
     state.nav.current.focus = 3;
     state.playerListIndex = 3;
     shortPress(state, 440, 520);
@@ -104,11 +105,13 @@ bool runLogicTests(Stream &out)
     appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 540);
 
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 2}, 550);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 2}, 551);
     appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 560);
     ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 2,
                  "trade back restores home trade focus");
 
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 3}, 570);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 3}, 571);
     appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 580);
     ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 3,
                  "more back restores home more focus");
@@ -121,6 +124,7 @@ bool runLogicTests(Stream &out)
                  "demo lab back restores home more focus");
 
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 620);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 621);
     appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, 630);
     ok &= expect(out, state.nav.current.focus == 0 && state.assetListIndex == 0,
                  "list previous clamps at first row");
@@ -157,6 +161,83 @@ bool runLogicTests(Stream &out)
         ok &= expect(out, !appCanNavigateBack(state) && state.nav.current.page == forcedPages[i],
                      "forced page ignores 3s exit");
     }
+
+    appInit(state, 0);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 10);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 1 &&
+                      state.nav.depth == 0,
+                 "home touch selects a nonfocused action first");
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 1}, 20);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Players && state.nav.depth == 1,
+                 "home touch activates the focused action on second tap");
+
+    appInit(state, 0);
+    state.nav.stack[0] = NavigationEntry{ScreenPage::Home, 0, 0};
+    state.nav.stack[1] = NavigationEntry{ScreenPage::Assets, 1, 1};
+    state.nav.stack[2] = NavigationEntry{ScreenPage::AssetDetail, 0, 0};
+    state.nav.stack[3] = NavigationEntry{ScreenPage::Players, 2, 2};
+    state.nav.depth = 4;
+    state.nav.current = NavigationEntry{ScreenPage::PlayerDetail, 0, 0};
+    appHandleUiEvent(state, UiEvent{UiEventKind::ActivateFocused, 0}, 30);
+    ok &= expect(out, state.nav.current.page == ScreenPage::PlayerDetail && state.nav.depth == 4 &&
+                      state.nav.stack[0].page == ScreenPage::Home &&
+                      state.nav.stack[1].page == ScreenPage::Assets && state.nav.stack[1].focus == 1 &&
+                      state.nav.stack[1].listAnchor == 1 &&
+                      state.nav.stack[2].page == ScreenPage::AssetDetail &&
+                      state.nav.stack[2].focus == 0 && state.nav.stack[2].listAnchor == 0 &&
+                      state.nav.stack[3].page == ScreenPage::Players && state.nav.stack[3].focus == 2 &&
+                      state.nav.stack[3].listAnchor == 2,
+                 "full navigation stack rejects an additional ordinary push");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 40);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Players && state.nav.depth == 3,
+                 "back after rejected push restores the immediate parent");
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 50);
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 60);
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 70);
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 80);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.depth == 0,
+                 "navigation stack underflow leaves root unchanged");
+
+    appInit(state, 0);
+    state.homePhase = HomePhase::MyTurn;
+    state.nav.current = NavigationEntry{ScreenPage::Home, 4, 0};
+    appHandleTouch(state, TouchAction::DetailPrimary, 90);
+    ok &= expect(out, state.position == 24 && state.nav.current.focus == 0,
+                 "home My Turn dice touch activates the roll action");
+
+    appInit(state, 0);
+    state.selectedAsset = 0;
+    state.nav.current = NavigationEntry{ScreenPage::AssetDetail, 1, 0};
+    appHandleTouch(state, TouchAction::DetailPrimary, 100);
+    ok &= expect(out, state.modal.kind == ModalKind::Mortgage,
+                 "detail primary remains an immediate detail action");
+
+    appInit(state, 0);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 110);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 100}, 1000);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 1000}, 1000);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Home,
+                 "queued button events use physical timestamps for hold duration");
+
+    const uint32_t deadlineWrapStartMs = 0xFFFFFF00u;
+    appInit(state, deadlineWrapStartMs);
+    appTick(state, deadlineWrapStartMs + 200u);
+    ok &= expect(out, state.toastUntilMs != 0,
+                 "toast deadline remains pending before millis wrap");
+    appTick(state, deadlineWrapStartMs + 2500u);
+    ok &= expect(out, state.toastUntilMs == 0,
+                 "toast deadline expires after millis wrap");
+
+    appInit(state, deadlineWrapStartMs);
+    state.nav.current = NavigationEntry{ScreenPage::DemoLab, 4, 0};
+    shortPress(state, deadlineWrapStartMs + 10u, deadlineWrapStartMs + 100u);
+    appTick(state, deadlineWrapStartMs + 200u);
+    ok &= expect(out, state.modal.kind == ModalKind::Payment &&
+                      appModalRemainingMs(state, deadlineWrapStartMs + 200u) == 9900,
+                 "modal deadline remains pending before millis wrap");
+    appTick(state, deadlineWrapStartMs + 10100u);
+    ok &= expect(out, state.modal.kind == ModalKind::None,
+                 "modal deadline expires after millis wrap");
 
     DemoTransport transport;
     transport.begin(0);

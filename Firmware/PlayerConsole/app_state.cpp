@@ -10,6 +10,11 @@ void touchRevision(AppState &state)
     ++state.revision;
 }
 
+bool hasReachedDeadline(uint32_t nowMs, uint32_t deadlineMs)
+{
+    return static_cast<int32_t>(nowMs - deadlineMs) >= 0;
+}
+
 bool isOrdinaryPage(ScreenPage page)
 {
     switch (page) {
@@ -109,12 +114,11 @@ void setFocus(AppState &state, uint8_t focus)
     touchRevision(state);
 }
 
-void pushPage(AppState &state, ScreenPage page, uint8_t focus = 0)
+bool pushPage(AppState &state, ScreenPage page, uint8_t focus = 0)
 {
+    if (state.nav.depth >= sizeof(state.nav.stack) / sizeof(state.nav.stack[0])) return false;
     saveCurrentListAnchor(state);
-    if (state.nav.depth < sizeof(state.nav.stack) / sizeof(state.nav.stack[0])) {
-        state.nav.stack[state.nav.depth++] = state.nav.current;
-    }
+    state.nav.stack[state.nav.depth++] = state.nav.current;
     state.nav.current = NavigationEntry{page, focus, focus};
     const uint8_t count = contentCount(state, page);
     if (page != ScreenPage::Home && count != 0 && focus < count) {
@@ -122,10 +126,12 @@ void pushPage(AppState &state, ScreenPage page, uint8_t focus = 0)
     }
     syncLegacyState(state);
     touchRevision(state);
+    return true;
 }
 
 void openDemoLab(AppState &state)
 {
+    if (state.nav.depth >= sizeof(state.nav.stack) / sizeof(state.nav.stack[0])) return;
     if (state.nav.current.page == ScreenPage::More && state.nav.depth != 0) {
         state.nav.current = state.nav.stack[--state.nav.depth];
         restoreListAnchor(state);
@@ -386,8 +392,14 @@ void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
         case UiEventKind::SelectHomeAction:
             if (state.nav.current.page != ScreenPage::Home) return;
             if (event.value < 0 || event.value >= 4) return;
-            setFocus(state, static_cast<uint8_t>(event.value +
-                                                  (state.homePhase == HomePhase::MyTurn ? 1 : 0)));
+            {
+                const uint8_t actionFocus = static_cast<uint8_t>(event.value +
+                    (state.homePhase == HomePhase::MyTurn ? 1 : 0));
+                if (state.nav.current.focus != actionFocus) {
+                    setFocus(state, actionFocus);
+                    return;
+                }
+            }
             activate(state, nowMs);
             return;
         case UiEventKind::SelectListItem:
@@ -415,11 +427,11 @@ void appHandleInput(AppState &state, const InputEvent &event, uint32_t nowMs)
 {
     syncLegacyState(state);
     if (event.kind == InputKind::ButtonDown) {
-        beginPress(state, nowMs);
+        beginPress(state, event.timestampMs);
         return;
     }
     if (event.kind == InputKind::ButtonUp) {
-        endPress(state, nowMs);
+        endPress(state, event.timestampMs);
         return;
     }
     if (event.kind != InputKind::Rotate || state.modal.kind != ModalKind::None) return;
@@ -447,19 +459,34 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
         else appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 600)}, nowMs);
         return;
     }
-    if (action == TouchAction::DetailPrimary) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, 0}, nowMs); return; }
+    if (action == TouchAction::DetailPrimary) {
+        if (state.nav.current.page == ScreenPage::Home && state.homePhase == HomePhase::MyTurn) {
+            setFocus(state, 0);
+            activate(state, nowMs);
+            return;
+        }
+        if (state.nav.current.page == ScreenPage::AssetDetail ||
+            state.nav.current.page == ScreenPage::PlayerDetail) {
+            setFocus(state, 0);
+            activate(state, nowMs);
+            return;
+        }
+        appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, 0}, nowMs);
+        return;
+    }
     if (action == TouchAction::DetailBack) appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, nowMs);
 }
 
 void appTick(AppState &state, uint32_t nowMs)
 {
     syncLegacyState(state);
-    if (state.toastUntilMs != 0 && nowMs >= state.toastUntilMs) {
+    if (state.toastUntilMs != 0 && hasReachedDeadline(nowMs, state.toastUntilMs)) {
         state.toastUntilMs = 0;
         touchRevision(state);
     }
 
-    if (state.modal.kind != ModalKind::None && state.modal.deadlineMs != 0 && nowMs >= state.modal.deadlineMs) {
+    if (state.modal.kind != ModalKind::None && state.modal.deadlineMs != 0 &&
+        hasReachedDeadline(nowMs, state.modal.deadlineMs)) {
         const bool autoPay = state.modal.kind == ModalKind::Payment;
         if (autoPay) state.money -= state.modal.amount;
         dismissModal(state);
@@ -497,6 +524,7 @@ uint16_t appHoldProgressPermille(const AppState &state, uint32_t nowMs)
 
 uint32_t appModalRemainingMs(const AppState &state, uint32_t nowMs)
 {
-    if (state.modal.kind == ModalKind::None || state.modal.deadlineMs == 0 || nowMs >= state.modal.deadlineMs) return 0;
+    if (state.modal.kind == ModalKind::None || state.modal.deadlineMs == 0 ||
+        hasReachedDeadline(nowMs, state.modal.deadlineMs)) return 0;
     return state.modal.deadlineMs - nowMs;
 }
