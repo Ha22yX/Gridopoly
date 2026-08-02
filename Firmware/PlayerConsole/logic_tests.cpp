@@ -37,6 +37,26 @@ void openTradeFixture(AppState &state, uint32_t nowMs)
     shortPress(state, nowMs + 10, nowMs + 100);
 }
 
+void openDebtFixture(AppState &state, int32_t amountDue, int32_t cash,
+                     uint32_t eligibleMask)
+{
+    appInit(state, 0);
+    TransportEvent event{};
+    event.kind = TransportEventKind::DebtResolutionRequired;
+    event.transactionId = 90;
+    event.stateVersion = 2;
+    event.amount = amountDue;
+    event.cash = cash;
+    event.assetMask = eligibleMask;
+    appHandleTransportEvent(state, event, 0);
+}
+
+void focusDebtAsset(AppState &state, uint8_t index)
+{
+    state.nav.current.focus = index;
+    state.debtListIndex = index;
+}
+
 } // namespace
 
 bool runLogicTests(Stream &out)
@@ -424,6 +444,114 @@ bool runLogicTests(Stream &out)
     ok &= expect(out, kAssets[6].mortgageValue == 120 &&
                       strcmp(kAssets[6].name, "\xE6\x97\xA7\xE5\x9F\x8E\xE8\x8A\xAF\xE5\xBB\x8A") == 0,
                  "asset seven is the exact mortgage fixture");
+
+    openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
+    ok &= expect(out, appDebtShortfall(state) == 440,
+                 "debt computes exact shortfall");
+    focusDebtAsset(state, 0);
+    shortPress(state, 10, 100);
+    focusDebtAsset(state, 2);
+    shortPress(state, 110, 200);
+    ok &= expect(out, appDebtSelectedProceeds(state) == 300 &&
+                      !appDebtCanConfirm(state),
+                 "debt sums multiple mortgages below threshold");
+    focusDebtAsset(state, 4);
+    shortPress(state, 210, 300);
+    ok &= expect(out, appDebtSelectedProceeds(state) == 375 &&
+                      appDebtPostMortgageBalance(state) == 615,
+                 "debt preview updates after every toggle");
+
+    focusDebtAsset(state, 3);
+    shortPress(state, 310, 400);
+    focusDebtAsset(state, 5);
+    shortPress(state, 410, 500);
+    focusDebtAsset(state, 7);
+    shortPress(state, 510, 600);
+    focusDebtAsset(state, 1);
+    shortPress(state, 610, 700);
+    ok &= expect(out, !appDebtAssetEligible(state, 3) && !appDebtAssetSelected(state, 3) &&
+                      !appDebtAssetEligible(state, 5) && !appDebtAssetSelected(state, 5) &&
+                      !appDebtAssetEligible(state, 7) && !appDebtAssetSelected(state, 7) &&
+                      !appDebtAssetEligible(state, 1) && !appDebtAssetSelected(state, 1) &&
+                      appDebtSelectedProceeds(state) == 375,
+                 "debt rejects mortgaged building locked and absent assets");
+
+    focusDebtAsset(state, kAssetCount);
+    shortPress(state, 710, 800);
+    ok &= expect(out, state.modal.kind == ModalKind::None,
+                 "debt footer does nothing below shortfall");
+    focusDebtAsset(state, 6);
+    shortPress(state, 810, 900);
+    ok &= expect(out, appDebtSelectedProceeds(state) == 495 && appDebtCanConfirm(state),
+                 "debt reaches confirmation threshold with exact proceeds");
+    focusDebtAsset(state, kAssetCount);
+    shortPress(state, 910, 1000);
+    ok &= expect(out, state.modal.kind == ModalKind::DebtMortgageConfirm,
+                 "debt footer opens mortgage confirmation at threshold");
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 1010}, 1010);
+    shortPress(state, 1020, 1100);
+    ok &= expect(out, state.modal.kind == ModalKind::None && state.nav.current.page == ScreenPage::DebtAssets &&
+                      !appCanNavigateBack(state),
+                 "debt confirmation cancel returns only to forced debt assets");
+    focusDebtAsset(state, kAssetCount);
+    shortPress(state, 1110, 1200);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 1210}, 1210);
+    appTick(state, 2410);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 2410}, 2410);
+    ok &= expect(out, appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::MortgageBatchRequest &&
+                      command.transactionId == 90 && command.assetMask == 0x55 && !appPollCommand(state, command),
+                 "debt confirmation hold queues exactly one selected mortgage batch");
+    TransportEvent mortgageCompleted{};
+    mortgageCompleted.kind = TransportEventKind::MortgageBatchCompleted;
+    mortgageCompleted.requestId = command.requestId;
+    mortgageCompleted.transactionId = 90;
+    mortgageCompleted.stateVersion = 3;
+    mortgageCompleted.cash = 735;
+    mortgageCompleted.assetMask = 0x55;
+    appHandleTransportEvent(state, mortgageCompleted, 2500);
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.transactionId == 90 &&
+                      appModalRemainingMs(state, 2500) == 10000 && state.money == 735,
+                 "mortgage completion restores forced payment with a fresh deadline");
+
+    openDebtFixture(state, /*amountDue=*/500, /*cash=*/240, /*eligibleMask=*/0x01);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Bankruptcy && !appCanNavigateBack(state) &&
+                      appFocusCount(state) == 1,
+                 "unresolvable debt enters terminal bankruptcy without back");
+
+    openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
+    focusDebtAsset(state, 0);
+    shortPress(state, 2600, 2700);
+    TransportEvent refreshedDebt{};
+    refreshedDebt.kind = TransportEventKind::DebtResolutionRequired;
+    refreshedDebt.transactionId = 90;
+    refreshedDebt.stateVersion = 3;
+    refreshedDebt.amount = 680;
+    refreshedDebt.cash = 240;
+    refreshedDebt.assetMask = 0x54;
+    appHandleTransportEvent(state, refreshedDebt, 2800);
+    ok &= expect(out, !appDebtAssetSelected(state, 0) &&
+                      strcmp(state.toast, "\xE8\xB5\x84\xE4\xBA\xA7\xE7\x8A\xB6\xE6\x80\x81\xE5\xB7\xB2\xE5\x8F\x98\xE5\x8C\x96\xEF\xBC\x8C\xE8\xAF\xB7\xE9\x87\x8D\xE6\x96\xB0\xE9\x80\x89\xE6\x8B\xA9") == 0,
+                 "refreshed debt eligibility clears invalid selection with toast");
+
+    transport.setScenario(DemoScenario::DebtMortgage);
+    transport.begin(0);
+    TransportCommand debtBatch{TransportCommandKind::MortgageBatchRequest, 700, 42, 90, 0, 0x55};
+    ok &= expect(out, transport.send(debtBatch, 0), "demo accepts selected debt mortgage batch");
+    transport.tick(149);
+    ok &= expect(out, !transport.poll(event), "demo debt batch waits 150ms");
+    transport.tick(150);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::MortgageBatchCompleted &&
+                      event.transactionId == 90 && event.assetMask == 0x55,
+                 "demo debt batch completes with selected mask and transaction");
+
+    transport.setScenario(DemoScenario::DebtBankruptcy);
+    transport.begin(0);
+    ok &= expect(out, transport.send(debtBatch, 0), "demo accepts bankruptcy debt batch");
+    transport.tick(150);
+    ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::BankruptcyResolved &&
+                      event.transactionId == 90,
+                 "demo bankruptcy branch resolves terminally");
 
     transport.setScenario(DemoScenario::Waiting);
     transport.begin(0);

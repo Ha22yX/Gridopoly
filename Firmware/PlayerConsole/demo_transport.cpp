@@ -319,7 +319,7 @@ bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uin
         event.kind = TransportEventKind::MortgageBatchCompleted;
         event.amount = 575;
         event.cash = 655;
-        event.assetMask = command.assetMask & kEligibleMortgageAssets;
+        event.assetMask = command.assetMask;
     } else if (scenario_ == DemoScenario::DebtBankruptcy &&
                command.kind == TransportCommandKind::MortgageBatchRequest) {
         event.kind = TransportEventKind::BankruptcyResolved;
@@ -335,7 +335,8 @@ bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uin
         event.error = TransportError::ActionNotAllowed;
     }
 
-    const uint32_t dueMs = nowMs + 120;
+    const uint32_t dueMs = nowMs +
+        ((scenario_ == DemoScenario::DebtMortgage || scenario_ == DemoScenario::DebtBankruptcy) ? 150 : 120);
     if (!scheduleBatch(&event, &dueMs, 1)) return false;
     if (command.transactionId == 0) ++nextTransactionId_;
     return true;

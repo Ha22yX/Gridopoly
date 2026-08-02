@@ -119,6 +119,14 @@ struct ModalState {
     const char *purpose = "";
 };
 
+struct DebtState {
+    uint32_t transactionId = 0;
+    int32_t amountDue = 0;
+    int32_t cashBefore = 0;
+    uint32_t selectedMask = 0;
+    uint32_t eligibleMask = 0;
+};
+
 struct NavigationEntry {
     ScreenPage page = ScreenPage::Home;
     uint8_t focus = 0;
@@ -153,6 +161,7 @@ struct AppState {
     ScreenPage page = ScreenPage::Home;
     HomePhase homePhase = HomePhase::Waiting;
     ModalState modal{};
+    DebtState debt{};
     uint8_t focus = 0;
     uint8_t selectedAsset = 0;
     uint8_t selectedPlayer = 1;

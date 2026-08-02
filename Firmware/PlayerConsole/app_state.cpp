@@ -37,6 +37,16 @@ bool isOrdinaryPage(ScreenPage page)
     return false;
 }
 
+bool isDebtAssetScreen(ScreenPage page)
+{
+    return page == ScreenPage::DebtAssets;
+}
+
+bool isInteractiveListPage(ScreenPage page)
+{
+    return isOrdinaryPage(page) || isDebtAssetScreen(page);
+}
+
 uint8_t contentCount(const AppState &state, ScreenPage page)
 {
     switch (page) {
@@ -51,7 +61,8 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
         case ScreenPage::Debt: return 0;
         case ScreenPage::DiceStage:
         case ScreenPage::MoveGuide:
-        case ScreenPage::DebtAssets:
+            return 0;
+        case ScreenPage::DebtAssets: return kAssetCount;
         case ScreenPage::Bankruptcy:
             return 0;
     }
@@ -164,6 +175,30 @@ void showToast(AppState &state, const char *message, uint32_t nowMs)
     touchRevision(state);
 }
 
+uint32_t legalDebtAssetMask(const AppState &state)
+{
+    uint32_t mask = state.debt.eligibleMask;
+    for (uint8_t index = 0; index < kAssetCount; ++index) {
+        const AssetData &asset = kAssets[index];
+        if (asset.mortgaged || asset.buildingLevel != 0 || asset.ruleLocked) {
+            mask &= ~(static_cast<uint32_t>(1u) << index);
+        }
+    }
+    return mask;
+}
+
+int32_t debtEligibleProceeds(const AppState &state)
+{
+    int32_t proceeds = 0;
+    const uint32_t mask = legalDebtAssetMask(state);
+    for (uint8_t index = 0; index < kAssetCount; ++index) {
+        if ((mask & (static_cast<uint32_t>(1u) << index)) != 0) {
+            proceeds += kAssets[index].mortgageValue;
+        }
+    }
+    return proceeds;
+}
+
 uint8_t commandIndex(TransportCommandKind kind)
 {
     return static_cast<uint8_t>(kind);
@@ -249,6 +284,12 @@ void dismissModal(AppState &state)
     touchRevision(state);
 }
 
+void enterBankruptcy(AppState &state)
+{
+    dismissModal(state);
+    replaceForcedPage(state, ScreenPage::Bankruptcy);
+}
+
 void back(AppState &state)
 {
     if (state.modal.kind != ModalKind::None) {
@@ -291,8 +332,9 @@ void submitModal(AppState &state, uint32_t nowMs)
             }
             return;
         case ModalKind::DebtMortgageConfirm:
-            if (queueCommand(state, TransportCommandKind::MortgageBatchRequest, state.modal.transactionId, nowMs,
-                             static_cast<uint32_t>(1u << state.selectedAsset))) {
+            if (appDebtCanConfirm(state) &&
+                queueCommand(state, TransportCommandKind::MortgageBatchRequest, state.debt.transactionId, nowMs,
+                             state.debt.selectedMask)) {
                 state.modal.submitting = true;
             }
             return;
@@ -308,6 +350,11 @@ void activate(AppState &state, uint32_t nowMs)
     const ScreenPage page = state.nav.current.page;
     const uint8_t focus = state.nav.current.focus;
     if (appFocusIsFooter(state)) {
+        if (page == ScreenPage::DebtAssets && appDebtCanConfirm(state)) {
+            showModal(state, ModalKind::DebtMortgageConfirm, true, "Confirm mortgages", "City Bank",
+                      "Mortgage selected assets", appDebtSelectedProceeds(state), state.debt.transactionId, 0);
+            return;
+        }
         back(state);
         return;
     }
@@ -367,9 +414,14 @@ void activate(AppState &state, uint32_t nowMs)
         case ScreenPage::Debt:
             pushPage(state, ScreenPage::Assets);
             return;
+        case ScreenPage::DebtAssets:
+            if (appDebtAssetEligible(state, focus)) {
+                state.debt.selectedMask ^= static_cast<uint32_t>(1u) << focus;
+                touchRevision(state);
+            }
+            return;
         case ScreenPage::DiceStage:
         case ScreenPage::MoveGuide:
-        case ScreenPage::DebtAssets:
         case ScreenPage::Bankruptcy:
             return;
     }
@@ -415,7 +467,7 @@ void moveFocus(AppState &state, int16_t delta)
         return;
     }
     const uint8_t count = appFocusCount(state);
-    if (count == 0 || delta == 0 || !isOrdinaryPage(state.nav.current.page)) return;
+    if (count == 0 || delta == 0 || !isInteractiveListPage(state.nav.current.page)) return;
 
     int32_t next = static_cast<int32_t>(state.nav.current.focus) + delta;
     if (state.nav.current.page == ScreenPage::Home) {
@@ -430,7 +482,7 @@ void moveFocus(AppState &state, int16_t delta)
 
 void selectListItem(AppState &state, int16_t item, uint32_t nowMs)
 {
-    if (!isOrdinaryPage(state.nav.current.page) || state.nav.current.page == ScreenPage::Home) return;
+    if (!isInteractiveListPage(state.nav.current.page) || state.nav.current.page == ScreenPage::Home) return;
     const uint8_t content = appPageContentCount(state);
     if (item < 0 || item >= content) return;
     if (state.nav.current.focus == static_cast<uint8_t>(item)) activate(state, nowMs);
@@ -452,6 +504,46 @@ bool appCanNavigateBack(const AppState &state)
     return isOrdinaryPage(state.nav.current.page) && state.nav.depth != 0;
 }
 
+bool appDebtAssetEligible(const AppState &state, uint8_t assetIndex)
+{
+    if (assetIndex >= kAssetCount) return false;
+    return (legalDebtAssetMask(state) & (static_cast<uint32_t>(1u) << assetIndex)) != 0;
+}
+
+bool appDebtAssetSelected(const AppState &state, uint8_t assetIndex)
+{
+    return appDebtAssetEligible(state, assetIndex) &&
+           (state.debt.selectedMask & (static_cast<uint32_t>(1u) << assetIndex)) != 0;
+}
+
+int32_t appDebtShortfall(const AppState &state)
+{
+    const int32_t difference = state.debt.amountDue - state.debt.cashBefore;
+    return difference > 0 ? difference : 0;
+}
+
+int32_t appDebtSelectedProceeds(const AppState &state)
+{
+    int32_t proceeds = 0;
+    const uint32_t mask = state.debt.selectedMask & legalDebtAssetMask(state);
+    for (uint8_t index = 0; index < kAssetCount; ++index) {
+        if ((mask & (static_cast<uint32_t>(1u) << index)) != 0) {
+            proceeds += kAssets[index].mortgageValue;
+        }
+    }
+    return proceeds;
+}
+
+int32_t appDebtPostMortgageBalance(const AppState &state)
+{
+    return state.debt.cashBefore + appDebtSelectedProceeds(state);
+}
+
+bool appDebtCanConfirm(const AppState &state)
+{
+    return appDebtSelectedProceeds(state) >= appDebtShortfall(state);
+}
+
 uint8_t appPageContentCount(const AppState &state)
 {
     return contentCount(state, state.nav.current.page);
@@ -461,13 +553,13 @@ uint8_t appFocusCount(const AppState &state)
 {
     const uint8_t content = appPageContentCount(state);
     if (state.nav.current.page == ScreenPage::Home) return content;
-    return isOrdinaryPage(state.nav.current.page) ? content + 1 : 1;
+    return isInteractiveListPage(state.nav.current.page) ? content + 1 : 1;
 }
 
 bool appFocusIsFooter(const AppState &state)
 {
     return state.nav.current.page != ScreenPage::Home &&
-           isOrdinaryPage(state.nav.current.page) &&
+           isInteractiveListPage(state.nav.current.page) &&
            state.nav.current.focus == appPageContentCount(state);
 }
 
@@ -588,26 +680,42 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
             touchRevision(state);
             return;
         case TransportEventKind::DebtResolutionRequired:
-            if (state.modal.kind == ModalKind::ForcedPayment &&
-                (event.transactionId == 0 || event.transactionId == state.modal.transactionId)) {
-                state.modal.submitting = false;
-                state.modal.insufficient = true;
-                state.modal.focus = ModalFocus::ResolveAssets;
-                state.modal.deadlineMs = 0;
-                touchRevision(state);
+            {
+                const bool refresh = state.nav.current.page == ScreenPage::DebtAssets &&
+                                     event.transactionId == state.debt.transactionId;
+                const uint32_t previousSelection = state.debt.selectedMask;
+                state.debt.transactionId = event.transactionId;
+                state.debt.amountDue = event.amount;
+                state.debt.cashBefore = event.cash;
+                state.debt.eligibleMask = event.assetMask;
+                state.debt.selectedMask = refresh ? previousSelection & legalDebtAssetMask(state) : 0;
+                if (!refresh && debtEligibleProceeds(state) < appDebtShortfall(state)) {
+                    enterBankruptcy(state);
+                    return;
+                }
+                if (refresh && state.debt.selectedMask != previousSelection) {
+                    showToast(state,
+                              "\xE8\xB5\x84\xE4\xBA\xA7\xE7\x8A\xB6\xE6\x80\x81\xE5\xB7\xB2\xE5\x8F\x98\xE5\x8C\x96\xEF\xBC\x8C\xE8\xAF\xB7\xE9\x87\x8D\xE6\x96\xB0\xE9\x80\x89\xE6\x8B\xA9",
+                              nowMs);
+                }
+                dismissModal(state);
+                replaceForcedPage(state, ScreenPage::DebtAssets);
             }
             return;
         case TransportEventKind::MortgageBatchCompleted:
             state.money = event.cash;
-            if (state.modal.kind == ModalKind::VoluntaryMortgage ||
-                state.modal.kind == ModalKind::DebtMortgageConfirm) {
+            if (state.modal.kind == ModalKind::DebtMortgageConfirm &&
+                event.transactionId == state.debt.transactionId) {
+                showModal(state, ModalKind::ForcedPayment, false, "Payment required", "City Bank",
+                          "Authority payment", state.debt.amountDue, state.debt.transactionId, nowMs + 10000);
+            } else if (state.modal.kind == ModalKind::VoluntaryMortgage) {
                 dismissModal(state);
             }
             touchRevision(state);
             return;
         case TransportEventKind::BankruptcyResolved:
             state.money = event.cash;
-            dismissModal(state);
+            enterBankruptcy(state);
             touchRevision(state);
             return;
         case TransportEventKind::CommandRejected:
