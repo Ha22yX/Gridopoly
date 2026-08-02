@@ -125,6 +125,10 @@ struct DebtState {
     int32_t cashBefore = 0;
     uint32_t selectedMask = 0;
     uint32_t eligibleMask = 0;
+    uint32_t submittedMortgageRequestId = 0;
+    uint32_t submittedMortgageMask = 0;
+    bool bankruptcyPending = false;
+    bool bankruptcyResolved = false;
 };
 
 struct NavigationEntry {

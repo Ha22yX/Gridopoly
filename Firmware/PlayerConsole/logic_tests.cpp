@@ -5,6 +5,7 @@
 #include "demo_data.h"
 #include "demo_transport.h"
 
+#include <limits.h>
 #include <string.h>
 
 namespace {
@@ -55,6 +56,27 @@ void focusDebtAsset(AppState &state, uint8_t index)
 {
     state.nav.current.focus = index;
     state.debtListIndex = index;
+}
+
+bool debtAuthorityStateUnchanged(const AppState &state, const AppState &before)
+{
+    const uint8_t mortgageIndex = static_cast<uint8_t>(TransportCommandKind::MortgageBatchRequest);
+    return state.money == before.money && state.position == before.position &&
+           state.stateVersion == before.stateVersion && state.pendingCommandMask == before.pendingCommandMask &&
+           state.pendingRequestIds[mortgageIndex] == before.pendingRequestIds[mortgageIndex] &&
+           state.nav.current.page == before.nav.current.page &&
+           state.nav.current.focus == before.nav.current.focus &&
+           state.nav.current.listAnchor == before.nav.current.listAnchor &&
+           state.modal.kind == before.modal.kind && state.modal.focus == before.modal.focus &&
+           state.modal.submitting == before.modal.submitting &&
+           state.modal.deadlineMs == before.modal.deadlineMs &&
+           state.modal.transactionId == before.modal.transactionId &&
+           state.debt.transactionId == before.debt.transactionId &&
+           state.debt.amountDue == before.debt.amountDue &&
+           state.debt.cashBefore == before.debt.cashBefore &&
+           state.debt.selectedMask == before.debt.selectedMask &&
+           state.debt.eligibleMask == before.debt.eligibleMask &&
+           state.toast == before.toast && state.toastUntilMs == before.toastUntilMs;
 }
 
 } // namespace
@@ -445,6 +467,26 @@ bool runLogicTests(Stream &out)
                       strcmp(kAssets[6].name, "\xE6\x97\xA7\xE5\x9F\x8E\xE8\x8A\xAF\xE5\xBB\x8A") == 0,
                  "asset seven is the exact mortgage fixture");
 
+    appInit(state, 0);
+    state.debt.amountDue = INT32_MAX;
+    state.debt.cashBefore = INT32_MIN;
+    ok &= expect(out, appDebtShortfall(state) == INT32_MAX,
+                 "debt shortfall saturates at int32 maximum");
+    state.debt.amountDue = INT32_MIN;
+    state.debt.cashBefore = INT32_MAX;
+    ok &= expect(out, appDebtShortfall(state) == 0,
+                 "debt shortfall clamps negative extreme to zero");
+    state.debt.cashBefore = INT32_MAX;
+    state.debt.eligibleMask = 0x01;
+    state.debt.selectedMask = 0x01;
+    ok &= expect(out, appDebtSelectedProceeds(state) == 130 &&
+                      appDebtPostMortgageBalance(state) == INT32_MAX,
+                 "debt post-mortgage balance saturates at int32 maximum");
+    state.debt.cashBefore = INT32_MIN;
+    state.debt.selectedMask = 0;
+    ok &= expect(out, appDebtPostMortgageBalance(state) == INT32_MIN,
+                 "debt post-mortgage balance preserves int32 minimum");
+
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
     ok &= expect(out, appDebtShortfall(state) == 440,
                  "debt computes exact shortfall");
@@ -509,15 +551,98 @@ bool runLogicTests(Stream &out)
     mortgageCompleted.stateVersion = 3;
     mortgageCompleted.cash = 735;
     mortgageCompleted.assetMask = 0x55;
+    const AppState submittedDebt = state;
+    TransportEvent wrongMortgageRequest = mortgageCompleted;
+    wrongMortgageRequest.requestId += 1;
+    wrongMortgageRequest.stateVersion = 99;
+    appHandleTransportEvent(state, wrongMortgageRequest, 2450);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, submittedDebt),
+                 "wrong mortgage completion request leaves debt submission unchanged");
+    TransportEvent wrongMortgageTransaction = mortgageCompleted;
+    wrongMortgageTransaction.transactionId += 1;
+    appHandleTransportEvent(state, wrongMortgageTransaction, 2460);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, submittedDebt),
+                 "wrong mortgage completion transaction leaves debt submission unchanged");
+    TransportEvent wrongMortgageMask = mortgageCompleted;
+    wrongMortgageMask.assetMask = 0x15;
+    appHandleTransportEvent(state, wrongMortgageMask, 2470);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, submittedDebt),
+                 "wrong mortgage completion mask leaves debt submission unchanged");
     appHandleTransportEvent(state, mortgageCompleted, 2500);
     ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.transactionId == 90 &&
                       appModalRemainingMs(state, 2500) == 10000 && state.money == 735,
                  "mortgage completion restores forced payment with a fresh deadline");
+    const AppState acceptedMortgage = state;
+    appHandleTransportEvent(state, mortgageCompleted, 2600);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, acceptedMortgage),
+                 "duplicate mortgage completion leaves accepted debt unchanged");
 
     openDebtFixture(state, /*amountDue=*/500, /*cash=*/240, /*eligibleMask=*/0x01);
     ok &= expect(out, state.nav.current.page == ScreenPage::Bankruptcy && !appCanNavigateBack(state) &&
                       appFocusCount(state) == 1,
                  "unresolvable debt enters terminal bankruptcy without back");
+    const AppState pendingBankruptcy = state;
+    TransportEvent wrongBankruptcy{};
+    wrongBankruptcy.kind = TransportEventKind::BankruptcyResolved;
+    wrongBankruptcy.transactionId = 91;
+    wrongBankruptcy.stateVersion = 3;
+    wrongBankruptcy.cash = 1;
+    appHandleTransportEvent(state, wrongBankruptcy, 2700);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, pendingBankruptcy),
+                 "wrong bankruptcy resolution leaves forced bankruptcy unchanged");
+    TransportEvent staleBankruptcy = wrongBankruptcy;
+    staleBankruptcy.transactionId = 90;
+    staleBankruptcy.stateVersion = 1;
+    appHandleTransportEvent(state, staleBankruptcy, 2710);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, pendingBankruptcy),
+                 "stale bankruptcy resolution leaves forced bankruptcy unchanged");
+    TransportEvent unrelatedBankruptcyEvent{};
+    unrelatedBankruptcyEvent.kind = TransportEventKind::StateSnapshotApplied;
+    unrelatedBankruptcyEvent.transactionId = 90;
+    unrelatedBankruptcyEvent.stateVersion = 3;
+    unrelatedBankruptcyEvent.cash = 1;
+    unrelatedBankruptcyEvent.playerPosition = 1;
+    appHandleTransportEvent(state, unrelatedBankruptcyEvent, 2720);
+    ok &= expect(out, debtAuthorityStateUnchanged(state, pendingBankruptcy),
+                 "unrelated event cannot alter forced bankruptcy while awaiting resolution");
+    TransportEvent acceptedBankruptcy = wrongBankruptcy;
+    acceptedBankruptcy.transactionId = 90;
+    acceptedBankruptcy.cash = 0;
+    appHandleTransportEvent(state, acceptedBankruptcy, 2730);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Bankruptcy && state.money == 0,
+                 "matching bankruptcy resolution is accepted once");
+    const AppState terminalBankruptcy = state;
+    const TransportEventKind terminalEventKinds[] = {
+        TransportEventKind::None,
+        TransportEventKind::ConnectionLost,
+        TransportEventKind::StateSnapshotApplied,
+        TransportEventKind::RollResult,
+        TransportEventKind::MoveGuidanceStarted,
+        TransportEventKind::RfidPositionConfirmed,
+        TransportEventKind::RfidPositionRejected,
+        TransportEventKind::PaymentRequired,
+        TransportEventKind::PaymentCompleted,
+        TransportEventKind::DebtResolutionRequired,
+        TransportEventKind::MortgageBatchCompleted,
+        TransportEventKind::BankruptcyResolved,
+        TransportEventKind::CommandRejected,
+    };
+    bool terminalEventsIgnored = true;
+    for (TransportEventKind kind : terminalEventKinds) {
+        TransportEvent eventAfterBankruptcy{};
+        eventAfterBankruptcy.kind = kind;
+        eventAfterBankruptcy.requestId = command.requestId;
+        eventAfterBankruptcy.transactionId = 90;
+        eventAfterBankruptcy.stateVersion = 4;
+        eventAfterBankruptcy.cash = 999;
+        eventAfterBankruptcy.amount = 999;
+        eventAfterBankruptcy.assetMask = 0x55;
+        eventAfterBankruptcy.playerPosition = 1;
+        appHandleTransportEvent(state, eventAfterBankruptcy, 2740);
+        terminalEventsIgnored &= debtAuthorityStateUnchanged(state, terminalBankruptcy);
+    }
+    ok &= expect(out, terminalEventsIgnored,
+                 "accepted bankruptcy ignores every later transport event kind");
 
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
     focusDebtAsset(state, 0);

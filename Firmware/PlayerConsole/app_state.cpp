@@ -3,6 +3,8 @@
 #include "app_config.h"
 #include "demo_data.h"
 
+#include <limits.h>
+
 namespace {
 
 void touchRevision(AppState &state)
@@ -187,9 +189,9 @@ uint32_t legalDebtAssetMask(const AppState &state)
     return mask;
 }
 
-int32_t debtEligibleProceeds(const AppState &state)
+int64_t debtEligibleProceeds(const AppState &state)
 {
-    int32_t proceeds = 0;
+    int64_t proceeds = 0;
     const uint32_t mask = legalDebtAssetMask(state);
     for (uint8_t index = 0; index < kAssetCount; ++index) {
         if ((mask & (static_cast<uint32_t>(1u) << index)) != 0) {
@@ -197,6 +199,13 @@ int32_t debtEligibleProceeds(const AppState &state)
         }
     }
     return proceeds;
+}
+
+int32_t saturateInt32(int64_t value)
+{
+    if (value > INT32_MAX) return INT32_MAX;
+    if (value < INT32_MIN) return INT32_MIN;
+    return static_cast<int32_t>(value);
 }
 
 uint8_t commandIndex(TransportCommandKind kind)
@@ -255,6 +264,31 @@ void clearStaleSubmissions(AppState &state)
     state.pendingCommandMask = 0;
     for (uint32_t &requestId : state.pendingRequestIds) requestId = 0;
     state.modal.submitting = false;
+}
+
+bool isDebtMortgageCompletion(const AppState &state, const TransportEvent &event)
+{
+    const uint8_t mortgageIndex = commandIndex(TransportCommandKind::MortgageBatchRequest);
+    return state.modal.kind == ModalKind::DebtMortgageConfirm && state.modal.submitting &&
+           event.requestId != 0 && event.requestId == state.debt.submittedMortgageRequestId &&
+           event.requestId == state.pendingRequestIds[mortgageIndex] &&
+           event.transactionId == state.debt.transactionId &&
+           event.assetMask == state.debt.submittedMortgageMask;
+}
+
+bool isVoluntaryMortgageCompletion(const AppState &state, const TransportEvent &event)
+{
+    const uint8_t mortgageIndex = commandIndex(TransportCommandKind::MortgageBatchRequest);
+    return state.modal.kind == ModalKind::VoluntaryMortgage && state.modal.submitting &&
+           event.requestId != 0 && event.requestId == state.pendingRequestIds[mortgageIndex] &&
+           event.transactionId == state.modal.transactionId &&
+           event.assetMask == (static_cast<uint32_t>(1u) << state.selectedAsset);
+}
+
+bool isMatchingBankruptcyResolution(const AppState &state, const TransportEvent &event)
+{
+    return event.kind == TransportEventKind::BankruptcyResolved && state.debt.transactionId != 0 &&
+           event.transactionId == state.debt.transactionId;
 }
 
 void showModal(AppState &state, ModalKind kind, bool cancelAllowed, const char *title,
@@ -336,6 +370,9 @@ void submitModal(AppState &state, uint32_t nowMs)
                 queueCommand(state, TransportCommandKind::MortgageBatchRequest, state.debt.transactionId, nowMs,
                              state.debt.selectedMask)) {
                 state.modal.submitting = true;
+                state.debt.submittedMortgageRequestId =
+                    state.pendingRequestIds[commandIndex(TransportCommandKind::MortgageBatchRequest)];
+                state.debt.submittedMortgageMask = state.debt.selectedMask;
             }
             return;
         case ModalKind::None:
@@ -518,25 +555,28 @@ bool appDebtAssetSelected(const AppState &state, uint8_t assetIndex)
 
 int32_t appDebtShortfall(const AppState &state)
 {
-    const int32_t difference = state.debt.amountDue - state.debt.cashBefore;
-    return difference > 0 ? difference : 0;
+    const int64_t difference = static_cast<int64_t>(state.debt.amountDue) -
+                               static_cast<int64_t>(state.debt.cashBefore);
+    return difference <= 0 ? 0 : saturateInt32(difference);
 }
 
 int32_t appDebtSelectedProceeds(const AppState &state)
 {
-    int32_t proceeds = 0;
+    int64_t proceeds = 0;
     const uint32_t mask = state.debt.selectedMask & legalDebtAssetMask(state);
     for (uint8_t index = 0; index < kAssetCount; ++index) {
         if ((mask & (static_cast<uint32_t>(1u) << index)) != 0) {
             proceeds += kAssets[index].mortgageValue;
         }
     }
-    return proceeds;
+    return saturateInt32(proceeds);
 }
 
 int32_t appDebtPostMortgageBalance(const AppState &state)
 {
-    return state.debt.cashBefore + appDebtSelectedProceeds(state);
+    const int64_t balance = static_cast<int64_t>(state.debt.cashBefore) +
+                            static_cast<int64_t>(appDebtSelectedProceeds(state));
+    return saturateInt32(balance);
 }
 
 bool appDebtCanConfirm(const AppState &state)
@@ -630,11 +670,21 @@ bool appPollCommand(AppState &state, TransportCommand &command)
 
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
+    const bool debtMortgageCompletion = isDebtMortgageCompletion(state, event);
+    const bool voluntaryMortgageCompletion = isVoluntaryMortgageCompletion(state, event);
+    const bool matchingBankruptcyResolution = isMatchingBankruptcyResolution(state, event);
+    if (state.debt.bankruptcyResolved) return;
+    if (state.debt.bankruptcyPending && !matchingBankruptcyResolution) return;
+    if (event.kind == TransportEventKind::MortgageBatchCompleted &&
+        !debtMortgageCompletion && !voluntaryMortgageCompletion) return;
+    if (event.kind == TransportEventKind::BankruptcyResolved && !matchingBankruptcyResolution) return;
     if (event.stateVersion != 0 && event.stateVersion < state.stateVersion) return;
     if (event.stateVersion > state.stateVersion) state.stateVersion = event.stateVersion;
 
     const bool matchesPayNow = event.requestId != 0 &&
                               event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::PayNow)];
+    const bool matchesMortgageRequest = event.requestId != 0 &&
+        event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::MortgageBatchRequest)];
     clearPendingRequest(state, event.requestId);
 
     switch (event.kind) {
@@ -684,12 +734,14 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                 const bool refresh = state.nav.current.page == ScreenPage::DebtAssets &&
                                      event.transactionId == state.debt.transactionId;
                 const uint32_t previousSelection = state.debt.selectedMask;
+                if (!refresh) state.debt = DebtState{};
                 state.debt.transactionId = event.transactionId;
                 state.debt.amountDue = event.amount;
                 state.debt.cashBefore = event.cash;
                 state.debt.eligibleMask = event.assetMask;
                 state.debt.selectedMask = refresh ? previousSelection & legalDebtAssetMask(state) : 0;
                 if (!refresh && debtEligibleProceeds(state) < appDebtShortfall(state)) {
+                    state.debt.bankruptcyPending = true;
                     enterBankruptcy(state);
                     return;
                 }
@@ -703,18 +755,23 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
             }
             return;
         case TransportEventKind::MortgageBatchCompleted:
-            state.money = event.cash;
-            if (state.modal.kind == ModalKind::DebtMortgageConfirm &&
-                event.transactionId == state.debt.transactionId) {
+            if (debtMortgageCompletion) {
+                clearPendingKind(state, TransportCommandKind::MortgageBatchRequest);
+                state.debt.submittedMortgageRequestId = 0;
+                state.debt.submittedMortgageMask = 0;
+                state.money = event.cash;
                 showModal(state, ModalKind::ForcedPayment, false, "Payment required", "City Bank",
                           "Authority payment", state.debt.amountDue, state.debt.transactionId, nowMs + 10000);
-            } else if (state.modal.kind == ModalKind::VoluntaryMortgage) {
+            } else if (voluntaryMortgageCompletion) {
+                state.money = event.cash;
                 dismissModal(state);
             }
             touchRevision(state);
             return;
         case TransportEventKind::BankruptcyResolved:
             state.money = event.cash;
+            state.debt.bankruptcyPending = false;
+            state.debt.bankruptcyResolved = true;
             enterBankruptcy(state);
             touchRevision(state);
             return;
@@ -727,6 +784,10 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                 state.modal.deadlineMs = 0;
                 touchRevision(state);
                 return;
+            }
+            if (matchesMortgageRequest && state.modal.kind == ModalKind::DebtMortgageConfirm) {
+                state.debt.submittedMortgageRequestId = 0;
+                state.debt.submittedMortgageMask = 0;
             }
             if (state.modal.submitting) {
                 state.modal.submitting = false;
