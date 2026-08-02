@@ -175,7 +175,8 @@ void drawHeader(const char *title, const char *eyebrow = "GRIDOPOLY")
 
 void drawToast(const AppState &state, uint32_t nowMs)
 {
-    if (state.toastUntilMs == 0 || nowMs >= state.toastUntilMs) return;
+    if (state.toastUntilMs == 0 ||
+        static_cast<int32_t>(nowMs - state.toastUntilMs) >= 0) return;
     lv_obj_t *toast = box(root, 112, 397, 256, 36, 0x172224, kGreen, 6);
     label(toast, state.toast, 8, 7, 240, &lv_font_simsun_16_cjk, kText);
 }

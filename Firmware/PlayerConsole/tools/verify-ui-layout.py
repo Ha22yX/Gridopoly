@@ -50,7 +50,24 @@ if centers[1] != 240:
 if 240 - centers[0] != centers[2] - 240:
     fail(f"home-wheel side buttons are not symmetric: centers={centers}")
 
+toast_match = re.search(
+    r"void\s+drawToast\s*\([^)]*\)\s*\{(?P<body>.*?)\n\}",
+    source,
+    re.DOTALL,
+)
+if not toast_match:
+    fail("drawToast() was not found")
+
+toast_body = toast_match.group("body")
+if re.search(r"nowMs\s*>=\s*state\.toastUntilMs", toast_body):
+    fail("drawToast() uses a wrap-unsafe toast deadline comparison")
+if not re.search(
+    r"static_cast\s*<\s*int32_t\s*>\s*\(\s*nowMs\s*-\s*state\.toastUntilMs\s*\)\s*>=\s*0",
+    toast_body,
+):
+    fail("drawToast() does not use a signed elapsed-time deadline comparison")
+
 print(
     "UI LAYOUT CHECK PASS: "
-    f"layout refresh precedes coordinate read; button centers={centers}"
+    f"layout refresh precedes coordinate read; button centers={centers}; toast deadline is wrap safe"
 )
