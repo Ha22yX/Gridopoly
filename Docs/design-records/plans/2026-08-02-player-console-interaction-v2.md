@@ -1253,6 +1253,63 @@ git commit -m "fix: cover escaped utf8 ui glyphs"
 
 ---
 
+### Task 8.6: Polish Home Swipe, Turn Dots, List Boundaries, And My-Turn Ring
+
+**Files:**
+- Modify: `Firmware/PlayerConsole/ui_carousel.h`
+- Modify: `Firmware/PlayerConsole/ui_carousel.cpp`
+- Modify: `Firmware/PlayerConsole/ui_center_list.h`
+- Modify: `Firmware/PlayerConsole/ui_center_list.cpp`
+- Modify: `Firmware/PlayerConsole/app_types.h`
+- Modify: `Firmware/PlayerConsole/app_state.cpp`
+- Modify: `Firmware/PlayerConsole/ui_renderer.cpp`
+- Modify: `Firmware/PlayerConsole/logic_tests.cpp`
+- Modify: `Firmware/PlayerConsole/tools/verify-ui-layout.py`
+
+**Interfaces:**
+- Consumes: the retained Home carousel, normalized focus direction, `turnsUntilYou`, list focus/anchor state, and discrete touch gestures.
+- Produces: full-carousel horizontal swipe selection, five stable turn-distance dots, restartable non-wrapping boundary feedback, and the green My-Turn status ring.
+
+- [ ] **Step 1: Write failing Home swipe and state-color tests**
+
+Add tests that press and release on the Home carousel interaction zone. A horizontal gesture qualifies at `abs(dx) >= 36` and `abs(dx) >= abs(dy) + 12`. Left swipe must reach the same next action as one forward rotary step; right swipe must reach the same previous action, including Home wrap. The release must emit exactly one focus change and suppress the follow-up click. Assert the whole retained action sequence changes pose; a text-only translation witness must fail.
+
+Add render guards for five fixed dot positions. For `turnsUntilYou = 0, 1, 3, 5`, require exactly that many filled dots and the remainder hollow without a duplicate sentence-form distance label. Add a My-Turn fixture that fails unless the outer status ring is `#52DCB7`; Dice must retain its yellow priority accent.
+
+- [ ] **Step 2: Add failing list-boundary feedback tests**
+
+At the first content row, send another previous rotary/list event. At the bottom fixed footer, send another next event. In both cases assert focus, list anchor, progress, count, page, and activation count remain unchanged while a local boundary pulse revision/direction changes once. Cover rotary and qualifying swipe sources.
+
+Add retained-LVGL tests requiring:
+
+- first-row track pulse: `+8 px` for `60 ms`, then return from the current visual position over `120 ms` ease-out;
+- bottom-footer pulse: `+6 px` for `60 ms`, then return over `120 ms` ease-out;
+- a second pulse during either phase cancels and restarts from the current visual position;
+- pulses never queue, wrap, select, activate, or move the progress/count.
+
+- [ ] **Step 3: Implement whole-carousel horizontal swipe**
+
+Bind the gesture to the full Home carousel interaction container, not labels or individual text children. On a qualifying release, reset the active LVGL input before dispatching one previous/next focus event. Reuse the existing retained 220 ms carousel pose transition so buttons, icons, labels, scale, and opacity travel together. Do not create a second translation animation for text.
+
+- [ ] **Step 4: Restore compact turn dots and approved ring colors**
+
+Render five center-stable dot positions in Waiting/Next states. Fill `turnsUntilYou` dots and outline the remaining positions. Remove the redundant sentence-form distance line. In MyTurn use the signal-green outer ring `#52DCB7`; keep the selected Dice control yellow.
+
+- [ ] **Step 5: Implement restartable list boundary feedback**
+
+Record only a local pulse direction/revision when focus movement clamps; do not store animation coordinates in authoritative state or transport snapshots. The retained list component consumes that pulse and animates the track or footer using the exact offsets and timing from Step 2. Normal focus movement must cancel any pulse and retarget from the current visual position.
+
+- [ ] **Step 6: Run all gates and commit**
+
+Run `verify-ui-layout.py --self-test`, the normal layout verifier, production `compile.ps1`, full COM4 self-test, and `git diff --check`. Expected: Home swipe and rotary have identical destinations and one activation count; all dot/ring fixtures pass; every boundary fixture returns to rest without state mutation.
+
+```powershell
+git add Firmware/PlayerConsole/ui_carousel.h Firmware/PlayerConsole/ui_carousel.cpp Firmware/PlayerConsole/ui_center_list.h Firmware/PlayerConsole/ui_center_list.cpp Firmware/PlayerConsole/app_types.h Firmware/PlayerConsole/app_state.cpp Firmware/PlayerConsole/ui_renderer.cpp Firmware/PlayerConsole/logic_tests.cpp Firmware/PlayerConsole/tools/verify-ui-layout.py
+git commit -m "feat: polish round-screen navigation feedback"
+```
+
+---
+
 ### Task 9: Render Top-Level Confirmations, Debt Selection, And Bankruptcy
 
 **Files:**
