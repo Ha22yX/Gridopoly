@@ -13,6 +13,21 @@
 | `product-goals.md` | 产品目标和版本范围 |
 | `schematic-review-2026-07-27.md` | 历史审查，仅用于追溯，不得作为当前接线依据 |
 
+## 玩家圆屏与游戏规则
+
+| 文件 | 内容 |
+| --- | --- |
+| [game-rules.md](game-rules.md) | 美国经典地产经营机制的 Gridopoly 原创规则基线 |
+| [game-content-catalog.md](game-content-catalog.md) | 40 格内容母集、22 块地产、角色与 32 张原创卡片 |
+| [map-economy-spec.md](map-economy-spec.md) | 可变地图、28 格经济表与三档节奏 |
+| [game-state-machine.md](game-state-machine.md) | 主控回合、交易、债务与破产状态机 |
+| [player-console-ui-spec.md](player-console-ui-spec.md) | 480×480 圆屏、50°补偿、旋钮和触摸规范 |
+| [player-console-demo-scenarios.md](player-console-demo-scenarios.md) | Demo Lab 场景和固定测试数据 |
+| [main-controller-protocol.md](main-controller-protocol.md) | 树莓派热点、配对、WebSocket 与恢复协议 |
+| [grid-city-visual-guide.md](grid-city-visual-guide.md) | 网格都市原创视觉与素材规范 |
+| [player-console-acceptance-tests.md](player-console-acceptance-tests.md) | 圆屏软硬件验收矩阵 |
+| [总设计规格](superpowers/specs/2026-08-02-gridopoly-player-console-design.md) | 已批准的范围、架构和实施顺序 |
+
 ## 当前硬件架构
 
 - 主控：`ESP32-S3-WROOM-1-N16R8`
