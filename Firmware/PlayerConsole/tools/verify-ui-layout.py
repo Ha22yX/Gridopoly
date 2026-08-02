@@ -11,6 +11,8 @@ LAYOUT_PATH = PROJECT_ROOT / "ui_layout.h"
 RENDERER_PATH = PROJECT_ROOT / "ui_renderer.cpp"
 CAROUSEL_HEADER_PATH = PROJECT_ROOT / "ui_carousel.h"
 CAROUSEL_SOURCE_PATH = PROJECT_ROOT / "ui_carousel.cpp"
+CENTER_LIST_HEADER_PATH = PROJECT_ROOT / "ui_center_list.h"
+CENTER_LIST_SOURCE_PATH = PROJECT_ROOT / "ui_center_list.cpp"
 RADIUS = 192
 CENTER = 240
 EXPECTED_RECTANGLES = {
@@ -267,13 +269,148 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
             fail(message)
 
 
+def assert_center_list_contract(renderer_source: str, center_header: str,
+                                center_source: str) -> None:
+    renderer_code = normalized_code(renderer_source)
+    header_code = normalized_code(center_header)
+    center_code = normalized_code(center_source)
+
+    retained_members = (
+        "viewport", "track", "focusFrame", "progressFill", "countLabel", "footer",
+    )
+    for member in retained_members:
+        if not re.search(rf"\blv_obj_t\s*\*\s*{member}\s*=\s*nullptr\s*;", header_code):
+            fail(f"UiCenterList does not retain {member}")
+    for member in ("selected", "count"):
+        if not re.search(rf"\buint8_t\s+{member}\s*=\s*0\s*;", header_code):
+            fail(f"UiCenterList does not retain {member}")
+    for api in ("uiCenterListCreate", "uiCenterListUpdate", "uiCenterListSwipeStep"):
+        if not re.search(rf"\b{api}\s*\(", header_code):
+            fail(f"{api} is missing from the center-list API")
+
+    if re.search(r"\b(?:new|malloc|calloc|realloc)\b|\bstd\s*::\s*(?:vector|list|deque)\b",
+                 center_code):
+        fail("ui_center_list.cpp uses heap-backed storage")
+    required_constants = {
+        "kRowHeight": 50,
+        "kRowStride": 58,
+        "kProgressWidth": 72,
+        "kProgressHeight": 4,
+        "kSwipeThreshold": 36,
+        "kSwipeDominance": 12,
+    }
+    for name, value in required_constants.items():
+        if not re.search(rf"\b{name}\s*=\s*{value}\s*;", center_code):
+            fail(f"center list {name} must be exactly {value}")
+    if not re.search(
+        r"\bstatic_assert\s*\([^;]*kNormalListViewport\.h[^;]*/\s*kRowStride[^;]*<=\s*3",
+        center_code,
+        re.DOTALL,
+    ):
+        fail("center list does not compile-check the three-full-row viewport limit")
+
+    create_body = function_body(center_code, "uiCenterListCreate")
+    required_create = (
+        (r"\buiBox\s*\(\s*parent\s*,\s*kNormalListViewport\b",
+         "center list viewport does not use kNormalListViewport"),
+        (r"\blv_obj_clear_flag\s*\(\s*list\.viewport\s*,\s*LV_OBJ_FLAG_SCROLLABLE\s*\)",
+         "center list viewport remains scrollable"),
+        (r"\blv_obj_clear_flag\s*\(\s*list\.viewport\s*,\s*LV_OBJ_FLAG_OVERFLOW_VISIBLE\s*\)",
+         "center list viewport does not clip its retained track"),
+        (r"\buiBox\s*\(\s*parent\s*,\s*kNormalListFocus\b",
+         "center list focus frame does not use kNormalListFocus"),
+        (r"\bkNormalListProgress\b[^;]*\bkProgressWidth\b[^;]*\bkProgressHeight\b",
+         "center list progress is not derived as centered 72x4 geometry"),
+        (r"\buiLabel\s*\([^;]*\bkNormalListCount\b",
+         "center list count does not use kNormalListCount"),
+        (r"\buiBox\s*\(\s*parent\s*,\s*kNormalFooter\b",
+         "center list footer does not use kNormalFooter"),
+    )
+    for pattern, message in required_create:
+        if not re.search(pattern, create_body, re.DOTALL):
+            fail(message)
+
+    animate_body = function_body(center_code, "animateTrack")
+    if not re.search(r"\blv_obj_get_y\s*\(", animate_body):
+        fail("center-list travel does not restart from the current track y")
+    if not re.search(r"\blv_anim_set_time\s*\([^,]+,\s*200\s*\)", animate_body):
+        fail("center-list track travel is not exactly 200ms")
+    if not re.search(r"\blv_anim_set_path_cb\s*\([^,]+,\s*lv_anim_path_ease_out\s*\)",
+                     animate_body):
+        fail("center-list track travel does not use ease-out")
+
+    update_body = function_body(center_code, "uiCenterListUpdate")
+    if not re.search(r"\buiCenterListTrackY\s*\(", update_body):
+        fail("center-list update does not use the pure center-lock target helper")
+    if not re.search(r"\buiListProgressPermille\s*\(", update_body):
+        fail("center-list update does not use selected-row progress")
+    if re.search(r"\b(?:lv_bar_create|lv_slider_create|LV_SCROLLBAR_MODE)\b", center_code):
+        fail("center list creates a forbidden scrollbar")
+
+    swipe_match = re.search(r"\bint8_t\s+uiCenterListSwipeStep\s*\([^)]*\)\s*\{", center_code)
+    if not swipe_match:
+        fail("uiCenterListSwipeStep() implementation is missing")
+    swipe_body = block_after(center_code, swipe_match)
+    if not re.search(r"\babsoluteY\s*<\s*kSwipeThreshold\b", swipe_body):
+        fail("center-list swipe does not enforce the 36px threshold")
+    if not re.search(r"\babsoluteY\s*<\s*absoluteX\s*\+\s*kSwipeDominance\b", swipe_body):
+        fail("center-list swipe does not enforce 12px vertical dominance")
+    gesture_body = function_body(center_code, "swipeCallback")
+    if not re.search(r"\bcode\s*==\s*LV_EVENT_RELEASED\b", gesture_body):
+        fail("center-list swipe is not emitted on release")
+    reset_position = gesture_body.find("lv_indev_reset(")
+    emit_position = gesture_body.find("lv_event_send(")
+    if reset_position < 0 or emit_position < 0 or reset_position > emit_position:
+        fail("center-list swipe does not cancel LVGL's follow-up row click before emitting a step")
+    if len(re.findall(r"\blv_event_send\s*\(", gesture_body)) != 2:
+        fail("center-list release must expose exactly one previous/next event branch")
+
+    for function_name, count_token in (
+        ("drawAssets", "kAssetCount"),
+        ("drawPlayers", "kPlayerCount"),
+        ("drawDemoLab", "kDemoListCount"),
+    ):
+        body = function_body(renderer_code, function_name)
+        if re.search(r"\bdrawListRow\s*\(", body):
+            fail(f"{function_name} still renders legacy root rows")
+        if not re.search(rf"\bUiListItemView\s+items\s*\[\s*{count_token}\s*\]", body):
+            fail(f"{function_name} does not build the complete retained item view")
+        if not re.search(rf"\buiCenterListCreate\s*\([^;]*\b{count_token}\b", body, re.DOTALL):
+            fail(f"{function_name} does not create one retained center list")
+
+    render_body = function_body(renderer_code, "uiRendererRender")
+    same_page_match = re.search(
+        r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage[^)]*\)\s*\{",
+        render_body,
+    )
+    if not same_page_match:
+        fail("renderer has no same-page retained update branch")
+    same_page_body = block_after(render_body, same_page_match)
+    if not re.search(r"\bupdateCenterListFocus\s*\(\s*state\s*\)", same_page_body):
+        fail("ordinary list focus changes do not update retained center-list objects")
+    draw_trade_body = function_body(renderer_code, "drawTrade")
+    draw_field_body = function_body(renderer_code, "drawTradeField")
+    if not re.search(r"\breceiverLocked\b[^;]*\bappTradeReceiverLocked\s*\(", draw_trade_body):
+        fail("Trade does not query the Player-locked Receiver mode")
+    if not re.search(r"\blockedMarkerImage\s*\(\)", draw_field_body):
+        fail("locked Trade Receiver does not render the fixed 已锁定 marker image")
+    if "\\x" in draw_trade_body:
+        fail("Trade introduces escaped UTF-8 instead of raw source text")
+
+
 def verify_contract(layout_source: str, renderer_source: str, carousel_header: str,
-                    carousel_source: str) -> None:
+                    carousel_source: str, center_header: str | None = None,
+                    center_source: str | None = None) -> None:
     reject_inactive_blocks(layout_source, "ui_layout.h")
     reject_inactive_blocks(renderer_source, "ui_renderer.cpp")
     layout_code = normalized_code(layout_source)
     renderer_code = normalized_code(renderer_source)
     assert_carousel_contract(renderer_source, carousel_header, carousel_source)
+    if center_header is None:
+        center_header = CENTER_LIST_HEADER_PATH.read_text(encoding="utf-8")
+    if center_source is None:
+        center_source = CENTER_LIST_SOURCE_PATH.read_text(encoding="utf-8")
+    assert_center_list_contract(renderer_source, center_header, center_source)
     draw_modal_definitions = re.findall(r"\bvoid\s+drawModal\s*\([^)]*\)\s*\{", renderer_code)
     if len(draw_modal_definitions) != 1:
         fail(f"ui_renderer.cpp requires exactly one drawModal() definition, found {len(draw_modal_definitions)}")
@@ -335,9 +472,16 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         render_body,
     ):
         fail("renderer does not compare the current and rendered Home phases")
+    if not re.search(
+        r"\bconst\s+bool\s+inlineEditUnchanged\s*=\s*"
+        r"state\.inlineEditField\s*==\s*previousInlineEditField\s*;",
+        render_body,
+    ):
+        fail("renderer does not compare the current and rendered inline editor")
     same_page_match = re.search(
         r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage\s*&&\s*"
-        r"state\.focus\s*!=\s*previousFocus\s*&&\s*homeActionsUnchanged\s*\)\s*\{",
+        r"state\.focus\s*!=\s*previousFocus\s*&&\s*homeActionsUnchanged\s*&&\s*"
+        r"inlineEditUnchanged\s*\)\s*\{",
         render_body,
     )
     if not same_page_match:
@@ -356,11 +500,12 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         fail("same-page Home focus update recreates or bounce-animates the scene")
     if not re.search(
         r"\brebuild\s*\(\s*state\s*,\s*nowMs\s*\)\s*;.*"
-        r"\bpreviousHomePhase\s*=\s*state\.homePhase\s*;",
+        r"\bpreviousHomePhase\s*=\s*state\.homePhase\s*;.*"
+        r"\bpreviousInlineEditField\s*=\s*state\.inlineEditField\s*;",
         render_body,
         re.DOTALL,
     ):
-        fail("Home rebuild does not retain the rendered phase for later focus-only updates")
+        fail("rebuild does not retain Home phase and inline editor for focus-only updates")
 
     assert_modal_contract(renderer_code)
 
@@ -375,8 +520,9 @@ def expect_rejected(name: str, layout_source: str, renderer_source: str,
 
 
 def run_self_test(layout_source: str, renderer_source: str, carousel_header: str,
-                  carousel_source: str) -> None:
-    verify_contract(layout_source, renderer_source, carousel_header, carousel_source)
+                  carousel_source: str, center_header: str, center_source: str) -> None:
+    verify_contract(layout_source, renderer_source, carousel_header, carousel_source,
+                    center_header, center_source)
     inactive_duplicate = layout_source + "\n#if 0\nconstexpr UiRect kModalRect{70, 88, 340, 304};\n#endif\n"
     expect_rejected("inactive duplicate", inactive_duplicate, renderer_source,
                     carousel_header, carousel_source)
@@ -411,7 +557,45 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
     expect_rejected("rendered Home phase update removed", layout_source,
                     renderer_source.replace("previousHomePhase = state.homePhase;", "", 1),
                     carousel_header, carousel_source)
-    print("UI LAYOUT NEGATIVE TEST PASS: inactive bypasses and Home retained-phase mutations rejected")
+    expect_rejected("inline editor guard removed", layout_source,
+                    renderer_source.replace(" && inlineEditUnchanged", "", 1),
+                    carousel_header, carousel_source)
+    expect_rejected("rendered inline editor update removed", layout_source,
+                    renderer_source.replace("previousInlineEditField = state.inlineEditField;", "", 1),
+                    carousel_header, carousel_source)
+    center_mutations = (
+        ("viewport clipping removed",
+         center_source.replace("lv_obj_clear_flag(list.viewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);", "", 1)),
+        ("track duration changed", center_source.replace("lv_anim_set_time(&animation, 200);",
+                                                        "lv_anim_set_time(&animation, 201);", 1)),
+        ("swipe threshold changed", center_source.replace("kSwipeThreshold = 36;",
+                                                         "kSwipeThreshold = 35;", 1)),
+        ("swipe dominance changed", center_source.replace("kSwipeDominance = 12;",
+                                                         "kSwipeDominance = 11;", 1)),
+        ("swipe click cancellation removed",
+         center_source.replace("lv_indev_reset(input, lv_event_get_target(event));", "", 1)),
+    )
+    for name, mutated_center in center_mutations:
+        try:
+            verify_contract(layout_source, renderer_source, carousel_header, carousel_source,
+                            center_header, mutated_center)
+        except LayoutError:
+            continue
+        raise AssertionError(f"{name} fixture unexpectedly passed")
+    legacy_assets = renderer_source.replace(
+        "uiCenterListCreate(centerList, root, items, kAssetCount",
+        "drawListRow(108, items[0].title, items[0].meta, true, TouchAction::Asset0); "
+        "uiCenterListCreate(centerList, root, items, kAssetCount",
+        1,
+    )
+    try:
+        verify_contract(layout_source, legacy_assets, carousel_header, carousel_source,
+                        center_header, center_source)
+    except LayoutError:
+        pass
+    else:
+        raise AssertionError("legacy eight-asset root-row fixture unexpectedly passed")
+    print("UI LAYOUT NEGATIVE TEST PASS: inactive bypasses, retained Home, and center-list mutations rejected")
 
 
 def main() -> int:
@@ -420,21 +604,27 @@ def main() -> int:
         renderer_source = RENDERER_PATH.read_text(encoding="utf-8")
         if not CAROUSEL_HEADER_PATH.exists() or not CAROUSEL_SOURCE_PATH.exists():
             fail("retained ui_carousel component files are missing")
+        if not CENTER_LIST_HEADER_PATH.exists() or not CENTER_LIST_SOURCE_PATH.exists():
+            fail("retained ui_center_list component files are missing")
         carousel_header = CAROUSEL_HEADER_PATH.read_text(encoding="utf-8")
         carousel_source = CAROUSEL_SOURCE_PATH.read_text(encoding="utf-8")
+        center_header = CENTER_LIST_HEADER_PATH.read_text(encoding="utf-8")
+        center_source = CENTER_LIST_SOURCE_PATH.read_text(encoding="utf-8")
         if len(sys.argv) == 2 and sys.argv[1] == "--self-test":
-            run_self_test(layout_source, renderer_source, carousel_header, carousel_source)
+            run_self_test(layout_source, renderer_source, carousel_header, carousel_source,
+                          center_header, center_source)
             return 0
         if len(sys.argv) != 1:
             print("usage: verify-ui-layout.py [--self-test]", file=sys.stderr)
             return 2
-        verify_contract(layout_source, renderer_source, carousel_header, carousel_source)
+        verify_contract(layout_source, renderer_source, carousel_header, carousel_source,
+                        center_header, center_source)
     except LayoutError as error:
         print(f"UI LAYOUT CHECK FAIL: {error}", file=sys.stderr)
         return 1
     print(
         "UI LAYOUT CHECK PASS: compiled rectangles, safe modal geometry, inactive-source rejection, "
-        "focus layout ordering, wrap-safe toast, and retained same-page focus updates"
+        "focus layout ordering, wrap-safe toast, retained Home, and center-locked lists"
     )
     return 0
 

@@ -10,6 +10,8 @@ bool appCanNavigateBack(const AppState &state);
 uint8_t appPageContentCount(const AppState &state);
 uint8_t appFocusCount(const AppState &state);
 bool appFocusIsFooter(const AppState &state);
+bool appInlineFieldEditing(const AppState &state, InlineEditField field);
+bool appTradeReceiverLocked(const AppState &state);
 void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs);
 bool appPollCommand(AppState &state, TransportCommand &command);
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs);

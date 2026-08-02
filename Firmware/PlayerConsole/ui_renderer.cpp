@@ -10,6 +10,7 @@
 #include "src/assets/sample_assets.h"
 #include "src/fonts/ui_fonts.h"
 #include "ui_carousel.h"
+#include "ui_center_list.h"
 #include "ui_motion.h"
 #include "ui_primitives.h"
 
@@ -35,6 +36,7 @@ uint32_t lastDynamicDrawMs = 0;
 lv_obj_t *modalFill = nullptr;
 lv_obj_t *modalCountdown = nullptr;
 UiCarousel homeCarousel{};
+UiCenterList centerList{};
 struct TapBinding {
     lv_obj_t *object;
     TouchAction action;
@@ -50,6 +52,7 @@ bool hasRenderedState = false;
 ScreenPage previousPage = ScreenPage::Home;
 uint8_t previousFocus = 0;
 HomePhase previousHomePhase = HomePhase::Waiting;
+InlineEditField previousInlineEditField = InlineEditField::None;
 lv_style_transition_dsc_t pressTransition;
 const lv_style_prop_t pressTransitionProps[] = {
     LV_STYLE_TRANSFORM_ZOOM,
@@ -78,6 +81,39 @@ constexpr UiRect kHomeCashLabel{150, 132, 180, 22};
 constexpr UiRect kHomeCashAmount{70, 158, 340, 48};
 constexpr UiRect kHomeLocation{90, 226, 300, 28};
 constexpr UiRect kHomeDivider{96, 270, 288, 1};
+constexpr UiRect kDetailPrimary{128, 278, 224, 56};
+constexpr UiRect kTradeReceiver{104, 128, 272, 50};
+constexpr UiRect kTradeAmount{104, 190, 272, 50};
+constexpr UiRect kTradeSubmit{128, 262, 224, 56};
+constexpr uint8_t kDemoListCount = 6;
+
+static const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST uint8_t kLockedMarkerMap[] = {
+    0x00, 0x00, 0x20, 0x00, 0x01, 0x00, 0x7F, 0xF8, 0x20, 0x20, 0x01, 0x80,
+    0xFF, 0xFC, 0x63, 0x26, 0x7F, 0xFE, 0x00, 0x0C, 0x7D, 0x24, 0x7F, 0xFE,
+    0x00, 0x0C, 0xC0, 0x20, 0x40, 0x02, 0x60, 0x0C, 0xFB, 0xFE, 0x7F, 0xFE,
+    0x60, 0x0C, 0x7B, 0x06, 0xFF, 0xFE, 0x7F, 0xFC, 0x22, 0x22, 0x01, 0x80,
+    0x60, 0x0C, 0xFA, 0x26, 0x11, 0x80, 0x60, 0x00, 0xFA, 0x26, 0x11, 0x80,
+    0x60, 0x00, 0x22, 0x26, 0x31, 0xFC, 0x60, 0x02, 0x22, 0x66, 0x31, 0x80,
+    0x60, 0x06, 0x3E, 0x72, 0x39, 0x80, 0x60, 0x06, 0x39, 0xDC, 0x6D, 0x80,
+    0x3F, 0xFC, 0x37, 0x86, 0xC7, 0xFF, 0x00, 0x00, 0x06, 0x02, 0xC0, 0x00,
+};
+
+const lv_img_dsc_t *lockedMarkerImage()
+{
+    static lv_img_dsc_t image{};
+    static bool initialized = false;
+    if (!initialized) {
+        image.header.cf = LV_IMG_CF_ALPHA_1BIT;
+        image.header.always_zero = 0;
+        image.header.reserved = 0;
+        image.header.w = 48;
+        image.header.h = 16;
+        image.data_size = sizeof(kLockedMarkerMap);
+        image.data = kLockedMarkerMap;
+        initialized = true;
+    }
+    return &image;
+}
 
 constexpr bool rectInside(UiRect child, UiRect parent)
 {
@@ -151,6 +187,14 @@ void handleUiEvent(const UiEvent &event)
         enqueueTouch(static_cast<TouchAction>(event.value));
     } else if (event.kind == UiEventKind::SelectHomeAction && event.value >= 0 && event.value < 5) {
         enqueueTouch(static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::HomeAssets) + event.value));
+    } else if (event.kind == UiEventKind::SelectListItem && event.value >= 0 && event.value < 16) {
+        enqueueTouch(static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::ListItem0) + event.value));
+    } else if (event.kind == UiEventKind::ListPrevious) {
+        enqueueTouch(TouchAction::ListPrevious);
+    } else if (event.kind == UiEventKind::ListNext) {
+        enqueueTouch(TouchAction::ListNext);
+    } else if (event.kind == UiEventKind::Back) {
+        enqueueTouch(TouchAction::Back);
     }
 }
 
@@ -193,8 +237,24 @@ uint32_t focusAccent(const AppState &state)
     }
 }
 
+bool isCenterListPage(ScreenPage page)
+{
+    return page == ScreenPage::Assets || page == ScreenPage::Players ||
+           page == ScreenPage::DemoLab;
+}
+
+uint8_t tradeFocusForAction(const AppState &state, TouchAction action)
+{
+    const bool locked = appTradeReceiverLocked(state);
+    if (action == TouchAction::TradeReceiver) return locked ? 0xff : 0;
+    if (action == TouchAction::TradeAmount) return locked ? 0 : 1;
+    if (action == TouchAction::TradeConfirm) return locked ? 1 : 2;
+    return locked ? 2 : 3;
+}
+
 bool bindingIsFocused(const AppState &state, TouchAction action)
 {
+    if (action == TouchAction::Back) return appFocusIsFooter(state);
     switch (state.page) {
         case ScreenPage::Home:
             return false;
@@ -206,7 +266,7 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
         case ScreenPage::PlayerDetail:
             return action == (state.focus == 0 ? TouchAction::DetailPrimary : TouchAction::DetailBack);
         case ScreenPage::Trade:
-            return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::TradeReceiver) + state.focus);
+            return tradeFocusForAction(state, action) == state.focus;
         case ScreenPage::More:
             return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::MoreDemoLab) + state.focus);
         case ScreenPage::DemoLab:
@@ -225,6 +285,70 @@ void refreshSamePageFocus(const AppState &state)
         lv_obj_set_style_border_color(binding.object, lv_color_hex(focused ? accent : kLine), 0);
         if (focused) animateFocusEntry(binding.object);
     }
+}
+
+void fillAssetItems(UiListItemView (&items)[kAssetCount],
+                    char (&meta)[kAssetCount][24])
+{
+    for (uint8_t index = 0; index < kAssetCount; ++index) {
+        snprintf(meta[index], sizeof(meta[index]),
+                 kAssets[index].mortgaged ? "已抵押" : "$%d", kAssets[index].value);
+        items[index] = UiListItemView{kAssets[index].name, meta[index], "", true, false};
+    }
+}
+
+void fillPlayerItems(UiListItemView (&items)[kPlayerCount],
+                     char (&meta)[kPlayerCount][32])
+{
+    for (uint8_t index = 0; index < kPlayerCount; ++index) {
+        snprintf(meta[index], sizeof(meta[index]), "$%ld | %u",
+                 static_cast<long>(kPlayers[index].money), kPlayers[index].position);
+        items[index] = UiListItemView{kPlayers[index].name, meta[index], "", true, false};
+    }
+}
+
+void fillDemoItems(UiListItemView (&items)[kDemoListCount])
+{
+    static const char *titles[kDemoListCount] = {
+        "Waiting turn", "Next turn", "My turn", "20s rent", "10s payment", "Debt resolution",
+    };
+    for (uint8_t index = 0; index < kDemoListCount; ++index) {
+        items[index] = UiListItemView{titles[index], "", "", true, false};
+    }
+}
+
+void updateCenterListFocus(const AppState &state)
+{
+    if (state.page == ScreenPage::Assets) {
+        UiListItemView items[kAssetCount]{};
+        char meta[kAssetCount][24]{};
+        fillAssetItems(items, meta);
+        uiCenterListUpdate(centerList, items, kAssetCount, state.assetListIndex,
+                           "返回", true, appFocusIsFooter(state), true);
+    } else if (state.page == ScreenPage::Players) {
+        UiListItemView items[kPlayerCount]{};
+        char meta[kPlayerCount][32]{};
+        fillPlayerItems(items, meta);
+        uiCenterListUpdate(centerList, items, kPlayerCount, state.playerListIndex,
+                           "返回", true, appFocusIsFooter(state), true);
+    } else if (state.page == ScreenPage::DemoLab) {
+        UiListItemView items[kDemoListCount]{};
+        fillDemoItems(items);
+        uiCenterListUpdate(centerList, items, kDemoListCount, state.demoListIndex,
+                           "返回", true, appFocusIsFooter(state), true);
+    }
+}
+
+lv_obj_t *drawFooter(const char *text, bool focused)
+{
+    lv_obj_t *footer = uiBox(root, kNormalFooter, focused ? 0x16302A : kPanel,
+                             focused ? kGreen : kLine, 6);
+    if (footer == nullptr) return nullptr;
+    uiLabel(footer, text, UiRect{8, 16, static_cast<int16_t>(kNormalFooter.w - 16), 28},
+            &ui_font_16, focused ? kGreen : kText);
+    makeClickable(footer, TouchAction::Back);
+    if (focused) animateFocusEntry(footer);
+    return footer;
 }
 
 void drawOuterRing(uint32_t accent = kGreen)
@@ -296,13 +420,12 @@ void drawListRow(int16_t y, const char *title, const char *meta, bool selected, 
 void drawAssets(const AppState &state)
 {
     drawOuterRing(kGreen);
-    drawHeader("我的资产", "5 项地产");
-    for (uint8_t i = 0; i < kAssetCount; ++i) {
-        char meta[24];
-        snprintf(meta, sizeof(meta), kAssets[i].mortgaged ? "已抵押" : "$%d", kAssets[i].value);
-        drawListRow(108 + i * 54, kAssets[i].name, meta, state.focus == i,
-                    static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Asset0) + i));
-    }
+    drawHeader("我的资产", "8 ASSETS");
+    UiListItemView items[kAssetCount]{};
+    char meta[kAssetCount][24]{};
+    fillAssetItems(items, meta);
+    uiCenterListCreate(centerList, root, items, kAssetCount, state.assetListIndex,
+                       "返回", true, appFocusIsFooter(state));
 }
 
 void drawAssetDetail(const AppState &state)
@@ -318,29 +441,29 @@ void drawAssetDetail(const AppState &state)
     lv_obj_set_pos(art, 160, 101);
     char info[64];
     snprintf(info, sizeof(info), "估值 $%d  ·  地租 $%d", asset.value, asset.rent);
-    label(root, info, 80, 266, 320, &lv_font_simsun_16_cjk, kText);
-    const char *names[2] = {asset.mortgaged ? "解除抵押" : "抵押", "返回"};
-    for (uint8_t i = 0; i < 2; ++i) {
-        lv_obj_t *button = box(root, 112 + i * 136, 307, 120, 56,
-                               state.focus == i ? 0x16302A : kPanel,
-                               state.focus == i ? kGreen : kLine, 6);
-        label(button, names[i], 8, 17, 104, &lv_font_simsun_16_cjk,
-              state.focus == i ? kGreen : kText);
-        makeClickable(button, i == 0 ? TouchAction::DetailPrimary : TouchAction::DetailBack);
-        if (state.focus == i) animateFocusEntry(button);
+    label(root, info, 80, 242, 320, &lv_font_simsun_16_cjk, kText);
+    lv_obj_t *primary = uiBox(root, kDetailPrimary,
+                              state.focus == 0 ? 0x16302A : kPanel,
+                              state.focus == 0 ? kGreen : kLine, 6);
+    if (primary != nullptr) {
+        uiLabel(primary, asset.mortgaged ? "解除抵押" : "抵押",
+                UiRect{8, 16, static_cast<int16_t>(kDetailPrimary.w - 16), 28},
+                &ui_font_16, state.focus == 0 ? kGreen : kText);
+        makeClickable(primary, TouchAction::DetailPrimary);
+        if (state.focus == 0) animateFocusEntry(primary);
     }
+    drawFooter("返回", state.focus == 1);
 }
 
 void drawPlayers(const AppState &state)
 {
     drawOuterRing(kYellow);
-    drawHeader("玩家情况", "5 位玩家");
-    for (uint8_t i = 0; i < kPlayerCount; ++i) {
-        char meta[32];
-        snprintf(meta, sizeof(meta), "$%ld · %u格", static_cast<long>(kPlayers[i].money), kPlayers[i].position);
-        drawListRow(108 + i * 54, kPlayers[i].name, meta, state.focus == i,
-                    static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Player0) + i));
-    }
+    drawHeader("玩家情况", "5 PLAYERS");
+    UiListItemView items[kPlayerCount]{};
+    char meta[kPlayerCount][32]{};
+    fillPlayerItems(items, meta);
+    uiCenterListCreate(centerList, root, items, kPlayerCount, state.playerListIndex,
+                       "返回", true, appFocusIsFooter(state));
 }
 
 void drawPlayerDetail(const AppState &state)
@@ -358,32 +481,86 @@ void drawPlayerDetail(const AppState &state)
     }
     char info[48];
     snprintf(info, sizeof(info), "$ %ld  ·  第 %u 格", static_cast<long>(player.money), player.position);
-    label(root, info, 90, 253, 300, &lv_font_simsun_16_cjk, kText);
-    const char *buttons[2] = {"发起交易", "返回"};
-    for (uint8_t i = 0; i < 2; ++i) {
-        lv_obj_t *button = box(root, 112 + i * 136, 307, 120, 56,
-                               state.focus == i ? 0x2B2618 : kPanel,
-                               state.focus == i ? kYellow : kLine, 6);
-        label(button, buttons[i], 8, 17, 104, &lv_font_simsun_16_cjk,
-              state.focus == i ? kYellow : kText);
-        makeClickable(button, i == 0 ? TouchAction::DetailPrimary : TouchAction::DetailBack);
-        if (state.focus == i) animateFocusEntry(button);
+    label(root, info, 90, 242, 300, &lv_font_simsun_16_cjk, kText);
+    lv_obj_t *primary = uiBox(root, kDetailPrimary,
+                              state.focus == 0 ? 0x2B2618 : kPanel,
+                              state.focus == 0 ? kYellow : kLine, 6);
+    if (primary != nullptr) {
+        uiLabel(primary, "发起交易",
+                UiRect{8, 16, static_cast<int16_t>(kDetailPrimary.w - 16), 28},
+                &ui_font_16, state.focus == 0 ? kYellow : kText);
+        makeClickable(primary, TouchAction::DetailPrimary);
+        if (state.focus == 0) animateFocusEntry(primary);
     }
+    drawFooter("返回", state.focus == 1);
+}
+
+void drawTradeField(UiRect rect, const char *text, const char *marker,
+                    bool focused, bool editing, TouchAction action, bool enabled)
+{
+    lv_obj_t *field = uiBox(root, rect, focused ? 0x14242A : kPanel,
+                            focused ? kBlue : kLine, 6);
+    if (field == nullptr) return;
+    if (editing) {
+        lv_obj_t *inner = uiBox(field, UiRect{4, 4, static_cast<int16_t>(rect.w - 8),
+                                             static_cast<int16_t>(rect.h - 8)},
+                                kPanel, kBlue, 4);
+        if (inner != nullptr) {
+            lv_obj_set_style_bg_opa(inner, LV_OPA_TRANSP, 0);
+            lv_obj_clear_flag(inner, LV_OBJ_FLAG_CLICKABLE);
+        }
+    }
+    uiLabel(field, text, UiRect{12, 9, 184, 28}, &ui_font_16,
+            enabled ? (focused ? kBlue : kText) : kMuted, LV_TEXT_ALIGN_LEFT);
+    if (!enabled && !editing) {
+        lv_obj_t *lockedMarker = lv_img_create(field);
+        if (lockedMarker != nullptr) {
+            lv_img_set_src(lockedMarker, lockedMarkerImage());
+            lv_obj_set_pos(lockedMarker, 210, 17);
+            lv_obj_set_style_img_recolor(lockedMarker, lv_color_hex(kMuted), 0);
+            lv_obj_set_style_img_recolor_opa(lockedMarker, LV_OPA_COVER, 0);
+            lv_obj_clear_flag(lockedMarker, LV_OBJ_FLAG_CLICKABLE);
+        }
+    } else {
+        uiLabel(field, editing ? "EDIT" : marker, UiRect{198, 9, 60, 28},
+                &lv_font_montserrat_14, editing ? kBlue : kMuted,
+                LV_TEXT_ALIGN_RIGHT);
+    }
+    if (enabled) makeClickable(field, action);
+    if (focused && !editing) animateFocusEntry(field);
 }
 
 void drawTrade(const AppState &state)
 {
     drawOuterRing(kBlue);
     drawHeader("交易草案", "不会自动扣款");
+    const bool receiverLocked = appTradeReceiverLocked(state);
+    const uint8_t receiverFocus = 0;
+    const uint8_t amountFocus = receiverLocked ? 0 : 1;
+    const uint8_t submitFocus = receiverLocked ? 1 : 2;
+    const uint8_t backFocus = receiverLocked ? 2 : 3;
     char receiver[48];
     snprintf(receiver, sizeof(receiver), "接收方  %s", kPlayers[state.tradeReceiver].name);
     char amount[48];
     snprintf(amount, sizeof(amount), "金额  $ %ld", static_cast<long>(state.tradeAmount));
-    const char *rows[4] = {receiver, amount, "长按确认发送", "返回"};
-    for (uint8_t i = 0; i < 4; ++i) {
-        drawListRow(128 + i * 62, rows[i], i < 2 ? "按下修改" : "", state.focus == i,
-                    static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::TradeReceiver) + i));
+    drawTradeField(kTradeReceiver, receiver, "",
+                   !receiverLocked && state.focus == receiverFocus,
+                   appInlineFieldEditing(state, InlineEditField::TradeReceiver),
+                   TouchAction::TradeReceiver, !receiverLocked);
+    drawTradeField(kTradeAmount, amount, "", state.focus == amountFocus,
+                   appInlineFieldEditing(state, InlineEditField::TradeAmount),
+                   TouchAction::TradeAmount, true);
+    lv_obj_t *submit = uiBox(root, kTradeSubmit,
+                             state.focus == submitFocus ? 0x14242A : kPanel,
+                             state.focus == submitFocus ? kBlue : kLine, 6);
+    if (submit != nullptr) {
+        uiLabel(submit, "提交交易",
+                UiRect{8, 16, static_cast<int16_t>(kTradeSubmit.w - 16), 28},
+                &ui_font_16, state.focus == submitFocus ? kBlue : kText);
+        makeClickable(submit, TouchAction::TradeConfirm);
+        if (state.focus == submitFocus) animateFocusEntry(submit);
     }
+    drawFooter("返回", state.focus == backFocus);
 }
 
 void drawMore(const AppState &state)
@@ -392,20 +569,17 @@ void drawMore(const AppState &state)
     drawHeader("更多", "PLAYER CONSOLE");
     drawListRow(154, "Demo Lab", "场景测试", state.focus == 0, TouchAction::MoreDemoLab);
     drawListRow(222, "关于设备", "v0.1", state.focus == 1, TouchAction::MoreAbout);
-    label(root, "长按 3 秒可快速进入 Demo Lab", 90, 302, 300, &lv_font_simsun_16_cjk, kMuted);
+    drawFooter("返回", state.focus == 2);
 }
 
 void drawDemoLab(const AppState &state)
 {
     drawOuterRing(kBlue);
-    drawHeader("Demo Lab", "旋转选择场景");
-    static const char *items[7] = {"等待回合", "临近回合", "我的回合", "20秒收租", "10秒付款", "债务处理", "返回"};
-    const int8_t first = state.focus < 3 ? 0 : (state.focus > 5 ? 4 : state.focus - 2);
-    for (uint8_t row = 0; row < 3; ++row) {
-        const uint8_t i = static_cast<uint8_t>(first + row);
-        drawListRow(140 + row * 66, items[i], i == state.focus ? "按下演示" : "",
-                    i == state.focus, static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::DemoWaiting) + i));
-    }
+    drawHeader("Demo Lab", "SCENARIOS");
+    UiListItemView items[kDemoListCount]{};
+    fillDemoItems(items);
+    uiCenterListCreate(centerList, root, items, kDemoListCount, state.demoListIndex,
+                       "返回", true, appFocusIsFooter(state));
 }
 
 void drawDebt(const AppState &state)
@@ -464,6 +638,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
     tapBindingCount = 0;
     uiCarouselDestroy(homeCarousel);
     lv_obj_clean(root);
+    centerList = UiCenterList{};
     switch (state.page) {
         case ScreenPage::Home: drawHome(state); break;
         case ScreenPage::Assets: drawAssets(state); break;
@@ -523,12 +698,15 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
     if (state.revision != renderedRevision) {
         const bool homeActionsUnchanged = state.page != ScreenPage::Home ||
                                           state.homePhase == previousHomePhase;
+        const bool inlineEditUnchanged = state.inlineEditField == previousInlineEditField;
         if (hasRenderedState && state.page == previousPage &&
-            state.focus != previousFocus && homeActionsUnchanged) {
+            state.focus != previousFocus && homeActionsUnchanged && inlineEditUnchanged) {
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
             if (state.page == ScreenPage::Home) {
                 uiCarouselSetSelection(homeCarousel, state.focus, true);
+            } else if (isCenterListPage(state.page)) {
+                updateCenterListFocus(state);
             } else {
                 refreshSamePageFocus(state);
             }
@@ -544,6 +722,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         previousPage = state.page;
         previousFocus = state.focus;
         previousHomePhase = state.homePhase;
+        previousInlineEditField = state.inlineEditField;
         hasRenderedState = true;
         lastDynamicDrawMs = nowMs;
         return;
@@ -568,6 +747,7 @@ void uiRendererShowFault(const char *code)
     if (root == nullptr && !uiRendererBegin()) return;
     uiCarouselDestroy(homeCarousel);
     lv_obj_clean(root);
+    centerList = UiCenterList{};
     drawOuterRing(kRed);
     drawHeader("设备故障", "GRIDOPOLY");
     label(root, code, 90, 205, 300, &lv_font_montserrat_24, kRed);

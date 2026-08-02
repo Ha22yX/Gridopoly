@@ -49,6 +49,30 @@ bool isInteractiveListPage(ScreenPage page)
     return isOrdinaryPage(page) || isDebtAssetScreen(page);
 }
 
+bool clearInlineEditing(AppState &state)
+{
+    if (state.inlineEditField == InlineEditField::None) return false;
+    state.inlineEditField = InlineEditField::None;
+    return true;
+}
+
+InlineEditField focusedTradeField(const AppState &state)
+{
+    if (state.nav.current.page != ScreenPage::Trade) return InlineEditField::None;
+    if (appTradeReceiverLocked(state)) {
+        return state.nav.current.focus == 0 ? InlineEditField::TradeAmount
+                                            : InlineEditField::None;
+    }
+    if (state.nav.current.focus == 0) return InlineEditField::TradeReceiver;
+    if (state.nav.current.focus == 1) return InlineEditField::TradeAmount;
+    return InlineEditField::None;
+}
+
+uint8_t tradeSubmitFocus(const AppState &state)
+{
+    return appTradeReceiverLocked(state) ? 1 : 2;
+}
+
 uint8_t contentCount(const AppState &state, ScreenPage page)
 {
     switch (page) {
@@ -57,7 +81,7 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
         case ScreenPage::AssetDetail: return 1;
         case ScreenPage::Players: return kPlayerCount;
         case ScreenPage::PlayerDetail: return 1;
-        case ScreenPage::Trade: return 3;
+        case ScreenPage::Trade: return appTradeReceiverLocked(state) ? 2 : 3;
         case ScreenPage::More: return 2;
         case ScreenPage::DemoLab: return 6;
         case ScreenPage::Debt: return 0;
@@ -130,6 +154,7 @@ void setFocus(AppState &state, uint8_t focus)
 bool pushPage(AppState &state, ScreenPage page, uint8_t focus = 0)
 {
     if (state.nav.depth >= sizeof(state.nav.stack) / sizeof(state.nav.stack[0])) return false;
+    clearInlineEditing(state);
     saveCurrentListAnchor(state);
     state.nav.stack[state.nav.depth++] = state.nav.current;
     state.nav.current = NavigationEntry{page, focus, focus};
@@ -157,6 +182,7 @@ void openDemoLab(AppState &state)
 
 void replaceForcedPage(AppState &state, ScreenPage page)
 {
+    clearInlineEditing(state);
     state.nav.current = NavigationEntry{page, 0, 0};
     syncLegacyState(state);
     touchRevision(state);
@@ -164,6 +190,7 @@ void replaceForcedPage(AppState &state, ScreenPage page)
 
 void resetHome(AppState &state, uint8_t focus = 0)
 {
+    clearInlineEditing(state);
     state.nav = NavigationState{};
     state.nav.current = NavigationEntry{ScreenPage::Home, focus, 0};
     syncLegacyState(state);
@@ -332,6 +359,7 @@ void back(AppState &state)
         return;
     }
     if (!appCanNavigateBack(state)) return;
+    clearInlineEditing(state);
     state.nav.current = state.nav.stack[--state.nav.depth];
     restoreListAnchor(state);
     syncLegacyState(state);
@@ -408,7 +436,10 @@ void activate(AppState &state, uint32_t nowMs)
             const uint8_t menuFocus = state.homePhase == HomePhase::MyTurn ? focus - 1 : focus;
             if (menuFocus == 0) pushPage(state, ScreenPage::Assets);
             else if (menuFocus == 1) pushPage(state, ScreenPage::Players);
-            else if (menuFocus == 2) pushPage(state, ScreenPage::Trade);
+            else if (menuFocus == 2) {
+                state.tradeEntryMode = TradeEntryMode::HomeEditable;
+                pushPage(state, ScreenPage::Trade);
+            }
             else pushPage(state, ScreenPage::More);
             return;
         }
@@ -426,14 +457,23 @@ void activate(AppState &state, uint32_t nowMs)
             return;
         case ScreenPage::PlayerDetail:
             state.tradeReceiver = state.selectedPlayer;
+            state.tradeEntryMode = TradeEntryMode::PlayerLocked;
             pushPage(state, ScreenPage::Trade);
             return;
         case ScreenPage::Trade:
-            if (focus == 0) state.tradeReceiver = static_cast<uint8_t>((state.tradeReceiver + 1) % kPlayerCount);
-            else if (focus == 1) state.tradeAmount = state.tradeAmount >= 500 ? 50 : state.tradeAmount + 50;
-            else showModal(state, ModalKind::TradeCreate, true, "发送交易", kPlayers[state.tradeReceiver].name,
-                           "现金转账", state.tradeAmount, 0, 0);
-            touchRevision(state);
+            {
+                const InlineEditField field = focusedTradeField(state);
+                if (field != InlineEditField::None) {
+                    state.inlineEditField = state.inlineEditField == field
+                                                ? InlineEditField::None
+                                                : field;
+                    touchRevision(state);
+                } else if (focus == tradeSubmitFocus(state)) {
+                    showModal(state, ModalKind::TradeCreate, true, "发送交易",
+                              kPlayers[state.tradeReceiver].name,
+                              "现金转账", state.tradeAmount, 0, 0);
+                }
+            }
             return;
         case ScreenPage::More:
             if (focus == 0) openDemoLab(state);
@@ -504,6 +544,25 @@ void moveFocus(AppState &state, int16_t delta)
         }
         return;
     }
+    if (state.nav.current.page == ScreenPage::Trade &&
+        state.inlineEditField != InlineEditField::None) {
+        if (delta == 0) return;
+        if (state.inlineEditField == InlineEditField::TradeReceiver) {
+            if (appTradeReceiverLocked(state)) return;
+            int32_t receiver = static_cast<int32_t>(state.tradeReceiver) + delta;
+            receiver %= kPlayerCount;
+            if (receiver < 0) receiver += kPlayerCount;
+            state.tradeReceiver = static_cast<uint8_t>(receiver);
+        } else if (state.inlineEditField == InlineEditField::TradeAmount) {
+            int64_t amount = static_cast<int64_t>(state.tradeAmount) +
+                             static_cast<int64_t>(delta) * 50;
+            if (amount < 50) amount = 50;
+            if (amount > 500) amount = 500;
+            state.tradeAmount = static_cast<int32_t>(amount);
+        }
+        touchRevision(state);
+        return;
+    }
     const uint8_t count = appFocusCount(state);
     if (count == 0 || delta == 0 || !isInteractiveListPage(state.nav.current.page)) return;
 
@@ -523,6 +582,13 @@ void selectListItem(AppState &state, int16_t item, uint32_t nowMs)
     if (!isInteractiveListPage(state.nav.current.page) || state.nav.current.page == ScreenPage::Home) return;
     const uint8_t content = appPageContentCount(state);
     if (item < 0 || item >= content) return;
+    if (state.nav.current.page == ScreenPage::Trade &&
+        state.inlineEditField != InlineEditField::None &&
+        state.nav.current.focus != static_cast<uint8_t>(item)) {
+        clearInlineEditing(state);
+        setFocus(state, static_cast<uint8_t>(item));
+        return;
+    }
     if (state.nav.current.focus == static_cast<uint8_t>(item)) activate(state, nowMs);
     else setFocus(state, static_cast<uint8_t>(item));
 }
@@ -604,6 +670,16 @@ bool appFocusIsFooter(const AppState &state)
            state.nav.current.focus == appPageContentCount(state);
 }
 
+bool appInlineFieldEditing(const AppState &state, InlineEditField field)
+{
+    return field != InlineEditField::None && state.inlineEditField == field;
+}
+
+bool appTradeReceiverLocked(const AppState &state)
+{
+    return state.tradeEntryMode == TradeEntryMode::PlayerLocked;
+}
+
 void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
 {
     syncLegacyState(state);
@@ -680,6 +756,9 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
     if (event.kind == TransportEventKind::BankruptcyResolved && !matchingBankruptcyResolution) return;
     if (event.stateVersion != 0 && event.stateVersion < state.stateVersion) return;
     if (event.stateVersion > state.stateVersion) state.stateVersion = event.stateVersion;
+    if (event.kind != TransportEventKind::None && clearInlineEditing(state)) {
+        touchRevision(state);
+    }
 
     const bool matchesPayNow = event.requestId != 0 &&
                               event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::PayNow)];
@@ -804,12 +883,41 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
     if (state.modal.kind != ModalKind::None) return;
 
     const uint16_t raw = static_cast<uint16_t>(action);
+    if (raw >= static_cast<uint16_t>(TouchAction::ListItem0) &&
+        raw < static_cast<uint16_t>(TouchAction::ListItem0) + 16) {
+        appHandleUiEvent(
+            state,
+            UiEvent{UiEventKind::SelectListItem,
+                    static_cast<int16_t>(raw - static_cast<uint16_t>(TouchAction::ListItem0))},
+            nowMs
+        );
+        return;
+    }
+    if (action == TouchAction::ListPrevious) {
+        appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, nowMs);
+        return;
+    }
+    if (action == TouchAction::ListNext) {
+        appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, nowMs);
+        return;
+    }
+    if (action == TouchAction::Back) {
+        appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, nowMs);
+        return;
+    }
     if (raw >= 100 && raw <= 104) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, static_cast<int16_t>(raw - 100)}, nowMs); return; }
     if (raw >= 200 && raw <= 204) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 200)}, nowMs); return; }
     if (raw >= 300 && raw <= 304) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 300)}, nowMs); return; }
     if (raw >= 400 && raw <= 403) {
         if (action == TouchAction::TradeBack) appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, nowMs);
-        else appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 400)}, nowMs);
+        else {
+            int16_t focus = static_cast<int16_t>(raw - 400);
+            if (appTradeReceiverLocked(state)) {
+                if (action == TouchAction::TradeReceiver) return;
+                --focus;
+            }
+            appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, focus}, nowMs);
+        }
         return;
     }
     if (raw >= 500 && raw <= 501) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, static_cast<int16_t>(raw - 500)}, nowMs); return; }

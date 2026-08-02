@@ -6,6 +6,7 @@
 #include "demo_transport.h"
 #include "ui_layout.h"
 #include "ui_carousel.h"
+#include "ui_center_list.h"
 #include "ui_motion.h"
 #include "ui_primitives.h"
 
@@ -138,6 +139,15 @@ bool runLogicTests(Stream &out)
                       uiListProgressPermille(7, 8) == 1000 &&
                       uiListProgressPermille(2, 1) == 0,
                  "list progress spans complete item range");
+    ok &= expect(out, uiCenterListSwipeStep(0, 35) == 0 &&
+                      uiCenterListSwipeStep(0, 36) == -1 &&
+                      uiCenterListSwipeStep(0, -36) == 1,
+                 "center list swipe uses the exact 36px threshold");
+    ok &= expect(out, uiCenterListSwipeStep(24, 36) == -1 &&
+                      uiCenterListSwipeStep(25, 36) == 0 &&
+                      uiCenterListSwipeStep(-24, -36) == 1 &&
+                      uiCenterListSwipeStep(80, 120) == -1,
+                 "center list swipe requires 12px vertical dominance and emits one step");
     ok &= expect(out, uiMoneyFontPx(1860) == 40 &&
                       uiMoneyFontPx(12345678) == 24 &&
                       uiMoneyFontPx(-123456) == 32,
@@ -291,6 +301,182 @@ bool runLogicTests(Stream &out)
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectListItem, 1}, 660);
     ok &= expect(out, state.nav.current.page == ScreenPage::AssetDetail,
                  "touching the selected list row activates it");
+
+    appInit(state, 0);
+    state.nav.current = NavigationEntry{ScreenPage::Assets, 0, 0};
+    appHandleInput(state, InputEvent{InputKind::Rotate, 20, 10}, 10);
+    ok &= expect(out, state.nav.current.focus == kAssetCount,
+                 "long asset delta clamps at fixed back footer");
+    appHandleInput(state, InputEvent{InputKind::Rotate, -1, 20}, 20);
+    ok &= expect(out, state.nav.current.focus == kAssetCount - 1 &&
+                      state.assetListIndex == kAssetCount - 1,
+                 "reverse from footer restores last asset row");
+    appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, 30);
+    appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, 31);
+    ok &= expect(out, state.nav.current.focus == kAssetCount &&
+                      state.assetListIndex == kAssetCount - 1,
+                 "discrete list next clamps at footer and preserves selected row");
+    appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, 40);
+    ok &= expect(out, state.nav.current.focus == kAssetCount - 1 &&
+                      state.assetListIndex == kAssetCount - 1,
+                 "discrete list previous returns from footer by one row");
+    appHandleTouch(
+        state,
+        static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::ListItem0) + 2),
+        50
+    );
+    ok &= expect(out, state.nav.current.page == ScreenPage::Assets &&
+                      state.nav.current.focus == 2 && state.assetListIndex == 2,
+                 "center list row touch synchronizes focus without activation");
+    appHandleTouch(
+        state,
+        static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::ListItem0) + 2),
+        60
+    );
+    ok &= expect(out, state.nav.current.page == ScreenPage::AssetDetail &&
+                      state.selectedAsset == 2,
+                 "second center list row touch activates the focused row");
+
+    appInit(state, 0);
+    const uint8_t initialTradeReceiver = state.tradeReceiver;
+    const int32_t initialTradeAmount = state.tradeAmount;
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 2}, 100);
+    appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 2}, 110);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Trade &&
+                      state.tradeEntryMode == TradeEntryMode::HomeEditable &&
+                      state.nav.current.focus == 0 &&
+                      state.inlineEditField == InlineEditField::None &&
+                      !appTradeReceiverLocked(state),
+                 "Home Trade opens with editable Receiver in Browse");
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 120}, 120);
+    ok &= expect(out, state.nav.current.focus == 1 &&
+                      state.tradeReceiver == initialTradeReceiver &&
+                      state.tradeAmount == initialTradeAmount &&
+                      state.inlineEditField == InlineEditField::None,
+                 "Trade Browse rotation moves focus without mutating values");
+    appHandleInput(state, InputEvent{InputKind::Rotate, -1, 130}, 130);
+    shortPress(state, 140, 200);
+    ok &= expect(out, state.nav.current.focus == 0 &&
+                      appInlineFieldEditing(state, InlineEditField::TradeReceiver) &&
+                      state.commandCount == 0,
+                 "short press enters Receiver Editing without transport");
+    const int32_t receiverEditAmount = state.tradeAmount;
+    appHandleInput(state, InputEvent{InputKind::Rotate, 2, 210}, 210);
+    ok &= expect(out, state.nav.current.focus == 0 &&
+                      state.tradeReceiver == (initialTradeReceiver + 2) % kPlayerCount &&
+                      state.tradeAmount == receiverEditAmount &&
+                      appInlineFieldEditing(state, InlineEditField::TradeReceiver) &&
+                      state.commandCount == 0,
+                 "Receiver Editing changes only Receiver and keeps focus fixed");
+    const uint8_t committedReceiver = state.tradeReceiver;
+    shortPress(state, 220, 280);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None &&
+                      state.tradeReceiver == committedReceiver && state.commandCount == 0,
+                 "second short press commits Receiver draft and returns to Browse");
+
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 290}, 290);
+    appHandleTouch(state, TouchAction::TradeAmount, 300);
+    ok &= expect(out, appInlineFieldEditing(state, InlineEditField::TradeAmount),
+                 "tap on focused Amount enters Editing");
+    const uint8_t amountEditReceiver = state.tradeReceiver;
+    appHandleInput(state, InputEvent{InputKind::Rotate, 20, 310}, 310);
+    ok &= expect(out, state.nav.current.focus == 1 && state.tradeAmount == 500 &&
+                      state.tradeReceiver == amountEditReceiver &&
+                      appInlineFieldEditing(state, InlineEditField::TradeAmount),
+                 "Amount Editing applies 50 steps, clamps maximum, and keeps focus fixed");
+    appHandleInput(state, InputEvent{InputKind::Rotate, -20, 320}, 320);
+    ok &= expect(out, state.tradeAmount == 50 && state.tradeReceiver == amountEditReceiver,
+                 "Amount Editing clamps the existing minimum");
+    appHandleTouch(state, TouchAction::TradeAmount, 330);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None &&
+                      state.tradeAmount == 50 && state.commandCount == 0,
+                 "second Amount tap commits locally without transport");
+
+    appHandleTouch(state, TouchAction::TradeAmount, 340);
+    const uint8_t beforeDifferentFieldReceiver = state.tradeReceiver;
+    const int32_t beforeDifferentFieldAmount = state.tradeAmount;
+    appHandleTouch(state, TouchAction::TradeReceiver, 350);
+    ok &= expect(out, state.nav.current.focus == 0 &&
+                      state.inlineEditField == InlineEditField::None &&
+                      state.tradeReceiver == beforeDifferentFieldReceiver &&
+                      state.tradeAmount == beforeDifferentFieldAmount,
+                 "different-field tap exits old editor and only focuses target");
+    appHandleTouch(state, TouchAction::TradeReceiver, 360);
+    ok &= expect(out, appInlineFieldEditing(state, InlineEditField::TradeReceiver),
+                 "second tap on newly focused Receiver enters Editing");
+    appHandleTouch(state, TouchAction::TradeConfirm, 370);
+    ok &= expect(out, state.nav.current.focus == 2 &&
+                      state.inlineEditField == InlineEditField::None &&
+                      state.modal.kind == ModalKind::None && state.commandCount == 0,
+                 "Submit tap while editing only exits editor and focuses Submit");
+    appHandleTouch(state, TouchAction::TradeConfirm, 380);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate && state.commandCount == 0,
+                 "separate Submit activation opens TradeCreate without queuing transport");
+
+    appInit(state, 0);
+    state.selectedPlayer = 3;
+    state.nav.current = NavigationEntry{ScreenPage::PlayerDetail, 0, 0};
+    appHandleUiEvent(state, UiEvent{UiEventKind::ActivateFocused, 0}, 400);
+    ok &= expect(out, state.nav.current.page == ScreenPage::Trade &&
+                      state.tradeEntryMode == TradeEntryMode::PlayerLocked &&
+                      appTradeReceiverLocked(state) && state.tradeReceiver == 3 &&
+                      state.nav.current.focus == 0 &&
+                      state.inlineEditField == InlineEditField::None &&
+                      appPageContentCount(state) == 2,
+                 "Player Detail Trade locks selected Receiver and starts at Amount");
+    const uint8_t lockedReceiver = state.tradeReceiver;
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 410}, 410);
+    ok &= expect(out, state.nav.current.focus == 1 && state.tradeReceiver == lockedReceiver &&
+                      state.inlineEditField == InlineEditField::None,
+                 "locked Trade rotary browses from Amount to Submit without Receiver mutation");
+    appHandleInput(state, InputEvent{InputKind::Rotate, -1, 420}, 420);
+    shortPress(state, 430, 480);
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 490}, 490);
+    const int32_t lockedEditedAmount = state.tradeAmount;
+    appHandleTouch(state, TouchAction::TradeReceiver, 500);
+    ok &= expect(out, state.nav.current.focus == 0 && state.tradeReceiver == lockedReceiver &&
+                      state.tradeAmount == lockedEditedAmount &&
+                      appInlineFieldEditing(state, InlineEditField::TradeAmount),
+                 "locked Receiver ignores touch while Amount editor remains active");
+    shortPress(state, 510, 560);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None &&
+                      state.tradeReceiver == lockedReceiver,
+                 "locked Amount commits without changing Receiver");
+
+    appHandleTouch(state, TouchAction::TradeAmount, 570);
+    appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, 580);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None &&
+                      state.nav.current.page == ScreenPage::PlayerDetail,
+                 "page transition clears inline Editing");
+
+    appInit(state, 0);
+    state.nav.current = NavigationEntry{ScreenPage::Trade, 1, 0};
+    appHandleTouch(state, TouchAction::TradeAmount, 600);
+    TransportEvent editingSnapshot{TransportEventKind::StateSnapshotApplied};
+    editingSnapshot.stateVersion = 2;
+    editingSnapshot.cash = state.money;
+    editingSnapshot.playerPosition = state.position;
+    appHandleTransportEvent(state, editingSnapshot, 610);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None,
+                 "authoritative snapshot clears inline Editing");
+    appHandleTouch(state, TouchAction::TradeAmount, 620);
+    TransportEvent editingAuthorityEvent{TransportEventKind::RollResult};
+    editingAuthorityEvent.stateVersion = 3;
+    appHandleTransportEvent(state, editingAuthorityEvent, 630);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None,
+                 "authoritative event clears inline Editing");
+
+    appHandleTouch(state, TouchAction::TradeAmount, 640);
+    TransportEvent forcedReplacement{TransportEventKind::DebtResolutionRequired};
+    forcedReplacement.transactionId = 91;
+    forcedReplacement.stateVersion = 4;
+    forcedReplacement.amount = 500;
+    forcedReplacement.cash = 240;
+    forcedReplacement.assetMask = 0xFF;
+    appHandleTransportEvent(state, forcedReplacement, 650);
+    ok &= expect(out, state.inlineEditField == InlineEditField::None &&
+                      state.nav.current.page == ScreenPage::DebtAssets,
+                 "forced-flow replacement clears inline Editing");
 
     const ScreenPage forcedPages[] = {
         ScreenPage::DiceStage,

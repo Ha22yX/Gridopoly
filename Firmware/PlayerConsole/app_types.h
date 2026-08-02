@@ -49,6 +49,17 @@ enum class ModalKind : uint8_t {
 
 enum class ModalFocus : uint8_t { Confirm, Cancel, ResolveAssets };
 
+enum class InlineEditField : uint8_t {
+    None,
+    TradeReceiver,
+    TradeAmount,
+};
+
+enum class TradeEntryMode : uint8_t {
+    HomeEditable,
+    PlayerLocked,
+};
+
 enum class TouchAction : uint16_t {
     None = 0,
     PressDown = 1,
@@ -82,6 +93,10 @@ enum class TouchAction : uint16_t {
     DemoBack = 606,
     DetailPrimary = 700,
     DetailBack = 701,
+    ListItem0 = 800,
+    ListPrevious = 816,
+    ListNext = 817,
+    Back = 818,
 };
 
 struct PlayerData {
@@ -175,6 +190,8 @@ struct AppState {
     uint8_t debtListIndex = 0;
     uint8_t tradeReceiver = 1;
     int32_t tradeAmount = 100;
+    InlineEditField inlineEditField = InlineEditField::None;
+    TradeEntryMode tradeEntryMode = TradeEntryMode::HomeEditable;
     int32_t money = 1860;
     uint8_t position = 17;
     bool authorityOnline = true;
