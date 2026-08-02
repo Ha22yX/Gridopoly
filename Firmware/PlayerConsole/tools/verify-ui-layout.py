@@ -107,8 +107,9 @@ def function_body(source: str, name: str) -> str:
 
 
 def reject_inactive_blocks(source: str, path: str) -> None:
-    if re.search(r"(?m)^\s*#\s*if\s+0\b", code_only(source)):
-        fail(f"{path} contains an inactive #if 0 block")
+    directive = re.search(r"(?m)^\s*#\s*(?:if|ifdef|ifndef|elif|else|endif)\b", code_only(source))
+    if directive:
+        fail(f"{path} contains conditional preprocessing: {directive.group(0).strip()}")
 
 
 def read_rectangles(source: str) -> dict[str, list[tuple[int, int, int, int]]]:
@@ -176,6 +177,9 @@ def verify_contract(layout_source: str, renderer_source: str) -> None:
     reject_inactive_blocks(renderer_source, "ui_renderer.cpp")
     layout_code = code_only(layout_source)
     renderer_code = code_only(renderer_source)
+    draw_modal_definitions = re.findall(r"\bvoid\s+drawModal\s*\([^)]*\)\s*\{", renderer_code)
+    if len(draw_modal_definitions) != 1:
+        fail(f"ui_renderer.cpp requires exactly one drawModal() definition, found {len(draw_modal_definitions)}")
     rectangle_definitions = read_rectangles(layout_code)
 
     rectangles: dict[str, tuple[int, int, int, int]] = {}
@@ -267,7 +271,14 @@ def run_self_test(layout_source: str, renderer_source: str) -> None:
     expect_rejected("inactive duplicate", inactive_duplicate, renderer_source)
     unused_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
     expect_rejected("unused modal rectangle", layout_source, unused_modal)
-    print("UI LAYOUT NEGATIVE TEST PASS: inactive duplicate and unused modal declarations rejected")
+    modal_body = function_body(code_only(renderer_source), "drawModal")
+    dummy_modal = "void drawModal(const AppState &state, uint32_t nowMs) {" + modal_body + "}"
+    noncompliant_live_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
+    expect_rejected("#if false dummy modal", layout_source,
+                    "#if false\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal)
+    expect_rejected("#if 0x0 dummy modal", layout_source,
+                    "#if 0x0\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal)
+    print("UI LAYOUT NEGATIVE TEST PASS: inactive duplicates and dummy modal bypasses rejected")
 
 
 def main() -> int:
