@@ -118,7 +118,7 @@ def block_after(source: str, match: re.Match) -> str:
 
 
 def function_body(source: str, name: str) -> str:
-    match = re.search(rf"\bvoid\s+{re.escape(name)}\s*\([^)]*\)\s*\{{", source)
+    match = re.search(rf"\b[A-Za-z_][A-Za-z0-9_:<>\s\*&]*\s+{re.escape(name)}\s*\([^)]*\)\s*\{{", source)
     if not match:
         fail(f"{name}() was not found")
     return block_after(source, match)
@@ -449,11 +449,12 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     gesture_body = function_body(center_code, "swipeCallback")
     if not re.search(r"\bcode\s*==\s*LV_EVENT_RELEASED\b", gesture_body):
         fail("center-list swipe is not emitted on release")
-    reset_position = gesture_body.find("lv_indev_reset(")
-    emit_position = gesture_body.find("lv_event_send(")
+    dispatch_body = function_body(center_code, "uiCenterListDispatchSwipe")
+    reset_position = dispatch_body.find("lv_indev_reset(")
+    emit_position = dispatch_body.find("lv_event_send(")
     if reset_position < 0 or emit_position < 0 or reset_position > emit_position:
         fail("center-list swipe does not cancel LVGL's follow-up row click before emitting a step")
-    if len(re.findall(r"\blv_event_send\s*\(", gesture_body)) != 2:
+    if len(re.findall(r"\blv_event_send\s*\(", dispatch_body)) != 2:
         fail("center-list release must expose exactly one previous/next event branch")
 
     for function_name, count_token in (

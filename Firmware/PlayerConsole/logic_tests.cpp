@@ -144,6 +144,11 @@ bool runCarouselComponentTests(Stream &out)
     ok &= expect(out, carouselEventCount == 1 && carouselEvents[0].kind == UiEventKind::ListPrevious &&
                       swipe.nav.current.focus == rotary.nav.current.focus,
                  "Home item-hit right swipe matches reverse rotary focus including wrap");
+    ok &= expect(out, uiCarouselSwipeStep(-35, 0) == 0 && uiCarouselSwipeStep(35, 0) == 0 &&
+                      uiCarouselSwipeStep(-36, 0) == -1 && uiCarouselSwipeStep(36, 0) == 1 &&
+                      uiCarouselSwipeStep(-36, 24) == -1 && uiCarouselSwipeStep(36, -24) == 1 &&
+                      uiCarouselSwipeStep(-36, 25) == 0 && uiCarouselSwipeStep(36, -25) == 0,
+                 "Home swipe accepts exact 36px and 12px dominance edges in both directions");
 
     uiCarouselSetSelection(carousel, 1, true);
     lv_anim_t *master = lv_anim_get(&carousel, nullptr);
@@ -324,6 +329,57 @@ bool runCenterListComponentTests(Stream &out)
     ok &= expect(out, centerListEventCount == 1 &&
                       centerListEvents[0].kind == UiEventKind::ListNext,
                  "center list swipe emits one row step and suppresses follow-up activation");
+
+    static AppState firstBoundary{};
+    static AppState footerBoundary{};
+    appInit(firstBoundary, 0);
+    firstBoundary.nav.current = NavigationEntry{ScreenPage::Assets, 0, 0};
+    centerListEventCount = 0;
+    const uint32_t firstRevision = firstBoundary.boundaryPulseRevision;
+    const uint8_t firstFocus = firstBoundary.nav.current.focus;
+    const uint8_t firstAnchor = firstBoundary.nav.current.listAnchor;
+    const uint8_t firstIndex = firstBoundary.assetListIndex;
+    const uint16_t firstProgress = uiListProgressPermille(firstIndex, kAssetCount);
+    const uint8_t firstCount = appFocusCount(firstBoundary);
+    const uint32_t firstActivation = firstBoundary.commandCount;
+    const bool firstDispatched = uiCenterListDispatchSwipe(
+        list.viewport, input, lv_point_t{240, 170}, lv_point_t{240, 206}
+    );
+    if (centerListEventCount == 1) appHandleUiEvent(firstBoundary, centerListEvents[0], 1);
+    ok &= expect(out, firstDispatched && centerListEventCount == 1 &&
+                      centerListEvents[0].kind == UiEventKind::ListPrevious &&
+                      firstBoundary.nav.current.page == ScreenPage::Assets &&
+                      firstBoundary.nav.current.focus == firstFocus &&
+                      firstBoundary.nav.current.listAnchor == firstAnchor &&
+                      firstBoundary.assetListIndex == firstIndex &&
+                      uiListProgressPermille(firstBoundary.assetListIndex, kAssetCount) == firstProgress &&
+                      appFocusCount(firstBoundary) == firstCount &&
+                      firstBoundary.commandCount == firstActivation &&
+                      firstBoundary.boundaryPulseDirection == -1 &&
+                      firstBoundary.boundaryPulseRevision == firstRevision + 1,
+                 "qualifying LVGL first-row swipe dispatches ListPrevious and preserves boundaries");
+
+    appInit(footerBoundary, 0);
+    footerBoundary.nav.current = NavigationEntry{ScreenPage::Assets, kAssetCount, 0};
+    footerBoundary.assetListIndex = kAssetCount - 1;
+    centerListEventCount = 0;
+    const uint32_t footerRevision = footerBoundary.boundaryPulseRevision;
+    const uint32_t footerActivation = footerBoundary.commandCount;
+    const bool footerDispatched = uiCenterListDispatchSwipe(
+        list.viewport, input, lv_point_t{240, 220}, lv_point_t{240, 184}
+    );
+    if (centerListEventCount == 1) appHandleUiEvent(footerBoundary, centerListEvents[0], 2);
+    ok &= expect(out, footerDispatched && centerListEventCount == 1 &&
+                      centerListEvents[0].kind == UiEventKind::ListNext &&
+                      footerBoundary.nav.current.page == ScreenPage::Assets &&
+                      appFocusIsFooter(footerBoundary) &&
+                      footerBoundary.assetListIndex == kAssetCount - 1 &&
+                      uiListProgressPermille(footerBoundary.assetListIndex, kAssetCount) == 1000 &&
+                      appFocusCount(footerBoundary) == kAssetCount + 1 &&
+                      footerBoundary.commandCount == footerActivation &&
+                      footerBoundary.boundaryPulseDirection == 1 &&
+                      footerBoundary.boundaryPulseRevision == footerRevision + 1,
+                 "qualifying LVGL footer swipe dispatches ListNext and preserves boundaries");
 
     centerListEventCount = 0;
     lv_event_send(list.footer, LV_EVENT_CLICKED, input);

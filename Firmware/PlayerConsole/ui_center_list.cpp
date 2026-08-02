@@ -204,20 +204,7 @@ void swipeCallback(lv_event_t *event)
         lv_point_t finish{};
         swipeContext.tracking = false;
         if (!readPointer(event, finish)) return;
-        const int8_t step = uiCenterListSwipeStep(
-            static_cast<int16_t>(finish.x - swipeContext.start.x),
-            static_cast<int16_t>(finish.y - swipeContext.start.y)
-        );
-        lv_indev_t *input = eventInput(event);
-        if (step != 0 && input != nullptr) {
-            swipeContext.suppressedClickTarget = target;
-            lv_indev_reset(input, target);
-        }
-        if (step < 0 && swipeContext.previousTarget != nullptr) {
-            lv_event_send(swipeContext.previousTarget, LV_EVENT_CLICKED, nullptr);
-        } else if (step > 0 && swipeContext.nextTarget != nullptr) {
-            lv_event_send(swipeContext.nextTarget, LV_EVENT_CLICKED, nullptr);
-        }
+        uiCenterListDispatchSwipe(target, eventInput(event), swipeContext.start, finish);
     }
 }
 
@@ -241,6 +228,23 @@ int8_t uiCenterListSwipeStep(int16_t dx, int16_t dy)
     if (absoluteY < kSwipeThreshold) return 0;
     if (absoluteY < absoluteX + kSwipeDominance) return 0;
     return dy < 0 ? 1 : -1;
+}
+
+bool uiCenterListDispatchSwipe(lv_obj_t *target, lv_indev_t *input,
+                               lv_point_t start, lv_point_t finish)
+{
+    const int8_t step = uiCenterListSwipeStep(
+        static_cast<int16_t>(finish.x - start.x), static_cast<int16_t>(finish.y - start.y)
+    );
+    if (step == 0 || target == nullptr || input == nullptr) return false;
+    swipeContext.suppressedClickTarget = target;
+    lv_indev_reset(input, target);
+    if (step < 0 && swipeContext.previousTarget != nullptr) {
+        lv_event_send(swipeContext.previousTarget, LV_EVENT_CLICKED, nullptr);
+    } else if (step > 0 && swipeContext.nextTarget != nullptr) {
+        lv_event_send(swipeContext.nextTarget, LV_EVENT_CLICKED, nullptr);
+    }
+    return true;
 }
 
 void uiCenterListCreate(UiCenterList &list, lv_obj_t *parent,

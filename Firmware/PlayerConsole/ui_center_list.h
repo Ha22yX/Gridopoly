@@ -38,5 +38,7 @@ void uiCenterListUpdate(UiCenterList &list, const UiListItemView *items,
                         bool footerFocused, bool animate);
 void uiCenterListDestroy(UiCenterList &list);
 int8_t uiCenterListSwipeStep(int16_t dx, int16_t dy);
+bool uiCenterListDispatchSwipe(lv_obj_t *target, lv_indev_t *input,
+                               lv_point_t start, lv_point_t finish);
 void uiCenterListBoundaryPulse(UiCenterList &list, int8_t direction,
                                uint32_t revision);
