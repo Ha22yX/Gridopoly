@@ -2,7 +2,9 @@ if ($null -eq ('Gridopoly.BoundedPhaseOutput' -as [type])) {
     Add-Type -TypeDefinition @'
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Gridopoly {
     public sealed class BoundedPhaseOutput {
@@ -16,42 +18,45 @@ namespace Gridopoly {
         public volatile bool StandardErrorComplete;
         public volatile bool SawSelfTestPass;
         public volatile bool SawSelfTestFailed;
-        public DataReceivedEventHandler StandardOutputHandler { get { return new DataReceivedEventHandler(OnStandardOutput); } }
-        public DataReceivedEventHandler StandardErrorHandler { get { return new DataReceivedEventHandler(OnStandardError); } }
 
         public BoundedPhaseOutput(int capacity, bool suppressOutput) {
             this.capacity = capacity;
             SuppressOutput = suppressOutput;
         }
 
-        public void OnStandardOutput(object sender, DataReceivedEventArgs eventArgs) {
-            Receive(standardOutput, eventArgs, false);
-        }
-
-        public void OnStandardError(object sender, DataReceivedEventArgs eventArgs) {
-            Receive(standardError, eventArgs, true);
+        public async Task ReadAsync(StreamReader reader, bool isError) {
+            char[] buffer = new char[4096];
+            StringBuilder target = isError ? standardError : standardOutput;
+            try {
+                while (true) {
+                    int count = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                    if (count == 0) break;
+                    Receive(target, new string(buffer, 0, count), isError);
+                }
+            } finally {
+                if (isError) StandardErrorComplete = true;
+                else StandardOutputComplete = true;
+            }
         }
 
         public string GetTail() {
             lock (sync) {
-                string combined = standardOutput.ToString() + standardError.ToString();
-                return combined.Length <= capacity ? combined : combined.Substring(combined.Length - capacity);
+                int perStreamCapacity = capacity / 2;
+                string output = standardOutput.ToString();
+                string error = standardError.ToString();
+                if (output.Length > perStreamCapacity) output = output.Substring(output.Length - perStreamCapacity);
+                if (error.Length > perStreamCapacity) error = error.Substring(error.Length - perStreamCapacity);
+                return output + error;
             }
         }
 
-        private void Receive(StringBuilder target, DataReceivedEventArgs eventArgs, bool isError) {
-            if (eventArgs.Data == null) {
-                if (isError) StandardErrorComplete = true;
-                else StandardOutputComplete = true;
-                return;
-            }
-
+        private void Receive(StringBuilder target, string text, bool isError) {
             lock (sync) {
-                AppendTail(target, eventArgs.Data + Environment.NewLine);
-                SawSelfTestPass |= eventArgs.Data.Contains("SELFTEST PASS");
-                SawSelfTestFailed |= eventArgs.Data.Contains("SELFTEST FAILED");
+                AppendTail(target, text);
+                SawSelfTestPass |= text.Contains("SELFTEST PASS");
+                SawSelfTestFailed |= text.Contains("SELFTEST FAILED");
             }
-            if (!SuppressOutput) Console.Out.WriteLine(eventArgs.Data);
+            if (!SuppressOutput) Console.Out.Write(text);
         }
 
         private void AppendTail(StringBuilder target, string text) {
@@ -114,17 +119,12 @@ function Invoke-SelfTestProcessTreeTermination {
 function Wait-SelfTestPhaseStreams {
     [CmdletBinding()]
     param(
-        [Gridopoly.BoundedPhaseOutput]$Capture,
+        [Threading.Tasks.Task[]]$Tasks,
         [ValidateRange(1, 60000)]
         [int]$GraceMilliseconds
     )
 
-    $deadline = [DateTime]::UtcNow.AddMilliseconds($GraceMilliseconds)
-    while (-not ($Capture.StandardOutputComplete -and $Capture.StandardErrorComplete)) {
-        if ([DateTime]::UtcNow -ge $deadline) { return $false }
-        Start-Sleep -Milliseconds 10
-    }
-    return $true
+    return [Threading.Tasks.Task]::WaitAll($Tasks, $GraceMilliseconds)
 }
 
 function Invoke-SelfTestPhase {
@@ -139,6 +139,8 @@ function Invoke-SelfTestPhase {
         [int]$TerminationGraceMilliseconds = 1000,
         [ValidateRange(64, 65536)]
         [int]$OutputTailLength = 4096,
+        [ValidateRange(256, 65536)]
+        [int]$ReadBufferSize = 4096,
         [ValidateRange(1, 60000)]
         [int]$StreamDrainTimeoutMilliseconds = 15000,
         [switch]$SuppressPhaseOutput,
@@ -153,22 +155,15 @@ function Invoke-SelfTestPhase {
     $process.StartInfo.CreateNoWindow = $true
     $process.StartInfo.RedirectStandardOutput = $true
     $process.StartInfo.RedirectStandardError = $true
-    $outputHandler = $capture.StandardOutputHandler
-    $errorHandler = $capture.StandardErrorHandler
-    $outputReadStarted = $false
-    $errorReadStarted = $false
     $processStarted = $false
     $terminationAttempted = $false
 
     try {
-        $process.add_OutputDataReceived($outputHandler)
-        $process.add_ErrorDataReceived($errorHandler)
         if (-not $process.Start()) { throw "Unable to start $Name phase." }
         $processStarted = $true
-        $process.BeginOutputReadLine()
-        $outputReadStarted = $true
-        $process.BeginErrorReadLine()
-        $errorReadStarted = $true
+        $standardOutputTask = $capture.ReadAsync($process.StandardOutput, $false)
+        $standardErrorTask = $capture.ReadAsync($process.StandardError, $true)
+        $streamTasks = @($standardOutputTask, $standardErrorTask)
 
         $timedOut = -not $process.WaitForExit($TimeoutSeconds * 1000)
         if ($timedOut) {
@@ -182,7 +177,7 @@ function Invoke-SelfTestPhase {
             $remainingGrace = [Math]::Max(0, [int]($terminationDeadline - [DateTime]::UtcNow).TotalMilliseconds)
             $processExited = $process.WaitForExit($remainingGrace)
             if ($processExited) {
-                [void](Wait-SelfTestPhaseStreams -Capture $capture -GraceMilliseconds $TerminationGraceMilliseconds)
+                [void](Wait-SelfTestPhaseStreams -Tasks $streamTasks -GraceMilliseconds $TerminationGraceMilliseconds)
             }
             $phaseOutput = $capture.GetTail()
             if (-not $terminationSucceeded) {
@@ -194,7 +189,7 @@ function Invoke-SelfTestPhase {
             throw "$Name phase timed out after $TimeoutSeconds seconds. Output before termination:`n$phaseOutput"
         }
 
-        [void](Wait-SelfTestPhaseStreams -Capture $capture -GraceMilliseconds $StreamDrainTimeoutMilliseconds)
+        [void](Wait-SelfTestPhaseStreams -Tasks $streamTasks -GraceMilliseconds $StreamDrainTimeoutMilliseconds)
         $phaseOutput = $capture.GetTail()
         if ($process.ExitCode -ne 0) {
             throw "$Name phase failed with exit code $($process.ExitCode). Output:`n$phaseOutput"
@@ -209,10 +204,8 @@ function Invoke-SelfTestPhase {
             [void](Invoke-SelfTestProcessTreeTermination -ProcessId $process.Id -GraceMilliseconds $TerminationGraceMilliseconds)
             [void]$process.WaitForExit($TerminationGraceMilliseconds)
         }
-        if ($outputReadStarted) { try { $process.CancelOutputRead() } catch {} }
-        if ($errorReadStarted) { try { $process.CancelErrorRead() } catch {} }
-        $process.remove_OutputDataReceived($outputHandler)
-        $process.remove_ErrorDataReceived($errorHandler)
+        try { $process.StandardOutput.Close() } catch {}
+        try { $process.StandardError.Close() } catch {}
         $process.Dispose()
     }
 }

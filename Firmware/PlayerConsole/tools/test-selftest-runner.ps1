@@ -84,7 +84,24 @@ exit 7
     }
     Assert-True ($null -ne $highVolumeError) 'high-volume phase did not report its non-zero exit'
     Assert-True ($highVolumeError.Exception.Message.Length -lt 512) 'high-volume phase retained more than the configured diagnostic output cap'
-    Assert-True ($highVolumeError.Exception.Message.Contains(('V' * 64))) 'high-volume phase did not retain the most recent output tail'
+    Assert-True ($highVolumeError.Exception.Message.Contains(('V' * 32))) 'high-volume phase did not retain the most recent output tail'
+
+    $noNewlinePhase = Join-Path $fixtureDir 'no-newline-phase.ps1'
+    @'
+[Console]::Out.Write('O' * 1048576)
+[Console]::Error.Write('E' * 1048576)
+exit 7
+'@ | Set-Content -LiteralPath $noNewlinePhase -NoNewline
+    $noNewlineError = $null
+    try {
+        Invoke-SelfTestPhase -Name 'no-newline' -ScriptPath $noNewlinePhase -ScriptArguments @() -TimeoutSeconds 5 -OutputTailLength 128 -ReadBufferSize 4096 -SuppressPhaseOutput
+    } catch {
+        $noNewlineError = $_
+    }
+    Assert-True ($null -ne $noNewlineError) 'no-newline phase did not report its non-zero exit'
+    Assert-True ($noNewlineError.Exception.Message.Length -lt 512) 'no-newline phase retained more than the configured diagnostic output cap'
+    Assert-True ($noNewlineError.Exception.Message.Contains(('O' * 32))) 'no-newline stdout tail was not retained'
+    Assert-True ($noNewlineError.Exception.Message.Contains(('E' * 32))) 'no-newline stderr tail was not retained'
 
     $markerWindow = ''
     for ($index = 0; $index -lt 256; $index++) {
