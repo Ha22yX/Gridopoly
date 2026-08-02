@@ -151,6 +151,13 @@ void setFocus(AppState &state, uint8_t focus)
     touchRevision(state);
 }
 
+void pulseListBoundary(AppState &state, int16_t delta)
+{
+    state.boundaryPulseDirection = delta < 0 ? -1 : 1;
+    ++state.boundaryPulseRevision;
+    touchRevision(state);
+}
+
 bool pushPage(AppState &state, ScreenPage page, uint8_t focus = 0)
 {
     if (state.nav.depth >= sizeof(state.nav.stack) / sizeof(state.nav.stack[0])) return false;
@@ -480,9 +487,9 @@ void activate(AppState &state, uint32_t nowMs)
             else showToast(state, "Gridopoly Player Console", nowMs);
             return;
         case ScreenPage::DemoLab:
-            if (focus == 0) { state.homePhase = HomePhase::Waiting; resetHome(state, 3); }
-            else if (focus == 1) { state.homePhase = HomePhase::NextPlayer; resetHome(state, 3); }
-            else if (focus == 2) { state.homePhase = HomePhase::MyTurn; resetHome(state, 4); }
+            if (focus == 0) { state.homePhase = HomePhase::Waiting; state.turnsUntilYou = 3; resetHome(state, 3); }
+            else if (focus == 1) { state.homePhase = HomePhase::NextPlayer; state.turnsUntilYou = 1; resetHome(state, 3); }
+            else if (focus == 2) { state.homePhase = HomePhase::MyTurn; state.turnsUntilYou = 0; resetHome(state, 4); }
             else if (focus == 3) showModal(state, ModalKind::CollectRent, true, "等待收租", "砾川",
                                             "霓虹港湾地租", 120, 0, nowMs + 20000);
             else if (focus == 4) showModal(state, ModalKind::ForcedPayment, false, "即将付款", "岑蓝",
@@ -566,13 +573,18 @@ void moveFocus(AppState &state, int16_t delta)
     const uint8_t count = appFocusCount(state);
     if (count == 0 || delta == 0 || !isInteractiveListPage(state.nav.current.page)) return;
 
-    int32_t next = static_cast<int32_t>(state.nav.current.focus) + delta;
+    const int32_t requested = static_cast<int32_t>(state.nav.current.focus) + delta;
+    int32_t next = requested;
     if (state.nav.current.page == ScreenPage::Home) {
         while (next < 0) next += count;
         next %= count;
     } else {
         if (next < 0) next = 0;
         if (next >= count) next = count - 1;
+        if (next == state.nav.current.focus && next != requested) {
+            pulseListBoundary(state, delta);
+            return;
+        }
     }
     setFocus(state, static_cast<uint8_t>(next));
 }

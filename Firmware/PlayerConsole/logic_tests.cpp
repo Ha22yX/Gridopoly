@@ -67,6 +67,108 @@ bool centerListTreeMatches(const UiCenterList &list, lv_obj_t *parent, uint8_t c
            !lv_obj_has_flag(list.viewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
 }
 
+UiEvent carouselEvents[8]{};
+uint8_t carouselEventCount = 0;
+
+void captureCarouselEvent(const UiEvent &event)
+{
+    if (carouselEventCount < sizeof(carouselEvents) / sizeof(carouselEvents[0])) {
+        carouselEvents[carouselEventCount++] = event;
+    }
+}
+
+bool runCarouselComponentTests(Stream &out)
+{
+    bool ok = true;
+    if (!lv_is_initialized()) lv_init();
+
+    static lv_color_t pixels[480]{};
+    static lv_disp_draw_buf_t drawBuffer{};
+    static lv_disp_drv_t displayDriver{};
+    static lv_indev_drv_t inputDriver{};
+    static HomeAction actions[5]{};
+    static UiCarousel carousel{};
+    static AppState rotary{};
+    static AppState swipe{};
+    drawBuffer = lv_disp_draw_buf_t{};
+    displayDriver = lv_disp_drv_t{};
+    inputDriver = lv_indev_drv_t{};
+    actions[0] = HomeAction::Dice;
+    carousel = UiCarousel{};
+    rotary = AppState{};
+    swipe = AppState{};
+    lv_disp_draw_buf_init(&drawBuffer, pixels, nullptr, 480);
+    lv_disp_drv_init(&displayDriver);
+    displayDriver.draw_buf = &drawBuffer;
+    displayDriver.flush_cb = centerListFlush;
+    displayDriver.hor_res = 480;
+    displayDriver.ver_res = 480;
+    lv_disp_t *display = lv_disp_drv_register(&displayDriver);
+
+    lv_indev_drv_init(&inputDriver);
+    inputDriver.type = LV_INDEV_TYPE_POINTER;
+    inputDriver.disp = display;
+    inputDriver.read_cb = centerListRead;
+    lv_indev_t *input = lv_indev_drv_register(&inputDriver);
+    lv_obj_t *parent = display == nullptr ? nullptr : lv_obj_create(nullptr);
+    const uint8_t count = uiCarouselActions(HomePhase::Waiting, actions);
+    uiSetEventSink(captureCarouselEvent);
+    uiCarouselCreate(carousel, parent, actions, count, 0);
+
+    lv_obj_t *const retainedContainer = carousel.container;
+    lv_obj_t *const retainedFirst = carousel.items[0];
+    const int16_t firstX = lv_obj_get_x(carousel.items[0]);
+    carouselEventCount = 0;
+    input->proc.types.pointer.act_point = lv_point_t{300, 332};
+    lv_event_send(carousel.container, LV_EVENT_PRESSED, input);
+    input->proc.types.pointer.act_point = lv_point_t{252, 336};
+    lv_event_send(carousel.container, LV_EVENT_RELEASED, input);
+    lv_event_send(carousel.container, LV_EVENT_CLICKED, input);
+    appInit(rotary, 0);
+    appInit(swipe, 0);
+    appHandleInput(rotary, InputEvent{InputKind::Rotate, 1, 1}, 1);
+    if (carouselEventCount == 1) appHandleUiEvent(swipe, carouselEvents[0], 1);
+    ok &= expect(out, carouselEventCount == 1 && carouselEvents[0].kind == UiEventKind::ListNext &&
+                      swipe.nav.current.focus == rotary.nav.current.focus,
+                 "Home left swipe emits one forward focus step and suppresses its click");
+
+    carouselEventCount = 0;
+    input->proc.types.pointer.act_point = lv_point_t{252, 332};
+    lv_event_send(carousel.container, LV_EVENT_PRESSED, input);
+    input->proc.types.pointer.act_point = lv_point_t{300, 336};
+    lv_event_send(carousel.container, LV_EVENT_RELEASED, input);
+    lv_event_send(carousel.container, LV_EVENT_CLICKED, input);
+    appHandleInput(rotary, InputEvent{InputKind::Rotate, -1, 2}, 2);
+    if (carouselEventCount == 1) appHandleUiEvent(swipe, carouselEvents[0], 2);
+    ok &= expect(out, carouselEventCount == 1 && carouselEvents[0].kind == UiEventKind::ListPrevious &&
+                      swipe.nav.current.focus == rotary.nav.current.focus,
+                 "Home right swipe matches reverse rotary focus including wrap");
+
+    uiCarouselSetSelection(carousel, 1, true);
+    lv_anim_t *master = lv_anim_get(&carousel, nullptr);
+    ok &= expect(out, master != nullptr && master->start_value == 0 && master->end_value == 1000 &&
+                      master->time == 220 && lv_anim_get(carousel.items[0], nullptr) == nullptr,
+                 "carousel runs one master progress timeline instead of per-item property animations");
+    lv_tick_inc(80);
+    lv_anim_refr_now();
+    const int16_t interruptedX = lv_obj_get_x(carousel.items[0]);
+    uiCarouselSetSelection(carousel, 2, true);
+    master = lv_anim_get(&carousel, nullptr);
+    ok &= expect(out, master != nullptr && carousel.container == retainedContainer &&
+                      carousel.items[0] == retainedFirst && interruptedX != firstX,
+                 "carousel retargets its retained action sequence from current visual poses");
+
+    uiCarouselDestroy(carousel);
+    uiSetEventSink(nullptr);
+    if (parent != nullptr) lv_obj_del(parent);
+    if (input != nullptr) lv_indev_delete(input);
+    if (display != nullptr) {
+        display->act_scr = nullptr;
+        lv_disp_remove(display);
+    }
+    return ok;
+}
+
 bool runCenterListComponentTests(Stream &out)
 {
     bool ok = true;
@@ -144,6 +246,42 @@ bool runCenterListComponentTests(Stream &out)
                  "center list count change cancels travel and leaves one valid row");
     uiCenterListUpdate(list, items, 8, 0, "Back", true, false, false);
 
+    const int16_t firstRowRestY = lv_obj_get_y(list.track);
+    uiCenterListBoundaryPulse(list, -1, 1);
+    lv_anim_t *pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->start_value == firstRowRestY &&
+                      pulse->end_value == firstRowRestY + 8 && pulse->time == 60,
+                 "first-row boundary feedback starts a +8px 60ms track pulse");
+    lv_tick_inc(60);
+    lv_anim_refr_now();
+    pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->end_value == firstRowRestY &&
+                      pulse->time == 120 && pulse->path_cb == lv_anim_path_ease_out,
+                 "first-row boundary feedback returns over 120ms ease-out");
+    lv_tick_inc(20);
+    lv_anim_refr_now();
+    const int16_t restartY = lv_obj_get_y(list.track);
+    uiCenterListBoundaryPulse(list, -1, 2);
+    pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->start_value == restartY &&
+                      pulse->end_value == restartY + 8 && pulse->time == 60,
+                 "a second first-row pulse restarts from the current visual position");
+
+    uiCenterListUpdate(list, items, 8, 7, "Back", true, true, false);
+    const int16_t footerRestY = lv_obj_get_y(list.footer);
+    uiCenterListBoundaryPulse(list, 1, 3);
+    pulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, pulse != nullptr && pulse->start_value == footerRestY &&
+                      pulse->end_value == footerRestY + 6 && pulse->time == 60,
+                 "footer boundary feedback starts a +6px 60ms local pulse");
+    lv_tick_inc(60);
+    lv_anim_refr_now();
+    lv_tick_inc(120);
+    lv_anim_refr_now();
+    ok &= expect(out, lv_anim_get(&list, nullptr) == nullptr &&
+                      lv_obj_get_y(list.footer) == footerRestY,
+                 "boundary feedback returns to rest without queued travel");
+
     centerListEventCount = 0;
     lv_obj_t *row = lv_obj_get_child(list.track, 0);
     input->proc.types.pointer.act_point = lv_point_t{240, 220};
@@ -165,6 +303,7 @@ bool runCenterListComponentTests(Stream &out)
     ok &= expect(out, list.viewport == nullptr && lv_obj_get_child_cnt(parent) == 0,
                  "center list destroys the eight-row runtime tree without stale ownership");
     uiSetEventSink(nullptr);
+    if (parent != nullptr) lv_obj_del(parent);
     if (input != nullptr) lv_indev_delete(input);
     if (display != nullptr) {
         display->act_scr = nullptr;
@@ -235,6 +374,7 @@ bool runLogicTests(Stream &out)
 {
     bool ok = true;
     ok &= runCenterListComponentTests(out);
+    ok &= runCarouselComponentTests(out);
     ok &= expect(out, uiBox(nullptr, kModalRect, 0, 0, 0) == nullptr &&
                       uiLabel(nullptr, "", kModalRect, nullptr, 0) == nullptr,
                  "ui primitives reject null parents without allocation");
@@ -436,9 +576,15 @@ bool runLogicTests(Stream &out)
 
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 620);
     appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, 0}, 621);
+    const AppState firstBoundaryBefore = state;
     appHandleUiEvent(state, UiEvent{UiEventKind::ListPrevious, 0}, 630);
-    ok &= expect(out, state.nav.current.focus == 0 && state.assetListIndex == 0,
-                 "list previous clamps at first row");
+    ok &= expect(out, state.nav.current.focus == firstBoundaryBefore.nav.current.focus &&
+                      state.assetListIndex == firstBoundaryBefore.assetListIndex &&
+                      appFocusCount(state) == appFocusCount(firstBoundaryBefore) &&
+                      state.commandCount == firstBoundaryBefore.commandCount &&
+                      state.boundaryPulseDirection == -1 &&
+                      state.boundaryPulseRevision == firstBoundaryBefore.boundaryPulseRevision + 1,
+                 "first-row rotary boundary changes only its local pulse revision");
     for (uint8_t i = 0; i < kAssetCount + 2; ++i) {
         appHandleUiEvent(state, UiEvent{UiEventKind::ListNext, 0}, 640 + i);
     }

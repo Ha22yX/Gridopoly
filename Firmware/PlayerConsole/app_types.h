@@ -196,6 +196,9 @@ struct AppState {
     TradeEntryMode tradeEntryMode = TradeEntryMode::HomeEditable;
     int32_t money = 1860;
     uint8_t position = 17;
+    uint8_t turnsUntilYou = 3;
+    int8_t boundaryPulseDirection = 0;
+    uint32_t boundaryPulseRevision = 0;
     bool authorityOnline = true;
     TransportCommand commandQueue[4]{};
     uint8_t commandHead = 0;

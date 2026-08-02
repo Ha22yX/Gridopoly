@@ -53,6 +53,7 @@ ScreenPage previousPage = ScreenPage::Home;
 uint8_t previousFocus = 0;
 HomePhase previousHomePhase = HomePhase::Waiting;
 InlineEditField previousInlineEditField = InlineEditField::None;
+uint32_t previousBoundaryPulseRevision = 0;
 lv_style_transition_dsc_t pressTransition;
 const lv_style_prop_t pressTransitionProps[] = {
     LV_STYLE_TRANSFORM_ZOOM,
@@ -81,6 +82,10 @@ constexpr UiRect kHomeCashLabel{150, 132, 180, 22};
 constexpr UiRect kHomeCashAmount{70, 158, 340, 48};
 constexpr UiRect kHomeLocation{90, 226, 300, 28};
 constexpr UiRect kHomeDivider{96, 270, 288, 1};
+constexpr UiRect kTurnDots[5] = {
+    UiRect{200, 114, 8, 8}, UiRect{218, 114, 8, 8}, UiRect{236, 114, 8, 8},
+    UiRect{254, 114, 8, 8}, UiRect{272, 114, 8, 8},
+};
 constexpr UiRect kDetailPrimary{128, 278, 224, 56};
 constexpr UiRect kTradeReceiver{104, 128, 272, 50};
 constexpr UiRect kTradeAmount{104, 190, 272, 50};
@@ -345,6 +350,15 @@ void updateCenterListFocus(const AppState &state)
     }
 }
 
+void drawTurnDots(uint8_t turnsUntilYou)
+{
+    const uint8_t filled = turnsUntilYou > 5 ? 5 : turnsUntilYou;
+    for (uint8_t index = 0; index < 5; ++index) {
+        lv_obj_t *dot = uiBox(root, kTurnDots[index], index < filled ? kGreen : kBg, kGreen, 4);
+        if (dot != nullptr && index >= filled) lv_obj_set_style_bg_opa(dot, LV_OPA_TRANSP, 0);
+    }
+}
+
 lv_obj_t *drawFooter(const char *text, bool focused)
 {
     lv_obj_t *footer = uiBox(root, kNormalFooter, focused ? 0x16302A : kPanel,
@@ -383,17 +397,17 @@ void drawToast(const AppState &state, uint32_t nowMs)
 
 void drawHome(const AppState &state)
 {
-    const uint32_t accent = state.homePhase == HomePhase::MyTurn ? kYellow : kGreen;
-    drawOuterRing(accent);
-    const char *title = "WAITING | 3 PLAYERS AHEAD";
+    drawOuterRing(kGreen);
+    const char *title = "WAITING";
     if (state.homePhase == HomePhase::Waiting) {
-        title = "WAITING | 3 PLAYERS AHEAD";
+        title = "WAITING";
     } else if (state.homePhase == HomePhase::NextPlayer) {
-        title = "NEXT | YOUR TURN IS CLOSE";
+        title = "NEXT PLAYER";
     } else {
-        title = "MY TURN | ACTIONS";
+        title = "YOUR TURN";
     }
     uiLabel(root, title, kHomeTitle, &lv_font_montserrat_16, kText);
+    if (state.homePhase != HomePhase::MyTurn) drawTurnDots(state.turnsUntilYou);
     uiLabel(root, "AVAILABLE CASH", kHomeCashLabel, &lv_font_montserrat_14, kMuted);
     char money[24];
     snprintf(money, sizeof(money), "$ %ld", static_cast<long>(state.money));
@@ -712,19 +726,25 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         const bool homeActionsUnchanged = state.page != ScreenPage::Home ||
                                           state.homePhase == previousHomePhase;
         const bool inlineEditUnchanged = state.inlineEditField == previousInlineEditField;
+        const bool boundaryPulseChanged =
+            state.boundaryPulseRevision != previousBoundaryPulseRevision;
         if (hasRenderedState && state.page == previousPage &&
-            state.focus != previousFocus && homeActionsUnchanged && inlineEditUnchanged) {
+            (state.focus != previousFocus || boundaryPulseChanged) &&
+            homeActionsUnchanged && inlineEditUnchanged) {
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
             if (state.page == ScreenPage::Home) {
                 uiCarouselSetSelection(homeCarousel, state.focus, true);
             } else if (isCenterListPage(state.page)) {
-                updateCenterListFocus(state);
+                if (state.focus != previousFocus) updateCenterListFocus(state);
+                else uiCenterListBoundaryPulse(centerList, state.boundaryPulseDirection,
+                                               state.boundaryPulseRevision);
             } else {
                 refreshSamePageFocus(state);
             }
             renderedRevision = state.revision;
             previousFocus = state.focus;
+            previousBoundaryPulseRevision = state.boundaryPulseRevision;
             lastDynamicDrawMs = nowMs;
             return;
         } else {
@@ -736,6 +756,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         previousFocus = state.focus;
         previousHomePhase = state.homePhase;
         previousInlineEditField = state.inlineEditField;
+        previousBoundaryPulseRevision = state.boundaryPulseRevision;
         hasRenderedState = true;
         lastDynamicDrawMs = nowMs;
         return;

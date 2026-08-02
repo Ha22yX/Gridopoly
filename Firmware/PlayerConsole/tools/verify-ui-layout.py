@@ -222,16 +222,45 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
         if not re.search(pattern, selection_body):
             fail(message)
 
-    animation_body = function_body(carousel_code, "animateProperty")
-    if not re.search(r"\blv_anim_del\s*\(\s*object\s*,\s*callback\s*\)", animation_body):
-        fail("carousel animation does not delete only the object's prior property animation")
-    if not re.search(r"\blv_anim_set_time\s*\([^,]+,\s*220\s*\)", animation_body):
-        fail("carousel properties do not animate for exactly 220ms")
-    if not re.search(r"\blv_anim_set_path_cb\s*\([^,]+,\s*lv_anim_path_ease_out\s*\)",
-                     animation_body):
-        fail("carousel properties do not use ease-out motion")
-    if len(re.findall(r"\banimateProperty\s*\(", selection_body)) < 3:
-        fail("carousel selection does not animate x, zoom, and opacity")
+    if re.search(r"\b(?:animateProperty|setAnimatedX|setAnimatedZoom|setAnimatedOpacity)\b",
+                 carousel_code):
+        fail("carousel retains independent property animation callbacks")
+    progress_body = function_body(carousel_code, "setCarouselTransitionProgress")
+    for pattern, message in (
+        (r"\blv_obj_set_x\s*\(", "carousel progress does not update item x"),
+        (r"\blv_obj_set_style_transform_zoom\s*\(", "carousel progress does not update item zoom"),
+        (r"\blv_obj_set_style_opa\s*\(", "carousel progress does not update item opacity"),
+    ):
+        if not re.search(pattern, progress_body):
+            fail(message)
+    transition_body = function_body(carousel_code, "startCarouselTransition")
+    required_timeline = (
+        (r"\blv_anim_del\s*\(\s*&carousel\s*,\s*setCarouselTransitionProgress\s*\)",
+         "carousel does not cancel the prior master timeline"),
+        (r"\blv_anim_set_var\s*\([^,]+,\s*&carousel\s*\)",
+         "carousel master timeline is not owned by its retained carousel"),
+        (r"\blv_anim_set_exec_cb\s*\([^,]+,\s*setCarouselTransitionProgress\s*\)",
+         "carousel master timeline has no synchronized progress callback"),
+        (r"\blv_anim_set_values\s*\([^,]+,\s*0\s*,\s*1000\s*\)",
+         "carousel master timeline is not the required 0..1000 progress source"),
+        (r"\blv_anim_set_time\s*\([^,]+,\s*220\s*\)",
+         "carousel master timeline is not exactly 220ms"),
+        (r"\blv_anim_set_path_cb\s*\([^,]+,\s*lv_anim_path_ease_out\s*\)",
+         "carousel master timeline does not use ease-out motion"),
+    )
+    for pattern, message in required_timeline:
+        if not re.search(pattern, transition_body):
+            fail(message)
+    if len(re.findall(r"\blv_anim_set_var\s*\(", carousel_code)) != 1:
+        fail("carousel creates more than one LVGL animation timeline")
+
+    swipe_body = function_body(carousel_code, "carouselSwipeCallback")
+    if not re.search(r"\bLV_EVENT_RELEASED\b", swipe_body):
+        fail("Home swipe is not dispatched on release")
+    if not re.search(r"\blv_indev_reset\s*\(", swipe_body):
+        fail("Home swipe does not cancel LVGL's follow-up click")
+    if not re.search(r"\bnextTarget\b", swipe_body) or not re.search(r"\bpreviousTarget\b", swipe_body):
+        fail("Home swipe must expose one previous and one next focus branch")
 
     if len(re.findall(r"\buiCarouselCreate\s*\(", renderer_code)) != 1:
         fail("Home must allocate exactly one carousel scene")
@@ -247,13 +276,39 @@ def assert_carousel_contract(renderer_source: str, carousel_header: str,
     ):
         fail("drawHome() does not rebuild count and order from the current Home phase")
     create_body = function_body(carousel_code, "uiCarouselCreate")
-    if not re.search(
-        r"\buiBindTap\s*\(\s*item\s*,\s*UiEventKind::SelectHomeAction\s*,\s*index\s*\)",
-        create_body,
-    ):
-        fail("rebuilt carousel items do not bind their current action indexes")
+    if not re.search(r"\blv_obj_add_event_cb\s*\(\s*carousel\.container\s*,\s*carouselSwipeCallback",
+                     create_body):
+        fail("Home swipe is not bound to the full retained carousel container")
+    if re.search(r"\buiBindTap\s*\(\s*item\s*", create_body):
+        fail("Home carousel still binds gestures to individual item objects")
     if re.search(r"\bdrawHomeWheel\b", renderer_code):
         fail("legacy bounce-only Home wheel remains active")
+
+    if not re.search(r"\bkTurnDots\s*\[\s*5\s*\]", renderer_code):
+        fail("Home does not retain five fixed turn-dot positions")
+    expected_dots = ((200, 114), (218, 114), (236, 114), (254, 114), (272, 114))
+    for x, y in expected_dots:
+        if not re.search(rf"\bUiRect\s*\{{\s*{x}\s*,\s*{y}\s*,\s*8\s*,\s*8\s*\}}",
+                         renderer_code):
+            fail("Home turn dots are not fixed and center-stable")
+    dots_body = function_body(renderer_code, "drawTurnDots")
+    for pattern, message in (
+        (r"\bturnsUntilYou\s*>\s*5\s*\?\s*5\s*:\s*turnsUntilYou",
+         "turn dots do not clamp the fill count to five"),
+        (r"\bindex\s*<\s*filled\s*\?\s*kGreen\s*:\s*kBg",
+         "turn dots do not render filled and hollow states"),
+        (r"\bLV_OPA_TRANSP\b", "turn dots do not make unfilled dots hollow"),
+    ):
+        if not re.search(pattern, dots_body):
+            fail(message)
+    if not re.search(r"\bdrawOuterRing\s*\(\s*kGreen\s*\)", draw_home_body):
+        fail("My-Turn Home ring is not signal green #52DCB7")
+    if not re.search(r"\bdrawTurnDots\s*\(\s*state\.turnsUntilYou\s*\)", draw_home_body):
+        fail("Home does not render turn distance dots from turnsUntilYou")
+    if re.search(r"PLAYERS AHEAD|YOUR TURN IS CLOSE", renderer_source):
+        fail("Home retains a duplicate sentence-form turn-distance label")
+    if not re.search(r"\bkDiceYellow\s*=\s*0xF2C453\b", carousel_code):
+        fail("Dice no longer retains its yellow priority accent")
     if "准备好旋钮与触摸操作" in renderer_source:
         fail("persistent Home operation hint remains in the renderer")
 
@@ -285,7 +340,7 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
         if not re.search(rf"\buint8_t\s+{member}\s*=\s*0\s*;", header_code):
             fail(f"UiCenterList does not retain {member}")
     for api in ("uiCenterListCreate", "uiCenterListUpdate", "uiCenterListDestroy",
-                "uiCenterListSwipeStep"):
+                "uiCenterListSwipeStep", "uiCenterListBoundaryPulse"):
         if not re.search(rf"\b{api}\s*\(", header_code):
             fail(f"{api} is missing from the center-list API")
 
@@ -299,6 +354,10 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
         "kProgressHeight": 4,
         "kSwipeThreshold": 36,
         "kSwipeDominance": 12,
+        "kTrackBoundaryPulsePx": 8,
+        "kFooterBoundaryPulsePx": 6,
+        "kBoundaryPulseOutMs": 60,
+        "kBoundaryPulseReturnMs": 120,
     }
     for name, value in required_constants.items():
         if not re.search(rf"\b{name}\s*=\s*{value}\s*;", center_code):
@@ -350,6 +409,25 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     if re.search(r"\b(?:lv_bar_create|lv_slider_create|LV_SCROLLBAR_MODE)\b", center_code):
         fail("center list creates a forbidden scrollbar")
 
+    pulse_body = function_body(center_code, "uiCenterListBoundaryPulse")
+    for pattern, message in (
+        (r"\bcancelBoundaryPulse\s*\(\s*list\s*,\s*false\s*\)",
+         "boundary pulse does not cancel an in-flight pulse before restarting"),
+        (r"\bkTrackBoundaryPulsePx\b", "first-row boundary pulse is not +8px"),
+        (r"\bkFooterBoundaryPulsePx\b", "footer boundary pulse is not +6px"),
+        (r"\bkBoundaryPulseOutMs\b", "boundary pulse outward phase is not 60ms"),
+        (r"\blv_anim_set_ready_cb\s*\([^,]+,\s*returnBoundaryPulse\s*\)",
+         "boundary pulse does not return to rest"),
+    ):
+        if not re.search(pattern, pulse_body):
+            fail(message)
+    return_body = function_body(center_code, "returnBoundaryPulse")
+    if not re.search(r"\bkBoundaryPulseReturnMs\b", return_body) or not re.search(
+            r"\blv_anim_path_ease_out\b", return_body):
+        fail("boundary pulse does not return over 120ms with ease-out")
+    if not re.search(r"\bcancelBoundaryPulse\s*\(\s*list\s*,\s*true\s*\)", update_body):
+        fail("normal list focus movement does not cancel boundary feedback")
+
     swipe_match = re.search(r"\bint8_t\s+uiCenterListSwipeStep\s*\([^)]*\)\s*\{", center_code)
     if not swipe_match:
         fail("uiCenterListSwipeStep() implementation is missing")
@@ -390,7 +468,7 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
 
     render_body = function_body(renderer_code, "uiRendererRender")
     same_page_match = re.search(
-        r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage[^)]*\)\s*\{",
+        r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage[\s\S]{0,500}?\)\s*\{",
         render_body,
     )
     if not same_page_match:
@@ -497,12 +575,18 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         fail("renderer does not compare the current and rendered inline editor")
     same_page_match = re.search(
         r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage\s*&&\s*"
-        r"state\.focus\s*!=\s*previousFocus\s*&&\s*homeActionsUnchanged\s*&&\s*"
+        r"\(\s*state\.focus\s*!=\s*previousFocus\s*\|\|\s*boundaryPulseChanged\s*\)\s*&&\s*"
+        r"homeActionsUnchanged\s*&&\s*"
         r"inlineEditUnchanged\s*\)\s*\{",
         render_body,
     )
     if not same_page_match:
         fail("same-page focus-update branch is not guarded by the rendered Home phase")
+    same_page_condition = same_page_match.group(0)
+    if "homeActionsUnchanged" not in same_page_condition:
+        fail("same-page focus-update branch is not guarded by the rendered Home phase")
+    if "inlineEditUnchanged" not in same_page_condition:
+        fail("same-page focus-update branch is not guarded by the rendered inline editor")
     same_page_body = block_after(render_body, same_page_match)
     if re.search(r"\blv_obj_clean\s*\(\s*root\s*\)", same_page_body):
         fail("same-page focus update clears the root")
@@ -569,17 +653,33 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
                                             "drawHome(state);", 1),
                     carousel_header, carousel_source)
     expect_rejected("Home phase guard removed", layout_source,
-                    renderer_source.replace(" && homeActionsUnchanged", "", 1),
+                    renderer_source.replace("homeActionsUnchanged &&", "", 1),
                     carousel_header, carousel_source)
     expect_rejected("rendered Home phase update removed", layout_source,
                     renderer_source.replace("previousHomePhase = state.homePhase;", "", 1),
                     carousel_header, carousel_source)
     expect_rejected("inline editor guard removed", layout_source,
-                    renderer_source.replace(" && inlineEditUnchanged", "", 1),
+                    renderer_source.replace("inlineEditUnchanged", "", 1),
                     carousel_header, carousel_source)
     expect_rejected("rendered inline editor update removed", layout_source,
                     renderer_source.replace("previousInlineEditField = state.inlineEditField;", "", 1),
                     carousel_header, carousel_source)
+    carousel_mutations = (
+        ("master progress range changed",
+         carousel_source.replace("lv_anim_set_values(&animation, 0, 1000);",
+                                 "lv_anim_set_values(&animation, 0, 999);", 1)),
+        ("per-property animation restored",
+         carousel_source + "\nvoid animateProperty() {}\n"),
+        ("Home swipe click reset removed",
+         carousel_source.replace("lv_indev_reset(input, carousel->container);", "", 1)),
+    )
+    for name, mutated_carousel in carousel_mutations:
+        try:
+            verify_contract(layout_source, renderer_source, carousel_header, mutated_carousel,
+                            center_header, center_source)
+        except LayoutError:
+            continue
+        raise AssertionError(f"{name} fixture unexpectedly passed")
     center_mutations = (
         ("viewport clipping removed",
          center_source.replace("lv_obj_clear_flag(list.viewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);", "", 1)),
@@ -591,6 +691,14 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
                                                          "kSwipeDominance = 11;", 1)),
         ("swipe click cancellation removed",
          center_source.replace("lv_indev_reset(input, target);", "", 1)),
+        ("first-row boundary distance changed",
+         center_source.replace("kTrackBoundaryPulsePx = 8;",
+                               "kTrackBoundaryPulsePx = 7;", 1)),
+        ("footer boundary duration changed",
+         center_source.replace("kBoundaryPulseOutMs = 60;",
+                               "kBoundaryPulseOutMs = 61;", 1)),
+        ("boundary restart cancellation removed",
+         center_source.replace("cancelBoundaryPulse(list, false);", "", 1)),
     )
     for name, mutated_center in center_mutations:
         try:
