@@ -9,6 +9,7 @@
 #include "app_config.h"
 #include "app_state.h"
 #include "demo_transport.h"
+#include "espnow_player_transport.h"
 #include "hardware_input.h"
 #include "logic_tests.h"
 #include "lvgl_v8_port.h"
@@ -34,7 +35,11 @@ bool runLvglComponentTests(Stream &out);
 namespace {
 
 AppState app;
+#if GRIDOPOLY_USE_ESPNOW == 1
+EspNowPlayerTransport transport;
+#else
 DemoTransport transport;
+#endif
 bool ready = false;
 bool lvglReady = false;
 

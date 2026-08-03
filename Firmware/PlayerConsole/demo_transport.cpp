@@ -63,6 +63,7 @@ void DemoTransport::begin(uint32_t nowMs)
     events[1].stateVersion = kAuthoritativeStateVersion;
     events[1].cash = kAuthoritativeCash;
     events[1].playerPosition = kAuthoritativePosition;
+    events[1].resync = true;
     dueMs[1] = nowMs + 3000;
     scheduleBatch(events, dueMs, 2);
 }

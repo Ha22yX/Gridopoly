@@ -24,3 +24,11 @@ constexpr uint32_t kConfirmHoldMs = 1200;
 #ifndef GRIDOPOLY_SELF_TEST
 #define GRIDOPOLY_SELF_TEST 0
 #endif
+
+#ifndef GRIDOPOLY_USE_ESPNOW
+#if GRIDOPOLY_SELF_TEST == 1
+#define GRIDOPOLY_USE_ESPNOW 0
+#else
+#define GRIDOPOLY_USE_ESPNOW 1
+#endif
+#endif

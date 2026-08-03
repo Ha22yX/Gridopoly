@@ -2,6 +2,7 @@
 
 #include "app_config.h"
 #include "app_state.h"
+#include "authority_snapshot_reducer.h"
 #include "demo_data.h"
 #include "demo_transport.h"
 #include "ui_layout.h"
@@ -1807,6 +1808,7 @@ bool runStateLogicTests(Stream &out)
     snapshot.stateVersion = 9;
     snapshot.cash = 1775;
     snapshot.playerPosition = 17;
+    snapshot.resync = true;
     appHandleTransportEvent(state, snapshot, 110);
     shortPress(state, 120, 200);
     ok &= expect(out, state.authorityOnline && state.money == 1775 && state.position == 17 &&
@@ -2392,6 +2394,59 @@ bool runPureLogicTests(Stream &out)
 {
     bool ok = runStateLogicTests(out);
     ok &= runModalAuthorityTests(out);
+    gridopoly::protocol::StateSnapshot snapshot{};
+    snapshot.seatId = 1;
+    snapshot.phase = 1;
+    snapshot.activePlayerId = 3;
+    snapshot.round = 4;
+    snapshot.boardSize = 28;
+    snapshot.selfPosition = 17;
+    snapshot.selfCash = 1860;
+    snapshot.availableActions = 0;
+    snapshot.playerCount = 5;
+    snapshot.pendingTarget = 0xFF;
+    snapshot.stateVersion = 77;
+    snapshot.decisionPlayerId = 3;
+    for (uint8_t index = 0; index < snapshot.playerCount; ++index) {
+        snapshot.players[index].playerId = static_cast<uint8_t>(index + 1);
+        snapshot.players[index].position = static_cast<uint8_t>(index * 3 + 2);
+        snapshot.players[index].cash = 1200 + index * 100;
+        snapshot.players[index].flags = 0x04;
+    }
+    snapshot.players[0].position = snapshot.selfPosition;
+    snapshot.players[0].cash = snapshot.selfCash;
+    TransportEvent authorityEvent{};
+    ok &= expect(out, authoritySnapshotToEvent(snapshot, true, authorityEvent) &&
+                      authorityEvent.kind == TransportEventKind::StateSnapshotApplied &&
+                      authorityEvent.playerCount == 5 && authorityEvent.resync,
+                 "server snapshot maps to one bounded console event");
+    AppState connected{};
+    appInit(connected, 0);
+    appHandleTransportEvent(connected, authorityEvent, 10);
+    ok &= expect(out, connected.authorityOnline && connected.authoritySnapshotValid &&
+                      connected.selfSeatId == 1 && connected.money == 1860 &&
+                      connected.position == 17 && connected.turnsUntilYou == 3 &&
+                      connected.homePhase == HomePhase::Waiting &&
+                      connected.authorityPlayers[4].cash == 1600,
+                 "five-player authority snapshot drives global console state");
+
+    snapshot.activePlayerId = 1;
+    snapshot.decisionPlayerId = 1;
+    snapshot.availableActions = 1;
+    snapshot.stateVersion = 78;
+    ok &= expect(out, authoritySnapshotToEvent(snapshot, false, authorityEvent),
+                 "incremental authority snapshot remains valid");
+    appHandleTransportEvent(connected, authorityEvent, 20);
+    ok &= expect(out, connected.homePhase == HomePhase::MyTurn &&
+                      connected.turnsUntilYou == 0 && appPageContentCount(connected) == 5,
+                 "roll action changes Home to the green five-action turn state");
+
+    gridopoly::protocol::StateSnapshot duplicate = snapshot;
+    ok &= expect(out, authoritySnapshotsEqual(snapshot, duplicate),
+                 "identical heartbeat snapshot is suppressible");
+    duplicate.players[2].cash -= 1;
+    ok &= expect(out, !authoritySnapshotsEqual(snapshot, duplicate),
+                 "global player cash change invalidates snapshot equality");
     return ok;
 }
 

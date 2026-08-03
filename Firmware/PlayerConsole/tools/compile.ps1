@@ -3,6 +3,8 @@ param([switch]$SelfTest)
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$repositoryRoot = (Resolve-Path (Join-Path $projectRoot '..\..')).Path
+$sharedLibraries = Join-Path $repositoryRoot 'Firmware\libraries'
 $buildDir = Join-Path $projectRoot 'build'
 $verifyScript = Join-Path $PSScriptRoot 'verify-build-output.ps1'
 $glyphVerifyScript = Join-Path $PSScriptRoot 'verify-ui-glyphs.py'
@@ -26,6 +28,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 & $arduinoCli compile --fqbn $fqbn --output-dir $buildDir `
+    --libraries $sharedLibraries `
     --build-property "compiler.c.extra_flags=$flags" `
     --build-property "compiler.cpp.extra_flags=$flags" `
     $projectRoot

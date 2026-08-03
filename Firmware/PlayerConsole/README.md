@@ -1,6 +1,24 @@
-# Gridopoly Player Console Demo
+# Gridopoly Player Console
 
 Arduino firmware skeleton for the 480 x 480 Viewe UEDX48480021-MD80ET ESP32-S3 round display.
+
+Production builds use the test server's ESP-NOW v1 transport. Self-test builds retain
+`DemoTransport`, so UI and state-machine tests do not require a radio peer.
+
+## Test server connection
+
+1. Copy `config/secrets.example.h` to the ignored `config/secrets.local.h`.
+2. Set `GRIDOPOLY_ESPNOW_TEST_PSK` to the same local value as TestGameServer.
+3. Start TestGameServer, then start the player console. The console scans channels 1-13,
+   pairs with the first valid server, promotes the peer to LMK encryption, and applies
+   only authoritative state snapshots.
+4. Confirm `GRIDOPOLY_LINK paired`, `GRIDOPOLY_SNAPSHOT`, and server `peers=1` diagnostics.
+
+Wire definitions remain single-source in `Firmware/libraries/GridopolyProtocol` and
+`Docs/firmware/test-game-server-espnow-protocol.md`. The current v1 snapshot supplies
+cash, position, turn/decision state, current-tile data, and six player summaries. It does
+not yet supply a complete owned-asset projection or trade draft, so those two screens
+continue to use demo content until the server protocol adds those records.
 
 ## Controls
 

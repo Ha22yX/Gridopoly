@@ -2,3 +2,5 @@
 /.eda-current-screen.png
 .superpowers/
 /Firmware/PlayerConsole/build/
+/Firmware/PlayerConsole/config/secrets.local.h
+__pycache__/

@@ -197,6 +197,15 @@ struct AppState {
     int32_t money = 1860;
     uint8_t position = 17;
     uint8_t turnsUntilYou = 3;
+    uint8_t selfSeatId = 1;
+    uint8_t playerCount = 5;
+    uint8_t activePlayerId = 2;
+    uint8_t decisionPlayerId = 2;
+    uint8_t boardSize = 28;
+    uint32_t availableActions = 0;
+    AuthorityPhase authorityPhase = AuthorityPhase::AwaitRoll;
+    AuthorityPlayerSummary authorityPlayers[6]{};
+    bool authoritySnapshotValid = false;
     int8_t boundaryPulseDirection = 0;
     uint32_t boundaryPulseRevision = 0;
     bool authorityOnline = true;

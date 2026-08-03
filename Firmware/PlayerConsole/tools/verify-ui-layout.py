@@ -979,7 +979,6 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
 
     for function_name, count_token in (
         ("drawAssets", "kAssetCount"),
-        ("drawPlayers", "kPlayerCount"),
         ("drawDemoLab", "kDemoListCount"),
     ):
         body = function_body(renderer_code, function_name)
@@ -989,6 +988,15 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
             fail(f"{function_name} does not build the complete retained item view")
         if not re.search(rf"\buiCenterListCreate\s*\([^;]*\b{count_token}\b", body, re.DOTALL):
             fail(f"{function_name} does not create one retained center list")
+
+    players_body = function_body(renderer_code, "drawPlayers")
+    if re.search(r"\bdrawListRow\s*\(", players_body):
+        fail("drawPlayers still renders legacy root rows")
+    if not re.search(r"\bUiListItemView\s+items\s*\[\s*kMaxPlayerCount\s*\]", players_body):
+        fail("drawPlayers does not allocate the bounded six-player retained view")
+    if not re.search(r"\buiCenterListCreate\s*\([^;]*\bstate\.playerCount\b",
+                     players_body, re.DOTALL):
+        fail("drawPlayers does not size the retained list from the authority snapshot")
 
     if not re.search(r"\bmakeClickable\s*\(\s*footer\s*,\s*TouchAction::Footer\s*\)",
                      renderer_code):

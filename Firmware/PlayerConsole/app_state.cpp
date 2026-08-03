@@ -79,7 +79,7 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
         case ScreenPage::Home: return state.homePhase == HomePhase::MyTurn ? 5 : 4;
         case ScreenPage::Assets: return kAssetCount;
         case ScreenPage::AssetDetail: return 1;
-        case ScreenPage::Players: return kPlayerCount;
+        case ScreenPage::Players: return state.playerCount;
         case ScreenPage::PlayerDetail: return 1;
         case ScreenPage::Trade: return appTradeReceiverLocked(state) ? 2 : 3;
         case ScreenPage::More: return 2;
@@ -624,8 +624,8 @@ void moveFocus(AppState &state, int16_t delta)
         if (state.inlineEditField == InlineEditField::TradeReceiver) {
             if (appTradeReceiverLocked(state)) return;
             int32_t receiver = static_cast<int32_t>(state.tradeReceiver) + delta;
-            receiver %= kPlayerCount;
-            if (receiver < 0) receiver += kPlayerCount;
+            receiver %= state.playerCount;
+            if (receiver < 0) receiver += state.playerCount;
             state.tradeReceiver = static_cast<uint8_t>(receiver);
         } else if (state.inlineEditField == InlineEditField::TradeAmount) {
             int64_t amount = static_cast<int64_t>(state.tradeAmount) +
@@ -685,11 +685,65 @@ void selectFooter(AppState &state, uint32_t nowMs)
     activate(state, nowMs);
 }
 
+uint8_t turnsBeforeSelf(const TransportEvent &event)
+{
+    if (event.selfSeatId == 0 || event.activePlayerId == 0 ||
+        event.playerCount == 0 || event.activePlayerId == event.selfSeatId) return 0;
+    uint8_t turns = 0;
+    uint8_t seat = event.activePlayerId;
+    for (uint8_t checked = 0; checked < event.playerCount; ++checked) {
+        if (seat == event.selfSeatId) break;
+        bool bankrupt = false;
+        for (uint8_t index = 0; index < event.playerCount; ++index) {
+            if (event.players[index].playerId == seat) {
+                bankrupt = (event.players[index].flags & 0x02u) != 0;
+                break;
+            }
+        }
+        if (!bankrupt) ++turns;
+        seat = static_cast<uint8_t>(seat % event.playerCount + 1);
+    }
+    return turns;
+}
+
+void applyAuthoritySnapshot(AppState &state, const TransportEvent &event)
+{
+    state.money = event.cash;
+    state.position = event.playerPosition;
+    if (event.playerCount == 0) return;
+    state.selfSeatId = event.selfSeatId;
+    state.activePlayerId = event.activePlayerId;
+    state.decisionPlayerId = event.decisionPlayerId;
+    state.playerCount = event.playerCount;
+    state.boardSize = event.boardSize;
+    state.availableActions = event.availableActions;
+    state.authorityPhase = event.phase;
+    for (uint8_t index = 0; index < 6; ++index) state.authorityPlayers[index] = event.players[index];
+    state.authoritySnapshotValid = event.playerCount != 0;
+    state.turnsUntilYou = turnsBeforeSelf(event);
+    const bool canRoll = event.activePlayerId == event.selfSeatId &&
+                         (event.availableActions & 0x01u) != 0;
+    state.homePhase = canRoll ? HomePhase::MyTurn
+                              : (state.turnsUntilYou == 1 ? HomePhase::NextPlayer
+                                                         : HomePhase::Waiting);
+    const uint8_t homeCount = contentCount(state, ScreenPage::Home);
+    if (state.nav.current.page == ScreenPage::Home && state.nav.current.focus >= homeCount) {
+        state.nav.current.focus = homeCount == 0 ? 0 : static_cast<uint8_t>(homeCount - 1);
+        syncLegacyState(state);
+    }
+}
+
 } // namespace
 
 void appInit(AppState &state, uint32_t nowMs)
 {
     state = AppState{};
+    for (uint8_t index = 0; index < kPlayerCount; ++index) {
+        state.authorityPlayers[index].playerId = static_cast<uint8_t>(index + 1);
+        state.authorityPlayers[index].position = kPlayers[index].position;
+        state.authorityPlayers[index].cash = kPlayers[index].money;
+        state.authorityPlayers[index].flags = 0x04u;
+    }
     state.toast = "旋转浏览 · 按下选择";
     state.toastUntilMs = nowMs + 1500;
     syncLegacyState(state);
@@ -885,13 +939,14 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
             touchRevision(state);
             return;
         case TransportEventKind::StateSnapshotApplied:
-            state.money = event.cash;
-            state.position = event.playerPosition;
-            state.commandHead = 0;
-            state.commandTail = 0;
-            state.commandCount = 0;
-            clearStaleSubmissions(state);
-            dismissModal(state);
+            applyAuthoritySnapshot(state, event);
+            if (event.resync) {
+                state.commandHead = 0;
+                state.commandTail = 0;
+                state.commandCount = 0;
+                clearStaleSubmissions(state);
+                dismissModal(state);
+            }
             state.authorityOnline = true;
             touchRevision(state);
             return;

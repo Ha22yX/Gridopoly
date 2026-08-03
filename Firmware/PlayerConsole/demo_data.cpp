@@ -1,11 +1,12 @@
 #include "demo_data.h"
 
-const PlayerData kPlayers[kPlayerCount] = {
+const PlayerData kPlayers[kMaxPlayerCount] = {
     {"凌汐", "P1", 1860, 17},
     {"砾川", "P2", 1420, 9},
     {"诺瓦", "P3", 980, 12},
     {"岑蓝", "P4", 2040, 23},
     {"弦月", "P5", 760, 5},
+    {"北辰", "P6", 1180, 2},
 };
 
 const AssetData kAssets[kAssetCount] = {

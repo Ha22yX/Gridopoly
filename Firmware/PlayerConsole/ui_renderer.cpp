@@ -338,12 +338,18 @@ void fillAssetItems(UiListItemView (&items)[kAssetCount],
     }
 }
 
-void fillPlayerItems(UiListItemView (&items)[kPlayerCount],
-                     char (&meta)[kPlayerCount][32])
+void fillPlayerItems(const AppState &state, UiListItemView (&items)[kMaxPlayerCount],
+                     char (&meta)[kMaxPlayerCount][32])
 {
-    for (uint8_t index = 0; index < kPlayerCount; ++index) {
+    for (uint8_t index = 0; index < state.playerCount; ++index) {
+        const int32_t money = state.authoritySnapshotValid
+                                  ? state.authorityPlayers[index].cash
+                                  : kPlayers[index].money;
+        const uint8_t position = state.authoritySnapshotValid
+                                     ? state.authorityPlayers[index].position
+                                     : kPlayers[index].position;
         snprintf(meta[index], sizeof(meta[index]), "$%ld | %u",
-                 static_cast<long>(kPlayers[index].money), kPlayers[index].position);
+                 static_cast<long>(money), position);
         items[index] = UiListItemView{kPlayers[index].name, meta[index], "", true, false};
     }
 }
@@ -367,10 +373,10 @@ void updateCenterListFocus(const AppState &state)
         uiCenterListUpdate(centerList, items, kAssetCount, state.assetListIndex,
                            "返回", true, appFocusIsFooter(state), true);
     } else if (state.page == ScreenPage::Players) {
-        UiListItemView items[kPlayerCount]{};
-        char meta[kPlayerCount][32]{};
-        fillPlayerItems(items, meta);
-        uiCenterListUpdate(centerList, items, kPlayerCount, state.playerListIndex,
+        UiListItemView items[kMaxPlayerCount]{};
+        char meta[kMaxPlayerCount][32]{};
+        fillPlayerItems(state, items, meta);
+        uiCenterListUpdate(centerList, items, state.playerCount, state.playerListIndex,
                            "返回", true, appFocusIsFooter(state), true);
     } else if (state.page == ScreenPage::DemoLab) {
         UiListItemView items[kDemoListCount]{};
@@ -508,11 +514,13 @@ void drawAssetDetail(const AppState &state)
 void drawPlayers(const AppState &state)
 {
     drawOuterRing(kYellow);
-    drawHeader("玩家情况", "5 PLAYERS");
-    UiListItemView items[kPlayerCount]{};
-    char meta[kPlayerCount][32]{};
-    fillPlayerItems(items, meta);
-    uiCenterListCreate(centerList, root, items, kPlayerCount, state.playerListIndex,
+    char subtitle[16];
+    snprintf(subtitle, sizeof(subtitle), "%u PLAYERS", state.playerCount);
+    drawHeader("玩家情况", subtitle);
+    UiListItemView items[kMaxPlayerCount]{};
+    char meta[kMaxPlayerCount][32]{};
+    fillPlayerItems(state, items, meta);
+    uiCenterListCreate(centerList, root, items, state.playerCount, state.playerListIndex,
                        "返回", true, appFocusIsFooter(state));
 }
 
@@ -520,6 +528,12 @@ void drawPlayerDetail(const AppState &state)
 {
     drawOuterRing(kYellow);
     const PlayerData &player = kPlayers[state.selectedPlayer];
+    const int32_t playerMoney = state.authoritySnapshotValid
+                                    ? state.authorityPlayers[state.selectedPlayer].cash
+                                    : player.money;
+    const uint8_t playerPosition = state.authoritySnapshotValid
+                                       ? state.authorityPlayers[state.selectedPlayer].position
+                                       : player.position;
     drawHeader(player.name, player.token);
     if (state.selectedPlayer == 0) {
         lv_obj_t *avatar = lv_img_create(root);
@@ -530,7 +544,7 @@ void drawPlayerDetail(const AppState &state)
         label(avatar, player.token, 22, 38, 80, &lv_font_montserrat_32, kYellow);
     }
     char info[48];
-    snprintf(info, sizeof(info), "$ %ld  ·  第 %u 格", static_cast<long>(player.money), player.position);
+    snprintf(info, sizeof(info), "$ %ld  ·  第 %u 格", static_cast<long>(playerMoney), playerPosition);
     label(root, info, 90, 242, 300, &lv_font_simsun_16_cjk, kText);
     lv_obj_t *primary = uiBox(root, kDetailPrimary,
                               state.focus == 0 ? 0x2B2618 : kPanel,
