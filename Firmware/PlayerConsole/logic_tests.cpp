@@ -7,6 +7,7 @@
 #include "ui_layout.h"
 #include "ui_carousel.h"
 #include "ui_center_list.h"
+#include "ui_modal.h"
 #include "ui_motion.h"
 #include "ui_primitives.h"
 #include "ui_renderer.h"
@@ -410,6 +411,24 @@ bool runCenterListComponentTests(Stream &out)
                  "center list count change cancels travel and leaves one valid row");
     uiCenterListUpdate(list, items, 8, 0, "Back", true, false, false);
 
+    uiCenterListUpdate(list, items, 8, 1, "Back", true, false, false);
+    uiCenterListUpdate(list, items, 8, 0, "Back", true, false, true);
+    const bool hadTravelToFirstRow = lv_anim_get(list.track, nullptr) != nullptr;
+    lv_tick_inc(40);
+    lv_anim_refr_now();
+    lv_obj_update_layout(list.track);
+    const int16_t pulseTakeoverY = lv_obj_get_y(list.track);
+    uiCenterListBoundaryPulse(list, -1, 100);
+    lv_anim_t *takeoverPulse = lv_anim_get(&list, nullptr);
+    ok &= expect(out, hadTravelToFirstRow && takeoverPulse != nullptr &&
+                      takeoverPulse->start_value == pulseTakeoverY &&
+                      lv_anim_get(list.track, nullptr) == nullptr,
+                 "first-row boundary pulse cancels active track travel and owns track y alone");
+    lv_tick_inc(60);
+    lv_anim_refr_now();
+    lv_tick_inc(120);
+    lv_anim_refr_now();
+
     lv_obj_update_layout(list.track);
     const int16_t firstRowRestY = lv_obj_get_y(list.track);
     uiCenterListBoundaryPulse(list, -1, 1);
@@ -564,6 +583,141 @@ bool runCenterListComponentTests(Stream &out)
     return ok;
 }
 
+UiEvent modalEvents[8]{};
+uint8_t modalEventCount = 0;
+
+void captureModalEvent(const UiEvent &event)
+{
+    if (modalEventCount < sizeof(modalEvents) / sizeof(modalEvents[0])) {
+        modalEvents[modalEventCount++] = event;
+    }
+}
+
+bool runModalComponentTests(Stream &out)
+{
+    bool ok = true;
+    if (!lv_is_initialized()) lv_init();
+    lv_disp_t *const previousDisplay = lv_disp_get_default();
+    static lv_color_t pixels[480]{};
+    static lv_disp_draw_buf_t drawBuffer{};
+    static lv_disp_drv_t displayDriver{};
+    static UiModal modal{};
+    drawBuffer = lv_disp_draw_buf_t{};
+    displayDriver = lv_disp_drv_t{};
+    modal = UiModal{};
+    lv_disp_draw_buf_init(&drawBuffer, pixels, nullptr, 480);
+    lv_disp_drv_init(&displayDriver);
+    displayDriver.draw_buf = &drawBuffer;
+    displayDriver.flush_cb = centerListFlush;
+    displayDriver.hor_res = 480;
+    displayDriver.ver_res = 480;
+    lv_disp_t *display = lv_disp_drv_register(&displayDriver);
+    if (display != nullptr) lv_disp_set_default(display);
+    lv_obj_t *parent = display == nullptr ? nullptr : lv_obj_create(nullptr);
+    UiModalView view{
+        "Confirm trade", "$ 300", "Player 2 / Cash transfer", "9.8s remaining",
+        "HOLD 1.2S TO CONFIRM", 0, true, true, false, false, false,
+    };
+    uiSetEventSink(captureModalEvent);
+    uiModalCreate(modal, parent, view);
+    if (parent != nullptr) lv_obj_update_layout(parent);
+
+    const bool completeTree = modal.shade != nullptr && modal.panel != nullptr &&
+        modal.confirm != nullptr && modal.holdTrack != nullptr &&
+        modal.confirmFill != nullptr && modal.holdLabel != nullptr &&
+        modal.back != nullptr && modal.countdown != nullptr;
+    ok &= expect(out, completeTree && lv_obj_get_parent(modal.shade) == parent &&
+                      lv_obj_get_parent(modal.panel) == modal.shade &&
+                      lv_obj_get_parent(modal.confirm) == modal.panel &&
+                      lv_obj_get_parent(modal.holdTrack) == modal.confirm &&
+                      lv_obj_get_parent(modal.confirmFill) == modal.holdTrack &&
+                      lv_obj_get_parent(modal.holdLabel) == modal.confirm &&
+                      lv_obj_get_parent(modal.back) == modal.panel,
+                 "modal retains the approved shade panel confirm track fill and Back tree");
+    ok &= expect(out, completeTree &&
+                      lv_obj_get_style_bg_opa(modal.shade, 0) == 184 &&
+                      lv_obj_has_flag(modal.shade, LV_OBJ_FLAG_CLICKABLE) &&
+                      !lv_obj_has_flag(modal.confirm, LV_OBJ_FLAG_OVERFLOW_VISIBLE) &&
+                      !lv_obj_has_flag(modal.holdTrack, LV_OBJ_FLAG_OVERFLOW_VISIBLE) &&
+                      !lv_obj_has_flag(modal.confirmFill, LV_OBJ_FLAG_OVERFLOW_VISIBLE),
+                 "modal shade blocks background and all progress parents clip overflow");
+    const bool trackGeometry = completeTree && lv_obj_get_x(modal.holdTrack) == 12 &&
+        lv_obj_get_y(modal.holdTrack) == 46 &&
+        lv_obj_get_width(modal.holdTrack) == 200 &&
+        lv_obj_get_height(modal.holdTrack) == 8 &&
+        lv_obj_get_height(modal.confirm) -
+            (lv_obj_get_y(modal.holdTrack) + lv_obj_get_height(modal.holdTrack)) >= 10 &&
+        lv_obj_get_y(modal.holdTrack) -
+            (lv_obj_get_y(modal.holdLabel) + lv_obj_get_height(modal.holdLabel)) >= 6 &&
+        lv_obj_get_index(modal.holdTrack) < lv_obj_get_index(modal.holdLabel);
+    if (!trackGeometry && completeTree) {
+        out.printf("MODAL TEST DIAG track=%d,%d,%d,%d confirm_h=%d label=%d,%d indices=%d,%d\n",
+                   static_cast<int>(lv_obj_get_x(modal.holdTrack)),
+                   static_cast<int>(lv_obj_get_y(modal.holdTrack)),
+                   static_cast<int>(lv_obj_get_width(modal.holdTrack)),
+                   static_cast<int>(lv_obj_get_height(modal.holdTrack)),
+                   static_cast<int>(lv_obj_get_height(modal.confirm)),
+                   static_cast<int>(lv_obj_get_y(modal.holdLabel)),
+                   static_cast<int>(lv_obj_get_height(modal.holdLabel)),
+                   static_cast<int>(lv_obj_get_index(modal.holdTrack)),
+                   static_cast<int>(lv_obj_get_index(modal.holdLabel)));
+    }
+    ok &= expect(out, trackGeometry,
+                 "modal hold track remains inset below the label and fill layer");
+    ok &= expect(out, uiModalHoldFillWidth(0) == 0 &&
+                      uiModalHoldFillWidth(500) == 100 &&
+                      uiModalHoldFillWidth(1000) == 200 &&
+                      uiModalHoldFillWidth(1500) == 200 &&
+                      lv_obj_has_flag(modal.confirmFill, LV_OBJ_FLAG_HIDDEN),
+                 "modal progress helper clamps exact 0 500 and 1000 permille widths");
+
+    view.holdPermille = 500;
+    uiModalUpdate(modal, view);
+    if (parent != nullptr) lv_obj_update_layout(parent);
+    ok &= expect(out, lv_obj_get_width(modal.confirmFill) == 100 &&
+                      !lv_obj_has_flag(modal.confirmFill, LV_OBJ_FLAG_HIDDEN),
+                 "modal renders half hold progress fully inside its track");
+    view.holdPermille = 1000;
+    uiModalUpdate(modal, view);
+    if (parent != nullptr) lv_obj_update_layout(parent);
+    ok &= expect(out, lv_obj_get_width(modal.confirmFill) == 200,
+                 "modal renders completed hold progress at the track inner width");
+
+    modalEventCount = 0;
+    lv_event_send(modal.back, LV_EVENT_CLICKED, nullptr);
+    lv_event_send(modal.confirm, LV_EVENT_PRESSED, nullptr);
+    lv_event_send(modal.confirm, LV_EVENT_RELEASED, nullptr);
+    ok &= expect(out, modalEventCount == 3 &&
+                      modalEvents[0].kind == UiEventKind::Back &&
+                      modalEvents[1].kind == UiEventKind::HoldDown &&
+                      modalEvents[2].kind == UiEventKind::HoldUp,
+                 "modal Back and confirm expose independent touch semantics");
+
+    view.submitting = true;
+    uiModalUpdate(modal, view);
+    ok &= expect(out, modal.back == nullptr &&
+                      !lv_obj_has_flag(modal.confirm, LV_OBJ_FLAG_CLICKABLE),
+                 "submitted modal removes Back and disables repeated confirm touch");
+    view.submitting = false;
+    view.showBack = false;
+    uiModalUpdate(modal, view);
+    ok &= expect(out, modal.back == nullptr,
+                 "forced modal does not create a Back object");
+
+    uiModalDestroy(modal);
+    ok &= expect(out, modal.shade == nullptr && parent != nullptr &&
+                      lv_obj_get_child_cnt(parent) == 0,
+                 "modal destroys its retained top-level tree without stale ownership");
+    uiSetEventSink(nullptr);
+    if (parent != nullptr) lv_obj_del(parent);
+    lv_disp_set_default(previousDisplay);
+    if (display != nullptr) {
+        display->act_scr = nullptr;
+        lv_disp_remove(display);
+    }
+    return ok;
+}
+
 void openVoluntaryMortgageFixture(AppState &state, uint32_t nowMs)
 {
     appInit(state, nowMs);
@@ -599,6 +753,210 @@ void focusDebtAsset(AppState &state, uint8_t index)
     state.debtListIndex = index;
 }
 
+bool sameNavigationEntry(const NavigationEntry &left, const NavigationEntry &right)
+{
+    return left.page == right.page && left.focus == right.focus &&
+           left.listAnchor == right.listAnchor;
+}
+
+bool runModalAuthorityTests(Stream &out)
+{
+    bool ok = true;
+    static AppState state{};
+    TransportCommand command{};
+
+    openTradeFixture(state, 100);
+    state.nav.current.listAnchor = 4;
+    const NavigationEntry tradeSource = state.nav.current;
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 210}, 210);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 220}, 220);
+    appTick(state, 819);
+    ok &= expect(out, state.modal.focus == ModalFocus::Cancel &&
+                      appHoldProgressPermille(state, 819) == 0 &&
+                      state.commandCount == 0,
+                 "voluntary Back never accumulates hold progress");
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 819}, 819);
+    shortPress(state, 900, 980);
+    ok &= expect(out, state.modal.kind == ModalKind::None &&
+                      sameNavigationEntry(state.nav.current, tradeSource) &&
+                      state.commandCount == 0,
+                 "rotary voluntary Back restores exact source without a command");
+
+    appInit(state, 1000);
+    state.selectedAsset = 0;
+    state.nav.current = NavigationEntry{ScreenPage::AssetDetail, 0, 3};
+    shortPress(state, 1010, 1100);
+    const NavigationEntry mortgageSource = state.nav.current;
+    appHandleTouch(state, TouchAction::Back, 1110);
+    ok &= expect(out, state.modal.kind == ModalKind::None &&
+                      sameNavigationEntry(state.nav.current, mortgageSource) &&
+                      state.commandCount == 0,
+                 "touch voluntary Back restores exact source without a command");
+
+    openTradeFixture(state, 1200);
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 1210}, 1210);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 1220}, 1220);
+    appHandleInput(state, InputEvent{InputKind::Rotate, -1, 1230}, 1230);
+    appTick(state, 2420);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 2420}, 2420);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      state.modal.focus == ModalFocus::Confirm &&
+                      !state.modal.submitting && !state.modal.holding &&
+                      state.commandCount == 0 && appHoldProgressPermille(state, 2420) == 0,
+                 "hold started on Back cannot submit after rotating to Confirm");
+
+    openTradeFixture(state, 2000);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 2200}, 2200);
+    appTick(state, 3399);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 3399}, 3399);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      !state.modal.submitting && state.commandCount == 0 &&
+                      appHoldProgressPermille(state, 3399) == 0,
+                 "1199ms release resets progress and sends no command");
+
+    const NavigationEntry submittedSource = state.nav.current;
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 4000}, 4000);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 5200}, 5200);
+    appTick(state, 5400);
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 5500}, 5500);
+    appTick(state, 7000);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 7000}, 7000);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      state.modal.submitting && state.commandCount == 1,
+                 "1200ms release queues one command and repeated hold stays one-shot");
+    appHandleTouch(state, TouchAction::Back, 7010);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      state.modal.submitting,
+                 "submitted voluntary modal removes its Back path");
+    ok &= expect(out, appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::TradeCreate &&
+                      command.requestId != 0 && !appPollCommand(state, command),
+                 "trade confirmation exposes one nonzero request id");
+
+    const uint32_t tradeRequestId = command.requestId;
+    const uint32_t unrelatedRequestId = tradeRequestId + 100;
+    state.pendingRequestIds[static_cast<uint8_t>(TransportCommandKind::RollRequest)] =
+        unrelatedRequestId;
+    TransportEvent unrelatedRejected{};
+    unrelatedRejected.kind = TransportEventKind::CommandRejected;
+    unrelatedRejected.requestId = unrelatedRequestId;
+    unrelatedRejected.error = TransportError::ActionNotAllowed;
+    appHandleTransportEvent(state, unrelatedRejected, 7015);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      state.modal.submitting &&
+                      state.pendingRequestIds[static_cast<uint8_t>(TransportCommandKind::TradeCreate)] ==
+                          tradeRequestId &&
+                      state.pendingRequestIds[static_cast<uint8_t>(TransportCommandKind::RollRequest)] == 0,
+                 "unrelated rejection cannot unlock the active modal submission");
+
+    TransportEvent wrongKind{};
+    wrongKind.kind = TransportEventKind::PaymentCompleted;
+    wrongKind.requestId = tradeRequestId;
+    wrongKind.cash = 1;
+    appHandleTransportEvent(state, wrongKind, 7020);
+    TransportEvent zeroCompletion{};
+    zeroCompletion.kind = TransportEventKind::CommandCompleted;
+    appHandleTransportEvent(state, zeroCompletion, 7030);
+    TransportEvent wrongCompletion = zeroCompletion;
+    wrongCompletion.requestId = tradeRequestId + 1;
+    appHandleTransportEvent(state, wrongCompletion, 7040);
+    ok &= expect(out, state.modal.kind == ModalKind::TradeCreate &&
+                      state.modal.submitting &&
+                      state.pendingRequestIds[static_cast<uint8_t>(TransportCommandKind::TradeCreate)] ==
+                          tradeRequestId,
+                 "wrong-kind zero and mismatched completions preserve submission");
+
+    TransportEvent tradeCompleted = zeroCompletion;
+    tradeCompleted.requestId = tradeRequestId;
+    appHandleTransportEvent(state, tradeCompleted, 7050);
+    ok &= expect(out, state.modal.kind == ModalKind::None &&
+                      sameNavigationEntry(state.nav.current, submittedSource) &&
+                      state.pendingRequestIds[static_cast<uint8_t>(TransportCommandKind::TradeCreate)] == 0 &&
+                      state.toastUntilMs == 8850,
+                 "matching trade completion dismisses once and restores source");
+    const uint32_t acceptedRevision = state.revision;
+    appHandleTransportEvent(state, tradeCompleted, 7060);
+    ok &= expect(out, state.modal.kind == ModalKind::None &&
+                      state.revision == acceptedRevision,
+                 "duplicate generic completion is inert");
+
+    appInit(state, 0);
+    TransportEvent paymentRequired{};
+    paymentRequired.kind = TransportEventKind::PaymentRequired;
+    paymentRequired.transactionId = 90;
+    paymentRequired.amount = 175;
+    paymentRequired.cash = state.money;
+    paymentRequired.deadlineMs = 10000;
+    appHandleTransportEvent(state, paymentRequired, 0);
+    appHandleTouch(state, TouchAction::Back, 10);
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 20}, 20);
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment &&
+                      !state.modal.cancelAllowed && state.modal.focus == ModalFocus::Confirm,
+                 "forced payment has no touch or rotary Back path");
+    appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 100}, 100);
+    appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 1300}, 1300);
+    ok &= expect(out, appPollCommand(state, command) &&
+                      command.kind == TransportCommandKind::PayNow && command.requestId != 0,
+                 "forced payment submits one correlated request");
+    const int32_t cashBeforeCompletion = state.money;
+    TransportEvent wrongPayment{};
+    wrongPayment.kind = TransportEventKind::PaymentCompleted;
+    wrongPayment.requestId = command.requestId + 1;
+    wrongPayment.transactionId = 90;
+    wrongPayment.cash = 1685;
+    appHandleTransportEvent(state, wrongPayment, 1310);
+    wrongPayment.requestId = 0;
+    appHandleTransportEvent(state, wrongPayment, 1320);
+    wrongPayment.requestId = command.requestId;
+    wrongPayment.transactionId = 91;
+    appHandleTransportEvent(state, wrongPayment, 1330);
+    ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment &&
+                      state.modal.submitting && state.money == cashBeforeCompletion,
+                 "forced payment ignores zero mismatched and wrong-transaction completion");
+    wrongPayment.transactionId = 90;
+    appHandleTransportEvent(state, wrongPayment, 1340);
+    ok &= expect(out, state.modal.kind == ModalKind::None && state.money == 1685,
+                 "forced payment exits only on its matching completion");
+
+    openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
+    state.debt.selectedMask = 0x55;
+    focusDebtAsset(state, kAssetCount);
+    shortPress(state, 1400, 1490);
+    appHandleTouch(state, TouchAction::Back, 1500);
+    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 1510}, 1510);
+    ok &= expect(out, state.modal.kind == ModalKind::DebtMortgageConfirm &&
+                      !state.modal.cancelAllowed && state.modal.focus == ModalFocus::Confirm,
+                 "forced debt confirmation has no Back path");
+
+    static DemoTransport transport;
+    TransportEvent event{};
+    transport.setScenario(DemoScenario::RentClaim);
+    transport.begin(0);
+    TransportCommand rent{TransportCommandKind::ClaimRent, 601, 41, 0, 0};
+    ok &= expect(out, transport.send(rent, 10), "demo accepts rent claim confirmation");
+    transport.tick(129);
+    ok &= expect(out, !transport.poll(event), "rent completion is not emitted before 120ms");
+    transport.tick(130);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::CommandCompleted &&
+                      event.requestId == 601 && !transport.poll(event),
+                 "rent completion returns matching request within 150ms");
+
+    transport.setScenario(DemoScenario::Waiting);
+    transport.begin(0);
+    TransportCommand trade{TransportCommandKind::TradeCreate, 602, 41, 0, 0};
+    ok &= expect(out, transport.send(trade, 20), "demo accepts trade confirmation");
+    transport.tick(139);
+    ok &= expect(out, !transport.poll(event), "trade completion is not emitted before 120ms");
+    transport.tick(140);
+    ok &= expect(out, transport.poll(event) &&
+                      event.kind == TransportEventKind::CommandCompleted &&
+                      event.requestId == 602 && !transport.poll(event),
+                 "trade completion returns matching request within 150ms");
+
+    return ok;
+}
+
 uint8_t renderedTurnDots(lv_obj_t *screen, uint8_t expectedFilled)
 {
     uint8_t matches = 0;
@@ -613,6 +971,36 @@ uint8_t renderedTurnDots(lv_obj_t *screen, uint8_t expectedFilled)
         }
     }
     return matches;
+}
+
+bool treeContainsLabelText(lv_obj_t *object, const char *expected)
+{
+    if (object == nullptr || expected == nullptr) return false;
+    if (lv_obj_check_type(object, &lv_label_class)) {
+        const char *text = lv_label_get_text(object);
+        if (text != nullptr && strcmp(text, expected) == 0) return true;
+    }
+    const uint32_t childCount = lv_obj_get_child_cnt(object);
+    for (uint32_t index = 0; index < childCount; ++index) {
+        if (treeContainsLabelText(lv_obj_get_child(object, index), expected)) return true;
+    }
+    return false;
+}
+
+lv_obj_t *findDirectChildAt(lv_obj_t *parent, UiRect rect)
+{
+    if (parent == nullptr) return nullptr;
+    const uint32_t childCount = lv_obj_get_child_cnt(parent);
+    for (uint32_t index = 0; index < childCount; ++index) {
+        lv_obj_t *const child = lv_obj_get_child(parent, index);
+        if (lv_obj_get_style_x(child, 0) == rect.x &&
+            lv_obj_get_style_y(child, 0) == rect.y &&
+            lv_obj_get_style_width(child, 0) == rect.w &&
+            lv_obj_get_style_height(child, 0) == rect.h) {
+            return child;
+        }
+    }
+    return nullptr;
 }
 
 bool runHomeRendererTests(Stream &out)
@@ -671,6 +1059,44 @@ bool runHomeRendererTests(Stream &out)
     ok &= expect(out, rendererStats.incrementalRenders == 1 &&
                       rendererStats.rebuildRenders == 0,
                  "My Turn focus change uses retained incremental renderer path");
+
+    uiRendererResetTestStats();
+    state.focus = 2;
+    state.modal = ModalState{};
+    state.modal.kind = ModalKind::ForcedPayment;
+    state.modal.title = "FORCED PAYMENT REVIEW";
+    state.modal.amount = 120;
+    ++state.revision;
+    uiRendererRender(state, 8);
+    UiRendererTestStats mergedStats = uiRendererGetTestStats();
+    lv_obj_t *const modalShade = findDirectChildAt(lv_scr_act(), UiRect{0, 0, 480, 480});
+    lv_obj_t *const modalPanel = findDirectChildAt(modalShade, kModalRect);
+    const bool modalVisible = modalShade != nullptr && modalPanel != nullptr &&
+                              lv_obj_get_style_bg_opa(modalShade, 0) == 184;
+    ok &= expect(out, mergedStats.incrementalRenders == 0 &&
+                      mergedStats.rebuildRenders == 1 && modalVisible,
+                 "focus plus forced-payment modal rebuilds instead of swallowing the overlay");
+
+    state.modal = ModalState{};
+    ++state.revision;
+    uiRendererRender(state, 9);
+    uiRendererResetTestStats();
+    state.focus = 3;
+    state.money = 2345;
+    state.toast = "BALANCE UPDATED";
+    state.toastUntilMs = 1000;
+    ++state.revision;
+    uiRendererRender(state, 10);
+    mergedStats = uiRendererGetTestStats();
+    const bool moneyVisible = treeContainsLabelText(lv_scr_act(), "$ 2345");
+    lv_obj_t *const toast = findDirectChildAt(lv_scr_act(), UiRect{112, 397, 256, 36});
+    const bool toastVisible = toast != nullptr && lv_obj_get_child_cnt(toast) != 0 &&
+                              lv_obj_get_style_border_color(toast, 0).full ==
+                                  lv_color_hex(0x52DCB7).full;
+    ok &= expect(out, mergedStats.incrementalRenders == 0 &&
+                      mergedStats.rebuildRenders == 1 &&
+                      moneyVisible && toastVisible,
+                 "focus plus money and toast changes rebuilds every visible field");
     uiRendererResetForTest();
 #endif
     lv_disp_set_default(previousDisplay);
@@ -840,7 +1266,7 @@ bool runStateLogicTests(Stream &out)
                       static_cast<uint8_t>(ModalKind::TradeCreate) == 4 &&
                       static_cast<uint8_t>(ModalKind::DebtMortgageConfirm) == 5,
                  "exact modal kind names compile in contract order");
-    AppState state{};
+    static AppState state{};
     appInit(state, 0);
     ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 0,
                  "starts on home");
@@ -1020,12 +1446,9 @@ bool runStateLogicTests(Stream &out)
     state.nav.stack[0] = NavigationEntry{ScreenPage::Home, 0, 0};
     state.nav.depth = 1;
     state.nav.current = NavigationEntry{ScreenPage::Assets, 0, 0};
-    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 70);
-    ok &= expect(out, state.nav.current.page == ScreenPage::Assets && appFocusIsFooter(state),
-                 "first ordinary footer touch only synchronizes focus");
-    appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, 80);
+    appHandleTouch(state, TouchAction::Footer, 70);
     ok &= expect(out, state.nav.current.page == ScreenPage::Home,
-                 "second ordinary footer touch activates Back");
+                 "ordinary fixed Back footer returns on one touch");
 
     appInit(state, 0);
     state.nav.stack[0] = NavigationEntry{ScreenPage::Home, 3, 3};
@@ -1367,8 +1790,10 @@ bool runStateLogicTests(Stream &out)
     completed.transactionId = 90;
     completed.cash = 240;
     appHandleTransportEvent(state, completed, 13100);
-    ok &= expect(out, state.money == 240 && state.modal.kind == ModalKind::None,
-                 "payment completion event is the only cash mutation");
+    ok &= expect(out, state.money == initialCash &&
+                      state.modal.kind == ModalKind::ForcedPayment &&
+                      state.modal.insufficient,
+                 "completion after rejected payment cannot bypass debt resolution");
 
     appInit(state, 0);
     state.homePhase = HomePhase::MyTurn;
@@ -1400,8 +1825,8 @@ bool runStateLogicTests(Stream &out)
     newer.cash = 1600;
     appHandleTransportEvent(state, newer, 220);
     appHandleTransportEvent(state, newer, 230);
-    ok &= expect(out, state.money == 1600 && state.stateVersion == 10,
-                 "higher state version applies authoritative cash once");
+    ok &= expect(out, state.money == 1775 && state.stateVersion == 9,
+                 "uncorrelated payment completion cannot mutate authoritative cash");
 
     appInit(state, 0);
     openTradeFixture(state, 100);
@@ -1425,10 +1850,18 @@ bool runStateLogicTests(Stream &out)
                  "rent claim is transport-driven");
     const int32_t rentCash = state.money;
     appTick(state, 20100);
+    ok &= expect(out, state.modal.kind == ModalKind::CollectRent &&
+                      state.modal.submitting && state.money == rentCash,
+                 "submitted rent waits for authority beyond the offer deadline");
+
+    appInit(state, 0);
+    state.nav.current = NavigationEntry{ScreenPage::DemoLab, 3, 0};
+    shortPress(state, 10, 100);
+    appTick(state, 20100);
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == rentCash,
                  "unclaimed rent expires after twenty seconds without cash mutation");
 
-    DemoTransport transport;
+    static DemoTransport transport;
     transport.begin(0);
     TransportCommand roll{TransportCommandKind::RollRequest, 7, 41, 0, 0};
     ok &= expect(out, transport.send(roll, 10), "demo accepts roll request");
@@ -1486,7 +1919,8 @@ bool runStateLogicTests(Stream &out)
                  "debt post-mortgage balance preserves int32 minimum");
 
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
-    const AppState ordinaryDebt = state;
+    static AppState ordinaryDebt{};
+    ordinaryDebt = state;
     TransportEvent unsolicitedBankruptcy{};
     unsolicitedBankruptcy.kind = TransportEventKind::BankruptcyResolved;
     unsolicitedBankruptcy.transactionId = 90;
@@ -1509,6 +1943,13 @@ bool runStateLogicTests(Stream &out)
                  "second forced Confirm footer touch activates focused confirmation");
     appHandleInput(state, InputEvent{InputKind::Rotate, 1, 4}, 4);
     shortPress(state, 5, 50);
+    ok &= expect(out, state.modal.kind == ModalKind::DebtMortgageConfirm &&
+                      !state.modal.cancelAllowed &&
+                      state.nav.current.page == ScreenPage::DebtAssets &&
+                      !appCanNavigateBack(state),
+                 "debt confirmation ignores rotary cancellation");
+
+    openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
     state.debt.selectedMask = 0;
     state.nav.current.focus = 0;
     focusDebtAsset(state, 0);
@@ -1551,13 +1992,6 @@ bool runStateLogicTests(Stream &out)
     shortPress(state, 910, 1000);
     ok &= expect(out, state.modal.kind == ModalKind::DebtMortgageConfirm,
                  "debt footer opens mortgage confirmation at threshold");
-    appHandleInput(state, InputEvent{InputKind::Rotate, 1, 1010}, 1010);
-    shortPress(state, 1020, 1100);
-    ok &= expect(out, state.modal.kind == ModalKind::None && state.nav.current.page == ScreenPage::DebtAssets &&
-                      !appCanNavigateBack(state),
-                 "debt confirmation cancel returns only to forced debt assets");
-    focusDebtAsset(state, kAssetCount);
-    shortPress(state, 1110, 1200);
     appHandleInput(state, InputEvent{InputKind::ButtonDown, 0, 1210}, 1210);
     appTick(state, 2410);
     appHandleInput(state, InputEvent{InputKind::ButtonUp, 0, 2410}, 2410);
@@ -1572,7 +2006,8 @@ bool runStateLogicTests(Stream &out)
     mortgageCompleted.stateVersion = 3;
     mortgageCompleted.cash = 735;
     mortgageCompleted.assetMask = 0x55;
-    const AppState submittedDebt = state;
+    static AppState submittedDebt{};
+    submittedDebt = state;
     TransportEvent wrongMortgageRequest = mortgageCompleted;
     wrongMortgageRequest.requestId += 1;
     wrongMortgageRequest.stateVersion = 99;
@@ -1593,7 +2028,8 @@ bool runStateLogicTests(Stream &out)
     ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.transactionId == 90 &&
                       appModalRemainingMs(state, 2500) == 10000 && state.money == 735,
                  "mortgage completion restores forced payment with a fresh deadline");
-    const AppState acceptedMortgage = state;
+    static AppState acceptedMortgage{};
+    acceptedMortgage = state;
     appHandleTransportEvent(state, mortgageCompleted, 2600);
     ok &= expect(out, debtAuthorityStateUnchanged(state, acceptedMortgage),
                  "duplicate mortgage completion leaves accepted debt unchanged");
@@ -1602,7 +2038,8 @@ bool runStateLogicTests(Stream &out)
     ok &= expect(out, state.nav.current.page == ScreenPage::Bankruptcy && !appCanNavigateBack(state) &&
                       appFocusCount(state) == 1,
                  "unresolvable debt enters terminal bankruptcy without back");
-    const AppState pendingBankruptcy = state;
+    static AppState pendingBankruptcy{};
+    pendingBankruptcy = state;
     TransportEvent wrongBankruptcy{};
     wrongBankruptcy.kind = TransportEventKind::BankruptcyResolved;
     wrongBankruptcy.transactionId = 91;
@@ -1632,7 +2069,8 @@ bool runStateLogicTests(Stream &out)
     appHandleTransportEvent(state, acceptedBankruptcy, 2730);
     ok &= expect(out, state.nav.current.page == ScreenPage::Bankruptcy && state.money == 0,
                  "matching bankruptcy resolution is accepted once");
-    const AppState terminalBankruptcy = state;
+    static AppState terminalBankruptcy{};
+    terminalBankruptcy = state;
     const TransportEventKind terminalEventKinds[] = {
         TransportEventKind::None,
         TransportEventKind::ConnectionLost,
@@ -1646,6 +2084,7 @@ bool runStateLogicTests(Stream &out)
         TransportEventKind::DebtResolutionRequired,
         TransportEventKind::MortgageBatchCompleted,
         TransportEventKind::BankruptcyResolved,
+        TransportEventKind::CommandCompleted,
         TransportEventKind::CommandRejected,
     };
     bool terminalEventsIgnored = true;
@@ -1674,7 +2113,7 @@ bool runStateLogicTests(Stream &out)
                       voluntaryMortgage.kind == TransportCommandKind::MortgageBatchRequest &&
                       voluntaryMortgage.transactionId == 0 && voluntaryMortgage.assetMask == 0x01,
                  "voluntary mortgage submits zero transaction with selected mask");
-    DemoTransport voluntaryTransport;
+    static DemoTransport voluntaryTransport;
     voluntaryTransport.setScenario(DemoScenario::DebtMortgage);
     voluntaryTransport.begin(0);
     ok &= expect(out, voluntaryTransport.send(voluntaryMortgage, 0),
@@ -1686,7 +2125,8 @@ bool runStateLogicTests(Stream &out)
                       voluntaryCompleted.requestId == voluntaryMortgage.requestId &&
                       voluntaryCompleted.transactionId != 0 && voluntaryCompleted.assetMask == 0x01,
                  "demo assigns transaction to voluntary mortgage completion");
-    const AppState submittedVoluntaryMortgage = state;
+    static AppState submittedVoluntaryMortgage{};
+    submittedVoluntaryMortgage = state;
     TransportEvent wrongVoluntaryMask = voluntaryCompleted;
     wrongVoluntaryMask.assetMask = 0x02;
     appHandleTransportEvent(state, wrongVoluntaryMask, 4020);
@@ -1695,7 +2135,8 @@ bool runStateLogicTests(Stream &out)
     appHandleTransportEvent(state, voluntaryCompleted, 4030);
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == voluntaryCompleted.cash,
                  "assigned voluntary mortgage completion applies cash and dismisses once");
-    const AppState acceptedVoluntaryMortgage = state;
+    static AppState acceptedVoluntaryMortgage{};
+    acceptedVoluntaryMortgage = state;
     appHandleTransportEvent(state, voluntaryCompleted, 4040);
     ok &= expect(out, debtAuthorityStateUnchanged(state, acceptedVoluntaryMortgage),
                  "duplicate voluntary mortgage completion is inert");
@@ -1768,9 +2209,19 @@ bool runStateLogicTests(Stream &out)
     transport.tick(paymentStartMs + 9999);
     ok &= expect(out, !transport.poll(event), "payment cash does not complete before its deadline");
     transport.tick(paymentStartMs + 10000);
+    ok &= expect(out, !transport.poll(event),
+                 "payment transport waits for the app's deadline PayNow request");
+    TransportCommand deadlinePayNow{TransportCommandKind::PayNow, 804, 41,
+                                    paymentTransactionId, 0};
+    ok &= expect(out, transport.send(deadlinePayNow, paymentStartMs + 10000),
+                 "deadline PayNow is accepted with a nonzero request id");
+    transport.tick(paymentStartMs + 10119);
+    ok &= expect(out, !transport.poll(event), "deadline PayNow completion waits 120ms");
+    transport.tick(paymentStartMs + 10120);
     ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
-                      event.transactionId == paymentTransactionId && !transport.poll(event),
-                 "payment cash auto-completes exactly at its deadline once");
+                      event.requestId == 804 && event.transactionId == paymentTransactionId &&
+                      !transport.poll(event),
+                 "deadline PayNow completes once with its request id");
 
     transport.begin(paymentStartMs);
     transport.tick(paymentStartMs);
@@ -1819,9 +2270,13 @@ bool runStateLogicTests(Stream &out)
     transport.tick(paymentStartMs + 9999);
     ok &= expect(out, !transport.poll(event), "late PayNow cannot complete before deadline");
     transport.tick(paymentStartMs + 10000);
+    ok &= expect(out, !transport.poll(event),
+                 "late PayNow still waits for its correlated response after deadline");
+    transport.tick(paymentStartMs + 10001);
     ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
+                      event.requestId == 802 &&
                       event.transactionId == latePaymentTransactionId && !transport.poll(event),
-                 "payment deadline wins over a late PayNow response");
+                 "late PayNow completes with its own request id");
 
     const uint32_t paymentWrapStartMs = 0xFFFFFF00u;
     transport.begin(paymentWrapStartMs);
@@ -1829,12 +2284,20 @@ bool runStateLogicTests(Stream &out)
     ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentRequired &&
                       event.deadlineMs == paymentWrapStartMs + 10000u,
                  "payment cash deadline wraps from scenario start");
+    const uint32_t wrappedPaymentTransactionId = event.transactionId;
     transport.tick(paymentWrapStartMs + 9999u);
     ok &= expect(out, !transport.poll(event), "wrapped payment deadline is not early");
     transport.tick(paymentWrapStartMs + 10000u);
+    ok &= expect(out, !transport.poll(event),
+                 "wrapped payment deadline still requires PayNow authority request");
+    TransportCommand wrappedPayNow{TransportCommandKind::PayNow, 805, 41,
+                                   wrappedPaymentTransactionId, 0};
+    ok &= expect(out, transport.send(wrappedPayNow, paymentWrapStartMs + 10000u),
+                 "wrapped deadline PayNow is accepted");
+    transport.tick(paymentWrapStartMs + 10120u);
     ok &= expect(out, transport.poll(event) && event.kind == TransportEventKind::PaymentCompleted &&
-                      !transport.poll(event),
-                 "wrapped payment deadline completes exactly once");
+                      event.requestId == 805 && !transport.poll(event),
+                 "wrapped payment request completes exactly once");
 
     transport.setScenario(DemoScenario::Waiting);
     transport.begin(0);
@@ -1927,12 +2390,15 @@ bool runStateLogicTests(Stream &out)
 
 bool runPureLogicTests(Stream &out)
 {
-    return runStateLogicTests(out);
+    bool ok = runStateLogicTests(out);
+    ok &= runModalAuthorityTests(out);
+    return ok;
 }
 
 bool runLvglComponentTests(Stream &out)
 {
     bool ok = true;
+    ok &= runModalComponentTests(out);
     ok &= runCenterListComponentTests(out);
     ok &= runCarouselComponentTests(out);
     ok &= runHomeRendererTests(out);

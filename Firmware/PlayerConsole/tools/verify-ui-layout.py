@@ -14,6 +14,8 @@ CAROUSEL_SOURCE_PATH = PROJECT_ROOT / "ui_carousel.cpp"
 MOTION_SOURCE_PATH = PROJECT_ROOT / "ui_motion.cpp"
 CENTER_LIST_HEADER_PATH = PROJECT_ROOT / "ui_center_list.h"
 CENTER_LIST_SOURCE_PATH = PROJECT_ROOT / "ui_center_list.cpp"
+MODAL_HEADER_PATH = PROJECT_ROOT / "ui_modal.h"
+MODAL_SOURCE_PATH = PROJECT_ROOT / "ui_modal.cpp"
 PLAYER_CONSOLE_PATH = PROJECT_ROOT / "PlayerConsole.ino"
 LOGIC_TESTS_PATH = PROJECT_ROOT / "logic_tests.cpp"
 RADIUS = 192
@@ -157,43 +159,113 @@ def assert_inside_circle(name: str, rect: tuple[int, int, int, int]) -> None:
                 fail(f"{name} corner ({corner_x}, {corner_y}) is outside the {RADIUS}px safe circle")
 
 
-def assert_modal_contract(renderer: str) -> None:
-    modal_body = function_body(renderer, "drawModal")
-    required_calls = (
-        (r"\buiBox\s*\(\s*root\s*,\s*kModalRect\b", "kModalRect is not used for the modal"),
-        (r"\buiBox\s*\(\s*modal\s*,\s*modalChildRect\s*\(\s*kModalConfirm\s*\)",
-         "kModalConfirm is not used for the confirmation control"),
-        (r"\buiLabel\s*\(\s*modal\s*,\s*state\.modal\.title\s*,\s*modalChildRect\s*\(\s*kModalTitle\s*\)",
-         "modal title is not placed from its bounded child rectangle"),
-        (r"\buiLabel\s*\(\s*modal\s*,\s*amount\s*,\s*modalChildRect\s*\(\s*kModalAmount\s*\)",
-         "modal amount is not placed from its bounded child rectangle"),
-        (r"\buiLabel\s*\(\s*modal\s*,\s*detail\s*,\s*modalChildRect\s*\(\s*kModalDetail\s*\)",
-         "modal detail is not placed from its bounded child rectangle"),
-        (r"\buiLabel\s*\(\s*hold\s*,[^;]*\bchildRect\s*\(\s*kModalConfirmLabel\s*,\s*kModalConfirm\s*\)",
-         "modal confirmation label is not bounded by kModalConfirm"),
-        (r"\bkModalConfirm\.w\s*\*\s*progress\s*/\s*1000", "modal progress does not use confirm width"),
-        (r"\bUiRect\s*\{\s*0\s*,\s*static_cast\s*<\s*int16_t\s*>\s*\(\s*kModalConfirm\.h\s*-\s*6\s*\)[^}]*\b6\s*\}",
-         "modal progress overlaps the confirmation label"),
+def assert_modal_contract(renderer_source: str, modal_header: str | None = None,
+                          modal_source: str | None = None) -> None:
+    if modal_header is None:
+        modal_header = MODAL_HEADER_PATH.read_text(encoding="utf-8")
+    if modal_source is None:
+        modal_source = MODAL_SOURCE_PATH.read_text(encoding="utf-8")
+
+    reject_inactive_blocks(modal_header, "ui_modal.h")
+    reject_inactive_blocks(modal_source, "ui_modal.cpp")
+    renderer = normalized_code(renderer_source)
+    header = normalized_code(modal_header)
+    source = normalized_code(modal_source)
+
+    if '#include "ui_modal.h"' not in renderer_source:
+        fail("renderer does not include the retained modal component")
+    if len(re.findall(r"\bUiModal\s+activeModal\s*\{\s*\}\s*;", renderer)) != 1:
+        fail("renderer does not retain exactly one UiModal instance")
+
+    draw_body = function_body(renderer, "drawModal")
+    if not re.search(r"\bapplyModal\s*\(\s*state\s*,\s*nowMs\s*,\s*true\s*\)", draw_body):
+        fail("drawModal does not create the retained modal component")
+    apply_body = function_body(renderer, "applyModal")
+    for pattern, message in (
+        (r"\buiModalCreate\s*\(\s*activeModal\s*,\s*root\s*,\s*view\s*\)",
+         "modal creation is not routed through uiModalCreate"),
+        (r"\buiModalUpdate\s*\(\s*activeModal\s*,\s*view\s*\)",
+         "dynamic modal progress is not routed through uiModalUpdate"),
+        (r"\bstate\.modal\.cancelAllowed\s*&&\s*!\s*state\.modal\.submitting",
+         "renderer does not remove voluntary Back after submission"),
+        (r"\bappHoldProgressPermille\s*\(",
+         "renderer does not feed the authoritative hold progress into UiModal"),
+    ):
+        if not re.search(pattern, apply_body):
+            fail(message)
+    for owner in ("rebuild", "uiRendererResetForTest", "uiRendererShowFault"):
+        if not re.search(r"\buiModalDestroy\s*\(\s*activeModal\s*\)",
+                         function_body(renderer, owner)):
+            fail(f"{owner} does not release retained modal ownership")
+
+    for member in ("shade", "panel", "confirm", "holdTrack", "confirmFill",
+                   "holdLabel", "back", "countdown"):
+        if not re.search(rf"\blv_obj_t\s*\*\s*{member}\s*=\s*nullptr\s*;", header):
+            fail(f"UiModal does not retain {member}")
+    for api in ("uiModalCreate", "uiModalUpdate", "uiModalDestroy", "uiModalHoldFillWidth"):
+        if not re.search(rf"\b{api}\s*\(", header):
+            fail(f"{api} is missing from the modal API")
+
+    required_geometry = (
+        (r"\bkConfirm\s*=\s*childRect\s*\(\s*kModalConfirm\s*,\s*kModalRect\s*\)",
+         "modal confirm does not derive from kModalConfirm"),
+        (r"\bkBack\s*=\s*childRect\s*\(\s*kModalCancel\s*,\s*kModalRect\s*\)",
+         "modal Back does not derive from kModalCancel"),
+        (r"\bkHoldTrack\s*\{\s*12\s*,\s*46\s*,\s*200\s*,\s*8\s*\}",
+         "modal hold track is not the approved 12px-inset 200x8 geometry"),
+        (r"\bkHoldLabel\s*\{\s*12\s*,\s*8\s*,\s*200\s*,\s*26\s*\}",
+         "modal hold label does not preserve the approved track gap"),
     )
-    for pattern, message in required_calls:
-        if not re.search(pattern, modal_body):
+    for pattern, message in required_geometry:
+        if not re.search(pattern, source):
             fail(message)
 
-    if re.search(r"\bif\s*\(\s*state\.modal\.cancelAllowed\b", modal_body):
-        cancel_match = re.search(
-            r"\buiBox\s*\(\s*modal\s*,\s*modalChildRect\s*\(\s*kModalCancel\s*\)",
-            modal_body,
-        )
-        if not cancel_match:
-            fail("visible modal cancel path does not use kModalCancel")
+    create_body = function_body(source, "uiModalCreate")
+    for pattern, message in (
+        (r"\buiBox\s*\(\s*root\s*,\s*UiRect\s*\{\s*0\s*,\s*0\s*,\s*480\s*,\s*480\s*\}",
+         "modal shade does not cover the display"),
+        (r"\buiBox\s*\(\s*modal\.shade\s*,\s*kModalRect\b",
+         "modal panel is not a child of the blocking shade"),
+        (r"\buiBox\s*\(\s*modal\.panel\s*,\s*kConfirm\b",
+         "modal confirm is not a panel child"),
+        (r"\buiBox\s*\(\s*modal\.confirm\s*,\s*kHoldTrack\b",
+         "hold track is not clipped by the confirmation control"),
+        (r"\buiBox\s*\(\s*modal\.holdTrack\s*,\s*UiRect\s*\{\s*0\s*,\s*0\s*,\s*0\s*,\s*kHoldTrack\.h\s*\}",
+         "hold fill is not clipped by the hold track"),
+        (r"\buiBindHold\s*\(\s*modal\.confirm\s*\)",
+         "modal confirm does not expose hold touch semantics"),
+        (r"\blv_obj_set_style_bg_opa\s*\(\s*modal\.shade\s*,\s*kShadeOpacity\b",
+         "modal shade opacity is not applied"),
+        (r"\blv_obj_add_flag\s*\(\s*modal\.shade\s*,\s*LV_OBJ_FLAG_CLICKABLE\s*\)",
+         "modal shade does not block background touch"),
+    ):
+        if not re.search(pattern, create_body):
+            fail(message)
+    if not re.search(r"\bkShadeOpacity\s*=\s*184\s*;", source):
+        fail("modal shade is not the approved 72 percent opacity")
+    for object_name in ("confirm", "holdTrack", "confirmFill"):
+        if not re.search(rf"\bmakeNonOverflowing\s*\(\s*modal\.{object_name}\s*\)", create_body):
+            fail(f"modal {object_name} does not clip overflow")
+    fill_index = create_body.find("modal.confirmFill = uiBox")
+    label_index = create_body.find("modal.holdLabel = uiLabel")
+    if fill_index < 0 or label_index < 0 or fill_index >= label_index:
+        fail("modal hold label is not layered above the progress fill")
 
-    legacy_geometries = (
-        r"\b(?:box|uiBox)\s*\(\s*root\s*,\s*70\s*,\s*88\s*,\s*340\s*,\s*304\b",
-        r"\b(?:box|uiBox)\s*\(\s*modal\s*,\s*34\s*,\s*196\s*,\s*272\s*,\s*72\b",
-    )
-    for pattern in legacy_geometries:
-        if re.search(pattern, modal_body):
-            fail("drawModal() retains legacy unsafe modal geometry")
+    back_body = function_body(source, "createBack")
+    if not re.search(r"\buiBindTap\s*\(\s*modal\.back\s*,\s*UiEventKind::Back\s*\)", back_body):
+        fail("modal Back does not emit UiEventKind::Back")
+    update_back_body = function_body(source, "updateBack")
+    if not re.search(r"\bview\.showBack\s*&&\s*!\s*view\.submitting", update_back_body):
+        fail("modal Back visibility is not suppressed while submitting")
+
+    helper_body = function_body(source, "uiModalHoldFillWidth")
+    if not re.search(r"\bpermille\s*>\s*1000\s*\?\s*1000\s*:\s*permille", helper_body):
+        fail("modal hold progress is not clamped to 1000 permille")
+    if not re.search(r"\bkHoldTrack\.w\s*\)\s*\*\s*clamped", helper_body):
+        fail("modal hold progress does not use the bounded track width")
+    update_body = function_body(source, "updateConfirm")
+    if not re.search(r"\buiModalHoldFillWidth\s*\(\s*view\.holdPermille\s*\)", update_body):
+        fail("modal update bypasses the clamped progress helper")
 
 
 def assert_carousel_contract(renderer_source: str, carousel_header: str,
@@ -455,6 +527,7 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
         "kCarouselPerfMinFrames": 6,
         "kCarouselPerfMinFps": 24,
         "kCarouselPerfMaxGapMs": 42,
+        "kPerfMaxFirstFrameMs": 80,
         "kCarouselPerfObserveMs": 320,
         "kCarouselPerfRetargetMs": 80,
         "kCenterListPerfTransitionMs": 200,
@@ -470,6 +543,7 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
         ("kCarouselPerfMinFrames", "carousel performance gate does not require enough rendered frames"),
         ("kCarouselPerfMinFps", "carousel performance gate does not enforce 24 FPS"),
         ("kCarouselPerfMaxGapMs", "carousel performance gate does not enforce the 42ms gap"),
+        ("kPerfMaxFirstFrameMs", "carousel performance gate does not enforce 80ms first-frame feedback"),
         ("kCarouselPerfTransitionMs", "carousel performance gate does not span the 220ms transition"),
     ):
         if token not in gate_body:
@@ -482,6 +556,39 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
         fail("display monitor callback does not timestamp completed refresh cycles")
     if not re.search(r"\bcarouselPerfProbe\.maxGapMs\b", monitor_body):
         fail("display monitor callback does not retain the largest adjacent refresh gap")
+    if not re.search(r"\bcarouselPerfProbe\.frames\s*==\s*0\b", monitor_body) or \
+            "carouselPerfProbe.firstFrameMs" not in monitor_body:
+        fail("display monitor callback conflates first-frame feedback with adjacent refresh gaps")
+
+    center_gate_body = function_body(console_code, "centerListPerfMeetsGate")
+    if "kPerfMaxFirstFrameMs" not in center_gate_body:
+        fail("center-list performance gate does not enforce 80ms first-frame feedback")
+
+    if not re.search(
+        r"~CarouselPerfMonitorGuard\s*\(\s*\)\s*\{\s*restore\s*\(\s*\)\s*;\s*\}",
+        console_code,
+    ):
+        fail("carousel monitor fixture lacks scope-exit restoration")
+    monitor_install_body = function_body(console_code, "install")
+    for pattern, message in (
+        (r"\bcarouselPerfProbe\.previousMonitor\s*=\s*display->driver->monitor_cb\s*;",
+         "carousel monitor guard does not preserve the prior callback"),
+        (r"\bcarouselPerfProbe\.armed\s*=\s*true\s*;",
+         "carousel monitor guard does not arm measurement during installation"),
+        (r"\bdisplay->driver->monitor_cb\s*=\s*carouselPerfMonitor\s*;",
+         "carousel monitor guard does not install the probe callback"),
+    ):
+        if not re.search(pattern, monitor_install_body):
+            fail(message)
+    monitor_restore_body = function_body(console_code, "restore")
+    for pattern, message in (
+        (r"\bcarouselPerfProbe\.armed\s*=\s*false\s*;",
+         "carousel monitor guard cleanup leaves measurement armed"),
+        (r"\bdisplay->driver->monitor_cb\s*=\s*carouselPerfProbe\.previousMonitor\s*;",
+         "carousel monitor guard cleanup does not restore the prior callback"),
+    ):
+        if not re.search(pattern, monitor_restore_body):
+            fail(message)
 
     if re.search(r"\bkPerfSceneSettleMs\b", console_code):
         fail("performance fixture still substitutes a fixed delay for scene stability")
@@ -535,10 +642,12 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     required_fixture = (
         (r"\blv_disp_get_default\s*\(\s*\)",
          "live carousel performance fixture does not use the initialized physical display"),
-        (r"\bdisplay->driver->monitor_cb\s*=\s*carouselPerfMonitor\s*;",
-         "live carousel performance fixture does not install the LVGL refresh-cycle hook"),
-        (r"\bdisplay->driver->monitor_cb\s*=\s*carouselPerfProbe\.previousMonitor\s*;",
-         "live carousel performance fixture does not restore the display monitor hook"),
+        (r"\bCarouselPerfMonitorGuard\s+monitorGuard\s*;",
+         "live carousel performance fixture does not own a scope cleanup guard"),
+        (r"\bmonitorGuard\.install\s*\(\s*display\s*\)",
+         "live carousel performance fixture does not install through its cleanup guard"),
+        (r"\bmonitorGuard\.restore\s*\(\s*\)",
+         "live carousel performance fixture does not restore under the final LVGL lock"),
         (r"\bappHandleInput\s*\(",
          "live carousel performance fixture does not use the production focus path"),
         (r"\bappHandleUiEvent\s*\(",
@@ -561,10 +670,9 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
             fail(message)
     first_lock = fixture_body.find("lvgl_port_lock(")
     prepare = fixture_body.find("preparePerfScenario(")
-    arm = fixture_body.find("carouselPerfProbe.armed = true;")
-    install = fixture_body.find("display->driver->monitor_cb = carouselPerfMonitor;")
-    rotate_input = fixture_body.find("appHandleInput(", arm)
-    swipe_input = fixture_body.find("appHandleUiEvent(", arm)
+    install = fixture_body.find("monitorGuard.install(display)")
+    rotate_input = fixture_body.find("appHandleInput(", install)
+    swipe_input = fixture_body.find("appHandleUiEvent(", install)
     input_positions = [position for position in (rotate_input, swipe_input) if position >= 0]
     if not input_positions:
         fail("live carousel fixture does not dispatch a measured user input")
@@ -573,15 +681,13 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     first_unlock = fixture_body.find("lvgl_port_unlock();", render)
     wait = fixture_body.find("delay(kCarouselPerfObserveMs);", first_unlock)
     second_lock = fixture_body.find("lvgl_port_lock(", first_unlock)
-    restore = fixture_body.find(
-        "display->driver->monitor_cb = carouselPerfProbe.previousMonitor;", second_lock
-    )
-    if min(prepare, first_lock, arm, install, first_input, render, first_unlock,
+    restore = fixture_body.find("monitorGuard.restore()", second_lock)
+    if min(prepare, first_lock, install, first_input, render, first_unlock,
            wait, second_lock, restore) < 0 or not (
-            prepare < first_lock < arm < install < first_input < render < first_unlock <
+            prepare < first_lock < install < first_input < render < first_unlock <
             wait < second_lock < restore):
         fail("live carousel fixture does not mutate under lock, run unlocked, then restore under lock")
-    if "preparePerfScenario(" in fixture_body[arm:]:
+    if "preparePerfScenario(" in fixture_body[install:]:
         fail("live carousel fixture rebuilds its target scene after measurement is armed")
 
     setup_body = function_body(console_code, "setup")
@@ -625,6 +731,8 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
             fail(f"self-test is missing auditable scenario marker: {marker}")
     if "coverage_ms=%u" not in player_console_source:
         fail("live performance evidence does not print full transition coverage")
+    if "first_frame_ms=%u" not in player_console_source:
+        fail("live performance evidence does not print first-frame feedback separately")
     if "incremental=%u rebuild=%u" not in player_console_source:
         fail("live performance evidence does not print renderer path counters")
     if not re.search(r"\bincrementalOnly\b[^;]*result\.incrementalRenders\s*>\s*0[^;]*"
@@ -637,7 +745,8 @@ def assert_component_fixture_contract(logic_tests_source: str,
     logic_code = normalized_code(logic_tests_source)
     renderer_code = normalized_code(renderer_source)
     for function_name in (
-        "runCarouselComponentTests", "runCenterListComponentTests", "runHomeRendererTests",
+        "runModalComponentTests", "runCarouselComponentTests",
+        "runCenterListComponentTests", "runHomeRendererTests",
     ):
         body = function_body(logic_code, function_name)
         for pattern, message in (
@@ -660,6 +769,8 @@ def assert_component_fixture_contract(logic_tests_source: str,
          "renderer fixture reset does not release the retained carousel"),
         (r"\buiCenterListDestroy\s*\(\s*centerList\s*\)",
          "renderer fixture reset does not release the retained center list"),
+        (r"\buiModalDestroy\s*\(\s*activeModal\s*\)",
+         "renderer fixture reset does not release the retained modal"),
         (r"\broot\s*=\s*nullptr\s*;", "renderer fixture reset leaves a dangling root"),
         (r"\buiSetEventSink\s*\(\s*nullptr\s*\)",
          "renderer fixture reset leaves the test event sink installed"),
@@ -672,7 +783,8 @@ def assert_component_fixture_contract(logic_tests_source: str,
         fail("pre-display pure test phase does not run the state suite")
     component_body = function_body(logic_code, "runLvglComponentTests")
     for function_name in (
-        "runCenterListComponentTests", "runCarouselComponentTests", "runHomeRendererTests",
+        "runModalComponentTests", "runCenterListComponentTests",
+        "runCarouselComponentTests", "runHomeRendererTests",
     ):
         if not re.search(rf"\b{function_name}\s*\(", component_body):
             fail(f"post-init component phase omits {function_name}")
@@ -681,6 +793,9 @@ def assert_component_fixture_contract(logic_tests_source: str,
         "center-list focus updates only previous/new rows without duplicate content writes",
         "center-list still refreshes changed asset text, check state, and enabled flag",
         "My Turn focus change uses retained incremental renderer path",
+        "first-row boundary pulse cancels active track travel and owns track y alone",
+        "focus plus forced-payment modal rebuilds instead of swallowing the overlay",
+        "focus plus money and toast changes rebuilds every visible field",
     ):
         if evidence not in logic_tests_source:
             fail(f"component tests omit incremental invalidation evidence: {evidence}")
@@ -823,6 +938,18 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
                      r"static_cast<int16_t>\(list\.pulseRestY\s*\+\s*offset\)\s*\)",
                      pulse_body):
         fail("boundary pulse target is not anchored to its fixed rest position")
+    capture_y = pulse_body.find("const int16_t currentY = lv_obj_get_y(target);")
+    cancel_travel = pulse_body.find("lv_anim_del(list.track, setTrackY);")
+    pulse_values = pulse_body.find("lv_anim_set_values(", cancel_travel)
+    if min(capture_y, cancel_travel, pulse_values) < 0 or not (
+            capture_y < cancel_travel < pulse_values):
+        fail("first-row boundary pulse does not capture visual y then cancel track travel")
+    if not re.search(
+        r"\bif\s*\(\s*firstRow\s*&&\s*list\.track\s*!=\s*nullptr\s*\)\s*"
+        r"lv_anim_del\s*\(\s*list\.track\s*,\s*setTrackY\s*\)\s*;",
+        pulse_body,
+    ):
+        fail("footer boundary pulse must not cancel unrelated track travel")
     return_body = function_body(center_code, "startBoundaryReturn")
     if not re.search(r"\bkBoundaryPulseReturnMs\b", return_body) or not re.search(
             r"\blv_anim_path_ease_out\b", return_body):
@@ -871,6 +998,29 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
         fail("ordinary Debt page does not render its fixed footer")
 
     render_body = function_body(renderer_code, "uiRendererRender")
+    modal_guard_body = function_body(renderer_code, "modalVisualStateUnchanged")
+    for pattern, message in (
+        (r"\bstate\.kind\s*!=\s*rendered\.kind\b",
+         "renderer modal guard omits modal kind"),
+        (r"\bstate\.submitting\s*==\s*rendered\.submitting\b",
+         "renderer modal guard omits submitting state"),
+    ):
+        if not re.search(pattern, modal_guard_body):
+            fail(message)
+    visible_guard_body = function_body(renderer_code, "samePageVisibleStateUnchanged")
+    for pattern, message in (
+        (r"\bmodalVisualStateUnchanged\s*\(", "renderer visible-state guard omits modal state"),
+        (r"\bstate\.money\s*==\s*rendered\.money\b", "renderer visible-state guard omits money"),
+        (r"\bstate\.position\s*==\s*rendered\.position\b", "renderer visible-state guard omits position"),
+        (r"\btextStateUnchanged\s*\(\s*state\.toast\s*,\s*rendered\.toast\s*\)",
+         "renderer visible-state guard omits toast text"),
+        (r"\bstate\.toastUntilMs\s*==\s*rendered\.toastUntilMs\b",
+         "renderer visible-state guard omits toast deadline"),
+        (r"\bstate\.tradeAmount\s*==\s*rendered\.tradeAmount\b",
+         "renderer visible-state guard omits editable values"),
+    ):
+        if not re.search(pattern, visible_guard_body):
+            fail(message)
     same_page_match = re.search(
         r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage[\s\S]{0,500}?\)\s*\{",
         render_body,
@@ -977,11 +1127,17 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         render_body,
     ):
         fail("renderer does not compare the current and rendered inline editor")
+    if not re.search(
+        r"\bconst\s+bool\s+visibleStateUnchanged\s*=\s*"
+        r"samePageVisibleStateUnchanged\s*\(\s*state\s*,\s*previousRenderedState\s*\)\s*;",
+        render_body,
+    ):
+        fail("renderer does not compare all visible state before incremental refresh")
     same_page_match = re.search(
         r"\bif\s*\(\s*hasRenderedState\s*&&\s*state\.page\s*==\s*previousPage\s*&&\s*"
         r"\(\s*state\.focus\s*!=\s*previousFocus\s*\|\|\s*boundaryPulseChanged\s*\)\s*&&\s*"
         r"homeActionsUnchanged\s*&&\s*"
-        r"inlineEditUnchanged\s*\)\s*\{",
+        r"inlineEditUnchanged\s*&&\s*visibleStateUnchanged\s*\)\s*\{",
         render_body,
     )
     if not same_page_match:
@@ -991,6 +1147,8 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         fail("same-page focus-update branch is not guarded by the rendered Home phase")
     if "inlineEditUnchanged" not in same_page_condition:
         fail("same-page focus-update branch is not guarded by the rendered inline editor")
+    if "visibleStateUnchanged" not in same_page_condition:
+        fail("same-page focus-update branch can swallow other visible state changes")
     same_page_body = block_after(render_body, same_page_match)
     if re.search(r"\blv_obj_clean\s*\(\s*root\s*\)", same_page_body):
         fail("same-page focus update clears the root")
@@ -1011,6 +1169,8 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
         re.DOTALL,
     ):
         fail("rebuild does not retain Home phase and inline editor for focus-only updates")
+    if len(re.findall(r"\bpreviousRenderedState\s*=\s*state\s*;", render_body)) < 2:
+        fail("renderer does not retain visible state after both incremental and rebuild paths")
 
     if not re.search(r"\+\+\s*rendererTestStats\.incrementalRenders\b", same_page_body):
         fail("renderer self-test evidence does not count retained incremental renders")
@@ -1019,7 +1179,7 @@ def verify_contract(layout_source: str, renderer_source: str, carousel_header: s
     if rebuild_counter < 0 or rebuild_call < 0 or rebuild_counter > rebuild_call:
         fail("renderer self-test evidence does not count rebuild renders")
 
-    assert_modal_contract(renderer_code)
+    assert_modal_contract(renderer_source)
 
 
 def expect_rejected(name: str, layout_source: str, renderer_source: str,
@@ -1068,12 +1228,14 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
     inactive_duplicate = layout_source + "\n#if 0\nconstexpr UiRect kModalRect{70, 88, 340, 304};\n#endif\n"
     expect_rejected("inactive duplicate", inactive_duplicate, renderer_source,
                     carousel_header, carousel_source)
-    unused_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
+    unused_modal = renderer_source.replace("applyModal(state, nowMs, true);", "", 1)
     expect_rejected("unused modal rectangle", layout_source, unused_modal,
                     carousel_header, carousel_source)
     modal_body = function_body(code_only(renderer_source), "drawModal")
     dummy_modal = "void drawModal(const AppState &state, uint32_t nowMs) {" + modal_body + "}"
-    noncompliant_live_modal = renderer_source.replace("uiBox(root, kModalRect", "uiBox(root, kNormalFooter", 1)
+    noncompliant_live_modal = renderer_source.replace(
+        "applyModal(state, nowMs, true);", "applyModal(state, nowMs, false);", 1
+    )
     expect_rejected("#if false dummy modal", layout_source,
                     "#if false\n" + dummy_modal + "\n#endif\n" + noncompliant_live_modal,
                     carousel_header, carousel_source)
@@ -1086,6 +1248,34 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
     expect_rejected("line-spliced #if false inactive renderer", layout_source,
                     "#\\\nif false\n" + renderer_source + "\n#\\\nendif\n",
                     carousel_header, carousel_source)
+    modal_header = MODAL_HEADER_PATH.read_text(encoding="utf-8")
+    modal_source = MODAL_SOURCE_PATH.read_text(encoding="utf-8")
+    modal_mutations = (
+        ("modal shade opacity changed", modal_header,
+         modal_source.replace("kShadeOpacity = 184", "kShadeOpacity = 160", 1)),
+        ("modal track inset changed", modal_header,
+         modal_source.replace("kHoldTrack{12, 46, 200, 8}",
+                              "kHoldTrack{8, 46, 208, 8}", 1)),
+        ("modal fill escaped track", modal_header,
+         modal_source.replace("uiBox(modal.holdTrack, UiRect{0, 0, 0, kHoldTrack.h}",
+                              "uiBox(modal.confirm, UiRect{0, 0, 0, kHoldTrack.h}", 1)),
+        ("modal confirm overflow clipping removed", modal_header,
+         modal_source.replace("makeNonOverflowing(modal.confirm);", "", 1)),
+        ("modal hold touch binding removed", modal_header,
+         modal_source.replace("uiBindHold(modal.confirm);", "", 1)),
+        ("modal Back event binding removed", modal_header,
+         modal_source.replace("uiBindTap(modal.back, UiEventKind::Back);", "", 1)),
+        ("submitted modal Back guard removed", modal_header,
+         modal_source.replace("view.showBack && !view.submitting", "view.showBack", 1)),
+        ("modal progress clamp removed", modal_header,
+         modal_source.replace("permille > 1000 ? 1000 : permille", "permille", 1)),
+    )
+    for name, mutated_header, mutated_source in modal_mutations:
+        try:
+            assert_modal_contract(renderer_source, mutated_header, mutated_source)
+        except LayoutError:
+            continue
+        raise AssertionError(f"{name} fixture unexpectedly passed")
     expect_rejected("retained Home selection removed", layout_source,
                     renderer_source.replace("uiCarouselSetSelection(homeCarousel, state.focus, true);", "", 1),
                     carousel_header, carousel_source)
@@ -1101,6 +1291,15 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
                     carousel_header, carousel_source)
     expect_rejected("inline editor guard removed", layout_source,
                     renderer_source.replace("inlineEditUnchanged", "", 1),
+                    carousel_header, carousel_source)
+    expect_rejected("visible state guard bypassed", layout_source,
+                    renderer_source.replace(
+                        "inlineEditUnchanged && visibleStateUnchanged",
+                        "inlineEditUnchanged && true", 1),
+                    carousel_header, carousel_source)
+    expect_rejected("modal submitting guard removed", layout_source,
+                    renderer_source.replace(
+                        "state.submitting == rendered.submitting &&", "", 1),
                     carousel_header, carousel_source)
     expect_rejected("rendered inline editor update removed", layout_source,
                     renderer_source.replace("previousInlineEditField = state.inlineEditField;", "", 1),
@@ -1169,6 +1368,11 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
          center_source.replace("cancelBoundaryPulse(list);", "", 1)),
         ("boundary fixed-rest target removed",
          center_source.replace("list.pulseRestY + offset", "currentY + offset", 1)),
+        ("boundary track-travel takeover removed",
+         center_source.replace(
+             "if (firstRow && list.track != nullptr) lv_anim_del(list.track, setTrackY);",
+             "", 1
+         )),
         ("center-list refresh cadence removed",
          center_source.replace(
              "lv_timer_set_period(display->refr_timer, kCenterListRefreshPeriodMs);", "", 1
@@ -1223,6 +1427,11 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
          player_console_source.replace("nowMs - lastFrameMs >= kPerfSceneQuietMs", "true", 1)),
         ("clean checkpoint reboot removed",
          player_console_source.replace("esp_restart();", "", 1)),
+        ("carousel monitor scope cleanup removed",
+         player_console_source.replace(
+             "~CarouselPerfMonitorGuard() { restore(); }",
+             "~CarouselPerfMonitorGuard() = default;", 1
+         )),
     )
     for name, mutated_console in perf_mutations:
         expect_perf_rejected(name, mutated_console)
@@ -1253,6 +1462,8 @@ def main() -> int:
             fail("retained ui_carousel component files are missing")
         if not CENTER_LIST_HEADER_PATH.exists() or not CENTER_LIST_SOURCE_PATH.exists():
             fail("retained ui_center_list component files are missing")
+        if not MODAL_HEADER_PATH.exists() or not MODAL_SOURCE_PATH.exists():
+            fail("retained ui_modal component files are missing")
         carousel_header = CAROUSEL_HEADER_PATH.read_text(encoding="utf-8")
         carousel_source = CAROUSEL_SOURCE_PATH.read_text(encoding="utf-8")
         motion_source = MOTION_SOURCE_PATH.read_text(encoding="utf-8")

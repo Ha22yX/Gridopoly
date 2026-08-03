@@ -319,6 +319,60 @@ bool isVoluntaryMortgageCompletion(const AppState &state, const TransportEvent &
            event.assetMask == (static_cast<uint32_t>(1u) << state.selectedAsset);
 }
 
+bool isGenericModalCompletion(const AppState &state, const TransportEvent &event)
+{
+    if (event.kind != TransportEventKind::CommandCompleted ||
+        event.requestId == 0 || !state.modal.submitting) {
+        return false;
+    }
+    if (state.modal.kind == ModalKind::CollectRent) {
+        return event.requestId ==
+            state.pendingRequestIds[commandIndex(TransportCommandKind::ClaimRent)];
+    }
+    if (state.modal.kind == ModalKind::TradeCreate) {
+        return event.requestId ==
+            state.pendingRequestIds[commandIndex(TransportCommandKind::TradeCreate)];
+    }
+    return false;
+}
+
+bool isActiveModalRequest(const AppState &state, uint32_t requestId)
+{
+    if (requestId == 0 || !state.modal.submitting) return false;
+    switch (state.modal.kind) {
+        case ModalKind::CollectRent:
+            return requestId ==
+                state.pendingRequestIds[commandIndex(TransportCommandKind::ClaimRent)];
+        case ModalKind::TradeCreate:
+            return requestId ==
+                state.pendingRequestIds[commandIndex(TransportCommandKind::TradeCreate)];
+        case ModalKind::ForcedPayment:
+            return requestId ==
+                state.pendingRequestIds[commandIndex(TransportCommandKind::PayNow)];
+        case ModalKind::VoluntaryMortgage:
+            return requestId ==
+                state.pendingRequestIds[commandIndex(TransportCommandKind::MortgageBatchRequest)];
+        case ModalKind::DebtMortgageConfirm:
+            return requestId == state.debt.submittedMortgageRequestId &&
+                   requestId == state.pendingRequestIds[
+                       commandIndex(TransportCommandKind::MortgageBatchRequest)];
+        case ModalKind::None:
+            return false;
+    }
+    return false;
+}
+
+bool isForcedPaymentCompletion(const AppState &state, const TransportEvent &event)
+{
+    return event.kind == TransportEventKind::PaymentCompleted &&
+           state.modal.kind == ModalKind::ForcedPayment && state.modal.submitting &&
+           event.requestId != 0 &&
+           event.requestId ==
+               state.pendingRequestIds[commandIndex(TransportCommandKind::PayNow)] &&
+           (state.modal.transactionId == 0 ||
+            event.transactionId == state.modal.transactionId);
+}
+
 bool isMatchingBankruptcyResolution(const AppState &state, const TransportEvent &event)
 {
     return event.kind == TransportEventKind::BankruptcyResolved && state.debt.bankruptcyPending &&
@@ -362,7 +416,10 @@ void enterBankruptcy(AppState &state)
 void back(AppState &state)
 {
     if (state.modal.kind != ModalKind::None) {
-        if (state.modal.cancelAllowed && state.modal.focus == ModalFocus::Cancel) dismissModal(state);
+        if (state.modal.cancelAllowed && !state.modal.submitting &&
+            state.modal.focus == ModalFocus::Cancel) {
+            dismissModal(state);
+        }
         return;
     }
     if (!appCanNavigateBack(state)) return;
@@ -424,7 +481,7 @@ void activate(AppState &state, uint32_t nowMs)
     const uint8_t focus = state.nav.current.focus;
     if (appFocusIsFooter(state)) {
         if (page == ScreenPage::DebtAssets && appDebtCanConfirm(state)) {
-            showModal(state, ModalKind::DebtMortgageConfirm, true, "Confirm mortgages", "City Bank",
+            showModal(state, ModalKind::DebtMortgageConfirm, false, "Confirm mortgages", "City Bank",
                       "Mortgage selected assets", appDebtSelectedProceeds(state), state.debt.transactionId, 0);
             return;
         }
@@ -517,7 +574,9 @@ void beginPress(AppState &state, uint32_t nowMs)
     state.buttonHeld = true;
     state.buttonDownMs = nowMs;
     state.holdActionConsumed = false;
-    if (state.modal.kind != ModalKind::None) {
+    if (state.modal.kind != ModalKind::None && !state.modal.submitting &&
+        (state.modal.focus == ModalFocus::Confirm ||
+         state.modal.focus == ModalFocus::ResolveAssets)) {
         state.modal.holding = true;
         state.modal.holdStartMs = nowMs;
     }
@@ -527,10 +586,18 @@ void endPress(AppState &state, uint32_t nowMs)
 {
     if (!state.buttonHeld) return;
     const uint32_t heldMs = nowMs - state.buttonDownMs;
-    const bool consumed = state.holdActionConsumed;
+    bool consumed = state.holdActionConsumed;
     state.buttonHeld = false;
-    state.modal.holding = false;
     if (state.modal.kind != ModalKind::None) {
+        const bool canSubmit = state.modal.holding && !state.modal.submitting &&
+            (state.modal.focus == ModalFocus::Confirm ||
+             state.modal.focus == ModalFocus::ResolveAssets);
+        if (!consumed && canSubmit && heldMs >= kConfirmHoldMs) {
+            state.holdActionConsumed = true;
+            consumed = true;
+            submitModal(state, nowMs);
+        }
+        state.modal.holding = false;
         if (!consumed && heldMs <= kShortPressMaxMs && state.modal.cancelAllowed &&
             state.modal.focus == ModalFocus::Cancel) {
             dismissModal(state);
@@ -731,6 +798,11 @@ void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
             selectFooter(state, nowMs);
             return;
         case UiEventKind::Back:
+            if (state.modal.kind != ModalKind::None && state.modal.cancelAllowed &&
+                !state.modal.submitting) {
+                dismissModal(state);
+                return;
+            }
             back(state);
             return;
         case UiEventKind::HoldDown:
@@ -776,11 +848,16 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
 {
     const bool debtMortgageCompletion = isDebtMortgageCompletion(state, event);
     const bool voluntaryMortgageCompletion = isVoluntaryMortgageCompletion(state, event);
+    const bool genericModalCompletion = isGenericModalCompletion(state, event);
+    const bool forcedPaymentCompletion = isForcedPaymentCompletion(state, event);
     const bool matchingBankruptcyResolution = isMatchingBankruptcyResolution(state, event);
+    const bool matchingActiveModalRequest = isActiveModalRequest(state, event.requestId);
     if (state.debt.bankruptcyResolved) return;
     if (state.debt.bankruptcyPending && !matchingBankruptcyResolution) return;
     if (event.kind == TransportEventKind::MortgageBatchCompleted &&
         !debtMortgageCompletion && !voluntaryMortgageCompletion) return;
+    if (event.kind == TransportEventKind::CommandCompleted && !genericModalCompletion) return;
+    if (event.kind == TransportEventKind::PaymentCompleted && !forcedPaymentCompletion) return;
     if (event.kind == TransportEventKind::BankruptcyResolved && !matchingBankruptcyResolution) return;
     if (event.stateVersion != 0 && event.stateVersion < state.stateVersion) return;
     if (event.stateVersion > state.stateVersion) state.stateVersion = event.stateVersion;
@@ -792,7 +869,13 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                               event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::PayNow)];
     const bool matchesMortgageRequest = event.requestId != 0 &&
         event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::MortgageBatchRequest)];
-    clearPendingRequest(state, event.requestId);
+    const bool matchesAnyPendingRequest = event.requestId != 0 &&
+        (matchesPayNow || matchesMortgageRequest ||
+         event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::RollRequest)] ||
+         event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::ClaimRent)] ||
+         event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::TradeCreate)] ||
+         event.requestId == state.pendingRequestIds[commandIndex(TransportCommandKind::MoveManualConfirmRequest)]);
+    if (event.kind == TransportEventKind::CommandRejected && !matchesAnyPendingRequest) return;
 
     switch (event.kind) {
         case TransportEventKind::None:
@@ -813,27 +896,28 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
             touchRevision(state);
             return;
         case TransportEventKind::RollResult:
+            clearPendingRequest(state, event.requestId);
             if (event.playerPosition != 0) state.position = event.playerPosition;
             touchRevision(state);
             return;
         case TransportEventKind::MoveGuidanceStarted:
             return;
         case TransportEventKind::RfidPositionConfirmed:
+            clearPendingRequest(state, event.requestId);
             state.position = event.observedPosition != 0 ? event.observedPosition : event.targetPosition;
             touchRevision(state);
             return;
         case TransportEventKind::RfidPositionRejected:
+            clearPendingRequest(state, event.requestId);
             return;
         case TransportEventKind::PaymentRequired:
             showModal(state, ModalKind::ForcedPayment, false, "Payment required", event.targetName,
                       "Authority payment", event.amount, event.transactionId, event.deadlineMs);
             return;
         case TransportEventKind::PaymentCompleted:
+            clearPendingKind(state, TransportCommandKind::PayNow);
             state.money = event.cash;
-            if (state.modal.kind == ModalKind::ForcedPayment &&
-                (event.transactionId == 0 || event.transactionId == state.modal.transactionId)) {
-                dismissModal(state);
-            }
+            dismissModal(state);
             touchRevision(state);
             return;
         case TransportEventKind::DebtResolutionRequired:
@@ -870,8 +954,10 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                 showModal(state, ModalKind::ForcedPayment, false, "Payment required", "City Bank",
                           "Authority payment", state.debt.amountDue, state.debt.transactionId, nowMs + 10000);
             } else if (voluntaryMortgageCompletion) {
+                clearPendingKind(state, TransportCommandKind::MortgageBatchRequest);
                 state.money = event.cash;
                 dismissModal(state);
+                showToast(state, "Mortgage complete", nowMs);
             }
             touchRevision(state);
             return;
@@ -882,7 +968,19 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
             enterBankruptcy(state);
             touchRevision(state);
             return;
+        case TransportEventKind::CommandCompleted:
+            {
+                const ModalKind completedKind = state.modal.kind;
+                clearPendingRequest(state, event.requestId);
+                dismissModal(state);
+                showToast(state, completedKind == ModalKind::CollectRent
+                                     ? "Rent claimed"
+                                     : "Trade sent",
+                          nowMs);
+            }
+            return;
         case TransportEventKind::CommandRejected:
+            clearPendingRequest(state, event.requestId);
             if (matchesPayNow && event.error == TransportError::InsufficientCash &&
                 state.modal.kind == ModalKind::ForcedPayment) {
                 state.modal.submitting = false;
@@ -896,7 +994,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                 state.debt.submittedMortgageRequestId = 0;
                 state.debt.submittedMortgageMask = 0;
             }
-            if (state.modal.submitting) {
+            if (matchingActiveModalRequest && state.modal.submitting) {
                 state.modal.submitting = false;
                 touchRevision(state);
             }
@@ -908,6 +1006,10 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 {
     if (action == TouchAction::PressDown) { appHandleUiEvent(state, UiEvent{UiEventKind::HoldDown, 0}, nowMs); return; }
     if (action == TouchAction::PressUp) { appHandleUiEvent(state, UiEvent{UiEventKind::HoldUp, 0}, nowMs); return; }
+    if (action == TouchAction::Back) {
+        appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, nowMs);
+        return;
+    }
     if (state.modal.kind != ModalKind::None) return;
 
     const uint16_t raw = static_cast<uint16_t>(action);
@@ -934,7 +1036,10 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
         return;
     }
     if (action == TouchAction::Footer) {
-        appHandleUiEvent(state, UiEvent{UiEventKind::SelectFooter, 0}, nowMs);
+        const UiEventKind kind = state.nav.current.page == ScreenPage::DebtAssets
+                                     ? UiEventKind::SelectFooter
+                                     : UiEventKind::Back;
+        appHandleUiEvent(state, UiEvent{kind, 0}, nowMs);
         return;
     }
     if (raw >= 100 && raw <= 104) { appHandleUiEvent(state, UiEvent{UiEventKind::SelectHomeAction, static_cast<int16_t>(raw - 100)}, nowMs); return; }
@@ -987,6 +1092,7 @@ void appTick(AppState &state, uint32_t nowMs)
     if (state.modal.kind != ModalKind::None && state.modal.deadlineMs != 0 &&
         hasReachedDeadline(nowMs, state.modal.deadlineMs)) {
         if (state.modal.kind == ModalKind::CollectRent) {
+            if (state.modal.submitting) return;
             dismissModal(state);
             showToast(state, "收租超时，已放弃", nowMs);
             return;
@@ -1000,12 +1106,11 @@ void appTick(AppState &state, uint32_t nowMs)
     if (!state.buttonHeld || state.holdActionConsumed) return;
     const uint32_t heldMs = nowMs - state.buttonDownMs;
     if (state.modal.kind != ModalKind::None) {
-        if (heldMs >= kConfirmHoldMs) {
+        if (state.modal.holding && heldMs >= kConfirmHoldMs && !state.modal.submitting &&
+            (state.modal.focus == ModalFocus::Confirm ||
+             state.modal.focus == ModalFocus::ResolveAssets)) {
             state.holdActionConsumed = true;
-            if (state.modal.focus == ModalFocus::Confirm ||
-                state.modal.focus == ModalFocus::ResolveAssets) {
-                submitModal(state, nowMs);
-            }
+            submitModal(state, nowMs);
         }
         return;
     }
@@ -1023,7 +1128,9 @@ void appTick(AppState &state, uint32_t nowMs)
 
 uint16_t appHoldProgressPermille(const AppState &state, uint32_t nowMs)
 {
-    if (state.modal.kind == ModalKind::None || !state.modal.holding) return 0;
+    if (state.modal.kind == ModalKind::None) return 0;
+    if (state.modal.submitting) return 1000;
+    if (!state.modal.holding) return 0;
     const uint32_t elapsed = nowMs - state.modal.holdStartMs;
     return static_cast<uint16_t>(elapsed >= kConfirmHoldMs ? 1000 : elapsed * 1000 / kConfirmHoldMs);
 }

@@ -24,6 +24,7 @@ enum class TransportEventKind : uint8_t {
     DebtResolutionRequired,
     MortgageBatchCompleted,
     BankruptcyResolved,
+    CommandCompleted,
     CommandRejected,
 };
 

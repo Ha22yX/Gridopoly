@@ -39,11 +39,12 @@ bool ready = false;
 bool lvglReady = false;
 
 #if GRIDOPOLY_SELF_TEST == 1
-constexpr size_t kTestCapacity = 8192;
+constexpr size_t kTestCapacity = 16384;
 constexpr uint32_t kCarouselPerfTransitionMs = 220;
 constexpr uint32_t kCarouselPerfMinFrames = 6;
 constexpr uint32_t kCarouselPerfMinFps = 24;
 constexpr uint32_t kCarouselPerfMaxGapMs = 42;
+constexpr uint32_t kPerfMaxFirstFrameMs = 80;
 constexpr uint32_t kCarouselPerfObserveMs = 320;
 constexpr uint32_t kCarouselPerfRetargetMs = 80;
 constexpr uint32_t kCenterListPerfTransitionMs = 200;
@@ -68,6 +69,7 @@ RTC_NOINIT_ATTR SelfTestCheckpoint selfTestCheckpoint;
 struct CarouselPerfResult {
     uint32_t frames = 0;
     uint32_t fps = 0;
+    uint32_t firstFrameMs = 0;
     uint32_t maxGapMs = 0;
     uint32_t coverageMs = 0;
     uint16_t gaps[kPerfTraceCapacity]{};
@@ -95,6 +97,7 @@ struct CarouselPerfProbe {
     volatile uint32_t previousFrameMs = 0;
     volatile uint32_t lastFrameMs = 0;
     volatile uint32_t frames = 0;
+    volatile uint32_t firstFrameMs = 0;
     volatile uint32_t maxGapMs = 0;
     volatile uint16_t gaps[kPerfTraceCapacity]{};
     volatile uint16_t renderTimes[kPerfTraceCapacity]{};
@@ -115,18 +118,22 @@ uint32_t perfRevisionSeed = 1000;
 
 constexpr bool carouselPerfMeetsGate(uint32_t frames, uint32_t fps,
                                      uint32_t maxGapMs, uint32_t coverageMs,
-                                     uint32_t requiredCoverageMs = kCarouselPerfTransitionMs)
+                                     uint32_t requiredCoverageMs = kCarouselPerfTransitionMs,
+                                     uint32_t firstFrameMs = 0)
 {
     return frames >= kCarouselPerfMinFrames && fps >= kCarouselPerfMinFps &&
+           firstFrameMs <= kPerfMaxFirstFrameMs &&
            maxGapMs <= kCarouselPerfMaxGapMs &&
            requiredCoverageMs >= kCarouselPerfTransitionMs &&
            coverageMs >= requiredCoverageMs;
 }
 
 constexpr bool centerListPerfMeetsGate(uint32_t frames, uint32_t fps,
-                                       uint32_t maxGapMs, uint32_t coverageMs)
+                                       uint32_t maxGapMs, uint32_t coverageMs,
+                                       uint32_t firstFrameMs = 0)
 {
     return frames >= 5 && fps >= kCarouselPerfMinFps &&
+           firstFrameMs <= kPerfMaxFirstFrameMs &&
            maxGapMs <= kCarouselPerfMaxGapMs &&
            coverageMs >= kCenterListPerfTransitionMs;
 }
@@ -141,11 +148,15 @@ static_assert(carouselPerfMeetsGate(6, 24, 42, 220), "carousel performance bound
 static_assert(!carouselPerfMeetsGate(5, 24, 42, 220), "carousel frame count must span the transition");
 static_assert(!carouselPerfMeetsGate(6, 23, 42, 220), "carousel FPS floor must be enforced");
 static_assert(!carouselPerfMeetsGate(6, 24, 43, 220), "carousel frame gap ceiling must be enforced");
+static_assert(!carouselPerfMeetsGate(6, 24, 42, 220, 220, 81),
+              "carousel first-frame latency ceiling must be enforced");
 static_assert(!carouselPerfMeetsGate(6, 24, 42, 219), "carousel measurement must span 220ms");
 static_assert(carouselPerfMeetsGate(8, 24, 42, 300, 300),
               "retarget performance boundary must span both visible transitions");
 static_assert(centerListPerfMeetsGate(5, 24, 42, 200),
               "center-list performance boundary must pass");
+static_assert(!centerListPerfMeetsGate(5, 24, 42, 200, 81),
+              "center-list first-frame latency ceiling must be enforced");
 static_assert(kPerfRevisionStride > 2,
               "each performance scene needs revisions beyond its input sequence");
 static_assert(!perfCoverageReached(219, 0, 220),
@@ -162,7 +173,11 @@ void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixe
         const uint32_t gapMs = nowMs - carouselPerfProbe.previousFrameMs;
         carouselPerfProbe.previousFrameMs = nowMs;
         carouselPerfProbe.lastFrameMs = nowMs;
-        if (gapMs > carouselPerfProbe.maxGapMs) carouselPerfProbe.maxGapMs = gapMs;
+        if (carouselPerfProbe.frames == 0) {
+            carouselPerfProbe.firstFrameMs = gapMs;
+        } else if (gapMs > carouselPerfProbe.maxGapMs) {
+            carouselPerfProbe.maxGapMs = gapMs;
+        }
         if (carouselPerfProbe.frames < kPerfTraceCapacity) {
             const uint8_t index = static_cast<uint8_t>(carouselPerfProbe.frames);
             carouselPerfProbe.gaps[index] = static_cast<uint16_t>(gapMs);
@@ -179,6 +194,43 @@ void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixe
         carouselPerfProbe.previousMonitor(driver, renderMs, pixelCount);
     }
 }
+
+class CarouselPerfMonitorGuard {
+public:
+    bool install(lv_disp_t *target)
+    {
+        if (installed_ || target == nullptr || target->driver == nullptr ||
+            target->driver->monitor_cb == carouselPerfMonitor) {
+            return false;
+        }
+        display = target;
+        carouselPerfProbe.previousMonitor = display->driver->monitor_cb;
+        carouselPerfProbe.armed = true;
+        installed_ = true;
+        display->driver->monitor_cb = carouselPerfMonitor;
+        return true;
+    }
+
+    bool restore()
+    {
+        carouselPerfProbe.armed = false;
+        if (!installed_) return true;
+        const bool ownsMonitor = display != nullptr && display->driver != nullptr &&
+                                 display->driver->monitor_cb == carouselPerfMonitor;
+        if (ownsMonitor) {
+            display->driver->monitor_cb = carouselPerfProbe.previousMonitor;
+        }
+        display = nullptr;
+        installed_ = false;
+        return ownsMonitor;
+    }
+
+    ~CarouselPerfMonitorGuard() { restore(); }
+
+private:
+    lv_disp_t *display = nullptr;
+    bool installed_ = false;
+};
 
 void sceneSettleMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixelCount)
 {
@@ -282,6 +334,7 @@ bool retargetCarouselFixture(AppState &state)
 CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario)
 {
     CarouselPerfResult result{};
+    CarouselPerfMonitorGuard monitorGuard;
     if (!preparePerfScenario(state, scenario)) return result;
     if (!lvgl_port_lock(1000)) return result;
     lv_disp_t *display = lv_disp_get_default();
@@ -291,8 +344,8 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
         return result;
     }
 
-    carouselPerfProbe.previousMonitor = display->driver->monitor_cb;
     carouselPerfProbe.frames = 0;
+    carouselPerfProbe.firstFrameMs = 0;
     carouselPerfProbe.maxGapMs = 0;
     uiRendererResetTestStats();
     carouselPerfProbe.startedMs = millis();
@@ -303,8 +356,10 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
                : kCarouselPerfTransitionMs);
     carouselPerfProbe.previousFrameMs = carouselPerfProbe.startedMs;
     carouselPerfProbe.lastFrameMs = carouselPerfProbe.startedMs;
-    carouselPerfProbe.armed = true;
-    display->driver->monitor_cb = carouselPerfMonitor;
+    if (!monitorGuard.install(display)) {
+        lvgl_port_unlock();
+        return result;
+    }
     if (scenario == PerfScenario::WaitingReverseWrap) {
         appHandleInput(
             state,
@@ -333,9 +388,9 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
     delay(kCarouselPerfObserveMs);
 
     if (!lvgl_port_lock(1000)) return result;
-    carouselPerfProbe.armed = false;
-    display->driver->monitor_cb = carouselPerfProbe.previousMonitor;
+    scenarioCompleted = monitorGuard.restore() && scenarioCompleted;
     result.frames = carouselPerfProbe.frames;
+    result.firstFrameMs = carouselPerfProbe.firstFrameMs;
     result.maxGapMs = carouselPerfProbe.maxGapMs;
     result.coverageMs = carouselPerfProbe.lastFrameMs - carouselPerfProbe.startedMs;
     result.traceCount = static_cast<uint8_t>(
@@ -358,7 +413,8 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
                                  result.rebuildRenders == 0;
     if (scenario == PerfScenario::AssetsList) {
         result.passed = scenarioCompleted && incrementalOnly && centerListPerfMeetsGate(
-            result.frames, result.fps, result.maxGapMs, result.coverageMs
+            result.frames, result.fps, result.maxGapMs, result.coverageMs,
+            result.firstFrameMs
         );
     } else {
         const uint32_t requiredCoverage = scenario == PerfScenario::Retarget
@@ -366,7 +422,7 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
             : kCarouselPerfTransitionMs;
         result.passed = scenarioCompleted && incrementalOnly && carouselPerfMeetsGate(
             result.frames, result.fps, result.maxGapMs, result.coverageMs,
-            requiredCoverage
+            requiredCoverage, result.firstFrameMs
         );
     }
     return result;
@@ -375,10 +431,11 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
 void printPerfResult(const char *marker, const CarouselPerfResult &result)
 {
     esp_rom_printf(
-        "%s frames=%u fps=%u max_gap_ms=%u coverage_ms=%u incremental=%u rebuild=%u %s\n",
+        "%s frames=%u fps=%u first_frame_ms=%u max_gap_ms=%u coverage_ms=%u incremental=%u rebuild=%u %s\n",
         marker,
         static_cast<unsigned>(result.frames),
         static_cast<unsigned>(result.fps),
+        static_cast<unsigned>(result.firstFrameMs),
         static_cast<unsigned>(result.maxGapMs),
         static_cast<unsigned>(result.coverageMs),
         static_cast<unsigned>(result.incrementalRenders),

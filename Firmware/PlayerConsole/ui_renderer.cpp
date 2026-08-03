@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <lvgl.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "app_config.h"
 #include "app_state.h"
@@ -11,6 +12,7 @@
 #include "src/fonts/ui_fonts.h"
 #include "ui_carousel.h"
 #include "ui_center_list.h"
+#include "ui_modal.h"
 #include "ui_motion.h"
 #include "ui_primitives.h"
 
@@ -33,10 +35,9 @@ constexpr uint32_t kBlue = 0x58A7EB;
 lv_obj_t *root = nullptr;
 uint32_t renderedRevision = 0;
 uint32_t lastDynamicDrawMs = 0;
-lv_obj_t *modalFill = nullptr;
-lv_obj_t *modalCountdown = nullptr;
 UiCarousel homeCarousel{};
 UiCenterList centerList{};
+UiModal activeModal{};
 struct TapBinding {
     lv_obj_t *object;
     TouchAction action;
@@ -54,6 +55,7 @@ uint8_t previousFocus = 0;
 HomePhase previousHomePhase = HomePhase::Waiting;
 InlineEditField previousInlineEditField = InlineEditField::None;
 uint32_t previousBoundaryPulseRevision = 0;
+AppState previousRenderedState{};
 UiRendererTestStats rendererTestStats{};
 lv_style_transition_dsc_t pressTransition;
 const lv_style_prop_t pressTransitionProps[] = {
@@ -62,22 +64,6 @@ const lv_style_prop_t pressTransitionProps[] = {
     static_cast<lv_style_prop_t>(0),
 };
 
-constexpr UiRect childRect(UiRect absolute, UiRect parent)
-{
-    return UiRect{static_cast<int16_t>(absolute.x - parent.x),
-                  static_cast<int16_t>(absolute.y - parent.y), absolute.w, absolute.h};
-}
-
-constexpr UiRect modalChildRect(UiRect absolute)
-{
-    return childRect(absolute, kModalRect);
-}
-
-constexpr UiRect kModalTitle{120, 120, 240, 28};
-constexpr UiRect kModalAmount{128, 156, 224, 36};
-constexpr UiRect kModalDetail{120, 198, 240, 28};
-constexpr UiRect kModalCountdown{128, 230, 224, 20};
-constexpr UiRect kModalConfirmLabel{140, 272, 200, 32};
 constexpr UiRect kHomeTitle{70, 66, 340, 44};
 constexpr UiRect kHomeCashLabel{150, 132, 180, 22};
 constexpr UiRect kHomeCashAmount{70, 158, 340, 48};
@@ -120,23 +106,6 @@ const lv_img_dsc_t *lockedMarkerImage()
     }
     return &image;
 }
-
-constexpr bool rectInside(UiRect child, UiRect parent)
-{
-    return child.x >= parent.x && child.y >= parent.y &&
-           child.x + child.w <= parent.x + parent.w && child.y + child.h <= parent.y + parent.h;
-}
-
-static_assert(rectInside(kModalTitle, kModalRect) && rectInside(kModalAmount, kModalRect) &&
-              rectInside(kModalDetail, kModalRect) && rectInside(kModalCountdown, kModalRect) &&
-              rectInside(kModalConfirm, kModalRect) && rectInside(kModalConfirmLabel, kModalConfirm),
-              "modal children must remain inside their parent rectangles");
-static_assert(kModalTitle.y + kModalTitle.h <= kModalAmount.y &&
-              kModalAmount.y + kModalAmount.h <= kModalDetail.y &&
-              kModalDetail.y + kModalDetail.h <= kModalCountdown.y &&
-              kModalCountdown.y + kModalCountdown.h <= kModalConfirm.y &&
-              kModalConfirmLabel.y + kModalConfirmLabel.h <= kModalConfirm.y + kModalConfirm.h - 6,
-              "modal content bands must not overlap");
 
 void setAnimatedX(void *object, int32_t value)
 {
@@ -249,6 +218,66 @@ bool isCenterListPage(ScreenPage page)
 {
     return page == ScreenPage::Assets || page == ScreenPage::Players ||
            page == ScreenPage::DemoLab;
+}
+
+bool textStateUnchanged(const char *current, const char *rendered)
+{
+    if (current == rendered) return true;
+    if (current == nullptr || rendered == nullptr) return false;
+    return strcmp(current, rendered) == 0;
+}
+
+bool modalVisualStateUnchanged(const ModalState &state, const ModalState &rendered)
+{
+    if (state.kind != rendered.kind) return false;
+    if (state.kind == ModalKind::None) return true;
+    return state.focus == rendered.focus &&
+           state.cancelAllowed == rendered.cancelAllowed &&
+           state.holding == rendered.holding &&
+           state.submitting == rendered.submitting &&
+           state.insufficient == rendered.insufficient &&
+           state.transactionId == rendered.transactionId &&
+           state.deadlineMs == rendered.deadlineMs &&
+           state.holdStartMs == rendered.holdStartMs &&
+           state.amount == rendered.amount &&
+           textStateUnchanged(state.title, rendered.title) &&
+           textStateUnchanged(state.counterparty, rendered.counterparty) &&
+           textStateUnchanged(state.purpose, rendered.purpose);
+}
+
+bool samePageVisibleStateUnchanged(const AppState &state, const AppState &rendered)
+{
+    const bool assetFocusOnly = state.page == ScreenPage::Assets;
+    const bool playerFocusOnly = state.page == ScreenPage::Players;
+    const bool demoFocusOnly = state.page == ScreenPage::DemoLab;
+    return state.page == rendered.page &&
+           state.homePhase == rendered.homePhase &&
+           modalVisualStateUnchanged(state.modal, rendered.modal) &&
+           state.selectedAsset == rendered.selectedAsset &&
+           state.selectedPlayer == rendered.selectedPlayer &&
+           (assetFocusOnly || state.assetListIndex == rendered.assetListIndex) &&
+           (playerFocusOnly || state.playerListIndex == rendered.playerListIndex) &&
+           (demoFocusOnly || state.demoListIndex == rendered.demoListIndex) &&
+           state.debtListIndex == rendered.debtListIndex &&
+           state.tradeReceiver == rendered.tradeReceiver &&
+           state.tradeAmount == rendered.tradeAmount &&
+           state.inlineEditField == rendered.inlineEditField &&
+           state.tradeEntryMode == rendered.tradeEntryMode &&
+           state.money == rendered.money &&
+           state.position == rendered.position &&
+           state.turnsUntilYou == rendered.turnsUntilYou &&
+           state.authorityOnline == rendered.authorityOnline &&
+           state.debt.transactionId == rendered.debt.transactionId &&
+           state.debt.amountDue == rendered.debt.amountDue &&
+           state.debt.cashBefore == rendered.debt.cashBefore &&
+           state.debt.selectedMask == rendered.debt.selectedMask &&
+           state.debt.eligibleMask == rendered.debt.eligibleMask &&
+           state.debt.submittedMortgageRequestId == rendered.debt.submittedMortgageRequestId &&
+           state.debt.submittedMortgageMask == rendered.debt.submittedMortgageMask &&
+           state.debt.bankruptcyPending == rendered.debt.bankruptcyPending &&
+           state.debt.bankruptcyResolved == rendered.debt.bankruptcyResolved &&
+           state.toastUntilMs == rendered.toastUntilMs &&
+           textStateUnchanged(state.toast, rendered.toast);
 }
 
 uint8_t tradeFocusForAction(const AppState &state, TouchAction action)
@@ -623,49 +652,54 @@ void drawDebt(const AppState &state)
     drawFooter("返回", state.focus == 1);
 }
 
-void drawModal(const AppState &state, uint32_t nowMs)
+void applyModal(const AppState &state, uint32_t nowMs, bool create)
 {
     if (state.modal.kind == ModalKind::None) return;
-    lv_obj_t *shade = box(root, 0, 0, 480, 480, 0x000000, 0x000000, 0);
-    lv_obj_set_style_bg_opa(shade, LV_OPA_70, 0);
-    lv_obj_t *modal = uiBox(root, kModalRect, 0x101719, kGreen, 8);
-    if (modal == nullptr) return;
-    uiLabel(modal, state.modal.title, modalChildRect(kModalTitle), &lv_font_simsun_16_cjk, kText);
     char amount[32];
     snprintf(amount, sizeof(amount), "$ %ld", static_cast<long>(state.modal.amount));
-    uiLabel(modal, amount, modalChildRect(kModalAmount), &lv_font_montserrat_36, kGreen);
     char detail[96];
-    snprintf(detail, sizeof(detail), "%s · %s", state.modal.counterparty, state.modal.purpose);
-    uiLabel(modal, detail, modalChildRect(kModalDetail), &lv_font_simsun_16_cjk, kMuted);
-
-    const uint32_t remaining = appModalRemainingMs(state, nowMs);
+    snprintf(detail, sizeof(detail), "%s / %s", state.modal.counterparty,
+             state.modal.purpose);
+    char countdown[32] = "";
     if (state.modal.deadlineMs != 0) {
-        char countdown[32];
-        snprintf(countdown, sizeof(countdown), "剩余 %.1f 秒", remaining / 1000.0f);
-        modalCountdown = uiLabel(modal, countdown, modalChildRect(kModalCountdown),
-                                 &lv_font_simsun_16_cjk,
-                                 state.modal.kind == ModalKind::ForcedPayment ? kYellow : kMuted);
+        snprintf(countdown, sizeof(countdown), "%.1fs remaining",
+                 appModalRemainingMs(state, nowMs) / 1000.0f);
     }
+    const char *confirmText = state.modal.submitting
+        ? "SUBMITTING..."
+        : (state.modal.insufficient || state.modal.focus == ModalFocus::ResolveAssets
+               ? "RESOLVE ASSETS"
+               : "HOLD 1.2S TO CONFIRM");
+    const bool confirmFocused = state.modal.focus == ModalFocus::Confirm ||
+                                state.modal.focus == ModalFocus::ResolveAssets;
+    const UiModalView view{
+        state.modal.title,
+        amount,
+        detail,
+        countdown,
+        confirmText,
+        appHoldProgressPermille(state, nowMs),
+        state.modal.cancelAllowed && !state.modal.submitting,
+        confirmFocused,
+        state.modal.focus == ModalFocus::Cancel,
+        state.modal.submitting,
+        state.modal.insufficient,
+    };
+    if (create) uiModalCreate(activeModal, root, view);
+    else uiModalUpdate(activeModal, view);
+}
 
-    lv_obj_t *hold = uiBox(modal, modalChildRect(kModalConfirm), 0x172224, kGreen, 6);
-    if (hold == nullptr) return;
-    uiBindHold(hold);
-    const uint16_t progress = appHoldProgressPermille(state, nowMs);
-    modalFill = uiBox(hold, UiRect{0, static_cast<int16_t>(kModalConfirm.h - 6),
-                                   static_cast<int16_t>(kModalConfirm.w * progress / 1000), 6},
-                        0x20483E, kGreen, 3);
-    if (modalFill != nullptr) lv_obj_clear_flag(modalFill, LV_OBJ_FLAG_CLICKABLE);
-    uiLabel(hold, "按住 1.2 秒确认", childRect(kModalConfirmLabel, kModalConfirm),
-            &lv_font_simsun_16_cjk, kText);
+void drawModal(const AppState &state, uint32_t nowMs)
+{
+    applyModal(state, nowMs, true);
 }
 
 void rebuild(const AppState &state, uint32_t nowMs)
 {
-    modalFill = nullptr;
-    modalCountdown = nullptr;
     tapBindingCount = 0;
     uiCarouselDestroy(homeCarousel);
     uiCenterListDestroy(centerList);
+    uiModalDestroy(activeModal);
     lv_obj_clean(root);
     switch (state.page) {
         case ScreenPage::Home: drawHome(state); break;
@@ -684,16 +718,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
 
 void updateDynamic(const AppState &state, uint32_t nowMs)
 {
-    if (state.modal.kind == ModalKind::None) return;
-    if (modalFill != nullptr) {
-        const uint16_t progress = appHoldProgressPermille(state, nowMs);
-        lv_obj_set_width(modalFill, static_cast<int16_t>(kModalConfirm.w * progress / 1000));
-    }
-    if (modalCountdown != nullptr && state.modal.deadlineMs != 0) {
-        char countdown[32];
-        snprintf(countdown, sizeof(countdown), "剩余 %.1f 秒", appModalRemainingMs(state, nowMs) / 1000.0f);
-        lv_label_set_text(modalCountdown, countdown);
-    }
+    applyModal(state, nowMs, false);
 }
 
 } // namespace
@@ -727,11 +752,13 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         const bool homeActionsUnchanged = state.page != ScreenPage::Home ||
                                           state.homePhase == previousHomePhase;
         const bool inlineEditUnchanged = state.inlineEditField == previousInlineEditField;
+        const bool visibleStateUnchanged =
+            samePageVisibleStateUnchanged(state, previousRenderedState);
         const bool boundaryPulseChanged =
             state.boundaryPulseRevision != previousBoundaryPulseRevision;
         if (hasRenderedState && state.page == previousPage &&
             (state.focus != previousFocus || boundaryPulseChanged) &&
-            homeActionsUnchanged && inlineEditUnchanged) {
+            homeActionsUnchanged && inlineEditUnchanged && visibleStateUnchanged) {
             ++rendererTestStats.incrementalRenders;
             const uint8_t count = appFocusCount(state);
             focusMotion = static_cast<uint8_t>((previousFocus + 1) % count) == state.focus ? 1 : -1;
@@ -747,6 +774,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
             renderedRevision = state.revision;
             previousFocus = state.focus;
             previousBoundaryPulseRevision = state.boundaryPulseRevision;
+            previousRenderedState = state;
             lastDynamicDrawMs = nowMs;
             return;
         } else {
@@ -760,6 +788,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
         previousHomePhase = state.homePhase;
         previousInlineEditField = state.inlineEditField;
         previousBoundaryPulseRevision = state.boundaryPulseRevision;
+        previousRenderedState = state;
         hasRenderedState = true;
         lastDynamicDrawMs = nowMs;
         return;
@@ -783,10 +812,9 @@ void uiRendererResetForTest()
 {
     uiCarouselDestroy(homeCarousel);
     uiCenterListDestroy(centerList);
+    uiModalDestroy(activeModal);
     if (root != nullptr) lv_obj_clean(root);
     root = nullptr;
-    modalFill = nullptr;
-    modalCountdown = nullptr;
     renderedRevision = 0;
     lastDynamicDrawMs = 0;
     tapBindingCount = 0;
@@ -800,6 +828,7 @@ void uiRendererResetForTest()
     previousHomePhase = HomePhase::Waiting;
     previousInlineEditField = InlineEditField::None;
     previousBoundaryPulseRevision = 0;
+    previousRenderedState = AppState{};
     rendererTestStats = UiRendererTestStats{};
     uiSetEventSink(nullptr);
 }
@@ -819,6 +848,7 @@ void uiRendererShowFault(const char *code)
     if (root == nullptr && !uiRendererBegin()) return;
     uiCarouselDestroy(homeCarousel);
     uiCenterListDestroy(centerList);
+    uiModalDestroy(activeModal);
     lv_obj_clean(root);
     drawOuterRing(kRed);
     drawHeader("设备故障", "GRIDOPOLY");

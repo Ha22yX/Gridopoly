@@ -409,9 +409,10 @@ void uiCenterListBoundaryPulse(UiCenterList &list, int8_t direction,
     list.pulseRevision = revision;
     lv_obj_update_layout(target);
     cancelBoundaryPulse(list);
+    const int16_t currentY = lv_obj_get_y(target);
+    if (firstRow && list.track != nullptr) lv_anim_del(list.track, setTrackY);
     list.pulseTarget = target;
     list.pulseRestY = firstRow ? list.trackRestY : list.footerRestY;
-    const int16_t currentY = lv_obj_get_y(target);
     const int16_t offset = firstRow ? kTrackBoundaryPulsePx : kFooterBoundaryPulsePx;
     lv_anim_t animation;
     lv_anim_init(&animation);
