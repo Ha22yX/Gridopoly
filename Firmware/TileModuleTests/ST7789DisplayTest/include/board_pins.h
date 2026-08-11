@@ -19,6 +19,7 @@ inline constexpr std::uint8_t kSpiMode = 0;
 inline constexpr std::uint32_t kSpiFrequencyHz = 20'000'000;
 inline constexpr std::uint32_t kSerialBaud = 115'200;
 
+inline constexpr std::uint8_t kBacklightPwmChannel = 0;
 inline constexpr std::uint32_t kBacklightPwmFrequencyHz = 5'000;
 inline constexpr std::uint8_t kBacklightPwmResolutionBits = 8;
 inline constexpr std::uint8_t kBacklightTestDuty = 160;
