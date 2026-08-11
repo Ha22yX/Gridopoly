@@ -1,0 +1,107 @@
+#!/bin/bash
+set -euo pipefail
+
+AP_IFACE="${GRIDOPOLY_AP_IFACE:-ap0}"
+LEASE_FILE="${GRIDOPOLY_DHCP_LEASE_FILE:-/var/lib/misc/dnsmasq.leases}"
+FAIL_GRACE_SECONDS="${GRIDOPOLY_STALE_STATION_GRACE_SECONDS:-6}"
+RX_STALL_GRACE_SECONDS="${GRIDOPOLY_STALE_STATION_RX_GRACE_SECONDS:-10}"
+POLL_SECONDS="${GRIDOPOLY_STALE_STATION_POLL_SECONDS:-2}"
+
+declare -A failed_since=()
+declare -A last_rx_bytes=()
+declare -A rx_stalled_since=()
+
+valid_mac()
+{
+  [[ "$1" =~ ^([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}$ ]]
+}
+
+lease_mac_for_ip()
+{
+  local ip="$1"
+  [[ -r "$LEASE_FILE" ]] || return 1
+  awk -v wanted="$ip" '$3 == wanted { print tolower($2); exit }' "$LEASE_FILE"
+}
+
+while true; do
+  now=$(date +%s)
+  declare -A failed_now=()
+
+  while read -r ip mac; do
+    [[ -n "$ip" ]] || continue
+    if ! valid_mac "$mac"; then
+      mac=$(lease_mac_for_ip "$ip" || true)
+    fi
+    valid_mac "$mac" || continue
+    mac=${mac,,}
+    failed_now["$mac"]=1
+
+    if [[ -z "${failed_since[$mac]+set}" ]]; then
+      failed_since["$mac"]=$now
+      continue
+    fi
+    if (( now - failed_since[$mac] < FAIL_GRACE_SECONDS )); then
+      continue
+    fi
+
+    if /usr/sbin/iw dev "$AP_IFACE" station get "$mac" >/dev/null 2>&1; then
+      /usr/sbin/iw dev "$AP_IFACE" station del "$mac" || true
+      /usr/bin/logger -t gridopoly-ap-watchdog \
+        "evicted stale station mac=$mac ip=$ip grace=${FAIL_GRACE_SECONDS}s"
+    fi
+    /usr/sbin/ip neigh del "$ip" dev "$AP_IFACE" >/dev/null 2>&1 || true
+    unset 'failed_since[$mac]'
+  done < <(
+    /usr/sbin/ip neigh show dev "$AP_IFACE" | awk '
+      $NF == "FAILED" || $NF == "INCOMPLETE" {
+        mac = ""
+        for (i = 1; i <= NF; ++i) if ($i == "lladdr" && i < NF) mac = $(i + 1)
+        print $1, mac
+      }'
+  )
+
+  for mac in "${!failed_since[@]}"; do
+    [[ -n "${failed_now[$mac]+set}" ]] || unset 'failed_since[$mac]'
+  done
+
+  # A reset ESP32 can leave the neighbor entry in STALE rather than FAILED.
+  # Track per-station receive progress as a second, independent signal. A
+  # healthy console sends an authenticated heartbeat every two seconds, so
+  # ten seconds without a single received byte is not a normal idle state.
+  declare -A stations_now=()
+  while read -r mac rx_bytes; do
+    valid_mac "$mac" || continue
+    [[ "$rx_bytes" =~ ^[0-9]+$ ]] || continue
+    mac=${mac,,}
+    stations_now["$mac"]=1
+
+    if [[ -z "${last_rx_bytes[$mac]+set}" || "${last_rx_bytes[$mac]}" != "$rx_bytes" ]]; then
+      last_rx_bytes["$mac"]=$rx_bytes
+      unset 'rx_stalled_since[$mac]'
+      continue
+    fi
+    if [[ -z "${rx_stalled_since[$mac]+set}" ]]; then
+      rx_stalled_since["$mac"]=$now
+      continue
+    fi
+    if (( now - rx_stalled_since[$mac] < RX_STALL_GRACE_SECONDS )); then
+      continue
+    fi
+
+    /usr/sbin/iw dev "$AP_IFACE" station del "$mac" || true
+    /usr/bin/logger -t gridopoly-ap-watchdog \
+      "evicted stale station mac=$mac reason=rx-stalled grace=${RX_STALL_GRACE_SECONDS}s"
+    unset 'last_rx_bytes[$mac]' 'rx_stalled_since[$mac]' 'failed_since[$mac]'
+  done < <(
+    /usr/sbin/iw dev "$AP_IFACE" station dump | awk '
+      /^Station / { mac = tolower($2) }
+      /^[[:space:]]*rx bytes:/ && mac != "" { print mac, $3 }'
+  )
+
+  for mac in "${!last_rx_bytes[@]}"; do
+    if [[ -z "${stations_now[$mac]+set}" ]]; then
+      unset 'last_rx_bytes[$mac]' 'rx_stalled_since[$mac]'
+    fi
+  done
+  sleep "$POLL_SECONDS"
+done

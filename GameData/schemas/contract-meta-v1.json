@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gridopoly.dev/schemas/contract-meta-v1.json",
+  "title": "Gridopoly contract meta-schema v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_schema", "contract_name", "contract_version", "namespace", "definitions"],
+  "properties": {
+    "contract_schema": {"type": "integer", "minimum": 1},
+    "contract_name": {"type": "string", "minLength": 1},
+    "contract_version": {"type": "integer", "minimum": 1},
+    "namespace": {"type": "string", "minLength": 1},
+    "definitions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/definition"}}
+  },
+  "$defs": {
+    "integer_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {"min": {"type": "integer"}, "max": {"type": "integer"}}
+    },
+    "enum_member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "value": {"type": "integer"}}
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "fields"],
+      "properties": {
+        "id": {"type": "integer", "minimum": 1},
+        "name": {"type": "string", "minLength": 1},
+        "fields": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/field"}},
+        "stable_name": {"type": "string", "minLength": 1},
+        "critical": {"type": "boolean"},
+        "terminal_role": {"type": "string", "minLength": 1},
+        "visibility": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1},
+        "kind": {"type": "string", "minLength": 1}
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "type", "cardinality", "required"],
+      "properties": {
+        "id": {"type": "integer", "minimum": 1},
+        "name": {"type": "string", "minLength": 1},
+        "type": {"enum": ["U8", "I8", "U16", "I16", "U32", "I32", "U64", "I64", "BOOL", "BYTES", "UTF8", "RECORD", "RECORD_LIST", "U8_LIST", "U16_LIST", "U32_LIST"]},
+        "cardinality": {"enum": ["ONE", "OPTIONAL", "MANY"]},
+        "required": {"type": "boolean"},
+        "default": {},
+        "range": {"$ref": "#/$defs/integer_range"},
+        "max": {"type": "integer", "minimum": 1},
+        "enum": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/enum_member"}},
+        "record": {"type": "string", "minLength": 1},
+        "stable_name": {"type": "string", "minLength": 1},
+        "critical": {"type": "boolean"},
+        "private": {"type": "boolean"},
+        "visibility": {"type": "string", "minLength": 1},
+        "sort": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"type": {"enum": ["U8", "I8", "U16", "I16", "U32", "I32", "U64", "I64"]}}, "required": ["type"]},
+          "then": {"required": ["range"]}
+        },
+        {
+          "if": {"properties": {"type": {"enum": ["BYTES", "UTF8", "RECORD_LIST", "U8_LIST", "U16_LIST", "U32_LIST"]}}, "required": ["type"]},
+          "then": {"required": ["max"]}
+        },
+        {
+          "if": {"properties": {"type": {"enum": ["RECORD", "RECORD_LIST"]}}, "required": ["type"]},
+          "then": {"required": ["record"]}
+        },
+        {
+          "if": {"required": ["enum"]},
+          "then": {"properties": {"type": {"enum": ["U8", "I8", "U16", "I16", "U32", "I32", "U64", "I64"]}}}
+        }
+      ],
+      "oneOf": [
+        {"properties": {"type": {"const": "U8"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "I8"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "U16"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "I16"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "U32"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "I32"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "U64"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "I64"}, "default": {"type": "integer"}}, "not": {"anyOf": [{"required": ["max"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "BOOL"}, "default": {"type": "boolean"}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["max"]}, {"required": ["enum"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "BYTES"}, "default": {"type": "string", "pattern": "^(?:[0-9a-f]{2})*$"}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["enum"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "UTF8"}, "default": {"type": "string"}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["enum"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "RECORD"}, "default": {"type": "object"}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["max"]}, {"required": ["enum"]}]}},
+        {"properties": {"type": {"const": "RECORD_LIST"}, "default": {"type": "array", "items": {"type": "object"}}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["enum"]}]}},
+        {"properties": {"type": {"const": "U8_LIST"}, "default": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 255}}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["enum"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "U16_LIST"}, "default": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 65535}}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["enum"]}, {"required": ["record"]}]}},
+        {"properties": {"type": {"const": "U32_LIST"}, "default": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 4294967295}}}, "not": {"anyOf": [{"required": ["range"]}, {"required": ["enum"]}, {"required": ["record"]}]}}
+      ]
+    }
+  },
+  "x-gridopoly-normative-extensions": {
+    "source_loader_entry": "Tools.contracts.contract_model.load_json_value/load_contract",
+    "semantic_entry": "Tools.contracts.contract_model.validate_contract",
+    "rules": [
+      {"id": "source-duplicate-keys", "boundary": "source_loader"},
+      {"id": "unicode-scalar-values", "boundary": "semantic"},
+      {"id": "integer-only-numerics", "boundary": "semantic"},
+      {"id": "ascending-unique-ids", "boundary": "semantic"},
+      {"id": "unique-definition-and-field-names", "boundary": "semantic"},
+      {"id": "unique-enum-names-and-values", "boundary": "semantic"},
+      {"id": "nfc-identities", "boundary": "semantic"},
+      {"id": "wire-range-bounds", "boundary": "semantic"},
+      {"id": "enum-and-default-bounds", "boundary": "semantic"},
+      {"id": "bytes-hex-and-max", "boundary": "semantic"},
+      {"id": "utf8-byte-max", "boundary": "semantic"},
+      {"id": "list-count-and-elements", "boundary": "semantic"},
+      {"id": "record-target-and-acyclic", "boundary": "semantic"},
+      {"id": "record-default-completion", "boundary": "semantic"}
+    ]
+  }
+}

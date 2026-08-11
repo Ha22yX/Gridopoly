@@ -1,0 +1,44 @@
+#!/bin/sh
+set -eu
+
+UPLINK_IFACE="${GRIDOPOLY_UPLINK_IFACE:-wlan0}"
+AP_PARENT_IFACE="${GRIDOPOLY_AP_PARENT_IFACE:-$UPLINK_IFACE}"
+AP_IFACE="${GRIDOPOLY_AP_IFACE:-ap0}"
+AP_ADDRESS="${GRIDOPOLY_AP_ADDRESS:-10.42.0.1/24}"
+AP_CHANNEL="${GRIDOPOLY_AP_CHANNEL:-}"
+
+if [ "$AP_PARENT_IFACE" = "$UPLINK_IFACE" ]; then
+  if ! /usr/sbin/ip link show "$AP_IFACE" >/dev/null 2>&1; then
+    /usr/sbin/iw dev "$AP_PARENT_IFACE" interface add "$AP_IFACE" type __ap
+  fi
+  if [ -z "$AP_CHANNEL" ]; then
+    AP_CHANNEL=$(/usr/sbin/iw dev "$UPLINK_IFACE" info | /usr/bin/awk '$1 == "channel" {print $2; exit}')
+  fi
+else
+  AP_IFACE="$AP_PARENT_IFACE"
+  AP_CHANNEL="${AP_CHANNEL:-6}"
+fi
+
+test -n "$AP_CHANNEL"
+if command -v nmcli >/dev/null 2>&1; then
+  nmcli device set "$AP_IFACE" managed no >/dev/null 2>&1 || true
+fi
+/usr/sbin/ip link set "$AP_IFACE" down
+/usr/sbin/iw dev "$AP_IFACE" set type __ap
+/usr/sbin/ip link set "$AP_IFACE" up
+/usr/sbin/ip address replace "$AP_ADDRESS" dev "$AP_IFACE"
+/usr/bin/install -d -m 0755 /run/gridopoly
+umask 077
+{
+  printf 'interface=%s\n' "$AP_IFACE"
+  printf 'driver=nl80211\nssid=%s\n' "$GRIDOPOLY_AP_SSID"
+  printf 'hw_mode=g\nchannel=%s\ncountry_code=CN\nieee80211n=1\nwmm_enabled=1\n' "$AP_CHANNEL"
+  # Player consoles send an authenticated heartbeat every two seconds. A
+  # short inactivity limit keeps a reset console from leaving a stale kernel
+  # station behind for hostapd's five-minute default.
+  printf 'ap_max_inactivity=15\ndisassoc_low_ack=1\n'
+  printf 'auth_algs=1\nwpa=2\nwpa_key_mgmt=WPA-PSK\nrsn_pairwise=CCMP\n'
+  printf 'wpa_passphrase=%s\n' "$GRIDOPOLY_AP_PASSPHRASE"
+} >/run/gridopoly/hostapd.conf
+
+exec /usr/sbin/hostapd /run/gridopoly/hostapd.conf

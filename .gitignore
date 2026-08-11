@@ -1,4 +1,17 @@
 # Local EasyEDA API screen capture cache
 /.eda-current-screen.png
+/.tmp/
+/build/
 .superpowers/
 /Firmware/PlayerConsole/build/
+/Firmware/PlayerConsole/config/secrets.local.h
+/Firmware/TestGameServer/build/
+/Firmware/TestGameServer/runtime/
+/Firmware/TestGameServer/config/secrets.local.h
+/.local-secrets/
+/build-host*/
+/build-pi*/
+/Server/RaspberryPi/runtime/
+/*.obj
+**/__pycache__/
+*.pyc

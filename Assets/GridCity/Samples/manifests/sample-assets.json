@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "style": "flat-2d-isometric-cartoon-v1",
+  "palette": [
+    "#090E10",
+    "#EDF3F1",
+    "#52DCB7",
+    "#F2C453",
+    "#58A7EB",
+    "#EF7168"
+  ],
+  "assets": [
+    {
+      "id": "property_neon_harbor",
+      "source": "Assets\\GridCity\\Samples\\source\\property_neon_harbor_master.png",
+      "device_preview": "Assets\\GridCity\\Samples\\device\\property_neon_harbor_160.png",
+      "width": 160,
+      "height": 160,
+      "format": "LVGL_TRUE_COLOR_RGB565_LE",
+      "bytes": 51200,
+      "symbol": "asset_property_neon_harbor"
+    },
+    {
+      "id": "transit_cloudrail_central",
+      "source": "Assets\\GridCity\\Samples\\source\\transit_cloudrail_central_master.png",
+      "device_preview": "Assets\\GridCity\\Samples\\device\\transit_cloudrail_central_160.png",
+      "width": 160,
+      "height": 160,
+      "format": "LVGL_TRUE_COLOR_RGB565_LE",
+      "bytes": 51200,
+      "symbol": "asset_transit_cloudrail_central"
+    },
+    {
+      "id": "utility_quantum_grid",
+      "source": "Assets\\GridCity\\Samples\\source\\utility_quantum_grid_master.png",
+      "device_preview": "Assets\\GridCity\\Samples\\device\\utility_quantum_grid_160.png",
+      "width": 160,
+      "height": 160,
+      "format": "LVGL_TRUE_COLOR_RGB565_LE",
+      "bytes": 51200,
+      "symbol": "asset_utility_quantum_grid"
+    },
+    {
+      "id": "avatar_p1_lingxi",
+      "source": "Assets\\GridCity\\Samples\\source\\avatar_p1_lingxi_master.png",
+      "device_preview": "Assets\\GridCity\\Samples\\device\\avatar_p1_lingxi_128.png",
+      "width": 128,
+      "height": 128,
+      "format": "LVGL_TRUE_COLOR_RGB565_LE",
+      "bytes": 32768,
+      "symbol": "asset_avatar_p1_lingxi"
+    }
+  ],
+  "embedded_bytes": 186368
+}

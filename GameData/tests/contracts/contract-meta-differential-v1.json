@@ -1,0 +1,59 @@
+{
+  "corpus_schema": 1,
+  "same_accept": [
+    {
+      "id": "u8-minimal",
+      "document": {
+        "contract_schema": 1,
+        "contract_name": "differential",
+        "contract_version": 1,
+        "namespace": "gridopoly.differential",
+        "definitions": [
+          {
+            "id": 1,
+            "name": "root",
+            "fields": [
+              {"id": 1, "name": "value", "type": "U8", "cardinality": "ONE", "required": true, "range": {"min": 0, "max": 255}, "default": 0}
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "same_reject": [
+    {
+      "id": "bool-has-range",
+      "document": {
+        "contract_schema": 1,
+        "contract_name": "differential",
+        "contract_version": 1,
+        "namespace": "gridopoly.differential",
+        "definitions": [
+          {
+            "id": 1,
+            "name": "root",
+            "fields": [
+              {"id": 1, "name": "value", "type": "BOOL", "cardinality": "ONE", "required": true, "default": true, "range": {"min": 0, "max": 1}}
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "extension_only_reject": [
+    {
+      "id": "duplicate-definition-id",
+      "extension": "ascending-unique-ids",
+      "document": {
+        "contract_schema": 1,
+        "contract_name": "differential",
+        "contract_version": 1,
+        "namespace": "gridopoly.differential",
+        "definitions": [
+          {"id": 1, "name": "a", "fields": [{"id": 1, "name": "value", "type": "U8", "cardinality": "ONE", "required": true, "range": {"min": 0, "max": 255}, "default": 0}]},
+          {"id": 1, "name": "b", "fields": [{"id": 1, "name": "value", "type": "U8", "cardinality": "ONE", "required": true, "range": {"min": 0, "max": 255}, "default": 0}]}
+        ]
+      }
+    }
+  ]
+}

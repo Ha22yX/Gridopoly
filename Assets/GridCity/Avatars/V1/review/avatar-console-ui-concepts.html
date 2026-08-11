@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gridopoly Avatar Setup UI Concepts</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --page-bg: #080d12;
+      --panel-bg: #0e151d;
+      --screen-bg: #061017;
+      --surface: #101c25;
+      --surface-2: #14242e;
+      --line: #27414d;
+      --muted: #78909c;
+      --text: #f4f8fa;
+      --cyan: #45e0c4;
+      --cyan-soft: #163c3b;
+      --yellow: #f2c94c;
+      --player: #5dd7bd;
+      --danger: #ff7a70;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--page-bg);
+    }
+
+    button { font: inherit; }
+
+    .page {
+      width: min(1540px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 66px;
+      padding: 0 2px 20px;
+      border-bottom: 1px solid #1e2b34;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .recipe {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #0b131a;
+      color: #bdd0d8;
+      font-size: 12px;
+    }
+
+    .recipe-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--player);
+      box-shadow: 0 0 0 3px rgba(93, 215, 189, .12);
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(360px, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .concept {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid #25343e;
+      border-radius: 8px;
+      background: var(--panel-bg);
+    }
+
+    .concept-stage {
+      display: grid;
+      place-items: center;
+      min-height: 500px;
+      padding: 16px;
+      background: #0a1117;
+    }
+
+    .concept-meta {
+      min-height: 104px;
+      padding: 16px 18px 18px;
+      border-top: 1px solid #25343e;
+    }
+
+    .concept-meta h2 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .concept-meta p {
+      margin: 7px 0 0;
+      color: #91a4ad;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .screen {
+      position: relative;
+      width: min(100%, 460px);
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 11px solid #17232b;
+      border-radius: 50%;
+      background: var(--screen-bg);
+      box-shadow: 0 0 0 1px #314650, 0 14px 40px rgba(0, 0, 0, .34);
+      outline: none;
+      user-select: none;
+    }
+
+    .screen:focus-visible { box-shadow: 0 0 0 2px var(--cyan), 0 14px 40px rgba(0, 0, 0, .34); }
+
+    .screen::before,
+    .screen::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    .screen::before {
+      inset: 18px;
+      border: 2px solid var(--cyan);
+      opacity: .82;
+    }
+
+    .screen::after {
+      inset: 29px;
+      border: 1px solid #244c58;
+      opacity: .7;
+    }
+
+    .screen-header {
+      position: absolute;
+      z-index: 8;
+      top: 7.4%;
+      left: 24.2%;
+      width: 51.6%;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .screen-kicker {
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .screen-title {
+      margin-top: 5px;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .workspace {
+      position: absolute;
+      z-index: 4;
+      left: 10.5%;
+      top: 17.1%;
+      width: 79%;
+      height: 69.2%;
+    }
+
+    .editor {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 39%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: repeat(5, minmax(0, 1fr)) 1.16fr;
+      gap: 5px;
+      padding: 3px 0;
+    }
+
+    .preview-zone {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 57.5%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 10px;
+    }
+
+    .control-row,
+    .confirm-row {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid #29414d;
+      border-radius: 5px;
+      color: #bcd0d8;
+      background: #0b151c;
+      transition: border-color 150ms ease, background 150ms ease, opacity 150ms ease, transform 150ms ease;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) 20px;
+      align-items: center;
+      padding: 0 2px;
+      cursor: pointer;
+    }
+
+    .control-row:focus-visible,
+    .confirm-row:focus-visible { outline: 1px solid var(--cyan); outline-offset: -2px; }
+
+    .control-row.selected,
+    .confirm-row.selected {
+      border-color: var(--cyan);
+      background: #10262b;
+      color: var(--text);
+    }
+
+    .control-row.editing {
+      border-color: var(--yellow);
+      background: #2a2614;
+      box-shadow: inset 3px 0 0 var(--yellow);
+    }
+
+    .control-row[aria-disabled="true"] { opacity: .35; pointer-events: none; }
+
+    /* Follow the circular safe area instead of treating the editor as a rectangle. */
+    .editor .control-row:nth-child(1) {
+      width: calc(100% - 18px);
+      margin-left: 18px;
+    }
+
+    .editor .control-row:nth-child(2) {
+      width: calc(100% - 7px);
+      margin-left: 7px;
+    }
+
+    .editor .control-row:nth-child(3) { width: 100%; }
+
+    .editor .control-row:nth-child(4) {
+      width: calc(100% - 5px);
+      margin-left: 5px;
+    }
+
+    .editor .control-row:nth-child(5) {
+      width: calc(100% - 20px);
+      margin-left: 20px;
+    }
+
+    .step {
+      width: 20px;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      color: #66808b;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .selected .step { color: var(--cyan); }
+    .editing .step { color: var(--yellow); }
+
+    .row-copy {
+      min-width: 0;
+      padding: 0 2px;
+      text-align: left;
+    }
+
+    .row-label {
+      display: block;
+      overflow: hidden;
+      color: #718892;
+      font-size: 7px;
+      font-weight: 800;
+      line-height: 1.05;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .row-value {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+      margin-top: 3px;
+      overflow: hidden;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1.05;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .swatch {
+      flex: 0 0 auto;
+      width: 9px;
+      height: 9px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 2px;
+      background: var(--swatch, #999);
+    }
+
+    .confirm-row {
+      width: calc(100% - 43px);
+      margin-left: 43px;
+      padding: 0 8px;
+      border-color: #247d71;
+      background: #11322f;
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .confirm-row.confirmed {
+      border-color: #58717b;
+      background: #142028;
+      color: #d7e2e6;
+    }
+
+    .avatar-frame {
+      position: relative;
+      flex: 0 0 auto;
+      width: 112%;
+      aspect-ratio: 1;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    .avatar-frame.inspect { transform: scale(1.035); }
+
+    .avatar-frame.locked {
+      opacity: .92;
+      box-shadow: none;
+    }
+
+    .avatar-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 1;
+      transition: opacity 150ms ease;
+    }
+
+    .avatar-layer.loading { opacity: 0; }
+
+    .avatar-spinner {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      top: 50%;
+      width: 28px;
+      height: 28px;
+      margin: -14px 0 0 -14px;
+      border: 3px solid #23414b;
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      opacity: 0;
+      animation: spin .75s linear infinite;
+      pointer-events: none;
+    }
+
+    .avatar-frame.loading .avatar-spinner { opacity: 1; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .lock-badge {
+      position: absolute;
+      z-index: 6;
+      right: 13%;
+      bottom: 8%;
+      display: none;
+      min-width: 44px;
+      padding: 4px 7px;
+      border: 1px solid var(--yellow);
+      border-radius: 4px;
+      background: #18190d;
+      color: var(--yellow);
+      font-size: 8px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .avatar-frame.locked .lock-badge { display: block; }
+
+    .identity {
+      width: 100%;
+      margin-top: 7px;
+      text-align: center;
+    }
+
+    .player-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .player-color {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--player);
+    }
+
+    .ready-state {
+      margin-top: 3px;
+      color: #7e99a4;
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .confirmed .ready-state { color: var(--yellow); }
+
+    /* Concept B: the focused slot reads like a mechanical dial station. */
+    .concept-b .editor {
+      left: -17px;
+      width: calc(39% + 17px);
+      gap: 4px;
+    }
+
+    /* Keep the right edge fixed while the left edge traces the screen arc. */
+    .concept-b .editor .control-row:nth-child(1) {
+      width: calc(100% - 35px);
+      margin-left: 35px;
+    }
+
+    .concept-b .editor .control-row:nth-child(2) {
+      width: calc(100% - 23px);
+      margin-left: 23px;
+    }
+
+    .concept-b .editor .control-row:nth-child(3) {
+      width: calc(100% - 7px);
+      margin-left: 7px;
+    }
+
+    .concept-b .editor .control-row:nth-child(4) {
+      width: calc(100% - 15px);
+      margin-left: 15px;
+    }
+
+    .concept-b .editor .control-row:nth-child(5) {
+      width: calc(100% - 33px);
+      margin-left: 33px;
+    }
+
+    .concept-b .editor .confirm-row {
+      width: calc(100% - 55px);
+      margin-left: 55px;
+    }
+
+    .concept-b .control-row {
+      grid-template-columns: 22px minmax(0, 1fr) 17px;
+      padding: 0;
+      border-color: transparent;
+      border-bottom-color: #243640;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .concept-b .control-row.selected {
+      border: 1px solid var(--cyan);
+      border-radius: 5px;
+      background: #10262b;
+      transform: translateX(3px);
+    }
+
+    .concept-b .control-row.editing { border-color: var(--yellow); background: #2a2614; }
+    .concept-b .step:first-child { font-size: 0; }
+    .concept-b .step:first-child::after { content: attr(data-index-label); font-size: 9px; font-weight: 800; }
+    .concept-b .row-label { font-size: 6px; }
+    .concept-b .row-value { font-size: 10px; }
+    .concept-b .confirm-row { border-radius: 3px; }
+
+    /* Concept C: compact swatch-led deck for touch recognition. */
+    .concept-c .editor { gap: 6px; }
+    .concept-c .control-row {
+      grid-template-columns: 24px minmax(0, 1fr) 16px;
+      padding: 0 3px;
+      border-color: #213943;
+      background: #0d1921;
+    }
+
+    .concept-c .control-row::before {
+      content: attr(data-code);
+      display: grid;
+      place-items: center;
+      width: 19px;
+      height: 19px;
+      border: 1px solid #35525e;
+      border-radius: 3px;
+      color: #87a4af;
+      background: #111f27;
+      font-size: 7px;
+      font-weight: 800;
+    }
+
+    .concept-c .control-row.selected::before { border-color: var(--cyan); color: var(--cyan); }
+    .concept-c .control-row.editing::before { border-color: var(--yellow); color: var(--yellow); }
+    .concept-c .step:first-child { display: none; }
+    .concept-c .row-label { display: none; }
+    .concept-c .row-value { margin-top: 0; font-size: 9px; }
+    .concept-c .confirm-row { border-radius: 5px; }
+
+    .page-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #22313a;
+      border-radius: 6px;
+      color: #8297a1;
+      background: #0b1218;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .page-note strong { color: #cfe0e6; }
+
+    @media (max-width: 1220px) {
+      .concept-grid { grid-template-columns: repeat(2, minmax(360px, 1fr)); }
+    }
+
+    @media (max-width: 800px) {
+      .page { width: min(100% - 20px, 560px); padding-top: 18px; }
+      .topbar { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .recipe { width: 100%; justify-content: center; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .concept-stage { min-height: auto; padding: 14px; }
+      .page-note { flex-direction: column; gap: 7px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <h1>Avatar Setup / Console UI Study</h1>
+        <p class="subtitle">Three 480 x 480 layouts using the same live avatar recipe.</p>
+      </div>
+      <div class="recipe" aria-live="polite">
+        <span class="recipe-dot"></span>
+        <span id="recipeText">H01 / Graphite / F01 / Warm / O01</span>
+      </div>
+    </header>
+
+    <section class="concept-grid" aria-label="Avatar setup concepts">
+      <article class="concept concept-a">
+        <div class="concept-stage"><div class="screen" data-concept="a" tabindex="0"></div></div>
+        <div class="concept-meta">
+          <h2>A. Precision Rail</h2>
+          <p>Fixed six-slot instrument panel. The clearest hierarchy and the most predictable rotary path.</p>
+        </div>
+      </article>
+
+      <article class="concept concept-b">
+        <div class="concept-stage"><div class="screen" data-concept="b" tabindex="0"></div></div>
+        <div class="concept-meta">
+          <h2>B. Focus Stack</h2>
+          <p>Numbered dial stations make the active category unmistakable without moving any slot.</p>
+        </div>
+      </article>
+
+      <article class="concept concept-c">
+        <div class="concept-stage"><div class="screen" data-concept="c" tabindex="0"></div></div>
+        <div class="concept-meta">
+          <h2>C. Swatch Deck</h2>
+          <p>Visual category chips and stronger color cues improve touch scanning on the compact panel.</p>
+        </div>
+      </article>
+    </section>
+
+    <div class="page-note">
+      <span><strong>Shared state:</strong> changing any concept updates all three previews.</span>
+      <span><strong>Input model:</strong> wheel moves focus; press a row to edit; wheel again changes its value.</span>
+    </div>
+  </main>
+
+  <script>
+    const catalog = {
+      hair: [
+        ["h01", "Angular crop"], ["h02", "Asymmetric bob"], ["h03", "Textured quiff"],
+        ["h04", "Curly fade"], ["h05", "Classic side part"], ["h06", "Short coils"],
+        ["h07", "Shoulder waves"], ["h08", "Braided crown"], ["h09", "High bun"],
+        ["h10", "Long straight"]
+      ],
+      hairColor: [
+        ["graphite", "Graphite", "#68747c"], ["copper", "Copper", "#b0532b"],
+        ["raven", "Raven", "#28303a"], ["espresso", "Espresso", "#50372f"],
+        ["chestnut", "Chestnut", "#8e5a3c"], ["golden", "Golden", "#d1a44f"],
+        ["platinum", "Platinum", "#d8ccb0"], ["city-teal", "City teal", "#2d848a"]
+        , ["ash-brown", "Ash brown", "#705c52"], ["auburn", "Auburn", "#8b362a"]
+        , ["mahogany", "Mahogany", "#682a2c"], ["honey-blonde", "Honey blonde", "#c8974e"]
+        , ["strawberry-blonde", "Strawberry blonde", "#d58b5c"], ["silver", "Silver", "#a6b2bc"]
+        , ["snow-white", "Snow white", "#ebeaea"], ["burgundy", "Burgundy", "#75253f"]
+        , ["rose-pink", "Rose pink", "#c25577"], ["violet", "Violet", "#6f4ea0"]
+        , ["cobalt-blue", "Cobalt blue", "#375da8"], ["emerald", "Emerald", "#307d5b"]
+      ],
+      face: [
+        ["f01", "Angular oval"], ["f02", "Soft square"], ["f03", "Round youthful"],
+        ["f04", "Heart taper"], ["f05", "Elegant oblong"], ["f06", "Diamond angular"],
+        ["f07", "Broad strong"], ["f08", "Soft triangle"], ["f09", "Narrow refined"],
+        ["f10", "Mature sculpted"]
+      ],
+      skin: [
+        ["porcelain", "Porcelain", "#efcaad"], ["fair", "Fair", "#e8b58b"],
+        ["warm", "Warm", "#e09e64"], ["golden", "Golden", "#ca8d52"],
+        ["olive", "Olive", "#ad8053"], ["bronze", "Bronze", "#a1603e"],
+        ["deep", "Deep", "#895338"], ["ebony", "Ebony", "#5b352a"]
+      ],
+      outfit: [
+        ["o01", "Utility bomber"], ["o02", "Operations jacket"], ["o03", "Streetline hoodie"],
+        ["o04", "Metro varsity"], ["o05", "Civic blazer"], ["o06", "Workshop vest"],
+        ["o07", "Signal knit"], ["o08", "Denim commuter"], ["o09", "Rainline shell"],
+        ["o10", "Gala tailored"]
+      ]
+    };
+
+    const controls = [
+      { key: "hair", label: "HAIR", code: "H" },
+      { key: "hairColor", label: "HAIR COLOR", code: "HC" },
+      { key: "face", label: "FACE", code: "F" },
+      { key: "skin", label: "SKIN TONE", code: "S" },
+      { key: "outfit", label: "OUTFIT", code: "O" }
+    ];
+
+    const state = {
+      hair: 0,
+      hairColor: 0,
+      face: 0,
+      skin: 2,
+      outfit: 0,
+      focus: 0,
+      editing: false,
+      confirmed: false,
+      ready: 1,
+      total: 5
+    };
+
+    const screens = [...document.querySelectorAll(".screen")];
+
+    function current(key) { return catalog[key][state[key]]; }
+
+    function avatarSources() {
+      const hair = current("hair")[0];
+      const hairColor = current("hairColor")[0];
+      const face = current("face")[0];
+      const skin = current("skin")[0];
+      const outfit = current("outfit")[0];
+      return {
+        face: `../device/layers/face/${face}-${skin}.png`,
+        outfit: `../device/layers/outfit/${outfit}.png`,
+        hair: `../device/layers/hair/${hair}-${hairColor}.png`
+      };
+    }
+
+    function rowMarkup(control, index, concept) {
+      const item = current(control.key);
+      const swatch = item[2] ? `<span class="swatch" style="--swatch:${item[2]}"></span>` : "";
+      const selected = state.focus === index ? " selected" : "";
+      const editing = selected && state.editing ? " editing" : "";
+      const disabled = state.confirmed ? "true" : "false";
+      const indexText = concept === "b" ? String(index + 1).padStart(2, "0") : "";
+      return `
+        <div class="control-row${selected}${editing}" role="button" tabindex="0"
+             aria-disabled="${disabled}" data-index="${index}" data-code="${control.code}">
+          <button class="step" data-step="-1" data-index="${index}" data-index-label="${indexText}" aria-label="Previous ${control.label}">‹</button>
+          <div class="row-copy">
+            <span class="row-label">${control.label}</span>
+            <span class="row-value">${swatch}<span>${item[1]}</span></span>
+          </div>
+          <button class="step" data-step="1" data-index="${index}" aria-label="Next ${control.label}">›</button>
+        </div>`;
+    }
+
+    function screenMarkup(screen) {
+      const concept = screen.dataset.concept;
+      const rows = controls.map((control, index) => rowMarkup(control, index, concept)).join("");
+      const confirmSelected = state.focus === 5 ? " selected" : "";
+      const confirmClass = state.confirmed ? " confirmed" : "";
+      const sources = avatarSources();
+      return `
+        <div class="screen-header">
+          <div class="screen-kicker">PLAYER 1 / JOINED</div>
+          <div class="screen-title">AVATAR SETUP</div>
+        </div>
+        <div class="workspace">
+          <div class="editor">
+            ${rows}
+            <button class="confirm-row${confirmSelected}${confirmClass}" data-confirm>${state.confirmed ? "EDIT" : "CONFIRM"}</button>
+          </div>
+          <div class="preview-zone">
+            <div class="avatar-frame${state.confirmed ? " locked" : ""}" data-preview>
+              <img class="avatar-layer" data-layer="face" src="${sources.face}" alt="">
+              <img class="avatar-layer" data-layer="outfit" src="${sources.outfit}" alt="">
+              <img class="avatar-layer" data-layer="hair" src="${sources.hair}" alt="">
+              <span class="avatar-spinner" aria-hidden="true"></span>
+              <span class="lock-badge">LOCKED</span>
+            </div>
+            <div class="identity">
+              <div class="player-name"><span class="player-color"></span>GRID-P1</div>
+              <div class="ready-state">${state.confirmed ? "READY" : "EDITING"} ${state.ready} / ${state.total}</div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function updateRecipe() {
+      document.querySelector("#recipeText").textContent = [
+        current("hair")[0].toUpperCase(), current("hairColor")[1],
+        current("face")[0].toUpperCase(), current("skin")[1], current("outfit")[0].toUpperCase()
+      ].join(" / ");
+    }
+
+    function bindScreen(screen) {
+      screen.querySelectorAll(".control-row").forEach(row => {
+        row.addEventListener("click", event => {
+          if (event.target.closest(".step") || state.confirmed) return;
+          const index = Number(row.dataset.index);
+          state.editing = state.focus === index ? !state.editing : true;
+          state.focus = index;
+          render();
+        });
+        row.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            row.click();
+          }
+        });
+      });
+
+      screen.querySelectorAll(".step").forEach(button => {
+        button.addEventListener("click", event => {
+          event.stopPropagation();
+          if (state.confirmed) return;
+          const index = Number(button.dataset.index);
+          state.focus = index;
+          state.editing = true;
+          changeValue(index, Number(button.dataset.step));
+        });
+      });
+
+      screen.querySelector("[data-confirm]").addEventListener("click", () => {
+        state.focus = 5;
+        state.editing = false;
+        state.confirmed = !state.confirmed;
+        render();
+      });
+
+      screen.querySelector("[data-preview]").addEventListener("click", event => {
+        const frame = event.currentTarget;
+        frame.classList.add("inspect");
+        window.setTimeout(() => frame.classList.remove("inspect"), 180);
+      });
+
+      screen.querySelectorAll(".avatar-layer").forEach(image => {
+        if (!image.complete) {
+          image.classList.add("loading");
+          image.closest(".avatar-frame").classList.add("loading");
+        }
+        image.addEventListener("load", () => {
+          image.classList.remove("loading");
+          const frame = image.closest(".avatar-frame");
+          if (![...frame.querySelectorAll(".avatar-layer")].some(layer => layer.classList.contains("loading"))) {
+            frame.classList.remove("loading");
+          }
+        });
+        image.addEventListener("error", () => image.closest(".avatar-frame").classList.add("loading"));
+      });
+    }
+
+    function changeValue(index, delta) {
+      const key = controls[index].key;
+      state[key] = (state[key] + delta + catalog[key].length) % catalog[key].length;
+      render();
+    }
+
+    function moveFocus(delta) {
+      state.focus = (state.focus + delta + 6) % 6;
+      state.editing = false;
+      render();
+    }
+
+    function render() {
+      document.body.classList.toggle("confirmed", state.confirmed);
+      screens.forEach(screen => {
+        const active = document.activeElement === screen;
+        screen.innerHTML = screenMarkup(screen);
+        bindScreen(screen);
+        if (active) screen.focus({ preventScroll: true });
+      });
+      updateRecipe();
+    }
+
+    screens.forEach(screen => {
+      screen.addEventListener("wheel", event => {
+        event.preventDefault();
+        const delta = event.deltaY > 0 ? 1 : -1;
+        if (!state.confirmed && state.editing && state.focus < 5) changeValue(state.focus, delta);
+        else moveFocus(delta);
+      }, { passive: false });
+
+      screen.addEventListener("keydown", event => {
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+          event.preventDefault();
+          if (!state.confirmed && state.editing && state.focus < 5) changeValue(state.focus, 1);
+          else moveFocus(1);
+        }
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          if (!state.confirmed && state.editing && state.focus < 5) changeValue(state.focus, -1);
+          else moveFocus(-1);
+        }
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (state.focus === 5) {
+            state.confirmed = !state.confirmed;
+            state.editing = false;
+          } else if (!state.confirmed) {
+            state.editing = !state.editing;
+          }
+          render();
+        }
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>

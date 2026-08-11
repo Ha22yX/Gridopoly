@@ -1,0 +1,20 @@
+[Unit]
+Description=Gridopoly stale player station watchdog
+After=gridopoly-ap.service gridopoly-dnsmasq.service
+Requires=gridopoly-ap.service gridopoly-dnsmasq.service
+Before=gridopoly.service
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/gridopoly/ap.env
+ExecStart=/usr/local/libexec/gridopoly-ap-watchdog
+Restart=always
+RestartSec=2
+CapabilityBoundingSet=CAP_NET_ADMIN
+AmbientCapabilities=CAP_NET_ADMIN
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

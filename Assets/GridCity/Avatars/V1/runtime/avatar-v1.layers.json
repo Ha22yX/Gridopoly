@@ -1,0 +1,2624 @@
+{
+  "schema": 1,
+  "sourceManifest": "avatar-layers.manifest.json",
+  "sourceManifestSha256": "d9ddf0d8041275475b1cb46eb6bf1de08849446b20c84e86a4b0523b202c2397",
+  "pack": "avatar-v1.layers",
+  "packSha256": "6e87c7dd5351ed81e7bb39b9ed24286d743fcb7cb70ccb78b707d563d88d26cd",
+  "width": 320,
+  "height": 320,
+  "entryCount": 290,
+  "rawBytes": 118784000,
+  "packBytes": 15423600,
+  "entries": [
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 1,
+      "source": "device/layers/face/f01-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67846,
+      "rgbaSha256": "64f67fc1d97561d2075a7a90eaee795044a4aeb42d1b8ff3c20a081045699f12"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 2,
+      "source": "device/layers/face/f01-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67346,
+      "rgbaSha256": "a3054323f5bd08703007583b31cf9d8548e6f3e3f93518aa05fab230917c094a"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 3,
+      "source": "device/layers/face/f01-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67906,
+      "rgbaSha256": "edc6e5816ce49a700e74f5ddc56c2e32102040963a9555225dbb6f027069c0ac"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 4,
+      "source": "device/layers/face/f01-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 65610,
+      "rgbaSha256": "ea291ce9dc1e39116c297d04cba2026fd4555fc4dea869210b556e9f8a03a130"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 5,
+      "source": "device/layers/face/f01-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 63712,
+      "rgbaSha256": "ede8b3547528809d1624c9063b157a32d010f42db688104da5ec8f80853bede3"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 6,
+      "source": "device/layers/face/f01-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 61062,
+      "rgbaSha256": "55931f283c349fd21c3411967bb92da17e688c496862b8cda4b0bec4bf06172d"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 7,
+      "source": "device/layers/face/f01-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 58544,
+      "rgbaSha256": "8cfd824fd8d8de45060a99e6cb6f368bd92074de1c39d9db6e8f3a204bbe3e64"
+    },
+    {
+      "kind": 1,
+      "preset": 1,
+      "variant": 8,
+      "source": "device/layers/face/f01-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 53916,
+      "rgbaSha256": "b344a035b33a8ffa8f9c8cbe8f1e464f75750c6af5dd204f0fe7cc37887174a3"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 1,
+      "source": "device/layers/face/f02-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 77104,
+      "rgbaSha256": "3a68bc3ed1e1671ea01f4765c2639c5263e6dde2afaab1017c4c0b337ba023a9"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 2,
+      "source": "device/layers/face/f02-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 75292,
+      "rgbaSha256": "ea6467ee98911505ed492680d4b72439743a1abffda5e74d2e504e427b07e7fd"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 3,
+      "source": "device/layers/face/f02-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73286,
+      "rgbaSha256": "2328546c758afd386a7fd89233a7fe8166243a56683877f927ad427a8a5e235c"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 4,
+      "source": "device/layers/face/f02-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73676,
+      "rgbaSha256": "484a5b6e77db5411ac4da2ac00ea8eff8493d36167a9778b9b1d57a20375e039"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 5,
+      "source": "device/layers/face/f02-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72766,
+      "rgbaSha256": "173e25c99212485a12248c9cd7b04d6ca326dc7e4a7c07f97f8b7c3e0a81a16f"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 6,
+      "source": "device/layers/face/f02-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69278,
+      "rgbaSha256": "5d8dcac3ab16af109004fb381c3c8af4c29e71619460d3f23d87c30fd737166c"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 7,
+      "source": "device/layers/face/f02-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 64504,
+      "rgbaSha256": "d9964aa14e24f5ec5b906419a8244a52360de85f95d499ef0eed473884e18e7b"
+    },
+    {
+      "kind": 1,
+      "preset": 2,
+      "variant": 8,
+      "source": "device/layers/face/f02-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 61274,
+      "rgbaSha256": "7c5f03310cb7745cbee13302f64f9f39cc6cc6d98f8c68330d0e0a076f8be729"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 1,
+      "source": "device/layers/face/f03-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70820,
+      "rgbaSha256": "2ca778be1b88da0bf60602fc82124b856cf495fb204d19161e8714da5a917110"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 2,
+      "source": "device/layers/face/f03-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70528,
+      "rgbaSha256": "05769721b637a8b0e84ae53836be89a8ae16d257ed690f8aad54871fd8c9f02b"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 3,
+      "source": "device/layers/face/f03-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69020,
+      "rgbaSha256": "ae5eb5df6651241b96ab61d63af6216210cd6e1c0b051122991a314b59ecf925"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 4,
+      "source": "device/layers/face/f03-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68802,
+      "rgbaSha256": "43d94fe6f1e1a9e0be3d4057ee07e1ac30509234feff799e3828e0d016b117ef"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 5,
+      "source": "device/layers/face/f03-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67944,
+      "rgbaSha256": "d5ace7e817a41f31b568823b3f44a0d32b728c0a4eff36ae369d95abd4317477"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 6,
+      "source": "device/layers/face/f03-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 65936,
+      "rgbaSha256": "6d67fd5f277c130276e75326b142e714b3b3c01eb5def6583deb1d0c059551f2"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 7,
+      "source": "device/layers/face/f03-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 62594,
+      "rgbaSha256": "3d8531568981bb5ff80e195783bbc2ae92aaa1c21d852e7b3ab6b8e9558d51ec"
+    },
+    {
+      "kind": 1,
+      "preset": 3,
+      "variant": 8,
+      "source": "device/layers/face/f03-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56242,
+      "rgbaSha256": "0e55f5d36fc408de5ed8039a43d11b33245c8af4744c041ba33deca362a1dfb6"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 1,
+      "source": "device/layers/face/f04-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71128,
+      "rgbaSha256": "79a330943d19b9a9dfca6ff3150112a7ca91464c99bb73358c3ab3f6131f9d00"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 2,
+      "source": "device/layers/face/f04-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71158,
+      "rgbaSha256": "a8bf4fd2eb537b1461eca2bdeea89c70db8e25f3e3b40012e33edcb3b6dd8a7a"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 3,
+      "source": "device/layers/face/f04-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71402,
+      "rgbaSha256": "7270bb69143abea56781ae0efa01d6453105c151f261e6d222a03dd0602ea6e7"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 4,
+      "source": "device/layers/face/f04-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69564,
+      "rgbaSha256": "90e55772eb6e6410dfa4d4349720e8403083df33b016d7b5774a051198a2276c"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 5,
+      "source": "device/layers/face/f04-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70424,
+      "rgbaSha256": "37f48f8c023ff2e0cf9e8fa345f472ceaeba7a6884c4e0358155aba053bd9d43"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 6,
+      "source": "device/layers/face/f04-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67674,
+      "rgbaSha256": "87e65b789656fcefd20484660a2b00391cc2675b83fecd947e79269874c02658"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 7,
+      "source": "device/layers/face/f04-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 66766,
+      "rgbaSha256": "b31969c035eb73f6aa828625de6beb7ef3e42bced69dbb918d502560447ce08d"
+    },
+    {
+      "kind": 1,
+      "preset": 4,
+      "variant": 8,
+      "source": "device/layers/face/f04-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 59440,
+      "rgbaSha256": "f26f549f5991a1c3a2e6c5fb806bc8f517345467b02aa7c6922f3979c2166dd2"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 1,
+      "source": "device/layers/face/f05-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72676,
+      "rgbaSha256": "15f59aa33b7094ff4bed190cbafe3fa92d979fb893f4345168595c166d5a781d"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 2,
+      "source": "device/layers/face/f05-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72066,
+      "rgbaSha256": "df13824c498a24ffb87f78d0955c875c05404cfc458f4c6870fbd45ed0c9f233"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 3,
+      "source": "device/layers/face/f05-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72942,
+      "rgbaSha256": "bbb384bd983b27a3abef753958dd5c2059225b4e4561e13d353e0901008c5540"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 4,
+      "source": "device/layers/face/f05-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70764,
+      "rgbaSha256": "a5f71f1078e9e3fd9593858bacea4e6d108bc0b892af07a35369b31bdc215586"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 5,
+      "source": "device/layers/face/f05-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70444,
+      "rgbaSha256": "3856e1ca4482230eec9d37c1ae496545e0c945f4ae64ab67d63b027c11fdbd85"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 6,
+      "source": "device/layers/face/f05-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67764,
+      "rgbaSha256": "3f0b6db5616ca1e89de5705e485d63c66abe5e9d825755a5eb90dd47da56cf30"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 7,
+      "source": "device/layers/face/f05-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68062,
+      "rgbaSha256": "1e33b6111c1159125d1ad725c0b476e8d9586a48129edb37492746de78978bea"
+    },
+    {
+      "kind": 1,
+      "preset": 5,
+      "variant": 8,
+      "source": "device/layers/face/f05-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 61214,
+      "rgbaSha256": "dd1c71c7f605d9fcbac0e17e9487b2d22e805c9412eb5f014f828e3c7a02d9ec"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 1,
+      "source": "device/layers/face/f06-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70476,
+      "rgbaSha256": "4fa90ec20ab49fcee0b74eba554d9d1bab47d921f39ecf013dfbde849efe640c"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 2,
+      "source": "device/layers/face/f06-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70544,
+      "rgbaSha256": "87f52ebba49c2f70e339bf5379a3ddbd1f1c4cad6e02d7da5256d8d5299cb889"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 3,
+      "source": "device/layers/face/f06-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70434,
+      "rgbaSha256": "c815a4006e61544d78d21841b8758c00a7a35baa8d94fcf17af291bd7d92c3eb"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 4,
+      "source": "device/layers/face/f06-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69284,
+      "rgbaSha256": "fafdfe1e273299af7b2e60b2a3a6026c57c186387cd03d11334bd8adcbdf0806"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 5,
+      "source": "device/layers/face/f06-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68962,
+      "rgbaSha256": "0b8fe597ad79fd4c05293af8f9fd10d77c86bde3ff64aa2fbbfc75d8f05df164"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 6,
+      "source": "device/layers/face/f06-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 66612,
+      "rgbaSha256": "5db4ac8b0596468c16be48dda35419848df666db202b4cbf532c87703604b263"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 7,
+      "source": "device/layers/face/f06-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 65970,
+      "rgbaSha256": "32f6f747eaa3fb7a1627d329c07f96d61e79e6fe22257646b40d42a745ffb17b"
+    },
+    {
+      "kind": 1,
+      "preset": 6,
+      "variant": 8,
+      "source": "device/layers/face/f06-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 60474,
+      "rgbaSha256": "fed68f0e6d0ab2013a9dbc81822ee70d98f352b33f7fba9c60c9a3a431dfac3c"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 1,
+      "source": "device/layers/face/f07-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 86972,
+      "rgbaSha256": "d61ba2bcdb3cde79513bc9e49394363988cdcc2f0418fe290b77fc5498e0fde4"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 2,
+      "source": "device/layers/face/f07-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 86612,
+      "rgbaSha256": "7b694d532d78d2aab7c4ce3e60a393c418520107c98f0817ac876bdcaa6a174d"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 3,
+      "source": "device/layers/face/f07-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 86466,
+      "rgbaSha256": "d1bd71295ee17055290e83f1b147f0921b74c88bb60f95c8b4fa33b4bb54844b"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 4,
+      "source": "device/layers/face/f07-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 85408,
+      "rgbaSha256": "a087db9796d9bf143a012c5ca07049c8f8d3f65b4bb99e50f026d1fccdc3a4df"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 5,
+      "source": "device/layers/face/f07-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 84048,
+      "rgbaSha256": "37b89b722b474755d55bf267943274ea9e99a0367cb444a8110dbc34f303eada"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 6,
+      "source": "device/layers/face/f07-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 81104,
+      "rgbaSha256": "7992125d9d94f059de9ef17689ef634e9db4682047fdc4e8a1eac888d25718fb"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 7,
+      "source": "device/layers/face/f07-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 80700,
+      "rgbaSha256": "191316ce74dd12388b24ca10655afbeffd1b30268931c6f7a39c8d932017c9ec"
+    },
+    {
+      "kind": 1,
+      "preset": 7,
+      "variant": 8,
+      "source": "device/layers/face/f07-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71720,
+      "rgbaSha256": "2a82d7cc320537db660551cbd418a9ba1ca047be77b82fbb0d04fd0c8807e281"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 1,
+      "source": "device/layers/face/f08-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 75488,
+      "rgbaSha256": "ba5c179514344a534cc5d41d46982dac050d65a61ec215b614e187bde65917e8"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 2,
+      "source": "device/layers/face/f08-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 75580,
+      "rgbaSha256": "3eb80204bab77b89289c32df97671c79473c9ed114bdd886fc908ab130a738d9"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 3,
+      "source": "device/layers/face/f08-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 74700,
+      "rgbaSha256": "d425051e4fbf4f2bcd1cba5d6021a15b87794eb753798687a2de14664634615b"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 4,
+      "source": "device/layers/face/f08-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73646,
+      "rgbaSha256": "15d81e97dc6ba0b8562ee1a4595d61897f97111c4829174813442b9128c73aa8"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 5,
+      "source": "device/layers/face/f08-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72726,
+      "rgbaSha256": "ba1c869535fab0018109bc94849217f389d307e6c22d436b6f9b92d39d3c6eb8"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 6,
+      "source": "device/layers/face/f08-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70466,
+      "rgbaSha256": "a7a4387a74f9ff93006e4ec729664faac0d45594ac35d312f8e20c2aa4c959ce"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 7,
+      "source": "device/layers/face/f08-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68792,
+      "rgbaSha256": "cebf81583643ec45245cd36ccabca606864f00bc2141b32ab974fed851b19d55"
+    },
+    {
+      "kind": 1,
+      "preset": 8,
+      "variant": 8,
+      "source": "device/layers/face/f08-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 62566,
+      "rgbaSha256": "b6b914e41b8fe5f4b41cea29d4840c623813f0ae200ea5c899348ccc7a5d1692"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 1,
+      "source": "device/layers/face/f09-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70454,
+      "rgbaSha256": "cb9605976764e391c18d0d64924a36a332403c6a6debbc8be2aa6f01881a74de"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 2,
+      "source": "device/layers/face/f09-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68986,
+      "rgbaSha256": "cf39eee092f3b76ad87a028fde59d4b84d488dbc43a17f6ecfa3d379bb09e23e"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 3,
+      "source": "device/layers/face/f09-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68854,
+      "rgbaSha256": "58e44d445fd7336a6e4c0c2db69a71b19caf8e4139cbe45a7ca0b8b6b8adc3f4"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 4,
+      "source": "device/layers/face/f09-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68840,
+      "rgbaSha256": "eb78760a3c6afb4564160ca8e2296027ab045bdc750017731fb303ff14b6ca27"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 5,
+      "source": "device/layers/face/f09-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67612,
+      "rgbaSha256": "fe8aec0f039760c9f4285ac708b12fa368a5440bc9a01681e52bc41fd49bbbd8"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 6,
+      "source": "device/layers/face/f09-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 64716,
+      "rgbaSha256": "f27fb7ddf948c23ed1cfe4af2bc5cd3db459867efae4fb27232a9a2aec302c00"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 7,
+      "source": "device/layers/face/f09-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 61738,
+      "rgbaSha256": "a19ddffb7fe5d4f32661fb18c4ad90125ddefc7101e5c3de6bc094259abb5092"
+    },
+    {
+      "kind": 1,
+      "preset": 9,
+      "variant": 8,
+      "source": "device/layers/face/f09-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 57984,
+      "rgbaSha256": "12a3bb9bb79be5bf748662fa6837a7f8bf0ccd35fe4128bde3efae5574cbb5a9"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 1,
+      "source": "device/layers/face/f10-porcelain.png",
+      "rawBytes": 409600,
+      "encodedBytes": 74914,
+      "rgbaSha256": "a4c80c959880f6e96685a5b93777ff9bbfb51daa121f8e09ba2a0efa535defa4"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 2,
+      "source": "device/layers/face/f10-fair.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72482,
+      "rgbaSha256": "0846b11c82d9e76c554b133000eb407e9899474335c94f526161f271dfab53b6"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 3,
+      "source": "device/layers/face/f10-warm.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73040,
+      "rgbaSha256": "381b197e7ebecf1f506a04e4f0c6f98feea9e62daba48aa397cc41a866214595"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 4,
+      "source": "device/layers/face/f10-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72668,
+      "rgbaSha256": "5fcaac0d275ad0d30c9d91fc7cde4b29bc7139980472df53692d2dd294e7e050"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 5,
+      "source": "device/layers/face/f10-olive.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69830,
+      "rgbaSha256": "2f35719a0d732304cf8451ee9ec4bafbf895f5aa4f47613d5348c3f6ddbacde4"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 6,
+      "source": "device/layers/face/f10-bronze.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67746,
+      "rgbaSha256": "42b64ab3cbb7757616ac1a26b4fa9eae807ace2eec749cf56dac21e3eeb3f2eb"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 7,
+      "source": "device/layers/face/f10-deep.png",
+      "rawBytes": 409600,
+      "encodedBytes": 66946,
+      "rgbaSha256": "53cc13ea7a77ee3f73f2a79c201a3d765eb4f0bae37a16b7a5879bd57f65bb6d"
+    },
+    {
+      "kind": 1,
+      "preset": 10,
+      "variant": 8,
+      "source": "device/layers/face/f10-ebony.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56586,
+      "rgbaSha256": "32605ff2b21c04db56536d603daa071b6de9591c823f7110a869b434f130fe88"
+    },
+    {
+      "kind": 2,
+      "preset": 1,
+      "variant": 0,
+      "source": "device/layers/outfit/o01.png",
+      "rawBytes": 409600,
+      "encodedBytes": 82726,
+      "rgbaSha256": "cc1e0241f811fea4ab1ffe5716080959e4cabe05a372e37297f379c3331f9ba3"
+    },
+    {
+      "kind": 2,
+      "preset": 2,
+      "variant": 0,
+      "source": "device/layers/outfit/o02.png",
+      "rawBytes": 409600,
+      "encodedBytes": 82094,
+      "rgbaSha256": "ba64f5aec93941851f0940053df9c387785c3723b145b84707580ead339a6f63"
+    },
+    {
+      "kind": 2,
+      "preset": 3,
+      "variant": 0,
+      "source": "device/layers/outfit/o03.png",
+      "rawBytes": 409600,
+      "encodedBytes": 84494,
+      "rgbaSha256": "a0504090de1023620592837e4d98eff2f1b6ef940cffa85c0c71e2bb3d016ff7"
+    },
+    {
+      "kind": 2,
+      "preset": 4,
+      "variant": 0,
+      "source": "device/layers/outfit/o04.png",
+      "rawBytes": 409600,
+      "encodedBytes": 83722,
+      "rgbaSha256": "facc354d9d05896e2431e0b54f5abd2306862f53e5a1e7301c7659de41fe7dff"
+    },
+    {
+      "kind": 2,
+      "preset": 5,
+      "variant": 0,
+      "source": "device/layers/outfit/o05.png",
+      "rawBytes": 409600,
+      "encodedBytes": 81938,
+      "rgbaSha256": "966bc3e3c64193719f33ab02b4f47b289a2b0601c0084230c27e43d3c3eb289b"
+    },
+    {
+      "kind": 2,
+      "preset": 6,
+      "variant": 0,
+      "source": "device/layers/outfit/o06.png",
+      "rawBytes": 409600,
+      "encodedBytes": 85462,
+      "rgbaSha256": "816f969c8a1f8a52ab0fd3c8b444578ac2230cbb0224230415e1f0ed77437ebb"
+    },
+    {
+      "kind": 2,
+      "preset": 7,
+      "variant": 0,
+      "source": "device/layers/outfit/o07.png",
+      "rawBytes": 409600,
+      "encodedBytes": 77630,
+      "rgbaSha256": "af32f4d9767153e4ea8f7920b8f2c3fd1ca22199101a4214bde9e62da72fa590"
+    },
+    {
+      "kind": 2,
+      "preset": 8,
+      "variant": 0,
+      "source": "device/layers/outfit/o08.png",
+      "rawBytes": 409600,
+      "encodedBytes": 83658,
+      "rgbaSha256": "ec6ba0ca8f7ff4351037747f104060374f2af6c6d1101a1716899f27ff9f98d7"
+    },
+    {
+      "kind": 2,
+      "preset": 9,
+      "variant": 0,
+      "source": "device/layers/outfit/o09.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69064,
+      "rgbaSha256": "ee65bda08ecf3dd712664b0a55c3ec5b841ba33719526fa231ed1e9ba98747c4"
+    },
+    {
+      "kind": 2,
+      "preset": 10,
+      "variant": 0,
+      "source": "device/layers/outfit/o10.png",
+      "rawBytes": 409600,
+      "encodedBytes": 83424,
+      "rgbaSha256": "b6a413aa516728f227084be3ebac318d1d9af1aee007055423fb955dc01809dd"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 1,
+      "source": "device/layers/hair/h01-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 41776,
+      "rgbaSha256": "eb186f085237942dc939dc1f397643af834a59333a8d365807e137cff4518678"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 2,
+      "source": "device/layers/hair/h01-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39776,
+      "rgbaSha256": "284978d2e0c73a384f7d630fc71bd3d2aaab3c10fff9b3040d7c8962c5a74fbf"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 3,
+      "source": "device/layers/hair/h01-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 38098,
+      "rgbaSha256": "a77d87ff846323629b9fbd9bd575df2c0a9dd6ef0d81eff4ee42761d81800dcf"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 4,
+      "source": "device/layers/hair/h01-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 38176,
+      "rgbaSha256": "69f6ac95b798db9dd680f59508765a25a898fda8d7613cc3a2ad4f7a88db5160"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 5,
+      "source": "device/layers/hair/h01-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 41082,
+      "rgbaSha256": "de88d70eeeeb699e5d7fa79eb4f67072007f85e400a7e79fc333c81cdabe9169"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 6,
+      "source": "device/layers/hair/h01-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42130,
+      "rgbaSha256": "d40ea06d11e48de57c680a6a998b7fdf85917f303085c24fd65126b2a42927f4"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 7,
+      "source": "device/layers/hair/h01-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42648,
+      "rgbaSha256": "9df7453fbe2eb7909e53621e0ae83faf3963faa85887c01d129300a8ea3869b2"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 8,
+      "source": "device/layers/hair/h01-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39306,
+      "rgbaSha256": "c17d231eeef396684dae2908c22a125689fc14aeb8cfd7eb5d1090e469f881b9"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 9,
+      "source": "device/layers/hair/h01-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40564,
+      "rgbaSha256": "c8ab90e1bca37bed92c08a88e9d6631e6690ad9c9ac7801d5753314a3fcf3aa6"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 10,
+      "source": "device/layers/hair/h01-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39774,
+      "rgbaSha256": "da5becf468b4084b134a3c85e48b7c3569ef2e6e4d44b96f7e8fae1fd42a16c9"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 11,
+      "source": "device/layers/hair/h01-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 37756,
+      "rgbaSha256": "9d755b661806ce8c3864df9fd703cf629bf4820292cfca3b4adc7dd99554d288"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 12,
+      "source": "device/layers/hair/h01-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42112,
+      "rgbaSha256": "ca5992303fb362aaa876849e6d62b2baac9087085d62a3cd1e652c6d1e1e7304"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 13,
+      "source": "device/layers/hair/h01-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42454,
+      "rgbaSha256": "bbc7736d0950dd593733778d0cb7648579e57d524188d5b19ea0c4a8070f082c"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 14,
+      "source": "device/layers/hair/h01-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42232,
+      "rgbaSha256": "7ea1f7e300dc157610e617bd0be51c3c2df44a8ccb387f50927b33ae0b270aec"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 15,
+      "source": "device/layers/hair/h01-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42852,
+      "rgbaSha256": "4079371511822741aa92edf08e922059a0f100c5c51f40d9c2097990b1cf68dc"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 16,
+      "source": "device/layers/hair/h01-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 38720,
+      "rgbaSha256": "e702a656835cd2021baefed6927e012453b61d13eed488c3cd8933c3a52d9475"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 17,
+      "source": "device/layers/hair/h01-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42060,
+      "rgbaSha256": "034112d8e2a63b35ad7236ff58eafaed5b9cc06a77b6755995721df7b5e39129"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 18,
+      "source": "device/layers/hair/h01-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40766,
+      "rgbaSha256": "2980bc02c98039e62780cdda950c6a5ea3e2171922b3a5cf46ea55f21582a8d5"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 19,
+      "source": "device/layers/hair/h01-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 41300,
+      "rgbaSha256": "82663de442f5cc02a078593bb566ad9081d7a6447630c9d5c66e704eb4a3ae25"
+    },
+    {
+      "kind": 3,
+      "preset": 1,
+      "variant": 20,
+      "source": "device/layers/hair/h01-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40800,
+      "rgbaSha256": "13bd16d3a6bc651ffbdd2006c46738aee0d8fddb0b6308f5a1da0804a5eca2a6"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 1,
+      "source": "device/layers/hair/h02-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 55756,
+      "rgbaSha256": "35f70fdb500aba749453dcf46cbd6532136607da376311af8c269438c2128c1d"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 2,
+      "source": "device/layers/hair/h02-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 55424,
+      "rgbaSha256": "71f2b74da3d26b2ad0efeaee4621ee4cdedfa5b5b98559c05fed9faa3a8fd174"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 3,
+      "source": "device/layers/hair/h02-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 50678,
+      "rgbaSha256": "49ecb62917d53455eef0ef11165c1400260f699ce9bb9c97b53187ed3f4a6278"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 4,
+      "source": "device/layers/hair/h02-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 53552,
+      "rgbaSha256": "e8f0352c26bd056582f6746779bcad150d692b3cad732efa57082a3ff59d4e6f"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 5,
+      "source": "device/layers/hair/h02-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 55210,
+      "rgbaSha256": "a79e387baf556bcef4fa84f261f2ba570d60e8c9f9f0cf6975029dd59e2ed874"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 6,
+      "source": "device/layers/hair/h02-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56788,
+      "rgbaSha256": "e5e51a51310971dd043260f994ede47b663803c478245f62010a1c159cfc5dcf"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 7,
+      "source": "device/layers/hair/h02-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 57400,
+      "rgbaSha256": "c328bc0164d14e371374e917ea21236ab332c0490bc5fa5c0ea20f2fd5eb4015"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 8,
+      "source": "device/layers/hair/h02-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 55424,
+      "rgbaSha256": "fceda670ceb95e8dcf719d2a04d10b20062b208bc1febeca91b3744ee3e42151"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 9,
+      "source": "device/layers/hair/h02-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 54478,
+      "rgbaSha256": "9159092b5d53fd3d6d95f08cc7e4bac3fd365313e3d9804df8d764e5ec30c5ec"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 10,
+      "source": "device/layers/hair/h02-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 55120,
+      "rgbaSha256": "9d9a609ddad68572ecd3718333e9979c7e41f6f2e5cecd1f369e0f43ac1c108a"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 11,
+      "source": "device/layers/hair/h02-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 53998,
+      "rgbaSha256": "ee0f465d8d5398d93b47a11218c2a2d5b67afa8025848621214723c5d02b9865"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 12,
+      "source": "device/layers/hair/h02-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56780,
+      "rgbaSha256": "bc15240898d12f9f1a62df1b817ae1da5743e066ecc3916af66a9116bc630ba4"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 13,
+      "source": "device/layers/hair/h02-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56592,
+      "rgbaSha256": "edf05896b528fdcacbcb07098a4213fcbcf23f6b6ef7e521d757e272f69c3a32"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 14,
+      "source": "device/layers/hair/h02-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 57452,
+      "rgbaSha256": "6ea66d3c9db33c8c883af9d9948ce11cc9e04fce8091ce208136f221715d48e1"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 15,
+      "source": "device/layers/hair/h02-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 57530,
+      "rgbaSha256": "ea9f7c4149c6ffb7af4fc996cf845996c66b4250069d47cbada2a79416d91aeb"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 16,
+      "source": "device/layers/hair/h02-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 54906,
+      "rgbaSha256": "d0d1364610d85173db55811217a9019e00d953e904371cd4371dc854b6335321"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 17,
+      "source": "device/layers/hair/h02-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56830,
+      "rgbaSha256": "8565ba5c015de9a78bf192096002654be80fa834aaad7359272c047d43fc3652"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 18,
+      "source": "device/layers/hair/h02-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 56166,
+      "rgbaSha256": "4d7905e34d0060415c45257ac89009c2252d80b4f4acae047fd11cf55aab8a68"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 19,
+      "source": "device/layers/hair/h02-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 55904,
+      "rgbaSha256": "98a6edc2ab84faef83e8a5db79460e35aba55f30fec6bfe9bb508f3576db0394"
+    },
+    {
+      "kind": 3,
+      "preset": 2,
+      "variant": 20,
+      "source": "device/layers/hair/h02-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 54872,
+      "rgbaSha256": "b89c0364a7dfb9d334857de13032e9854989034fd66e3a94a17f70c382952b89"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 1,
+      "source": "device/layers/hair/h03-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39798,
+      "rgbaSha256": "8ae0b7e5086d62f0cf0a1dcffa7f9377c64df5b25f289a77ab8956b7beae4431"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 2,
+      "source": "device/layers/hair/h03-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39892,
+      "rgbaSha256": "17a2a7140da8993effb442fcfdea34e033e9a593894c4c0ab04e41af5d91249a"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 3,
+      "source": "device/layers/hair/h03-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 36208,
+      "rgbaSha256": "9df06b8a567f79ac89bf5cf6ec4dc1178d59563b50f09ae5d7877811fc61a5e0"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 4,
+      "source": "device/layers/hair/h03-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 38354,
+      "rgbaSha256": "ba75bab361da5b3fc26d7c40a189b71d6c250c57ade77a1cf53af40a2fe872a1"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 5,
+      "source": "device/layers/hair/h03-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39788,
+      "rgbaSha256": "99ee911f4fb8ef9b0c1ae16e9499716178adf37e36c333b68f317ddfad814b70"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 6,
+      "source": "device/layers/hair/h03-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40808,
+      "rgbaSha256": "e024a348c9b3b0b8180036ece46cb12bd84bb3e311a3ad77e5e35da7290cdd13"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 7,
+      "source": "device/layers/hair/h03-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 41146,
+      "rgbaSha256": "49c63ac42335270a2189075e1b1d534307476f325b97510bb136adb6376e9db0"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 8,
+      "source": "device/layers/hair/h03-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40218,
+      "rgbaSha256": "d5d9cb45cb555c06debecf5260448bbdd4b96e6e84acf0bee76b113119e81c81"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 9,
+      "source": "device/layers/hair/h03-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39328,
+      "rgbaSha256": "b56527038056a9b9592ac9c239d2fe00065d862eac9d9e1f554721867ecb8933"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 10,
+      "source": "device/layers/hair/h03-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39198,
+      "rgbaSha256": "665d35c1d934cdfcd89f7209857c9ccb23f0f74a87997e5c4e63e4a900ab75d0"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 11,
+      "source": "device/layers/hair/h03-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 38494,
+      "rgbaSha256": "b03d8f2a48d4a53df6060bc73f017a9105f9879f385d22f4733392d1f688d8ea"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 12,
+      "source": "device/layers/hair/h03-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40652,
+      "rgbaSha256": "4a788483b724c21f7a75488a555f59e1e3ccfafa0c4f21fa27e596f816177230"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 13,
+      "source": "device/layers/hair/h03-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40608,
+      "rgbaSha256": "dc732117c27695a8465939b70938b1c918d1b1736fa76c2dab3b05bd4ae4a42c"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 14,
+      "source": "device/layers/hair/h03-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40890,
+      "rgbaSha256": "5b6f80233f1162cc2ccff44bfc02895462c189613d238c8c9c21d40513517a64"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 15,
+      "source": "device/layers/hair/h03-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 41208,
+      "rgbaSha256": "c250faa359e36b7e5fa02917df939090bd22abff0dd625b59983a4b6948d77e1"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 16,
+      "source": "device/layers/hair/h03-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39124,
+      "rgbaSha256": "85172e9146d9e2ae7779df36f0dbff81826d3dfccf8026c9f435e6d0919351f0"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 17,
+      "source": "device/layers/hair/h03-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40394,
+      "rgbaSha256": "f65be02ff01b5b471c3e2634f17fa74c3fca37858e10ec052fd14b336c1cf71f"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 18,
+      "source": "device/layers/hair/h03-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40170,
+      "rgbaSha256": "8d73cea992b6e966e390cdce018230d6f547afaf72b7668eb163b5aa6eb8678d"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 19,
+      "source": "device/layers/hair/h03-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39870,
+      "rgbaSha256": "9b84084203810e0b288dbf8aae15ec96bdd72c2dac9ede751a2c3f730941644a"
+    },
+    {
+      "kind": 3,
+      "preset": 3,
+      "variant": 20,
+      "source": "device/layers/hair/h03-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 39002,
+      "rgbaSha256": "b0229e11b7e53b740e51a665e4037d377a2b549ad888485d82e2e92896bce989"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 1,
+      "source": "device/layers/hair/h04-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42878,
+      "rgbaSha256": "1a5df6da80c8d53a00376d1fbe85a4e878cce46f39c08a1fa6623120f7d0203a"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 2,
+      "source": "device/layers/hair/h04-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43122,
+      "rgbaSha256": "f712e75666dc8a7c533ffe4bfbc8cf7b75f990b036c80ef397e55799797848af"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 3,
+      "source": "device/layers/hair/h04-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 40596,
+      "rgbaSha256": "6aeb8f52c0c527b827a1fc034a030c5d97ceffb75f4d9d8ac6312cde85661b1c"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 4,
+      "source": "device/layers/hair/h04-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42090,
+      "rgbaSha256": "b2875b43d88e071c15bd733c75344c0382b4a5115ac6e64a52cf9aa9608ed6a1"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 5,
+      "source": "device/layers/hair/h04-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42852,
+      "rgbaSha256": "3ba75a11b32d87296d6c423227f9504ee080d58218db07696a4615d1c95e080e"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 6,
+      "source": "device/layers/hair/h04-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43302,
+      "rgbaSha256": "ae91ed123f75ee93e956b7875abd074ab71d410935a0a0fb406dfabac6fa0e0b"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 7,
+      "source": "device/layers/hair/h04-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43402,
+      "rgbaSha256": "114a86b8f6bb02c926404fdf905eff9b389dea8561814a23804643d09fb17768"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 8,
+      "source": "device/layers/hair/h04-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42984,
+      "rgbaSha256": "a7bd880e448219224b499e9540f5a6df9dc9417856b758edc5073bf7209d55c3"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 9,
+      "source": "device/layers/hair/h04-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42612,
+      "rgbaSha256": "62081bb099411c5777342fe44c9c5838aa7eeadd4e7cf1aabf2f829a772c2b73"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 10,
+      "source": "device/layers/hair/h04-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42590,
+      "rgbaSha256": "9bce6af67977b4f1525c2736dd79c53082fe6b3015accd4bfbf8e2563b4fe9c0"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 11,
+      "source": "device/layers/hair/h04-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 41870,
+      "rgbaSha256": "6219b972171ab4c2ca75948ef805d31071317f3ac1ea9b63e62ffa4b0cdc12e5"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 12,
+      "source": "device/layers/hair/h04-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43270,
+      "rgbaSha256": "4ff645ba006f8b2fd27a1f7eee3d2330ca49815429685e14382cc7f6cdcc2b4f"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 13,
+      "source": "device/layers/hair/h04-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43282,
+      "rgbaSha256": "3a85230959ef56b07891a9ba3523a2cd9200d698d4aad9d63506f56a224d8d96"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 14,
+      "source": "device/layers/hair/h04-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43368,
+      "rgbaSha256": "b2aa0dd3abb32d4435f4d170d27291420de3e0b5214d6fbe65e876196914b884"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 15,
+      "source": "device/layers/hair/h04-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43380,
+      "rgbaSha256": "dd49960fa8e1293111fce8920f4cc08ff6b57bd373183904a8d838d8d91fb243"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 16,
+      "source": "device/layers/hair/h04-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42442,
+      "rgbaSha256": "3480a2bbfdc2932bfa0790567d96ecf59a826692d05404d13f9ab12fc65f045f"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 17,
+      "source": "device/layers/hair/h04-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43118,
+      "rgbaSha256": "78da810050186ba85f95d2dccfe9944fa29622dbf2fb22ca4ac40afda1f26c95"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 18,
+      "source": "device/layers/hair/h04-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43312,
+      "rgbaSha256": "f09ff26e0e83f28db79a88eec589e292d39f5920571e558730fcef487b611bf3"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 19,
+      "source": "device/layers/hair/h04-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 43220,
+      "rgbaSha256": "bfd7c2828e4f2bed93de90494582b2db9920a22e584ab49f09cc105814309211"
+    },
+    {
+      "kind": 3,
+      "preset": 4,
+      "variant": 20,
+      "source": "device/layers/hair/h04-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 42598,
+      "rgbaSha256": "b6e34f4407130b69172cb86a5af8e3d30c3910e5acfe228524ac18abeca1e1d3"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 1,
+      "source": "device/layers/hair/h05-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30598,
+      "rgbaSha256": "7348ab98814ca0b9004b613cbb1a9ab0a1df7e5994a7507c6b7e1404e0d1d718"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 2,
+      "source": "device/layers/hair/h05-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31078,
+      "rgbaSha256": "6f1fd9b052ea790ef3796fee24a028622656027f669a156ac4d57f7fcedd409a"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 3,
+      "source": "device/layers/hair/h05-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 29548,
+      "rgbaSha256": "cdb4855850503f912b3d5301d1e97ccd2cf3266507faf065e910fa35fa93d9b4"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 4,
+      "source": "device/layers/hair/h05-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 29672,
+      "rgbaSha256": "4b8bc1d78b436f56efddb6e424f4b483fd57c98e6c0a324a9763e2a9fc19cc5f"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 5,
+      "source": "device/layers/hair/h05-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31064,
+      "rgbaSha256": "e314fe48383f424aafc5073b8e34258b0fc7d02642847bffbc54249b3f84d90b"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 6,
+      "source": "device/layers/hair/h05-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31296,
+      "rgbaSha256": "a501c53c274a2974e6912b2740c4f1ea7c646e1e35e53744c42f6730257a5091"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 7,
+      "source": "device/layers/hair/h05-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31426,
+      "rgbaSha256": "c977c8d6c032eb2da6e0c2ccddd336607d30a156ade0368c0a0fc14752b9a420"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 8,
+      "source": "device/layers/hair/h05-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30948,
+      "rgbaSha256": "6bc6b4fb6582c3c41f38633b48482285c95d9b718b9095eef13fa6e21a18eb51"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 9,
+      "source": "device/layers/hair/h05-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30948,
+      "rgbaSha256": "319e06483858dfbf42fa858b8305cae6c7ece2e8ef219df637465e78519adb40"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 10,
+      "source": "device/layers/hair/h05-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30686,
+      "rgbaSha256": "05ef8d79953c44e24ebb093eb9265e8a386e1cfbd9045f9529d5aff40e205477"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 11,
+      "source": "device/layers/hair/h05-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30288,
+      "rgbaSha256": "da6e1d5e8a7303c0c116d165d772a057922d136de9504aab0fd38877b5f2885c"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 12,
+      "source": "device/layers/hair/h05-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31290,
+      "rgbaSha256": "9c30f43c0cabce0461a6eb267f4144562cdc5621c6c15f02949ebdc6261bb7f8"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 13,
+      "source": "device/layers/hair/h05-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31296,
+      "rgbaSha256": "271faf98edff1d4a6dc93dff316ac13b2ebe97df9953b90960fbc61d6495e1e8"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 14,
+      "source": "device/layers/hair/h05-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31508,
+      "rgbaSha256": "7b040641a6e9cdc39c03daf1ba4755b3dd35637b482baa83fe4c74428b7e174f"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 15,
+      "source": "device/layers/hair/h05-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31442,
+      "rgbaSha256": "e82bddeca3e6c7cacc159bf341a914d5fe52e4f057c8453468deffc11177221e"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 16,
+      "source": "device/layers/hair/h05-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30528,
+      "rgbaSha256": "7cbc6c9910a7a1e215616ca59d6d85c191361974ceb8dbd62654251e19fc1059"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 17,
+      "source": "device/layers/hair/h05-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31276,
+      "rgbaSha256": "fa1b926766cd81ed06994e4277fbe1cc18f19fc5beb67b2d889ce581fc9a1440"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 18,
+      "source": "device/layers/hair/h05-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31104,
+      "rgbaSha256": "57892e2114763cf267d157289d4562b9d096deb25c637fe376d5a4f9364f205f"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 19,
+      "source": "device/layers/hair/h05-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31108,
+      "rgbaSha256": "c13eeb98bbe866b2da5be6ceb4edae95398e547966dbd5519760e4139c23cbc6"
+    },
+    {
+      "kind": 3,
+      "preset": 5,
+      "variant": 20,
+      "source": "device/layers/hair/h05-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 30568,
+      "rgbaSha256": "961b0ad23da7eebaeb3bc091bdf8116bc3e9b3f1c3ef28f36e6ae07be3cc609c"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 1,
+      "source": "device/layers/hair/h06-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33714,
+      "rgbaSha256": "8cdec60cb7fa4c65c0bc0c4ad325678f588679ee84fc5dfd3ab086e6060f770d"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 2,
+      "source": "device/layers/hair/h06-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33714,
+      "rgbaSha256": "8d79e0918eee769c416f5cccacbb9859a35cd25f28a9c64ae86839d6ef2d973c"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 3,
+      "source": "device/layers/hair/h06-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33690,
+      "rgbaSha256": "62c24c7b7bbac9dbb53d5cc34d95bc135e3e8c1108a84c576a1ed0cb606fd49d"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 4,
+      "source": "device/layers/hair/h06-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33690,
+      "rgbaSha256": "99c1b92ee7f0b90438cdbb3fe1c9b200fe9b1d701a26fc9b4ab6d546b95e3727"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 5,
+      "source": "device/layers/hair/h06-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33714,
+      "rgbaSha256": "5cc8138fd644b60f71283fec1d09e8bea9bce5f74f448a64254ae166b40635cf"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 6,
+      "source": "device/layers/hair/h06-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "7a5572fa190245717665f82d130b84d8b45442e1614eed4a9f7d91c210525f32"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 7,
+      "source": "device/layers/hair/h06-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "5a04b1b84089b4d3f2804b580509faacf18974dcaebf2f101a40b36bacb7c09f"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 8,
+      "source": "device/layers/hair/h06-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "c64c66a1a1417e8f60a15822ef3d3e0d91a37b69a2ffa54e79d5f45021ff2c24"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 9,
+      "source": "device/layers/hair/h06-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33710,
+      "rgbaSha256": "4bd32049c521d9b645b9d63fb4b205c019a63ed49fc1e2364ce7dd7510bd98c7"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 10,
+      "source": "device/layers/hair/h06-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33698,
+      "rgbaSha256": "df2f2eaed62e70c9d9d5ba390e2420b5fdf861fe614fdd3391f540016c52e25a"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 11,
+      "source": "device/layers/hair/h06-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33710,
+      "rgbaSha256": "142dbffc74d98fcfb8a2606d17bdef88842aceab2b448fa513086643d8f2f40e"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 12,
+      "source": "device/layers/hair/h06-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "c8ee843733a25aeae1e747254a2db7d59e65603f40440e716cdf626bf73688d1"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 13,
+      "source": "device/layers/hair/h06-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "1dd7975bf853e0b8bd7a930cfb3ecf3c0afa558a0a0f247d073f245db4406ae4"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 14,
+      "source": "device/layers/hair/h06-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "4b51e0fe530bea7586406ea03e442d0f7bd5832d4e28f56751a0e10e5e0ee544"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 15,
+      "source": "device/layers/hair/h06-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "bb101b84ad359a5240cf0793ae42470dbcf79f0089804a230e279e99827410d4"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 16,
+      "source": "device/layers/hair/h06-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33710,
+      "rgbaSha256": "6485a330c558d3701f4cd2a81581a184ea783476dd20d6e88fe39105eb5fb631"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 17,
+      "source": "device/layers/hair/h06-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "41e4826fb3f9f43d406475554951ceca0adf4c707b68ca7cd9ab03f9024367ad"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 18,
+      "source": "device/layers/hair/h06-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "495c53ecccf0bcb0cfc457a1ed81836ce630976960540cea5252337673bd6d6d"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 19,
+      "source": "device/layers/hair/h06-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33718,
+      "rgbaSha256": "d32927eda3425a1ec47b947b2498f09759f7e72ae5a8ab98da4fbdebacfaf737"
+    },
+    {
+      "kind": 3,
+      "preset": 6,
+      "variant": 20,
+      "source": "device/layers/hair/h06-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33710,
+      "rgbaSha256": "ab06dee0c3eb2dda763eec6a9c94b0e4d6991255eeceb0b9e3c53336447182d8"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 1,
+      "source": "device/layers/hair/h07-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72798,
+      "rgbaSha256": "db37fd20d83b5396bbc23983c04130dcbefbae8edf10b75adce4ac4483d83d61"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 2,
+      "source": "device/layers/hair/h07-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72540,
+      "rgbaSha256": "1a41d8921dc227780471e09368eeb7eb92b305568fc4a5f1f096777cd125cdaf"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 3,
+      "source": "device/layers/hair/h07-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67504,
+      "rgbaSha256": "21226cf95fab53728fe9b398cc01b0fa40f292e0e84295f88908cb3884a76a86"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 4,
+      "source": "device/layers/hair/h07-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70602,
+      "rgbaSha256": "b039420a7cc5a548660b12511760ae0d73de67a2bd100e5b09be9c4c0b494ae9"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 5,
+      "source": "device/layers/hair/h07-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72186,
+      "rgbaSha256": "e5405d3abcd53adf76080edb67980bdffdf3ffe1e472ff13fcb1fb4d6f149f51"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 6,
+      "source": "device/layers/hair/h07-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73438,
+      "rgbaSha256": "89be1f6a28ce39c7079814a3871b0638fd9c74472af64cdc706b31777901daec"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 7,
+      "source": "device/layers/hair/h07-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73852,
+      "rgbaSha256": "683797ab38ba668cb5d4595ef576251ffcde2edfbacb21057db63826208f0688"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 8,
+      "source": "device/layers/hair/h07-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72322,
+      "rgbaSha256": "c4d3a280ad49d945f0fd0053f39202528842a057881ac1e2b5d0a4444c410d63"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 9,
+      "source": "device/layers/hair/h07-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70980,
+      "rgbaSha256": "9bd2a1aeb115ad509723d53d0fc98c9aa781e4477ebf01be9e736d0a36b5c81e"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 10,
+      "source": "device/layers/hair/h07-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71626,
+      "rgbaSha256": "1165453d6a3713644a375d66a1e2042019e897263a0b7fce677d76cbe016616e"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 11,
+      "source": "device/layers/hair/h07-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 70748,
+      "rgbaSha256": "f438ac22cef1828000c664a998854588ee4d3eb942756010eba8e5b5452b8144"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 12,
+      "source": "device/layers/hair/h07-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73502,
+      "rgbaSha256": "237d79fbdd35224482ea317542c72895610dfc1fe4d937045a89bf39d27cdf57"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 13,
+      "source": "device/layers/hair/h07-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73646,
+      "rgbaSha256": "ce6f6c5dcd994f93f5f327c0a7e44a9563c26526007a101cb96e7da2cbb2f63f"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 14,
+      "source": "device/layers/hair/h07-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73744,
+      "rgbaSha256": "6f48cc9fbc2617726779594be69e9113409ea9b51dbd64e241828af8f10c8e5d"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 15,
+      "source": "device/layers/hair/h07-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73882,
+      "rgbaSha256": "9092955e65f313bae6d7f49c102e650cecd0d5c2ab1b74a2a636cc69f6591f62"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 16,
+      "source": "device/layers/hair/h07-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71276,
+      "rgbaSha256": "3e15e4ae4c763871e09a0d56cb1c6b061ee72b684687ef22ac5736623f8c2384"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 17,
+      "source": "device/layers/hair/h07-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 73386,
+      "rgbaSha256": "dcd7259baa7c3d58b652151d5697f407cb9c872a6cb395f6869ffecf8183601f"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 18,
+      "source": "device/layers/hair/h07-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72848,
+      "rgbaSha256": "935f681924adf878f956393f4fe8e8267c5ae9b2c4504151a73e4fec102bedd6"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 19,
+      "source": "device/layers/hair/h07-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 72788,
+      "rgbaSha256": "02745493fa34ab60116f37eeecc67de76226e9f04f02363ca03cdd17360768ae"
+    },
+    {
+      "kind": 3,
+      "preset": 7,
+      "variant": 20,
+      "source": "device/layers/hair/h07-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 71354,
+      "rgbaSha256": "b477f6e91bd3ebe3ca404768c996c6b109cd7aa4335f44412ca244eaac68043b"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 1,
+      "source": "device/layers/hair/h08-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33726,
+      "rgbaSha256": "1c764fc4a9141cd76dd66bd3360a72064cced1c0e57bc66b27d8b25e3c57cc59"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 2,
+      "source": "device/layers/hair/h08-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33752,
+      "rgbaSha256": "cf0a8cfece855f9ff99bae385fb37f080582d5e740bcaf3e0a00fe02934a3270"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 3,
+      "source": "device/layers/hair/h08-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33084,
+      "rgbaSha256": "2d4024d1e8adadc14309a8b4dcd38c646ff7b07604433ce860b90b884b6477d3"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 4,
+      "source": "device/layers/hair/h08-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33446,
+      "rgbaSha256": "d0f3f2ab25bccc646aa93fbca924718199242094b8e2d7183557af321c6f1362"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 5,
+      "source": "device/layers/hair/h08-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33716,
+      "rgbaSha256": "b393d07add09f4cde239912dec76aa4bf5f73f568e118c8939605ab1ee317064"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 6,
+      "source": "device/layers/hair/h08-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33808,
+      "rgbaSha256": "4fc997a9ea253452025bcfc411fd65af0aacdc26935b863926cc82654eee5e46"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 7,
+      "source": "device/layers/hair/h08-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33820,
+      "rgbaSha256": "5cbeac85ef04a3b2379fd189e0176f819a322153ef4a1b3f296596fe9afb434d"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 8,
+      "source": "device/layers/hair/h08-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33728,
+      "rgbaSha256": "1cceb917459e029845a1d0609e3ee25ef25719b128ab948d2e38b04f6db5bbb7"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 9,
+      "source": "device/layers/hair/h08-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33588,
+      "rgbaSha256": "9fe46f688d16927b7f60873ecff542a0136ead5724e82481157b51fdeb6ed7bd"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 10,
+      "source": "device/layers/hair/h08-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33714,
+      "rgbaSha256": "5cddd8fd08529b479893c23eb207b762bc8b18b782394aafd1066071a41b157f"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 11,
+      "source": "device/layers/hair/h08-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33576,
+      "rgbaSha256": "729df2a3f843841c27486aaf9ea5efe447a50c2e35618f686936f32f45f31341"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 12,
+      "source": "device/layers/hair/h08-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33792,
+      "rgbaSha256": "73357de7a516929bd652641c0469678acee0a49ffb7a3aba0ccd3d8ea7bab151"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 13,
+      "source": "device/layers/hair/h08-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33800,
+      "rgbaSha256": "7f43f0836d6dd8e18800ed35489388f335de26105169a8452b513725cf628b38"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 14,
+      "source": "device/layers/hair/h08-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33824,
+      "rgbaSha256": "47b2cfc47aaabcae630ed17434b7992a5366cd2288d23bf3d1caeafa85807fe8"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 15,
+      "source": "device/layers/hair/h08-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33816,
+      "rgbaSha256": "861b070fbbf67246efbba425a9ca969f79c6d4a5b6cc770c6849bca7cafc3d41"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 16,
+      "source": "device/layers/hair/h08-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33448,
+      "rgbaSha256": "2af761ee7a65b04ef047bad1ba199285eefba1f35092b582a2030911099218d6"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 17,
+      "source": "device/layers/hair/h08-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33776,
+      "rgbaSha256": "07e3afa15f04f229ebe0cdb3af5d62a46ca2dfa23ea2e0d6c56c97ca5bb78079"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 18,
+      "source": "device/layers/hair/h08-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33724,
+      "rgbaSha256": "61cc792672c266b88db0d842fe6ba7024178a9a75674b2ceedef740f69485f7b"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 19,
+      "source": "device/layers/hair/h08-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33728,
+      "rgbaSha256": "f172a40271d2ab63d47f2e26aa71e7b60457c45501b5fb39b877ac34d98ff8b5"
+    },
+    {
+      "kind": 3,
+      "preset": 8,
+      "variant": 20,
+      "source": "device/layers/hair/h08-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33646,
+      "rgbaSha256": "e1f37fc774bc7224c8cbc80a03a8a6074d33a220d0667a67adea17a226ef9b5d"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 1,
+      "source": "device/layers/hair/h09-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33794,
+      "rgbaSha256": "f8e264b983d278709dd3c0b31de953a34ea0f70628e8f053a63677ab4d5bac98"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 2,
+      "source": "device/layers/hair/h09-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33714,
+      "rgbaSha256": "8e0f8bf74ee1263ef8133927c140b5431c3aa3fdff426529f62995aaca074d8b"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 3,
+      "source": "device/layers/hair/h09-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 31044,
+      "rgbaSha256": "60bce46d43e0c20a0c9f2c7d1419fd1a80f0bc2aadd6fa446eda7b10a7851d85"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 4,
+      "source": "device/layers/hair/h09-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 32248,
+      "rgbaSha256": "a35538c972e366a875f6e739cf6d04a04ab57c23edb1724b330dcfeb0495a1f0"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 5,
+      "source": "device/layers/hair/h09-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33190,
+      "rgbaSha256": "7b65afc54beb9c8654d1a0d6800ae43376fc944f3ac98748d1ab0fe8ebdd8608"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 6,
+      "source": "device/layers/hair/h09-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34180,
+      "rgbaSha256": "9092ae30105e0d3623bc80e3116b8b19c6953941b5b408424f38e7036be8feb3"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 7,
+      "source": "device/layers/hair/h09-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34382,
+      "rgbaSha256": "3051fa90da875352579e7e1dcfe32b57d58c77a6bf05f2ae625f29834676bbbd"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 8,
+      "source": "device/layers/hair/h09-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33614,
+      "rgbaSha256": "906cfa37da3e26f637a0ae7e68b329a92e15502d139d79e3505c46a6e4160120"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 9,
+      "source": "device/layers/hair/h09-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 32690,
+      "rgbaSha256": "af9da60ea55031ca9aec8df1f7024a86fed953081fdd9dd2a4a641f1c89d2841"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 10,
+      "source": "device/layers/hair/h09-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33294,
+      "rgbaSha256": "fdcf9865bf741290e5fe1c5f0ef42bdf3f105369cac004ef12ad9d7cff2741cd"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 11,
+      "source": "device/layers/hair/h09-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 32770,
+      "rgbaSha256": "ddcf9ab73d17212f0d8347fdd36536f11e1538b9ef8bb6f171b643cb9aac05eb"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 12,
+      "source": "device/layers/hair/h09-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34104,
+      "rgbaSha256": "b17248039b77628aa7666ca359695503a4fad886353fc174469c812530c964d9"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 13,
+      "source": "device/layers/hair/h09-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34116,
+      "rgbaSha256": "18771b9a32314cfc76fa97150889eb97122688b1f66b11c766b3d5feac450203"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 14,
+      "source": "device/layers/hair/h09-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34182,
+      "rgbaSha256": "2ee1306a426ecfad6e706e7e98af8e180ec9a57cc77e188717c5be07cfd4197d"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 15,
+      "source": "device/layers/hair/h09-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34292,
+      "rgbaSha256": "67554e7046c54b440cf82fdb747c75a39d8dc65583adffda2faae8cb8ff6c273"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 16,
+      "source": "device/layers/hair/h09-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33208,
+      "rgbaSha256": "8c3624194db96129d02a0d3e3805836f3be75afebd15e856b1e8fbb035cf1e67"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 17,
+      "source": "device/layers/hair/h09-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 34064,
+      "rgbaSha256": "26fab8333dafd4c356b41ce0e2ca1b89efc71d77acbabb7e454a24154827f696"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 18,
+      "source": "device/layers/hair/h09-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33644,
+      "rgbaSha256": "371f09d24f526939dce78d04837a4682b315daece5aac0d08646a7c8d4df5c53"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 19,
+      "source": "device/layers/hair/h09-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33624,
+      "rgbaSha256": "7671394010853936f3a8b3cf1e797d430bb35790137ff6fc883154a70576e76e"
+    },
+    {
+      "kind": 3,
+      "preset": 9,
+      "variant": 20,
+      "source": "device/layers/hair/h09-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 33452,
+      "rgbaSha256": "777f179a00f6915128542b1858c7556b1b9ee610e790b0a5085b237801538c29"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 1,
+      "source": "device/layers/hair/h10-graphite.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68560,
+      "rgbaSha256": "0ed02e57d1a16dc79f301f99b21f8adce42cbe648b2e0fe7e21a61e1de8df8ec"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 2,
+      "source": "device/layers/hair/h10-copper.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69034,
+      "rgbaSha256": "4b6466a447ca17b13c4b485c5e7800e8f81f8063e3333de0a2ab8c4c9f771b58"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 3,
+      "source": "device/layers/hair/h10-raven.png",
+      "rawBytes": 409600,
+      "encodedBytes": 65418,
+      "rgbaSha256": "d92fafa30d0e11966ed43d5b325d65cb6f8f096e8de098263846b395133dfed7"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 4,
+      "source": "device/layers/hair/h10-espresso.png",
+      "rawBytes": 409600,
+      "encodedBytes": 66874,
+      "rgbaSha256": "687896c078c764b87f4c6e28fa0a0a0a528edbc5d9b58f9160013f5644cbb96e"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 5,
+      "source": "device/layers/hair/h10-chestnut.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68636,
+      "rgbaSha256": "14e3c7a6f69299d962135cfd1e8450e687f08a17dc32e2f7c675554ade020593"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 6,
+      "source": "device/layers/hair/h10-golden.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69718,
+      "rgbaSha256": "8bef5009616030d47d532ae6ad156157bc075a81b55f7fa0a15516a669bd92e8"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 7,
+      "source": "device/layers/hair/h10-platinum.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69954,
+      "rgbaSha256": "a483487da0864817285ff04e15222bc581fa5649d6ddf1835b9851115c980d5c"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 8,
+      "source": "device/layers/hair/h10-city-teal.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69426,
+      "rgbaSha256": "6c20f45204d43512d15a49225b355714bb8f741f2f621dd9fca1008a685c2871"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 9,
+      "source": "device/layers/hair/h10-ash-brown.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68888,
+      "rgbaSha256": "bed54bc26bd3f50c72ec34913589e959f01774de340fb3710b89ae988054fe67"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 10,
+      "source": "device/layers/hair/h10-auburn.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68376,
+      "rgbaSha256": "da2970c10ee7f72bf4c7fa2dc3e7e46cc3d407e988a92888b19a96af2c0d295c"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 11,
+      "source": "device/layers/hair/h10-mahogany.png",
+      "rawBytes": 409600,
+      "encodedBytes": 67594,
+      "rgbaSha256": "067d5011a4f483afce6c33b9aaf9b21a1f307d3449de52a89e1ac38268c3c214"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 12,
+      "source": "device/layers/hair/h10-honey-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69608,
+      "rgbaSha256": "dd3379531a7f036e31f058ff7f348c5c332ca183397649505d0cb7f1d26a4051"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 13,
+      "source": "device/layers/hair/h10-strawberry-blonde.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69774,
+      "rgbaSha256": "e619629bea8fcc93ade42f6d3f89775917cb0c3606144949388231667fc89088"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 14,
+      "source": "device/layers/hair/h10-silver.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69852,
+      "rgbaSha256": "9b3f56cb950eb3a67f99aaa01f9d46fc5876b6d5b92065d0a814b928a711bdc8"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 15,
+      "source": "device/layers/hair/h10-snow-white.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69984,
+      "rgbaSha256": "c204ac9363043163ac6cd0e82461ab68405fe3f3da300111dd70229c1f2ae749"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 16,
+      "source": "device/layers/hair/h10-burgundy.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68000,
+      "rgbaSha256": "83beffdf2e129761810af5151b520650aead2bb7e183e13274bfb3b14bf25bec"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 17,
+      "source": "device/layers/hair/h10-rose-pink.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69602,
+      "rgbaSha256": "801bf5035fbc0c1f8349021afe1f6ed52b19f63004f28471580c82b7d67b1d35"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 18,
+      "source": "device/layers/hair/h10-violet.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69334,
+      "rgbaSha256": "e8ea5876ffe38fbd5a07673d53682f5a4aa202234e870e324a23b68693b1c5a8"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 19,
+      "source": "device/layers/hair/h10-cobalt-blue.png",
+      "rawBytes": 409600,
+      "encodedBytes": 69072,
+      "rgbaSha256": "fa1ce581006f449d66c241c4d7970e518e26eed663258d771197247f6dc40b8e"
+    },
+    {
+      "kind": 3,
+      "preset": 10,
+      "variant": 20,
+      "source": "device/layers/hair/h10-emerald.png",
+      "rawBytes": 409600,
+      "encodedBytes": 68638,
+      "rgbaSha256": "812a0c96bf34e8fa4dd5182930726f002c8d6efe8eb637156ff5d5d9306bf297"
+    }
+  ]
+}

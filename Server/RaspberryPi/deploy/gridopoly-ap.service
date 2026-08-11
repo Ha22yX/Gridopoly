@@ -1,0 +1,16 @@
+[Unit]
+Description=Gridopoly isolated Wi-Fi access point
+After=NetworkManager-wait-online.service
+Wants=network-online.target
+Before=gridopoly-dnsmasq.service gridopoly.service
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/gridopoly/ap.env
+ExecStart=/usr/local/libexec/gridopoly-ap
+ExecStopPost=/usr/local/libexec/gridopoly-ap-cleanup
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

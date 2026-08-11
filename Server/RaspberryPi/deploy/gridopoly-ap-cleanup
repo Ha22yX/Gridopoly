@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+UPLINK_IFACE="${GRIDOPOLY_UPLINK_IFACE:-wlan0}"
+AP_PARENT_IFACE="${GRIDOPOLY_AP_PARENT_IFACE:-$UPLINK_IFACE}"
+AP_IFACE="${GRIDOPOLY_AP_IFACE:-ap0}"
+if [ "$AP_PARENT_IFACE" = "$UPLINK_IFACE" ] && /usr/sbin/ip link show "$AP_IFACE" >/dev/null 2>&1; then
+  /usr/sbin/iw dev "$AP_IFACE" del || true
+fi

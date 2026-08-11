@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gridopoly Avatar Layer Prototype</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Segoe UI", sans-serif; background: #071018; color: #edf7ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #071018; }
+    main { width: min(1120px, 96vw); display: grid; grid-template-columns: 520px 1fr; gap: 40px; align-items: center; }
+    h1 { margin: 0 0 8px; font-size: 26px; letter-spacing: 0; }
+    .lede { margin: 0 0 28px; color: #8aa8b7; }
+    .controls { display: grid; gap: 18px; }
+    .group { border-top: 1px solid #274654; padding-top: 12px; }
+    .group strong { display: block; margin-bottom: 10px; color: #55e6ce; font-size: 13px; }
+    .group-body.adjustable { display: grid; grid-template-columns: minmax(0, 1fr) 196px; gap: 12px; align-items: stretch; }
+    .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    button { min-height: 44px; border: 1px solid #315968; border-radius: 6px; background: #0d202b; color: #d8e7ee; font: inherit; cursor: pointer; }
+    button[aria-pressed="true"] { border-color: #55e6ce; color: #55e6ce; background: #13343c; }
+    .offset-control { min-height: 44px; display: grid; align-content: center; gap: 6px; padding: 7px 10px 8px; border: 1px solid #315968; border-radius: 6px; background: #091923; }
+    .axis-control { display: grid; grid-template-columns: 58px minmax(0, 1fr) 42px; gap: 7px; align-items: center; }
+    .axis-label { color: #8aa8b7; font-size: 10px; }
+    .offset-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; color: #8aa8b7; font-size: 11px; }
+    .offset-meta output { min-width: 42px; color: #55e6ce; text-align: right; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; margin: 0; accent-color: #55e6ce; cursor: ew-resize; }
+    .swatch { display: inline-block; width: 16px; height: 16px; margin-right: 8px; border: 1px solid #c7d5da; vertical-align: -3px; }
+    .stage { position: relative; width: min(520px, 54vw); aspect-ratio: 1; overflow: hidden; border: 1px solid #2d5968; border-radius: 50%; background: #0a1a24; }
+    .stage::after { content: ""; position: absolute; inset: 16px; border: 2px solid #55e6ce; border-radius: 50%; pointer-events: none; }
+    .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .caption { margin-top: 14px; text-align: center; color: #87a7b7; font-size: 13px; }
+    .export-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; margin-top: 22px; }
+    .export-button { padding: 0 22px; border-color: #55e6ce; color: #55e6ce; }
+    .export-status { min-height: 18px; color: #8aa8b7; font-size: 12px; }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; padding: 24px; }
+      .stage { width: min(520px, 88vw); grid-row: 1; justify-self: center; }
+    }
+    @media (max-width: 560px) {
+      .group-body.adjustable { grid-template-columns: 1fr; }
+      .export-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>Avatar prototype</h1>
+      <p class="lede">Select a preset, then calibrate its absolute 320 px device offset.</p>
+      <div class="controls" id="controls"></div>
+      <div class="export-row">
+        <button class="export-button" id="export" type="button">COPY ALL OFFSETS</button>
+        <div class="export-status" id="export-status" aria-live="polite"></div>
+      </div>
+    </section>
+    <section>
+      <div class="stage" aria-label="Layered avatar preview">
+        <img id="face" alt="">
+        <img id="outfit" alt="">
+        <img id="hair" alt="">
+      </div>
+      <div class="caption" id="caption"></div>
+    </section>
+  </main>
+  <script>
+    const state = { hair: "h01", hairColor: "graphite", face: "f01", skin: "warm", outfit: "o01" };
+    const storageKey = "gridopoly-avatar-offsets-v5";
+    const defaultOffsets = {
+      hair: {
+        h01: { x: 0, y: -11 }, h02: { x: 0, y: -24 }, h03: { x: -2, y: -28 }, h04: { x: 0, y: -20 },
+        h05: { x: 0, y: -33 }, h06: { x: 0, y: -33 }, h07: { x: 0, y: 2 }, h08: { x: 0, y: -15 },
+        h09: { x: 0, y: -24 }, h10: { x: -1, y: -10 },
+      },
+      face: {
+        f01: { x: 0, y: 0 }, f02: { x: 0, y: 0 }, f03: { x: 0, y: 0 }, f04: { x: 0, y: 0 },
+        f05: { x: 0, y: 0 }, f06: { x: 0, y: 0 }, f07: { x: 0, y: 0 }, f08: { x: 0, y: 0 },
+        f09: { x: 0, y: 0 }, f10: { x: 0, y: 1 },
+      },
+      outfit: {
+        o01: { x: 0, y: 31 }, o02: { x: 0, y: 33 }, o03: { x: 0, y: 31 }, o04: { x: 0, y: 31 },
+        o05: { x: 0, y: 31 }, o06: { x: 0, y: 31 }, o07: { x: 0, y: 48 }, o08: { x: 0, y: 52 },
+        o09: { x: 0, y: 48 }, o10: { x: 0, y: 31 },
+      },
+    };
+    function loadOffsets() {
+      const value = JSON.parse(JSON.stringify(defaultOffsets));
+      try {
+        const stored = JSON.parse(localStorage.getItem(storageKey) || "null");
+        for (const key of Object.keys(value)) {
+          for (const preset of Object.keys(value[key])) {
+            for (const axis of ["x", "y"]) {
+              const candidate = stored?.[key]?.[preset]?.[axis];
+              if (Number.isInteger(candidate) && candidate >= -48 && candidate <= 48) value[key][preset][axis] = candidate;
+            }
+          }
+        }
+      } catch (_) {}
+      return value;
+    }
+    const offsets = loadOffsets();
+    const definitions = [
+      { label: "Hair preset", key: "hair", adjustable: true, values: [
+        ["h01", "Angular crop"], ["h02", "Asymmetric bob"], ["h03", "Textured quiff"],
+        ["h04", "Curly fade"], ["h05", "Classic side part"], ["h06", "Short coils"],
+        ["h07", "Shoulder waves"], ["h08", "Braided crown"], ["h09", "High bun"],
+        ["h10", "Long straight"],
+      ] },
+      { label: "Hair color", key: "hairColor", adjustable: false, values: [
+        ["graphite", "Graphite", "#68747c"], ["copper", "Copper", "#b0532b"],
+        ["raven", "Raven", "#28303a"], ["espresso", "Espresso", "#50372f"],
+        ["chestnut", "Chestnut", "#8e5a3c"], ["golden", "Golden", "#d1a44f"],
+        ["platinum", "Platinum", "#d8ccb0"], ["city-teal", "City teal", "#2d848a"],
+        ["ash-brown", "Ash brown", "#705c52"], ["auburn", "Auburn", "#8b362a"],
+        ["mahogany", "Mahogany", "#682a2c"], ["honey-blonde", "Honey blonde", "#c8974e"],
+        ["strawberry-blonde", "Strawberry blonde", "#d58b5c"], ["silver", "Silver", "#a6b2bc"],
+        ["snow-white", "Snow white", "#ebeaea"], ["burgundy", "Burgundy", "#75253f"],
+        ["rose-pink", "Rose pink", "#c25577"], ["violet", "Violet", "#6f4ea0"],
+        ["cobalt-blue", "Cobalt blue", "#375da8"], ["emerald", "Emerald", "#307d5b"],
+      ] },
+      { label: "Face preset", key: "face", adjustable: true, values: [
+        ["f01", "Angular oval"], ["f02", "Soft square"], ["f03", "Round youthful"],
+        ["f04", "Heart taper"], ["f05", "Elegant oblong"], ["f06", "Diamond angular"],
+        ["f07", "Broad strong"], ["f08", "Soft triangle"], ["f09", "Narrow refined"],
+        ["f10", "Mature sculpted"],
+      ] },
+      { label: "Skin tone", key: "skin", adjustable: false, values: [
+        ["porcelain", "Porcelain", "#efcaad"], ["fair", "Fair", "#e8b58b"],
+        ["warm", "Warm", "#e09e64"], ["golden", "Golden", "#ca8d52"],
+        ["olive", "Olive", "#ad8053"], ["bronze", "Bronze", "#a1603e"],
+        ["deep", "Deep", "#895338"], ["ebony", "Ebony", "#5b352a"],
+      ] },
+      { label: "Outfit preset", key: "outfit", adjustable: true, values: [
+        ["o01", "Utility bomber"], ["o02", "Operations jacket"], ["o03", "Streetline hoodie"],
+        ["o04", "Metro varsity"], ["o05", "Civic blazer"], ["o06", "Workshop vest"],
+        ["o07", "Signal knit"], ["o08", "Denim commuter"], ["o09", "Rainline shell"],
+        ["o10", "Gala tailored"],
+      ] },
+    ];
+    const controls = document.querySelector("#controls");
+
+    function saveOffsets() {
+      localStorage.setItem(storageKey, JSON.stringify(offsets));
+    }
+
+    function applyLayerOffset(layerId, offset, baseline) {
+      const x = offset.x - baseline.x;
+      const y = offset.y - baseline.y;
+      document.querySelector(`#${layerId}`).style.transform = `translate(${x * 100 / 320}%, ${y * 100 / 320}%)`;
+    }
+
+    function render() {
+      document.querySelector("#outfit").src = `../device/layers/outfit/${state.outfit}.png`;
+      document.querySelector("#face").src = `../device/layers/face/${state.face}-${state.skin}.png`;
+      document.querySelector("#hair").src = `../device/layers/hair/${state.hair}-${state.hairColor}.png`;
+      applyLayerOffset("hair", offsets.hair[state.hair], defaultOffsets.hair[state.hair]);
+      applyLayerOffset("face", offsets.face[state.face], defaultOffsets.face[state.face]);
+      applyLayerOffset("outfit", offsets.outfit[state.outfit], defaultOffsets.outfit[state.outfit]);
+      document.querySelector("#caption").textContent = `${state.hair.toUpperCase()} / ${state.hairColor} / ${state.face.toUpperCase()} / ${state.skin} / ${state.outfit.toUpperCase()}`;
+      controls.querySelectorAll("button").forEach((button) => {
+        button.setAttribute("aria-pressed", String(state[button.dataset.key] === button.dataset.value));
+      });
+      controls.querySelectorAll(".offset-control").forEach((panel) => {
+        const key = panel.dataset.offsetKey;
+        const preset = state[key];
+        const value = offsets[key][preset];
+        panel.querySelector(".offset-preset").textContent = preset.toUpperCase();
+        panel.querySelectorAll("input").forEach((input) => {
+          const axis = input.dataset.axis;
+          input.value = value[axis];
+          const output = panel.querySelector(`output[data-axis="${axis}"]`);
+          output.textContent = `${value[axis] >= 0 ? "+" : ""}${value[axis]}px`;
+        });
+      });
+    }
+
+    for (const { label, key, adjustable, values } of definitions) {
+      const group = document.createElement("div");
+      group.className = "group";
+      group.innerHTML = `<strong>${label}</strong><div class="group-body ${adjustable ? "adjustable" : ""}"><div class="options"></div></div>`;
+      for (const [value, name, color] of values) {
+        const button = document.createElement("button");
+        button.dataset.key = key;
+        button.dataset.value = value;
+        button.innerHTML = color ? `<span class="swatch" style="background:${color}"></span>${name}` : name;
+        button.addEventListener("click", () => { state[key] = value; render(); });
+        group.querySelector(".options").append(button);
+      }
+      if (adjustable) {
+        const panel = document.createElement("label");
+        panel.className = "offset-control";
+        panel.dataset.offsetKey = key;
+        panel.innerHTML = `<span class="offset-meta"><span class="offset-preset"></span><span>PER-PRESET</span></span>
+          <span class="axis-control"><span class="axis-label">X OFFSET</span><input data-axis="x" type="range" min="-48" max="48" step="1" value="0"><output data-axis="x"></output></span>
+          <span class="axis-control"><span class="axis-label">Y OFFSET</span><input data-axis="y" type="range" min="-48" max="48" step="1" value="0"><output data-axis="y"></output></span>`;
+        panel.querySelectorAll("input").forEach((input) => {
+          input.addEventListener("input", (event) => {
+            offsets[key][state[key]][event.target.dataset.axis] = Number(event.target.value);
+            saveOffsets();
+            render();
+          });
+        });
+        group.querySelector(".group-body").append(panel);
+      }
+      controls.append(group);
+    }
+
+    async function copyOffsets() {
+      const payload = {
+        schema: 2,
+        unit: "device-pixels-320",
+      };
+      for (const key of ["hair", "face", "outfit"]) {
+        payload[key] = Object.fromEntries(
+          Object.entries(offsets[key]).map(([preset, value]) => [preset.toUpperCase(), { ...value }])
+        );
+      }
+      const text = JSON.stringify(payload, null, 2);
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (_) {
+        const helper = document.createElement("textarea");
+        helper.value = text;
+        helper.style.position = "fixed";
+        helper.style.opacity = "0";
+        document.body.append(helper);
+        helper.select();
+        document.execCommand("copy");
+        helper.remove();
+      }
+      const count = Object.values(offsets).reduce((total, group) => total + Object.keys(group).length, 0);
+      document.querySelector("#export-status").textContent = `All ${count} preset offsets copied`;
+    }
+    document.querySelector("#export").addEventListener("click", copyOffsets);
+    render();
+  </script>
+</body>
+</html>

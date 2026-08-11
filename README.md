@@ -6,7 +6,7 @@
 
 <p align="center">
   <img alt="Project status" src="https://img.shields.io/badge/status-hardware%20prototype-D97706?style=flat-square" />
-  <img alt="Controller" src="https://img.shields.io/badge/controller-ESP32--S3-DC2626?style=flat-square&logo=espressif&logoColor=white" />
+  <img alt="Controller" src="https://img.shields.io/badge/authority-Raspberry%20Pi%205-A22846?style=flat-square&logo=raspberrypi&logoColor=white" />
   <img alt="Bus" src="https://img.shields.io/badge/bus-RS485-2563EB?style=flat-square" />
   <img alt="RFID" src="https://img.shields.io/badge/RFID-125%20kHz-059669?style=flat-square" />
 </p>
@@ -16,7 +16,7 @@
   <a href="#系统架构">系统架构</a> ·
   <a href="#当前硬件">当前硬件</a> ·
   <a href="#项目状态">项目状态</a> ·
-  <a href="Docs/README.md">硬件文档</a>
+  <a href="Docs/README.md">项目文档</a>
 </p>
 
 ## 项目定位
@@ -77,7 +77,7 @@ flowchart TB
 | 子系统 | 当前方案 | 作用 |
 | --- | --- | --- |
 | 本地主控 | ESP32-S3-WROOM-1-N16R8 | 屏幕、灯效、RFID、通信与本地状态 |
-| 中央主控 | Raspberry Pi，软件尚未实现 | 游戏规则、账户、地图和模块管理 |
+| 中央主控 | Raspberry Pi 5 + Raspberry Pi OS Lite 64-bit | 权威游戏规则、账户、地图、网页测试和玩家屏 UDP 同步 |
 | 显示 | ST7789，240×320，只写 SPI | 显示格子内容 |
 | 状态灯 | 10 × WS2812B-B-V6 | 独立寻址的环形状态灯 |
 | RFID | HTRC110 + 外置约 384µH 天线 | 读取 125kHz 无源标签 |
@@ -85,7 +85,7 @@ flowchart TB
 | 顺序检测 | GPIO + 2N7002 开漏链路 | 自动识别物理连接顺序 |
 | 母线供电 | 24V 分布，LMR16030 本地降至 5V | 降低长链路电流与压降 |
 | 电源选择 | TPS2121 | 本地 5V 与 USB VBUS 二选一 |
-| 系统电源 | AP63203，5V 转 3.3V | ESP32-S3 与 3.3V 外设供电 |
+| 系统电源 | TPS62160DGKR，5V 转 3.3V | ESP32-S3 与 3.3V 外设供电 |
 | 电流检测 | INA226 + 10mΩ 分流电阻 | 测量单模块 5V 输入电流 |
 
 本地主要供电路径：
@@ -95,19 +95,25 @@ flowchart TB
 USB_VBUS -------------------------------> TPS2121
 5V_FROM_24 -----------------------------> TPS2121
 TPS2121 -> 5V_SELECTED -> INA226 分流电阻 -> 5V_IN
-5V_IN -> AP63203 -> 3V3_SYS
+5V_IN -> TPS62160DGKR -> 3V3_SYS
 5V_IN -> 磁珠滤波 -> 5V_RFID
 ```
 
 ## 从这里开始
 
-当前仓库主要包含硬件设计和接口文档，ESP32-S3 固件与树莓派控制软件尚未加入。开始阅读时建议按以下顺序：
+当前仓库同时包含硬件设计、ESP32-S3 玩家屏/测试固件和树莓派权威服务端。开始阅读时建议按以下顺序：
 
-1. [产品目标](Docs/product-goals.md)：了解产品边界、交互目标和里程碑。
-2. [硬件文档索引](Docs/README.md)：查看当前硬件架构和网络命名。
-3. [ESP32-S3 引脚与接口定义](Docs/esp32-s3-pin-map.md)：用于固件板级配置和接线核对。
-4. [模块互连方案](Docs/module-interconnect-5wire.md)：了解 24V、RS485、ORDER 和自动枚举。
-5. [原理图历史审查](Docs/schematic-review-2026-07-27.md)：仅用于追溯历史问题，不作为当前接线依据。
+1. [项目文档中心](Docs/README.md)：先了解目录层级、文档权威性和推荐阅读顺序。
+2. [产品目标](Docs/product/product-goals.md)：了解产品边界、交互目标和里程碑。
+3. [ESP32-S3 引脚与接口定义](Docs/hardware/esp32-s3-pin-map.md)：用于固件板级配置和接线核对。
+4. [模块互连方案](Docs/hardware/module-interconnect-5wire.md)：了解 24V、RS485、ORDER 和自动枚举。
+5. [固件开发指南](Docs/firmware/firmware-development-guide.md)：用于建立 ESP-IDF 工程、驱动和通信协议。
+6. [首板调试清单](Docs/hardware/bring-up-checklist.md)：用于通电、烧录、外设和多模块联调。
+7. [硬件基线](Docs/hardware/hardware-baseline.md)：确认当前工程、PCB、BOM 和发布边界。
+8. [树莓派权威服务端](Docs/firmware/raspberry-pi-server.md)：构建、部署、双网络、持久化和发布测试。
+9. [玩家屏 Wi-Fi/UDP 协议](Docs/firmware/wifi-udp-player-protocol.md)：圆屏配对、鉴权、快照和断线恢复。
+10. [双向交易按需协议](Docs/firmware/trade-protocol.md)：双方资产/现金报价、反报价、重连恢复和原子结算。
+11. [原理图历史审查](Docs/archive/schematic-review-2026-07-27.md)：仅用于追溯历史问题，不作为当前接线依据。
 
 ## 项目状态
 
@@ -120,6 +126,9 @@ Gridopoly 目前处于**单格模块硬件原型阶段**。
 - 24V 母线、本地 5V/3.3V 电源以及 USB 调试供电方案。
 - 3×5 磁吸触点的输入、输出和镜像针序定义。
 - 当前引脚、接口、电源网络与 BOM 文档整理。
+- 纯 C++ 权威游戏核心、16/24/32/40 格地图和机器人测试对局。
+- Raspberry Pi 5 权威服务、网页测试端、原子存档与 systemd 自启。
+- 独立 `gridopoly` 玩家网络以及 HMAC 认证的 Wi-Fi/UDP 玩家屏同步协议。
 
 ### 正在进行
 
@@ -127,6 +136,7 @@ Gridopoly 目前处于**单格模块硬件原型阶段**。
 - 24V 转 5V 开关电源布局复核。
 - USB 差分线、RS485、RFID 模拟网络和载流路径检查。
 - DRC、未连接网络和可制造性检查。
+- 玩家圆屏 Wi-Fi/UDP 正式固件与树莓派的实机端到端验收。
 
 ### 尚未验证
 
@@ -147,7 +157,7 @@ Gridopoly 目前处于**单格模块硬件原型阶段**。
 4. 验证 ST7789 显示和 10 颗 WS2812 独立控制。
 5. 调谐 RFID 天线并完成 EM4100/TK4100 ID 解码。
 6. 连接 2～3 个模块，验证 RS485 与 ORDER 枚举。
-7. 开发树莓派测试主控和玩家控制界面。
+7. 完成树莓派权威主控与玩家控制屏的正式实机联调。
 8. 完成小规模棋盘片段后，再扩展到完整棋盘。
 
 ## 设计原则
@@ -166,7 +176,7 @@ Gridopoly 目前处于**单格模块硬件原型阶段**。
 - ST7789 图片传输和资源管理。
 - HTRC110 驱动及 EM4100/TK4100 解码。
 - RS485 通信协议与 ORDER 枚举状态机。
-- 树莓派游戏控制服务和玩家界面。
+- 树莓派游戏控制服务、协议测试和玩家界面扩展。
 - PCB、电源完整性、EMC、RFID 天线和结构设计审查。
 
 提交修改前，请确保网络名、GPIO、连接器针序和文档保持一致。涉及电源、磁吸触点或 RFID 天线的修改，应附带计算依据或实测结果。

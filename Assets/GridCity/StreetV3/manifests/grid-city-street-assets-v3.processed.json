@@ -1,0 +1,693 @@
+{
+  "schema_version": 3,
+  "catalog_id": "grid-city-street-v3",
+  "canonical_style_reference": "source/a2-copper-lane.png",
+  "asset_count": 36,
+  "contact_sheet": "review/asset-contact-sheet.png",
+  "assets": [
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "kind": "property",
+      "group": "A",
+      "source": "source/a1-rivet-row.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "6357f1d0ecb5df397e53983c501d93d1c9191c1564eaa8d849d06ef7710ff84d",
+      "device": "device/a1-rivet-row.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "cb3118b259b31d2dd8f76eb94697d549aa1401f9059d561c7937f41eb0d97411"
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "kind": "property",
+      "group": "A",
+      "source": "source/a2-copper-lane.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "9504b87a34f8e70606f413b7bb7dfec3abed90af121423596c8a00250f3a275a",
+      "device": "device/a2-copper-lane.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "14e168d3e6100f9c38dcea6d95a55b3a8aad426c93d18ae3bd79c39721282033"
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "kind": "property",
+      "group": "B",
+      "source": "source/b1-lantern-avenue.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "32a3e8d84a14ecc8d65a87ac52e3f7ef68c0a107b83ea2b9b30d0ea6174cf74b",
+      "device": "device/b1-lantern-avenue.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "103c1132476e0ccf1d6cd90e6d3d7baf992d3c10ce3f94520a4d2735ea9d71cc"
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "kind": "property",
+      "group": "B",
+      "source": "source/b2-tideway-drive.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "b0441041c4717e5c1ee87a62adc4c1546263f5b77fba0b6a16f177543c4fbca7",
+      "device": "device/b2-tideway-drive.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "dffdd7288fddec98347228835feeec2408adcf957ed1d87a6bb5024e0679a805"
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "kind": "property",
+      "group": "B",
+      "source": "source/b3-beacon-boulevard.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "7af1faeeda6dc16b8928228f25e08bb3ffd3ee64279b3d2f11c34372af9d7333",
+      "device": "device/b3-beacon-boulevard.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "06f5554f47130781ba82da8b455333d579ea48618b8aab570b598d901b9f0434"
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "kind": "property",
+      "group": "C",
+      "source": "source/c1-canvas-street.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "3cedabb3d585f427e39bf1aaccd2bba2491b016f1e99686a0bc1a41741519905",
+      "device": "device/c1-canvas-street.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "c81fb3f8849bb55bb7377b16831bbf205750feb2de17f1cc0a574f17954f3c50"
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "kind": "property",
+      "group": "C",
+      "source": "source/c2-bloom-terrace.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "4223b12ca85aad112d6438d28ce34bd7801e1418bb61e79900dad40cbabb2726",
+      "device": "device/c2-bloom-terrace.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "94a6d5214c65c91b29ea0524a02da19fc481e95a5d6f7410d637374552930b69"
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "kind": "property",
+      "group": "C",
+      "source": "source/c3-aurora-avenue.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "6a419c2c19ddf702c56b07cc3c068cd7ffba42dc7fed7df99f17e43f35268f4e",
+      "device": "device/c3-aurora-avenue.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "013f058785c5ab5c04d31a70c68061d470897bfd079e911c261b9e8b3bbec10c"
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "kind": "property",
+      "group": "D",
+      "source": "source/d1-archive-way.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "cfed31a1c21316f906890994b1fdba471f73e40237a62df59e51d96de48aa4bb",
+      "device": "device/d1-archive-way.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "d80ecfb2922e7c17e4ae9d5b8620deade2b2cf0eba9181f51d094aa362f220ce"
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "kind": "property",
+      "group": "D",
+      "source": "source/d2-forum-drive.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "aa7f89e8a336665ce0de1c5b518fe837eaf5ea43a74f894e81b809979c9877e2",
+      "device": "device/d2-forum-drive.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "9611e9771aaf9b3febfb1ef1461cf9713621807dca2142113d727e7ddb9858fd"
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "kind": "property",
+      "group": "D",
+      "source": "source/d3-meridian-avenue.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "74e5912725979e468defa26255c31001a49b3698af107090028d74af2a6a4017",
+      "device": "device/d3-meridian-avenue.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "92b2ce4ecb1f5faed96e8945645ac981e9e6a68b3c4377f74ac6273d698062c9"
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "kind": "property",
+      "group": "E",
+      "source": "source/e1-pulse-street.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "5cc44334734189f6926fcd836acd6d815f39d1a8d349d666a63fdd48ecf21552",
+      "device": "device/e1-pulse-street.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "285a132d6b932ab62836495b8a0257ff4df9b5c3424a054e0351fcf5ee3a0de4"
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "kind": "property",
+      "group": "E",
+      "source": "source/e2-prism-boulevard.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "ab3684429a1ed87c00fb4914f6d49fb2d659b9d7d8a48c01ce19c07300978be8",
+      "device": "device/e2-prism-boulevard.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "c15cce8a94960e4d5e5a43854e8d407d22d60bf7788c09e096d778866a19542e"
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "kind": "property",
+      "group": "E",
+      "source": "source/e3-nova-avenue.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "2da1fc060f37339e9b76105166ca6373d888cfcb81dafe9fe672ed2ab925d7ac",
+      "device": "device/e3-nova-avenue.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "a646786c952003ef5bd0da82769833e2ec45f16bd9f3f36cf2d16fac8cfdb135"
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "kind": "property",
+      "group": "F",
+      "source": "source/f1-sunstep-terrace.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "b32ef6e2124915b04e2f79e0379b0c4ab22fa393664efb93d78fcbedd53ebe11",
+      "device": "device/f1-sunstep-terrace.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "c8a9204d98f3043599ed672a9e98f23cf61378cbddccb3f45f97ba972a51704f"
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "kind": "property",
+      "group": "F",
+      "source": "source/f2-helix-way.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "40d92e5eee7895dc155b05e14a35b25449df025429d6b6dad162642740b903de",
+      "device": "device/f2-helix-way.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "46d74f4e6f548381411654f147f4c9bf7333b19da6f32b99e1c99f09ee337d86"
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "kind": "property",
+      "group": "F",
+      "source": "source/f3-horizon-drive.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "e6bf3c4415fe64ac69a48c82af3c909a6188d3bd70a6d4ee25887757f8fa59bf",
+      "device": "device/f3-horizon-drive.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "45700712408376f2b12d7e135a93eaf1a9752651851adf0250a0537983bdca35"
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "kind": "property",
+      "group": "G",
+      "source": "source/g1-canopy-lane.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "e84d79e5d08c94af55694ccceb72c0b2039de68f8dd7c88abb7125d731cabb79",
+      "device": "device/g1-canopy-lane.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "01e093899d0b8cc548a0587d2666b69d9058cbb327cd7b57e6db7c7e2ae9e296"
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "kind": "property",
+      "group": "G",
+      "source": "source/g2-verdant-avenue.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "8145e01e2c598a4dc7ecf719edcad3352cf48bbd4c702027d3725dea4be2a405",
+      "device": "device/g2-verdant-avenue.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "08ed0b28510daaab64fc3c322ef99e69dc3726cfb838dff73522d8005252f413"
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "kind": "property",
+      "group": "G",
+      "source": "source/g3-summit-boulevard.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "0990d936536b5c2e5f49e8a0d4a1c36ba2009f5527308c7f59c01303a22540be",
+      "device": "device/g3-summit-boulevard.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "db5ba955d4a0db446a1f0770bba18f8911f7449e1474b2689c45e65dbb23c6b3"
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "kind": "property",
+      "group": "H",
+      "source": "source/h1-crown-promenade.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "b5df1db37f843981c9dc1fb605478316e35499cc9dc747db91ee01ffe0de6d30",
+      "device": "device/h1-crown-promenade.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "b62ed213e154d3b2ab97f6946b355515ae6602f54e6c462edfbdcfd7cd441b8a"
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "kind": "property",
+      "group": "H",
+      "source": "source/h2-grand-meridian.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "5e7b3c20f7fd1541b8969d208b5640066595863a5ae1cfd895204539ac4bc442",
+      "device": "device/h2-grand-meridian.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "935fc2a3a890c6b289c26bf6754b505fbb0c3828423fa3b8de43e2b8d95b1756"
+    },
+    {
+      "key": "transit-westline-terminal",
+      "tile_id": "T-WEST",
+      "name": "Westline Terminal",
+      "kind": "transit",
+      "group": "TRANSIT",
+      "source": "source/transit-westline-terminal.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "df8340322b4c815dd7d2a9caf91f6424fd5f817a88f9f6a81814dd6b40263e8c",
+      "device": "device/transit-westline-terminal.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "f4b9abf759a230332f0591123f7d7514785b44cb18ac65820b873cf381ab237a"
+    },
+    {
+      "key": "transit-northloop-station",
+      "tile_id": "T-NORTH",
+      "name": "Northloop Station",
+      "kind": "transit",
+      "group": "TRANSIT",
+      "source": "source/transit-northloop-station.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "dad8f031b33d433aa61a340c7f0f3aeb9ea40ce102a813e48b6e6a5dae03289d",
+      "device": "device/transit-northloop-station.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "fecea23cd6fad7d6858c80c7b2cfc7780b0df44296c75ffe601cec5aa6c4e44c"
+    },
+    {
+      "key": "transit-eastgate-terminal",
+      "tile_id": "T-EAST",
+      "name": "Eastgate Terminal",
+      "kind": "transit",
+      "group": "TRANSIT",
+      "source": "source/transit-eastgate-terminal.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "377564fd8145c7258319158270503586a2994eb5e2fec74cac3eb175f6287c5e",
+      "device": "device/transit-eastgate-terminal.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "30c27012dac3ed0f2e42a7d3d152f1d4d6fe3eb86a1738cdcd7c17635eb3da11"
+    },
+    {
+      "key": "transit-southline-depot",
+      "tile_id": "T-SOUTH",
+      "name": "Southline Depot",
+      "kind": "transit",
+      "group": "TRANSIT",
+      "source": "source/transit-southline-depot.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "a0ab448e99be9d1918ab9f4959c0cedfb314e31bc104194df1fe3ee9cd8c5614",
+      "device": "device/transit-southline-depot.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "8864f864b700fcf64f68fc8c6b88f07f5f205526d7b083e28a56b4e75048abd8"
+    },
+    {
+      "key": "utility-metro-grid",
+      "tile_id": "U-ENERGY",
+      "name": "Metro Grid",
+      "kind": "utility",
+      "group": "UTILITY",
+      "source": "source/utility-metro-grid.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "1451bff2212869e2ff899ff5a1d3146d5e4099123996a78c8dba3cc21b6f6fdd",
+      "device": "device/utility-metro-grid.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "bad3bc0f25adc5e808c04f6ebe81ea588234bf7e2934c800ea5a308fd69dc32e"
+    },
+    {
+      "key": "utility-bluewater-works",
+      "tile_id": "U-WATER",
+      "name": "Bluewater Works",
+      "kind": "utility",
+      "group": "UTILITY",
+      "source": "source/utility-bluewater-works.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "ea2c042511809d67de175d13b0f4fb0aa114838feeacad52690f9b4ad72d6c8a",
+      "device": "device/utility-bluewater-works.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "3e25bc285926232ec9bb014cdbf51288e916911ae4a24131b4113fcd5d697458"
+    },
+    {
+      "key": "cover-chance",
+      "tile_id": "CARD-CE-*",
+      "name": "Chance",
+      "kind": "chance",
+      "group": "SPECIAL",
+      "source": "source/cover-chance.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "ee483229d0475a017d2d2bd98402b099d789a1bd1ce982988efcc989302a80ff",
+      "device": "device/cover-chance.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "35291196f0fe178035951edef8fbdf9956e4ae8d6c101562c56c99f519891b90"
+    },
+    {
+      "key": "cover-community-fund",
+      "tile_id": "CARD-CF-*",
+      "name": "Community Chest",
+      "kind": "community_chest",
+      "group": "SPECIAL",
+      "source": "source/cover-community-fund.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "f6943a4fba946487c734a955cd4b1302e41fa3b7acee02aec01700eb0dd73a62",
+      "device": "device/cover-community-fund.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "95b95a380418c3aa4336b4d8069235e429370346d46727c6f1f42f37be81bdb8"
+    },
+    {
+      "key": "cover-income-tax",
+      "tile_id": "FEE-CITY",
+      "name": "Income Tax",
+      "kind": "fee",
+      "group": "SPECIAL",
+      "source": "source/cover-income-tax.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "f5f1f401bc604c8faad405517daac53a9e1a70e2709fb88cbd584c744b87794d",
+      "device": "device/cover-income-tax.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "9b5e568bbb68771f74facc15867c38ab63b3c33c651419ec8bebcd695f1dd35d"
+    },
+    {
+      "key": "cover-luxury-tax",
+      "tile_id": "FEE-DENSITY",
+      "name": "Luxury Tax",
+      "kind": "fee",
+      "group": "SPECIAL",
+      "source": "source/cover-luxury-tax.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "773698e9c83dff0856d6f520000dafbd2d85f0474d81774964b41ba849f93942",
+      "device": "device/cover-luxury-tax.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "ce189cbd25ee23ccaa657e68b61c3e2f6c6f99c4353a31ccf5cf337f494f9e05"
+    },
+    {
+      "key": "corner-central-launch",
+      "tile_id": "CORNER-START",
+      "name": "Grid Central",
+      "kind": "corner",
+      "group": "SPECIAL",
+      "source": "Assets/GridCity/UnifiedV2/source/00-central-launch.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "44167d3be617d135073805ec5d0086384899107ed3254576144013dc6cfad2eb",
+      "device": "device/corner-central-launch.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "efcc3772d71eb8909279fd253e21d92a40c045684039a929b1c18d9c5ef39e6e"
+    },
+    {
+      "key": "corner-civic-hold",
+      "tile_id": "CORNER-HOLD",
+      "name": "Holding Area",
+      "kind": "corner",
+      "group": "SPECIAL",
+      "source": "Assets/GridCity/UnifiedV2/source/10-civic-hold.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "4185284bb5b5a39d8bce1ff7718f989e3dd2645f5e4e97101a37614ca61a6baf",
+      "device": "device/corner-civic-hold.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "6954a9334e9a9e9ff9888083607b7dab381cd0bd58cf3517e1c826e9ea75a53d"
+    },
+    {
+      "key": "corner-free-plaza",
+      "tile_id": "CORNER-REST",
+      "name": "Open Plaza",
+      "kind": "corner",
+      "group": "SPECIAL",
+      "source": "Assets/GridCity/UnifiedV2/source/20-free-plaza.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "2c919af90520dc602f63c2f87d7ecec6d19c908bff6c0a7031847c650ac49499",
+      "device": "device/corner-free-plaza.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "d042cb69ac38d9629601637182cdc10d9dca829fa6e17047b214da8971514e4f"
+    },
+    {
+      "key": "corner-hold-order",
+      "tile_id": "CORNER-GOTO",
+      "name": "Go To Hold",
+      "kind": "corner",
+      "group": "SPECIAL",
+      "source": "Assets/GridCity/UnifiedV2/source/30-hold-order.png",
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "source_sha256": "8b395accd45a20aba8809db343e94009974170c31672ee154a8900fa13089ce0",
+      "device": "device/corner-hold-order.png",
+      "device_dimensions": [
+        160,
+        160
+      ],
+      "device_sha256": "8c2c246ff9966aaf8028124ec213cf52f2cc34771f565b15b30eb5305608c559"
+    }
+  ]
+}

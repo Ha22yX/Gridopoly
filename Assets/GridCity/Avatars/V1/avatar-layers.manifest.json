@@ -1,0 +1,656 @@
+{
+  "schema": 1,
+  "sourceCanvas": {
+    "width": 1254,
+    "height": 1254
+  },
+  "deviceCanvas": {
+    "width": 320,
+    "height": 320
+  },
+  "layerOrder": [
+    "face",
+    "outfit",
+    "hair"
+  ],
+  "registration": {
+    "hair": {
+      "H01": [
+        0.82,
+        0,
+        -30
+      ],
+      "H02": [
+        0.82,
+        0,
+        -30
+      ],
+      "H03": [
+        0.82,
+        0,
+        -30
+      ],
+      "H04": [
+        0.82,
+        0,
+        -30
+      ],
+      "H05": [
+        0.82,
+        0,
+        -30
+      ],
+      "H06": [
+        0.82,
+        0,
+        -30
+      ],
+      "H07": [
+        0.82,
+        0,
+        -30
+      ],
+      "H08": [
+        0.82,
+        0,
+        -30
+      ],
+      "H09": [
+        0.82,
+        0,
+        -30
+      ],
+      "H10": [
+        0.82,
+        0,
+        -30
+      ]
+    },
+    "face": {
+      "F01": [
+        0.82,
+        0,
+        -30
+      ],
+      "F02": [
+        0.82,
+        0,
+        -30
+      ],
+      "F03": [
+        0.82,
+        0,
+        -30
+      ],
+      "F04": [
+        0.82,
+        0,
+        -30
+      ],
+      "F05": [
+        0.82,
+        0,
+        -30
+      ],
+      "F06": [
+        0.82,
+        0,
+        -30
+      ],
+      "F07": [
+        0.82,
+        0,
+        -30
+      ],
+      "F08": [
+        0.82,
+        0,
+        -30
+      ],
+      "F09": [
+        0.82,
+        0,
+        -30
+      ],
+      "F10": [
+        0.82,
+        0,
+        -30
+      ]
+    },
+    "outfit": {
+      "O01": [
+        0.82,
+        0,
+        135
+      ],
+      "O02": [
+        0.86,
+        0,
+        315
+      ],
+      "O03": [
+        0.82,
+        0,
+        135
+      ],
+      "O04": [
+        0.82,
+        0,
+        135
+      ],
+      "O05": [
+        0.82,
+        0,
+        135
+      ],
+      "O06": [
+        0.82,
+        0,
+        135
+      ],
+      "O07": [
+        0.82,
+        0,
+        135
+      ],
+      "O08": [
+        0.82,
+        0,
+        135
+      ],
+      "O09": [
+        0.82,
+        0,
+        135
+      ],
+      "O10": [
+        0.82,
+        0,
+        135
+      ]
+    }
+  },
+  "deviceOffsets": {
+    "hair": {
+      "H01": [
+        0,
+        -11
+      ],
+      "H02": [
+        0,
+        -24
+      ],
+      "H03": [
+        -2,
+        -28
+      ],
+      "H04": [
+        0,
+        -20
+      ],
+      "H05": [
+        0,
+        -33
+      ],
+      "H06": [
+        0,
+        -33
+      ],
+      "H07": [
+        0,
+        2
+      ],
+      "H08": [
+        0,
+        -15
+      ],
+      "H09": [
+        0,
+        -24
+      ],
+      "H10": [
+        -1,
+        -10
+      ]
+    },
+    "face": {
+      "F01": [
+        0,
+        0
+      ],
+      "F02": [
+        0,
+        0
+      ],
+      "F03": [
+        0,
+        0
+      ],
+      "F04": [
+        0,
+        0
+      ],
+      "F05": [
+        0,
+        0
+      ],
+      "F06": [
+        0,
+        0
+      ],
+      "F07": [
+        0,
+        0
+      ],
+      "F08": [
+        0,
+        0
+      ],
+      "F09": [
+        0,
+        0
+      ],
+      "F10": [
+        0,
+        1
+      ]
+    },
+    "outfit": {
+      "O01": [
+        0,
+        31
+      ],
+      "O02": [
+        0,
+        33
+      ],
+      "O03": [
+        0,
+        31
+      ],
+      "O04": [
+        0,
+        31
+      ],
+      "O05": [
+        0,
+        31
+      ],
+      "O06": [
+        0,
+        31
+      ],
+      "O07": [
+        0,
+        48
+      ],
+      "O08": [
+        0,
+        52
+      ],
+      "O09": [
+        0,
+        48
+      ],
+      "O10": [
+        0,
+        31
+      ]
+    }
+  },
+  "hairColors": [
+    {
+      "id": "graphite",
+      "rgb": [
+        104,
+        116,
+        124
+      ]
+    },
+    {
+      "id": "copper",
+      "rgb": [
+        176,
+        83,
+        43
+      ]
+    },
+    {
+      "id": "raven",
+      "rgb": [
+        40,
+        48,
+        58
+      ]
+    },
+    {
+      "id": "espresso",
+      "rgb": [
+        80,
+        55,
+        47
+      ]
+    },
+    {
+      "id": "chestnut",
+      "rgb": [
+        142,
+        90,
+        60
+      ]
+    },
+    {
+      "id": "golden",
+      "rgb": [
+        209,
+        164,
+        79
+      ]
+    },
+    {
+      "id": "platinum",
+      "rgb": [
+        216,
+        204,
+        176
+      ]
+    },
+    {
+      "id": "city-teal",
+      "rgb": [
+        45,
+        132,
+        138
+      ]
+    },
+    {
+      "id": "ash-brown",
+      "rgb": [
+        112,
+        92,
+        82
+      ]
+    },
+    {
+      "id": "auburn",
+      "rgb": [
+        139,
+        54,
+        42
+      ]
+    },
+    {
+      "id": "mahogany",
+      "rgb": [
+        104,
+        42,
+        44
+      ]
+    },
+    {
+      "id": "honey-blonde",
+      "rgb": [
+        200,
+        151,
+        78
+      ]
+    },
+    {
+      "id": "strawberry-blonde",
+      "rgb": [
+        213,
+        139,
+        92
+      ]
+    },
+    {
+      "id": "silver",
+      "rgb": [
+        166,
+        178,
+        188
+      ]
+    },
+    {
+      "id": "snow-white",
+      "rgb": [
+        235,
+        238,
+        234
+      ]
+    },
+    {
+      "id": "burgundy",
+      "rgb": [
+        117,
+        37,
+        63
+      ]
+    },
+    {
+      "id": "rose-pink",
+      "rgb": [
+        194,
+        85,
+        119
+      ]
+    },
+    {
+      "id": "violet",
+      "rgb": [
+        111,
+        78,
+        160
+      ]
+    },
+    {
+      "id": "cobalt-blue",
+      "rgb": [
+        55,
+        93,
+        168
+      ]
+    },
+    {
+      "id": "emerald",
+      "rgb": [
+        48,
+        125,
+        91
+      ]
+    }
+  ],
+  "skinColors": [
+    {
+      "id": "porcelain",
+      "rgb": [
+        239,
+        202,
+        173
+      ]
+    },
+    {
+      "id": "fair",
+      "rgb": [
+        232,
+        181,
+        139
+      ]
+    },
+    {
+      "id": "warm",
+      "rgb": [
+        224,
+        158,
+        100
+      ]
+    },
+    {
+      "id": "golden",
+      "rgb": [
+        202,
+        141,
+        82
+      ]
+    },
+    {
+      "id": "olive",
+      "rgb": [
+        173,
+        128,
+        83
+      ]
+    },
+    {
+      "id": "bronze",
+      "rgb": [
+        161,
+        96,
+        62
+      ]
+    },
+    {
+      "id": "deep",
+      "rgb": [
+        137,
+        83,
+        56
+      ]
+    },
+    {
+      "id": "ebony",
+      "rgb": [
+        91,
+        53,
+        42
+      ]
+    }
+  ],
+  "hair": [
+    {
+      "id": "H01",
+      "file": "source/layers/hair/hair-h01-angular-crop-v3.png"
+    },
+    {
+      "id": "H02",
+      "file": "source/layers/hair/hair-h02-asymmetric-bob.png"
+    },
+    {
+      "id": "H03",
+      "file": "source/layers/hair/hair-h03-textured-quiff.png"
+    },
+    {
+      "id": "H04",
+      "file": "source/layers/hair/hair-h04-curly-fade.png"
+    },
+    {
+      "id": "H05",
+      "file": "source/layers/hair/hair-h05-classic-side-part-v2.png"
+    },
+    {
+      "id": "H06",
+      "file": "source/layers/hair/hair-h06-short-coils-v2.png"
+    },
+    {
+      "id": "H07",
+      "file": "source/layers/hair/hair-h07-shoulder-waves.png"
+    },
+    {
+      "id": "H08",
+      "file": "source/layers/hair/hair-h08-braided-crown-v2.png"
+    },
+    {
+      "id": "H09",
+      "file": "source/layers/hair/hair-h09-high-bun.png"
+    },
+    {
+      "id": "H10",
+      "file": "source/layers/hair/hair-h10-long-straight.png"
+    }
+  ],
+  "face": [
+    {
+      "id": "F01",
+      "file": "source/layers/face/face-f01-angular-oval.png"
+    },
+    {
+      "id": "F02",
+      "file": "source/layers/face/face-f02-soft-square-v2.png"
+    },
+    {
+      "id": "F03",
+      "file": "source/layers/face/face-f03-round-youthful.png"
+    },
+    {
+      "id": "F04",
+      "file": "source/layers/face/face-f04-heart-taper.png"
+    },
+    {
+      "id": "F05",
+      "file": "source/layers/face/face-f05-long-rectangle.png"
+    },
+    {
+      "id": "F06",
+      "file": "source/layers/face/face-f06-diamond-angular.png"
+    },
+    {
+      "id": "F07",
+      "file": "source/layers/face/face-f07-broad-strong.png"
+    },
+    {
+      "id": "F08",
+      "file": "source/layers/face/face-f08-soft-triangle.png"
+    },
+    {
+      "id": "F09",
+      "file": "source/layers/face/face-f09-narrow-refined.png"
+    },
+    {
+      "id": "F10",
+      "file": "source/layers/face/face-f10-mature-sculpted.png"
+    }
+  ],
+  "outfit": [
+    {
+      "id": "O01",
+      "file": "source/layers/outfit/outfit-o01-utility-bomber-v2.png"
+    },
+    {
+      "id": "O02",
+      "file": "source/layers/outfit/outfit-o02-operations-jacket.png"
+    },
+    {
+      "id": "O03",
+      "file": "source/layers/outfit/outfit-o03-streetline-hoodie.png"
+    },
+    {
+      "id": "O04",
+      "file": "source/layers/outfit/outfit-o04-metro-varsity.png"
+    },
+    {
+      "id": "O05",
+      "file": "source/layers/outfit/outfit-o05-civic-blazer.png"
+    },
+    {
+      "id": "O06",
+      "file": "source/layers/outfit/outfit-o06-workshop-vest.png"
+    },
+    {
+      "id": "O07",
+      "file": "source/layers/outfit/outfit-o07-signal-knit.png"
+    },
+    {
+      "id": "O08",
+      "file": "source/layers/outfit/outfit-o08-denim-commuter.png"
+    },
+    {
+      "id": "O09",
+      "file": "source/layers/outfit/outfit-o09-rainline-shell.png"
+    },
+    {
+      "id": "O10",
+      "file": "source/layers/outfit/outfit-o10-gala-tailored.png"
+    }
+  ]
+}

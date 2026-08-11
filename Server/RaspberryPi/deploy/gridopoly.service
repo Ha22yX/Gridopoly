@@ -1,0 +1,25 @@
+[Unit]
+Description=Gridopoly authoritative game server
+After=network-online.target gridopoly-ap.service gridopoly-dnsmasq.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gridopoly
+Group=gridopoly
+EnvironmentFile=/etc/gridopoly/server.env
+ExecStart=/usr/local/bin/gridopoly_server
+Restart=always
+RestartSec=2
+TimeoutStopSec=10
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/gridopoly
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
