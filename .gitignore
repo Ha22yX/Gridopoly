@@ -1,6 +1,7 @@
 # Local EasyEDA API screen capture cache
 /.eda-current-screen.png
 /.tmp/
+/.worktrees/
 /build/
 .superpowers/
 /Firmware/PlayerConsole/build/
