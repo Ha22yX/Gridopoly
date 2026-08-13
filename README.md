@@ -1,186 +1,184 @@
 <h1 align="center">Gridopoly</h1>
 
 <p align="center">
-  一个由智能格子、实体棋子和中央主控组成的模块化电子桌游平台。
+  A modular electronic board game platform with smart tiles, player control screens, physical pieces, and a Raspberry Pi authority server.
 </p>
 
 <p align="center">
-  <img alt="Project status" src="https://img.shields.io/badge/status-hardware%20prototype-D97706?style=flat-square" />
-  <img alt="Controller" src="https://img.shields.io/badge/authority-Raspberry%20Pi%205-A22846?style=flat-square&logo=raspberrypi&logoColor=white" />
-  <img alt="Bus" src="https://img.shields.io/badge/bus-RS485-2563EB?style=flat-square" />
-  <img alt="RFID" src="https://img.shields.io/badge/RFID-125%20kHz-059669?style=flat-square" />
+  <a href="README.zh-CN.md">Chinese</a> &middot;
+  <a href="#project-gallery">Gallery</a> &middot;
+  <a href="#current-status">Status</a> &middot;
+  <a href="#quickstart">Quickstart</a> &middot;
+  <a href="Docs/README.md">Docs</a> &middot;
+  <a href="Server/RaspberryPi/README.md">Raspberry Pi server</a>
 </p>
 
 <p align="center">
-  <a href="#项目定位">项目定位</a> ·
-  <a href="#系统架构">系统架构</a> ·
-  <a href="#当前硬件">当前硬件</a> ·
-  <a href="#项目状态">项目状态</a> ·
-  <a href="Docs/README.md">项目文档</a>
+  <img alt="Status" src="https://img.shields.io/badge/status-integrated%20prototype-D97706?style=for-the-badge" />
+  <img alt="Tile MCU" src="https://img.shields.io/badge/tile-ESP32--S3-205A4B?style=for-the-badge" />
+  <img alt="Authority" src="https://img.shields.io/badge/authority-Raspberry%20Pi%205-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white" />
+  <img alt="Player console" src="https://img.shields.io/badge/player%20console-480x480%20round%20LCD-6B7FD7?style=for-the-badge" />
+  <img alt="Bus" src="https://img.shields.io/badge/bus-RS485%20%2B%20ORDER-2563EB?style=for-the-badge" />
 </p>
 
-## 项目定位
+## Project Gallery
 
-Gridopoly 是一个面向创客和桌游开发者的可编程实体棋盘系统。棋盘不是一整块固定电路，而是由多个可独立显示、识别和通信的格子模块连接而成。
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src=".github/assets/gridopoly-tile-pcb.png" alt="Gridopoly smart tile PCB design" />
+      <br />
+      <strong>Smart tile PCB.</strong> ESP32-S3, display, RFID, RS485, 24 V power distribution, current sensing, and edge contacts in one rearrangeable grid module.
+    </td>
+    <td width="50%" align="center">
+      <img src=".github/assets/gridopoly-player-console.png" alt="Gridopoly player control screen design" />
+      <br />
+      <strong>Player control screen.</strong> Round 480x480 player terminal for turn actions, cash, assets, dice, trade, and game prompts.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src=".github/assets/gridopoly-tile-module.png" alt="Gridopoly physical smart tile module" />
+      <br />
+      <strong>Physical tile module.</strong> A real smart tile assembly with screen, USB-C, side contacts, LEDs, and board-level bring-up hardware.
+    </td>
+    <td width="50%" align="center">
+      <img src=".github/assets/gridopoly-raspberry-pi.png" alt="Raspberry Pi 5 used as the Gridopoly game authority server" />
+      <br />
+      <strong>Raspberry Pi authority.</strong> The central game server for rules, accounts, board state, web UI, player synchronization, and persistence.
+    </td>
+  </tr>
+</table>
 
-项目希望保留移动棋子、围桌交流和玩家交易等实体桌游体验，同时减少纸币、手工记账和固定印刷内容带来的限制。格子上的屏幕与灯光可以随游戏状态变化，树莓派负责全局规则、账户和回合流程。
+## Why This Exists
 
-Gridopoly 不以复制现有商业桌游的品牌、地图、美术、卡牌文字或产品外观为目标。项目将采用原创名称、视觉内容和规则表达，探索地产经营机制之外的更多可编程玩法。
+Gridopoly explores what a physical board game can become when the board itself is programmable. Instead of a fixed printed board, the system is built from independent smart tiles that can display their own state, detect pieces, animate LEDs, and communicate with a central authority.
 
-## 核心能力
+The goal is not to copy the brand, map, art, cards, or product appearance of any existing commercial board game. Gridopoly keeps the social feeling of moving pieces around a real table, while replacing paper money, manual rent calculation, and fixed board content with software-controlled rules, assets, player screens, and dynamic maps.
 
-- **模块化棋盘**：每个格子可以独立测试、替换和重新排列。
-- **自动顺序识别**：ORDER 链用于发现模块的实际物理排列顺序。
-- **共享通信总线**：RS485 负责树莓派与多个格子模块之间的可靠通信。
-- **动态格子内容**：2.0 英寸 ST7789 屏幕显示地块、事件和状态信息。
-- **独立灯效**：每格 10 颗 WS2812，可分别设置颜色和动画。
-- **棋子识别**：HTRC110 与外置 125kHz 天线读取 EM4100/TK4100 标签。
-- **本地电流检测**：INA226 测量单个格子模块的 5V 输入电流。
-- **双路调试供电**：模块支持 24V 母线本地降压，并保留 USB Type-C 调试供电。
+## Current Status
 
-## 系统架构
+Gridopoly has moved beyond an early single-tile concept. Most major software and interaction subsystems are now implemented or integrated in the repository:
+
+- Raspberry Pi 5 authority server linked to the shared C++ game core and protocol stack.
+- Web board/testing UI with map assets, owner badges, robot players, game creation, and forced-roll debugging.
+- Authenticated Wi-Fi/UDP player-console protocol with HMAC sessions, replay protection, heartbeat, resync, and player detail queries.
+- Player console UI specification for a 2.1 inch 480x480 round screen, including dice, assets, players, trades, payments, auctions, cards, debt, and reconnect flows.
+- Bidirectional trade protocol with request/response flows, revisions, idempotency, counter-offers, robot responses, and atomic settlement.
+- Persistent game state, room identity, device-to-seat binding, avatar setup, name setup, countdown, and final avatar publishing.
+- Hardware baseline for smart tiles: ESP32-S3, ST7789, WS2812, HTRC110 RFID, RS485, ORDER chain, INA226 current sensing, 24 V bus, USB-C debug power, and 6-layer PCB design.
+- Mechanical player-console stand assets and verification scripts.
+
+Remaining work is mainly real-world validation: multi-tile hardware bring-up, RFID tuning, RS485/ORDER chain tests, power and thermal measurements, and full end-to-end playtesting across physical tiles, player consoles, and the authority server.
+
+## System Architecture
 
 ```mermaid
 flowchart TB
-    Pi["树莓派主控<br/>规则、账户、地图与结算"]
-    Bus["24V 电源母线 + RS485 + ORDER"]
-    TileA["格子模块 A<br/>ESP32-S3 / LCD / LED / RFID"]
-    TileB["格子模块 B<br/>ESP32-S3 / LCD / LED / RFID"]
-    TileN["格子模块 N<br/>ESP32-S3 / LCD / LED / RFID"]
-    Player["玩家控制屏幕<br/>余额、资产、交易与操作"]
-    Piece["实体棋子<br/>125kHz 标签 / 计划加入震动反馈"]
+    Pi["Raspberry Pi 5 authority<br/>rules, turns, accounts, persistence"]
+    Web["Web board / test UI"]
+    Console["Player round screens<br/>Wi-Fi/UDP actions + snapshots"]
+    Bus["24 V power + RS485 + ORDER"]
+    TileA["Smart tile A<br/>ESP32-S3 / LCD / LED / RFID"]
+    TileB["Smart tile B"]
+    TileN["Smart tile N"]
+    Piece["Physical pieces<br/>125 kHz RFID tags"]
 
+    Pi <--> Web
+    Pi <--> Console
     Pi --> Bus
     Bus --> TileA
     TileA --> TileB
     TileB --> TileN
-    Pi <--> Player
-    Piece -. 放置与识别 .-> TileA
+    Piece -. placed on .-> TileA
 ```
 
-### 模块互连
+## Core Features
 
-模块之间使用 5 个电气网络和每侧 15 个物理触点：
+- **Rearrangeable smart tiles**: each grid module can be manufactured, tested, replaced, and rearranged independently.
+- **Physical-piece sensing**: each tile is designed around 125 kHz RFID detection for tagged game pieces.
+- **Dynamic tile display**: ST7789 screens and WS2812 LEDs show ownership, events, status, and feedback.
+- **Central game authority**: a Raspberry Pi owns the rules, turns, cash, assets, trades, auctions, debts, and persistence.
+- **Player terminals**: round screens give each player their own cash, assets, dice, trade, payment, and reconnect interface.
+- **Original Grid City content**: the repo includes board maps, visual systems, tile assets, avatars, contracts, and game rules.
+- **Protocol-first design**: C++ core, binary protocol, UDP envelope, HTTP assets, and generated contracts are tested as first-class artifacts.
 
-| 网络 | 物理触点 | 用途 |
-| --- | ---: | --- |
-| `24V_BUS` | 6 | 模块供电母线 |
-| `GND` | 6 | 电源回路与公共参考地 |
-| `BUS_A` | 1 | RS485 差分信号 A |
-| `BUS_B` | 1 | RS485 差分信号 B |
-| `ORDER` | 1 | 逐级发现模块物理顺序 |
+## Tech Stack
 
-并联触点用于降低单个连接面的接触电阻，但不能替代分段供电。完整棋盘扩展到数十个模块时，需要使用多个 24V 注入点、电源分区或独立供电底板。
-
-## 当前硬件
-
-| 子系统 | 当前方案 | 作用 |
+| Layer | Technology | Purpose |
 | --- | --- | --- |
-| 本地主控 | ESP32-S3-WROOM-1-N16R8 | 屏幕、灯效、RFID、通信与本地状态 |
-| 中央主控 | Raspberry Pi 5 + Raspberry Pi OS Lite 64-bit | 权威游戏规则、账户、地图、网页测试和玩家屏 UDP 同步 |
-| 显示 | ST7789，240×320，只写 SPI | 显示格子内容 |
-| 状态灯 | 10 × WS2812B-B-V6 | 独立寻址的环形状态灯 |
-| RFID | HTRC110 + 外置约 384µH 天线 | 读取 125kHz 无源标签 |
-| 模块总线 | SN65HVD75 半双工 RS485 | 多模块数据通信 |
-| 顺序检测 | GPIO + 2N7002 开漏链路 | 自动识别物理连接顺序 |
-| 母线供电 | 24V 分布，LMR16030 本地降至 5V | 降低长链路电流与压降 |
-| 电源选择 | TPS2121 | 本地 5V 与 USB VBUS 二选一 |
-| 系统电源 | TPS62160DGKR，5V 转 3.3V | ESP32-S3 与 3.3V 外设供电 |
-| 电流检测 | INA226 + 10mΩ 分流电阻 | 测量单模块 5V 输入电流 |
+| Tile hardware | ESP32-S3, ST7789, WS2812, HTRC110, RS485, INA226 | Local display, lighting, RFID sensing, bus communication, current monitoring. |
+| Player console | ESP32-S3, 480x480 round LCD, LVGL-oriented UI specs, Wi-Fi/UDP | Per-player controls, snapshots, actions, reconnect, and UI workflows. |
+| Authority server | Raspberry Pi 5, C++17, systemd | Rules, persistence, HTTP board UI, UDP player sessions, and deployment. |
+| Game core | C++ libraries | Board catalog, game engine, protocol codec, state machine, trades, auctions, cards, and bots. |
+| Assets/contracts | JSON schemas, generated docs, PNG/RGB565/GAVC assets | Stable game content, tile art, avatars, and protocol contracts. |
+| Hardware design | EasyEDA project snapshots, 6-layer PCB baseline | Smart tile PCB design, BOM, power, bus, and connector documentation. |
 
-本地主要供电路径：
+## Quickstart
+
+Build and run the host-side C++ tests:
+
+```bash
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+Build and test the Raspberry Pi server using the native guard script:
+
+```bash
+GRIDOPOLY_NATIVE_BUILD_DIR=/tmp/gridopoly-build \
+  Server/RaspberryPi/tools/build-and-test-native.sh
+```
+
+Deploy on Raspberry Pi after building the server binary:
+
+```bash
+sudo sh Server/RaspberryPi/deploy/install.sh build-pi/gridopoly_server
+sudoedit /etc/gridopoly/server.env
+sudoedit /etc/gridopoly/ap.env
+sudo systemctl enable --now gridopoly-ap gridopoly-dnsmasq gridopoly-ap-watchdog gridopoly
+```
+
+Player network endpoints after deployment:
+
+- Web board on the player AP: `http://10.42.0.1/`
+- Player binary protocol: UDP `10.42.0.1:4242`
+
+## Documentation Map
+
+Start here when working on a specific area:
+
+- [Docs center](Docs/README.md)
+- [Product goals](Docs/product/product-goals.md)
+- [Hardware baseline](Docs/hardware/hardware-baseline.md)
+- [ESP32-S3 pin map](Docs/hardware/esp32-s3-pin-map.md)
+- [Module interconnect](Docs/hardware/module-interconnect-5wire.md)
+- [Firmware development guide](Docs/firmware/firmware-development-guide.md)
+- [Raspberry Pi authority server](Docs/firmware/raspberry-pi-server.md)
+- [Wi-Fi/UDP player protocol](Docs/firmware/wifi-udp-player-protocol.md)
+- [Trade protocol](Docs/firmware/trade-protocol.md)
+- [Player console UI spec](Docs/player-console/player-console-ui-spec.md)
+- [Game rules](Docs/game/game-rules.md)
+
+## Repository Layout
 
 ```text
-24V_BUS -> 保护与保险 -> LMR16030 -> 5V_FROM_24
-USB_VBUS -------------------------------> TPS2121
-5V_FROM_24 -----------------------------> TPS2121
-TPS2121 -> 5V_SELECTED -> INA226 分流电阻 -> 5V_IN
-5V_IN -> TPS62160DGKR -> 3V3_SYS
-5V_IN -> 磁珠滤波 -> 5V_RFID
+Gridopoly/
+|-- Assets/                  Grid City tile art, avatars, manifests, and generated assets
+|-- Docs/                    Product, hardware, firmware, game, player-console, and design docs
+|-- Firmware/                ESP32 test server, shared core/protocol libraries, LVGL baseline
+|-- GameData/                Schemas, generated contracts, and game data artifacts
+|-- Mechanical/              Player console stand models, scripts, tests, and reports
+|-- PCB Files/               EasyEDA project snapshots and PCB backups
+|-- Server/RaspberryPi/      Formal authority server, deploy scripts, web/UDP services
+|-- Tools/                   Contract generation tools and tests
+|-- tests/host/              Host C++ tests for core, protocol, authority, UDP, HTTP, avatars
+`-- CMakeLists.txt
 ```
 
-## 从这里开始
+## Safety And Release Notes
 
-当前仓库同时包含硬件设计、ESP32-S3 玩家屏/测试固件和树莓派权威服务端。开始阅读时建议按以下顺序：
+Gridopoly is an integrated prototype, not a manufacturing release. Before treating a board revision as production-ready, the project still needs final DRC, no-unrouted checks, component orientation review, switching-regulator layout review, current-path calculations, RFID tuning, and measured multi-module testing.
 
-1. [项目文档中心](Docs/README.md)：先了解目录层级、文档权威性和推荐阅读顺序。
-2. [产品目标](Docs/product/product-goals.md)：了解产品边界、交互目标和里程碑。
-3. [ESP32-S3 引脚与接口定义](Docs/hardware/esp32-s3-pin-map.md)：用于固件板级配置和接线核对。
-4. [模块互连方案](Docs/hardware/module-interconnect-5wire.md)：了解 24V、RS485、ORDER 和自动枚举。
-5. [固件开发指南](Docs/firmware/firmware-development-guide.md)：用于建立 ESP-IDF 工程、驱动和通信协议。
-6. [首板调试清单](Docs/hardware/bring-up-checklist.md)：用于通电、烧录、外设和多模块联调。
-7. [硬件基线](Docs/hardware/hardware-baseline.md)：确认当前工程、PCB、BOM 和发布边界。
-8. [树莓派权威服务端](Docs/firmware/raspberry-pi-server.md)：构建、部署、双网络、持久化和发布测试。
-9. [玩家屏 Wi-Fi/UDP 协议](Docs/firmware/wifi-udp-player-protocol.md)：圆屏配对、鉴权、快照和断线恢复。
-10. [双向交易按需协议](Docs/firmware/trade-protocol.md)：双方资产/现金报价、反报价、重连恢复和原子结算。
-11. [原理图历史审查](Docs/archive/schematic-review-2026-07-27.md)：仅用于追溯历史问题，不作为当前接线依据。
-
-## 项目状态
-
-Gridopoly 目前处于**单格模块硬件原型阶段**。
-
-### 已完成
-
-- 单格模块的主要硬件架构与网络规划。
-- ESP32-S3、屏幕、WS2812、RFID、RS485、ORDER 和 INA226 的原理图连接。
-- 24V 母线、本地 5V/3.3V 电源以及 USB 调试供电方案。
-- 3×5 磁吸触点的输入、输出和镜像针序定义。
-- 当前引脚、接口、电源网络与 BOM 文档整理。
-- 纯 C++ 权威游戏核心、16/24/32/40 格地图和机器人测试对局。
-- Raspberry Pi 5 权威服务、网页测试端、原子存档与 systemd 自启。
-- 独立 `gridopoly` 玩家网络以及 HMAC 认证的 Wi-Fi/UDP 玩家屏同步协议。
-
-### 正在进行
-
-- PCB 元件布局、布线和设计规则收敛。
-- 24V 转 5V 开关电源布局复核。
-- USB 差分线、RS485、RFID 模拟网络和载流路径检查。
-- DRC、未连接网络和可制造性检查。
-- 玩家圆屏 Wi-Fi/UDP 正式固件与树莓派的实机端到端验收。
-
-### 尚未验证
-
-- PCB 实物打样与通电测试。
-- RFID 天线的实测电感、Q 值和 125kHz 谐振调谐。
-- 多模块 RS485 通信与 ORDER 自动枚举。
-- 长链路 24V 压降、磁吸触点温升和分段供电。
-- 屏幕刷新、图片传输、灯效和完整游戏流程。
-
-> [!CAUTION]
-> 当前设计不能视为已经完成投产验证。下单前仍需完成完整 DRC、未布线检查、器件方向复核、开关电源布局检查、载流能力计算和工程样板测试。
-
-## 近期路线
-
-1. 完成单格模块 PCB 并通过设计审查。
-2. 打样并逐项验证 24V、5V、3.3V 与 USB 供电。
-3. 编写 ESP32-S3 板级测试固件。
-4. 验证 ST7789 显示和 10 颗 WS2812 独立控制。
-5. 调谐 RFID 天线并完成 EM4100/TK4100 ID 解码。
-6. 连接 2～3 个模块，验证 RS485 与 ORDER 枚举。
-7. 完成树莓派权威主控与玩家控制屏的正式实机联调。
-8. 完成小规模棋盘片段后，再扩展到完整棋盘。
-
-## 设计原则
-
-- **模块优先**：一个格子可以独立制造、测试和替换。
-- **实体优先**：电子系统增强实体桌游，而不是把它变成普通屏幕游戏。
-- **原创表达**：品牌、地图、美术、文字和产品外观保持独立设计。
-- **先验证再扩展**：先完成单格和小规模链路，再制作完整棋盘。
-- **文档与设计同步**：引脚定义以当前 EasyEDA 设计复核结果为准。
-
-## 参与项目
-
-目前最有价值的贡献方向包括：
-
-- ESP-IDF 板级驱动与硬件自检固件。
-- ST7789 图片传输和资源管理。
-- HTRC110 驱动及 EM4100/TK4100 解码。
-- RS485 通信协议与 ORDER 枚举状态机。
-- 树莓派游戏控制服务、协议测试和玩家界面扩展。
-- PCB、电源完整性、EMC、RFID 天线和结构设计审查。
-
-提交修改前，请确保网络名、GPIO、连接器针序和文档保持一致。涉及电源、磁吸触点或 RFID 天线的修改，应附带计算依据或实测结果。
-
-## 项目说明
-
-本仓库当前未提供开源许可证。公开代码和设计文件不等同于自动授予复制、修改或商业使用许可；在许可证确定前，请先联系项目维护者。
+No open-source license has been selected yet. Public code and design files are available for inspection, but they are not automatically licensed for reuse, modification, or commercial use.
