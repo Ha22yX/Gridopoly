@@ -2,8 +2,9 @@
 """Read-only AF_PACKET decoder for Gridopoly UDP frame diagnostics.
 
 Run as root on the Raspberry Pi. The tool never verifies or prints keys/tags;
-it only decodes the already authenticated protocol header and selected public
-query metadata from packets on the dedicated player AP.
+it only decodes protocol headers and selected public metadata from packets
+on the dedicated player AP. Captured frames are observations, not proof of
+server authentication or acceptance; correlate ActionResult and authority state.
 """
 
 from __future__ import annotations
@@ -82,6 +83,14 @@ def decode_packet(packet: bytes) -> dict[str, object] | None:
 def describe_detail(frame: dict[str, object]) -> str:
     payload = frame["payload"]
     assert isinstance(payload, bytes)
+    if frame["type"] == 0x20 and len(payload) == 12 and payload[0] == 1:
+        argument, expected_version = struct.unpack_from("<iI", payload, 4)
+        return (f"action={payload[1]} player={payload[2]} asset={payload[3]} "
+                f"argument={argument} expectedVersion={expected_version}")
+    if frame["type"] == 0x21 and len(payload) == 12 and payload[0] == 1:
+        state_version, request_sequence = struct.unpack_from("<II", payload, 4)
+        return (f"result={payload[1]} player={payload[2]} "
+                f"stateVersion={state_version} requestSequence={request_sequence}")
     if frame["type"] == 0x24 and len(payload) == 12:
         request_id, expected_version = struct.unpack_from("<II", payload, 4)
         return (f"requestId={request_id} target={payload[1]} "
@@ -99,12 +108,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--interface", default="ap0")
     parser.add_argument("--duration", type=float, default=90.0)
+    parser.add_argument("--actions", action="store_true",
+                        help="Also timestamp ActionRequest/ActionResult for movement-cue correlation")
     args = parser.parse_args()
 
     counts: collections.Counter[int] = collections.Counter()
     detail_frames = 0
+    action_frames = 0
     started = time.monotonic()
-    sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0800))
+    # ETH_P_ALL also observes locally transmitted ActionResult/Ack packets.
+    # decode_packet keeps only IPv4 Gridopoly UDP traffic.
+    sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
     sock.bind((args.interface, 0))
     sock.settimeout(1.0)
     try:
@@ -118,11 +132,14 @@ def main() -> int:
                 continue
             message_type = int(frame["type"])
             counts[message_type] += 1
-            if message_type not in (0x24, 0x25):
+            if message_type in (0x24, 0x25):
+                detail_frames += 1
+            elif args.actions and message_type in (0x20, 0x21):
+                action_frames += 1
+            else:
                 continue
-            detail_frames += 1
             print(
-                f"GRIDOPOLY_UDP_FRAME type={TYPE_NAMES.get(message_type, hex(message_type))} "
+                f"GRIDOPOLY_UDP_FRAME epochMs={time.time_ns() // 1_000_000} type={TYPE_NAMES.get(message_type, hex(message_type))} "
                 f"src={frame['source']} dst={frame['destination']} room={frame['room']} "
                 f"seq={frame['sequence']} ack={frame['acknowledgement']} "
                 f"flags=0x{int(frame['flags']):04x} {describe_detail(frame)}",
@@ -135,7 +152,7 @@ def main() -> int:
         f"{TYPE_NAMES.get(message_type, hex(message_type))}={count}"
         for message_type, count in sorted(counts.items())
     )
-    print(f"GRIDOPOLY_UDP_SNIFF_COMPLETE detailFrames={detail_frames} {summary}")
+    print(f"GRIDOPOLY_UDP_SNIFF_COMPLETE detailFrames={detail_frames} actionFrames={action_frames} {summary}")
     return 0
 
 
