@@ -224,3 +224,31 @@ Pi时钟相对采集主机超前288–506ms为该次218ms SSH往返测量界限�
 原始文件均在 `C:/Users/kicof/AppData/Local/Temp/`：`gridopoly-joint-20260908-0114-http.jsonl`、`gridopoly-joint-20260908-0114-udp.log`、`gridopoly-joint-20260908-0114-ap.log`、`gridopoly-joint-20260908-0114-ap-interim.log`。玩家屏对应本机目录为 `GridopolyPlayerTools-3311/functional-window-20260908-0114`。已直接同步主会话及屏幕端；本节只改服务器报告，原始临时日志不进Git，由主会话统一提交。
 
 本轮证明新候选启动后可完成联网/配对/状态同步，仍未证明真实首帧→Action17→目标cue→绑定UID到达。线上仍停在债务phase5，未注入游戏动作。下一步主会话协调用户正常推进至移动并安排目标空线圈/预放Tag分别测试；玩家屏继续完整SelfTest与性能门槛，格子端负责物理UID/LED观察，服务器端在实际移动窗口补齐权威报文与状态证据。当前正常候选可以通信不等于整个功能正式发布。
+
+## 2026-09-08 22:09 UTC 五分钟现场移动观测
+
+主会话发现room993580098已从债务转为phase1，授权服务器端300秒只读HTTP/UDP Action观测。本端没有重启服务、注入游戏动作、修改assignment/绑定或打开COM6/COM7。按交接版本：COM7为正常Wi-Fi候选ded1375634d29cc454ce401dd7e1da56373e91055d2bd464a865bee3d3c31a8c，COM6为V0.28，服务器维持原版本；本轮未重新读取设备固件hash。
+
+两项采集均按原截止结束并exit0，已释放，不续开：HTTP UTC22:09:48.567–22:14:48.577（epoch1788905388567–1788905688577），591样本/2364GET、requestErrors0/interruptedfalse；UDP约22:10:01.191开始，22:15:01.533结束。UDP双向Heartbeat150/Ack150、Discover298、StateSnapshot2、GameEvent4、AuthoritySnapshot2、RosterSnapshot2、PlayerCardEvent1、0x28计2、0x2a计2；detailFrames/actionFrames均0。
+
+以下为主机UTC首次观测时间，不冒充服务端事件精确发生时间；每个样本保留四次GET时间及非原子标记：
+
+| 首次观测UTC | HTTP证据 |
+| --- | --- |
+| 22:09:48.661 | v200/phase1/P1位置6，gate inactive；T-WEST/map6/assignmentRevision10；tags空 |
+| 22:09:52.679 | 现场assignment变为C1/map13/revision11，本端未作分配写入 |
+| 22:09:57.183 | v201/phase2，gate active、readyfalse，P1 origin6/target13；tags空 |
+| 22:10:00.166 | 同v201、同目标，gate.ready=true；tags仍空 |
+| 22:10:07.694 | v202/phase6 TurnEnd，P1位置13、gate inactive；绑定UID8EFA24DF currentlySeen=true，sighting为同一模块C1/map13；模块tagRevision2/globalTagRevision54，bindingRevision2 |
+| 22:10:14.693 | UID currentlySeen=false，模块tagRevision3/globalTagRevision55；P1位置13/v202不变 |
+| 截止 | Tag短期历史已过期为空；仍v202/phase6/P1位置13/C1 map13 revision11，无重复推进 |
+
+全窗口15个样本gate.ready=true、14个样本Tag currentlySeen=true；authFailures/replayDrops一直0，历史txErrors32未增长。HTTP给出了匹配目标、闸门就绪、绑定UID上报和权威位置推进的关联证据。
+
+限制必须保留：UDP因顺序启动和工具返回耗时，比HTTP晚约12.6秒启动，且晚于ready首次观测约1秒，漏过本次Action17之前的报文。actionFrames0不表示玩家没有发送Action17，也不能把gate.ready反推成已经抓到Action17原包或成功ActionResult。本轮未占串口，缺少真实LCD呈现/发送回执日志及LED目视验收；只凭HTTP关联无法唯一排除另一路手动Confirm请求。完整自动到达因果证明仍需主会话结合现场输入记录；持续预放Tag与手动入口亦不能冒称本轮通过。
+
+Pi相对Windows时钟超前2333–2522ms，是本轮189ms SSH往返取得的界限，不能沿用早间约300ms的偏差。Tag lastSeenMs为Pi时间，与HTTP主机接收时间直接相减会误判顺序。
+
+原始证据均在C:/Users/kicof/AppData/Local/Temp：gridopoly-joint-20260908-2208-http.jsonl、gridopoly-joint-20260908-2208-udp.log；派生完整状态转折文件gridopoly-joint-20260908-2208-observed-transitions.json保留前一个样本时间及首次变化完整样本。文件前缀2208代表主任务通知时段，准确开始/结束以上述epoch为准。
+
+主会话已要求删除gridopoly定时任务，AGENTS/协调文档已更新，本端不重建或替代。当前窗口结束即交付主会话审核提交本报告，临时日志不进Git，不自行续开采集或唤醒其他端空转。剩余现场协调及缺失验收由主会话负责；本次证据增加不等于全功能或性能验收完成。

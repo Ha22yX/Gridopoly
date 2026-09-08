@@ -84,3 +84,10 @@ COM7 现在运行含 Action17 的第二轮正常 Wi-Fi 候选，app SHA-256 为 
 ### 2026-09-08 用户删除自动续派
 
 用户明确要求“不要这个定时任务，你删除”。已通过应用 automation_update 删除 gridopoly，返回 deleteStatus=deleted。前述每10分钟 heartbeat 配置为历史记录，当前不再生效；未经用户重新明确要求不得重建或启用替代定时任务。项目未完成验收仍如实保留。
+
+
+### 2026-09-08 22:15 UTC 实际移动证据与当前待核对项
+
+一次有界只读采集已完成并释放，无自动续采。HTTP 591样本/2364GET零错误：room993580098由v200 phase1推进至v201 phase2，目标13；现场分配改为C1/Canvas Street/map13/revision11；随后gate.ready=true，再出现绑定UID8EFA24DF在该模块的上报，同时权威推进至v202 phase6/P1位置13。Tag移走并历史过期后无重复推进。先前“停在付款阶段”的阻塞已解除。
+
+原始与转折证据见服务器进度报告22:09 UTC章节。UDP启动晚于ready，未捕获本次Action17原包；无本次LCD/LED目视或串口证据，仅HTTP关联不能唯一排除手动Confirm。主任务已询问用户本次LED是否先绿、Tag放入后是否自行确认或按过I'M THERE，等待现场核对；尚未宣称完整自动到达、持续预放Tag、手动入口或性能验收通过。COM7/COM6未重新烧录，当前无定时任务。
