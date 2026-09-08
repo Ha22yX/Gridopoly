@@ -3,7 +3,9 @@
 #include <ESP.h>
 #include <WiFi.h>
 #include <cstring>
+#include <esp_heap_caps.h>
 #include <esp_system.h>
+#include <esp_wifi.h>
 
 #if __has_include("config/secrets.local.h")
 #include "config/secrets.local.h"
@@ -17,10 +19,6 @@
 #define GRIDOPOLY_WIFI_UDP_PASSWORD "replace-locally"
 #endif
 
-#ifndef GRIDOPOLY_WIFI_UDP_CHANNEL
-#define GRIDOPOLY_WIFI_UDP_CHANNEL 1
-#endif
-
 #ifndef GRIDOPOLY_WIFI_UDP_PSK
 #ifdef GRIDOPOLY_ESPNOW_TEST_PSK
 #define GRIDOPOLY_WIFI_UDP_PSK GRIDOPOLY_ESPNOW_TEST_PSK
@@ -32,6 +30,58 @@
 namespace {
 
 using namespace gridopoly::protocol;
+
+// Network callbacks only record bounded diagnostics. Printing from the event
+// task could itself delay DHCP/event processing while USB is unavailable.
+struct WifiDiagnosticEvent {
+    uint32_t atMs;
+    uint16_t event;
+    uint16_t reason;
+    uint8_t channel;
+};
+portMUX_TYPE wifiDiagnosticMux = portMUX_INITIALIZER_UNLOCKED;
+WifiDiagnosticEvent wifiDiagnosticEvents[8]{};
+uint8_t wifiDiagnosticHead = 0, wifiDiagnosticCount = 0;
+uint32_t wifiDiagnosticDropped = 0;
+bool wifiDiagnosticRegistered = false;
+
+void recordWifiEvent(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+    if (event != ARDUINO_EVENT_WIFI_STA_START && event != ARDUINO_EVENT_WIFI_STA_STOP &&
+        event != ARDUINO_EVENT_WIFI_STA_CONNECTED && event != ARDUINO_EVENT_WIFI_STA_DISCONNECTED &&
+        event != ARDUINO_EVENT_WIFI_STA_GOT_IP && event != ARDUINO_EVENT_WIFI_STA_LOST_IP) return;
+    WifiDiagnosticEvent item{millis(), static_cast<uint16_t>(event), 0, 0};
+    if (event == ARDUINO_EVENT_WIFI_STA_DISCONNECTED) item.reason = info.wifi_sta_disconnected.reason;
+    if (event == ARDUINO_EVENT_WIFI_STA_CONNECTED) item.channel = info.wifi_sta_connected.channel;
+    portENTER_CRITICAL(&wifiDiagnosticMux);
+    if (wifiDiagnosticCount == 8) {
+        wifiDiagnosticHead = (wifiDiagnosticHead + 1) % 8;
+        --wifiDiagnosticCount;
+        ++wifiDiagnosticDropped;
+    }
+    wifiDiagnosticEvents[(wifiDiagnosticHead + wifiDiagnosticCount) % 8] = item;
+    ++wifiDiagnosticCount;
+    portEXIT_CRITICAL(&wifiDiagnosticMux);
+}
+
+void drainWifiEvents()
+{
+    for (uint8_t count = 0; count < 8; ++count) {
+        portENTER_CRITICAL(&wifiDiagnosticMux);
+        if (wifiDiagnosticCount == 0) {
+            portEXIT_CRITICAL(&wifiDiagnosticMux);
+            return;
+        }
+        const WifiDiagnosticEvent item = wifiDiagnosticEvents[wifiDiagnosticHead];
+        wifiDiagnosticHead = (wifiDiagnosticHead + 1) % 8;
+        --wifiDiagnosticCount;
+        const uint32_t dropped = wifiDiagnosticDropped;
+        portEXIT_CRITICAL(&wifiDiagnosticMux);
+        Serial.printf("GRIDOPOLY_WIFI event=%u reason=%u channel=%u ms=%lu dropped=%lu\n",
+            item.event, item.reason, item.channel, static_cast<unsigned long>(item.atMs),
+            static_cast<unsigned long>(dropped));
+    }
+}
 
 uint32_t get32(const uint8_t *input)
 {
@@ -67,6 +117,10 @@ void WifiUdpPlayerTransport::begin(uint32_t nowMs)
 
     nextPacketSequence_ = (static_cast<uint64_t>(esp_random()) << 32) | esp_random();
     if (nextPacketSequence_ == 0) nextPacketSequence_ = 1;
+    if (!wifiDiagnosticRegistered) {
+        WiFi.onEvent(recordWifiEvent);
+        wifiDiagnosticRegistered = true;
+    }
     WiFi.persistent(false);
     WiFi.setAutoReconnect(true);
     ready_ = true;
@@ -83,6 +137,18 @@ void WifiUdpPlayerTransport::begin(uint32_t nowMs)
 void WifiUdpPlayerTransport::tick(uint32_t nowMs)
 {
     if (!ready_) return;
+    drainWifiEvents();
+    if (nowMs - lastWifiDiagnosticMs_ >= 5000) {
+        lastWifiDiagnosticMs_ = nowMs;
+        wifi_ap_record_t ap{};
+        const esp_err_t association = esp_wifi_sta_get_ap_info(&ap);
+        Serial.printf("GRIDOPOLY_WIFI progress ms=%lu status=%d ip=%s ap_result=%d channel=%u heap=%u largest=%u\n",
+            static_cast<unsigned long>(nowMs), static_cast<int>(WiFi.status()),
+            WiFi.localIP().toString().c_str(), static_cast<int>(association),
+            association == ESP_OK ? ap.primary : 0,
+            static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+            static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)));
+    }
 
     const IPAddress localAddress = WiFi.localIP();
     const bool hasDhcpAddress = localAddress != IPAddress(0, 0, 0, 0);
@@ -182,26 +248,44 @@ void WifiUdpPlayerTransport::beginWifi(uint32_t nowMs)
         udp_.stop();
         udpStarted_ = false;
     }
+    Serial.printf("GRIDOPOLY_WIFI mode_start ms=%lu\n", static_cast<unsigned long>(millis()));
     if (!WiFi.mode(WIFI_STA)) {
         Serial.println("GRIDOPOLY_UDP wifi_mode_failed");
         return;
     }
+    Serial.printf("GRIDOPOLY_WIFI connect_start ms=%lu scan_channel=0\n", static_cast<unsigned long>(millis()));
+    // STA channel is a scan preference, not the ESP-NOW radio channel. Let the
+    // station discover the hotspot after its uplink changes channel.
     const wl_status_t status =
-        WiFi.begin(GRIDOPOLY_WIFI_UDP_SSID, GRIDOPOLY_WIFI_UDP_PASSWORD,
-                   GRIDOPOLY_WIFI_UDP_CHANNEL);
-    Serial.printf("GRIDOPOLY_UDP wifi_begin status=%d\n", static_cast<int>(status));
+        WiFi.begin(GRIDOPOLY_WIFI_UDP_SSID, GRIDOPOLY_WIFI_UDP_PASSWORD, 0);
+    Serial.printf("GRIDOPOLY_UDP wifi_begin status=%d ms=%lu\n", static_cast<int>(status),
+                  static_cast<unsigned long>(millis()));
 }
 
 void WifiUdpPlayerTransport::recoverWifi(uint32_t nowMs)
 {
-    Serial.printf("GRIDOPOLY_UDP wifi_recover status=%d ip=%s\n",
+    lastWifiAttemptMs_ = nowMs; // Retry stays limited even if the request fails.
+    Serial.printf("GRIDOPOLY_UDP wifi_recover status=%d ip=%s ms=%lu\n",
                   static_cast<int>(WiFi.status()),
-                  WiFi.localIP().toString().c_str());
-    if (udpStarted_) udp_.stop();
+                  WiFi.localIP().toString().c_str(), static_cast<unsigned long>(millis()));
+    if (udpStarted_) {
+        Serial.printf("GRIDOPOLY_WIFI udp_stop_start ms=%lu\n", static_cast<unsigned long>(millis()));
+        udp_.stop();
+        Serial.printf("GRIDOPOLY_WIFI udp_stop_done ms=%lu\n", static_cast<unsigned long>(millis()));
+    }
     udpStarted_ = false;
-    WiFi.mode(WIFI_OFF);
-    delay(250);
-    beginWifi(nowMs);
+    if (WiFi.getMode() == WIFI_MODE_NULL) {
+        beginWifi(nowMs);
+        return;
+    }
+    // Keep the STA/event stack alive. Full OFF/ON previously stopped progress
+    // after recover's first log; reconnect requests completion asynchronously.
+    const uint32_t started = millis();
+    Serial.printf("GRIDOPOLY_WIFI reconnect_start ms=%lu\n", static_cast<unsigned long>(started));
+    const bool requested = WiFi.reconnect();
+    Serial.printf("GRIDOPOLY_WIFI reconnect_return requested=%u ms=%lu elapsed_ms=%lu\n",
+        requested ? 1u : 0u, static_cast<unsigned long>(millis()),
+        static_cast<unsigned long>(millis() - started));
 }
 
 bool WifiUdpPlayerTransport::startUdp()

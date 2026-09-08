@@ -27,6 +27,7 @@ private:
     uint32_t sessionId_ = 0;
     uint64_t nextPacketSequence_ = 1;
     uint32_t lastWifiAttemptMs_ = 0;
+    uint32_t lastWifiDiagnosticMs_ = 0;
     bool udpStarted_ = false;
 
     void beginWifi(uint32_t nowMs);
