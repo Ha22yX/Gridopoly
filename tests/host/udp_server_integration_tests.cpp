@@ -614,6 +614,50 @@ int main() {
   assert(!authority.movementCueGateState().ready);
   assert(authority.stateVersion() == afterRoll);
   assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
+  // Lose the first cue before the server ever caches its result, then let a
+  // newer heartbeat advance the accepted inner sequence. Retrying the original
+  // immutable frame must produce resync, not bypass the sequence policy.
+  const auto lostCueSequence = client.frameSequence;
+  (void)makeDatagram(client, MessageType::ActionRequest, payload, payloadLength, false);
+  Heartbeat overtakingHeartbeat{};
+  overtakingHeartbeat.appliedStateVersion = afterRoll;
+  overtakingHeartbeat.appliedEventSequence = authority.latestEventSequence();
+  assert(encodeHeartbeat(overtakingHeartbeat, payload, sizeof(payload), payloadLength));
+  const auto overtakingSequence = client.frameSequence;
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::Heartbeat, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::Ack, received, 1000));
+  assert(received.header.acknowledgement == overtakingSequence);
+  assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
+  for (int attempt = 0; attempt < 2; ++attempt) {
+    const auto resyncsBefore = server.diagnostics().resyncs;
+    sendDatagram(client.socket, client.server,
+        makeDatagram(client, MessageType::ActionRequest, payload, payloadLength,
+                     false, lostCueSequence));
+    bool sawRecoverySnapshot = false;
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (std::chrono::steady_clock::now() < deadline) {
+      Received recovery{};
+      if (!receiveOne(client, client.socket, recovery, 50)) continue;
+      assert(recovery.header.type != MessageType::ActionResult);
+      if (recovery.header.type != MessageType::StateSnapshot ||
+          (recovery.header.flags & FlagResync) == 0 ||
+          recovery.header.acknowledgement != overtakingSequence) continue;
+      StateSnapshot projection{};
+      assert(decodeStateSnapshot(recovery.payload.data(), recovery.payloadLength, projection));
+      assert(projection.stateVersion == afterRoll);
+      assert(projection.phase == 2);
+      assert(projection.pendingTarget == waitingForMovementCue.pendingMove.target);
+      sawRecoverySnapshot = true;
+      break;
+    }
+    assert(sawRecoverySnapshot);
+    assert(server.diagnostics().resyncs > resyncsBefore);
+    assert(!authority.movementCueGateState().ready);
+    assert(authority.stateVersion() == afterRoll);
+  }
+  // A new logical request can use a fresh inner sequence after recovery. Its
+  // business fields are unchanged and the visual gate remains idempotent.
   const auto movementCueSequence = client.frameSequence;
   auto movementCueDatagram = makeDatagram(client, MessageType::ActionRequest,
                                            payload, payloadLength, false);
@@ -623,6 +667,16 @@ int main() {
   assert(authority.stateVersion() == afterRoll);
   assert(authority.movementCueGateState().ready);
 
+  // Now model the other loss case: the cue was accepted, but the client did
+  // not retain its result. A newer heartbeat does not evict the action cache.
+  // Its advanced acknowledgement alone therefore cannot prove cache loss.
+  assert(encodeHeartbeat(overtakingHeartbeat, payload, sizeof(payload), payloadLength));
+  const auto acceptedCueHeartbeatSequence = client.frameSequence;
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::Heartbeat, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::Ack, received, 1000));
+  assert(received.header.acknowledgement == acceptedCueHeartbeatSequence);
+  assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
   // A retry of the visual-complete signal replays its ActionResult and never
   // advances gameplay state or starts a second movement transaction.
   auto movementCueRetry = makeDatagram(client, MessageType::ActionRequest,
@@ -631,6 +685,9 @@ int main() {
   sendDatagram(client.socket, client.server, movementCueRetry);
   assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
   assert(authority.stateVersion() == afterRoll);
+  assert(received.header.acknowledgement == movementCueSequence);
+  assert(received.payload[1] == 0);
+  assert(authority.movementCueGateState().ready);
 
   PlayerDetailRequest query{77, 1, afterRoll};
   assert(encodePlayerDetailRequest(query, payload, sizeof(payload), payloadLength));

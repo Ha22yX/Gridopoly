@@ -115,3 +115,20 @@ python3 Server/RaspberryPi/tools/observe-movement-cue.py --duration 60
 已按用户要求仅执行只读status/diff；未git add/commit、切换分支或改索引。主会话统一串行审查、暂存与提交。
 建议本轮提交说明：`test(server): verify movement cue lifecycle and unchanged tag arrival`，观测工具可独立提交 `tools(server): correlate movement cue requests and authority state`。
 候选二进制、快照、日志和本地凭据均不应提交。
+
+## 后续交叉复核：丢包后较新心跳越过旧序号
+
+玩家端请求只读接口复核时发现恢复缺口：若首个Action17请求从未到达服务端，后续较新内层序号的Heartbeat先被接受，旧cue序号既不是新序号、也不在最近ActionResult缓存中，重试只能得到Resync。保持原pending无限重传无法自行恢复。
+
+本轮追加 `tests/host/udp_server_integration_tests.cpp` 57行，明确区分两种场景：
+
+1. **首个请求丢失**：生成N但不发送，发送较新Heartbeat H并确认Ack H。两次用原N和原业务字段、新UDP外层序号重试；每次收到FlagResync StateSnapshot，ack=H、version/phase/target不变，且无ActionResult、gate保持关闭。随后新逻辑请求使用新内层序号，成功放行且不推进version。
+2. **请求已接受、结果未被客户端保留**：cue已被接受后，再发较新Heartbeat H2；重试原cue序号仍返回原ActionResult，匹配原请求ack、result=0，gate保持ready且version不变。这证明较新Heartbeat不会自行清掉动作缓存。
+
+重要证据边界：现wire没有缓存命中字段或Resync原因。单个FlagResync或ack越过旧序号不能严格证明缓存不存在；普通完整重同步也可产生这些字段。恢复应限于已呈现且未ack的幂等Action17，结合不可变重试探测及后续重同步进行受限逻辑请求续期，不改服务端重放规则、不改普通动作行为，也不重播骰子或首帧。
+
+追加验证：Pi同一隔离目录定向重编UDP集成测试，`focused-udp-recovery-final.log` 为PASS/exit0。为验证新增异步收包fixture的稳定性，再重复该二进制5次，5/5 PASS。没有重跑无关全套或部署服务器。
+
+上述fixture与恢复判据已直接同步玩家屏与主会话。玩家端新增本地RetryRequested、不可变探测及新逻辑请求实现由玩家屏会话负责；其最终交叉复核和实机结果另记。
+
+追加待提交范围仅此UDP测试及本报告；此前Git交付为5c844b1（历史服务端基线）、71b4dfc（首轮新增回归）、1b68afc（观测工具与报告）。本会话仍不操作索引或提交。
