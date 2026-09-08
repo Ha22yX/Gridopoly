@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <chrono>
 #include <condition_variable>
 #include <cstdint>
@@ -33,6 +34,39 @@ struct AuthorityIdentityOptions {
   std::filesystem::path avatarComponentRoot{};
   std::filesystem::path avatarAssetRoot{};
   std::function<std::uint64_t()> epochClock{};
+};
+
+struct MovementCueGateState {
+  bool active{};
+  bool ready{};
+  std::uint8_t playerId{};
+  std::uint8_t originTile{gridopoly::core::kNoAsset};
+  std::uint8_t targetTile{gridopoly::core::kNoAsset};
+};
+
+enum class PlayerTagBindingResultCode : std::uint8_t {
+  Ok = 0,
+  InvalidPlayer,
+  InvalidTag,
+  RevisionMismatch,
+  PersistFailed,
+};
+
+struct PlayerTagBindingResult {
+  PlayerTagBindingResultCode code{PlayerTagBindingResultCode::Ok};
+  const char* message{"ok"};
+  bool changed{};
+  std::uint32_t revision{};
+  constexpr explicit operator bool() const {
+    return code == PlayerTagBindingResultCode::Ok;
+  }
+};
+
+struct PlayerTagBindingSnapshot {
+  std::uint32_t roomId{};
+  std::uint32_t revision{};
+  std::uint8_t playerCount{};
+  std::array<std::uint32_t, gridopoly::core::kMaxPlayers> playerTagUids{};
 };
 
 class AuthorityService {
@@ -94,6 +128,17 @@ class AuthorityService {
                                                std::uint8_t targetTile,
                                                std::uint32_t expectedStateVersion = 0);
   bool clearForcedRollTarget();
+  PlayerTagBindingResult setPlayerTagBinding(std::uint8_t playerId,
+                                             std::uint32_t tagUid,
+                                             std::uint32_t expectedRevision);
+  PlayerTagBindingResult clearPlayerTagBinding(std::uint8_t playerId,
+                                               std::uint32_t expectedRevision);
+  PlayerTagBindingSnapshot playerTagBindings() const;
+  MovementCueGateState movementCueGateState() const;
+  bool movementCueReadyFor(const gridopoly::core::GameState& state) const;
+  gridopoly::core::Result confirmTaggedArrival(
+      std::uint8_t playerId, std::uint32_t tagUid, std::uint8_t targetTile,
+      std::uint32_t expectedStateVersion);
 
   gridopoly::core::GameState stateCopy() const;
   std::uint32_t roomId() const;
@@ -103,6 +148,7 @@ class AuthorityService {
   std::uint32_t networkId() const { return serverDeviceId_ ^ 0xA5A5A5A5u; }
   std::uint32_t botActionIntervalMs() const;
   std::uint32_t controlVersion() const;
+  std::uint32_t tagBindingRevision() const;
   std::uint32_t identityRevision() const;
   gridopoly::protocol::IdentityRoomPhase identityPhase() const;
   ForcedRollState forcedRollState() const;
@@ -129,7 +175,10 @@ class AuthorityService {
   std::chrono::steady_clock::time_point lastBotAt_{};
   std::chrono::milliseconds botActionInterval_{1200};
   ForcedRollState forcedRoll_{};
+  MovementCueGateState movementCueGate_{};
   std::uint32_t controlVersion_{1};
+  std::array<std::uint32_t, gridopoly::core::kMaxPlayers> playerTagUids_{};
+  std::uint32_t tagBindingRevision_{1};
   IdentityRoomState identity_{};
   std::function<std::uint64_t()> epochClock_{};
   std::unique_ptr<AvatarRenderer> avatarRenderer_{};
@@ -162,6 +211,12 @@ class AuthorityService {
                                                     std::uint8_t& dieB) const;
   gridopoly::core::Result executeRollLocked(std::uint8_t playerId);
   void clearForcedRollLocked();
+  bool synchronizeMovementCueGateLocked();
+  bool movementCueReadyForLocked(const gridopoly::core::GameState& state) const;
+  gridopoly::core::Result markMovementCueReadyLocked(
+      std::uint8_t playerId, std::uint8_t assetIndex, std::int32_t targetTile,
+      std::uint32_t expectedStateVersion);
+  void clearPlayerTagBindingsLocked();
   void noteChangedLocked();
   void touchIdentityVersionLocked();
   bool flushLocked();

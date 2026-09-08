@@ -34,6 +34,7 @@ const char* reasonPhrase(int status) {
     case 404: return "Not Found";
     case 405: return "Method Not Allowed";
     case 409: return "Conflict";
+    case 500: return "Internal Server Error";
     case 503: return "Service Unavailable";
     default: return "Error";
   }
@@ -162,6 +163,298 @@ std::uint64_t fnv64(const std::uint8_t* bytes, std::size_t length) {
     hash *= 1099511628211ull;
   }
   return hash == 0 ? 1 : hash;
+}
+
+std::string jsonEscape(const std::string& value) {
+  std::ostringstream output;
+  for (const auto byte : value) {
+    const auto character = static_cast<unsigned char>(byte);
+    switch (character) {
+      case '"': output << "\\\""; break;
+      case '\\': output << "\\\\"; break;
+      case '\b': output << "\\b"; break;
+      case '\f': output << "\\f"; break;
+      case '\n': output << "\\n"; break;
+      case '\r': output << "\\r"; break;
+      case '\t': output << "\\t"; break;
+      default:
+        if (character < 0x20u) {
+          output << "\\u" << std::hex << std::setfill('0') << std::setw(4)
+                 << static_cast<unsigned>(character) << std::dec;
+        } else {
+          output << byte;
+        }
+        break;
+    }
+  }
+  return output.str();
+}
+
+std::string tagUidText(std::uint32_t uid) {
+  std::ostringstream output;
+  output << std::uppercase << std::hex << std::setfill('0') << std::setw(8) << uid;
+  return output.str();
+}
+
+bool parseTagUid(const std::string& text, std::uint32_t& output) {
+  if (text.size() != 8) return false;
+  const auto parsed = std::from_chars(text.data(), text.data() + text.size(), output, 16);
+  return parsed.ec == std::errc{} && parsed.ptr == text.data() + text.size() && output != 0;
+}
+
+bool jsonFieldStart(const std::string& body, const char* key, std::size_t& cursor) {
+  const std::string needle = std::string("\"") + key + "\"";
+  const auto found = body.find(needle);
+  if (found == std::string::npos || body.find(needle, found + needle.size()) != std::string::npos) {
+    return false;
+  }
+  cursor = found + needle.size();
+  while (cursor < body.size() && std::isspace(static_cast<unsigned char>(body[cursor]))) ++cursor;
+  if (cursor >= body.size() || body[cursor++] != ':') return false;
+  while (cursor < body.size() && std::isspace(static_cast<unsigned char>(body[cursor]))) ++cursor;
+  return cursor < body.size();
+}
+
+bool jsonStringField(const std::string& body, const char* key, std::string& output) {
+  std::size_t cursor = 0;
+  if (!jsonFieldStart(body, key, cursor) || body[cursor++] != '\"') return false;
+  const auto end = body.find('\"', cursor);
+  if (end == std::string::npos || body.find('\\', cursor) < end) return false;
+  output = body.substr(cursor, end - cursor);
+  return true;
+}
+
+bool jsonUnsignedField(const std::string& body, const char* key, std::uint32_t& output) {
+  std::size_t cursor = 0;
+  if (!jsonFieldStart(body, key, cursor)) return false;
+  const auto begin = cursor;
+  while (cursor < body.size() && std::isdigit(static_cast<unsigned char>(body[cursor]))) ++cursor;
+  if (cursor == begin) return false;
+  const auto parsed = std::from_chars(body.data() + begin, body.data() + cursor, output);
+  return parsed.ec == std::errc{} && parsed.ptr == body.data() + cursor;
+}
+
+bool jsonBoolField(const std::string& body, const char* key, bool& output) {
+  std::size_t cursor = 0;
+  if (!jsonFieldStart(body, key, cursor)) return false;
+  if (body.compare(cursor, 4, "true") == 0) {
+    output = true;
+    return true;
+  }
+  if (body.compare(cursor, 5, "false") == 0) {
+    output = false;
+    return true;
+  }
+  return false;
+}
+
+bool jsonTagArrayField(const std::string& body, const char* key,
+                       std::vector<std::uint32_t>& output) {
+  std::size_t cursor = 0;
+  if (!jsonFieldStart(body, key, cursor) || body[cursor++] != '[') return false;
+  output.clear();
+  while (true) {
+    while (cursor < body.size() && std::isspace(static_cast<unsigned char>(body[cursor]))) ++cursor;
+    if (cursor < body.size() && body[cursor] == ']') return true;
+    if (cursor >= body.size() || body[cursor++] != '\"') return false;
+    const auto end = body.find('\"', cursor);
+    if (end == std::string::npos) return false;
+    std::uint32_t uid = 0;
+    if (!parseTagUid(body.substr(cursor, end - cursor), uid)) return false;
+    output.push_back(uid);
+    if (output.size() > TileDebugAssignments::kMaximumReportedTags) return false;
+    cursor = end + 1;
+    while (cursor < body.size() && std::isspace(static_cast<unsigned char>(body[cursor]))) ++cursor;
+    if (cursor < body.size() && body[cursor] == ']') return true;
+    if (cursor >= body.size() || body[cursor++] != ',') return false;
+  }
+}
+
+bool parseTileTagReport(const std::string& body, TileTagReport& output) {
+  std::string state;
+  if (!jsonStringField(body, "tagReaderState", state) ||
+      !jsonUnsignedField(body, "tagRevision", output.revision) ||
+      !jsonTagArrayField(body, "tags", output.tags) ||
+      !jsonBoolField(body, "overflow", output.overflow)) {
+    return false;
+  }
+  if (state == "scanning") output.readerState = TileTagReaderState::Scanning;
+  else if (state == "stable") output.readerState = TileTagReaderState::Stable;
+  else if (state == "fault") output.readerState = TileTagReaderState::Fault;
+  else return false;
+  std::sort(output.tags.begin(), output.tags.end());
+  output.tags.erase(std::unique(output.tags.begin(), output.tags.end()), output.tags.end());
+  return true;
+}
+
+void appendTileDebugAssignmentJson(std::ostringstream& body,
+                                   const TileModuleDebugState& assignment) {
+  // These names are frozen with the tile firmware. The catalog uses
+  // browser-friendly camelCase; this DTO is the module downlink boundary.
+  body << "{\"moduleId\":\"" << jsonEscape(assignment.moduleId)
+       << "\",\"deviceId\":\"" << jsonEscape(assignment.deviceId)
+       << "\",\"source\":\"" << tileDebugAssignmentSourceName(assignment.source)
+       << "\",\"tile_id\":\"" << jsonEscape(assignment.tileId)
+       << "\",\"mapIndex\":" << static_cast<unsigned>(assignment.mapIndex)
+       << ",\"displayName\":\"" << jsonEscape(assignment.displayName)
+       << "\",\"kind\":\"" << jsonEscape(assignment.kind)
+       << "\",\"accent\":" << assignment.accentRgb
+       << ",\"artworkKey\":\"" << jsonEscape(assignment.artworkKey)
+       << "\",\"purchase_price\":" << assignment.purchasePrice
+       << ",\"owner_player\":" << static_cast<unsigned>(assignment.ownerPlayerId)
+       << ",\"owner_display_name\":\"" << jsonEscape(assignment.ownerDisplayName)
+       << "\",\"owner_color\":" << assignment.ownerRgb
+       << ",\"revision\":" << assignment.revision
+       << ",\"updatedAtMs\":" << assignment.updatedAtMs << '}';
+}
+
+std::string tileDebugJson(const TileDebugSnapshot& snapshot) {
+  std::ostringstream body;
+  body << "{\"ok\":true,\"roomId\":" << snapshot.roomId
+       << ",\"boardId\":\"" << jsonEscape(snapshot.boardId)
+       << "\",\"boardSize\":" << static_cast<unsigned>(snapshot.boardSize)
+       << ",\"revision\":" << snapshot.revision
+       << ",\"serverRevision\":" << snapshot.revision
+       << ",\"updatedAtMs\":" << snapshot.updatedAtMs << ",\"modules\":[";
+  for (std::size_t index = 0; index < snapshot.modules.size(); ++index) {
+    if (index != 0) body << ',';
+    const auto& module = snapshot.modules[index];
+    body << "{\"moduleId\":\"" << jsonEscape(module.moduleId)
+         << "\",\"deviceId\":\"" << jsonEscape(module.deviceId)
+         << "\",\"online\":" << (module.online ? "true" : "false")
+         << ",\"assigned\":" << (module.assigned ? "true" : "false")
+         << ",\"source\":\"" << tileDebugAssignmentSourceName(module.source)
+         << "\",\"lastSeenMs\":" << module.lastSeenMs
+         << ",\"leaseMs\":" << TileDebugAssignments::kLeaseMs
+         << ",\"leaseRemainingMs\":" << module.leaseRemainingMs
+         << ",\"registrationOrder\":" << module.registrationOrder
+         << ",\"tagReaderState\":\"" << tileTagReaderStateName(module.tagReaderState)
+         << "\",\"tagRevision\":" << module.tagRevision
+         << ",\"tagOverflow\":" << (module.tagOverflow ? "true" : "false") << '}';
+  }
+  body << "],\"tiles\":[";
+  for (std::size_t index = 0; index < snapshot.tiles.size(); ++index) {
+    if (index != 0) body << ',';
+    const auto& tile = snapshot.tiles[index];
+    body << "{\"tileId\":\"" << jsonEscape(tile.tileId)
+         << "\",\"mapIndex\":" << static_cast<unsigned>(tile.mapIndex)
+         << ",\"displayName\":\"" << jsonEscape(tile.displayName)
+         << "\",\"kind\":\"" << jsonEscape(tile.kind)
+         << "\",\"accentRgb\":" << tile.accentRgb
+         << ",\"artworkKey\":\"" << jsonEscape(tile.artworkKey)
+         << "\",\"purchasePrice\":" << tile.purchasePrice << '}';
+  }
+  body << "],\"players\":[";
+  for (std::size_t index = 0; index < snapshot.players.size(); ++index) {
+    if (index != 0) body << ',';
+    const auto& player = snapshot.players[index];
+    body << "{\"playerId\":" << static_cast<unsigned>(player.playerId)
+         << ",\"displayName\":\"" << jsonEscape(player.displayName)
+         << "\",\"rgb\":" << player.rgb << '}';
+  }
+  body << "],\"assignments\":[";
+  for (std::size_t index = 0; index < snapshot.assignments.size(); ++index) {
+    if (index != 0) body << ',';
+    appendTileDebugAssignmentJson(body, snapshot.assignments[index]);
+  }
+  body << "]}";
+  return body.str();
+}
+
+std::string tileModuleHeartbeatJson(const TileDebugHeartbeatResponse& response,
+                                    const std::string& moduleId,
+                                    const std::string& deviceId) {
+  std::ostringstream body;
+  body << "{\"ok\":true,\"assigned\":" << (response.assigned ? "true" : "false")
+       << ",\"source\":\"" << tileDebugAssignmentSourceName(response.source)
+       << "\",\"leaseMs\":" << response.leaseMs
+       << ",\"serverRevision\":" << response.serverRevision
+       << ",\"moduleId\":\"" << jsonEscape(moduleId)
+       << "\",\"deviceId\":\"" << jsonEscape(deviceId) << '"'
+       << ",\"movementCue\":{\"mode\":\""
+       << tileMovementCueModeName(response.movementCue.mode)
+       << "\",\"playerId\":" << static_cast<unsigned>(response.movementCue.playerId)
+       << ",\"revision\":" << response.movementCue.revision << '}';
+  if (response.assigned) {
+    body << ",\"assignment\":";
+    appendTileDebugAssignmentJson(body, response.assignment);
+  }
+  body << '}';
+  return body.str();
+}
+
+std::string tileTagsJson(const TileTagSnapshot& tags,
+                         const PlayerTagBindingSnapshot& bindings,
+                         const GameState& state) {
+  std::ostringstream body;
+  body << "{\"ok\":true,\"roomId\":" << tags.roomId
+       << ",\"tagRevision\":" << tags.revision
+       << ",\"bindingRevision\":" << bindings.revision
+       << ",\"updatedAtMs\":" << tags.updatedAtMs << ",\"tags\":[";
+  for (std::size_t index = 0; index < tags.tags.size(); ++index) {
+    if (index != 0) body << ',';
+    const auto& tag = tags.tags[index];
+    std::uint8_t boundPlayerId = 0;
+    for (std::uint8_t player = 0; player < bindings.playerCount; ++player) {
+      if (bindings.playerTagUids[player] == tag.uid) {
+        boundPlayerId = static_cast<std::uint8_t>(player + 1u);
+        break;
+      }
+    }
+    body << "{\"uid\":\"" << tagUidText(tag.uid)
+         << "\",\"currentlySeen\":" << (tag.currentlySeen ? "true" : "false")
+         << ",\"lastSeenMs\":" << tag.lastSeenMs
+         << ",\"boundPlayerId\":" << static_cast<unsigned>(boundPlayerId)
+         << ",\"sightings\":[";
+    for (std::size_t sightingIndex = 0; sightingIndex < tag.sightings.size(); ++sightingIndex) {
+      if (sightingIndex != 0) body << ',';
+      const auto& sighting = tag.sightings[sightingIndex];
+      body << "{\"moduleId\":\"" << jsonEscape(sighting.moduleId)
+           << "\",\"deviceId\":\"" << jsonEscape(sighting.deviceId)
+           << "\",\"tileId\":\"" << jsonEscape(sighting.tileId)
+           << "\",\"mapIndex\":" << static_cast<unsigned>(sighting.mapIndex)
+           << ",\"currentlySeen\":" << (sighting.currentlySeen ? "true" : "false")
+           << ",\"lastSeenMs\":" << sighting.lastSeenMs << '}';
+    }
+    body << "]}";
+  }
+  body << "],\"bindings\":[";
+  for (std::uint8_t index = 0; index < bindings.playerCount; ++index) {
+    if (index != 0) body << ',';
+    const auto playerId = static_cast<std::uint8_t>(index + 1u);
+    const auto displayName = state.players[index].name[0] == '\0'
+        ? "P" + std::to_string(playerId) : std::string(state.players[index].name);
+    body << "{\"playerId\":" << static_cast<unsigned>(playerId)
+         << ",\"displayName\":\"" << jsonEscape(displayName)
+         << "\",\"uid\":\"";
+    if (bindings.playerTagUids[index] != 0) body << tagUidText(bindings.playerTagUids[index]);
+    body << "\"}";
+  }
+  body << "]}";
+  return body.str();
+}
+
+int tileDebugErrorStatus(TileDebugResultCode code) {
+  switch (code) {
+    case TileDebugResultCode::InvalidModuleId:
+    case TileDebugResultCode::InvalidDeviceId: return 400;
+    case TileDebugResultCode::TileNotFound:
+    case TileDebugResultCode::AssignmentNotFound: return 404;
+    case TileDebugResultCode::BoardUnavailable:
+    case TileDebugResultCode::CapacityReached:
+    case TileDebugResultCode::ModuleOffline:
+    case TileDebugResultCode::DeviceMismatch:
+    case TileDebugResultCode::DeviceConflict:
+    case TileDebugResultCode::TileConflict: return 409;
+    case TileDebugResultCode::Ok: return 200;
+  }
+  return 500;
+}
+
+std::string tileDebugErrorJson(const TileDebugResult& result) {
+  return "{\"ok\":false,\"code\":" +
+      std::to_string(static_cast<unsigned>(result.code)) +
+      ",\"error\":\"" + jsonEscape(result.message) + "\"}";
 }
 
 }  // namespace
@@ -357,6 +650,42 @@ bool HttpServer::readRequest(int descriptor, Request& request, bool countTimeout
     ++diagnostics_.parseErrors;
     return false;
   }
+  std::size_t contentLength = 0;
+  const auto lengthHeader = request.headers.find("content-length");
+  if (lengthHeader != request.headers.end()) {
+    const auto parsed = std::from_chars(lengthHeader->second.data(),
+                                        lengthHeader->second.data() + lengthHeader->second.size(),
+                                        contentLength);
+    if (parsed.ec != std::errc{} ||
+        parsed.ptr != lengthHeader->second.data() + lengthHeader->second.size() ||
+        contentLength > 4096) {
+      std::lock_guard<std::mutex> lock(diagnosticsMutex_);
+      ++diagnostics_.parseErrors;
+      return false;
+    }
+  }
+  const auto headerEnd = raw.find("\r\n\r\n");
+  const auto expectedSize = headerEnd + 4u + contentLength;
+  while (raw.size() < expectedSize) {
+    const auto now = std::chrono::steady_clock::now();
+    if (now >= deadline) {
+      std::lock_guard<std::mutex> lock(diagnosticsMutex_);
+      ++diagnostics_.readTimeouts;
+      return false;
+    }
+    pollfd pollDescriptor{descriptor, POLLIN, 0};
+    const auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(deadline - now).count();
+    const auto ready = ::poll(&pollDescriptor, 1,
+                              static_cast<int>(std::min<std::int64_t>(remaining, 250)));
+    if (ready < 0 && errno == EINTR) continue;
+    if (ready <= 0) continue;
+    char buffer[2048];
+    const auto count = ::recv(descriptor, buffer, sizeof(buffer), 0);
+    if (count <= 0) return false;
+    raw.append(buffer, static_cast<std::size_t>(count));
+    if (raw.size() > 20480) return false;
+  }
+  request.body.assign(raw.data() + headerEnd + 4u, contentLength);
   return true;
 }
 
@@ -512,6 +841,193 @@ HttpServer::Response HttpServer::route(const Request& request) {
          << ",\"origin\":" << static_cast<unsigned>(forced.originTile) << "}}";
     return {200, "application/json; charset=utf-8", body.str(), "no-store", {}, {}};
   }
+  if (request.path == "/api/tile-debug/assignments" && request.method == "GET") {
+    const auto state = authority_.stateCopy();
+    return {200, "application/json; charset=utf-8",
+            tileDebugJson(tileDebug_.snapshot(authority_.roomId(), state)),
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/tile-tags" && request.method == "GET") {
+    const auto state = authority_.stateCopy();
+    const auto bindings = authority_.playerTagBindings();
+    return {200, "application/json; charset=utf-8",
+            tileTagsJson(tileDebug_.tagSnapshot(authority_.roomId(), state),
+                         bindings, state),
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/tile-modules/heartbeat" && request.method == "POST") {
+    const auto module = request.query.find("moduleId");
+    const auto device = request.query.find("deviceId");
+    if (module == request.query.end() || device == request.query.end()) {
+      return {400, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"moduleId_and_deviceId_required\"}",
+              "no-store", {}, {}};
+    }
+    TileTagReport tagReport{};
+    const TileTagReport* tagReportPointer = nullptr;
+    if (!request.body.empty()) {
+      if (!parseTileTagReport(request.body, tagReport)) {
+        return {400, "application/json; charset=utf-8",
+                "{\"ok\":false,\"error\":\"invalid_tag_report\"}",
+                "no-store", {}, {}};
+      }
+      tagReportPointer = &tagReport;
+    }
+    const auto state = authority_.stateCopy();
+    const auto movementCueReady = authority_.movementCueReadyFor(state);
+    auto response = tileDebug_.heartbeat(authority_.roomId(), state, module->second,
+                                         device->second, tagReportPointer,
+                                         movementCueReady);
+    if (!response.result) {
+      return {tileDebugErrorStatus(response.result.code),
+              "application/json; charset=utf-8",
+              tileDebugErrorJson(response.result), "no-store", {}, {}};
+    }
+    if (response.movementCue.mode == TileMovementCueMode::Destination &&
+        response.tagReaderState == TileTagReaderState::Stable &&
+        !response.tagOverflow && response.movementCue.playerId != 0) {
+      const auto bindings = authority_.playerTagBindings();
+      const auto playerIndex = static_cast<std::size_t>(response.movementCue.playerId - 1u);
+      if (playerIndex < bindings.playerCount) {
+        const auto boundUid = bindings.playerTagUids[playerIndex];
+        if (boundUid != 0 &&
+            std::find(response.stableTags.begin(), response.stableTags.end(), boundUid) !=
+                response.stableTags.end()) {
+          const auto confirmed = authority_.confirmTaggedArrival(
+              response.movementCue.playerId, boundUid, response.assignment.mapIndex,
+              state.stateVersion);
+          if (confirmed) {
+            const auto changed = authority_.stateCopy();
+            response.movementCue = tileDebug_.movementCue(authority_.roomId(), changed,
+                module->second, authority_.movementCueReadyFor(changed));
+          }
+        }
+      }
+    }
+    return {200, "application/json; charset=utf-8",
+            tileModuleHeartbeatJson(response, module->second, device->second),
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/player-tag-binding" && request.method == "POST") {
+    const auto rawPlayer = unsignedQuery(request, "playerId");
+    const auto uidField = request.query.find("uid");
+    std::uint32_t uid = 0;
+    if (rawPlayer == 0 || rawPlayer > 0xFFu || uidField == request.query.end() ||
+        !parseTagUid(uidField->second, uid)) {
+      return {400, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"invalid_player_or_tag\"}",
+              "no-store", {}, {}};
+    }
+    const auto state = authority_.stateCopy();
+    const auto detected = tileDebug_.tagSnapshot(authority_.roomId(), state);
+    const auto current = std::find_if(detected.tags.begin(), detected.tags.end(),
+                                      [uid](const TileDetectedTag& tag) {
+      return tag.uid == uid && tag.currentlySeen;
+    });
+    if (current == detected.tags.end()) {
+      return {409, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"tag_not_currently_detected\"}",
+              "no-store", {}, {}};
+    }
+    const auto result = authority_.setPlayerTagBinding(
+        static_cast<std::uint8_t>(rawPlayer), uid,
+        unsignedQuery(request, "expectedRevision"));
+    if (!result) {
+      const auto status = result.code == PlayerTagBindingResultCode::PersistFailed ? 500 :
+          (result.code == PlayerTagBindingResultCode::RevisionMismatch ? 409 : 400);
+      std::ostringstream body;
+      body << "{\"ok\":false,\"code\":" << static_cast<unsigned>(result.code)
+           << ",\"error\":\"" << jsonEscape(result.message)
+           << "\",\"bindingRevision\":" << result.revision << '}';
+      return {status, "application/json; charset=utf-8", body.str(), "no-store", {}, {}};
+    }
+    const auto changedState = authority_.stateCopy();
+    return {200, "application/json; charset=utf-8",
+            tileTagsJson(tileDebug_.tagSnapshot(authority_.roomId(), changedState),
+                         authority_.playerTagBindings(), changedState),
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/player-tag-binding" && request.method == "DELETE") {
+    const auto rawPlayer = unsignedQuery(request, "playerId");
+    if (rawPlayer == 0 || rawPlayer > 0xFFu) {
+      return {400, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"invalid_player\"}",
+              "no-store", {}, {}};
+    }
+    const auto result = authority_.clearPlayerTagBinding(
+        static_cast<std::uint8_t>(rawPlayer), unsignedQuery(request, "expectedRevision"));
+    if (!result) {
+      const auto status = result.code == PlayerTagBindingResultCode::PersistFailed ? 500 :
+          (result.code == PlayerTagBindingResultCode::RevisionMismatch ? 409 : 400);
+      std::ostringstream body;
+      body << "{\"ok\":false,\"code\":" << static_cast<unsigned>(result.code)
+           << ",\"error\":\"" << jsonEscape(result.message)
+           << "\",\"bindingRevision\":" << result.revision << '}';
+      return {status, "application/json; charset=utf-8", body.str(), "no-store", {}, {}};
+    }
+    const auto changedState = authority_.stateCopy();
+    return {200, "application/json; charset=utf-8",
+            tileTagsJson(tileDebug_.tagSnapshot(authority_.roomId(), changedState),
+                         authority_.playerTagBindings(), changedState),
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/tile-debug/assignment" && request.method == "POST") {
+    const auto module = request.query.find("moduleId");
+    const auto device = request.query.find("deviceId");
+    const auto tile = request.query.find("tileId");
+    if (module == request.query.end() || device == request.query.end()) {
+      return {400, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"moduleId_and_deviceId_required\"}",
+              "no-store", {}, {}};
+    }
+    if (tile == request.query.end()) {
+      return {400, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"tileId_required\"}",
+              "no-store", {}, {}};
+    }
+    const auto state = authority_.stateCopy();
+    const auto result = tileDebug_.set(authority_.roomId(), state, module->second,
+                                       device->second, tile->second);
+    if (!result) {
+      return {tileDebugErrorStatus(result.code), "application/json; charset=utf-8",
+              tileDebugErrorJson(result), "no-store", {}, {}};
+    }
+    return {200, "application/json; charset=utf-8",
+            tileDebugJson(tileDebug_.snapshot(authority_.roomId(), state)),
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/tile-debug/assignment" && request.method == "DELETE") {
+    const auto module = request.query.find("moduleId");
+    if (module == request.query.end()) {
+      return {400, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"moduleId_required\"}",
+              "no-store", {}, {}};
+    }
+    const auto state = authority_.stateCopy();
+    const auto result = tileDebug_.clear(authority_.roomId(), state, module->second);
+    if (!result) {
+      return {tileDebugErrorStatus(result.code), "application/json; charset=utf-8",
+              tileDebugErrorJson(result), "no-store", {}, {}};
+    }
+    return {200, "application/json; charset=utf-8",
+            tileDebugJson(tileDebug_.snapshot(authority_.roomId(), state)),
+            "no-store", {}, {}};
+  }
+  if (request.path.rfind("/api/tile-debug/", 0) == 0) {
+    return {405, "application/json; charset=utf-8",
+            "{\"ok\":false,\"error\":\"method_not_allowed\"}",
+            "no-store", {}, {}};
+  }
+  if (request.path.rfind("/api/tile-modules/", 0) == 0) {
+    return {405, "application/json; charset=utf-8",
+            "{\"ok\":false,\"error\":\"method_not_allowed\"}",
+            "no-store", {}, {}};
+  }
+  if (request.path == "/api/tile-tags" || request.path == "/api/player-tag-binding") {
+    return {405, "application/json; charset=utf-8",
+            "{\"ok\":false,\"error\":\"method_not_allowed\"}",
+            "no-store", {}, {}};
+  }
   constexpr std::string_view avatarComponentPrefix = "/assets/avatar-components/v1/";
   if (request.method == "GET" && request.path.rfind(avatarComponentPrefix, 0) == 0) {
     AvatarComponentKind kind{};
@@ -642,6 +1158,7 @@ HttpServer::Response HttpServer::route(const Request& request) {
         unsignedQuery(request, "room", 0) == authority_.roomId() &&
         unsignedQuery(request, "network", 0) == authority_.networkId() &&
         unsignedQuery(request, "control", 0) == authority_.controlVersion() &&
+        unsignedQuery(request, "tagBindings", 0) == authority_.tagBindingRevision() &&
         unsignedQuery(request, "identity", 0xFFFFFFFFu) == authority_.identityRevision();
     if (unchanged) return {204, {}, {}, "no-store", {}, {}};
     return {200, "application/json; charset=utf-8",
@@ -782,7 +1299,8 @@ bool HttpServer::parseRequest(const std::string& raw, Request& request) {
   request.keepAlive = version == "HTTP/1.1"
       ? connectionValue != "close"
       : connectionValue == "keep-alive";
-  return request.method == "GET" || request.method == "POST" || request.method == "HEAD";
+  return request.method == "GET" || request.method == "POST" ||
+      request.method == "DELETE" || request.method == "HEAD";
 }
 
 std::string HttpServer::urlDecode(const std::string& value) {

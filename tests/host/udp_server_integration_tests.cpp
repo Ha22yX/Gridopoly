@@ -596,6 +596,31 @@ int main() {
   assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
   assert(authority.stateVersion() == afterRoll);
 
+  const auto waitingForMovementCue = authority.stateCopy();
+  assert(waitingForMovementCue.phase == gridopoly::core::GamePhase::AwaitMoveConfirm);
+  assert(!authority.movementCueGateState().ready);
+  ActionRequest movementCueReady{
+      ActionCode::MovementCueReady, 1, 0xFF,
+      waitingForMovementCue.pendingMove.target, afterRoll};
+  assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
+  const auto movementCueSequence = client.frameSequence;
+  auto movementCueDatagram = makeDatagram(client, MessageType::ActionRequest,
+                                           payload, payloadLength, false);
+  sendDatagram(client.socket, client.server, movementCueDatagram);
+  assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+  assert(received.payload[1] == 0);
+  assert(authority.stateVersion() == afterRoll);
+  assert(authority.movementCueGateState().ready);
+
+  // A retry of the visual-complete signal replays its ActionResult and never
+  // advances gameplay state or starts a second movement transaction.
+  auto movementCueRetry = makeDatagram(client, MessageType::ActionRequest,
+                                        payload, payloadLength, false,
+                                        movementCueSequence);
+  sendDatagram(client.socket, client.server, movementCueRetry);
+  assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+  assert(authority.stateVersion() == afterRoll);
+
   PlayerDetailRequest query{77, 1, afterRoll};
   assert(encodePlayerDetailRequest(query, payload, sizeof(payload), payloadLength));
   auto queryDatagram = makeDatagram(client, MessageType::PlayerDetailRequest,
@@ -649,7 +674,9 @@ int main() {
   const auto diagnostics = server.diagnostics();
   assert(diagnostics.replayDrops >= 1);
   assert(diagnostics.authFailures >= 1);
-  assert(diagnostics.duplicateActions == 1);
+  // One replayed Roll and one replayed MovementCueReady were both served
+  // from the action cache without executing either transaction twice.
+  assert(diagnostics.duplicateActions == 2);
   assert(diagnostics.heartbeats >= 2);
 
   ::close(migratedSocket);

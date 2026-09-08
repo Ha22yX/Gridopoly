@@ -379,6 +379,7 @@ bool AuthorityService::initialize() {
       forcedRoll_ = validated;
     }
   }
+  synchronizeMovementCueGateLocked();
   persistedVersion_ = restored ? engine_.state().stateVersion - 1 : 0;
   observedVersion_ = engine_.state().stateVersion;
   noteChangedLocked();
@@ -423,6 +424,46 @@ bool AuthorityService::loadMetadataLocked() {
       forcedRoll_.targetTile = targetTile;
       forcedRoll_.originTile = originTile;
     }
+    if (!input) return true;
+    std::uint32_t storedTagBindingRevision = 0;
+    std::array<std::uint32_t, kMaxPlayers> storedTagUids{};
+    input.read(reinterpret_cast<char*>(&storedTagBindingRevision),
+               sizeof(storedTagBindingRevision));
+    input.read(reinterpret_cast<char*>(storedTagUids.data()),
+               static_cast<std::streamsize>(sizeof(storedTagUids)));
+    if (input) {
+      bool unique = true;
+      for (std::size_t left = 0; left < storedTagUids.size(); ++left) {
+        if (storedTagUids[left] == 0) continue;
+        for (std::size_t right = left + 1; right < storedTagUids.size(); ++right) {
+          unique = unique && storedTagUids[left] != storedTagUids[right];
+        }
+      }
+      if (unique) {
+        playerTagUids_ = storedTagUids;
+        tagBindingRevision_ = storedTagBindingRevision == 0 ? 1 : storedTagBindingRevision;
+      }
+    }
+    if (!input) return true;
+    std::uint32_t movementCueMagic = 0;
+    std::uint8_t movementCueActive = 0;
+    std::uint8_t movementCueReady = 0;
+    input.read(reinterpret_cast<char*>(&movementCueMagic), sizeof(movementCueMagic));
+    if (!input || movementCueMagic != 0x3147434Du) return true;  // "MCG1".
+    input.read(reinterpret_cast<char*>(&movementCueActive), sizeof(movementCueActive));
+    input.read(reinterpret_cast<char*>(&movementCueReady), sizeof(movementCueReady));
+    input.read(reinterpret_cast<char*>(&movementCueGate_.playerId),
+               sizeof(movementCueGate_.playerId));
+    input.read(reinterpret_cast<char*>(&movementCueGate_.originTile),
+               sizeof(movementCueGate_.originTile));
+    input.read(reinterpret_cast<char*>(&movementCueGate_.targetTile),
+               sizeof(movementCueGate_.targetTile));
+    if (input) {
+      movementCueGate_.active = movementCueActive != 0;
+      movementCueGate_.ready = movementCueReady != 0;
+    } else {
+      movementCueGate_ = MovementCueGateState{};
+    }
     return true;
   }
   roomId_ = randomNonZero();
@@ -450,6 +491,22 @@ bool AuthorityService::saveMetadataLocked() const {
   output.write(reinterpret_cast<const char*>(&forcedRoll_.playerId), sizeof(forcedRoll_.playerId));
   output.write(reinterpret_cast<const char*>(&forcedRoll_.targetTile), sizeof(forcedRoll_.targetTile));
   output.write(reinterpret_cast<const char*>(&forcedRoll_.originTile), sizeof(forcedRoll_.originTile));
+  output.write(reinterpret_cast<const char*>(&tagBindingRevision_),
+               sizeof(tagBindingRevision_));
+  output.write(reinterpret_cast<const char*>(playerTagUids_.data()),
+               static_cast<std::streamsize>(sizeof(playerTagUids_)));
+  const std::uint32_t movementCueMagic = 0x3147434Du;  // "MCG1".
+  const std::uint8_t movementCueActive = movementCueGate_.active ? 1 : 0;
+  const std::uint8_t movementCueReady = movementCueGate_.ready ? 1 : 0;
+  output.write(reinterpret_cast<const char*>(&movementCueMagic), sizeof(movementCueMagic));
+  output.write(reinterpret_cast<const char*>(&movementCueActive), sizeof(movementCueActive));
+  output.write(reinterpret_cast<const char*>(&movementCueReady), sizeof(movementCueReady));
+  output.write(reinterpret_cast<const char*>(&movementCueGate_.playerId),
+               sizeof(movementCueGate_.playerId));
+  output.write(reinterpret_cast<const char*>(&movementCueGate_.originTile),
+               sizeof(movementCueGate_.originTile));
+  output.write(reinterpret_cast<const char*>(&movementCueGate_.targetTile),
+               sizeof(movementCueGate_.targetTile));
   output.flush();
   if (!output) return false;
   output.close();
@@ -539,6 +596,7 @@ void AuthorityService::tick() {
       engine_.runBots(1);
     }
   }
+  if (synchronizeMovementCueGateLocked()) saveMetadataLocked();
   if (engine_.state().stateVersion != observedVersion_) noteChangedLocked();
   if (persistPending_ &&
       (now >= persistDue_ || now - dirtySince_ >= std::chrono::seconds(5))) {
@@ -572,6 +630,8 @@ Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t botCount) 
       ++controlVersion_;
       if (controlVersion_ == 0) controlVersion_ = 1;
     }
+    movementCueGate_ = MovementCueGateState{};
+    clearPlayerTagBindingsLocked();
     store_.clear();
     identityStore_.clear();
     persistedVersion_ = 0;
@@ -627,8 +687,10 @@ Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t humanCount
   }
   peerCount_ = 0;
   clearForcedRollLocked();
+  movementCueGate_ = MovementCueGateState{};
   ++controlVersion_;
   if (controlVersion_ == 0) controlVersion_ = 1;
+  clearPlayerTagBindingsLocked();
   store_.clear();
   identityStore_.clear();
   persistedVersion_ = 0;
@@ -646,6 +708,7 @@ Result AuthorityService::execute(ActionCode action, std::uint8_t playerId,
   std::lock_guard<std::mutex> lock(mutex_);
   const auto before = engine_.state().stateVersion;
   const auto result = executeLocked(action, playerId, assetIndex, argument, expectedStateVersion);
+  if (result && synchronizeMovementCueGateLocked()) saveMetadataLocked();
   if (engine_.state().stateVersion != before) noteChangedLocked();
   return result;
 }
@@ -653,6 +716,10 @@ Result AuthorityService::execute(ActionCode action, std::uint8_t playerId,
 Result AuthorityService::executeLocked(ActionCode action, std::uint8_t playerId,
                                        std::uint8_t assetIndex, std::int32_t argument,
                                        std::uint32_t expectedStateVersion) {
+  if (action == ActionCode::MovementCueReady) {
+    return markMovementCueReadyLocked(playerId, assetIndex, argument,
+                                      expectedStateVersion);
+  }
   if (action != ActionCode::AuctionReady && expectedStateVersion != 0 &&
       expectedStateVersion != engine_.state().stateVersion) {
     return error(ErrorCode::RuleViolation, "state version mismatch");
@@ -1370,6 +1437,83 @@ void AuthorityService::clearForcedRollLocked() {
   forcedRoll_ = ForcedRollState{};
 }
 
+bool AuthorityService::synchronizeMovementCueGateLocked() {
+  const auto& state = engine_.state();
+  MovementCueGateState desired{};
+  if (state.phase == GamePhase::AwaitMoveConfirm && state.pendingMove.active &&
+      state.pendingMove.playerId != 0 && state.pendingMove.playerId <= state.playerCount) {
+    desired.active = true;
+    desired.playerId = state.pendingMove.playerId;
+    desired.originTile = state.pendingMove.origin;
+    desired.targetTile = state.pendingMove.target;
+    const bool sameMovement = movementCueGate_.active &&
+        movementCueGate_.playerId == desired.playerId &&
+        movementCueGate_.originTile == desired.originTile &&
+        movementCueGate_.targetTile == desired.targetTile;
+    const auto controller = state.players[desired.playerId - 1u].controller;
+    desired.ready = controller != ControllerKind::RealConsole ||
+        (sameMovement && movementCueGate_.ready);
+  }
+  const bool changed = movementCueGate_.active != desired.active ||
+      movementCueGate_.ready != desired.ready ||
+      movementCueGate_.playerId != desired.playerId ||
+      movementCueGate_.originTile != desired.originTile ||
+      movementCueGate_.targetTile != desired.targetTile;
+  if (changed) movementCueGate_ = desired;
+  return changed;
+}
+
+bool AuthorityService::movementCueReadyForLocked(const GameState& state) const {
+  const auto& current = engine_.state();
+  return state.stateVersion == current.stateVersion &&
+      state.phase == GamePhase::AwaitMoveConfirm && state.pendingMove.active &&
+      current.phase == GamePhase::AwaitMoveConfirm && current.pendingMove.active &&
+      state.pendingMove.playerId == current.pendingMove.playerId &&
+      state.pendingMove.origin == current.pendingMove.origin &&
+      state.pendingMove.target == current.pendingMove.target &&
+      movementCueGate_.active && movementCueGate_.ready &&
+      movementCueGate_.playerId == current.pendingMove.playerId &&
+      movementCueGate_.originTile == current.pendingMove.origin &&
+      movementCueGate_.targetTile == current.pendingMove.target;
+}
+
+Result AuthorityService::markMovementCueReadyLocked(
+    std::uint8_t playerId, std::uint8_t assetIndex, std::int32_t targetTile,
+    std::uint32_t expectedStateVersion) {
+  const auto& state = engine_.state();
+  if (expectedStateVersion == 0 || expectedStateVersion != state.stateVersion) {
+    return error(ErrorCode::RuleViolation, "state version mismatch");
+  }
+  if (playerId == 0 || playerId > state.playerCount) {
+    return error(ErrorCode::InvalidPlayer, "invalid movement-cue player");
+  }
+  if (assetIndex != kNoAsset || targetTile < 0 || targetTile > 255) {
+    return error(ErrorCode::InvalidArgument, "invalid movement-cue target");
+  }
+  if (state.players[playerId - 1u].controller != ControllerKind::RealConsole) {
+    return error(ErrorCode::RuleViolation, "movement-cue release requires a player console");
+  }
+  if (state.phase != GamePhase::AwaitMoveConfirm || !state.pendingMove.active ||
+      state.pendingMove.playerId != playerId) {
+    return error(ErrorCode::InvalidPhase, "no matching pending movement");
+  }
+  if (state.pendingMove.target != static_cast<std::uint8_t>(targetTile)) {
+    return error(ErrorCode::PositionMismatch, "movement-cue target mismatch");
+  }
+  synchronizeMovementCueGateLocked();
+  if (movementCueGate_.ready) return {};
+  const auto previous = movementCueGate_;
+  movementCueGate_.ready = true;
+  if (saveMetadataLocked()) return {};
+  movementCueGate_ = previous;
+  return error(ErrorCode::RuleViolation, "movement-cue release persist failed");
+}
+
+void AuthorityService::clearPlayerTagBindingsLocked() {
+  playerTagUids_.fill(0);
+  tagBindingRevision_ = nextRevision(tagBindingRevision_);
+}
+
 Result AuthorityService::setForcedRollTarget(std::uint8_t playerId,
                                              std::uint8_t targetTile,
                                              std::uint32_t expectedStateVersion) {
@@ -1408,6 +1552,135 @@ bool AuthorityService::clearForcedRollTarget() {
   forcedRoll_ = previous;
   controlVersion_ = previousControlVersion;
   return false;
+}
+
+PlayerTagBindingResult AuthorityService::setPlayerTagBinding(
+    std::uint8_t playerId, std::uint32_t tagUid, std::uint32_t expectedRevision) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  auto& state = engine_.mutableStateForRestore();
+  if (playerId == 0 || playerId > state.playerCount) {
+    return {PlayerTagBindingResultCode::InvalidPlayer, "invalid player", false,
+            tagBindingRevision_};
+  }
+  if (tagUid == 0) {
+    return {PlayerTagBindingResultCode::InvalidTag, "invalid tag UID", false,
+            tagBindingRevision_};
+  }
+  if (expectedRevision == 0 || expectedRevision != tagBindingRevision_) {
+    return {PlayerTagBindingResultCode::RevisionMismatch,
+            "tag binding revision mismatch", false, tagBindingRevision_};
+  }
+  const auto targetIndex = static_cast<std::size_t>(playerId - 1u);
+  if (playerTagUids_[targetIndex] == tagUid) {
+    return {PlayerTagBindingResultCode::Ok, "ok", false, tagBindingRevision_};
+  }
+
+  const auto previousTags = playerTagUids_;
+  const auto previousRevision = tagBindingRevision_;
+  const auto previousStateVersion = state.stateVersion;
+  for (auto& bound : playerTagUids_) {
+    if (bound == tagUid) bound = 0;
+  }
+  playerTagUids_[targetIndex] = tagUid;
+  tagBindingRevision_ = nextRevision(tagBindingRevision_);
+  state.stateVersion = nextRevision(state.stateVersion);
+  if (saveMetadataLocked()) {
+    noteChangedLocked();
+    return {PlayerTagBindingResultCode::Ok, "ok", true, tagBindingRevision_};
+  }
+  playerTagUids_ = previousTags;
+  tagBindingRevision_ = previousRevision;
+  state.stateVersion = previousStateVersion;
+  return {PlayerTagBindingResultCode::PersistFailed,
+          "tag binding persist failed", false, tagBindingRevision_};
+}
+
+PlayerTagBindingResult AuthorityService::clearPlayerTagBinding(
+    std::uint8_t playerId, std::uint32_t expectedRevision) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  auto& state = engine_.mutableStateForRestore();
+  if (playerId == 0 || playerId > state.playerCount) {
+    return {PlayerTagBindingResultCode::InvalidPlayer, "invalid player", false,
+            tagBindingRevision_};
+  }
+  if (expectedRevision == 0 || expectedRevision != tagBindingRevision_) {
+    return {PlayerTagBindingResultCode::RevisionMismatch,
+            "tag binding revision mismatch", false, tagBindingRevision_};
+  }
+  const auto targetIndex = static_cast<std::size_t>(playerId - 1u);
+  if (playerTagUids_[targetIndex] == 0) {
+    return {PlayerTagBindingResultCode::Ok, "ok", false, tagBindingRevision_};
+  }
+
+  const auto previousTag = playerTagUids_[targetIndex];
+  const auto previousRevision = tagBindingRevision_;
+  const auto previousStateVersion = state.stateVersion;
+  playerTagUids_[targetIndex] = 0;
+  tagBindingRevision_ = nextRevision(tagBindingRevision_);
+  state.stateVersion = nextRevision(state.stateVersion);
+  if (saveMetadataLocked()) {
+    noteChangedLocked();
+    return {PlayerTagBindingResultCode::Ok, "ok", true, tagBindingRevision_};
+  }
+  playerTagUids_[targetIndex] = previousTag;
+  tagBindingRevision_ = previousRevision;
+  state.stateVersion = previousStateVersion;
+  return {PlayerTagBindingResultCode::PersistFailed,
+          "tag binding persist failed", false, tagBindingRevision_};
+}
+
+PlayerTagBindingSnapshot AuthorityService::playerTagBindings() const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  PlayerTagBindingSnapshot output{};
+  output.roomId = roomId_;
+  output.revision = tagBindingRevision_;
+  output.playerCount = engine_.state().playerCount;
+  output.playerTagUids = playerTagUids_;
+  return output;
+}
+
+MovementCueGateState AuthorityService::movementCueGateState() const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return movementCueGate_;
+}
+
+bool AuthorityService::movementCueReadyFor(const GameState& state) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return movementCueReadyForLocked(state);
+}
+
+Result AuthorityService::confirmTaggedArrival(std::uint8_t playerId,
+                                              std::uint32_t tagUid,
+                                              std::uint8_t targetTile,
+                                              std::uint32_t expectedStateVersion) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  const auto& state = engine_.state();
+  if (playerId == 0 || playerId > state.playerCount) {
+    return error(ErrorCode::InvalidPlayer, "invalid tagged-arrival player");
+  }
+  if (tagUid == 0 || playerTagUids_[playerId - 1u] != tagUid) {
+    return error(ErrorCode::RuleViolation, "tag is not bound to the player");
+  }
+  if (expectedStateVersion != 0 && expectedStateVersion != state.stateVersion) {
+    return error(ErrorCode::RuleViolation, "state version mismatch");
+  }
+  if (state.phase != GamePhase::AwaitMoveConfirm || !state.pendingMove.active ||
+      state.pendingMove.playerId != playerId) {
+    return error(ErrorCode::InvalidPhase, "no matching pending movement");
+  }
+  if (!movementCueReadyForLocked(state)) {
+    return error(ErrorCode::RuleViolation,
+                 "dice presentation has not released automatic arrival");
+  }
+  if (state.pendingMove.target != targetTile) {
+    return error(ErrorCode::PositionMismatch, "tag was not seen at the destination");
+  }
+  const auto before = state.stateVersion;
+  const auto result = executeLocked(ActionCode::ConfirmPosition, playerId, kNoAsset,
+                                    targetTile, expectedStateVersion);
+  if (result && synchronizeMovementCueGateLocked()) saveMetadataLocked();
+  if (engine_.state().stateVersion != before) noteChangedLocked();
+  return result;
 }
 
 Result AuthorityService::executeRollLocked(std::uint8_t playerId) {
@@ -1482,6 +1755,11 @@ std::uint32_t AuthorityService::controlVersion() const {
   return controlVersion_;
 }
 
+std::uint32_t AuthorityService::tagBindingRevision() const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return tagBindingRevision_;
+}
+
 std::uint32_t AuthorityService::identityRevision() const {
   std::lock_guard<std::mutex> lock(mutex_);
   return identity_.identityRevision;
@@ -1505,6 +1783,13 @@ std::string AuthorityService::syncJson(const std::string& serviceIp) const {
       << ",\"roomId\":" << roomId_
       << ",\"network\":" << (serverDeviceId_ ^ 0xA5A5A5A5u)
       << ",\"controlVersion\":" << controlVersion_
+      << ",\"tagBindingRevision\":" << tagBindingRevision_
+      << ",\"movementCueGate\":{\"active\":"
+      << (movementCueGate_.active ? "true" : "false")
+      << ",\"ready\":" << (movementCueGate_.ready ? "true" : "false")
+      << ",\"player\":" << static_cast<unsigned>(movementCueGate_.playerId)
+      << ",\"origin\":" << static_cast<unsigned>(movementCueGate_.originTile)
+      << ",\"target\":" << static_cast<unsigned>(movementCueGate_.targetTile) << "}"
       << ",\"forcedRoll\":{\"active\":" << (forcedRoll_.active ? "true" : "false")
       << ",\"player\":" << static_cast<unsigned>(forcedRoll_.playerId)
       << ",\"target\":" << static_cast<unsigned>(forcedRoll_.targetTile)
@@ -1580,6 +1865,15 @@ std::string AuthorityService::syncJson(const std::string& serviceIp) const {
       appendJsonString(out, url.c_str());
     } else {
       appendJsonString(out, "");
+    }
+    out << ",\"tagUid\":";
+    if (playerTagUids_[index] == 0) {
+      appendJsonString(out, "");
+    } else {
+      std::ostringstream uid;
+      uid << std::uppercase << std::hex << std::setfill('0') << std::setw(8)
+          << playerTagUids_[index];
+      appendJsonString(out, uid.str().c_str());
     }
     out << '}';
   }

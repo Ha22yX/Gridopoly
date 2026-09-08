@@ -15,6 +15,7 @@ COMMON_FLAGS=(
   -I"$ROOT/Firmware/libraries/GridopolyCore/src"
   -I"$ROOT/Firmware/libraries/GridopolyProtocol/src"
   -I"$ROOT/Firmware/TestGameServer/src"
+  -I"$ROOT/Firmware/PlayerConsole"
   -I"$ROOT/Server/RaspberryPi/src"
 )
 
@@ -40,6 +41,10 @@ IDENTITY_SOURCES=(
 AVATAR_SOURCES=(
   "$ROOT/Server/RaspberryPi/src/AvatarComponentCodec.cpp"
   "$ROOT/Server/RaspberryPi/src/AvatarRenderer.cpp"
+)
+TILE_DEBUG_SOURCES=(
+  "$ROOT/Server/RaspberryPi/src/TileDebugAssignments.cpp"
+  "$ROOT/Firmware/PlayerConsole/grid_city_visual_catalog.cpp"
 )
 
 mkdir -p "$BUILD_DIR"
@@ -82,6 +87,11 @@ build_and_run gridopoly_player_detail_projection_tests \
   "${PROJECTION_SOURCES[@]}" \
   "$ROOT/tests/host/player_detail_projection_tests.cpp"
 
+build_and_run gridopoly_tile_debug_assignment_tests \
+  "${CORE_SOURCES[@]}" \
+  "${TILE_DEBUG_SOURCES[@]}" \
+  "$ROOT/tests/host/tile_debug_assignment_tests.cpp"
+
 build_and_run gridopoly_identity_model_tests \
   "${PROTOCOL_SOURCES[@]}" \
   "${IDENTITY_SOURCES[@]}" \
@@ -99,6 +109,13 @@ build_and_run gridopoly_avatar_component_codec_tests \
   "${PROTOCOL_SOURCES[@]}" \
   "$ROOT/Server/RaspberryPi/src/AvatarComponentCodec.cpp" \
   "$ROOT/tests/host/avatar_component_codec_tests.cpp"
+
+build_and_run gridopoly_player_avatar_component_client_tests \
+  -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \
+  "${PROTOCOL_SOURCES[@]}" \
+  "${IDENTITY_SOURCES[@]}" \
+  "${AVATAR_SOURCES[@]}" \
+  "$ROOT/tests/host/player_avatar_component_client_tests.cpp"
 
 build_and_run gridopoly_identity_authority_tests \
   -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \
@@ -146,6 +163,7 @@ build_and_run gridopoly_http_asset_integration_tests \
   "${IDENTITY_SOURCES[@]}" \
   "${AVATAR_SOURCES[@]}" \
   "${AUTHORITY_SOURCES[@]}" \
+  "${TILE_DEBUG_SOURCES[@]}" \
   "$ROOT/Server/RaspberryPi/src/UdpPlayerServer.cpp" \
   "$ROOT/Server/RaspberryPi/src/HttpServer.cpp" \
   "$ROOT/tests/host/http_asset_integration_tests.cpp"
@@ -158,6 +176,7 @@ echo "GRIDOPOLY_NATIVE_BUILD name=gridopoly_server"
   "${IDENTITY_SOURCES[@]}" \
   "${AVATAR_SOURCES[@]}" \
   "${AUTHORITY_SOURCES[@]}" \
+  "${TILE_DEBUG_SOURCES[@]}" \
   "$ROOT/Server/RaspberryPi/src/UdpPlayerServer.cpp" \
   "$ROOT/Server/RaspberryPi/src/HttpServer.cpp" \
   "$ROOT/Server/RaspberryPi/src/main.cpp" \

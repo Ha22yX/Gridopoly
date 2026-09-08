@@ -59,6 +59,7 @@ enum class ActionCode : std::uint8_t {
   AuctionPass = 14,
   AuctionReady = 15,
   CardContinue = 16,
+  MovementCueReady = 17,
 };
 
 struct Header {

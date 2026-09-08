@@ -91,6 +91,15 @@ int main() {
   assert(actionRestored.action == ActionCode::CardContinue);
   assert(actionRestored.argument == 0x4321);
 
+  action = {ActionCode::MovementCueReady, 1, 0xFF, 7, 104};
+  assert(encodeActionRequest(action, payload.data(), payload.size(), payloadLength));
+  assert(decodeActionRequest(payload.data(), payloadLength, actionRestored));
+  assert(actionRestored.action == ActionCode::MovementCueReady);
+  assert(actionRestored.playerId == 1);
+  assert(actionRestored.assetIndex == 0xFF);
+  assert(actionRestored.argument == 7);
+  assert(actionRestored.expectedStateVersion == 104);
+
   AuthoritySnapshot authority{};
   authority.phase = 5;
   authority.activePlayerId = 1;

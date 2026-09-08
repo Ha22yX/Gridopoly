@@ -16,7 +16,8 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 20px;border-bottom:1px solid var(--line);background:#0d131c;position:sticky;top:0;z-index:4}
     h1{font-size:18px;margin:0;letter-spacing:.08em}.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}#status{color:var(--muted);text-align:right}main{display:grid;grid-template-columns:minmax(540px,1fr) 370px;gap:16px;padding:16px;max-width:1500px;margin:auto}
     .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}.board{display:grid;aspect-ratio:1;gap:4px;min-height:560px}
-    .tile{--tile-color:#42526a;min-width:0;border:1px solid color-mix(in srgb,var(--tile-color) 50%,#334259);background:var(--panel2);border-radius:7px;padding:8px 5px 5px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative;isolation:isolate}
+    .tile{--tile-color:#42526a;min-width:0;border:1px solid color-mix(in srgb,var(--tile-color) 50%,#334259);background:var(--panel2);border-radius:7px;padding:8px 5px 5px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative;isolation:isolate;cursor:context-menu}
+    .tile:focus-visible{outline:2px solid #58A7EB;outline-offset:1px;box-shadow:0 0 0 4px #58A7EB25}.tile:active{filter:brightness(1.06)}
     .tile::before{content:"";position:absolute;z-index:3;left:0;right:0;top:0;height:5px;background:var(--tile-color);box-shadow:0 1px 8px color-mix(in srgb,var(--tile-color) 55%,transparent)}
     .tile::after{content:"";position:absolute;z-index:1;inset:5px 0 0;background:linear-gradient(180deg,#11192310 12%,#11192388 56%,#111923f5 91%);pointer-events:none}
     .tile-art{position:absolute;z-index:0;inset:5px 0 0;width:100%;height:calc(100% - 5px);object-fit:cover;opacity:.72;filter:saturate(.88) contrast(1.04);pointer-events:none}
@@ -25,16 +26,19 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     .center{grid-column:2/-2;grid-row:2/-2;display:grid;place-items:center;text-align:center;border:1px dashed #2d3c51;border-radius:16px;background:radial-gradient(circle,#18263a 0,#0f1722 70%)}
     .center b{font-size:clamp(22px,4vw,56px);letter-spacing:.12em}.center small{display:block;color:var(--muted);margin-top:8px}.stack{display:grid;gap:12px}.players{display:grid;gap:7px}
     .player{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:8px;cursor:context-menu}.player.active{border-color:var(--accent)}.player.forced-armed{box-shadow:inset 3px 0 0 var(--accent)}.forced-player-mark{display:inline-block;margin-left:6px;padding:1px 5px;border:1px solid #ffcb4570;border-radius:999px;color:var(--accent);font:9px/1.4 ui-monospace,Consolas,monospace;vertical-align:1px}
-    .badge{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--player-color,#6cd5ff);color:#08121c;font-weight:800;overflow:hidden}.badge img{width:100%;height:100%;object-fit:cover}.money{font-variant-numeric:tabular-nums;color:var(--ok)}
+    .badge{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--player-color,#58A7EB);color:#08121c;font-weight:800;overflow:hidden}.badge img{width:100%;height:100%;object-fit:cover}.money{font-variant-numeric:tabular-nums;color:var(--ok)}
     .identity-state{font:700 10px/1.2 ui-monospace,Consolas,monospace;letter-spacing:.05em;color:var(--muted)}.identity-state.ready{color:var(--ok)}.identity-state.generating{color:var(--accent)}
     .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}button,select,input{border:1px solid #3a4a61;background:var(--panel2);color:var(--ink);padding:10px;border-radius:8px}button{cursor:pointer;font-weight:700}button.primary{background:var(--accent);border-color:var(--accent);color:#15130a}button:disabled{opacity:.35;cursor:not-allowed}
     .newgame{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.newgame button{grid-column:1/-1}.events{height:240px;overflow:auto;font:12px/1.5 ui-monospace,Consolas,monospace;color:#c6d1e1}.event{padding:4px 0;border-bottom:1px solid #202b3a}
     .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;color:var(--muted)}.kv b{color:var(--ink)}.error{color:var(--danger)}
-    .settings-open{padding:7px 12px;white-space:nowrap}.modal[hidden],.context-menu[hidden],.selection-banner[hidden]{display:none}.modal{position:fixed;z-index:20;inset:0;display:grid;place-items:center;padding:20px;background:#02050ab8;backdrop-filter:blur(5px)}.settings-card{width:min(520px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:20px;border:1px solid #40516a;border-radius:14px;background:#111923;box-shadow:0 24px 80px #000b}.settings-card h2{margin:0 0 6px;font-size:20px}.settings-card p{margin:0 0 18px;color:var(--muted)}.settings-field{display:grid;gap:7px}.settings-field input,.settings-field select{width:100%;font-size:16px;font-variant-numeric:tabular-nums}.settings-hint{min-height:20px;margin-top:8px;color:var(--muted);font-size:12px}.settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
-    .context-menu{position:fixed;z-index:30;width:220px;padding:7px;border:1px solid #40516a;border-radius:10px;background:#111923;box-shadow:0 18px 55px #000c}.context-title{padding:7px 8px 9px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.context-menu button{display:block;width:100%;border:0;background:transparent;text-align:left;padding:9px}.context-menu button[hidden]{display:none}.context-menu button:hover:not(:disabled),.context-menu button:focus-visible{background:#213149}.context-menu .danger{color:var(--danger)}
-    .selection-banner{position:fixed;z-index:15;left:50%;top:72px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:calc(100vw - 28px);padding:10px 12px 10px 16px;border:1px solid #ffcb4590;border-radius:999px;background:#111923f2;box-shadow:0 10px 36px #000a}.selection-banner b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.selection-banner button{padding:6px 10px}.tile.forced-candidate{cursor:pointer;outline:2px solid #6cd5ff;box-shadow:0 0 0 3px #6cd5ff22,0 0 24px #6cd5ff55;animation:forced-pulse 1.2s ease-in-out infinite alternate}.tile.forced-candidate::before{height:7px;background:#6cd5ff}.tile.forced-target{outline:2px solid var(--accent);box-shadow:0 0 0 3px #ffcb4522,0 0 24px #ffcb4555}.tile.forced-candidate:hover{transform:translateY(-2px);filter:brightness(1.12)}@keyframes forced-pulse{to{box-shadow:0 0 0 5px #6cd5ff30,0 0 30px #6cd5ff70}}
+    .settings-open{padding:7px 12px;white-space:nowrap}.modal[hidden],.context-menu[hidden],.selection-banner[hidden]{display:none}.modal{position:fixed;z-index:20;inset:0;display:grid;place-items:center;padding:20px;background:#02050ab8;backdrop-filter:blur(5px)}.settings-card{width:min(520px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:20px;border:1px solid #40516a;border-radius:14px;background:#111923;box-shadow:0 24px 80px #000b}.settings-card h2{margin:0 0 6px;font-size:20px}.settings-card p{margin:0 0 18px;color:var(--muted)}.settings-field{display:grid;gap:7px}.settings-field input,.settings-field select{width:100%;font-size:16px;font-variant-numeric:tabular-nums}.settings-hint{min-height:20px;margin-top:8px;color:var(--muted);font-size:12px}.settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.tag-list{display:grid;gap:7px;margin-top:10px}.tag-preview{padding:10px;border:1px solid var(--line);border-radius:8px;background:#0d151f;color:var(--muted);font:11px/1.45 ui-monospace,Consolas,monospace}.tag-mark{display:inline-block;margin-left:6px;color:#52DCB7;font:9px/1.3 ui-monospace,Consolas,monospace}
+    .tile-debug{display:grid;gap:10px}.tile-debug-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.tile-debug-head h2{margin:0;font-size:14px}.tile-debug-head p{margin:2px 0 0;color:var(--muted);font-size:11px}.tile-debug-head button{padding:6px 9px;white-space:nowrap}.tile-debug-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font:11px/1.3 ui-monospace,Consolas,monospace}.tile-debug-form{display:grid;grid-template-columns:1fr;gap:8px}.tile-debug-field{display:grid;gap:5px;min-width:0;color:var(--muted);font-size:11px}.tile-debug-field select{width:100%;min-width:0}.tile-debug-preview{--preview-accent:#42526a;display:grid;grid-template-columns:8px 1fr;gap:8px;min-height:64px;padding:9px;border:1px solid var(--line);border-radius:8px;background:#0d151f}.tile-debug-preview::before{content:"";border-radius:4px;background:var(--preview-accent)}.tile-debug-preview-grid{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;min-width:0;color:var(--muted);font-size:10px}.tile-debug-preview-grid b{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-debug-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile-debug-status{min-height:18px;color:var(--muted);font-size:11px}.tile-debug-list{max-height:230px;overflow:auto;border-top:1px solid var(--line)}.tile-debug-row{display:grid;gap:2px;padding:8px 0;border-bottom:1px solid #202b3a}.tile-debug-row b,.tile-debug-row small{display:block}.tile-debug-row small{color:var(--muted);font-size:10px}.tile-debug-swatch{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:2px;background:var(--swatch);vertical-align:1px}.tile-debug-empty{padding:12px 0;color:var(--muted);font-size:11px;text-align:center}
+    .context-menu{position:fixed;z-index:30;width:220px;padding:7px;border:1px solid #40516a;border-radius:10px;background:#111923;box-shadow:0 18px 55px #000c}.context-title{padding:7px 8px 9px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.context-menu button{display:block;width:100%;border:0;background:transparent;text-align:left;padding:9px}.context-menu button[hidden]{display:none}.context-menu button:hover:not(:disabled),.context-menu button:focus-visible{background:#213149}.context-menu button:active:not(:disabled){transform:translateY(1px)}.context-menu .danger{color:var(--danger)}
+    .tile-debug-context{width:min(360px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow:auto;padding:12px}.tile-debug-context .context-title{padding:1px 2px 10px;margin-bottom:10px;color:var(--ink);font-size:13px}.tile-debug-context .context-subtitle{display:block;margin-top:2px;color:var(--muted);font:10px/1.35 ui-monospace,Consolas,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-debug-context .tile-debug-actions button{border:1px solid #3a4a61;background:var(--panel2);text-align:center}.tile-debug-context .tile-debug-actions button.primary{background:var(--accent);border-color:var(--accent);color:#15130a}.tile-debug-context-status{min-height:16px;margin-top:8px;color:var(--muted);font-size:10px}.tile-debug-context-status.error{color:var(--danger)}.tile-debug-occupancy{margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;background:#0d151f;color:var(--muted);font-size:10px}.tile-debug-occupancy b{color:var(--ink)}.tile-debug-occupancy span{display:block;margin-top:2px;overflow-wrap:anywhere}
+    .selection-banner{position:fixed;z-index:15;left:50%;top:72px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:calc(100vw - 28px);padding:10px 12px 10px 16px;border:1px solid #ffcb4590;border-radius:999px;background:#111923f2;box-shadow:0 10px 36px #000a}.selection-banner b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.selection-banner button{padding:6px 10px}.tile.forced-candidate{cursor:pointer;outline:2px solid #58A7EB;box-shadow:0 0 0 3px #58A7EB22,0 0 24px #58A7EB55;animation:forced-pulse 1.2s ease-in-out infinite alternate}.tile.forced-candidate::before{height:7px;background:#58A7EB}.tile.forced-target{outline:2px solid var(--accent);box-shadow:0 0 0 3px #ffcb4522,0 0 24px #ffcb4555}.tile.forced-candidate:hover{transform:translateY(-2px);filter:brightness(1.12)}@keyframes forced-pulse{to{box-shadow:0 0 0 5px #58A7EB30,0 0 30px #58A7EB70}}
     .board[data-size="40"] .tile{padding-inline:3px}.board[data-size="40"] .tile .n{font-size:8px}.board[data-size="40"] .tile.owned .n{padding-right:18px}.board[data-size="40"] .tile .owner-badge{top:8px;right:2px;min-width:16px;height:12px;padding:0 2px;border-radius:4px;font-size:7px}.board[data-size="40"] .tile .id{font-size:9px}.board[data-size="40"] .tile .id small{display:none}.board[data-size="40"] .tile .meta{font-size:7px}
     @media(max-width:980px){main{grid-template-columns:1fr}.board{min-height:0}.panel:first-child{padding:8px}.tile-art{opacity:.62}}
+    @media(max-width:520px){.tile-debug-form{grid-template-columns:1fr}.tile-debug-actions{grid-template-columns:1fr}.tile-debug-meta{display:grid;gap:3px}.tile-debug-context{width:calc(100vw - 16px)}}
   </style>
 </head>
 <body>
@@ -52,6 +56,28 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
   <div id="player-context-title" class="context-title">玩家</div>
   <button id="player-force-destination" type="button" role="menuitem">指定下一次目的地</button>
   <button id="player-clear-destination" class="danger" type="button" role="menuitem" hidden>取消现有指定</button>
+  <button id="player-assign-tag" type="button" role="menuitem">分配 Tag</button>
+  <button id="player-clear-tag" class="danger" type="button" role="menuitem" hidden>解除 Tag</button>
+</div>
+<div id="tag-binding-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="tag-binding-title">
+  <section class="settings-card">
+    <h2 id="tag-binding-title">分配玩家 Tag</h2>
+    <p id="tag-binding-player">从所有在线格子模块稳定检测到的 HITAG S UID 中选择。</p>
+    <label class="settings-field" for="tag-binding-select"><b>检测到的 Tag</b><select id="tag-binding-select"><option value="">正在读取…</option></select></label>
+    <div id="tag-binding-preview" class="tag-preview">等待全局 Tag 列表。</div>
+    <div id="tag-binding-hint" class="settings-hint">一个玩家和一个 Tag 均只允许一个绑定。</div>
+    <div class="settings-actions"><button id="tag-binding-cancel" type="button">取消</button><button id="tag-binding-save" class="primary" type="button">确认分配</button></div>
+  </section>
+</div>
+<div id="tile-debug-context-menu" class="context-menu tile-debug-context" hidden role="dialog" aria-modal="false" aria-labelledby="tile-debug-context-title">
+  <div id="tile-debug-context-title" class="context-title">格子模块分配<span id="tile-debug-context-subtitle" class="context-subtitle">右键选择地图格子</span></div>
+  <div class="tile-debug-form">
+    <label class="tile-debug-field" for="tile-debug-module"><b>在线格子模块</b><select id="tile-debug-module"><option value="">暂无在线模块</option></select></label>
+  </div>
+  <div id="tile-debug-preview" class="tile-debug-preview" aria-live="polite"><div class="tile-debug-preview-grid"><span>格子</span><b>等待数据</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div></div>
+  <div id="tile-debug-occupancy" class="tile-debug-occupancy">该格子当前没有临时分配。</div>
+  <div class="tile-debug-actions"><button id="tile-debug-apply" class="primary" type="button">分配到此格</button><button id="tile-debug-clear" type="button">清除所选模块</button></div>
+  <div id="tile-debug-context-status" class="tile-debug-context-status" aria-live="polite">选择在线模块后应用。</div>
 </div>
 <div id="forced-selection-banner" class="selection-banner" hidden role="status">
   <b id="forced-selection-text">请选择棋盘上高亮的目的地</b>
@@ -80,6 +106,12 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
       <select id="size" aria-label="地图格数"><option>16</option><option>24</option><option selected>32</option><option>40</option></select>
       <select id="bots" aria-label="机器人数量"><option value="0">0 个机器人</option><option value="1">1 个机器人</option><option value="2">2 个机器人</option><option value="3" selected>3 个机器人</option><option value="4">4 个机器人</option><option value="5">5 个机器人</option></select>
       <button id="new">建立测试对局</button>
+    </section>
+    <section class="panel tile-debug" aria-labelledby="tile-debug-title">
+      <div class="tile-debug-head"><div><h2 id="tile-debug-title">格子模块临时分配</h2><p>右键棋盘格分配模块。仅用于硬件联调，不写入对局或游戏存档。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
+      <div class="tile-debug-meta"><span id="tile-debug-revision">REV 0</span><span id="tile-debug-updated">尚未修改</span></div>
+      <div id="tile-debug-status" class="tile-debug-status" role="status" aria-live="polite">正在读取临时分配…</div>
+      <div id="tile-debug-list" class="tile-debug-list" aria-label="当前临时分配"><div class="tile-debug-empty">暂无临时分配</div></div>
     </section>
     <section class="panel"><div id="events" class="events"></div></section>
   </aside>
@@ -116,7 +148,7 @@ function tileVisual(id){
 }
 
 // TESTABLE_FORCED_ROLL_HELPERS_BEGIN
-const playerColors=['#6cd5ff','#ff8a72','#b899ff','#58d68d','#ffcb45','#ff7f9f'];
+const playerColors=['#58A7EB','#EF7168','#52DCB7','#F2C453','#C28AE8','#EA8A55'];
 function playerColor(playerId){
   const normalized=Math.max(1,Number(playerId)||1);
   return playerColors[(normalized-1)%playerColors.length];
@@ -161,6 +193,97 @@ function nextTokenPosition(current,boardSize){
 }
 // TESTABLE_FORCED_ROLL_HELPERS_END
 
+// TESTABLE_TILE_DEBUG_HELPERS_BEGIN
+function tileDebugText(value){
+  return value===undefined||value===null?'':String(value).trim();
+}
+
+function tileDebugSafeIdentifier(value){
+  return/^[A-Za-z0-9_.:-]{1,32}$/.test(tileDebugText(value));
+}
+
+function tileDebugCssColor(value){
+  if(Number.isInteger(value)&&value>=0&&value<=0xffffff){
+    return`#${value.toString(16).padStart(6,'0').toUpperCase()}`;
+  }
+  const text=tileDebugText(value).replace(/^#/,'');
+  return/^[0-9a-f]{6}$/i.test(text)?`#${text.toUpperCase()}`:'#42526A';
+}
+
+function normalizeTileDebugData(payload){
+  const source=payload&&typeof payload==='object'?payload:{};
+  const modules=(Array.isArray(source.modules)?source.modules:[]).map(module=>({
+    moduleId:tileDebugText(module.moduleId),
+    deviceId:tileDebugText(module.deviceId),
+    assigned:module.assigned===true,
+    online:module.online===true,
+    lastSeenMs:Number.isFinite(Number(module.lastSeenMs))?Number(module.lastSeenMs):0,
+    leaseRemainingMs:Number.isFinite(Number(module.leaseRemainingMs))?Math.max(0,Number(module.leaseRemainingMs)):0,
+    source:tileDebugText(module.source)||'manual',
+  })).filter(module=>tileDebugSafeIdentifier(module.moduleId)&&tileDebugSafeIdentifier(module.deviceId));
+  const tiles=(Array.isArray(source.tiles)?source.tiles:[]).map(tile=>({
+    tileId:tileDebugText(tile.tileId),
+    mapIndex:Number.isInteger(Number(tile.mapIndex))?Number(tile.mapIndex):0,
+    displayName:tileDebugText(tile.displayName),
+    kind:tileDebugText(tile.kind),
+    accentRgb:tileDebugCssColor(tile.accentRgb),
+    artworkKey:tileDebugText(tile.artworkKey),
+    purchasePrice:Number.isFinite(Number(tile.purchasePrice))?Number(tile.purchasePrice):0,
+  })).filter(tile=>tile.tileId).sort((left,right)=>left.mapIndex-right.mapIndex||left.tileId.localeCompare(right.tileId));
+  const players=(Array.isArray(source.players)?source.players:[]).map(player=>({
+    playerId:Number(player.playerId),
+    displayName:tileDebugText(player.displayName),
+    rgb:tileDebugCssColor(player.rgb),
+  })).filter(player=>Number.isInteger(player.playerId)&&player.playerId>=1&&player.playerId<=6);
+  const assignments=(Array.isArray(source.assignments)?source.assignments:[]).map(assignment=>({
+    moduleId:tileDebugText(assignment.moduleId),
+    deviceId:tileDebugText(assignment.deviceId),
+    tileId:tileDebugText(assignment.tile_id),
+    mapIndex:Number.isInteger(Number(assignment.mapIndex))?Number(assignment.mapIndex):0,
+    displayName:tileDebugText(assignment.displayName),
+    kind:tileDebugText(assignment.kind),
+    accentRgb:tileDebugCssColor(assignment.accent),
+    artworkKey:tileDebugText(assignment.artworkKey),
+    purchasePrice:Number.isFinite(Number(assignment.purchase_price))?Number(assignment.purchase_price):0,
+    ownerPlayerId:Number.isInteger(Number(assignment.owner_player))?Number(assignment.owner_player):0,
+    ownerDisplayName:tileDebugText(assignment.owner_display_name),
+    ownerRgb:tileDebugCssColor(assignment.owner_color),
+    revision:Number.isInteger(Number(assignment.revision))?Number(assignment.revision):0,
+    updatedAtMs:Number.isFinite(Number(assignment.updatedAtMs))?Number(assignment.updatedAtMs):0,
+  })).filter(assignment=>tileDebugSafeIdentifier(assignment.moduleId)&&
+    tileDebugSafeIdentifier(assignment.deviceId)&&assignment.tileId);
+  for(const assignment of assignments){
+    if(!modules.some(module=>module.moduleId===assignment.moduleId)){
+      modules.push({moduleId:assignment.moduleId,deviceId:assignment.deviceId,assigned:true,
+        online:false,lastSeenMs:0,leaseRemainingMs:0,source:'manual'});
+    }
+  }
+  modules.sort((left,right)=>left.moduleId.localeCompare(right.moduleId));
+  assignments.sort((left,right)=>left.moduleId.localeCompare(right.moduleId));
+  return{
+    roomId:Number.isFinite(Number(source.roomId))?Number(source.roomId):0,
+    boardId:tileDebugText(source.boardId),
+    boardSize:Number.isInteger(Number(source.boardSize))?Number(source.boardSize):0,
+    revision:Number.isInteger(Number(source.revision))?Number(source.revision):0,
+    updatedAtMs:Number.isFinite(Number(source.updatedAtMs))?Number(source.updatedAtMs):0,
+    modules,tiles,players,assignments,
+  };
+}
+
+function tileDebugAssignmentFor(data,moduleId){
+  const key=tileDebugText(moduleId);
+  return(data&&data.assignments||[]).find(assignment=>assignment.moduleId===key)||null;
+}
+
+function tileDebugUpdatedAtLabel(value){
+  const milliseconds=Number(value);
+  if(!Number.isFinite(milliseconds)||milliseconds<=0)return'尚未修改';
+  if(milliseconds<1e12)return`运行时 +${(milliseconds/1000).toFixed(1)} 秒`;
+  const date=new Date(milliseconds);
+  return Number.isNaN(date.getTime())?'更新时间不可用':date.toLocaleString('zh-CN',{hour12:false});
+}
+// TESTABLE_TILE_DEBUG_HELPERS_END
+
 let state=null;
 let boardDefinition=null;
 let refreshInFlight=false;
@@ -174,7 +297,12 @@ const tokenAnimations=new Map();
 const tokenStepMs=180;
 let forcedSelection=null;
 let contextPlayerId=0;
+let contextTileId='';
 let serverEpochOffsetMs=0;
+let tileDebugState=normalizeTileDebugData(null);
+let tileDebugInFlight=false;
+let tagBindingState={roomId:0,tagRevision:0,bindingRevision:0,tags:[],bindings:[]};
+let tagBindingPlayerId=0;
 
 function hasIdentityFlag(player,flag){
   return!!(Number(player&&player.identityFlags||0)&flag);
@@ -334,6 +462,13 @@ function reconcileVisualPositions(previous,next){
 
 function render(next){
   const previous=state;
+  const tileDebugCatalogChanged=previous&&
+    (previous.roomId!==next.roomId||previous.board.id!==next.board.id||previous.board.size!==next.board.size);
+  if(tileDebugCatalogChanged)closeTileDebugContextMenu();
+  if(previous&&previous.roomId!==next.roomId){
+    closeTagBindingModal();
+    tagBindingState=normalizeTagBindingPayload(null);
+  }
   reconcileVisualPositions(previous,next);
   state=next;
   if(next.identity&&Number.isFinite(Number(next.identity.serverEpochMs))){
@@ -379,6 +514,8 @@ function render(next){
     const element=document.createElement('div');
     element.className='tile';
     element.dataset.tileIndex=tile.i;
+    element.dataset.tileId=tile.id;
+    element.tabIndex=0;
     element.style.gridRow=row;
     element.style.gridColumn=column;
     const visual=tileVisual(tile.id);
@@ -405,16 +542,18 @@ function render(next){
     const mark=armed?`<span class="forced-player-mark">NEXT → ${String(next.forcedRoll.target).padStart(2,'0')}</span>`:'';
     const avatar=player.avatarUrl?`<img src="${esc(player.avatarUrl)}" alt="" loading="lazy" decoding="async">`:player.id;
     const displayName=String(player.name||'').trim()||`P${player.id}`;
+    const tagMark=player.tagUid?`<span class="tag-mark">TAG ${esc(player.tagUid)}</span>`:'';
     if(!identityActive){
       const identityState=identitySeatLabel(player);
       const role=hasIdentityFlag(player,2)?'BOT':'HUMAN';
-      return`<div class="player" data-player-id="${player.id}" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}</b><small style="display:block;color:var(--muted)">${role} · ${player.connected?'在线':'离线'}</small></div><span class="identity-state ${identityState[1]}">${identityState[0]}</span></div>`;
+      return`<div class="player" data-player-id="${player.id}" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${tagMark}</b><small style="display:block;color:var(--muted)">${role} · ${player.connected?'在线':'离线'}</small></div><span class="identity-state ${identityState[1]}">${identityState[0]}</span></div>`;
     }
-    return`<div class="player ${player.id===next.activePlayer?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键指定下一次目的地" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?'在线':'离线'} · 格 ${player.position}${player.held?' · 限制区':''}${player.bankrupt?' · 已破产':''}</small></div><span class="money">¥${player.cash}</span></div>`;
+    return`<div class="player ${player.id===next.activePlayer?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键设置目的地或分配Tag" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}${tagMark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?'在线':'离线'} · 格 ${player.position}${player.held?' · 限制区':''}${player.bankrupt?' · 已破产':''}</small></div><span class="money">¥${player.cash}</span></div>`;
   }).join('');
   renderForcedRollSelection();
   $('#events').innerHTML=next.events.slice().reverse().map(event=>`<div class="event">#${event.seq} E${event.kind} · P${event.actor} → P${event.target} · A${event.asset} · ${event.amount}</div>`).join('');
   updateActionButtons();
+  if(tileDebugCatalogChanged)refreshTileDebug('地图已变更，临时分配目录已刷新。');
 }
 
 function maskBits(mask){
@@ -434,6 +573,7 @@ function setBusy(busy){
   if(!busy){
     updateActionButtons();
     validateNewGameCounts(false);
+    updateTileDebugControls();
   }
 }
 
@@ -467,25 +607,150 @@ function hidePlayerContextMenu(){
 }
 
 function openPlayerContextMenu(playerId,x,y){
-  if(actionInFlight||!forcedRollSupported())return;
+  if(actionInFlight||!state)return;
   const player=state.players.find(candidate=>candidate.id===playerId);
   if(!player)return;
+  closeTileDebugContextMenu();
   contextPlayerId=playerId;
   const menu=$('#player-context-menu');
   $('#player-context-title').textContent=`P${player.id} · ${player.name}`;
   const schedule=$('#player-force-destination');
-  schedule.disabled=!playerCanScheduleDestination(player);
+  schedule.disabled=!forcedRollSupported()||!playerCanScheduleDestination(player);
   schedule.textContent=player.bankrupt?'玩家已破产':player.held?'限制区内不可指定':
     player.id===state.activePlayer&&state.phase!==1?'当前阶段不可指定':'指定下一次目的地';
   const clear=$('#player-clear-destination');
-  clear.hidden=!(state.forcedRoll.active&&state.forcedRoll.player===player.id);
+  clear.hidden=!(forcedRollSupported()&&state.forcedRoll.active&&state.forcedRoll.player===player.id);
+  const tagUid=String(player.tagUid||'');
+  $('#player-assign-tag').textContent=tagUid?`更换 Tag · ${tagUid}`:'分配 Tag';
+  $('#player-clear-tag').hidden=!tagUid;
   menu.hidden=false;
   menu.style.left='0px';
   menu.style.top='0px';
   const bounds=menu.getBoundingClientRect();
   menu.style.left=`${Math.max(8,Math.min(x,window.innerWidth-bounds.width-8))}px`;
   menu.style.top=`${Math.max(8,Math.min(y,window.innerHeight-bounds.height-8))}px`;
-  if(!schedule.disabled)schedule.focus({preventScroll:true});
+  (schedule.disabled?$('#player-assign-tag'):schedule).focus({preventScroll:true});
+}
+
+function normalizeTagBindingPayload(payload){
+  const source=payload&&typeof payload==='object'?payload:{};
+  const tags=(Array.isArray(source.tags)?source.tags:[]).map(tag=>({
+    uid:String(tag.uid||'').toUpperCase(),
+    currentlySeen:tag.currentlySeen===true,
+    lastSeenMs:Number(tag.lastSeenMs||0),
+    boundPlayerId:Number(tag.boundPlayerId||0),
+    sightings:Array.isArray(tag.sightings)?tag.sightings:[],
+  })).filter(tag=>/^[0-9A-F]{8}$/.test(tag.uid));
+  const bindings=(Array.isArray(source.bindings)?source.bindings:[]).map(binding=>({
+    playerId:Number(binding.playerId||0),displayName:String(binding.displayName||''),
+    uid:String(binding.uid||'').toUpperCase(),
+  })).filter(binding=>binding.playerId>=1&&binding.playerId<=6);
+  return{roomId:Number(source.roomId||0),tagRevision:Number(source.tagRevision||0),
+    bindingRevision:Number(source.bindingRevision||0),tags,bindings};
+}
+
+async function refreshTagBindingState(){
+  const response=await fetchWithTimeout('/api/tile-tags',{cache:'no-store'},8000);
+  const payload=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
+  tagBindingState=normalizeTagBindingPayload(payload);
+  return tagBindingState;
+}
+
+function renderTagBindingPreview(){
+  const uid=$('#tag-binding-select').value;
+  const tag=tagBindingState.tags.find(candidate=>candidate.uid===uid);
+  if(!tag){
+    $('#tag-binding-preview').textContent='当前没有稳定检测到的 Tag。请把棋子放到任一在线格子模块。';
+    $('#tag-binding-save').disabled=true;
+    return;
+  }
+  const places=tag.sightings.filter(item=>item.currentlySeen).map(item=>
+    `${item.moduleId} / ${item.tileId||`格 ${item.mapIndex}`}`).join(' · ');
+  const owner=tag.boundPlayerId&&tag.boundPlayerId!==tagBindingPlayerId?
+    `当前绑定 P${tag.boundPlayerId}；确认后会原子转移。`:'当前未绑定其他玩家。';
+  $('#tag-binding-preview').textContent=`UID ${tag.uid} · ${places||'检测位置未知'} · ${owner}`;
+  $('#tag-binding-save').disabled=false;
+}
+
+function closeTagBindingModal(){
+  $('#tag-binding-modal').hidden=true;
+  tagBindingPlayerId=0;
+}
+
+async function openTagBindingModal(playerId){
+  const player=state&&state.players.find(candidate=>candidate.id===playerId);
+  if(!player||actionInFlight)return;
+  hidePlayerContextMenu();
+  tagBindingPlayerId=playerId;
+  $('#tag-binding-modal').hidden=false;
+  $('#tag-binding-title').textContent=`为 P${player.id} 分配 Tag`;
+  $('#tag-binding-player').textContent=`${player.name||`P${player.id}`} · 选择任一格子模块当前稳定识别到的 UID。`;
+  $('#tag-binding-select').innerHTML='<option value="">正在读取…</option>';
+  $('#tag-binding-save').disabled=true;
+  $('#tag-binding-hint').textContent='正在读取全局 Tag 列表…';
+  $('#tag-binding-hint').className='settings-hint';
+  try{
+    await refreshTagBindingState();
+    const current=tagBindingState.bindings.find(binding=>binding.playerId===playerId);
+    const visible=tagBindingState.tags.filter(tag=>tag.currentlySeen)
+      .sort((left,right)=>right.lastSeenMs-left.lastSeenMs||left.uid.localeCompare(right.uid));
+    $('#tag-binding-select').innerHTML=visible.length?visible.map(tag=>{
+      const owner=tag.boundPlayerId?` · 已绑定 P${tag.boundPlayerId}`:'';
+      return`<option value="${tag.uid}">${tag.uid} · ${tag.sightings.filter(item=>item.currentlySeen).length} 个格子${owner}</option>`;
+    }).join(''):'<option value="">暂无稳定检测的 Tag</option>';
+    if(current&&visible.some(tag=>tag.uid===current.uid))$('#tag-binding-select').value=current.uid;
+    $('#tag-binding-hint').textContent=`Tag目录 REV ${tagBindingState.tagRevision} · 绑定 REV ${tagBindingState.bindingRevision}`;
+    renderTagBindingPreview();
+  }catch(error){
+    $('#tag-binding-hint').textContent=`读取失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    $('#tag-binding-hint').className='settings-hint error';
+  }
+}
+
+async function saveTagBinding(){
+  const uid=$('#tag-binding-select').value;
+  if(actionInFlight||!tagBindingPlayerId||!/^[0-9A-F]{8}$/.test(uid))return;
+  const playerId=tagBindingPlayerId;
+  setBusy(true);
+  $('#tag-binding-hint').textContent='正在提交权威绑定…';
+  $('#tag-binding-hint').className='settings-hint';
+  try{
+    const response=await fetchWithTimeout(`/api/player-tag-binding?playerId=${tagBindingPlayerId}&uid=${uid}&expectedRevision=${tagBindingState.bindingRevision}`,
+      {method:'POST',cache:'no-store'},8000);
+    const payload=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
+    tagBindingState=normalizeTagBindingPayload(payload);
+    closeTagBindingModal();
+    $('#status').textContent=`Tag ${uid} 已绑定到 P${playerId}`;
+    await refresh(true);
+  }catch(error){
+    $('#tag-binding-hint').textContent=`绑定失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    $('#tag-binding-hint').className='settings-hint error';
+  }finally{
+    setBusy(false);
+  }
+}
+
+async function clearPlayerTagBinding(playerId){
+  if(actionInFlight||!playerId)return;
+  hidePlayerContextMenu();
+  setBusy(true);
+  try{
+    await refreshTagBindingState();
+    const response=await fetchWithTimeout(`/api/player-tag-binding?playerId=${playerId}&expectedRevision=${tagBindingState.bindingRevision}`,
+      {method:'DELETE',cache:'no-store'},8000);
+    const payload=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
+    tagBindingState=normalizeTagBindingPayload(payload);
+    $('#status').textContent=`P${playerId} 的 Tag 绑定已解除`;
+    await refresh(true);
+  }catch(error){
+    $('#status').textContent=`解除失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    $('#status').className='error';
+  }finally{
+    setBusy(false);
+  }
 }
 
 function cancelForcedRollSelection(){
@@ -589,6 +854,227 @@ async function clearForcedRollTarget(){
   }
 }
 
+function tileDebugSetStatus(message,error=false){
+  const element=$('#tile-debug-status');
+  element.textContent=message;
+  element.className=`tile-debug-status${error?' error':''}`;
+  const contextStatus=$('#tile-debug-context-status');
+  if(contextStatus){
+    contextStatus.textContent=message;
+    contextStatus.className=`tile-debug-context-status${error?' error':''}`;
+  }
+}
+
+function tileDebugModuleFor(moduleId){
+  const key=tileDebugText(moduleId);
+  return tileDebugState.modules.find(module=>module.moduleId===key)||null;
+}
+
+function tileDebugLeaseLabel(module){
+  if(!module||!module.online)return'OFFLINE';
+  const seconds=Math.max(0,Math.ceil(Number(module.leaseRemainingMs||0)/1000));
+  return`ONLINE · ${seconds}s · ${module.source||'manual'}`;
+}
+
+function renderTileDebugPreview(){
+  const tile=tileDebugState.tiles.find(candidate=>candidate.tileId===contextTileId);
+  const preview=$('#tile-debug-preview');
+  preview.style.setProperty('--preview-accent',tile?tile.accentRgb:'#42526A');
+  preview.innerHTML=tile?
+    `<div class="tile-debug-preview-grid"><span>格子</span><b>${String(tile.mapIndex).padStart(2,'0')} / ${esc(tile.displayName||tile.tileId)}</b><span>类型</span><b>${esc(tile.kind||'未知')}</b><span>素材</span><b>${esc(tile.artworkKey||'无')}</b><span>价格</span><b>${tile.purchasePrice>0?`¥${tile.purchasePrice}`:'不可购买'}</b></div>`:
+    '<div class="tile-debug-preview-grid"><span>格子</span><b>请右键棋盘格</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div>';
+}
+
+function renderTileDebugOccupancy(){
+  const occupancy=$('#tile-debug-occupancy');
+  const assignments=tileDebugState.assignments.filter(assignment=>assignment.tileId===contextTileId);
+  occupancy.innerHTML=assignments.length?
+    `<b>当前占用此格</b>${assignments.map(assignment=>{
+      const module=tileDebugModuleFor(assignment.moduleId);
+      const owner=assignment.ownerPlayerId>0?`P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:'未购买';
+      const swatch=assignment.ownerPlayerId>0?assignment.ownerRgb:assignment.accentRgb;
+      return`<span><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} · ${esc(assignment.deviceId)} · ${esc(owner)} · ${esc(tileDebugLeaseLabel(module))}</span>`;
+    }).join('')}`:
+    '<b>当前占用此格</b><span>暂无模块分配到这里。</span>';
+}
+
+function updateTileDebugControls(){
+  const busy=actionInFlight||tileDebugInFlight;
+  const moduleId=tileDebugText($('#tile-debug-module').value);
+  const module=tileDebugModuleFor(moduleId);
+  const onlineMatch=!!(module&&module.online&&tileDebugSafeIdentifier(module.deviceId));
+  const tileId=contextTileId;
+  $('#tile-debug-refresh').disabled=busy;
+  $('#tile-debug-module').disabled=busy;
+  $('#tile-debug-apply').disabled=busy||!tileDebugSafeIdentifier(moduleId)||!tileId||!onlineMatch;
+  $('#tile-debug-clear').disabled=busy||!tileDebugSafeIdentifier(moduleId)||
+    !tileDebugAssignmentFor(tileDebugState,moduleId);
+}
+
+function selectTileDebugModule(){
+  const moduleId=tileDebugText($('#tile-debug-module').value);
+  const module=tileDebugModuleFor(moduleId);
+  renderTileDebugPreview();
+  renderTileDebugOccupancy();
+  updateTileDebugControls();
+  const contextStatus=$('#tile-debug-context-status');
+  if(module&&!module.online){
+    contextStatus.textContent='该模块当前离线，只能清除现有分配。';
+    contextStatus.className='tile-debug-context-status error';
+  }else if(module&&module.online){
+    contextStatus.textContent=`${tileDebugLeaseLabel(module)} · 可分配到当前格子。`;
+    contextStatus.className='tile-debug-context-status';
+  }else{
+    contextStatus.textContent='当前没有可用的在线格子模块。';
+    contextStatus.className='tile-debug-context-status';
+  }
+}
+
+function closeTileDebugContextMenu(){
+  const menu=$('#tile-debug-context-menu');
+  if(menu)menu.hidden=true;
+  contextTileId='';
+}
+
+function positionTileDebugContextMenu(x,y){
+  const menu=$('#tile-debug-context-menu');
+  menu.style.left='0px';
+  menu.style.top='0px';
+  const bounds=menu.getBoundingClientRect();
+  menu.style.left=`${Math.max(8,Math.min(x,window.innerWidth-bounds.width-8))}px`;
+  menu.style.top=`${Math.max(8,Math.min(y,window.innerHeight-bounds.height-8))}px`;
+}
+
+async function openTileDebugContextMenu(tile,x,y){
+  if(actionInFlight||forcedSelection)return;
+  const tileId=tile.dataset.tileId;
+  let catalogTile=tileDebugState.tiles.find(candidate=>candidate.tileId===tileId);
+  if(!catalogTile){
+    await refreshTileDebug();
+    catalogTile=tileDebugState.tiles.find(candidate=>candidate.tileId===tileId);
+  }
+  if(!catalogTile){
+    tileDebugSetStatus('当前地图目录尚未就绪，请刷新后重试。',true);
+    return;
+  }
+  hidePlayerContextMenu();
+  contextTileId=catalogTile.tileId;
+  $('#tile-debug-context-title').firstChild.textContent=
+    `${String(catalogTile.mapIndex).padStart(2,'0')} · ${catalogTile.displayName||catalogTile.tileId}`;
+  $('#tile-debug-context-subtitle').textContent=catalogTile.tileId;
+  const previous=tileDebugModuleFor($('#tile-debug-module').value);
+  const selected=(previous&&previous.online)?previous:tileDebugState.modules.find(module=>module.online);
+  $('#tile-debug-module').value=selected?selected.moduleId:'';
+  renderTileDebugPreview();
+  renderTileDebugOccupancy();
+  selectTileDebugModule();
+  const menu=$('#tile-debug-context-menu');
+  menu.hidden=false;
+  positionTileDebugContextMenu(x,y);
+  $('#tile-debug-module').focus({preventScroll:true});
+  refreshTileDebug();
+}
+
+function renderTileDebug(){
+  const previousModule=$('#tile-debug-module').value;
+  $('#tile-debug-revision').textContent=`REV ${tileDebugState.revision}`;
+  $('#tile-debug-updated').textContent=tileDebugUpdatedAtLabel(tileDebugState.updatedAtMs);
+  const onlineModules=tileDebugState.modules.filter(module=>module.online);
+  const selectedModule=onlineModules.find(module=>module.moduleId===previousModule)||onlineModules[0];
+  $('#tile-debug-module').innerHTML=onlineModules.length?onlineModules.map(module=>
+    `<option value="${esc(module.moduleId)}">${esc(module.moduleId)} / ${esc(module.deviceId)} / ${esc(tileDebugLeaseLabel(module))}${module.assigned?' / 已有分配':''}</option>`
+  ).join(''):'<option value="">暂无在线模块</option>';
+  $('#tile-debug-module').value=selectedModule?selectedModule.moduleId:'';
+  const list=$('#tile-debug-list');
+  list.innerHTML=tileDebugState.assignments.length?tileDebugState.assignments.map(assignment=>{
+    const owner=assignment.ownerPlayerId>0?
+      `P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:'未购买';
+    const updated=assignment.updatedAtMs?` / ${tileDebugUpdatedAtLabel(assignment.updatedAtMs)}`:'';
+    const module=tileDebugModuleFor(assignment.moduleId);
+    const swatch=assignment.ownerPlayerId>0?assignment.ownerRgb:assignment.accentRgb;
+    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||'无 deviceId')} / ${esc(tileDebugLeaseLabel(module))} / ${esc(assignment.kind||'未知')} / ${assignment.purchasePrice>0?`¥${assignment.purchasePrice}`:'不可购买'}</small></div>`;
+  }).join(''):'<div class="tile-debug-empty">暂无临时分配。右键棋盘格开始分配。</div>';
+  if(!$('#tile-debug-context-menu').hidden)selectTileDebugModule();
+  else updateTileDebugControls();
+}
+
+async function refreshTileDebug(successMessage=''){
+  if(tileDebugInFlight)return;
+  tileDebugInFlight=true;
+  updateTileDebugControls();
+  tileDebugSetStatus(successMessage||'正在读取模块、地图和临时分配…');
+  try{
+    const response=await fetchWithTimeout('/api/tile-debug/assignments',{cache:'no-store'},8000);
+    const payload=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
+    const nextState=normalizeTileDebugData(payload);
+    if(!$('#tile-debug-context-menu').hidden&&tileDebugState.roomId&&
+       (nextState.roomId!==tileDebugState.roomId||nextState.boardId!==tileDebugState.boardId||
+        nextState.boardSize!==tileDebugState.boardSize))closeTileDebugContextMenu();
+    tileDebugState=nextState;
+    tileDebugSetStatus(successMessage||`已读取 ${tileDebugState.modules.length} 个模块，${tileDebugState.assignments.length} 项临时分配。`);
+    renderTileDebug();
+  }catch(error){
+    tileDebugSetStatus(`读取失败：${error.name==='AbortError'?'请求超时':error.message}`,true);
+  }finally{
+    tileDebugInFlight=false;
+    updateTileDebugControls();
+  }
+}
+
+async function mutateTileDebug(path,method,successMessage){
+  if(tileDebugInFlight||actionInFlight)return false;
+  tileDebugInFlight=true;
+  updateTileDebugControls();
+  tileDebugSetStatus('正在提交临时调试配置…');
+  let succeeded=false;
+  let returnedSnapshot=null;
+  try{
+    const response=await fetchWithTimeout(path,{method,cache:'no-store'},8000);
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(result.message||result.error||`HTTP ${response.status}`);
+    succeeded=true;
+    if(Array.isArray(result.tiles)&&Array.isArray(result.assignments))returnedSnapshot=result;
+  }catch(error){
+    tileDebugSetStatus(`提交失败：${error.name==='AbortError'?'请求超时':error.message}`,true);
+  }finally{
+    tileDebugInFlight=false;
+    updateTileDebugControls();
+  }
+  if(!succeeded)return false;
+  if(returnedSnapshot){
+    tileDebugState=normalizeTileDebugData(returnedSnapshot);
+    renderTileDebug();
+    tileDebugSetStatus(successMessage);
+  }else{
+    await refreshTileDebug(successMessage);
+  }
+  return true;
+}
+
+async function applyTileDebugAssignment(){
+  const moduleId=tileDebugText($('#tile-debug-module').value);
+  const module=tileDebugModuleFor(moduleId);
+  const deviceId=module?module.deviceId:'';
+  const tileId=contextTileId;
+  if(!module||!module.online||!tileDebugSafeIdentifier(moduleId)||
+      !tileDebugSafeIdentifier(deviceId)||!tileId){
+    tileDebugSetStatus('请选择有效的在线格子模块和目标格子。',true);
+    return;
+  }
+  const succeeded=await mutateTileDebug(`/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}&deviceId=${encodeURIComponent(deviceId)}&tileId=${encodeURIComponent(tileId)}`,'POST',
+    '临时分配已应用。');
+  if(succeeded)closeTileDebugContextMenu();
+}
+
+async function clearTileDebugAssignment(moduleId=$('#tile-debug-module').value){
+  moduleId=tileDebugText(moduleId);
+  if(!tileDebugSafeIdentifier(moduleId))return;
+  const succeeded=await mutateTileDebug(`/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}`,'DELETE',
+    '临时分配已清除。');
+  if(succeeded)closeTileDebugContextMenu();
+}
+
 async function openSettings(){
   if(actionInFlight)return;
   $('#settings-modal').hidden=false;
@@ -672,7 +1158,7 @@ async function refresh(force=false){
   refreshController=new AbortController();
   try{
     const requireFull=force||Date.now()>=fullSyncDueAt;
-    const query=!requireFull&&state?`?since=${state.version}&peers=${state.espnowPeers}&room=${state.roomId}&network=${state.network}&control=${state.controlVersion||0}&identity=${state.identity?state.identity.revision:0}`:'';
+    const query=!requireFull&&state?`?since=${state.version}&peers=${state.espnowPeers}&room=${state.roomId}&network=${state.network}&control=${state.controlVersion||0}&tagBindings=${state.tagBindingRevision||0}&identity=${state.identity?state.identity.revision:0}`:'';
     const response=await fetchWithTimeout(`/api/sync${query}`,{cache:'no-store',signal:refreshController.signal});
     if(response.status===204){
       if(state&&state.identity&&Number(state.identity.phase)===2)renderIdentityWorkflow(state);
@@ -735,6 +1221,10 @@ $('#new').onclick=()=>{
 $('#settings-open').onclick=openSettings;
 $('#settings-cancel').onclick=closeSettings;
 $('#settings-save').onclick=saveSettings;
+$('#tile-debug-refresh').onclick=()=>refreshTileDebug('临时分配已刷新。');
+$('#tile-debug-module').onchange=selectTileDebugModule;
+$('#tile-debug-apply').onclick=applyTileDebugAssignment;
+$('#tile-debug-clear').onclick=()=>clearTileDebugAssignment();
 $('#players').addEventListener('contextmenu',event=>{
   const card=event.target.closest('.player[data-player-id]');
   if(!card)return;
@@ -752,26 +1242,55 @@ $('#players').addEventListener('keydown',event=>{
 });
 $('#player-force-destination').onclick=()=>beginForcedRollSelection(contextPlayerId);
 $('#player-clear-destination').onclick=clearForcedRollTarget;
+$('#player-assign-tag').onclick=()=>openTagBindingModal(contextPlayerId);
+$('#player-clear-tag').onclick=()=>clearPlayerTagBinding(contextPlayerId);
+$('#tag-binding-select').onchange=renderTagBindingPreview;
+$('#tag-binding-cancel').onclick=closeTagBindingModal;
+$('#tag-binding-save').onclick=saveTagBinding;
+$('#tag-binding-modal').onclick=event=>{if(event.target===$('#tag-binding-modal'))closeTagBindingModal();};
 $('#forced-selection-cancel').onclick=cancelForcedRollSelection;
 $('#board').addEventListener('click',event=>{
   const tile=event.target.closest('.tile[data-tile-index]');
   if(!tile||!tile.classList.contains('forced-candidate'))return;
   submitForcedRollTarget(Number(tile.dataset.tileIndex));
 });
+$('#board').addEventListener('contextmenu',event=>{
+  const tile=event.target.closest('.tile[data-tile-id]');
+  if(!tile)return;
+  event.preventDefault();
+  event.stopPropagation();
+  if(forcedSelection)return;
+  openTileDebugContextMenu(tile,event.clientX,event.clientY);
+});
+$('#board').addEventListener('keydown',event=>{
+  if(event.key!=='ContextMenu'&&!(event.shiftKey&&event.key==='F10'))return;
+  const tile=event.target.closest('.tile[data-tile-id]');
+  if(!tile)return;
+  event.preventDefault();
+  event.stopPropagation();
+  if(forcedSelection)return;
+  const bounds=tile.getBoundingClientRect();
+  openTileDebugContextMenu(tile,bounds.left+Math.min(36,bounds.width/2),bounds.top+Math.min(36,bounds.height/2));
+});
 $('#settings-modal').onclick=event=>{if(event.target===$('#settings-modal'))closeSettings();};
 $('#bot-interval').addEventListener('keydown',event=>{if(event.key==='Enter')saveSettings();});
 document.addEventListener('pointerdown',event=>{
   if(!event.target.closest('#player-context-menu'))hidePlayerContextMenu();
+  if(!event.target.closest('#tile-debug-context-menu'))closeTileDebugContextMenu();
 });
 document.addEventListener('keydown',event=>{
   if(event.key!=='Escape')return;
   if(forcedSelection)cancelForcedRollSelection();
+  else if(!$('#tag-binding-modal').hidden)closeTagBindingModal();
+  else if(!$('#tile-debug-context-menu').hidden)closeTileDebugContextMenu();
   else if(!$('#player-context-menu').hidden)hidePlayerContextMenu();
   else if(!$('#settings-modal').hidden)closeSettings();
 });
 window.addEventListener('resize',hidePlayerContextMenu);
+window.addEventListener('resize',closeTileDebugContextMenu);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)scheduleRefresh(0);});
 window.addEventListener('beforeunload',()=>{clearTimeout(pollTimer);if(refreshController)refreshController.abort();stopAllTokenAnimations();});
+refreshTileDebug();
 scheduleRefresh(0);
 </script>
 </body>

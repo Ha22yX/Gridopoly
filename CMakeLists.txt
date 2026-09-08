@@ -27,6 +27,22 @@ else()
   target_compile_options(gridopoly_protocol PRIVATE -Wall -Wextra -Werror)
 endif()
 
+add_library(gridopoly_tile_debug
+  Server/RaspberryPi/src/TileDebugAssignments.cpp
+  Firmware/PlayerConsole/grid_city_visual_catalog.cpp
+)
+target_include_directories(gridopoly_tile_debug PUBLIC
+  Server/RaspberryPi/src
+  Firmware/PlayerConsole
+)
+target_link_libraries(gridopoly_tile_debug PUBLIC gridopoly_core)
+target_compile_features(gridopoly_tile_debug PUBLIC cxx_std_17)
+if(MSVC)
+  target_compile_options(gridopoly_tile_debug PRIVATE /W4 /WX)
+else()
+  target_compile_options(gridopoly_tile_debug PRIVATE -Wall -Wextra -Werror)
+endif()
+
 add_library(gridopoly_server_projection
   Firmware/TestGameServer/src/PlayerDetailProjection.cpp
 )
@@ -85,6 +101,12 @@ if(GRIDOPOLY_BUILD_TESTS)
   add_executable(gridopoly_player_detail_projection_tests tests/host/player_detail_projection_tests.cpp)
   target_link_libraries(gridopoly_player_detail_projection_tests PRIVATE gridopoly_server_projection)
   add_test(NAME gridopoly_player_detail_projection_tests COMMAND gridopoly_player_detail_projection_tests)
+  add_executable(gridopoly_tile_debug_assignment_tests
+    tests/host/tile_debug_assignment_tests.cpp
+  )
+  target_link_libraries(gridopoly_tile_debug_assignment_tests PRIVATE gridopoly_tile_debug)
+  add_test(NAME gridopoly_tile_debug_assignment_tests
+    COMMAND gridopoly_tile_debug_assignment_tests)
   add_executable(gridopoly_identity_model_tests tests/host/identity_model_tests.cpp)
   target_link_libraries(gridopoly_identity_model_tests PRIVATE gridopoly_identity)
   add_test(NAME gridopoly_identity_model_tests COMMAND gridopoly_identity_model_tests)
@@ -175,6 +197,7 @@ if(UNIX AND NOT APPLE)
     gridopoly_server_projection
     gridopoly_identity
     gridopoly_avatar_renderer
+    gridopoly_tile_debug
     pthread
   )
   target_compile_features(gridopoly_server PRIVATE cxx_std_17)
@@ -221,6 +244,7 @@ if(UNIX AND NOT APPLE)
       gridopoly_server_projection
       gridopoly_identity
       gridopoly_avatar_renderer
+      gridopoly_tile_debug
       pthread
     )
     target_compile_features(gridopoly_http_asset_integration_tests PRIVATE cxx_std_17)

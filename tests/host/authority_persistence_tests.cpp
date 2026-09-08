@@ -171,7 +171,7 @@ int main() {
     assert(legacyMetadata.roomId() == legacyRoom);
     assert(legacyMetadata.serverDeviceId() == legacyDevice);
     assert(legacyMetadata.botActionIntervalMs() == 2300);
-    assert(std::filesystem::file_size(legacyMetadataPath) == 24);
+    assert(std::filesystem::file_size(legacyMetadataPath) == 61);
   }
   {
     gridopoly::pi::AuthorityService restoredSettings(
@@ -181,6 +181,204 @@ int main() {
     assert(restoredSettings.roomId() == 0x11223344u);
     assert(restoredSettings.serverDeviceId() == 0x55667788u);
     assert(restoredSettings.botActionIntervalMs() == 2300);
+  }
+
+  // Tag bindings are authoritative metadata: one Tag and one player each,
+  // revision-gated, atomic on reassignment, persistent across service restart,
+  // and cleared by a new room. RFID arrival reuses the exact ConfirmPosition
+  // transaction and therefore cannot execute twice.
+  {
+    const auto tagStatePath = temporary / "tag-arrival-state.bin";
+    const auto tagMetadataPath = temporary / "tag-arrival-authority.meta";
+    constexpr std::uint32_t firstTag = 0x8EFA259Du;
+    constexpr std::uint32_t secondTag = 0x7A563412u;
+    std::uint32_t persistedRevision = 0;
+    std::uint32_t persistedRoom = 0;
+    {
+      gridopoly::pi::AuthorityService authority(
+          tagStatePath, tagMetadataPath, 0xA1B2C3D4u);
+      assert(authority.initialize());
+      assert(authority.newGame(16, 1));
+      auto bindings = authority.playerTagBindings();
+      assert(bindings.playerCount == 2);
+      assert(bindings.playerTagUids[0] == 0);
+      const auto originalStateVersion = authority.stateVersion();
+      assert(!authority.setPlayerTagBinding(1, firstTag, 0));
+      assert(authority.stateVersion() == originalStateVersion);
+
+      const auto first = authority.setPlayerTagBinding(
+          1, firstTag, bindings.revision);
+      assert(first && first.changed);
+      assert(authority.stateVersion() == originalStateVersion + 1);
+      const auto duplicate = authority.setPlayerTagBinding(
+          1, firstTag, first.revision);
+      assert(duplicate && !duplicate.changed);
+      assert(duplicate.revision == first.revision);
+
+      // Binding the same UID to P2 atomically releases P1; replacing P2's UID
+      // also leaves the old UID globally unbound.
+      const auto moved = authority.setPlayerTagBinding(
+          2, firstTag, first.revision);
+      assert(moved && moved.changed);
+      bindings = authority.playerTagBindings();
+      assert(bindings.playerTagUids[0] == 0);
+      assert(bindings.playerTagUids[1] == firstTag);
+      const auto replaced = authority.setPlayerTagBinding(
+          2, secondTag, bindings.revision);
+      assert(replaced && replaced.changed);
+      bindings = authority.playerTagBindings();
+      assert(bindings.playerTagUids[0] == 0);
+      assert(bindings.playerTagUids[1] == secondTag);
+
+      const auto rebound = authority.setPlayerTagBinding(
+          1, firstTag, bindings.revision);
+      assert(rebound && rebound.changed);
+      assert(authority.execute(ActionCode::Roll, 1, 0xFF, 0,
+                               authority.stateVersion()));
+      const auto waiting = authority.stateCopy();
+      assert(waiting.phase == GamePhase::AwaitMoveConfirm);
+      assert(waiting.pendingMove.active && waiting.pendingMove.playerId == 1);
+      const auto blockedGate = authority.movementCueGateState();
+      assert(blockedGate.active && !blockedGate.ready);
+      assert(blockedGate.playerId == 1);
+      assert(blockedGate.originTile == waiting.pendingMove.origin);
+      assert(blockedGate.targetTile == waiting.pendingMove.target);
+
+      // A detected Tag may not bypass the player''s dice presentation.
+      const auto prematureArrival = authority.confirmTaggedArrival(
+          1, firstTag, waiting.pendingMove.target, waiting.stateVersion);
+      assert(!prematureArrival);
+      assert(authority.stateVersion() == waiting.stateVersion);
+      assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                                waiting.pendingMove.target, 0));
+      assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                                static_cast<std::uint8_t>(waiting.pendingMove.target + 1u),
+                                waiting.stateVersion));
+      assert(authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                               waiting.pendingMove.target, waiting.stateVersion));
+      assert(authority.stateVersion() == waiting.stateVersion);
+      assert(authority.movementCueGateState().ready);
+      assert(authority.movementCueReadyFor(authority.stateCopy()));
+      // The visual-complete signal is independently idempotent.
+      assert(authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                               waiting.pendingMove.target, waiting.stateVersion));
+      assert(authority.stateVersion() == waiting.stateVersion);
+
+      const auto wrongTag = authority.confirmTaggedArrival(
+          1, secondTag, waiting.pendingMove.target, waiting.stateVersion);
+      assert(!wrongTag);
+      assert(authority.stateVersion() == waiting.stateVersion);
+      const auto wrongTile = authority.confirmTaggedArrival(
+          1, firstTag,
+          static_cast<std::uint8_t>((waiting.pendingMove.target + 1u) % 16u),
+          waiting.stateVersion);
+      assert(!wrongTile);
+      assert(authority.stateVersion() == waiting.stateVersion);
+
+      const auto arrived = authority.confirmTaggedArrival(
+          1, firstTag, waiting.pendingMove.target, waiting.stateVersion);
+      assert(arrived);
+      const auto after = authority.stateCopy();
+      assert(after.stateVersion == waiting.stateVersion + 1);
+      assert(!after.pendingMove.active);
+      assert(!authority.movementCueGateState().active);
+      assert(after.players[0].position == waiting.pendingMove.target);
+      const auto duplicateArrival = authority.confirmTaggedArrival(
+          1, firstTag, waiting.pendingMove.target, waiting.stateVersion);
+      assert(!duplicateArrival);
+      assert(authority.stateVersion() == after.stateVersion);
+
+      persistedRevision = authority.tagBindingRevision();
+      persistedRoom = authority.roomId();
+      assert(authority.flush());
+    }
+    {
+      gridopoly::pi::AuthorityService restored(
+          tagStatePath, tagMetadataPath, 0);
+      assert(restored.initialize());
+      const auto bindings = restored.playerTagBindings();
+      assert(restored.roomId() == persistedRoom);
+      assert(bindings.revision == persistedRevision);
+      assert(bindings.playerTagUids[0] == firstTag);
+      assert(bindings.playerTagUids[1] == secondTag);
+      const auto previousRevision = bindings.revision;
+      assert(restored.newGame(16, 1));
+      const auto cleared = restored.playerTagBindings();
+      assert(cleared.revision != previousRevision);
+      assert(cleared.playerTagUids[0] == 0);
+      assert(cleared.playerTagUids[1] == 0);
+    }
+  }
+
+  // The dice-presentation gate survives a service restart without replaying
+  // the roll. Startup-only connected-state version changes rebase the same
+  // pending movement key while preserving its released/blocked state.
+  {
+    const auto gateStatePath = temporary / "movement-gate-state.bin";
+    const auto gateMetadataPath = temporary / "movement-gate-authority.meta";
+    std::uint32_t gateRoom = 0;
+    std::uint8_t gateTarget = 0xFF;
+    {
+      gridopoly::pi::AuthorityService authority(
+          gateStatePath, gateMetadataPath, 0x91A2B3C4u);
+      assert(authority.initialize());
+      assert(authority.newGame(16, 1));
+      assert(authority.execute(ActionCode::Roll, 1, 0xFF, 0,
+                               authority.stateVersion()));
+      const auto waiting = authority.stateCopy();
+      gateTarget = waiting.pendingMove.target;
+      gateRoom = authority.roomId();
+      assert(authority.movementCueGateState().active);
+      assert(!authority.movementCueGateState().ready);
+      assert(authority.flush());
+    }
+    {
+      gridopoly::pi::AuthorityService restored(
+          gateStatePath, gateMetadataPath, 0);
+      assert(restored.initialize());
+      assert(restored.roomId() == gateRoom);
+      const auto waiting = restored.stateCopy();
+      assert(waiting.phase == GamePhase::AwaitMoveConfirm);
+      assert(waiting.pendingMove.target == gateTarget);
+      const auto gate = restored.movementCueGateState();
+      assert(gate.active && !gate.ready && gate.playerId == 1);
+      assert(!restored.movementCueReadyFor(waiting));
+      assert(restored.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                              gateTarget, waiting.stateVersion));
+      assert(restored.movementCueGateState().ready);
+      assert(restored.flush());
+    }
+    {
+      gridopoly::pi::AuthorityService restored(
+          gateStatePath, gateMetadataPath, 0);
+      assert(restored.initialize());
+      assert(restored.roomId() == gateRoom);
+      const auto waiting = restored.stateCopy();
+      const auto gate = restored.movementCueGateState();
+      assert(gate.active && gate.ready && gate.playerId == 1);
+      assert(restored.movementCueReadyFor(waiting));
+      assert(restored.execute(ActionCode::ConfirmPosition, 1, 0xFF,
+                              gateTarget, waiting.stateVersion));
+      assert(!restored.movementCueGateState().active);
+    }
+  }
+
+  // Manual I''M THERE remains available even while the LED/RFID gate is
+  // closed, so a missing target module can never deadlock a human turn.
+  {
+    gridopoly::pi::AuthorityService authority(
+        temporary / "manual-arrival-state.bin",
+        temporary / "manual-arrival-authority.meta", 0x51A2B3C4u);
+    assert(authority.initialize());
+    assert(authority.newGame(16, 1));
+    assert(authority.execute(ActionCode::Roll, 1, 0xFF, 0,
+                             authority.stateVersion()));
+    const auto waiting = authority.stateCopy();
+    assert(!authority.movementCueGateState().ready);
+    assert(authority.execute(ActionCode::ConfirmPosition, 1, 0xFF,
+                             waiting.pendingMove.target, waiting.stateVersion));
+    assert(!authority.stateCopy().pendingMove.active);
+    assert(!authority.movementCueGateState().active);
   }
 
   // A web-admin destination override uses real dice, remains separate from

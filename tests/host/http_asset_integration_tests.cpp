@@ -51,7 +51,8 @@ void writeBytes(const std::filesystem::path& path, const std::vector<std::uint8_
 
 HttpResponse request(std::uint16_t port, const std::string& method,
                      const std::string& target,
-                     const std::string& extraHeaders = {}) {
+                     const std::string& extraHeaders = {},
+                     const std::string& body = {}) {
   const auto descriptor = ::socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
   assert(descriptor >= 0);
   timeval timeout{2, 0};
@@ -62,8 +63,9 @@ HttpResponse request(std::uint16_t port, const std::string& method,
   address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
   assert(::connect(descriptor, reinterpret_cast<const sockaddr*>(&address), sizeof(address)) == 0);
   const auto requestText = method + " " + target +
-      " HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Length: 0\r\n" + extraHeaders +
-      "Connection: close\r\n\r\n";
+      " HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Length: " +
+      std::to_string(body.size()) + "\r\n" + extraHeaders +
+      "Connection: close\r\n\r\n" + body;
   assert(::send(descriptor, requestText.data(), requestText.size(), 0) ==
          static_cast<ssize_t>(requestText.size()));
   std::vector<std::uint8_t> raw;
@@ -116,6 +118,16 @@ HttpResponse getWithHeader(std::uint16_t port, const std::string& target,
 
 HttpResponse post(std::uint16_t port, const std::string& target) {
   return request(port, "POST", target);
+}
+
+HttpResponse postJson(std::uint16_t port, const std::string& target,
+                      const std::string& body) {
+  return request(port, "POST", target,
+                 "Content-Type: application/json\r\n", body);
+}
+
+HttpResponse remove(std::uint16_t port, const std::string& target) {
+  return request(port, "DELETE", target);
 }
 
 std::string bodyText(const HttpResponse& response) {
@@ -297,7 +309,8 @@ int main() {
       std::to_string(authority.stateVersion()) + "&peers=0&room=" +
       std::to_string(authority.roomId()) + "&network=" +
       std::to_string(authority.networkId()) + "&control=" +
-      std::to_string(authority.controlVersion()) + "&identity=" +
+      std::to_string(authority.controlVersion()) + "&tagBindings=" +
+      std::to_string(authority.tagBindingRevision()) + "&identity=" +
       std::to_string(authority.identityRevision()));
   assert(currentControl.status == 204);
 
@@ -312,6 +325,342 @@ int main() {
   assert(cancelled.status == 200);
   assert(bodyText(cancelled).find("\"active\":false") != std::string::npos);
   assert(!authority.forcedRollState().active);
+
+  const auto gameBeforeTileDebug = authority.stateCopy();
+  const auto roomBeforeTileDebug = authority.roomId();
+  const auto controlBeforeTileDebug = authority.controlVersion();
+  const auto identityBeforeTileDebug = authority.identityRevision();
+  const auto tileDebugEmpty = get(http.port(), "/api/tile-debug/assignments");
+  assert(tileDebugEmpty.status == 200);
+  assert(tileDebugEmpty.headers.at("content-type") == "application/json; charset=utf-8");
+  assert(tileDebugEmpty.headers.at("cache-control") == "no-store");
+  const auto tileDebugEmptyBody = bodyText(tileDebugEmpty);
+  assert(tileDebugEmptyBody.find("\"boardId\":\"grid-city-32-v1\"") !=
+         std::string::npos);
+  assert(tileDebugEmptyBody.find("\"boardSize\":32") != std::string::npos);
+  assert(tileDebugEmptyBody.find("\"revision\":0,\"serverRevision\":0") !=
+         std::string::npos);
+  assert(tileDebugEmptyBody.find("\"modules\":[]") != std::string::npos);
+  assert(tileDebugEmptyBody.find("\"assignments\":[]") != std::string::npos);
+  assert(tileDebugEmptyBody.find(
+      "\"tileId\":\"A1\",\"mapIndex\":1,\"displayName\":\"Rivet Row\","
+      "\"kind\":\"PROPERTY\",\"accentRgb\":13203538,"
+      "\"artworkKey\":\"a1-rivet-row\",\"purchasePrice\":60") !=
+      std::string::npos);
+  assert(tileDebugEmptyBody.find("\"rgb\":15692136") != std::string::npos);
+
+  const auto missingHeartbeat = post(http.port(), "/api/tile-modules/heartbeat");
+  assert(missingHeartbeat.status == 400);
+  assert(bodyText(missingHeartbeat).find("moduleId_and_deviceId_required") !=
+         std::string::npos);
+  assert(post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a").status == 400);
+  assert(post(http.port(), "/api/tile-debug/assignment?tileId=A1").status == 400);
+  assert(post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=bad%20id&deviceId=device-a").status ==
+         400);
+  assert(post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=bad%20id").status ==
+         400);
+  assert(post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-a&deviceId=device-a").status ==
+         400);
+  assert(remove(http.port(), "/api/tile-debug/assignment").status == 400);
+  assert(get(http.port(), "/api/tile-modules/heartbeat").status == 405);
+  assert(get(http.port(), "/api/tile-debug/assignment").status == 405);
+  assert(post(http.port(), "/api/tile-debug/assignments").status == 405);
+
+  const auto moduleAHeartbeat = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
+  assert(moduleAHeartbeat.status == 200);
+  const auto moduleAHeartbeatBody = bodyText(moduleAHeartbeat);
+  assert(moduleAHeartbeatBody.find(
+      "{\"ok\":true,\"assigned\":true,\"source\":\"auto\",\"leaseMs\":15000,"
+      "\"serverRevision\":1,\"moduleId\":\"module-a\",\"deviceId\":\"device-a\","
+      "\"movementCue\":{\"mode\":\"none\",\"playerId\":0,\"revision\":"
+      ) != std::string::npos);
+  assert(moduleAHeartbeatBody.find(
+      "\"assignment\":{\"moduleId\":\"module-a\",\"deviceId\":\"device-a\","
+      "\"source\":\"auto\",\"tile_id\":\"CORNER-START\",\"mapIndex\":0") !=
+      std::string::npos);
+  assert(moduleAHeartbeatBody.find("\"owner_player\":0") != std::string::npos);
+  assert(moduleAHeartbeatBody.find("\"owner_color\":0") != std::string::npos);
+  assert(moduleAHeartbeatBody.find("\"revision\":1") != std::string::npos);
+  assert(moduleAHeartbeatBody.find("\"updatedAtMs\":") != std::string::npos);
+
+  const auto moduleAHeartbeatRepeat = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
+  assert(moduleAHeartbeatRepeat.status == 200);
+  assert(bodyText(moduleAHeartbeatRepeat).find("\"serverRevision\":1") !=
+         std::string::npos);
+  assert(bodyText(moduleAHeartbeatRepeat).find("\"revision\":1") !=
+         std::string::npos);
+
+  const auto moduleBHeartbeat = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b");
+  assert(moduleBHeartbeat.status == 200);
+  assert(bodyText(moduleBHeartbeat).find(
+      "{\"ok\":true,\"assigned\":true,\"source\":\"auto\",\"leaseMs\":15000,"
+      "\"serverRevision\":2,\"moduleId\":\"module-b\",\"deviceId\":\"device-b\","
+      "\"movementCue\":{\"mode\":\"none\",\"playerId\":0,\"revision\":") !=
+      std::string::npos);
+  assert(bodyText(moduleBHeartbeat).find(
+      "\"assignment\":{\"moduleId\":\"module-b\",\"deviceId\":\"device-b\","
+      "\"source\":\"auto\",\"tile_id\":\"A1\",\"mapIndex\":1") !=
+      std::string::npos);
+
+  const auto tileDebugModules = get(http.port(), "/api/tile-debug/assignments");
+  assert(tileDebugModules.status == 200);
+  const auto tileDebugModulesBody = bodyText(tileDebugModules);
+  assert(tileDebugModulesBody.find("\"serverRevision\":2") != std::string::npos);
+  const auto moduleAAt = tileDebugModulesBody.find(
+      "{\"moduleId\":\"module-a\",\"deviceId\":\"device-a\",\"online\":true,"
+      "\"assigned\":true,\"source\":\"auto\"");
+  assert(moduleAAt != std::string::npos);
+  const auto moduleAEnd = tileDebugModulesBody.find('}', moduleAAt);
+  assert(moduleAEnd != std::string::npos);
+  const auto moduleAText = tileDebugModulesBody.substr(moduleAAt, moduleAEnd - moduleAAt);
+  assert(moduleAText.find("\"lastSeenMs\":") != std::string::npos);
+  assert(moduleAText.find("\"leaseMs\":15000") != std::string::npos);
+  assert(moduleAText.find("\"leaseRemainingMs\":") != std::string::npos);
+  assert(moduleAText.find("\"registrationOrder\":1") != std::string::npos);
+  assert(moduleAText.find("\"tagReaderState\":\"scanning\"") != std::string::npos);
+  assert(moduleAText.find("\"tagRevision\":0") != std::string::npos);
+  assert(moduleAText.find("\"tagOverflow\":false") != std::string::npos);
+  const auto moduleBAt = tileDebugModulesBody.find(
+      "{\"moduleId\":\"module-b\",\"deviceId\":\"device-b\",\"online\":true,"
+      "\"assigned\":true,\"source\":\"auto\"", moduleAEnd);
+  assert(moduleBAt != std::string::npos);
+  const auto moduleBEnd = tileDebugModulesBody.find('}', moduleBAt);
+  assert(moduleBEnd != std::string::npos);
+  const auto moduleBText = tileDebugModulesBody.substr(moduleBAt, moduleBEnd - moduleBAt);
+  assert(moduleBText.find("\"lastSeenMs\":") != std::string::npos);
+  assert(moduleBText.find("\"leaseMs\":15000") != std::string::npos);
+  assert(moduleBText.find("\"leaseRemainingMs\":") != std::string::npos);
+  assert(moduleBText.find("\"registrationOrder\":2") != std::string::npos);
+
+  const auto tileDebugSet = post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-a&deviceId=device-a&tileId=B1&"
+      "displayName=FORGED&kind=FORGED&accent=1&artworkKey=FORGED&"
+      "purchasePrice=9999&owner_display_name=FORGED&owner_color=1");
+  assert(tileDebugSet.status == 200);
+  const auto tileDebugSetBody = bodyText(tileDebugSet);
+  assert(tileDebugSetBody.find("\"revision\":3,\"serverRevision\":3") !=
+         std::string::npos);
+  const auto manualAssignmentAt = tileDebugSetBody.find(
+      "{\"moduleId\":\"module-a\",\"deviceId\":\"device-a\",\"source\":\"manual\","
+      "\"tile_id\":\"B1\",\"mapIndex\":6,\"displayName\":\"Lantern Avenue\","
+      "\"kind\":\"PROPERTY\",\"accent\":6538984,"
+      "\"artworkKey\":\"b1-lantern-avenue\",\"purchase_price\":100");
+  assert(manualAssignmentAt != std::string::npos);
+  const auto manualAssignmentEnd = tileDebugSetBody.find('}', manualAssignmentAt);
+  assert(manualAssignmentEnd != std::string::npos);
+  const auto manualAssignment =
+      tileDebugSetBody.substr(manualAssignmentAt, manualAssignmentEnd - manualAssignmentAt);
+  assert(manualAssignment.find("\"owner_player\":0") != std::string::npos);
+  assert(manualAssignment.find("\"owner_color\":0") != std::string::npos);
+  assert(manualAssignment.find("\"revision\":3") != std::string::npos);
+  assert(tileDebugSetBody.find("\"tile_id\":\"CORNER-START\"") == std::string::npos);
+  assert(tileDebugSetBody.find("FORGED") == std::string::npos);
+  assert(tileDebugSetBody.find("\"purchase_price\":9999") == std::string::npos);
+  assert(tileDebugSetBody.find("\"owner_color\":1,") == std::string::npos);
+
+  const auto manualHeartbeat = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
+  assert(manualHeartbeat.status == 200);
+  const auto manualHeartbeatBody = bodyText(manualHeartbeat);
+  assert(manualHeartbeatBody.find("\"source\":\"manual\",\"leaseMs\":15000") !=
+         std::string::npos);
+  assert(manualHeartbeatBody.find("\"serverRevision\":3") != std::string::npos);
+  assert(manualHeartbeatBody.find(
+      "\"assignment\":{\"moduleId\":\"module-a\",\"deviceId\":\"device-a\","
+      "\"source\":\"manual\",\"tile_id\":\"B1\",\"mapIndex\":6") !=
+      std::string::npos);
+  assert(manualHeartbeatBody.find("\"owner_player\":0") != std::string::npos);
+  assert(manualHeartbeatBody.find("\"owner_color\":0") != std::string::npos);
+
+  const auto tileConflict = post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-b&deviceId=device-b&tileId=B1");
+  assert(tileConflict.status == 409);
+  assert(bodyText(tileConflict).find(
+      "\"code\":" + std::to_string(static_cast<unsigned>(
+          gridopoly::pi::TileDebugResultCode::TileConflict))) != std::string::npos);
+  const auto offlineManual = post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-c&deviceId=device-c&tileId=B2");
+  assert(offlineManual.status == 409);
+  assert(bodyText(offlineManual).find(
+      "\"code\":" + std::to_string(static_cast<unsigned>(
+          gridopoly::pi::TileDebugResultCode::ModuleOffline))) != std::string::npos);
+  const auto deviceMismatch = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-wrong");
+  assert(deviceMismatch.status == 409);
+  assert(bodyText(deviceMismatch).find(
+      "\"code\":" + std::to_string(static_cast<unsigned>(
+          gridopoly::pi::TileDebugResultCode::DeviceMismatch))) != std::string::npos);
+  assert(post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-a&deviceId=device-a&tileId=NOPE")
+      .status == 404);
+
+  const auto tileDebugSetRepeat = post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-a&deviceId=device-a&tileId=B1&"
+      "ownerPlayerId=2&owner=7");
+  assert(tileDebugSetRepeat.status == 200);
+  const auto tileDebugSetRepeatBody = bodyText(tileDebugSetRepeat);
+  assert(tileDebugSetRepeatBody.find("\"revision\":3,\"serverRevision\":3") !=
+         std::string::npos);
+  assert(tileDebugSetRepeatBody.find("\"tile_id\":\"B1\"") != std::string::npos);
+  assert(tileDebugSetRepeatBody.find("\"owner_player\":0") != std::string::npos);
+  assert(tileDebugSetRepeatBody.find("\"owner_color\":0") != std::string::npos);
+  assert(tileDebugSetRepeatBody.find("\"owner_player\":2") == std::string::npos);
+  assert(tileDebugSetRepeatBody.find("\"owner_player\":7") == std::string::npos);
+
+  const auto tileDebugCleared = remove(
+      http.port(), "/api/tile-debug/assignment?moduleId=module-a");
+  assert(tileDebugCleared.status == 200);
+  const auto tileDebugClearedBody = bodyText(tileDebugCleared);
+  assert(tileDebugClearedBody.find("\"revision\":4,\"serverRevision\":4") !=
+         std::string::npos);
+  assert(tileDebugClearedBody.find(
+      "{\"moduleId\":\"module-a\",\"deviceId\":\"device-a\",\"online\":true,"
+      "\"assigned\":false,\"source\":\"none\"") != std::string::npos);
+  assert(tileDebugClearedBody.find(
+      "\"assignments\":[{\"moduleId\":\"module-b\"") != std::string::npos);
+  assert(tileDebugClearedBody.find("\"tile_id\":\"B1\"") == std::string::npos);
+
+  const auto moduleAReclaimed = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
+  assert(moduleAReclaimed.status == 200);
+  const auto moduleAReclaimedBody = bodyText(moduleAReclaimed);
+  assert(moduleAReclaimedBody.find(
+      "{\"ok\":true,\"assigned\":true,\"source\":\"auto\",\"leaseMs\":15000,"
+      "\"serverRevision\":5") != std::string::npos);
+  assert(moduleAReclaimedBody.find(
+      "\"assignment\":{\"moduleId\":\"module-a\",\"deviceId\":\"device-a\","
+      "\"source\":\"auto\",\"tile_id\":\"CORNER-START\",\"mapIndex\":0") !=
+      std::string::npos);
+
+  const auto gameAfterTileDebug = authority.stateCopy();
+  assert(authority.roomId() == roomBeforeTileDebug);
+  assert(gameAfterTileDebug.stateVersion == gameBeforeTileDebug.stateVersion);
+  assert(gameAfterTileDebug.assets[0].ownerId == gameBeforeTileDebug.assets[0].ownerId);
+  assert(gameAfterTileDebug.players[0].cash == gameBeforeTileDebug.players[0].cash);
+  assert(authority.controlVersion() == controlBeforeTileDebug);
+  assert(authority.identityRevision() == identityBeforeTileDebug);
+
+  // Stable HITAG S reports are globally deduplicated. Binding is revision
+  // gated and a destination heartbeat invokes the ordinary ConfirmPosition
+  // transaction exactly once. Overflow keeps the destination cue visible but
+  // deliberately suppresses automatic arrival.
+  const auto targetAssignment = post(http.port(),
+      "/api/tile-debug/assignment?moduleId=module-b&deviceId=device-b&tileId=B2");
+  assert(targetAssignment.status == 200);
+  const auto firstTagReport = postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":17,"
+      "\"tags\":[\"8EFA259D\",\"8EFA259D\"],\"overflow\":false}");
+  assert(firstTagReport.status == 200);
+  assert(bodyText(firstTagReport).find("\"movementCue\":{\"mode\":\"none\"") !=
+         std::string::npos);
+  const auto tagsBeforeBinding = get(http.port(), "/api/tile-tags");
+  assert(tagsBeforeBinding.status == 200);
+  assert(bodyText(tagsBeforeBinding).find(
+      "\"uid\":\"8EFA259D\",\"currentlySeen\":true") != std::string::npos);
+  assert(bodyText(tagsBeforeBinding).find("\"moduleId\":\"module-b\"") !=
+         std::string::npos);
+  assert(bodyText(tagsBeforeBinding).find("\"tileId\":\"B2\",\"mapIndex\":7") !=
+         std::string::npos);
+
+  const auto staleBinding = post(http.port(),
+      "/api/player-tag-binding?playerId=1&uid=8EFA259D&expectedRevision=0");
+  assert(staleBinding.status == 409);
+  const auto binding = post(http.port(),
+      "/api/player-tag-binding?playerId=1&uid=8efa259d&expectedRevision=" +
+      std::to_string(authority.tagBindingRevision()));
+  assert(binding.status == 200);
+  assert(bodyText(binding).find("\"playerId\":1,\"displayName\":") !=
+         std::string::npos);
+  assert(bodyText(binding).find("\"uid\":\"8EFA259D\"") != std::string::npos);
+  assert(authority.playerTagBindings().playerTagUids[0] == 0x8EFA259Du);
+
+  assert(authority.setForcedRollTarget(1, 7, authority.stateVersion()));
+  assert(authority.execute(gridopoly::protocol::ActionCode::Roll, 1, 0xFF, 0,
+                           authority.stateVersion()));
+  const auto waitingForTag = authority.stateCopy();
+  assert(waitingForTag.phase == gridopoly::core::GamePhase::AwaitMoveConfirm);
+  assert(waitingForTag.pendingMove.target == 7);
+  const auto departureHeartbeat = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
+  assert(departureHeartbeat.status == 200);
+  assert(bodyText(departureHeartbeat).find(
+      "\"movementCue\":{\"mode\":\"none\",\"playerId\":0,\"revision\":" +
+      std::to_string(waitingForTag.stateVersion)) != std::string::npos);
+
+  const auto overflowDestination = postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":18,"
+      "\"tags\":[\"8EFA259D\"],\"overflow\":true}");
+  assert(overflowDestination.status == 200);
+  assert(bodyText(overflowDestination).find(
+      "\"movementCue\":{\"mode\":\"none\",\"playerId\":0,\"revision\":" +
+      std::to_string(waitingForTag.stateVersion)) != std::string::npos);
+  assert(authority.stateVersion() == waitingForTag.stateVersion);
+
+  const auto blockedDestination = postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":19,"
+      "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
+  assert(blockedDestination.status == 200);
+  assert(bodyText(blockedDestination).find(
+      "\"movementCue\":{\"mode\":\"none\",\"playerId\":0,\"revision\":" +
+      std::to_string(waitingForTag.stateVersion)) != std::string::npos);
+  assert(authority.stateVersion() == waitingForTag.stateVersion);
+
+  // The player console releases LEDs and RFID only after its dice result and
+  // first MoveGuide frame have actually been presented.
+  assert(authority.execute(gridopoly::protocol::ActionCode::MovementCueReady,
+                           1, 0xFF, waitingForTag.pendingMove.target,
+                           waitingForTag.stateVersion));
+  assert(authority.stateVersion() == waitingForTag.stateVersion);
+  const auto releasedDeparture = post(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
+  assert(releasedDeparture.status == 200);
+  assert(bodyText(releasedDeparture).find(
+      "\"movementCue\":{\"mode\":\"departure\",\"playerId\":1,\"revision\":" +
+      std::to_string(waitingForTag.stateVersion)) != std::string::npos);
+
+  const auto arrived = postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":20,"
+      "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
+  assert(arrived.status == 200);
+  const auto arrivedState = authority.stateCopy();
+  assert(arrivedState.stateVersion == waitingForTag.stateVersion + 1);
+  assert(!arrivedState.pendingMove.active);
+  assert(arrivedState.players[0].position == 7);
+  assert(bodyText(arrived).find(
+      "\"movementCue\":{\"mode\":\"none\",\"playerId\":0,\"revision\":" +
+      std::to_string(arrivedState.stateVersion)) != std::string::npos);
+
+  const auto duplicateArrival = postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":20,"
+      "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
+  assert(duplicateArrival.status == 200);
+  assert(authority.stateVersion() == arrivedState.stateVersion);
+  assert(postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":21,"
+      "\"tags\":[\"XYZ\"],\"overflow\":false}").status == 400);
+
+  const auto bindingRevision = authority.tagBindingRevision();
+  assert(remove(http.port(),
+      "/api/player-tag-binding?playerId=1&expectedRevision=" +
+      std::to_string(bindingRevision - 1)).status == 409);
+  const auto clearedBinding = remove(http.port(),
+      "/api/player-tag-binding?playerId=1&expectedRevision=" +
+      std::to_string(bindingRevision));
+  assert(clearedBinding.status == 200);
+  assert(authority.playerTagBindings().playerTagUids[0] == 0);
 
   const auto previousRoom = authority.roomId();
   assert(post(http.port(), "/api/new?size=16&humans=1&bots=0").status == 409);
@@ -335,6 +684,7 @@ int main() {
          std::string::npos);
   assert(bodyText(identitySync).find("\"id\":1,\"name\":\"\"") !=
          std::string::npos);
+  assert(authority.playerTagBindings().playerTagUids[0] == 0);
 
   gridopoly::protocol::IdentitySnapshot identity{};
   assert(authority.makeIdentitySnapshot(1, identity, true));

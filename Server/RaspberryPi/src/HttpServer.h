@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "AuthorityService.h"
+#include "TileDebugAssignments.h"
 #include "UdpPlayerServer.h"
 
 namespace gridopoly::pi {
@@ -49,6 +50,7 @@ class HttpServer {
     std::string path{};
     std::unordered_map<std::string, std::string> query{};
     std::unordered_map<std::string, std::string> headers{};
+    std::string body{};
     bool keepAlive{};
   };
 
@@ -68,6 +70,7 @@ class HttpServer {
 
   AuthorityService& authority_;
   UdpPlayerServer& udp_;
+  TileDebugAssignments tileDebug_{};
   std::uint16_t port_{};
   std::string serviceIp_;
   std::size_t workerCount_{};
