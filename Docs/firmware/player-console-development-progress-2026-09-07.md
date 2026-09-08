@@ -195,3 +195,31 @@ bounce 模式每填满一帧就更新 bb_fb_index 并调用 on_frame_buf_complet
 归档在本机 `GridopolyPlayerTools-3311/candidates/offline-review-20260908`，
 每模式保留 elf/map/非 merged bin/build.log；artifacts.json 记录实际文件长度
 和逐文件校验值。这三份最终候选均未烧录，COM7 保持已恢复的旧生产固件。
+
+### 构建脚本审核修正（业务源码检查点 1481e61 之后）
+
+`compile-isolated.ps1` 不再覆盖旧 source 目录。每次调用在 ToolRoot/runs 下
+创建带模式、时间和 GUID 的独立 PlayerConsole 源码快照及 output；删除或
+重命名的旧源码不会残留到新快照。脚本不执行删除操作，也不清理其他模式或
+已归档产物。默认 ToolRoot 改为 GridopolyPlayerTools-3311，并通过 CLI
+实际配置和已安装核心列表校验 esp32:esp32@3.3.11。
+
+编译前检查 CLI、配置、构建验证脚本、主 sketch、三份仓库库和五份外部库；
+GridopolyCore/GridopolyProtocol/lvgl 明确从当前仓库 Firmware/libraries
+读取，ESP32_Display_Panel/IO_Expander/esp-lib-utils/Button/Knob 从 CLI
+配置的 user/libraries 读取，不再使用 ToolRoot/libraries 中的旧复制件。
+已逐文件比对本轮构建使用的复制件与仓库：Core 7、Protocol 6、LVGL 1215
+个文件全部一致，因此库来源修正没有引入本轮构建之外的源码版本变化。
+
+默认 build 路径也位于独立 run 中。仅显式传入 `-ReuseBuildCache` 才复用
+对应模式的 build-MODE，并持有独占文件锁防止同模式并发写缓存；输出仍独立。
+编译与 HWCDC 验证成功才返回成功，失败不调用后续验证。每次输入清单
+inputs.json 记录源码、库来源、外部版本、核心版本、flags、build/output
+及缓存选项。控制台打印该次准确输出路径，不再默认覆盖 ToolRoot/production、
+ToolRoot/selftest 或 ToolRoot/espnow。
+
+只用本机模拟 CLI/微型仓库验证脚本逻辑，9 项通过：默认工具链定位、删除/
+改名不残留、库与产物路径、显式缓存/模式 flags、缓存并发排斥、错误核心拒绝、
+缺配置拒绝、编译失败传播且不调用验证、旧快照保留。PowerShell 语法解析通过。
+验证记录在 GridopolyPlayerTools-3311/script-tests-20260908/result.log。
+没有因此重编业务源码，没有操作 COM7；先前归档三模式候选和硬件未验收结论不变。
