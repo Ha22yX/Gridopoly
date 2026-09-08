@@ -132,3 +132,36 @@ python3 Server/RaspberryPi/tools/observe-movement-cue.py --duration 60
 上述fixture与恢复判据已直接同步玩家屏与主会话。玩家端新增本地RetryRequested、不可变探测及新逻辑请求实现由玩家屏会话负责；其最终交叉复核和实机结果另记。
 
 追加待提交范围仅此UDP测试及本报告；此前Git交付为5c844b1（历史服务端基线）、71b4dfc（首轮新增回归）、1b68afc（观测工具与报告）。本会话仍不操作索引或提交。
+
+## 2026-09-08 补齐 Tag 联合观测记录
+
+此前21:58的真实UID事件缺少同步HTTP采集，且服务器短期历史随后过期，不能追补自动到达证据。本项补齐下一次采集工具，不表示项目整体修复完成。
+
+变更：
+
+- `Server/RaspberryPi/tools/observe-movement-cue.py` 现在每轮顺序只读GET `/api/sync`、`/health`、`/api/tile-debug/assignments`、`/api/tile-tags`。
+- schema=2；保留sync room/version/tagBindingRevision/gate（包括origin/target）、health room/version、assignment room/serverRevision、每模块tagRevision/state/overflow以及assignment。
+- `tagSnapshot`完整保留`/api/tile-tags`响应：所有UID、currentlySeen、全部模块sightings、历史lastSeenMs、绑定UID和player、roomId、global tagRevision、bindingRevision、updatedAtMs。未根据一次采样合并或猜测跨端位置。
+- `sampleStartedEpochMs`和`epochMs`分别为采集主机开始/结束UTC Unix整数毫秒；`requests[path]`分别记录startedEpochMs、receivedEpochMs、durationMs、ok/error。`sampleSpanMs`用主机monotonic测量。
+- `snapshotAtomic=false`明确四个请求不是原子快照。不同room/version保留各自原值。服务器Tag的lastSeenMs/updatedAtMs根据当前`TileDebugAssignments`默认system_clock实现标为server UTC毫秒；设备uptime必须另列，不混用。
+- 现在保留每个样本，含未变化样本和部分失败；某个请求失败时该来源为null并记录错误，其他成功来源仍保留。成功`tags=[]`与无法取得tags明确区分。
+- `--output`独占创建新的JSONL文件，每条记录立即flush，同时保留stdout。已有文件拒绝覆盖。`--duration`、`--interval`、`--timeout`控制采集范围，默认60秒/500ms/每请求2秒超时，间隔至少250ms；每轮顺序执行，绝不并发堆积请求。一个进行中的采样可能使运行时间超出duration，最多受四次GET超时边界限制。
+- 与格子会话的`observe_tile_serial.py`对齐epochMs为主机接收UTC毫秒。优先同一采集主机；跨主机比较必须另有时钟偏差证据。离线串口日志没有原始时间时不能用处理时刻伪造。
+
+新增本地验证脚本：`Server/RaspberryPi/tools/test-observe-movement-cue.py`。
+
+执行 `python Server/RaspberryPi/tools/test-observe-movement-cue.py -v`：7/7 PASS，4.302秒。包含：完整多UID与sightings/revision、每请求时间、跨GET房间变化、空集合与HTTP503区分、坏JSON/结构、缺revision、模拟超时、本地真实连接拒绝、CLI重复未变化样本落盘及拒绝覆盖。
+
+短时线上只读采集证据：`C:/Users/kicof/AppData/Local/Temp/gridopoly-observe-tags-20260908-002614.jsonl`，2完整样本、0请求错误、加1条结束记录。room=993580098、version=183、global tagRevision=49、bindingRevision=2、tags为空。本样本只证明采集连接/解析/保存可用，不证明真实UID已上报或自动到达。
+
+下一次主会话安排联合窗口时，在同一Windows采集主机显式启动，例如：
+
+```powershell
+python Server/RaspberryPi/tools/observe-movement-cue.py --base-url http://10.0.0.124 --duration 60 --interval 0.5 --output "$env:TEMP\gridopoly-joint-tags-unique.jsonl"
+```
+
+输出文件名每次必须唯一。与格子串口JSONL、圆屏真实首帧/Action17发送/ack记录共同保留，再按host epochMs与room/version/request/UID关联。GET仍不能证明短暂ready已出现，也不能证明LCD真实呈现或LED肉眼效果。
+
+剩余联合验收阻塞：玩家屏完整构建/SelfTest/性能与候选版本验收由玩家屏会话推进；主会话需安排串口独占、同步采集和用户放置/移动绑定棋子的窗口；必须实际获得首帧→Action17→gate→完整Tag心跳/自动到达及LED的关联证据。历史UID窗口没有记录的部分仍不可补证。服务器未改服务、房间、Tag绑定或线上动作，未后台持续采集。
+
+本项Git提交范围：`observe-movement-cue.py`、新增`test-observe-movement-cue.py`及本报告。采集日志为临时本地证据，不纳入Git；主会话统一提交。
