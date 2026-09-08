@@ -162,3 +162,36 @@ partitions；旧 firmware.bin 2,682,496 bytes，SHA-256：
 
 主会话已完成 Git 提交：`5a81ceb` 保全 V0.27 历史基线，`31702c9` 提交 V0.28
 修复、HostRegression 与此前报告。本节为之后新增证据，由主会话另行提交。
+
+## 联合验收证据工具补充
+
+新增 `Firmware/TileModule/tools/observe_tile_serial.py`、配套说明和测试。
+这轮只离线开发验证，没有打开 COM6、发送 HTTP、改分配或烧录固件。
+
+- 必须显式选择 `--input` 或 `--port`；默认/无参数不打开串口。
+- 离线支持已有 ISO 时间前缀日志、无时间文本和本工具 JSONL；保留原行。
+- 与服务器 `observe-movement-cue.py` 对齐 `epochMs`：采集主机接收时间的 UTC Unix
+  整数毫秒；历史记录使用原保存时间，缺失或缺时区为 null，绝不以当前处理时间补造。
+- `device_uptime_ms` 独立保存 `t=...ms`，不转换成 UTC 或混用服务器时间。
+- 解析 PRESENT/NO_TAG、完整 UID 集合、溢出、field_off、cue/player/revision、
+  reset/fault；保留无关行，缺失字段不从邻行猜测。
+- live 仅显式 `--port` 时启用；DTR/RTS 在打开前 false，单次打开，默认只读。
+  可显式配置 STATUS 周期；不提供重启、场控制或游戏动作。实现的 live 边界仅通过假串口
+  测试，此轮没有在真实串口上验收这个新工具。
+- JSONL 输出独占创建、每行 flush，不覆盖已有证据；碎片拼接，残缺行标识为不完整。
+- 两端工具宜在同一采集主机运行；跨主机比较前需确认时钟偏差，HTTP 多 GET 非原子。
+
+验证：`python Firmware/TileModule/tools/test_observe_tile_serial.py`，11 项 PASS。
+覆盖历史时间/uptime分离、无时区、完整多标签与损坏/溢出、reset/fault/cue、JSONL重放、
+默认不开串口、文件不覆盖、假串口碎片/显式STATUS/中断与异常关闭。
+
+已离线转换完整 `serial-v028.log`：759 行均保留，原记录时间均可解析；提取并断言：
+
+| 事件 | epochMs | device_uptime_ms | UID 集合 | field_off |
+| --- | ---: | ---: | --- | --- |
+| PRESENT | 1788832705821 | 381632 | 8EFA24DF | PASS |
+| NO_TAG | 1788832711709 | 387521 | 空 | PASS |
+
+生成文件为本端 Temp 输出目录中的 `serial-v028-events.jsonl`，不提交 Git。
+离线转换只能整理已有证据，不能补回当时未采集的 HTTP/Tag 内容；自动到达与实体 LED
+联合验收仍须下一次同步采集窗口完成。新增工具并不代表此前未闭环问题已经完成验收。
