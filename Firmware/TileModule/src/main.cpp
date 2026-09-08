@@ -4,6 +4,7 @@
 #include <driver/gpio.h>
 #include <esp32-hal-rmt.h>
 #include <esp_system.h>
+#include <esp_heap_caps.h>
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
@@ -16,6 +17,7 @@
 #include <cstring>
 
 #include "board_config.h"
+#include "display_diff.h"
 #include "hitag_s_decoder.h"
 #include "hitag_s_protocol.h"
 #include "tag_presence_filter.h"
@@ -46,7 +48,6 @@ constexpr std::uint32_t kRmtFrequencyHz = 8'000'000;
 constexpr std::uint32_t kPowerSamplePeriodMs = 200;
 constexpr std::uint32_t kUiRefreshPeriodMs = 500;
 constexpr std::uint32_t kLedFramePeriodMs = 50;
-constexpr std::uint32_t kTileRenderConfirmDelayMs = 1000;
 constexpr std::uint8_t kHtrcGetConfigPage = 0x04;
 constexpr std::uint8_t kHtrcSetConfigPage = 0x40;
 constexpr std::uint8_t kHtrcFieldOffPage1 = 0x01;
@@ -142,6 +143,44 @@ struct TagInventoryAttempt {
 SPIClass gDisplaySpi(FSPI);
 Adafruit_ST7789 gDisplay(&gDisplaySpi, kLcdChipSelectPin,
                          kLcdDataCommandPin, kLcdResetPin);
+// PSRAM holds composed pixels and the last completed submission. SPI always
+// receives one aligned internal-RAM row, never a flash/PSRAM-backed long buffer.
+class DisplayCanvas : public GFXcanvas16 {
+ public:
+  DisplayCanvas() : GFXcanvas16(kDisplayWidth, kDisplayHeight, false) {}
+  bool allocate() {
+    if (buffer != nullptr) return true;
+    buffer = static_cast<std::uint16_t *>(heap_caps_malloc(
+        kDisplayWidth * kDisplayHeight * sizeof(std::uint16_t),
+        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    buffer_owned = true;
+    return buffer != nullptr;
+  }
+  void release() {
+    heap_caps_free(buffer);
+    buffer = nullptr;
+  }
+};
+DisplayCanvas gPageCanvas;
+std::uint16_t *gSubmittedFrame = nullptr;
+bool gSubmittedFrameValid = false;
+bool gFramePending = false;
+alignas(4) std::uint16_t gDisplayRow[kDisplayWidth]{};
+struct DisplayMetrics {
+  std::uint32_t frames = 0;
+  std::uint32_t skipped = 0;
+  std::uint32_t rectangles = 0;
+  std::uint32_t pixels = 0;
+  std::uint32_t full_frames = 0;
+  std::uint32_t last_us = 0;
+  std::uint32_t max_us = 0;
+} gDisplayMetrics;
+
+Adafruit_GFX &displaySurface() {
+  return gSubmittedFrame != nullptr ? static_cast<Adafruit_GFX &>(gPageCanvas)
+                                    : static_cast<Adafruit_GFX &>(gDisplay);
+}
+
 GFXcanvas16 gFooterCanvas(kDisplayWidth, 34);
 TileNetworkClient gNetwork;
 TileNetworkSnapshot gNetworkSnapshot{};
@@ -153,13 +192,11 @@ bool gDisplayReady = false;
 rmt_obj_t *gLedRmt = nullptr;
 bool gLedReady = false;
 bool gDiagnosticPage = false;
-bool gTileRenderConfirmationPending = false;
 std::uint8_t gBacklightDuty = kBacklightDuty;
 std::uint32_t gLastPowerSampleMs = 0;
 std::uint32_t gLastUiRefreshMs = 0;
 std::uint32_t gLastLedFrameMs = 0;
 std::uint32_t gMovementCueStartedMs = 0;
-std::uint32_t gTileFirstRenderMs = 0;
 std::uint32_t gLastHtrcSafeRewriteMs = 0;
 bool gHtrcTransmitterSafe = false;
 std::uint32_t gLastTagScanMs = 0;
@@ -492,6 +529,18 @@ bool verifyHtrcDigitalLink() {
 }
 
 void initializeDisplay() {
+  if (gSubmittedFrame == nullptr && gPageCanvas.allocate()) {
+    gSubmittedFrame = static_cast<std::uint16_t *>(heap_caps_malloc(
+        kDisplayWidth * kDisplayHeight * sizeof(std::uint16_t),
+        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    if (gSubmittedFrame == nullptr) gPageCanvas.release();
+  }
+  gSubmittedFrameValid = false;
+  gPageCanvas.setTextWrap(false);
+  Serial.printf("[DISPLAY] renderer=%s psram_free=%u internal_free=%u\r\n",
+                gSubmittedFrame != nullptr ? "PSRAM_DIFF" : "DIRECT_FALLBACK",
+                static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM)),
+                static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL)));
   gDisplaySpi.begin(kLcdClockPin, kNoMisoPin, kLcdMosiPin, kLcdChipSelectPin);
   gDisplay.init(kDisplayWidth, kDisplayHeight, SPI_MODE0);
   // ST7789::init() resets the Adafruit bus setting to its 32 MHz default.
@@ -1507,26 +1556,26 @@ void renderLedScene(std::uint32_t now_ms) {
 }
 void centeredText(const char *text, std::int16_t y, std::uint8_t size,
                   std::uint16_t foreground, std::uint16_t background) {
-  gDisplay.setTextSize(size);
-  gDisplay.setTextColor(foreground, background);
+  displaySurface().setTextSize(size);
+  displaySurface().setTextColor(foreground, background);
   std::int16_t x1 = 0;
   std::int16_t y1 = 0;
   std::uint16_t width = 0;
   std::uint16_t height = 0;
-  gDisplay.getTextBounds(text, 0, y, &x1, &y1, &width, &height);
+  displaySurface().getTextBounds(text, 0, y, &x1, &y1, &width, &height);
   const std::int16_t x = static_cast<std::int16_t>(
-      std::max<std::int32_t>(0, (gDisplay.width() - width) / 2));
-  gDisplay.setCursor(x, y);
-  gDisplay.print(text);
+      std::max<std::int32_t>(0, (displaySurface().width() - width) / 2));
+  displaySurface().setCursor(x, y);
+  displaySurface().print(text);
 }
 
 void textAt(std::int16_t x, std::int16_t y, const char *text,
             std::uint8_t size, std::uint16_t foreground,
             std::uint16_t background = kPanel) {
-  gDisplay.setTextSize(size);
-  gDisplay.setTextColor(foreground, background);
-  gDisplay.setCursor(x, y);
-  gDisplay.print(text);
+  displaySurface().setTextSize(size);
+  displaySurface().setTextColor(foreground, background);
+  displaySurface().setCursor(x, y);
+  displaySurface().print(text);
 }
 
 void footerTextAt(std::int16_t x, std::int16_t y, const char *text,
@@ -1539,8 +1588,8 @@ void footerTextAt(std::int16_t x, std::int16_t y, const char *text,
 
 void drawPanel(std::int16_t x, std::int16_t y, std::int16_t width,
                std::int16_t height, std::uint16_t border = kLine) {
-  gDisplay.fillRoundRect(x, y, width, height, kCardRadius, kPanel);
-  gDisplay.drawRoundRect(x, y, width, height, kCardRadius, border);
+  displaySurface().fillRoundRect(x, y, width, height, kCardRadius, kPanel);
+  displaySurface().drawRoundRect(x, y, width, height, kCardRadius, border);
 }
 void formatMoney(char *buffer, std::size_t capacity, std::uint16_t amount) {
   std::snprintf(buffer, capacity, "$%u", static_cast<unsigned>(amount));
@@ -1553,35 +1602,36 @@ void drawArtwork(const TileState &state, std::uint16_t accent) {
   constexpr std::int16_t kFrameX = 36;
   constexpr std::int16_t kFrameY = 44;
   constexpr std::int16_t kFrameSize = 168;
-  gDisplay.fillRoundRect(kFrameX, kFrameY, kFrameSize, kFrameSize,
+  displaySurface().fillRoundRect(kFrameX, kFrameY, kFrameSize, kFrameSize,
                          kArtworkRadius, kPanel);
-  gDisplay.drawRoundRect(kFrameX, kFrameY, kFrameSize, kFrameSize,
+  displaySurface().drawRoundRect(kFrameX, kFrameY, kFrameSize, kFrameSize,
                          kArtworkRadius, accent);
-  gDisplay.drawRoundRect(kFrameX + 1, kFrameY + 1, kFrameSize - 2,
+  displaySurface().drawRoundRect(kFrameX + 1, kFrameY + 1, kFrameSize - 2,
                          kFrameSize - 2, kArtworkRadius - 1, accent);
 
   const TileArtwork *artwork = tileArtwork(state.artwork);
   if (artwork != nullptr && artwork->pixels != nullptr &&
       artwork->width == kImageSize && artwork->height == kImageSize) {
-    // Do not pass the full PROGMEM asset directly to ESP32 SPI. Once Wi-Fi is
-    // active, a long 51.2 KB flash-backed transfer has proven unreliable on
-    // the first board. Copy one aligned row into RAM and transmit it before
-    // loading the next row. The LCD address window still remains continuous.
-    gDisplay.startWrite();
-    gDisplay.setAddrWindow(kImageX, kImageY, artwork->width, artwork->height);
+    if (gSubmittedFrame == nullptr) {
+      gDisplay.startWrite();
+      gDisplay.setAddrWindow(kImageX, kImageY, artwork->width, artwork->height);
+    }
     for (std::uint16_t row = 0; row < artwork->height; ++row) {
       const std::uint16_t *source =
           artwork->pixels + static_cast<std::uint32_t>(row) * artwork->width;
-      std::memcpy(gArtworkRow, source,
-                  static_cast<std::size_t>(artwork->width) *
-                      sizeof(std::uint16_t));
-      gDisplay.writePixels(gArtworkRow, artwork->width, true, false);
+      std::memcpy(gArtworkRow, source, artwork->width * sizeof(std::uint16_t));
+      if (gSubmittedFrame != nullptr) {
+        gPageCanvas.drawRGBBitmap(kImageX, kImageY + row, gArtworkRow,
+                                  artwork->width, 1);
+      } else {
+        gDisplay.writePixels(gArtworkRow, artwork->width, true, false);
+      }
     }
-    gDisplay.endWrite();
+    if (gSubmittedFrame == nullptr) gDisplay.endWrite();
     return;
   }
 
-  gDisplay.fillRect(kImageX, kImageY, kImageSize, kImageSize, kSelected);
+  displaySurface().fillRect(kImageX, kImageY, kImageSize, kImageSize, kSelected);
   centeredText(state.tile_id, 109, 3, accent, kSelected);
   centeredText("ARTWORK PENDING", 142, 1, kMuted, kSelected);
 }
@@ -1592,7 +1642,7 @@ void drawBuildingBadges(const TileState &state, std::int16_t x,
   }
   for (std::uint8_t index = 0; index < 5; ++index) {
     const bool active = index < state.building_level;
-    gDisplay.fillRect(static_cast<std::int16_t>(x + index * 11), y, 8,
+    displaySurface().fillRect(static_cast<std::int16_t>(x + index * 11), y, 8,
                       index == 4 ? 9 : 7, active ? accent : kLine);
   }
 }
@@ -1617,7 +1667,7 @@ void drawAssetStateCard(const TileState &state, std::uint16_t accent) {
         displayColor(playerColor(state.owner_player));
     drawPanel(kCardX, kCardY, kCardWidth, kCardHeight,
               state.mortgaged ? kRed : owner_color);
-    gDisplay.fillCircle(29, 252, 4, state.mortgaged ? kRed : owner_color);
+    displaySurface().fillCircle(29, 252, 4, state.mortgaged ? kRed : owner_color);
     textAt(28, 226, state.mortgaged ? "MORTGAGED" : "OWNED BY", 1,
            state.mortgaged ? kRed : kMuted);
     char fallback[20];
@@ -1694,7 +1744,7 @@ void drawPowerFooter() {
   } else if (gNetworkSnapshot.link == TileNetworkLink::Fault) {
     network_color = kRed;
   }
-  gDisplay.setTextSize(1);
+  gFooterCanvas.setTextSize(1);
   std::int16_t x1 = 0;
   std::int16_t y1 = 0;
   std::uint16_t width = 0;
@@ -1702,16 +1752,21 @@ void drawPowerFooter() {
   gFooterCanvas.getTextBounds(network, 0, 19, &x1, &y1, &width, &height);
   footerTextAt(static_cast<std::int16_t>(224 - width), 19, network,
                network_color);
-  gDisplay.drawRGBBitmap(0, 286, gFooterCanvas.getBuffer(), kDisplayWidth,
-                         34);
+  if (gSubmittedFrame != nullptr) {
+    gPageCanvas.drawRGBBitmap(0, 286, gFooterCanvas.getBuffer(), kDisplayWidth, 34);
+  } else {
+    gDisplay.drawRGBBitmap(0, 286, gFooterCanvas.getBuffer(), kDisplayWidth, 34);
+  }
+  gFramePending = true;
 }
 void drawConnectionProgress() {
+  gFramePending = true;
   if (!gDisplayReady || gNetworkSnapshot.assigned) {
     return;
   }
   const TileConnectionView view = tileConnectionView(gNetworkSnapshot.link);
   const std::uint16_t accent = displayColor(view.accent);
-  gDisplay.fillRect(0, 106, kDisplayWidth, 14, kBackground);
+  displaySurface().fillRect(0, 106, kDisplayWidth, 14, kBackground);
   char progress[5] = "   ";
   const std::uint8_t dot_count =
       static_cast<std::uint8_t>((millis() / 500U) % 4U);
@@ -1721,13 +1776,14 @@ void drawConnectionProgress() {
   centeredText(progress, 110, 1, accent, kBackground);
 }
 void drawConnectionPage() {
+  gFramePending = true;
   if (!gDisplayReady) {
     return;
   }
   const TileConnectionView view = tileConnectionView(gNetworkSnapshot.link);
   const std::uint16_t accent = displayColor(view.accent);
-  gDisplay.fillScreen(kBackground);
-  gDisplay.fillRect(0, 0, kDisplayWidth, 6, accent);
+  displaySurface().fillScreen(kBackground);
+  displaySurface().fillRect(0, 0, kDisplayWidth, 6, accent);
   textAt(kOuterMargin, 12, "GRIDOPOLY TILE MODULE", 1, kMuted, kBackground);
 
   centeredText(view.eyebrow, 48, 1, accent, kBackground);
@@ -1759,27 +1815,28 @@ void drawConnectionPage() {
   drawPowerFooter();
 }
 void drawTilePage() {
+  gFramePending = true;
   if (!gDisplayReady) {
     return;
   }
   const TileState &state = currentTileState();
   const std::uint16_t accent = displayColor(state.accent);
-  gDisplay.fillScreen(kBackground);
+  displaySurface().fillScreen(kBackground);
 
   // District color remains an accent regardless of ownership.
-  gDisplay.fillRect(0, 0, kDisplayWidth, 6, accent);
+  displaySurface().fillRect(0, 0, kDisplayWidth, 6, accent);
   char eyebrow[40];
   std::snprintf(eyebrow, sizeof(eyebrow), "%s  TILE %02u", state.subtitle,
                 state.map_index);
   textAt(kOuterMargin, 10, eyebrow, 1, accent, kBackground);
 
   const char *kind = tileKindLabel(state.kind);
-  gDisplay.setTextSize(1);
+  displaySurface().setTextSize(1);
   std::int16_t x1 = 0;
   std::int16_t y1 = 0;
   std::uint16_t width = 0;
   std::uint16_t height = 0;
-  gDisplay.getTextBounds(kind, 0, 10, &x1, &y1, &width, &height);
+  displaySurface().getTextBounds(kind, 0, 10, &x1, &y1, &width, &height);
   textAt(static_cast<std::int16_t>(224 - width), 10, kind, 1, kMuted,
          kBackground);
 
@@ -1789,8 +1846,9 @@ void drawTilePage() {
   drawPowerFooter();
 }
 void drawDiagnosticPage() {
-  gDisplay.fillScreen(kBackground);
-  gDisplay.fillRect(0, 0, kDisplayWidth, 39, kPanel);
+  gFramePending = true;
+  displaySurface().fillScreen(kBackground);
+  displaySurface().fillRect(0, 0, kDisplayWidth, 39, kPanel);
   centeredText("TILE DIAGNOSTICS", 12, 2, kBlue, kPanel);
   drawPanel(12, 50, 216, 115, kBlue);
   textAt(22, 62, "DISPLAY", 1, kMuted);
@@ -1834,16 +1892,60 @@ void renderPage() {
   }
 }
 
-void recoverAndRenderPage(std::uint32_t now_ms) {
-  recoverDisplayController();
-  renderPage();
-  if (gNetworkSnapshot.assigned && !gDiagnosticPage) {
-    gTileFirstRenderMs = now_ms;
-    gTileRenderConfirmationPending = true;
+struct DisplaySink {
+  bool write(std::uint16_t x, std::uint16_t y, std::uint16_t width,
+             std::uint16_t height, const std::uint16_t *frame,
+             std::uint16_t stride) {
+    gDisplay.startWrite();
+    gDisplay.setAddrWindow(x, y, width, height);
+    for (std::uint16_t row = y; row < y + height; ++row) {
+      std::memcpy(gDisplayRow, frame + static_cast<std::size_t>(row) * stride + x,
+                  width * sizeof(std::uint16_t));
+      gDisplay.writePixels(gDisplayRow, width, true, false);
+    }
+    gDisplay.endWrite();
+    // Write-only LCD: this records completed SPI submission, not panel readback.
+    return true;
+  }
+};
+
+void presentPage() {
+  if (!gFramePending || !gDisplayReady) return;
+  gFramePending = false;
+  if (gSubmittedFrame == nullptr) return;
+  const std::uint32_t started = micros();
+  DisplaySink sink;
+  const DisplayTransfer transfer = presentDisplayFrame(
+      gPageCanvas.getBuffer(), gSubmittedFrame, kDisplayWidth, kDisplayHeight,
+      !gSubmittedFrameValid, sink);
+  gSubmittedFrameValid = transfer.complete;
+  gDisplayMetrics.last_us = micros() - started;
+  gDisplayMetrics.max_us = std::max(gDisplayMetrics.max_us,
+                                   gDisplayMetrics.last_us);
+  if (transfer.pixels == 0) {
+    ++gDisplayMetrics.skipped;
+  } else {
+    ++gDisplayMetrics.frames;
+    gDisplayMetrics.pixels += transfer.pixels;
+    gDisplayMetrics.rectangles += transfer.rectangles;
+    if (transfer.pixels == kDisplayWidth * kDisplayHeight) {
+      ++gDisplayMetrics.full_frames;
+    }
   }
 }
 
+void recoverAndRenderPage() {
+  recoverDisplayController();
+  renderPage();
+}
+
 void printStatus() {
+  Serial.printf("[DISPLAY-PERF] renderer=%s frames=%u skipped=%u rectangles=%u pixels=%u full=%u last_us=%u max_us=%u\r\n",
+                gSubmittedFrame != nullptr ? "PSRAM_DIFF" : "DIRECT_FALLBACK",
+                gDisplayMetrics.frames, gDisplayMetrics.skipped,
+                gDisplayMetrics.rectangles, gDisplayMetrics.pixels,
+                gDisplayMetrics.full_frames, gDisplayMetrics.last_us,
+                gDisplayMetrics.max_us);
   if (gNetworkSnapshot.assigned) {
     const TileState &state = currentTileState();
     Serial.printf("[TILE] source=%s id=%s map=%u artwork=%s kind=%s activity=%s owner=%u owner_name=%s buildings=%u\r\n",
@@ -1915,7 +2017,7 @@ void processCommand(char *command) {
     gDiagnosticPage = !gDiagnosticPage;
     renderPage();
   } else if (std::strcmp(command, "REDRAW") == 0) {
-    recoverAndRenderPage(millis());
+    recoverAndRenderPage();
   } else if (std::strcmp(command, "RESTART") == 0) {
     Serial.println(F("[BOOT] software restart requested"));
     Serial.flush();
@@ -1987,10 +2089,11 @@ void setup() {
   gNetwork.begin();
   (void)gNetwork.consume(gNetworkSnapshot);
   renderPage();
+  presentPage();
   renderLedScene(now);
 
   Serial.println();
-  Serial.println(F("GRIDOPOLY TILE MODULE V0.28 - TAG REPORT RETRY"));
+  Serial.println(F("GRIDOPOLY TILE MODULE V0.29 - DIFFERENTIAL DISPLAY"));
   Serial.println(F("RS485 and ORDER remain disabled; server assignment uses Wi-Fi/HTTP."));
   printHelp();
   printStatus();
@@ -2026,13 +2129,16 @@ void loop() {
 
   TileNetworkSnapshot next_network;
   if (gNetwork.consume(next_network)) {
-    const bool assignment_changed =
-        next_network.assigned &&
-        (!gNetworkSnapshot.assigned ||
-         next_network.assignment_revision !=
-             gNetworkSnapshot.assignment_revision ||
-         std::strcmp(next_network.tile.tile_id,
-                     gNetworkSnapshot.tile.tile_id) != 0);
+    const bool page_changed =
+        next_network.assigned != gNetworkSnapshot.assigned ||
+        (next_network.assigned
+             ? std::memcmp(&next_network.tile, &gNetworkSnapshot.tile,
+                           sizeof(TileState)) != 0
+             : (next_network.link != gNetworkSnapshot.link ||
+                next_network.http_status != gNetworkSnapshot.http_status ||
+                next_network.rssi != gNetworkSnapshot.rssi ||
+                std::strcmp(next_network.module_id,
+                            gNetworkSnapshot.module_id) != 0));
     const bool movement_changed =
         next_network.movement.mode != gNetworkSnapshot.movement.mode ||
         next_network.movement.player_id !=
@@ -2043,14 +2149,12 @@ void loop() {
     if (movement_changed) {
       gMovementCueStartedMs = now;
     }
-    gDiagnosticPage = false;
-    renderPage();
-    if (assignment_changed) {
-      // Keep the already-working SPI/LCD session. Reinitializing the write-only
-      // ST7789 here can leave the physical panel on the previous connection
-      // frame even though the renderer has advanced to the tile state.
-      gTileFirstRenderMs = now;
-      gTileRenderConfirmationPending = true;
+    if (page_changed && !gDiagnosticPage) {
+      // Keep the working controller session; page composition never clears
+      // the physical panel. Transport/cue revisions alone do not repaint it.
+      renderPage();
+    } else if (!gDiagnosticPage) {
+      drawPowerFooter();
     }
     renderLedScene(now);
     printStatus();
@@ -2071,15 +2175,6 @@ void loop() {
       // region and update the fixed footer here.
       drawConnectionProgress();
       drawPowerFooter();
-    } else if (gTileRenderConfirmationPending &&
-               static_cast<std::uint32_t>(now - gTileFirstRenderMs) >=
-                   kTileRenderConfirmDelayMs) {
-      drawTilePage();
-      gTileRenderConfirmationPending = false;
-      Serial.printf("[DISPLAY] page=TILE confirmed id=%s revision=%llu\r\n",
-                    gNetworkSnapshot.tile.tile_id,
-                    static_cast<unsigned long long>(
-                        gNetworkSnapshot.assignment_revision));
     } else {
       drawPowerFooter();
     }
@@ -2088,5 +2183,6 @@ void loop() {
     gLastLedFrameMs = now;
     renderLedScene(now);
   }
+  presentPage();
   delay(1);
 }

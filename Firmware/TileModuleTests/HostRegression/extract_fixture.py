@@ -38,8 +38,12 @@ pieces += [routine(main, "void publishTagInventory("),
            routine(main, "Rgb playerColor("),
            routine(main, "Rgb scaleColor("),
            routine(main, "void renderLedScene(")]
-start = main.index("    const bool movement_changed =")
-end = main.index("    gDiagnosticPage = false;", start)
+start = main.index("    const bool page_changed =")
+end = main.index("    const bool movement_changed =", start)
+pieces.append("bool pageChanged(TileNetworkSnapshot next_network) {\n"
+              + main[start:end] + "\nreturn page_changed;\n}")
+start = end
+end = main.index("    if (page_changed && !gDiagnosticPage)", start)
 pieces.append("void consumeMovement(TileNetworkSnapshot next_network, uint32_t now) {\n"
               + main[start:end] + "\n}")
 output.write_text("\n\n".join(pieces), encoding="utf-8")

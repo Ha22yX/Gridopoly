@@ -176,6 +176,27 @@ void test_heartbeat_resync_preserves_animation_origin() {
   assertWholeRing();
 }
 
+void test_transport_and_cue_updates_do_not_invalidate_tile_page() {
+  gNetworkSnapshot.assigned = true;
+  auto snapshot = gNetworkSnapshot;
+  ++snapshot.assignment_revision;
+  ++snapshot.server_revision;
+  ++snapshot.sequence;
+  snapshot.movement = {TileMovementCue::Destination, 1, 101};
+  snapshot.rssi = -85;
+  snapshot.link = TileNetworkLink::Fault;
+  TEST_ASSERT_FALSE(pageChanged(snapshot));
+  snapshot.tile.building_level = 3;
+  TEST_ASSERT_TRUE(pageChanged(snapshot));
+  snapshot = gNetworkSnapshot;
+  snapshot.assigned = false;
+  TEST_ASSERT_TRUE(pageChanged(snapshot));
+  gNetworkSnapshot.assigned = false;
+  snapshot = gNetworkSnapshot;
+  snapshot.http_status = 503;
+  TEST_ASSERT_TRUE(pageChanged(snapshot));
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_failed_publish_retries_identical_local_inventory);
@@ -183,5 +204,6 @@ int main() {
   RUN_TEST(test_full_inventory_and_overflow_remain_consistent);
   RUN_TEST(test_destination_double_flash_and_departure_breath);
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
+  RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
   return UNITY_END();
 }
