@@ -165,3 +165,40 @@ python Server/RaspberryPi/tools/observe-movement-cue.py --base-url http://10.0.0
 剩余联合验收阻塞：玩家屏完整构建/SelfTest/性能与候选版本验收由玩家屏会话推进；主会话需安排串口独占、同步采集和用户放置/移动绑定棋子的窗口；必须实际获得首帧→Action17→gate→完整Tag心跳/自动到达及LED的关联证据。历史UID窗口没有记录的部分仍不可补证。服务器未改服务、房间、Tag绑定或线上动作，未后台持续采集。
 
 本项Git提交范围：`observe-movement-cue.py`、新增`test-observe-movement-cue.py`及本报告。采集日志为临时本地证据，不纳入Git；主会话统一提交。
+
+## 2026-09-08 正常候选联合窗口：AP 只读诊断
+
+主会话已授权玩家屏正常 Action17 候选烧录及三端有界采集。服务器端 HTTP 500ms/600秒与 Pi ap0 被动 UDP 600秒采集正在执行；本节先记录玩家屏出现 wifi_recover/status6/ip0.0.0.0 时的只读 AP 诊断，采集结束统计另补。
+
+实际服务名称为 gridopoly、gridopoly-ap、gridopoly-dnsmasq、gridopoly-ap-watchdog，四项均 active；系统自带 hostapd.service masked/inactive 不是项目 AP 停机。ap0 为 gridopoly、channel3/2422MHz/20MHz。
+
+目标 MAC dc:b4:d9:02:d1:dc（玩家设备02d9b4dc）日志：
+
+| 2026-09-08 EDT | 服务器记录 |
+| --- | --- |
+| 00:52:26 | 原有 watchdog 因邻居失败驱逐，grace20s |
+| 00:52:29 | 关联、WPA四次握手、DHCP完整交换并ACK 10.42.0.37 |
+| 00:55:23 | watchdog 因rx-stalled驱逐，grace45s |
+| 00:55:25 | 再次关联、WPA四次握手及DHCP ACK 10.42.0.37 |
+| 00:57:56 | watchdog 因rx-stalled驱逐，grace45s |
+| 00:57:57 | 再次关联、WPA四次握手及DHCP ACK 10.42.0.37 |
+| 00:58:40 | station dump authorized/authenticated/associated=yes，connected42s、txfailed0 |
+
+原始 journal 为 +08:00，表内转为 EDT（减12小时）；Pi 与 Windows 采集时钟另有 Pi 超前245–466ms的单次往返界限，不能视为绝对同钟。
+
+线上 watchdog 与仓库脚本仅注释不同，实际环境配置为失败邻居20秒、累计rx_bytes无增长45秒、轮询2秒。rx-stalled 分支不检查客户端WiFi.status或游戏版本，只能说明驱逐前至少45秒未观察到该站接收字节增长。DHCP ACK由AP发出也不能证明ESP已处理GOT_IP事件。结合玩家屏串口卡在recover打印，已向屏幕端建议在WiFi.mode(WIFI_OFF)、mode(WIFI_STA)、WiFi.begin返回点增加边界日志，先区分驱动调用阻塞与事件/状态更新失败。烧录时间及设备uptime仍需屏幕端关联，不能把每次DHCP成功擅自归给某固件版本。
+
+原始证据：C:/Users/kicof/AppData/Local/Temp/gridopoly-joint-20260908-0053-ap-diagnostic.log；线上脚本只读副本：同目录 gridopoly-joint-20260908-0053-live-watchdog.sh。没有输出密码/PSK，没有重启服务、改配置或手动驱逐设备。结果已直接同步主会话与玩家屏会话。
+
+玩家屏随后提供烧录文件边界：正常候选写入EDT00:54:30–00:54:51，故00:55:25的AP关联/WPA/DHCP成功属于候选；旧生产恢复写入00:57:07–00:57:33，故00:57:57属于旧生产。候选串口采集00:55:44才启动，五条日志为缓冲批量读取，不能用接收时间间距推算设备执行时间。玩家屏已确认恢复后ready/UDP10.42.0.37/原room993580098，COM7已释放；当前设备旧生产不含Action17。本轮新候选功能未验收，玩家屏继续修复恢复路径和增加事件/设备millis诊断。
+
+联合采集现已按时结束，两个服务器采集进程均exit0，未自动续开：
+
+- HTTP：`C:/Users/kicof/AppData/Local/Temp/gridopoly-joint-20260908-0053-http.jsonl`。开始epoch1788843261420（EDT00:54:21.420），结束1788843861416（01:04:21.416）；1186样本、4744次GET、requestErrors=0、interrupted=false。顺序四请求的样本跨度中位94ms、最大1172ms，500ms为目标周期，非严格硬实时。
+- HTTP全窗口room993580098，version186/187/188/189/190，phase5 AwaitDebt；gate.active/ready始终false，Tag集合始终空。P1绑定UID8EFA24DF、position6；T-WEST/mapIndex6的tile-288485ba9fe8在线，assignmentRevision10、tagRevision1/globalTagRevision53/bindingRevision2。udp.authFailures/replayDrops=0，txErrors32为未变化历史计数。
+- UDP：`C:/Users/kicof/AppData/Local/Temp/gridopoly-joint-20260908-0053-udp.log`，Pi ap0被动600秒完成。detailFrames=0、actionFrames=0；Discover597、PairRequest2、PairAccept2、Heartbeat268、StateSnapshot10、GameEvent28、AuthoritySnapshot10、RosterSnapshot10、Ack268、PlayerCardEvent18、0x28计10、0x2a计12。能够观察双向配对/心跳，不存在“完全没收到包”歧义；本窗口没有观察到ActionRequest/ActionResult，不能证明Action17链路。抓包工具本身不验证HMAC。
+- 格子端确认COM6同机有界串口窗口epoch1788843195698–1788843795850（00:53:15.698–01:03:15.850）、70行，cue revision186–190均none，无tag_inventory/reset/fault，COM6已释放。其离线交集核验1055个完整HTTP样本，零错误、phase5、gateReady0、Tag集合空。
+
+本次结论是失败窗口与AP定位证据完整落盘，并非自动到达功能验收通过。现有正常候选遇到WiFi恢复阻断，玩家屏已退回不含Action17的旧生产并继续修改恢复路径；格子设备维持V0.28，服务器二进制维持先前已核实346dfc92...，没有重新部署。主会话下一步协调可启动的正常候选及真实移动窗口；玩家屏负责WiFi恢复/实际首帧/Action17与完整测试，格子端负责有Tag输入与目标LED观测，服务器端在新窗口关联Action17接受、gate、UID和权威到达。LED空线圈测试与预放Tag立即到达测试分开；当前房间停留债务阶段，不擅自注入roll/confirm或改变房间/绑定制造通过。
+
+本节仅修改本服务器进度报告，交主会话串行审核提交；原始临时证据不进Git。
