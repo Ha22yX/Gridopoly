@@ -123,7 +123,7 @@ partitions；旧 firmware.bin 2,682,496 bytes，SHA-256：
 
 ## 待联合验收与提交范围
 
-1. 正式构建、COM6 身份、烧录与联网恢复已完成；保持串口供联合观察。
+1. 正式构建、COM6 身份、烧录与联网恢复已完成；原串口窗口已自动结束，后续联合窗口再协调采集。
 2. 将已绑定的 `8EFA24DF` 棋子放在线圈中心，记录屏幕 UID 与服务器完整集合是否一致。
 3. 圆屏 Action 17 就绪后，观察 gate 前后原格/目标格灯效；不自行改房间来制造场景。
 4. 自动到达需要“目标格分配正确、Tag 绑定正确、稳定完整集合、gate ready”。
@@ -138,3 +138,27 @@ partitions；旧 firmware.bin 2,682,496 bytes，SHA-256：
 `v028-tag-report-retry.patch`、`manifest.json`、`reconstructed-v027/`。
 基线是按本轮编辑记录逆推的 UTF-8/LF 文本，不是编辑前原始文件快照。
 已对当前工作树执行补丁 reverse/check 验证，仅检查，没有应用或改索引。
+
+## 被动监控结束后补充（22:16）
+
+21:52:20～22:12:20 的单次 pyserial 窗口已自动结束、句柄关闭，COM6 已释放。
+没有为收尾重新打开串口。完整日志中未见新 USB reset、fault 或 departure/destination。
+
+回查得到一次真实 UID 识别：
+
+- 21:58:25.821：`t=381632ms state=PRESENT count=1 uids=8EFA24DF consistent=3
+  sampling=0x2D field_off=PASS`。
+- 21:58:31.709：`t=387521ms state=NO_TAG count=0 sampling=0x23 field_off=PASS`。
+- 这证明设备曾识别绑定 UID，并在约 6 秒后判定不再存在；未同步采集该短窗的服务器
+  完整 Tag 集合，也没有用户实际移入/移出时间证据，不能进一步声称心跳/自动到达通过，
+  或据此测算真实移除响应延迟。服务器会话已确认没有相同时窗的抓包/HTTP记录，
+  无法补证该次完整上报、gate/target 或自动到达结果。
+- 窗口结束时格子为 `T-WEST/map6/source manual/revision10`，HTTP200，
+  4.815V / 190.0mA，TXDIS=OFF，Tag count0，cue=none。本会话没有修改该分配。
+- 主会话随后只读检查：模块 stable/local tagRevision3（刷后为1），全局 tagRevision42，
+  当前 tags为空；同 room/version170/phase1/gate inactive。服务器已接收新的报告 revision，
+  但当前投影不能还原历史 UID 具体值。仍以“真实本地 UID 识别已见；同步上报及自动到达
+  尚未闭环验证”为结论。当前 T-WEST 分配是现场新状态，不恢复旧 A2 覆盖它。
+
+主会话已完成 Git 提交：`5a81ceb` 保全 V0.27 历史基线，`31702c9` 提交 V0.28
+修复、HostRegression 与此前报告。本节为之后新增证据，由主会话另行提交。
