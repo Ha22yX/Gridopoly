@@ -202,3 +202,25 @@ python Server/RaspberryPi/tools/observe-movement-cue.py --base-url http://10.0.0
 本次结论是失败窗口与AP定位证据完整落盘，并非自动到达功能验收通过。现有正常候选遇到WiFi恢复阻断，玩家屏已退回不含Action17的旧生产并继续修改恢复路径；格子设备维持V0.28，服务器二进制维持先前已核实346dfc92...，没有重新部署。主会话下一步协调可启动的正常候选及真实移动窗口；玩家屏负责WiFi恢复/实际首帧/Action17与完整测试，格子端负责有Tag输入与目标LED观测，服务器端在新窗口关联Action17接受、gate、UID和权威到达。LED空线圈测试与预放Tag立即到达测试分开；当前房间停留债务阶段，不擅自注入roll/confirm或改变房间/绑定制造通过。
 
 本节仅修改本服务器进度报告，交主会话串行审核提交；原始临时证据不进Git。
+
+## 2026-09-08 第二轮正常诊断候选：联网成功，移动验收仍待执行
+
+本节更新上一窗口的设备状态：玩家屏已上传并保持运行第二轮正常Wi-Fi候选，SHA256 `ded1375634d29cc454ce401dd7e1da56373e91055d2bd464a865bee3d3c31a8c`（玩家屏报告hash verified、compiled01:09:44）。实际上传UTC05:15:01.593–05:15:24.630，串口opened05:15:24.897；当前不再是上一节的旧生产固件。服务器版本不变、未重启服务或改AP。
+
+玩家屏设备时间证据：最初ms1918/2929/3952/4961/5974出现reason2断开事件，随后ms13097 CONNECTED/channel3、14117 GOT_IP，UDP ready10.42.0.37、paired seat1/room993580098/session4088196611，并收到v192 phase5 position6及完整AUTH/ROSTER。status3持续，无panic，未触发30秒恢复。开头reason2不能标成整窗口连接失败，WiFi.reconnect及channel0调整也不能单凭本轮成功认定其中一个就是根因。
+
+服务器按玩家屏通知立即启动120秒有界只读采集（文件前缀0114是计划窗口，实际开始时间以下面记录为准），全部进程exit0、未自动续开：
+
+| 证据 | 实际结果 |
+| --- | --- |
+| HTTP | epoch1788844524349–1788844644352，即EDT01:15:24.349–01:17:24.352；239样本/956GET/零请求错误、interrupted=false |
+| HTTP状态 | room993580098，v191→192，phase5始终不变；gate.active/ready=false，tags为空；authFailures/replayDrops0、txErrors32未增长 |
+| UDP | Pi ap0被动120秒，结束epoch1788844655714（01:17:35.714）；Discover119、PairRequest1、PairAccept1、Heartbeat59、Ack59、StateSnapshot4、GameEvent10、AuthoritySnapshot4、RosterSnapshot4、PlayerCardEvent8、0x28计4、0x2a计5；detailFrames/actionFrames均0 |
+| AP | 四服务active、channel3/2422MHz/20MHz；01:15:34现有watchdog因FAILED邻居20s驱逐旧station，01:15:36目标MAC重关联、WPA/EAPOL四次握手完成、DHCP ACK10.42.0.37 |
+| AP后续 | 01:15:50–01:17:20连续station样本connected14→104秒，rxbytes6708→17152、末次170包，authorized/authenticated/associated均yes、txfailed0；末次journal无后续断开/驱逐 |
+
+Pi时钟相对采集主机超前288–506ms为该次218ms SSH往返测量界限，不能作为绝对同步时钟。串口设备ms单独保留，不从host读取间距推设备uptime。UDP工具本身不验HMAC，配对/心跳数量需与客户端配对成功及服务器鉴权错误计数共同理解。
+
+原始文件均在 `C:/Users/kicof/AppData/Local/Temp/`：`gridopoly-joint-20260908-0114-http.jsonl`、`gridopoly-joint-20260908-0114-udp.log`、`gridopoly-joint-20260908-0114-ap.log`、`gridopoly-joint-20260908-0114-ap-interim.log`。玩家屏对应本机目录为 `GridopolyPlayerTools-3311/functional-window-20260908-0114`。已直接同步主会话及屏幕端；本节只改服务器报告，原始临时日志不进Git，由主会话统一提交。
+
+本轮证明新候选启动后可完成联网/配对/状态同步，仍未证明真实首帧→Action17→目标cue→绑定UID到达。线上仍停在债务phase5，未注入游戏动作。下一步主会话协调用户正常推进至移动并安排目标空线圈/预放Tag分别测试；玩家屏继续完整SelfTest与性能门槛，格子端负责物理UID/LED观察，服务器端在实际移动窗口补齐权威报文与状态证据。当前正常候选可以通信不等于整个功能正式发布。

@@ -223,3 +223,96 @@ ToolRoot/selftest 或 ToolRoot/espnow。
 缺配置拒绝、编译失败传播且不调用验证、旧快照保留。PowerShell 语法解析通过。
 验证记录在 GridopolyPlayerTools-3311/script-tests-20260908/result.log。
 没有因此重编业务源码，没有操作 COM7；先前归档三模式候选和硬件未验收结论不变。
+
+## 2026-09-08 正常候选首次功能窗口与 Wi-Fi 阻断
+
+主会话明确授权正常 production 候选功能验收，取消此前等待新窗口的限制。
+归档候选 `878e3809...e8697` 与已提交业务源码一致；上传前核验所有产物 hash、
+六个实际分区条目以及完整原备份/恢复切片。未重复读取 16MB Flash。
+
+第一次正常候选上传主机时间为 EDT 00:54:30–00:54:51，设备 hash 校验通过。
+COM7 记录构建标记 `movement_cue=17 compiled=Sep 8 2026 00:25:50`、原设备
+`02d9b4dc` 与 Player Console ready；但只有 `wifi_begin status=6` 和
+`wifi_recover status=6 ip=0.0.0.0`，没有 UDP ready/权威快照。采集于
+00:55:44 才打开，五条记录为缓冲批量接收，不能把主机时间间隔当作设备事件
+间隔；至 00:57:07 结束采集约 83 秒未见后继日志。
+
+按失败即恢复要求，EDT 00:57:07–00:57:33 恢复旧生产固件，两段写入均
+hash verified，保留 NVS 与原备份。随后单次 40 秒监听确认旧 ready、
+UDP `10.42.0.37:4242`、原 server `adaf8743` / room `993580098`，并释放串口。
+该次没有捕获新的 seat 快照。此时设备再次为旧生产，不含 Action17；恢复可用
+不等于新功能已修复或部署。窗口前现场 version=186 / phase=5 / P1 position=6，
+cue gate inactive，没有可触发新首帧回执的 pending move；本会话未注入 roll、
+修改房间、绑定或资产。
+
+服务端同步 AP 证据显示候选运行期间 00:55:25 已完成 WPA 握手和 DHCP ACK，
+恢复旧版后 00:57:57 也完成连接；ACK 不证明客户端已处理 GOT_IP。SSID/密码
+字面值均同时存在于新旧 bin，候选无 fallback 密码。当前私有配置 channel=1、
+AP 实际为 3，但 IDF 5.5.5 STA 配置明确 channel 是起始扫描提示，不是强制
+单信道约束，因此不能断定它是唯一根因。精确停止点尚未被旧日志证明；恢复日志
+后依次为 udp.stop、WiFi.mode(WIFI_OFF)、delay、beginWifi，其中旧候选未出现
+后续 begin 日志。
+
+继续执行已获授权的最小 Wi-Fi STA 修复：channel=0；取消恢复路径的全栈
+OFF/ON 和固定 delay，改为标准 reconnect 请求；在请求前更新时间，仍每 30 秒
+至多一次。事件回调只写固定 8 项队列，不打印、不分配；主循环打印事件原因、
+关联信道、设备 millis 和丢失计数，并每 5 秒记录客户端状态/IP、SDK关联结果、
+内部 RAM。begin/recover 各调用边界记录 millis。ESP-NOW/服务端鉴权未改。
+下一轮采集脚本在打开/成功打开/关闭时分别持久化主机时间，上传后立即附加串口。
+
+主机验证直接提取当前 beginWifi/recoverWifi 原函数，替换驱动接口后编译执行，
+覆盖 active STA 重连、失败更新时间、UDP关闭顺序、NULL STA 无偏好初始化、
+mode初始化失败返回，全部 PASS；该验证不证明真实驱动不会阻塞。复现材料在
+`GridopolyPlayerTools-3311/wifi-recovery-tests/recovery.cpp`、build.cmd、result.log。
+生产构建进行中，后续负责人仍是玩家屏会话：构建通过后按持续有效的窗口授权
+核验新 hash/分区并再次部署；若失败恢复并继续定位，若正常联网保持候选运行。
+Action17/灯/自动到达仍待真实游戏与物理Tag证据；四个动画性能 FAIL 尚未证明
+属于功能链阻断，保留为独立未达门槛项，不能据此宣称可正式发布。
+
+### 第二次正常候选已实际部署并恢复权威通信
+
+Wi-Fi 修复后的 production 构建 PASS：程序 1886866 字节、静态 RAM 123472，
+HWCDC 检查通过。实际 app bin 1887008 字节，SHA-256
+`ded1375634d29cc454ce401dd7e1da56373e91055d2bd464a865bee3d3c31a8c`。
+构建标记 `movement_cue=17 compiled=Sep 8 2026 01:09:44`。产物位于
+`GridopolyPlayerTools-3311/runs/production-20260908-010418-7ae190304983448a821cdf02fc35ae05/output`，
+同级 artifacts.json 记录非 merged 产物、ELF/map 的校验值。此前三模式验证
+属于 Wi-Fi 诊断修复之前；本次修改后验证的是 production，不冒称又跑过三模式。
+
+第二次上传 EDT 01:15:01.593–01:15:24.630，设备写入 hash verified，
+采集 opened=01:15:24.897。device ms=506 开始STA、567开始channel0连接、
+610返回；前13秒有 reason=2(AUTH_EXPIRE)重试，ms13097 CONNECTED/channel3，
+ms14117 GOT_IP，随后 `UDP ready ip=10.42.0.37 port=4242`、
+`paired seat=1 room=993580098 session=4088196611`，权威
+`SNAPSHOT version=192 seat=1 active=1 players=4 phase=5 cash=122 position=6`
+与 AUTH/ROSTER 完整同步。设备ms15089至155203持续status3/IP有效，主循环
+进度与堆诊断持续，无panic。服务器同时观察station连续在线、接收字节增加、
+authFailures/replayDrops为0，支持认证通信恢复。
+
+记录目录 `GridopolyPlayerTools-3311/functional-window-20260908-0114` 包含
+upload-start/end、upload.log、candidate.json、player.log、player.jsonl、
+capture-events.jsonl。设备ms和主机接收epoch分列，不能用串口接收时间替代
+物理呈现时间。AP约01:15:34因既有FAILED邻居规则驱逐旧station，01:15:36
+重关联/握手/DHCP，与新设备ms13097/14117事件吻合；不能仅据本次成功宣称
+首次OFF停滞的内部根因已证明，也没有实机触发新30秒recover路径。
+
+当前实际运行的是上述包含Action17的新正常候选，保持运行，不回退到旧生产。
+旧备份仍保留。当前仍v192/phase5，没有pendingMove，窗口内暂未出现真实
+首帧Action17；这不构成功能失败，也不构成端到端通过。主任务已请用户完成
+当前付款/筹资，正常掷骰进入MoveGuide，先不按I'M THERE、目标线圈无Tag，
+告知目标格后再协调唯一模块与LED→Tag验证。无需重插的持续在位轨迹单独验收，
+允许直接自动到达并返回cue=none。
+
+本阶段范围：修复STA恢复路径、补诊断、构建并实际部署可认证通信的正常候选；
+剩余：真实首帧→Action17成功回执、正确目标模块灯、绑定Tag自动到达与持续在位
+重评、手动确认及四项性能门槛。当前功能验收的外部依赖是用户正常游戏和物理Tag
+操作；主任务协调下一具体窗口，玩家屏负责COM7证据，服务器/格子端负责对应
+权威与实体观测。本会话业务源码冻结供主任务审核提交，不把阶段交付标作整体完成。
+
+第二轮180秒串口窗口已按时结束并释放COM7，最后设备ms180226仍status3、
+IP有效、无panic；没有Action17、用户输入或触摸事件，不自动重开窗口。服务器
+同期120秒记录239样本/956GET零错，UDP PairRequest/PairAccept各1、Heartbeat/Ack
+各59，actionFrames=0，鉴权/重放失败为0。此时设备继续运行新候选
+`ded1375634d29cc454ce401dd7e1da56373e91055d2bd464a865bee3d3c31a8c`。
+下一可操作节点由主任务等待用户完成当前债务并正常进入MoveGuide后协调；
+保留功能和性能未验收清单，不把无移动的短窗口视为功能失败。
