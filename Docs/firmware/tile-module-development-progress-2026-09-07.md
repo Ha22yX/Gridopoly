@@ -195,3 +195,41 @@ partitions；旧 firmware.bin 2,682,496 bytes，SHA-256：
 生成文件为本端 Temp 输出目录中的 `serial-v028-events.jsonl`，不提交 Git。
 离线转换只能整理已有证据，不能补回当时未采集的 HTTP/Tag 内容；自动到达与实体 LED
 联合验收仍须下一次同步采集窗口完成。新增工具并不代表此前未闭环问题已经完成验收。
+
+## 2026-09-08 00:53 联合采集窗口
+
+主会话明确开启窗口后，本端仅在 COM6 启动一次 600 秒被动采集，默认不发 STATUS。
+没有烧录、改分配、改房间或 Tag 绑定，没有模拟玩家动作。COM6 保持此前部署的 V0.28；
+本窗口没有重新读取 Flash 或捕获版本 banner，版本依据仍为此前部署记录。
+
+- 开始：epochMs `1788843195698`（00:53:15.698 EDT）。
+- 结束：epochMs `1788843795850`（01:03:15.850 EDT），正常 CLOSED，COM6 已释放。
+- 串口文件：本端 Temp 输出目录 `tile-joint-20260908-005315.jsonl`，70 行。
+- 状态中观测到 `T-WEST/map6/source manual/revision10`、HTTP200、NO_TAG/count0、
+  TXDIS=OFF；movement revision 依次为 186～190，cue 均为 none。
+- 未见 Tag inventory 变化事件、非 none cue、reset 或 fault；这是日志观测结果，
+  不是完整物理层零故障证明。
+- 同机 HTTP 文件 `C:/Users/kicof/AppData/Local/Temp/gridopoly-joint-20260908-0053-http.jsonl`
+  中，完整请求区间处于上述窗口的样本为 1055 个，0 请求失败，version186～190，
+  phase 始终5（AwaitDebt），gate ready样本0，非空Tag集合样本0。
+- 离线摘要为本端 Temp 输出目录 `joint-005315-summary.json`。原始日志/摘要均不提交 Git。
+
+因此本窗口只验证了被动串口与HTTP同步证据链可运行，没有进入可验收移动提示/自动到达
+的前提，不能判为端到端通过，也不能把缺少绿色cue直接归因于格子或圆屏逻辑。
+
+已将以下实现顺序告知主会话与玩家屏会话：若 Tag 在 gate 打开前已持续位于目标格，
+`HttpServer` 会在返回该次心跳前调用 `confirmTaggedArrival`，成功后重算 cue，响应可直接
+为 none。该路径应检查位置/phase推进及幂等；要目视验绿灯，应先让目标格无Tag，观察
+destination，再放Tag。当前玩家位置6与模块map6相同，下一次从这里出发通常只能验证
+departure；目标格验证须按真实 pendingMove.target 由主会话协调分配/物理摆位。
+
+剩余事项与负责人：
+
+1. 服务器会话在窗口结束前通知：玩家屏候选Wi-Fi恢复失败，已回退到不含Action17的旧生产，
+   玩家屏会话正在修复。此跨端状态由玩家屏会话核实；本端不占COM7。首要依赖是恢复能
+   正常联网并发送Action17的玩家固件，不能在旧固件上等待不存在的回执。
+2. 主会话在该依赖就绪后协调用户解除当前债务、正常掷骰，核对实际origin/target、模块
+   assignment和绑定UID，再安排有明确物理动作的同步窗口。
+3. 格子会话在新窗口负责COM6有界采集、PRESENT/NO_TAG及cue日志；服务器会话负责
+   完整Tag/绑定/gate/位置/幂等证据，玩家屏会话负责真实首帧与Action17回执。
+4. 当前没有需要独立重刷格子的证据，不自动重复占串口或推进游戏；整体功能验收未完成。
