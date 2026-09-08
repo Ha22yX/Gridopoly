@@ -1,4 +1,6 @@
 #include "logic_tests.h"
+#include "movement_cue_app_tests.h"
+#include "test_fixture.h"
 
 #include "avatar_component_math.h"
 
@@ -17,6 +19,8 @@
 #include "ui_renderer.h"
 #include "transport_event_cursor.h"
 #include "grid_city_visual_catalog.h"
+#include "hardware_input.h"
+#include "rotary_input_filter.h"
 #include "remote_tile_cache_policy.h"
 #include "src/assets/grid_city_tile_images.h"
 
@@ -26,6 +30,11 @@
 #include <string.h>
 
 namespace {
+
+#define TEST_FIXTURE(Type, name) \
+    TestFixture<Type> name##Storage; \
+    if (!name##Storage) return expect(out, false, #name " fixture allocation"); \
+    Type &name = *name##Storage
 
 const char *firstFailure = nullptr;
 
@@ -66,6 +75,52 @@ bool runTransportEventCursorTests(Stream &out)
     ok &= expect(out,
                  cursor.prepare(61, true) == TransportSequenceDisposition::Duplicate,
                  "replayed event sequences remain idempotent");
+    return ok;
+}
+
+bool runRotaryInputFilterTests(Stream &out)
+{
+    using gridopoly::player_console::RotaryInputFilter;
+
+    bool ok = true;
+    RotaryInputFilter filter;
+    ok &= expect(out, filter.accept(1, 100),
+                 "rotary accepts first clockwise step");
+    ok &= expect(out, filter.accept(1, 112),
+                 "rotary accepts continued clockwise step");
+    ok &= expect(out, !filter.accept(-1, 126),
+                 "rotary rejects short opposite glitch");
+    ok &= expect(out, filter.accept(1, 132),
+                 "rotary remains monotonic after a rejected glitch");
+    ok &= expect(out, filter.accept(-1, 168),
+                 "rotary accepts deliberate reversal after the glitch window");
+    ok &= expect(out, !filter.accept(0, 169),
+                 "rotary rejects zero delta");
+
+    filter.reset();
+    ok &= expect(out, filter.accept(-1, UINT32_MAX - 10U),
+                 "rotary accepts a pre-wrap step");
+    ok &= expect(out, !filter.accept(1, 8),
+                 "rotary glitch timing survives millis wrap");
+    ok &= expect(out, filter.accept(1, 30),
+                 "rotary accepts a reversal after the wrapped window");
+
+#if GRIDOPOLY_SELF_TEST == 1
+    hardwareInputTestReset();
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 200});
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 210});
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 220});
+    InputEvent event{};
+    ok &= expect(out, hardwareInputPoll(event) && event.delta == 1,
+                 "coalesced rotation yields its first ordered step");
+    ok &= expect(out, hardwareInputPoll(event) && event.delta == 1,
+                 "coalesced rotation yields its second ordered step");
+    ok &= expect(out, hardwareInputPoll(event) && event.delta == 1,
+                 "coalesced rotation yields its third ordered step");
+    ok &= expect(out, !hardwareInputPoll(event),
+                 "ordered rotary queue drains exactly once per detent");
+    hardwareInputTestReset();
+#endif
     return ok;
 }
 
@@ -135,11 +190,13 @@ bool runRemoteTileCachePolicyTests(Stream &out)
     bool ok = expect(out,
                      kRemoteImageCacheBudgetBytes == 1024u * 1024u &&
                          kRemoteTileCacheCapacity == 20 &&
-                         kRemoteAvatarSetupCacheBudgetBytes == 2u * 1024u * 1024u &&
+                         kRemoteAvatarSetupCacheBudgetBytes == 2304u * 1024u &&
+                         2u * kRemoteAvatarPreviewBytes + kRemoteAvatarComponentBudgetBytes <=
+                              kRemoteAvatarSetupCacheBudgetBytes &&
                          kRemoteAvatarDownloadWorkerCount == 4 &&
                          kRemoteAvatarPreviewBytes + 6u * kRemoteAvatarFinalBytes <=
                               kRemoteAvatarCacheBudgetBytes,
-                     "gameplay artwork stays within 1 MiB and setup gets a bounded 2 MiB pool");
+                     "gameplay artwork stays within 1 MiB and two setup previews share a bounded 2304 KiB pool");
     uint64_t lastUsed[37]{};
     uint64_t readyMask = 0;
     for (uint8_t index = 1; index <= 4; ++index) {
@@ -230,8 +287,8 @@ bool runCarouselComponentTests(Stream &out)
     static lv_indev_drv_t inputDriver{};
     static HomeAction actions[5]{};
     static UiCarousel carousel{};
-    static AppState rotary{};
-    static AppState swipe{};
+    TEST_FIXTURE(AppState, rotary);
+    TEST_FIXTURE(AppState, swipe);
     drawBuffer = lv_disp_draw_buf_t{};
     displayDriver = lv_disp_drv_t{};
     inputDriver = lv_indev_drv_t{};
@@ -695,8 +752,8 @@ bool runCenterListComponentTests(Stream &out)
                       centerListEvents[0].kind == UiEventKind::ListNext,
                  "center list swipe emits one row step and suppresses follow-up activation");
 
-    static AppState firstBoundary{};
-    static AppState footerBoundary{};
+    TEST_FIXTURE(AppState, firstBoundary);
+    TEST_FIXTURE(AppState, footerBoundary);
     appInit(firstBoundary, 0);
     firstBoundary.nav.current = NavigationEntry{ScreenPage::Assets, 0, 0};
     centerListEventCount = 0;
@@ -1019,7 +1076,7 @@ bool sameNavigationEntry(const NavigationEntry &left, const NavigationEntry &rig
 bool runModalAuthorityTests(Stream &out)
 {
     bool ok = true;
-    static AppState state{};
+    TEST_FIXTURE(AppState, state);
     TransportCommand command{};
 
     openTradeFixture(state, 100);
@@ -1198,7 +1255,7 @@ bool runModalAuthorityTests(Stream &out)
                       !state.modal.cancelAllowed && state.modal.focus == ModalFocus::Confirm,
                  "forced debt confirmation has no Back path");
 
-    static DemoTransport transport;
+    TEST_FIXTURE(DemoTransport, transport);
     static TransportEvent event{};
     transport.setScenario(DemoScenario::RentClaim);
     transport.begin(0);
@@ -1260,7 +1317,7 @@ bool runModalAuthorityTests(Stream &out)
 bool runTradeLifecycleTests(Stream &out)
 {
     bool ok = true;
-    static AppState state{};
+    TEST_FIXTURE(AppState, state);
     TransportCommand command{};
 
     appInit(state, 0);
@@ -1426,6 +1483,21 @@ bool treeContainsLabelText(lv_obj_t *object, const char *expected)
     return false;
 }
 
+void printLabelDiagnostics(Stream &out, lv_obj_t *object)
+{
+    if (object == nullptr) return;
+    if (lv_obj_check_type(object, &lv_label_class)) {
+        out.printf("LABEL x=%d y=%d w=%d h=%d mode=%u font_h=%u text=[%s]\n",
+                   lv_obj_get_x(object), lv_obj_get_y(object),
+                   lv_obj_get_width(object), lv_obj_get_height(object),
+                   static_cast<unsigned>(lv_label_get_long_mode(object)),
+                   lv_obj_get_style_text_font(object, 0)->line_height,
+                   lv_label_get_text(object));
+    }
+    for (uint32_t index = 0; index < lv_obj_get_child_cnt(object); ++index)
+        printLabelDiagnostics(out, lv_obj_get_child(object, index));
+}
+
 uint16_t countObjectClass(lv_obj_t *object, const lv_obj_class_t *objectClass)
 {
     if (object == nullptr || objectClass == nullptr) return 0;
@@ -1489,7 +1561,7 @@ bool runHomeRendererTests(Stream &out)
     static lv_color_t pixels[480]{};
     static lv_disp_draw_buf_t drawBuffer{};
     static lv_disp_drv_t driver{};
-    static AppState state{};
+    TEST_FIXTURE(AppState, state);
     drawBuffer = lv_disp_draw_buf_t{};
     driver = lv_disp_drv_t{};
     lv_disp_draw_buf_init(&drawBuffer, pixels, nullptr, 480);
@@ -1696,6 +1768,8 @@ bool runHomeRendererTests(Stream &out)
 
     state.page = ScreenPage::MoveGuide;
     state.nav.current.page = ScreenPage::MoveGuide;
+    state.moveArrivalPending = true;
+    state.moveArrivalConfirmed = false;
     ++state.revision;
     uiRendererRender(state, 19);
     lv_obj_t *const loadingArtwork =
@@ -1704,6 +1778,23 @@ bool runHomeRendererTests(Stream &out)
                       countObjectClass(loadingArtwork, &lv_spinner_class) == 1 &&
                       countObjectClass(loadingArtwork, &lv_img_class) == 0,
                  "arrival artwork shows a spinner and no unrelated image while loading");
+    // LVGL resolves the last created label during layout before any real flush.
+    lv_obj_update_layout(lv_scr_act());
+    out.println("ARRIVAL WAIT LABEL DIAGNOSTICS");
+    printLabelDiagnostics(out, lv_scr_act());
+    ok &= expect(out, treeContainsLabelText(lv_scr_act(), "I'M THERE") &&
+                      treeContainsLabelText(lv_scr_act(), "MOVE PIECE / WAITING FOR TILE"),
+                 "arrival screen always preserves the manual fallback while waiting for authority");
+    state.moveArrivalConfirmed = true;
+    ++state.revision;
+    uiRendererRender(state, 20);
+    lv_obj_update_layout(lv_scr_act());
+    out.println("ARRIVAL CONFIRMED LABEL DIAGNOSTICS");
+    printLabelDiagnostics(out, lv_scr_act());
+    ok &= expect(out, treeContainsLabelText(lv_scr_act(), "CONTINUE") &&
+                      treeContainsLabelText(lv_scr_act(), "TILE ARRIVAL CONFIRMED") &&
+                      !treeContainsLabelText(lv_scr_act(), "RFID ARRIVAL CONFIRMED"),
+                 "authority-confirmed arrival uses transport-neutral status copy");
 
     state.page = ScreenPage::Home;
     state.nav.current.page = ScreenPage::Home;
@@ -2107,7 +2198,7 @@ bool runStateLogicTests(Stream &out)
                       static_cast<uint8_t>(ModalKind::TradeAction) == 7 &&
                       static_cast<uint8_t>(ModalKind::DebtSellBuildingConfirm) == 8,
                   "exact modal kind names compile in contract order");
-    static AppState state{};
+    TEST_FIXTURE(AppState, state);
     appInit(state, 0);
     ok &= expect(out, state.nav.current.page == ScreenPage::Home && state.nav.current.focus == 0,
                  "starts on home");
@@ -2381,7 +2472,7 @@ bool runStateLogicTests(Stream &out)
                       state.selectedAsset == 2,
                  "second center list row touch activates the focused row");
 
-    static AppState assetActions{};
+    TEST_FIXTURE(AppState, assetActions);
     appInit(assetActions, 0);
     assetActions.boardSize = 40;
     assetActions.selfSeatId = 1;
@@ -3001,7 +3092,7 @@ bool runStateLogicTests(Stream &out)
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == rentCash,
                  "unclaimed rent expires after twenty seconds without cash mutation");
 
-    static DemoTransport transport;
+    TEST_FIXTURE(DemoTransport, transport);
     transport.begin(0);
     TransportCommand roll{TransportCommandKind::RollRequest, 7, 41, 0, 0};
     ok &= expect(out, transport.send(roll, 10), "demo accepts roll request");
@@ -3059,7 +3150,7 @@ bool runStateLogicTests(Stream &out)
                  "debt post-mortgage balance preserves int32 minimum");
 
     openDebtFixture(state, /*amountDue=*/680, /*cash=*/240, /*eligibleMask=*/0x55);
-    static AppState ordinaryDebt{};
+    TEST_FIXTURE(AppState, ordinaryDebt);
     ordinaryDebt = state;
     static TransportEvent unsolicitedBankruptcy{};
     unsolicitedBankruptcy.kind = TransportEventKind::BankruptcyResolved;
@@ -3146,7 +3237,7 @@ bool runStateLogicTests(Stream &out)
     mortgageCompleted.stateVersion = 3;
     mortgageCompleted.cash = 735;
     mortgageCompleted.assetMask = 0x55;
-    static AppState submittedDebt{};
+    TEST_FIXTURE(AppState, submittedDebt);
     submittedDebt = state;
     TransportEvent wrongMortgageRequest = mortgageCompleted;
     wrongMortgageRequest.requestId += 1;
@@ -3168,13 +3259,13 @@ bool runStateLogicTests(Stream &out)
     ok &= expect(out, state.modal.kind == ModalKind::ForcedPayment && state.modal.transactionId == 90 &&
                       appModalRemainingMs(state, 2500) == 10000 && state.money == 735,
                  "mortgage completion restores forced payment with a fresh deadline");
-    static AppState acceptedMortgage{};
+    TEST_FIXTURE(AppState, acceptedMortgage);
     acceptedMortgage = state;
     appHandleTransportEvent(state, mortgageCompleted, 2600);
     ok &= expect(out, debtAuthorityStateUnchanged(state, acceptedMortgage),
                  "duplicate mortgage completion leaves accepted debt unchanged");
 
-    static AppState buildingDebt{};
+    TEST_FIXTURE(AppState, buildingDebt);
     appInit(buildingDebt, 0);
     buildingDebt.boardSize = 40;
     buildingDebt.selfSeatId = 1;
@@ -3260,7 +3351,7 @@ bool runStateLogicTests(Stream &out)
                       bankruptcyCommand.kind == TransportCommandKind::DeclareBankruptcyRequest &&
                       state.debt.bankruptcyPending,
                  "bankruptcy becomes terminal only after the player submits it");
-    static AppState pendingBankruptcy{};
+    TEST_FIXTURE(AppState, pendingBankruptcy);
     pendingBankruptcy = state;
     static TransportEvent wrongBankruptcy{};
     wrongBankruptcy.kind = TransportEventKind::BankruptcyResolved;
@@ -3291,7 +3382,7 @@ bool runStateLogicTests(Stream &out)
     appHandleTransportEvent(state, acceptedBankruptcy, 2730);
     ok &= expect(out, state.nav.current.page == ScreenPage::Bankruptcy && state.money == 0,
                  "matching bankruptcy resolution is accepted once");
-    static AppState terminalBankruptcy{};
+    TEST_FIXTURE(AppState, terminalBankruptcy);
     terminalBankruptcy = state;
     const TransportEventKind terminalEventKinds[] = {
         TransportEventKind::None,
@@ -3335,7 +3426,7 @@ bool runStateLogicTests(Stream &out)
                       voluntaryMortgage.kind == TransportCommandKind::MortgageBatchRequest &&
                       voluntaryMortgage.transactionId == 0 && voluntaryMortgage.assetMask == 0x01,
                  "voluntary mortgage submits zero transaction with selected mask");
-    static DemoTransport voluntaryTransport;
+    TEST_FIXTURE(DemoTransport, voluntaryTransport);
     voluntaryTransport.setScenario(DemoScenario::DebtMortgage);
     voluntaryTransport.begin(0);
     ok &= expect(out, voluntaryTransport.send(voluntaryMortgage, 0),
@@ -3347,7 +3438,7 @@ bool runStateLogicTests(Stream &out)
                       voluntaryCompleted.requestId == voluntaryMortgage.requestId &&
                       voluntaryCompleted.transactionId != 0 && voluntaryCompleted.assetMask == 0x01,
                  "demo assigns transaction to voluntary mortgage completion");
-    static AppState submittedVoluntaryMortgage{};
+    TEST_FIXTURE(AppState, submittedVoluntaryMortgage);
     submittedVoluntaryMortgage = state;
     TransportEvent wrongVoluntaryMask = voluntaryCompleted;
     wrongVoluntaryMask.assetMask = 0x02;
@@ -3357,7 +3448,7 @@ bool runStateLogicTests(Stream &out)
     appHandleTransportEvent(state, voluntaryCompleted, 4030);
     ok &= expect(out, state.modal.kind == ModalKind::None && state.money == voluntaryCompleted.cash,
                  "assigned voluntary mortgage completion applies cash and dismisses once");
-    static AppState acceptedVoluntaryMortgage{};
+    TEST_FIXTURE(AppState, acceptedVoluntaryMortgage);
     acceptedVoluntaryMortgage = state;
     appHandleTransportEvent(state, voluntaryCompleted, 4040);
     ok &= expect(out, debtAuthorityStateUnchanged(state, acceptedVoluntaryMortgage),
@@ -3614,7 +3705,7 @@ bool runStateLogicTests(Stream &out)
 bool runAuctionLifecycleTests(Stream &out)
 {
     bool ok = true;
-    static AppState state{};
+    TEST_FIXTURE(AppState, state);
     appInit(state, 0);
 
     const gridopoly::core::BoardDefinition *board =
@@ -4235,9 +4326,19 @@ bool runIdentityLifecycleTests(Stream &out)
     return ok;
 }
 
+bool runMovementCueTransportTests(Stream &out);
+static bool runProtocolProjectionTests(Stream &out) __attribute__((noinline));
+
 bool runPureLogicTests(Stream &out)
 {
-    bool ok = runTransportEventCursorTests(out);
+    bool ok = runMovementCueAppTests([&](bool condition, const char *name) {
+        return expect(out, condition, name);
+    });
+#if GRIDOPOLY_SELF_TEST == 1
+    ok &= runMovementCueTransportTests(out);
+#endif
+    ok &= runTransportEventCursorTests(out);
+    ok &= runRotaryInputFilterTests(out);
     ok &= expect(out, uiHandwritingNeuralTestAccuracy() >= 0.87f,
                  "quantized EMNIST neural model clears its accuracy gate");
     ok &= expect(out, uiHandwritingSamplesShouldConnect(100, 200),
@@ -4301,6 +4402,15 @@ bool runPureLogicTests(Stream &out)
     ok &= runTradeLifecycleTests(out);
     ok &= runAuctionLifecycleTests(out);
     ok &= runIdentityLifecycleTests(out);
+    ok &= runProtocolProjectionTests(out);
+    return ok;
+}
+
+// Keep the protocol fixtures out of the caller's stack frame. Otherwise this
+// frame remains live while the separate identity suite allocates its fixtures.
+static bool runProtocolProjectionTests(Stream &out)
+{
+    bool ok = true;
     static gridopoly::protocol::StateSnapshot snapshot{};
     snapshot = gridopoly::protocol::StateSnapshot{};
     snapshot.seatId = 1;
@@ -4328,7 +4438,7 @@ bool runPureLogicTests(Stream &out)
                       authorityEvent.kind == TransportEventKind::StateSnapshotApplied &&
                       authorityEvent.playerCount == 5 && authorityEvent.resync,
                  "server snapshot maps to one bounded console event");
-    static AppState connected{};
+    TEST_FIXTURE(AppState, connected);
     appInit(connected, 0);
     appHandleTransportEvent(connected, authorityEvent, 10);
     ok &= expect(out, connected.authorityOnline && connected.authoritySnapshotValid &&
@@ -4345,7 +4455,7 @@ bool runPureLogicTests(Stream &out)
     delayedSnapshot.decisionPlayerId = 1;
     delayedSnapshot.availableActions = 1;
     delayedSnapshot.stateVersion = 78;
-    static AppState delayedRoll{};
+    TEST_FIXTURE(AppState, delayedRoll);
     appInit(delayedRoll, 0);
     authoritySnapshotToEvent(delayedSnapshot, true, authorityEvent);
     appHandleTransportEvent(delayedRoll, authorityEvent, 100);
@@ -4387,7 +4497,7 @@ bool runPureLogicTests(Stream &out)
                       delayedRoll.rolledSteps == 7 && delayedRoll.rollTarget == 24,
                  "same pending-move resyncs preserve one settled dice presentation timeline");
 
-    static AppState heldRoll{};
+    TEST_FIXTURE(AppState, heldRoll);
     appInit(heldRoll, 0);
     static gridopoly::protocol::StateSnapshot heldStartSnapshot{};
     heldStartSnapshot = delayedSnapshot;
@@ -4448,7 +4558,7 @@ bool runPureLogicTests(Stream &out)
                       !heldRoll.rollAnimating && !heldRoll.moveArrivalPending,
                  "a no-move hold roll exits to End Turn after the full dice result hold");
 
-    static AppState releaseHoldRoll{};
+    TEST_FIXTURE(AppState, releaseHoldRoll);
     appInit(releaseHoldRoll, 0);
     authoritySnapshotToEvent(heldStartSnapshot, false, authorityEvent);
     appHandleTransportEvent(releaseHoldRoll, authorityEvent, 10);
@@ -4635,7 +4745,7 @@ bool runPureLogicTests(Stream &out)
                       releaseHoldRoll.landingEventAcknowledged,
                  "same landing debt keeps payment above the acknowledged explanation");
 
-    static AppState rentLanding{};
+    TEST_FIXTURE(AppState, rentLanding);
     appInit(rentLanding, 0);
     rentLanding.boardSize = 16;
     rentLanding.selfSeatId = 1;
@@ -4668,7 +4778,7 @@ bool runPureLogicTests(Stream &out)
                       rentLanding.modal.amount == 35,
                  "rent explanation continues to the named-owner payment modal");
 
-    static AppState earlyDebt{};
+    TEST_FIXTURE(AppState, earlyDebt);
     earlyDebt = delayedRoll;
     static gridopoly::protocol::StateSnapshot earlyDebtSnapshot{};
     earlyDebtSnapshot = delayedSnapshot;
@@ -4693,7 +4803,7 @@ bool runPureLogicTests(Stream &out)
     ok &= expect(out, earlyDebt.modal.kind == ModalKind::ForcedPayment,
                  "forced payment opens only after the confirmed arrival checkpoint");
 
-    static AppState cardDebt{};
+    TEST_FIXTURE(AppState, cardDebt);
     appInit(cardDebt, 0);
     cardDebt.boardSize = 40;
     cardDebt.selfSeatId = 1;
@@ -4855,7 +4965,7 @@ bool runPureLogicTests(Stream &out)
     size_t cardAuthorityLength = 0;
     gridopoly::protocol::AuthoritySnapshot decodedCardRestore{};
     TransportEvent cardRestoreEvent{};
-    static AppState restoredCard{};
+    TEST_FIXTURE(AppState, restoredCard);
     appInit(restoredCard, 0);
     ok &= expect(out,
                  gridopoly::protocol::encodeAuthoritySnapshot(
@@ -4949,6 +5059,19 @@ bool runPureLogicTests(Stream &out)
     appTick(connected, 2630);
     ok &= expect(out, connected.nav.current.page == ScreenPage::MoveGuide,
                  "completed dice animation advances to physical move confirmation");
+    TEST_FIXTURE(AppState, manualArrival);
+    manualArrival = connected;
+    appHandleUiEvent(manualArrival, UiEvent{UiEventKind::ActivateFocused, 0}, 2631);
+    TransportCommand manualArrivalCommand{};
+    ok &= expect(out, appPollCommand(manualArrival, manualArrivalCommand) &&
+                      manualArrivalCommand.kind ==
+                          TransportCommandKind::MoveManualConfirmRequest &&
+                      manualArrivalCommand.stateVersion == 79 &&
+                      manualArrivalCommand.targetPosition == 24,
+                 "manual I'M THERE sends the existing authoritative position confirmation");
+    appHandleUiEvent(manualArrival, UiEvent{UiEventKind::ActivateFocused, 0}, 2632);
+    ok &= expect(out, !appPollCommand(manualArrival, manualArrivalCommand),
+                 "manual position confirmation remains idempotent while its request is pending");
 
     snapshot.phase = 3;
     snapshot.selfPosition = 24;
@@ -4962,13 +5085,21 @@ bool runPureLogicTests(Stream &out)
     ok &= expect(out, connected.nav.current.page == ScreenPage::MoveGuide &&
                       connected.moveArrivalConfirmed && connected.tileAssetIndex == 4,
                  "purchase snapshot is buffered behind the arrival checkpoint");
-    appHandleUiEvent(connected, UiEvent{UiEventKind::ActivateFocused, 0}, 2700);
-    appTick(connected, 2700);
+    const uint32_t arrivalContinueDeadline = connected.arrivalContinueAtMs;
+    TransportEvent duplicateArrivalAuthority = authorityEvent;
+    duplicateArrivalAuthority.resync = true;
+    appHandleTransportEvent(connected, duplicateArrivalAuthority, 2701);
+    ok &= expect(out, connected.nav.current.page == ScreenPage::MoveGuide &&
+                      connected.moveArrivalConfirmed &&
+                      connected.arrivalContinueAtMs == arrivalContinueDeadline,
+                 "duplicate authoritative arrival does not restart or bypass the confirmation");
+    appHandleUiEvent(connected, UiEvent{UiEventKind::ActivateFocused, 0}, 2702);
+    appTick(connected, 2702);
     ok &= expect(out, connected.nav.current.page == ScreenPage::Purchase &&
                       appFocusCount(connected) == 2,
                  "confirmed arrival can continue to the two-choice purchase page");
 
-    static AppState offlinePurchase{};
+    TEST_FIXTURE(AppState, offlinePurchase);
     offlinePurchase = connected;
     appHandleInput(offlinePurchase, InputEvent{InputKind::Rotate, 1, 2710}, 2710);
     TransportEvent connectionLost{};
@@ -4993,7 +5124,7 @@ bool runPureLogicTests(Stream &out)
                       connected.homePhase == HomePhase::MyTurnEnd &&
                       appPageContentCount(connected) == 4,
                  "turn-end phase returns to green Home with END TURN priority");
-    static AppState endTurnTransition{};
+    TEST_FIXTURE(AppState, endTurnTransition);
     endTurnTransition = connected;
     endTurnTransition.nav.current.focus = 0;
     appHandleUiEvent(endTurnTransition, UiEvent{UiEventKind::ActivateFocused, 0}, 2810);
@@ -5040,7 +5171,7 @@ bool runPureLogicTests(Stream &out)
                       endTurnTransition.nav.current.focus == 0,
                  "DICE regains priority only after the minimum waiting presentation");
 
-    static AppState extraRoll{};
+    TEST_FIXTURE(AppState, extraRoll);
     appInit(extraRoll, 0);
     extraRoll.authorityRoomId = 7001;
     extraRoll.selfSeatId = 1;
@@ -5157,7 +5288,7 @@ bool runPureLogicTests(Stream &out)
                  extraRoll.extraRollRewardUntilMs == 0,
                  "same-room resync restores bonus-roll readiness without replaying the reward");
 
-    static AppState reversedExtraRollProjection{};
+    TEST_FIXTURE(AppState, reversedExtraRollProjection);
     appInit(reversedExtraRollProjection, 0);
     reversedExtraRollProjection.authorityRoomId = 7003;
     reversedExtraRollProjection.selfSeatId = 1;
@@ -5200,7 +5331,7 @@ bool runPureLogicTests(Stream &out)
                  reversedExtraRollProjection.extraRollRewardUntilMs == 2400,
                  "late full authority still opens the dedicated reward after compact state arrived first");
 
-    static AppState lateDoubleEvent{};
+    TEST_FIXTURE(AppState, lateDoubleEvent);
     appInit(lateDoubleEvent, 0);
     lateDoubleEvent.selfSeatId = 1;
     lateDoubleEvent.authorityPlayers[0].playerId = 1;
@@ -5252,7 +5383,7 @@ bool runPureLogicTests(Stream &out)
                  extraRoll.extraRollPresentation == ExtraRollPresentationPhase::None,
                  "ROLL AGAIN consumes the ready marker and starts exactly one new roll request");
 
-    static AppState thirdDouble{};
+    TEST_FIXTURE(AppState, thirdDouble);
     appInit(thirdDouble, 0);
     thirdDouble.selfSeatId = 1;
     thirdDouble.playerCount = 2;
@@ -5405,7 +5536,7 @@ bool runPureLogicTests(Stream &out)
                       !connected.auctionPassed && connected.homePhase == HomePhase::MyTurnEnd,
                  "auction result exits to the already-authoritative next phase after presentation");
 
-    static AppState auctionBarrier{};
+    TEST_FIXTURE(AppState, auctionBarrier);
     appInit(auctionBarrier, 0);
     static gridopoly::protocol::StateSnapshot openingState{};
     openingState = gridopoly::protocol::StateSnapshot{};

@@ -27,6 +27,7 @@ enum class TransportCommandKind : uint8_t {
     PlayerDetailRequest,
     CardContinueRequest,
     IdentityRequest,
+    MovementCueReadyRequest,
 };
 
 enum class TransportEventKind : uint8_t {
@@ -52,6 +53,7 @@ enum class TransportEventKind : uint8_t {
     PlayerCardEffectApplied,
     TradeResponseReceived,
     IdentitySnapshotReceived,
+    MovementCueRetryRequested, // Local recovery event; does not alter the wire.
 };
 
 inline bool transportEventAdvancesAppliedStateVersion(
@@ -277,6 +279,8 @@ struct TransportCommand {
     uint8_t assetIndex = 0xFF;
     uint8_t targetPosition = 0;
     uint8_t targetPlayerId = 0;
+    // Append local metadata so existing aggregate command initializers stay valid.
+    uint32_t roomId = 0; // Not an additional wire field.
 };
 
 struct TransportEvent {

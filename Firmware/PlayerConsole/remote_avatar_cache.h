@@ -5,8 +5,8 @@
 #include "transport_types.h"
 
 // Starts four low-priority avatar HTTP loaders. Gameplay artwork keeps the shared
-// 1 MiB cache policy; Avatar Setup temporarily owns a separate 2 MiB component
-// pool that is released when identity setup ends.
+// 1 MiB cache policy; Avatar Setup temporarily owns a separate 2.25 MiB
+// component and double-preview pool that is released when identity setup ends.
 void remoteAvatarCacheBegin();
 
 struct RemoteAvatarPreloadProgress {
@@ -27,11 +27,22 @@ RemoteAvatarPreloadProgress remoteAvatarCachePreloadProgress();
 // avatars remain available for gameplay.
 void remoteAvatarCacheReleaseSetup();
 
+struct RemoteAvatarPreviewFrame {
+    const lv_img_dsc_t *image = nullptr;
+    bool exact = false;
+};
+
 // Returns a locally composed 220x300 preview. The active three neutral GAVC
 // components are fetched first, then all remaining presets are warmed into a
 // transient Avatar Setup pool. Hair and skin colors are applied locally. The
 // component pool is discarded when the identity flow enters gameplay.
-// Returns nullptr while any required component is still loading.
+// While a new recipe is composed, image retains the previous complete frame
+// and exact is false. This prevents blank or torn frames during fast rotation.
+RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(
+    const TransportAvatarRecipe &recipe
+);
+
+// Compatibility wrapper that only returns an exact frame.
 const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe);
 
 // Returns a final 128x128 public avatar, or nullptr while it is downloading.

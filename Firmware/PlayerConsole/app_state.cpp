@@ -1157,6 +1157,8 @@ uint8_t wrapIdentityValue(uint8_t current, int16_t delta, uint8_t maximum)
 
 void applyIdentityDraftDelta(AppState &state, int16_t delta)
 {
+    if (delta == 0) return;
+
     switch (static_cast<AvatarEditField>(state.nav.current.focus)) {
         case AvatarEditField::HairPreset:
             state.identity.draftRecipe.hairPresetId = wrapIdentityValue(
@@ -3804,9 +3806,54 @@ void appHandleInput(AppState &state, const InputEvent &event, uint32_t nowMs)
     moveFocus(state, event.delta);
 }
 
+// Kept outside ordinary submissions: resync must not discard an in-flight cue.
+static void synchronizeMovementCue(AppState &state)
+{
+    const bool active = state.authorityRoomId != 0 && state.stateVersion != 0 &&
+        state.selfSeatId != 0 && state.activePlayerId == state.selfSeatId &&
+        state.authorityPhase == AuthorityPhase::AwaitMoveConfirm &&
+        state.rollTarget != 0xFF && !state.moveArrivalConfirmed;
+    const bool sameMovement = active && state.movementCueRoomId == state.authorityRoomId &&
+        state.movementCueTarget == state.rollTarget && state.movementCueOrigin == state.rollOrigin;
+    if (!sameMovement) {
+        state.movementCueFramePresented = false;
+        state.movementCueAcknowledged = false;
+        state.movementCueRequestId = 0;
+        state.movementCueRetryAtMs = 0;
+        state.movementCueReadyToSend = false;
+    } else if (state.movementCueStateVersion != state.stateVersion) {
+        // A fresh request may use a new version; never rewrite the old payload.
+        state.movementCueRequestId = 0;
+        state.movementCueRetryAtMs = 0;
+        state.movementCueReadyToSend = state.movementCueFramePresented &&
+                                       !state.movementCueAcknowledged;
+    }
+    state.movementCueRoomId = active ? state.authorityRoomId : 0;
+    state.movementCueStateVersion = active ? state.stateVersion : 0;
+    state.movementCueTarget = active ? state.rollTarget : 0xFF;
+    state.movementCueOrigin = active ? state.rollOrigin : 0xFF;
+}
+
 bool appPollCommand(AppState &state, TransportCommand &command)
 {
-    if (state.commandCount == 0) return false;
+    synchronizeMovementCue(state);
+    // User actions always drain first, including manual arrival confirmation.
+    if (state.commandCount == 0) {
+        if (!state.authorityOnline || !state.boardCatalogCompatible ||
+            !state.movementCueReadyToSend || state.movementCueAcknowledged ||
+            state.movementCueRequestId != 0) return false;
+        command = TransportCommand{};
+        command.kind = TransportCommandKind::MovementCueReadyRequest;
+        command.roomId = state.movementCueRoomId;
+        command.stateVersion = state.movementCueStateVersion;
+        command.argument = state.movementCueTarget;
+        command.targetPosition = state.movementCueTarget;
+        command.requestId = state.nextRequestId++;
+        if (command.requestId == 0) command.requestId = state.nextRequestId++;
+        state.movementCueRequestId = command.requestId;
+        state.movementCueReadyToSend = false;
+        return true;
+    }
     command = state.commandQueue[state.commandHead];
     state.commandHead = static_cast<uint8_t>((state.commandHead + 1) % 4);
     --state.commandCount;
@@ -3815,6 +3862,19 @@ bool appPollCommand(AppState &state, TransportCommand &command)
 
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
+    if (event.requestId != 0 && event.requestId == state.movementCueRequestId &&
+        (event.kind == TransportEventKind::CommandCompleted ||
+         event.kind == TransportEventKind::CommandRejected ||
+         event.kind == TransportEventKind::MovementCueRetryRequested)) {
+        state.movementCueRequestId = 0;
+        state.movementCueAcknowledged = event.kind == TransportEventKind::CommandCompleted;
+        // Only an explicit transport recovery after authenticated resync may
+        // restart this same-version logical request; keep the presented frame.
+        state.movementCueReadyToSend = false;
+        state.movementCueRetryAtMs = event.kind == TransportEventKind::MovementCueRetryRequested
+            ? nowMs + 450 : 0;
+        return;
+    }
     const bool authoritativeProjection =
         event.kind == TransportEventKind::StateSnapshotApplied ||
         event.kind == TransportEventKind::AuthoritySnapshotApplied ||
@@ -3915,6 +3975,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
 
     switch (event.kind) {
         case TransportEventKind::None:
+        case TransportEventKind::MovementCueRetryRequested:
             return;
         case TransportEventKind::ConnectionLost:
             state.authorityOnline = false;
@@ -4511,6 +4572,13 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 
 void appTick(AppState &state, uint32_t nowMs)
 {
+    synchronizeMovementCue(state);
+    if (state.movementCueRetryAtMs != 0 &&
+        hasReachedDeadline(nowMs, state.movementCueRetryAtMs)) {
+        state.movementCueRetryAtMs = 0;
+        state.movementCueReadyToSend = state.movementCueFramePresented &&
+            !state.movementCueAcknowledged && state.movementCueRequestId == 0;
+    }
     syncLegacyState(state);
     if (reconcileCompletedAvatarSubmission(state)) {
         touchRevision(state);
@@ -4687,6 +4755,16 @@ void appTick(AppState &state, uint32_t nowMs)
 
 void appNotifyFramePresented(AppState &state, uint32_t nowMs)
 {
+    synchronizeMovementCue(state);
+    if (state.nav.current.page == ScreenPage::MoveGuide &&
+        state.movementCueRoomId != 0 && !state.rollAnimating &&
+        state.moveArrivalPending && !state.moveArrivalConfirmed &&
+        !state.movementCueFramePresented) {
+        state.movementCueFramePresented = true;
+        if (!state.movementCueAcknowledged && state.movementCueRequestId == 0)
+            state.movementCueReadyToSend = true;
+        return;
+    }
     if (state.nav.current.page != ScreenPage::Auction ||
         (state.auctionPresentation != AuctionPresentationPhase::Intro &&
          state.auctionPresentation != AuctionPresentationPhase::OpeningWait &&

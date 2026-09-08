@@ -7,6 +7,7 @@
 #include <new>
 
 #include "app_config.h"
+#include "rotary_input_filter.h"
 
 namespace {
 
@@ -18,12 +19,16 @@ uint8_t count = 0;
 ESP_Knob *knob = nullptr;
 Button *button = nullptr;
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+gridopoly::player_console::RotaryInputFilter rotaryInputFilter;
 
 void enqueueLocked(const InputEvent &event)
 {
     if (event.kind == InputKind::Rotate && count > 0) {
         const uint8_t newest = static_cast<uint8_t>((tail + kQueueCapacity - 1) % kQueueCapacity);
-        if (queue[newest].kind == InputKind::Rotate) {
+        const bool sameDirection =
+            (queue[newest].delta > 0 && event.delta > 0) ||
+            (queue[newest].delta < 0 && event.delta < 0);
+        if (queue[newest].kind == InputKind::Rotate && sameDirection) {
             const int32_t combined = static_cast<int32_t>(queue[newest].delta) + event.delta;
             if (combined >= INT16_MIN && combined <= INT16_MAX) {
                 queue[newest].delta = static_cast<int16_t>(combined);
@@ -40,6 +45,11 @@ void enqueueLocked(const InputEvent &event)
 void enqueue(const InputEvent &event)
 {
     portENTER_CRITICAL(&mux);
+    if (event.kind == InputKind::Rotate &&
+        !rotaryInputFilter.accept(event.delta, event.timestampMs)) {
+        portEXIT_CRITICAL(&mux);
+        return;
+    }
     enqueueLocked(event);
     portEXIT_CRITICAL(&mux);
 }
@@ -75,8 +85,15 @@ bool hardwareInputPoll(InputEvent &event)
         return false;
     }
     event = queue[head];
-    head = static_cast<uint8_t>((head + 1) % kQueueCapacity);
-    --count;
+    if (event.kind == InputKind::Rotate &&
+        (event.delta > 1 || event.delta < -1)) {
+        const int16_t step = event.delta > 0 ? 1 : -1;
+        event.delta = step;
+        queue[head].delta = static_cast<int16_t>(queue[head].delta - step);
+    } else {
+        head = static_cast<uint8_t>((head + 1) % kQueueCapacity);
+        --count;
+    }
     portEXIT_CRITICAL(&mux);
     return true;
 }
@@ -86,6 +103,7 @@ void hardwareInputTestReset()
 {
     portENTER_CRITICAL(&mux);
     head = tail = count = 0;
+    rotaryInputFilter.reset();
     portEXIT_CRITICAL(&mux);
 }
 

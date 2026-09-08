@@ -9,11 +9,41 @@
 #define ESP_UTILS_LOG_TAG "LvPort"
 #include "esp_lib_utils.h"
 #include "lvgl_v8_port.h"
+#include "frame_presentation_tracker.h"
 
 using namespace esp_panel::drivers;
 
 #define LVGL_PORT_ENABLE_ROTATION_OPTIMIZED     (1)
 #define LVGL_PORT_BUFFER_NUM_MAX                (2)
+
+// A ticket is published only after a switched buffer has crossed the vendor
+// completion barrier AND two further frame-complete callbacks. On IDF >=5.4
+// the vendor callback is DMA-frame-complete, not VSYNC; the extra frame boundary
+// covers the final bounce-buffer rows still being physically scanned.
+static portMUX_TYPE frame_ticket_mux = portMUX_INITIALIZER_UNLOCKED;
+static FramePresentationTracker frame_tickets;
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+static uint32_t frame_submit_us = 0, frame_wait_us = 0;
+uint32_t lvgl_port_last_submit_us(void) { return frame_submit_us; }
+uint32_t lvgl_port_last_wait_us(void) { return frame_wait_us; }
+#endif
+
+uint32_t lvgl_port_request_frame_ticket(void)
+{
+    portENTER_CRITICAL(&frame_ticket_mux);
+    const uint32_t ticket = frame_tickets.request();
+    portEXIT_CRITICAL(&frame_ticket_mux);
+    lv_obj_invalidate(lv_scr_act());
+    return ticket;
+}
+
+bool lvgl_port_frame_ticket_presented(uint32_t ticket)
+{
+    portENTER_CRITICAL(&frame_ticket_mux);
+    const bool completed = frame_tickets.completed(ticket);
+    portEXIT_CRITICAL(&frame_ticket_mux);
+    return completed;
+}
 
 static SemaphoreHandle_t lvgl_mux = nullptr;                  // LVGL mutex
 static TaskHandle_t lvgl_task_handle = nullptr;
@@ -384,11 +414,24 @@ static void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
     /* Action after last area refresh */
     if (lv_disp_flush_is_last(drv)) {
         /* Switch the current LCD frame buffer to `color_map` */
-        lcd->switchFrameBufferTo(color_map);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+        const int64_t submit_started = esp_timer_get_time();
+#endif
+        const bool switch_accepted = lcd->switchFrameBufferTo(color_map);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+        const int64_t wait_started = esp_timer_get_time();
+        frame_submit_us = static_cast<uint32_t>(wait_started - submit_started);
+#endif
 
         /* Waiting for the last frame buffer to complete transmission */
         ulTaskNotifyValueClear(NULL, ULONG_MAX);
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+        frame_wait_us = static_cast<uint32_t>(esp_timer_get_time() - wait_started);
+#endif
+        portENTER_CRITICAL(&frame_ticket_mux);
+        frame_tickets.bufferSwitchCompleted(switch_accepted);
+        portEXIT_CRITICAL(&frame_ticket_mux);
     }
 
     lv_disp_flush_ready(drv);
@@ -456,6 +499,9 @@ void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color
 IRAM_ATTR bool onLcdVsyncCallback(void *user_data)
 {
     BaseType_t need_yield = pdFALSE;
+    portENTER_CRITICAL_ISR(&frame_ticket_mux);
+    frame_tickets.hardwareFrameBoundary();
+    portEXIT_CRITICAL_ISR(&frame_ticket_mux);
 #if LVGL_PORT_FULL_REFRESH && (LVGL_PORT_DISP_BUFFER_NUM == 3) && (LVGL_PORT_ROTATION_DEGREE == 0)
     if (lvgl_port_lcd_next_buf != lvgl_port_lcd_last_buf) {
         lvgl_port_flush_next_buf = lvgl_port_lcd_last_buf;

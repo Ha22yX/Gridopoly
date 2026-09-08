@@ -133,6 +133,8 @@ void EspNowPlayerTransport::begin(uint32_t nowMs)
 
 bool EspNowPlayerTransport::send(const TransportCommand &command, uint32_t nowMs)
 {
+    if (command.kind == TransportCommandKind::MovementCueReadyRequest)
+        return beginMovementCueReady(command, nowMs);
     const bool playerDetail = command.kind == TransportCommandKind::PlayerDetailRequest;
     const bool trade = command.kind == TransportCommandKind::TradeQuery ||
                        command.kind == TransportCommandKind::TradeCreate ||
@@ -188,6 +190,7 @@ void EspNowPlayerTransport::tick(uint32_t nowMs)
         return;
     }
     if (linkState_ != LinkState::Online) return;
+    tickMovementCueReady(nowMs);
     if (pending_.active) {
         const uint32_t pendingAgeMs = nowMs - pending_.startedMs;
         const uint32_t sinceLastSendMs = nowMs - pending_.lastSendMs;
@@ -510,6 +513,33 @@ void EspNowPlayerTransport::processSnapshot(const DecodedFrame &frame, uint32_t 
                       static_cast<long>(snapshot_.selfCash), snapshot_.selfPosition);
     }
     if (resync) {
+        auto &cue = pendingMovementCue_;
+        const bool serverPassedCue = cue.wireSequence != 0 &&
+            static_cast<int32_t>(frame.header.acknowledgement - cue.wireSequence) > 0;
+        const bool probeResponse = cue.active && cue.recoveryProbe &&
+            cue.recoveryProbeRetried && serverPassedCue;
+        if (cue.active && serverPassedCue && cue.sendAttempts >= 2 && !probeResponse) {
+            cue.recoveryProbe = true;
+            cue.recoveryProbeRetried = false;
+        }
+        if (cue.active && (cue.resyncRequested || probeResponse)) {
+            // A newer acknowledged sequence alone cannot prove cache loss.
+            // First observe it, then probe using the unchanged original frame;
+            // only another resync after that probe permits bounded renewal.
+            // The underlying Action17 is idempotent for the same movement.
+            TransportEvent retry{};
+            retry.kind = TransportEventKind::MovementCueRetryRequested;
+            retry.roomId = cue.command.roomId;
+            retry.requestId = cue.command.requestId;
+            retry.stateVersion = snapshot_.stateVersion;
+            if (push(retry)) {
+                Serial.printf("GRIDOPOLY_CUE retire request=%lu wire=%lu server_ack=%lu reason=resync\n",
+                    static_cast<unsigned long>(cue.command.requestId),
+                    static_cast<unsigned long>(cue.wireSequence),
+                    static_cast<unsigned long>(frame.header.acknowledgement));
+                cue = PendingAction{};
+            }
+        }
         if (pending_.active) pending_ = PendingAction{};
         pendingPlayerDetail_ = PendingPlayerDetailQuery{};
         if (!identitySetupActive_) pendingIdentity_ = PendingIdentityRequest{};
@@ -691,6 +721,35 @@ void EspNowPlayerTransport::processPlayerCardEvent(const DecodedFrame &frame)
 
 void EspNowPlayerTransport::processActionResult(const DecodedFrame &frame)
 {
+    if (pendingMovementCue_.active && frame.header.payloadLength == 12 &&
+        frame.payload[0] == 1 && frame.payload[2] == seatId_ &&
+        frame.header.roomId == pendingMovementCue_.command.roomId &&
+        frame.header.acknowledgement == pendingMovementCue_.wireSequence &&
+        get32(frame.payload + 8) == pendingMovementCue_.wireSequence) {
+        const uint8_t result = frame.payload[1];
+        if (result != 0) {
+            // The server may reject a stale version or a transient persistence
+            // failure. Wait for its authenticated projection before retiring
+            // this request and letting the app start a new logical operation.
+            pendingMovementCue_.resyncRequested = true;
+            eventGapDetected_ = true;
+            sendHeartbeat();
+            return;
+        }
+        TransportEvent completed{};
+        completed.kind = TransportEventKind::CommandCompleted;
+        completed.requestId = pendingMovementCue_.command.requestId;
+        completed.roomId = frame.header.roomId;
+        completed.stateVersion = get32(frame.payload + 4);
+        if (push(completed)) {
+            Serial.printf("GRIDOPOLY_CUE acknowledged request=%lu wire=%lu version=%lu\n",
+                static_cast<unsigned long>(completed.requestId),
+                static_cast<unsigned long>(pendingMovementCue_.wireSequence),
+                static_cast<unsigned long>(completed.stateVersion));
+            pendingMovementCue_ = PendingAction{};
+        }
+        return; // No state-version advance or extra snapshot is required.
+    }
     if (!pending_.active || frame.header.payloadLength != 12 || frame.payload[0] != 1 ||
         frame.header.acknowledgement != pending_.wireSequence ||
         get32(frame.payload + 8) != pending_.wireSequence) return;
@@ -903,7 +962,6 @@ void EspNowPlayerTransport::resetSession(uint32_t nowMs)
     roomId_ = 0;
     pendingRoomId_ = 0;
     seatId_ = 0;
-    nextSequence_ = 1;
     pending_ = PendingAction{};
     pendingPlayerDetail_ = PendingPlayerDetailQuery{};
     pendingTrade_ = PendingTradeRequest{};
@@ -1456,6 +1514,89 @@ void EspNowPlayerTransport::rejectIdentityRequest(TransportError error)
     rejected.stateVersion = appliedStateVersion_;
     push(rejected);
     pendingIdentity_ = PendingIdentityRequest{};
+}
+
+bool EspNowPlayerTransport::beginMovementCueReady(const TransportCommand &command, uint32_t nowMs)
+{
+    if (pendingMovementCue_.active &&
+        pendingMovementCue_.command.requestId == command.requestId) return true;
+    pendingMovementCue_ = PendingAction{};
+    pendingMovementCue_.active = true;
+    pendingMovementCue_.command = command;
+    pendingMovementCue_.action = ActionCode::MovementCueReady;
+    pendingMovementCue_.startedMs = nowMs;
+    pendingMovementCue_.lastSendMs = nowMs - 450;
+    tickMovementCueReady(nowMs);
+    return true;
+}
+
+bool EspNowPlayerTransport::resendMovementCueReady(uint32_t nowMs)
+{
+    auto &cue = pendingMovementCue_;
+    if (cue.frameLength == 0) {
+        ActionRequest request{};
+        request.action = ActionCode::MovementCueReady;
+        request.playerId = seatId_;
+        request.assetIndex = 0xFF;
+        request.argument = cue.command.argument;
+        request.expectedStateVersion = cue.command.stateVersion;
+        uint8_t payload[16]{};
+        size_t payloadLength = 0;
+        Header header{};
+        header.type = MessageType::ActionRequest;
+        header.flags = FlagAckRequired;
+        header.sequence = nextSequence_++;
+        header.roomId = cue.command.roomId;
+        header.deviceId = deviceId_;
+        size_t length = 0;
+        if (!encodeActionRequest(request, payload, sizeof(payload), payloadLength) ||
+            !encodeFrame(header, payload, payloadLength, cue.frame.data(),
+                         cue.frame.size(), length)) return false;
+        cue.wireSequence = header.sequence;
+        cue.frameLength = static_cast<uint16_t>(length);
+    }
+    cue.lastSendMs = nowMs;
+    if (cue.sendAttempts < 255) ++cue.sendAttempts;
+    const bool sent = sendFrame(TxKind::Action, cue.frame.data(), cue.frameLength);
+    if (sent && cue.recoveryProbe) cue.recoveryProbeRetried = true;
+    Serial.printf("GRIDOPOLY_CUE send request=%lu wire=%lu version=%lu target=%ld attempt=%u sent=%u\n",
+        static_cast<unsigned long>(cue.command.requestId),
+        static_cast<unsigned long>(cue.wireSequence),
+        static_cast<unsigned long>(cue.command.stateVersion),
+        static_cast<long>(cue.command.argument), cue.sendAttempts, sent ? 1u : 0u);
+    return sent;
+}
+
+void EspNowPlayerTransport::tickMovementCueReady(uint32_t nowMs)
+{
+    auto &cue = pendingMovementCue_;
+    if (!cue.active || !ready_ || linkState_ != LinkState::Online ||
+        pendingRoomId_ != 0 || !snapshotValid_) return;
+    if (roomId_ == cue.command.roomId && snapshot_.stateVersion < cue.command.stateVersion) {
+        eventGapDetected_ = true;
+        return; // Wait for the private projection corresponding to the app version.
+    }
+    if (roomId_ != cue.command.roomId || snapshot_.phase != 2 ||
+        snapshot_.activePlayerId != seatId_ ||
+        snapshot_.pendingTarget != cue.command.targetPosition ||
+        snapshot_.stateVersion != cue.command.stateVersion) {
+        rejectMovementCueReady(TransportError::StaleState);
+        return;
+    }
+    // Repeated immutable inner frames receive fresh authenticated UDP envelopes.
+    // Retry indefinitely at a bounded rate while the same move remains current.
+    if (!lossReported_ && !cue.resyncRequested && nowMs - cue.lastSendMs >= 450)
+        resendMovementCueReady(nowMs);
+}
+
+void EspNowPlayerTransport::rejectMovementCueReady(TransportError error)
+{
+    TransportEvent event{};
+    event.kind = TransportEventKind::CommandRejected;
+    event.error = error;
+    event.requestId = pendingMovementCue_.command.requestId;
+    event.roomId = pendingMovementCue_.command.roomId;
+    if (push(event)) pendingMovementCue_ = PendingAction{};
 }
 
 bool EspNowPlayerTransport::beginPendingAction(const TransportCommand &command, uint32_t nowMs)

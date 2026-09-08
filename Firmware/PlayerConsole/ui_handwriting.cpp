@@ -28,9 +28,24 @@ uint32_t lastCanvasTouchMs = 0;
 uint32_t inkRgb = 0;
 uint32_t canvasBackgroundRgb = 0;
 bool canvasTouchedLastPoll = false;
+uint16_t drawnPointCount = 0;
+uint32_t lastInkFlushMs = 0;
+uint32_t captureGeneration = 1;
+UiHandwritingSample recognitionSamples[kPointCapacity]{};
+uint16_t recognitionSampleCount = 0;
+uint32_t recognitionRequestGeneration = 0;
+uint32_t recognitionResultGeneration = 0;
+char recognitionResult = '\0';
+bool recognitionWorkerBusy = false;
+bool recognitionResultReady = false;
+SemaphoreHandle_t recognitionStateMutex = nullptr;
+SemaphoreHandle_t recognitionModelMutex = nullptr;
+TaskHandle_t recognitionTaskHandle = nullptr;
 
-// Recognition runs on the UI task. Reuse one workspace so the higher-detail
-// raster cannot consume several kilobytes of that task's stack.
+constexpr uint32_t kInkFlushIntervalMs = 16;
+
+// Recognition uses a persistent workspace so neither the UI task nor the
+// low-priority inference worker needs a large temporary stack frame.
 struct RecognitionWorkspace {
     uint8_t drawn[kTemplateRasterHeight][kTemplateRasterWidth];
     uint8_t model[kTemplateRasterHeight][kTemplateRasterWidth];
@@ -74,11 +89,24 @@ constexpr uint8_t kGlyphRows[26][7] = {
     {0x1F,0x01,0x02,0x04,0x08,0x10,0x1F}, // Z
 };
 
+void advanceCaptureGeneration()
+{
+    // The worker checks the generation under this same mutex before publishing.
+    // Touch capture must use it too so an old recognition cannot race a new stroke.
+    if (recognitionStateMutex != nullptr) xSemaphoreTake(recognitionStateMutex, portMAX_DELAY);
+    ++captureGeneration;
+    if (captureGeneration == 0) ++captureGeneration;
+    if (recognitionStateMutex != nullptr) xSemaphoreGive(recognitionStateMutex);
+}
+
 void clearCapture()
 {
     pointCount = 0;
+    drawnPointCount = 0;
     lastCanvasTouchMs = 0;
+    lastInkFlushMs = 0;
     canvasTouchedLastPoll = false;
+    advanceCaptureGeneration();
 }
 
 void setRaster(
@@ -479,17 +507,24 @@ void appendPhysicalSample(int16_t x, int16_t y, uint32_t nowMs,
                              points[pointCount - 1].sampledAtMs, nowMs);
     if (connect && points[pointCount - 1].x == x && points[pointCount - 1].y == y) {
         points[pointCount - 1].sampledAtMs = nowMs;
+        advanceCaptureGeneration();
         return;
     }
 
-    const UiHandwritingSample previous =
-        pointCount == 0 ? UiHandwritingSample{} : points[pointCount - 1];
     points[pointCount++] = UiHandwritingSample{x, y, nowMs, connect};
+    advanceCaptureGeneration();
+}
 
-    if (connect) {
+void drawCapturedSample(uint16_t index)
+{
+    if (activeCanvas == nullptr || index >= pointCount) return;
+    const UiHandwritingSample &sample = points[index];
+
+    if (sample.connectsPrevious && index != 0) {
+        const UiHandwritingSample &previous = points[index - 1];
         const lv_point_t segment[2] = {
             {previous.x, previous.y},
-            {x, y},
+            {sample.x, sample.y},
         };
         lv_draw_line_dsc_t line{};
         lv_draw_line_dsc_init(&line);
@@ -499,19 +534,108 @@ void appendPhysicalSample(int16_t x, int16_t y, uint32_t nowMs,
         line.round_start = 1;
         line.round_end = 1;
         lv_canvas_draw_line(activeCanvas, segment, 2, &line);
-        return;
+    } else {
+        const int16_t left = sample.x > 2 ? sample.x - 2 : 0;
+        const int16_t top = sample.y > 2 ? sample.y - 2 : 0;
+        const int16_t right = sample.x + 2 < kCanvasWidth
+            ? sample.x + 2 : kCanvasWidth - 1;
+        const int16_t bottom = sample.y + 2 < kCanvasHeight
+            ? sample.y + 2 : kCanvasHeight - 1;
+        lv_draw_rect_dsc_t dot{};
+        lv_draw_rect_dsc_init(&dot);
+        dot.bg_color = lv_color_hex(inkRgb);
+        dot.bg_opa = LV_OPA_COVER;
+        dot.radius = LV_RADIUS_CIRCLE;
+        lv_canvas_draw_rect(activeCanvas, left, top, right - left + 1,
+                            bottom - top + 1, &dot);
     }
+}
 
-    const int16_t left = x > 2 ? x - 2 : 0;
-    const int16_t top = y > 2 ? y - 2 : 0;
-    const int16_t right = x + 2 < kCanvasWidth ? x + 2 : kCanvasWidth - 1;
-    const int16_t bottom = y + 2 < kCanvasHeight ? y + 2 : kCanvasHeight - 1;
-    lv_draw_rect_dsc_t dot{};
-    lv_draw_rect_dsc_init(&dot);
-    dot.bg_color = lv_color_hex(inkRgb);
-    dot.bg_opa = LV_OPA_COVER;
-    dot.radius = LV_RADIUS_CIRCLE;
-    lv_canvas_draw_rect(activeCanvas, left, top, right - left + 1, bottom - top + 1, &dot);
+void flushCapturedInk(uint32_t nowMs, bool force)
+{
+    if (drawnPointCount >= pointCount || activeCanvas == nullptr) return;
+    if (!force && nowMs - lastInkFlushMs < kInkFlushIntervalMs) return;
+    while (drawnPointCount < pointCount) drawCapturedSample(drawnPointCount++);
+    lastInkFlushMs = nowMs;
+}
+
+void recognitionTask(void *)
+{
+    while (true) {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+        uint16_t sampleCount = 0;
+        uint32_t generation = 0;
+        xSemaphoreTake(recognitionStateMutex, portMAX_DELAY);
+        if (recognitionWorkerBusy) {
+            sampleCount = recognitionSampleCount;
+            generation = recognitionRequestGeneration;
+        }
+        xSemaphoreGive(recognitionStateMutex);
+        if (sampleCount == 0) continue;
+
+        xSemaphoreTake(recognitionModelMutex, portMAX_DELAY);
+        const char result = recognizeSamples(recognitionSamples, sampleCount);
+        xSemaphoreGive(recognitionModelMutex);
+
+        xSemaphoreTake(recognitionStateMutex, portMAX_DELAY);
+        if (recognitionWorkerBusy && generation == recognitionRequestGeneration) {
+            if (generation == captureGeneration) {
+                recognitionResult = result;
+                recognitionResultGeneration = generation;
+                recognitionResultReady = true;
+            }
+            recognitionWorkerBusy = false;
+        }
+        xSemaphoreGive(recognitionStateMutex);
+    }
+}
+
+void ensureRecognitionRuntime()
+{
+    if (recognitionStateMutex == nullptr) recognitionStateMutex = xSemaphoreCreateMutex();
+    if (recognitionModelMutex == nullptr) recognitionModelMutex = xSemaphoreCreateMutex();
+    if (recognitionTaskHandle != nullptr || recognitionStateMutex == nullptr ||
+        recognitionModelMutex == nullptr) return;
+    if (xTaskCreatePinnedToCore(recognitionTask, "handwriting-rec", 4096, nullptr,
+                                1, &recognitionTaskHandle, 0) != pdPASS) {
+        recognitionTaskHandle = nullptr;
+    }
+}
+
+bool scheduleRecognition()
+{
+    ensureRecognitionRuntime();
+    if (recognitionTaskHandle == nullptr || recognitionStateMutex == nullptr) return false;
+    xSemaphoreTake(recognitionStateMutex, portMAX_DELAY);
+    if (recognitionWorkerBusy) {
+        xSemaphoreGive(recognitionStateMutex);
+        return true;
+    }
+    recognitionSampleCount = pointCount;
+    memcpy(recognitionSamples, points,
+           static_cast<size_t>(pointCount) * sizeof(UiHandwritingSample));
+    recognitionRequestGeneration = captureGeneration;
+    recognitionWorkerBusy = true;
+    recognitionResultReady = false;
+    xSemaphoreGive(recognitionStateMutex);
+    xTaskNotifyGive(recognitionTaskHandle);
+    return true;
+}
+
+bool consumeRecognitionResult(char &character)
+{
+    if (recognitionStateMutex == nullptr) return false;
+    bool ready = false;
+    xSemaphoreTake(recognitionStateMutex, portMAX_DELAY);
+    if (recognitionResultReady && recognitionResultGeneration == captureGeneration) {
+        character = recognitionResult;
+        recognitionResultReady = false;
+        ready = true;
+    } else if (recognitionResultReady) {
+        recognitionResultReady = false;
+    }
+    xSemaphoreGive(recognitionStateMutex);
+    return ready;
 }
 
 void canvasDeleteEvent(lv_event_t *event)
@@ -531,6 +655,7 @@ lv_obj_t *uiHandwritingCreate(lv_obj_t *parent, UiRect rect, uint32_t background
                               uint32_t border, uint32_t ink)
 {
     uiHandwritingReset();
+    ensureRecognitionRuntime();
     if (parent == nullptr || rect.w != kCanvasWidth || rect.h != kCanvasHeight) return nullptr;
     const size_t bytes = LV_CANVAS_BUF_SIZE_TRUE_COLOR(kCanvasWidth, kCanvasHeight);
     canvasBuffer = heap_caps_calloc(1, bytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
@@ -560,6 +685,7 @@ lv_obj_t *uiHandwritingCreate(lv_obj_t *parent, UiRect rect, uint32_t background
 
 bool uiHandwritingPoll(char &character, uint32_t nowMs)
 {
+    const bool touchedPreviousPoll = canvasTouchedLastPoll;
     bool touchingCanvas = false;
     for (lv_indev_t *input = lv_indev_get_next(nullptr); input != nullptr;
          input = lv_indev_get_next(input)) {
@@ -575,8 +701,21 @@ bool uiHandwritingPoll(char &character, uint32_t nowMs)
         appendPhysicalSample(x, y, nowMs, canvasTouchedLastPoll);
     }
     canvasTouchedLastPoll = touchingCanvas;
+    flushCapturedInk(nowMs, touchedPreviousPoll && !touchingCanvas);
+
+    if (consumeRecognitionResult(character)) {
+        clearCapture();
+        if (activeCanvas != nullptr) {
+            lv_canvas_fill_bg(activeCanvas, lv_color_hex(canvasBackgroundRgb), LV_OPA_COVER);
+        }
+        return character != '\0';
+    }
     if (!uiHandwritingRecognitionDue(touchingCanvas, pointCount,
                                      lastCanvasTouchMs, nowMs)) return false;
+    if (scheduleRecognition()) return false;
+
+    // Allocation failure fallback preserves input semantics; it is only used
+    // when the low-priority worker could not be created.
     character = uiHandwritingRecognizeSamples(points, pointCount);
     clearCapture();
     if (activeCanvas != nullptr) {
@@ -602,7 +741,12 @@ bool uiHandwritingSamplesShouldConnect(bool continuingPhysicalContact,
 char uiHandwritingRecognizeSamples(const UiHandwritingSample *samples,
                                    uint16_t sampleCount)
 {
-    return recognizeSamples(samples, sampleCount);
+    ensureRecognitionRuntime();
+    if (recognitionModelMutex == nullptr) return recognizeSamples(samples, sampleCount);
+    xSemaphoreTake(recognitionModelMutex, portMAX_DELAY);
+    const char result = recognizeSamples(samples, sampleCount);
+    xSemaphoreGive(recognitionModelMutex);
+    return result;
 }
 
 float uiHandwritingNeuralTestAccuracy()
@@ -625,4 +769,11 @@ void uiHandwritingReset()
         canvasBuffer = nullptr;
     }
     clearCapture();
+    if (recognitionStateMutex != nullptr) {
+        xSemaphoreTake(recognitionStateMutex, portMAX_DELAY);
+        recognitionResultReady = false;
+        // A running request is allowed to finish, but captureGeneration makes
+        // its result stale and prevents it from clearing a newly created page.
+        xSemaphoreGive(recognitionStateMutex);
+    }
 }

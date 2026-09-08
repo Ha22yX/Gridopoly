@@ -400,6 +400,7 @@ bool DemoTransport::scheduleScenarioCommand(const TransportCommand &command, uin
         event.tradeCounterpartyGivesCash = tradeCounterpartyCash_;
     } else if (command.kind == TransportCommandKind::ClaimRent ||
         command.kind == TransportCommandKind::AuctionReadyRequest ||
+        command.kind == TransportCommandKind::MovementCueReadyRequest ||
         command.kind == TransportCommandKind::CardContinueRequest) {
         event.kind = TransportEventKind::CommandCompleted;
     } else if (scenario_ == DemoScenario::PaymentDebt && command.kind == TransportCommandKind::PayNow) {

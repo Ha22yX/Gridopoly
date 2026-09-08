@@ -474,6 +474,15 @@ struct AppState {
     bool rollFailed = false;
     bool moveArrivalPending = false;
     bool moveArrivalConfirmed = false;
+    uint32_t movementCueRoomId = 0;
+    uint32_t movementCueStateVersion = 0;
+    uint8_t movementCueTarget = 0xFF;
+    uint8_t movementCueOrigin = 0xFF;
+    uint32_t movementCueRequestId = 0;
+    uint32_t movementCueRetryAtMs = 0;
+    bool movementCueFramePresented = false;
+    bool movementCueAcknowledged = false;
+    bool movementCueReadyToSend = false;
     bool landingEventAcknowledged = false;
     CardPresentationPhase cardPresentation = CardPresentationPhase::None;
     uint8_t pendingCardFlags = 0;
@@ -513,7 +522,7 @@ struct AppState {
     uint32_t nextRequestId = 1;
     uint32_t stateVersion = 1;
     uint32_t pendingCommandMask = 0;
-    uint32_t pendingRequestIds[24]{};
+    uint32_t pendingRequestIds[25]{};
     uint32_t pendingPayNowStartedMs = 0;
     uint32_t buttonDownMs = 0;
     bool buttonHeld = false;

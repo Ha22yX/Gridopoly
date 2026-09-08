@@ -714,7 +714,7 @@ def assert_carousel_perf_contract(player_console_source: str) -> None:
     board = setup_body.find("Board *board")
     display_init = setup_body.find("lvgl_port_init(")
     renderer_init = setup_body.find("uiRendererBegin(")
-    initial_render = setup_body.find("uiRendererRender(app")
+    initial_render = setup_body.find("renderAppFrame(")
     perf = setup_body.find("runCarouselPerfFixture(")
     if min(component_logic, restart, pure_logic, board, display_init, renderer_init,
            initial_render, perf) < 0:
@@ -1387,7 +1387,7 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
                                             "drawHome(state, nowMs);", 1),
                     carousel_header, carousel_source)
     expect_rejected("Home phase guard removed", layout_source,
-                    renderer_source.replace("homeActionsUnchanged &&", "", 1),
+                    renderer_source.replace("homeActionsUnchanged && inlineEditUnchanged", "inlineEditUnchanged", 1),
                     carousel_header, carousel_source)
     expect_rejected("presented Home phase comparison bypassed", layout_source,
                     renderer_source.replace(
@@ -1400,14 +1400,14 @@ def run_self_test(layout_source: str, renderer_source: str, carousel_header: str
     expect_rejected("visible state guard bypassed", layout_source,
                     renderer_source.replace(
                         "inlineEditUnchanged && visibleStateUnchanged",
-                        "inlineEditUnchanged && true", 1),
+                        "inlineEditUnchanged && true"),
                     carousel_header, carousel_source)
     expect_rejected("modal submitting guard removed", layout_source,
                     renderer_source.replace(
                         "state.submitting == rendered.submitting &&", "", 1),
                     carousel_header, carousel_source)
     expect_rejected("rendered inline editor update removed", layout_source,
-                    renderer_source.replace("previousInlineEditField = state.inlineEditField;", "", 1),
+                    renderer_source.replace("previousInlineEditField = state.inlineEditField;", ""),
                     carousel_header, carousel_source)
     expect_rejected(
         "wrap path storage removed",

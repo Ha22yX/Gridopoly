@@ -31,6 +31,8 @@ protected:
         bool active = false;
         bool awaitingSnapshot = false;
         bool resyncRequested = false;
+        bool recoveryProbe = false;
+        bool recoveryProbeRetried = false;
         TransportCommand command{};
         gridopoly::protocol::ActionCode action = gridopoly::protocol::ActionCode::Roll;
         uint32_t wireSequence = 0;
@@ -111,6 +113,7 @@ protected:
     gridopoly::protocol::AuthoritySnapshot authoritySnapshot_{};
     gridopoly::protocol::RosterSnapshot rosterSnapshot_{};
     PendingAction pending_{};
+    PendingAction pendingMovementCue_{};
     PendingPlayerDetailQuery pendingPlayerDetail_{};
     PendingTradeRequest pendingTrade_{};
     PendingIdentityRequest pendingIdentity_{};
@@ -190,6 +193,10 @@ protected:
     void rejectIdentityRequest(TransportError error);
     bool beginPendingAction(const TransportCommand &command, uint32_t nowMs);
     bool resendPendingAction(uint32_t nowMs);
+    bool beginMovementCueReady(const TransportCommand &command, uint32_t nowMs);
+    bool resendMovementCueReady(uint32_t nowMs);
+    void tickMovementCueReady(uint32_t nowMs);
+    void rejectMovementCueReady(TransportError error);
     bool sendNextMortgage();
     void completePendingFromSnapshot();
     void rejectPending(TransportError error);

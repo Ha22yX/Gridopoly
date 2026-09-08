@@ -109,6 +109,7 @@ void WifiUdpPlayerTransport::tick(uint32_t nowMs)
     }
     if (linkState_ != LinkState::Online) return;
 
+    tickMovementCueReady(nowMs);
     if (pending_.active) {
         const uint32_t pendingAgeMs = nowMs - pending_.startedMs;
         const uint32_t sinceLastSendMs = nowMs - pending_.lastSendMs;
@@ -221,7 +222,6 @@ void WifiUdpPlayerTransport::resetUdpSession(uint32_t nowMs)
     pendingRoomId_ = 0;
     sessionId_ = 0;
     seatId_ = 0;
-    nextSequence_ = 1;
     pending_ = PendingAction{};
     pendingPlayerDetail_ = PendingPlayerDetailQuery{};
     pendingTrade_ = PendingTradeRequest{};

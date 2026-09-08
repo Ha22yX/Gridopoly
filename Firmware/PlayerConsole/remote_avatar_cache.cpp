@@ -14,6 +14,8 @@
 #include <freertos/semphr.h>
 #include <freertos/task.h>
 
+void wakeWorkers();
+
 namespace {
 
 constexpr uint8_t kComponentKindCount = 3;
@@ -27,6 +29,7 @@ constexpr uint32_t kRetryDelayMs = 2500;
 constexpr uint32_t kWorkerPollMs = 100;
 constexpr uint32_t kHttpTimeoutMs = 5000;
 constexpr uint32_t kWorkerStackBytes = 8192;
+constexpr uint32_t kPreviewComposeSettleMs = 45;
 constexpr size_t kGavcHeaderBytes = 32;
 constexpr size_t kMaxComponentFileBytes = 128u * 1024u;
 // LVGL's RGB565 chroma key keeps the empty preview canvas transparent without
@@ -94,6 +97,20 @@ struct ClaimedRequest {
     char path[176]{};
 };
 
+struct ComposeLayer {
+    const uint8_t *file = nullptr;
+    size_t fileBytes = 0;
+    ComponentHeader header{};
+    uint8_t expectedKind = 0;
+};
+
+struct ComposeSnapshot {
+    TransportAvatarRecipe recipe{};
+    std::array<ComposeLayer, kComponentKindCount> layers{};
+    uint32_t generation = 0;
+    uint8_t outputIndex = 0;
+};
+
 struct RleCursor {
     const uint8_t *cursor = nullptr;
     const uint8_t *end = nullptr;
@@ -144,11 +161,16 @@ std::array<TaskHandle_t, kRemoteAvatarDownloadWorkerCount> workerTaskHandles{};
 CacheMode cacheMode = CacheMode::None;
 TransportAvatarRecipe desiredRecipe{};
 TransportAvatarRecipe composedRecipe{};
-uint8_t *previewPixels = nullptr;
+std::array<uint8_t *, 2> previewPixels{};
+uint8_t previewFrontIndex = 0;
 lv_img_dsc_t previewDescriptor{};
 bool previewReady = false;
 bool composeRequested = false;
+bool composeInProgress = false;
+bool releaseRequested = false;
 uint32_t recipeGeneration = 0;
+uint32_t desiredRecipeGeneration = 0;
+uint32_t desiredRecipeChangedAtMs = 0;
 uint32_t publishedGeneration = 0;
 uint32_t consumedGeneration = 0;
 size_t setupCachedBytes = 0;
@@ -279,14 +301,18 @@ void freeFinalLocked(FinalSlot &slot)
 void clearPreviewLocked()
 {
     for (ComponentSlot &slot : components) freeComponentLocked(slot);
-    if (previewPixels != nullptr) {
+    for (uint8_t *&pixels : previewPixels) {
+        if (pixels == nullptr) continue;
         setupCachedBytes -= kRemoteAvatarPreviewBytes;
-        heap_caps_free(previewPixels);
-        previewPixels = nullptr;
+        heap_caps_free(pixels);
+        pixels = nullptr;
     }
+    previewFrontIndex = 0;
     previewDescriptor = lv_img_dsc_t{};
     previewReady = false;
     composeRequested = false;
+    composeInProgress = false;
+    releaseRequested = false;
     desiredRecipe = TransportAvatarRecipe{};
     composedRecipe = TransportAvatarRecipe{};
     preloadScheduled = false;
@@ -344,13 +370,24 @@ bool allLibraryComponentsReadyLocked()
     return true;
 }
 
-bool ensurePreviewBufferLocked()
+size_t missingPreviewBytesLocked()
 {
-    if (previewPixels != nullptr) return true;
-    previewPixels = static_cast<uint8_t *>(heap_caps_malloc(
-        kRemoteAvatarPreviewBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
-    if (previewPixels == nullptr) return false;
-    setupCachedBytes += kRemoteAvatarPreviewBytes;
+    size_t missing = 0;
+    for (const uint8_t *pixels : previewPixels) {
+        if (pixels == nullptr) missing += kRemoteAvatarPreviewBytes;
+    }
+    return missing;
+}
+
+bool ensurePreviewBuffersLocked()
+{
+    for (uint8_t *&pixels : previewPixels) {
+        if (pixels != nullptr) continue;
+        pixels = static_cast<uint8_t *>(heap_caps_malloc(
+            kRemoteAvatarPreviewBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+        if (pixels == nullptr) return false;
+        setupCachedBytes += kRemoteAvatarPreviewBytes;
+    }
     return true;
 }
 
@@ -403,7 +440,7 @@ void scheduleAllComponentsLocked()
 
 bool recoverPreviewBufferLocked()
 {
-    if (ensurePreviewBufferLocked()) return true;
+    if (ensurePreviewBuffersLocked()) return true;
     if (previewRecoveryAttempted || !preloadComplete) return false;
 
     // Thirty differently sized GAVC allocations can leave enough total PSRAM
@@ -421,7 +458,7 @@ bool recoverPreviewBufferLocked()
         }
     }
 
-    const bool allocated = ensurePreviewBufferLocked();
+    const bool allocated = ensurePreviewBuffersLocked();
     preloadScheduled = false;
     scheduleAllComponentsLocked();
     return allocated;
@@ -540,7 +577,7 @@ void completeRequest(const ClaimedRequest &request, uint8_t *bytes,
         const bool valid = parsedComponent && slot.serial == request.serial &&
             slot.state == SlotState::Loading &&
             setupCachedBytes + length +
-                    (previewPixels == nullptr ? kRemoteAvatarPreviewBytes : 0) <=
+                    missingPreviewBytesLocked() <=
                 kRemoteAvatarSetupCacheBudgetBytes;
         if (valid) {
             slot.file = bytes;
@@ -584,20 +621,41 @@ void completeRequest(const ClaimedRequest &request, uint8_t *bytes,
     if (!accepted && bytes != nullptr) heap_caps_free(bytes);
 }
 
-bool composePreviewLocked()
+bool beginComposeLocked(ComposeSnapshot &snapshot)
 {
-    if (!allComponentsReadyLocked()) return false;
-    if (!ensurePreviewBufferLocked()) return false;
+    if (composeInProgress || !allComponentsReadyLocked() ||
+        !ensurePreviewBuffersLocked()) return false;
+
+    snapshot.recipe = desiredRecipe;
+    snapshot.generation = desiredRecipeGeneration;
+    snapshot.outputIndex = static_cast<uint8_t>(previewFrontIndex ^ 1u);
+    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
+        const ComponentSlot &slot = desiredComponent(kind);
+        ComposeLayer &layer = snapshot.layers[kind - 1];
+        layer.file = slot.file;
+        layer.fileBytes = slot.fileBytes;
+        layer.header = slot.header;
+        layer.expectedKind = slot.expectedKind;
+    }
+    composeRequested = false;
+    composeInProgress = true;
+    return true;
+}
+
+bool composePreview(const ComposeSnapshot &snapshot)
+{
+    uint8_t *const output = previewPixels[snapshot.outputIndex];
+    if (output == nullptr) return false;
 
     std::array<RleCursor, kComponentKindCount> decoders{};
     for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
-        const ComponentSlot &slot = desiredComponent(kind);
-        decoders[kind - 1] = RleCursor{slot.file + kGavcHeaderBytes,
-                                      slot.file + slot.fileBytes, 0,
-                                      slot.header.decodedBytes / 4u};
+        const ComposeLayer &layer = snapshot.layers[kind - 1];
+        decoders[kind - 1] = RleCursor{layer.file + kGavcHeaderBytes,
+                                      layer.file + layer.fileBytes, 0,
+                                      layer.header.decodedBytes / 4u};
     }
-    const AvatarComponentRgb hairColor = kHairPalette[desiredRecipe.hairColorId - 1];
-    const AvatarComponentRgb skinColor = kSkinPalette[desiredRecipe.skinToneId - 1];
+    const AvatarComponentRgb hairColor = kHairPalette[snapshot.recipe.hairColorId - 1];
+    const AvatarComponentRgb skinColor = kSkinPalette[snapshot.recipe.skinToneId - 1];
     const uint8_t background[3] = {
         static_cast<uint8_t>((kPreviewEdgeBackground >> 16) & 0xFF),
         static_cast<uint8_t>((kPreviewEdgeBackground >> 8) & 0xFF),
@@ -609,14 +667,14 @@ bool composePreviewLocked()
             uint8_t destination[4]{};
             for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
                 const uint8_t index = kind - 1;
-                const ComponentSlot &slot = desiredComponent(kind);
-                if (x < slot.header.x || y < slot.header.y ||
-                    x >= slot.header.x + slot.header.width ||
-                    y >= slot.header.y + slot.header.height) continue;
+                const ComposeLayer &layer = snapshot.layers[index];
+                if (x < layer.header.x || y < layer.header.y ||
+                    x >= layer.header.x + layer.header.width ||
+                    y >= layer.header.y + layer.header.height) continue;
                 uint8_t source[4];
                 if (!decoders[index].next(source)) return false;
-                if (slot.expectedKind == 1) avatarTintSkinPixel(source, skinColor);
-                if (slot.expectedKind == 3) avatarTintHairPixel(source, hairColor);
+                if (layer.expectedKind == 1) avatarTintSkinPixel(source, skinColor);
+                if (layer.expectedKind == 3) avatarTintHairPixel(source, hairColor);
                 avatarSourceOver(destination, source);
             }
             uint16_t rgb565 = kPreviewChromaKey;
@@ -634,26 +692,42 @@ bool composePreviewLocked()
                     (rgb[2] >> 3));
             }
             const size_t offset = (static_cast<size_t>(y) * kPreviewWidth + x) * 2u;
-            previewPixels[offset] = static_cast<uint8_t>(rgb565 & 0xFFu);
-            previewPixels[offset + 1] = static_cast<uint8_t>(rgb565 >> 8);
+            output[offset] = static_cast<uint8_t>(rgb565 & 0xFFu);
+            output[offset + 1] = static_cast<uint8_t>(rgb565 >> 8);
         }
     }
     for (const RleCursor &decoder : decoders) {
         if (!decoder.complete()) return false;
     }
 
-    previewDescriptor.header.cf = LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED;
-    previewDescriptor.header.always_zero = 0;
-    previewDescriptor.header.reserved = 0;
-    previewDescriptor.header.w = kPreviewWidth;
-    previewDescriptor.header.h = kPreviewHeight;
-    previewDescriptor.data_size = kRemoteAvatarPreviewBytes;
-    previewDescriptor.data = previewPixels;
-    composedRecipe = desiredRecipe;
-    previewReady = true;
-    composeRequested = false;
-    ++publishedGeneration;
     return true;
+}
+
+bool finishComposeLocked(const ComposeSnapshot &snapshot, bool success)
+{
+    composeInProgress = false;
+    bool published = false;
+    if (success && previewModeLocked() && !releaseRequested &&
+        snapshot.generation == desiredRecipeGeneration &&
+        sameRecipe(snapshot.recipe, desiredRecipe)) {
+        previewFrontIndex = snapshot.outputIndex;
+        previewDescriptor.header.cf = LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED;
+        previewDescriptor.header.always_zero = 0;
+        previewDescriptor.header.reserved = 0;
+        previewDescriptor.header.w = kPreviewWidth;
+        previewDescriptor.header.h = kPreviewHeight;
+        previewDescriptor.data_size = kRemoteAvatarPreviewBytes;
+        previewDescriptor.data = previewPixels[previewFrontIndex];
+        composedRecipe = snapshot.recipe;
+        previewReady = true;
+        ++publishedGeneration;
+        published = true;
+    } else if (previewModeLocked() && !releaseRequested &&
+               allComponentsReadyLocked()) {
+        composeRequested = true;
+    }
+    if (releaseRequested) clearPreviewLocked();
+    return published;
 }
 
 void loaderTask(void *parameter)
@@ -661,20 +735,26 @@ void loaderTask(void *parameter)
     WorkerContext &worker = *static_cast<WorkerContext *>(parameter);
     while (true) {
         ClaimedRequest request{};
-        bool shouldCompose = false;
+        ComposeSnapshot composeSnapshot{};
+        bool composeClaimed = false;
         xSemaphoreTake(cacheMutex, portMAX_DELAY);
-        shouldCompose = previewModeLocked() && composeRequested &&
-                        allComponentsReadyLocked();
-        if (shouldCompose) {
-            if (composePreviewLocked()) {
-                scheduleAllComponentsLocked();
-            }
+        const bool shouldCompose =
+            previewModeLocked() && composeRequested && allComponentsReadyLocked() &&
+            deadlineReached(millis(),
+                            desiredRecipeChangedAtMs + kPreviewComposeSettleMs);
+        if (shouldCompose) composeClaimed = beginComposeLocked(composeSnapshot);
+        const bool claimed = composeClaimed ? false : claimRequestLocked(request);
+        xSemaphoreGive(cacheMutex);
+        if (composeClaimed) {
+            const bool success = composePreview(composeSnapshot);
+            xSemaphoreTake(cacheMutex, portMAX_DELAY);
+            const bool published = finishComposeLocked(composeSnapshot, success);
+            const bool retryCompose = composeRequested;
             xSemaphoreGive(cacheMutex);
+            if (published || retryCompose) wakeWorkers();
             vTaskDelay(pdMS_TO_TICKS(10));
             continue;
         }
-        const bool claimed = claimRequestLocked(request);
-        xSemaphoreGive(cacheMutex);
         if (!claimed) {
             ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(kWorkerPollMs));
             continue;
@@ -741,11 +821,13 @@ void remoteAvatarCachePreload(const TransportAvatarRecipe &recipe)
     // Reserve the only large contiguous allocation before four workers split
     // PSRAM into thirty component blocks. Without this reservation all files
     // can reach Ready while the final 220x300 preview allocation still fails.
-    bool previewBufferReady = ensurePreviewBufferLocked();
+    bool previewBufferReady = ensurePreviewBuffersLocked();
     if (!sameRecipe(desiredRecipe, normalized)) {
         desiredRecipe = normalized;
-        previewReady = false;
+        desiredRecipeChangedAtMs = millis();
         ++recipeGeneration;
+        ++desiredRecipeGeneration;
+        if (desiredRecipeGeneration == 0) ++desiredRecipeGeneration;
     }
     wakeWorker |= scheduleDesiredComponentsLocked();
     scheduleAllComponentsLocked();
@@ -784,31 +866,41 @@ void remoteAvatarCacheReleaseSetup()
     if (!cacheStarted || cacheMutex == nullptr) return;
     xSemaphoreTake(cacheMutex, portMAX_DELAY);
     if (previewModeLocked()) {
-        clearPreviewLocked();
         cacheMode = cacheMode == CacheMode::PreviewAndFinals
             ? CacheMode::Finals : CacheMode::None;
+        ++desiredRecipeGeneration;
+        if (composeInProgress) {
+            releaseRequested = true;
+            composeRequested = false;
+        } else {
+            clearPreviewLocked();
+        }
     }
     xSemaphoreGive(cacheMutex);
 }
 
-const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe)
+RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(
+    const TransportAvatarRecipe &recipe
+)
 {
     // A temporary internal-heap shortage during boot must not make Avatar
     // Setup permanently blank. Retry once the page is actually visible.
     if (!cacheStarted) remoteAvatarCacheBegin();
-    if (!cacheStarted || cacheMutex == nullptr) return nullptr;
+    if (!cacheStarted || cacheMutex == nullptr) return RemoteAvatarPreviewFrame{};
     const TransportAvatarRecipe normalized = normalizedTransportAvatarRecipe(recipe);
     bool wakeWorker = false;
-    const lv_img_dsc_t *result = nullptr;
+    RemoteAvatarPreviewFrame result{};
     xSemaphoreTake(cacheMutex, portMAX_DELAY);
     enterModeLocked(CacheMode::Preview);
     if (!sameRecipe(desiredRecipe, normalized)) {
         desiredRecipe = normalized;
-        previewReady = false;
+        desiredRecipeChangedAtMs = millis();
         ++recipeGeneration;
+        ++desiredRecipeGeneration;
+        if (desiredRecipeGeneration == 0) ++desiredRecipeGeneration;
     }
     wakeWorker |= scheduleDesiredComponentsLocked();
-    if (!ensurePreviewBufferLocked()) {
+    if (!ensurePreviewBuffersLocked()) {
         (void)recoverPreviewBufferLocked();
     }
     if (allComponentsReadyLocked() &&
@@ -816,10 +908,19 @@ const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe)
         composeRequested = true;
         wakeWorker = true;
     }
-    if (previewReady && sameRecipe(composedRecipe, normalized)) result = &previewDescriptor;
+    if (previewReady) {
+        result.image = &previewDescriptor;
+        result.exact = sameRecipe(composedRecipe, normalized);
+    }
     xSemaphoreGive(cacheMutex);
     if (wakeWorker) wakeWorkers();
     return result;
+}
+
+const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe)
+{
+    const RemoteAvatarPreviewFrame frame = remoteAvatarPreviewFrame(recipe);
+    return frame.exact ? frame.image : nullptr;
 }
 
 const lv_img_dsc_t *remoteAvatarFinal(uint32_t roomId, uint8_t playerId,

@@ -169,6 +169,15 @@ bool lvgl_port_lock(int timeout_ms);
  */
 bool lvgl_port_unlock(void);
 
+// Call with the LVGL mutex held after rendering. Completion is from hardware,
+// currently supported for the production direct-mode, two-buffer, 0-degree port.
+uint32_t lvgl_port_request_frame_ticket(void);
+bool lvgl_port_frame_ticket_presented(uint32_t ticket);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+uint32_t lvgl_port_last_submit_us(void);
+uint32_t lvgl_port_last_wait_us(void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

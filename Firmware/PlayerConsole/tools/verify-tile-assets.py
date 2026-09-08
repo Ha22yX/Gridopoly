@@ -126,7 +126,7 @@ def main() -> None:
     )
     if any(token not in avatar_component_math for token in math_contract):
         fail("avatar component tint or source-over math is missing")
-    if ("kRemoteAvatarSetupCacheBudgetBytes = 2u * 1024u * 1024u" not in remote_policy or
+    if ("kRemoteAvatarSetupCacheBudgetBytes = 2304u * 1024u" not in remote_policy or
             "kRemoteAvatarComponentBudgetBytes" not in remote_policy or
             "kRemoteAvatarPreviewBytes" not in remote_policy or
             "kRemoteAvatarPreviewBytes + kRemoteAvatarComponentBudgetBytes" not in remote_policy or
@@ -136,7 +136,7 @@ def main() -> None:
              "scheduleDesiredComponentsLocked" not in remote_avatar_cache or
              "scheduleAllComponentsLocked" not in remote_avatar_cache or
              "http.setReuse(true)" not in remote_avatar_cache):
-        fail("Avatar Setup must preload all 30 components inside its transient 2 MiB pool")
+        fail("Avatar Setup must preload all 30 components inside its transient 2304 KiB dual-preview pool")
     if "if (!cacheStarted) remoteAvatarCacheBegin();" not in remote_avatar_cache:
         fail("Avatar Setup must retry a worker that could not start during boot")
     if "WiFi.localIP() == IPAddress(0, 0, 0, 0)" in remote_avatar_cache:

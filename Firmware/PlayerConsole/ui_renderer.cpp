@@ -70,8 +70,15 @@ struct AvatarRowBinding {
     lv_obj_t *valueLabel;
     lv_obj_t *affordanceLabel;
     lv_obj_t *divider;
+    lv_obj_t *swatch;
 };
 AvatarRowBinding avatarRowBindings[5] = {};
+lv_obj_t *avatarPortraitViewport = nullptr;
+lv_obj_t *avatarPortraitImage = nullptr;
+lv_obj_t *avatarPortraitSpinner = nullptr;
+lv_obj_t *avatarPortraitStatus = nullptr;
+lv_obj_t *avatarConfirmObject = nullptr;
+lv_obj_t *avatarConfirmLabel = nullptr;
 TouchAction touchQueue[kTouchQueueCapacity] = {};
 uint8_t touchHead = 0;
 uint8_t touchTail = 0;
@@ -663,7 +670,8 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
            state.debt.bankruptcyPending == rendered.debt.bankruptcyPending &&
             state.debt.bankruptcyResolved == rendered.debt.bankruptcyResolved &&
             state.auctionPassed == rendered.auctionPassed &&
-            identityVisualStateUnchanged(state.identity, rendered.identity) &&
+            (state.page == ScreenPage::AvatarSetup ||
+             identityVisualStateUnchanged(state.identity, rendered.identity)) &&
             state.toastUntilMs == rendered.toastUntilMs &&
            textStateUnchanged(state.toast, rendered.toast);
 }
@@ -760,6 +768,7 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
 void refreshSamePageFocus(const AppState &state)
 {
     if (state.page == ScreenPage::AvatarSetup) {
+        const bool focusChanged = state.focus != previousFocus;
         for (uint8_t row = 0; row < 5; ++row) {
             AvatarRowBinding &binding = avatarRowBindings[row];
             if (binding.object == nullptr) continue;
@@ -788,7 +797,7 @@ void refreshSamePageFocus(const AppState &state)
             lv_obj_set_style_border_opa(
                 binding.divider, focused ? LV_OPA_TRANSP : LV_OPA_COVER, 0
             );
-            if (focused) animateFocusEntry(binding.object);
+            if (focused && focusChanged) animateFocusEntry(binding.object);
         }
 
         for (uint8_t index = 0; index < tapBindingCount; ++index) {
@@ -807,7 +816,7 @@ void refreshSamePageFocus(const AppState &state)
                     binding.label, lv_color_hex(focused ? kGreen : kText), 0
                 );
             }
-            if (focused) animateFocusEntry(binding.object);
+            if (focused && focusChanged) animateFocusEntry(binding.object);
         }
         return;
     }
@@ -2155,8 +2164,8 @@ void drawMoveGuide(const AppState &state)
                        state.moveArrivalConfirmed ? "CONTINUE" : "I'M THERE",
                        state.focus == 0,
                        visual.accent, TouchAction::DetailPrimary);
-    uiLabel(root, state.moveArrivalConfirmed ? "RFID ARRIVAL CONFIRMED" :
-                                               "RFID AUTO-CHECK / MANUAL FALLBACK",
+    uiLabel(root, state.moveArrivalConfirmed ? "TILE ARRIVAL CONFIRMED" :
+                                                "MOVE PIECE / WAITING FOR TILE",
             UiRect{130, 382, 220, 18},
             &lv_font_montserrat_10, kMuted);
 }
@@ -2662,34 +2671,41 @@ void drawAvatarSilhouette(const TransportAvatarRecipe &recipe, bool loading)
 {
     // The portrait owns a clipped right-side viewport. Wide hair/outfit layers
     // can never paint over the Focus Stack controls on the left.
-    lv_obj_t *viewport = lv_obj_create(root);
-    lv_obj_remove_style_all(viewport);
-    lv_obj_set_pos(viewport, 220, 82);
-    lv_obj_set_size(viewport, 224, 270);
-    lv_obj_clear_flag(viewport, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_clear_flag(viewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
-    lv_obj_set_style_bg_opa(viewport, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(viewport, 0, 0);
+    avatarPortraitViewport = lv_obj_create(root);
+    lv_obj_remove_style_all(avatarPortraitViewport);
+    lv_obj_set_pos(avatarPortraitViewport, 220, 82);
+    lv_obj_set_size(avatarPortraitViewport, 224, 270);
+    lv_obj_clear_flag(avatarPortraitViewport, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_clear_flag(avatarPortraitViewport, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
+    lv_obj_set_style_bg_opa(avatarPortraitViewport, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(avatarPortraitViewport, 0, 0);
 
-    const lv_img_dsc_t *preview = remoteAvatarPreview(recipe);
-    if (preview == nullptr) {
-        lv_obj_t *spinner = lv_spinner_create(viewport, 760, 88);
-        lv_obj_set_size(spinner, 54, 54);
-        lv_obj_set_pos(spinner, 85, 72);
-        lv_obj_set_style_arc_color(spinner, lv_color_hex(kLine), LV_PART_MAIN);
-        lv_obj_set_style_arc_color(spinner, lv_color_hex(kGreen), LV_PART_INDICATOR);
-        uiLabel(viewport, loading ? "SAVING AVATAR" : "LOADING PREVIEW",
-                UiRect{16, 140, 192, 22},
-                &lv_font_montserrat_10, kMuted);
-        return;
-    }
-    lv_obj_t *image = lv_img_create(viewport);
-    lv_img_set_src(image, preview);
-    lv_img_set_antialias(image, true);
-    lv_img_set_zoom(image, 230);
+    avatarPortraitImage = lv_img_create(avatarPortraitViewport);
+    lv_img_set_antialias(avatarPortraitImage, true);
+    lv_img_set_zoom(avatarPortraitImage, 230);
     // The source canvas contains transparent side/top margins. Offset the
     // canvas inside the clipped viewport so the visible bust moves left/up.
-    lv_obj_set_pos(image, -6, -12);
+    lv_obj_set_pos(avatarPortraitImage, -6, -12);
+    lv_obj_add_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
+
+    avatarPortraitSpinner = lv_spinner_create(avatarPortraitViewport, 760, 88);
+    lv_obj_set_size(avatarPortraitSpinner, 54, 54);
+    lv_obj_set_pos(avatarPortraitSpinner, 85, 72);
+    lv_obj_set_style_arc_color(avatarPortraitSpinner, lv_color_hex(kLine), LV_PART_MAIN);
+    lv_obj_set_style_arc_color(avatarPortraitSpinner, lv_color_hex(kGreen), LV_PART_INDICATOR);
+    avatarPortraitStatus = uiLabel(
+        avatarPortraitViewport, loading ? "SAVING AVATAR" : "LOADING PREVIEW",
+        UiRect{16, 140, 192, 22}, &lv_font_montserrat_10, kMuted
+    );
+
+    const RemoteAvatarPreviewFrame frame = remoteAvatarPreviewFrame(recipe);
+    if (frame.image != nullptr) {
+        lv_img_cache_invalidate_src(frame.image);
+        lv_img_set_src(avatarPortraitImage, frame.image);
+        lv_obj_clear_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(avatarPortraitSpinner, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+    }
 }
 
 void updateAvatarPreloadVisual(const AppState &state)
@@ -2772,8 +2788,9 @@ void drawIdentityRow(const AppState &state, uint8_t row, int16_t x, int16_t y,
     );
     int16_t valueX = 25;
     int16_t valueWidth = static_cast<int16_t>(width - 43);
+    lv_obj_t *swatchObject = nullptr;
     if (swatch != 0) {
-        uiBox(item, UiRect{25, 18, 10, 10}, swatch, swatch, 2);
+        swatchObject = uiBox(item, UiRect{25, 18, 10, 10}, swatch, swatch, 2);
         valueX = 41;
         valueWidth = static_cast<int16_t>(width - 59);
     }
@@ -2794,7 +2811,8 @@ void drawIdentityRow(const AppState &state, uint8_t row, int16_t x, int16_t y,
         lv_obj_set_style_border_opa(divider, LV_OPA_TRANSP, 0);
     }
     avatarRowBindings[row] = AvatarRowBinding{
-        item, numberLabel, eyebrowLabel, valueLabel, affordanceLabel, divider
+        item, numberLabel, eyebrowLabel, valueLabel, affordanceLabel, divider,
+        swatchObject
     };
     makeClickable(item, static_cast<TouchAction>(
         static_cast<uint16_t>(TouchAction::IdentityRow0) + row), valueLabel, accent);
@@ -2827,14 +2845,89 @@ void drawAvatarSetup(const AppState &state)
     const bool submitting = state.identity.phase == IdentityClientPhase::AvatarSubmitting;
     drawAvatarSilhouette(recipe, submitting);
     const bool focused = state.focus == static_cast<uint8_t>(AvatarEditField::Confirm);
-    lv_obj_t *confirm = uiBox(root, UiRect{74, 342, 146, 46},
-                              focused ? 0x16302A : kPanel,
-                              focused ? kGreen : kLine, 6);
-    lv_obj_t *confirmLabel = uiLabel(confirm, submitting ? "SAVING..." : "CONFIRM",
-                                     UiRect{6, 12, 138, 22}, &lv_font_montserrat_12,
-                                     focused ? kGreen : kText);
-    makeClickable(confirm, TouchAction::IdentityConfirm, confirmLabel, kGreen);
-    if (focused) animateFocusEntry(confirm);
+    avatarConfirmObject = uiBox(root, UiRect{74, 342, 146, 46},
+                                focused ? 0x16302A : kPanel,
+                                focused ? kGreen : kLine, 6);
+    avatarConfirmLabel = uiLabel(
+        avatarConfirmObject, submitting ? "SAVING..." : "CONFIRM",
+        UiRect{6, 12, 138, 22}, &lv_font_montserrat_12,
+        focused ? kGreen : kText
+    );
+    makeClickable(avatarConfirmObject, TouchAction::IdentityConfirm,
+                  avatarConfirmLabel, kGreen);
+    if (focused) animateFocusEntry(avatarConfirmObject);
+}
+
+void updateAvatarPortrait(const AppState &state)
+{
+    if (avatarPortraitImage == nullptr || avatarPortraitSpinner == nullptr ||
+        avatarPortraitStatus == nullptr) return;
+    const RemoteAvatarPreviewFrame frame = remoteAvatarPreviewFrame(
+        state.identity.draftRecipe
+    );
+    const bool submitting =
+        state.identity.phase == IdentityClientPhase::AvatarSubmitting;
+    if (frame.image == nullptr) {
+        lv_obj_add_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(avatarPortraitSpinner, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text(avatarPortraitStatus,
+                          submitting ? "SAVING AVATAR" : "LOADING PREVIEW");
+        return;
+    }
+
+    // Keep the last complete frame visible while another recipe is composing.
+    // The descriptor is stable, but its front-buffer data pointer changes.
+    lv_img_cache_invalidate_src(frame.image);
+    lv_img_set_src(avatarPortraitImage, frame.image);
+    lv_obj_clear_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(avatarPortraitSpinner, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+}
+
+void updateAvatarRowValues(const AppState &state)
+{
+    const TransportAvatarRecipe &recipe = state.identity.draftRecipe;
+    const uint8_t hair = recipeIndex(recipe.hairPresetId, 10);
+    const uint8_t hairColor = recipeIndex(recipe.hairColorId, 20);
+    const uint8_t face = recipeIndex(recipe.facePresetId, 10);
+    const uint8_t skin = recipeIndex(recipe.skinToneId, 8);
+    const uint8_t outfit = recipeIndex(recipe.outfitPresetId, 10);
+    const char *values[5] = {
+        kHairNames[hair], kHairColorNames[hairColor], kFaceNames[face],
+        kSkinNames[skin], kOutfitNames[outfit],
+    };
+    for (uint8_t row = 0; row < 5; ++row) {
+        if (avatarRowBindings[row].valueLabel != nullptr) {
+            lv_label_set_text(avatarRowBindings[row].valueLabel, values[row]);
+        }
+    }
+    if (avatarRowBindings[1].swatch != nullptr) {
+        lv_obj_set_style_bg_color(avatarRowBindings[1].swatch,
+                                  lv_color_hex(kHairColorSwatches[hairColor]), 0);
+        lv_obj_set_style_border_color(avatarRowBindings[1].swatch,
+                                      lv_color_hex(kHairColorSwatches[hairColor]), 0);
+    }
+    if (avatarRowBindings[3].swatch != nullptr) {
+        lv_obj_set_style_bg_color(avatarRowBindings[3].swatch,
+                                  lv_color_hex(kSkinSwatches[skin]), 0);
+        lv_obj_set_style_border_color(avatarRowBindings[3].swatch,
+                                      lv_color_hex(kSkinSwatches[skin]), 0);
+    }
+}
+
+void updateAvatarSetupRetained(const AppState &state)
+{
+    updateAvatarRowValues(state);
+    updateAvatarPortrait(state);
+    if (avatarConfirmLabel != nullptr) {
+        lv_label_set_text(
+            avatarConfirmLabel,
+            state.identity.phase == IdentityClientPhase::AvatarSubmitting
+                ? "SAVING..." : "CONFIRM"
+        );
+    }
+    refreshSamePageFocus(state);
 }
 
 void drawNameReview(const AppState &state)
@@ -3115,6 +3208,12 @@ void rebuild(const AppState &state, uint32_t nowMs)
     avatarPreloadArc = nullptr;
     avatarPreloadBar = nullptr;
     avatarPreloadLabel = nullptr;
+    avatarPortraitViewport = nullptr;
+    avatarPortraitImage = nullptr;
+    avatarPortraitSpinner = nullptr;
+    avatarPortraitStatus = nullptr;
+    avatarConfirmObject = nullptr;
+    avatarConfirmLabel = nullptr;
     switch (state.page) {
         case ScreenPage::Home: drawHome(state, nowMs); break;
         case ScreenPage::Assets: drawAssets(state); break;
@@ -3208,6 +3307,18 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
     prefetchRollTargetArtwork(state);
     if (artworkInvalidated) {
         artworkInvalidated = false;
+        if (hasRenderedState && state.page == ScreenPage::AvatarSetup &&
+            previousPage == ScreenPage::AvatarSetup) {
+            ++rendererTestStats.incrementalRenders;
+            updateAvatarSetupRetained(state);
+            renderedRevision = state.revision;
+            previousFocus = state.focus;
+            previousInlineEditField = state.inlineEditField;
+            previousBoundaryPulseRevision = state.boundaryPulseRevision;
+            previousRenderedState = state;
+            lastDynamicDrawMs = nowMs;
+            return;
+        }
         hasRenderedState = false;
         renderedRevision = state.revision == 0 ? UINT32_MAX : state.revision - 1;
     }
@@ -3219,6 +3330,20 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
             samePageVisibleStateUnchanged(state, previousRenderedState);
         const bool boundaryPulseChanged =
             state.boundaryPulseRevision != previousBoundaryPulseRevision;
+        if (hasRenderedState && state.page == ScreenPage::AvatarSetup &&
+            previousPage == ScreenPage::AvatarSetup && homeActionsUnchanged &&
+            inlineEditUnchanged && visibleStateUnchanged) {
+            ++rendererTestStats.incrementalRenders;
+            focusMotion = 0;
+            updateAvatarSetupRetained(state);
+            renderedRevision = state.revision;
+            previousFocus = state.focus;
+            previousInlineEditField = state.inlineEditField;
+            previousBoundaryPulseRevision = state.boundaryPulseRevision;
+            previousRenderedState = state;
+            lastDynamicDrawMs = nowMs;
+            return;
+        }
         if (hasRenderedState && state.page == previousPage &&
             (state.focus != previousFocus || boundaryPulseChanged) &&
             homeActionsUnchanged && inlineEditUnchanged && visibleStateUnchanged) {
@@ -3325,6 +3450,12 @@ void uiRendererResetForTest()
     avatarPreloadArc = nullptr;
     avatarPreloadBar = nullptr;
     avatarPreloadLabel = nullptr;
+    avatarPortraitViewport = nullptr;
+    avatarPortraitImage = nullptr;
+    avatarPortraitSpinner = nullptr;
+    avatarPortraitStatus = nullptr;
+    avatarConfirmObject = nullptr;
+    avatarConfirmLabel = nullptr;
     uiSetEventSink(nullptr);
 }
 

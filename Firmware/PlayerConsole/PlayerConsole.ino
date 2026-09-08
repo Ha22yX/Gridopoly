@@ -46,10 +46,43 @@ EspNowPlayerTransport transport;
 #else
 DemoTransport transport;
 #endif
+// Render submission and presentation are distinct events. Keep the ticket tied
+// to the semantic page so a delayed flush cannot acknowledge a newer movement.
+void renderAppFrame(uint32_t nowMs)
+{
+    static uint32_t ticket = 0, room = 0, version = 0, auction = 0;
+    static uint8_t target = 0xFF;
+    static ScreenPage page = ScreenPage::Home;
+    const bool barrierPage = app.nav.current.page == ScreenPage::MoveGuide ||
+                             app.nav.current.page == ScreenPage::Auction;
+    const bool same = barrierPage && page == app.nav.current.page &&
+        room == app.authorityRoomId && version == app.stateVersion &&
+        target == app.rollTarget && auction == app.auctionGeneration;
+    if (same && ticket != 0 && lvgl_port_frame_ticket_presented(ticket)) {
+        const bool firstMoveFrame = page == ScreenPage::MoveGuide &&
+            !app.movementCueFramePresented && !app.rollAnimating;
+        appNotifyFramePresented(app, nowMs);
+        if (firstMoveFrame && app.movementCueFramePresented) {
+            Serial.printf("GRIDOPOLY_CUE presented room=%lu version=%lu target=%u ticket=%lu ms=%lu\n",
+                static_cast<unsigned long>(room), static_cast<unsigned long>(version), target,
+                static_cast<unsigned long>(ticket), static_cast<unsigned long>(nowMs));
+        }
+    }
+    uiRendererRender(app, nowMs);
+    if (!same || ticket == 0) {
+        page = app.nav.current.page;
+        room = app.authorityRoomId;
+        version = app.stateVersion;
+        target = app.rollTarget;
+        auction = app.auctionGeneration;
+        ticket = barrierPage ? lvgl_port_request_frame_ticket() : 0;
+    }
+}
+
 bool ready = false;
 bool lvglReady = false;
 bool avatarSetupCacheHeld = false;
-constexpr uint16_t kRgbBounceBufferRows = 20;
+constexpr uint16_t kRgbBounceBufferRows = 40;
 static_assert(480 % kRgbBounceBufferRows == 0 &&
               (480 / kRgbBounceBufferRows) % 2 == 0,
               "RGB bounce rows must divide the panel into an even number of blocks");
@@ -113,6 +146,7 @@ struct CarouselPerfResult {
     uint16_t gaps[kPerfTraceCapacity]{};
     uint16_t renderTimes[kPerfTraceCapacity]{};
     uint32_t pixelCounts[kPerfTraceCapacity]{};
+    uint32_t submitUs[kPerfTraceCapacity]{}, waitUs[kPerfTraceCapacity]{};
     uint8_t traceCount = 0;
     uint32_t incrementalRenders = 0;
     uint32_t rebuildRenders = 0;
@@ -141,6 +175,7 @@ struct CarouselPerfProbe {
     volatile uint16_t gaps[kPerfTraceCapacity]{};
     volatile uint16_t renderTimes[kPerfTraceCapacity]{};
     volatile uint32_t pixelCounts[kPerfTraceCapacity]{};
+    volatile uint32_t submitUs[kPerfTraceCapacity]{}, waitUs[kPerfTraceCapacity]{};
     void (*previousMonitor)(lv_disp_drv_t *, uint32_t, uint32_t) = nullptr;
 };
 
@@ -234,6 +269,8 @@ void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixe
             carouselPerfProbe.gaps[index] = static_cast<uint16_t>(gapMs);
             carouselPerfProbe.renderTimes[index] = static_cast<uint16_t>(renderMs);
             carouselPerfProbe.pixelCounts[index] = pixelCount;
+            carouselPerfProbe.submitUs[index] = lvgl_port_last_submit_us();
+            carouselPerfProbe.waitUs[index] = lvgl_port_last_wait_us();
         }
         ++carouselPerfProbe.frames;
         if (perfCoverageReached(nowMs, carouselPerfProbe.startedMs,
@@ -459,6 +496,8 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
         result.gaps[index] = carouselPerfProbe.gaps[index];
         result.renderTimes[index] = carouselPerfProbe.renderTimes[index];
         result.pixelCounts[index] = carouselPerfProbe.pixelCounts[index];
+        result.submitUs[index] = carouselPerfProbe.submitUs[index];
+        result.waitUs[index] = carouselPerfProbe.waitUs[index];
     }
     const UiRendererTestStats rendererStats = uiRendererGetTestStats();
     result.incrementalRenders = rendererStats.incrementalRenders;
@@ -513,10 +552,12 @@ void printPerfResult(const char *marker, const CarouselPerfResult &result)
     esp_rom_printf("%s DIAG", marker);
     for (uint8_t index = 0; index < result.traceCount; ++index) {
         esp_rom_printf(
-            " [%u:%u/%u]",
+            " [%u:%u/%u s=%lu w=%lu]",
             static_cast<unsigned>(result.gaps[index]),
             static_cast<unsigned>(result.renderTimes[index]),
-            static_cast<unsigned>(result.pixelCounts[index])
+            static_cast<unsigned>(result.pixelCounts[index]),
+            static_cast<unsigned long>(result.submitUs[index]),
+            static_cast<unsigned long>(result.waitUs[index])
         );
     }
     esp_rom_printf("\n");
@@ -588,7 +629,13 @@ void setup()
     testOutput.reset();
     resetLogicTestFailure();
     const bool cleanBeforePure = !lv_is_initialized();
+    esp_rom_printf("SELFTEST STACK before_pure configured=%u highwater=%lu\n",
+                   static_cast<unsigned>(getArduinoLoopTaskStackSize()),
+                   static_cast<unsigned long>(uxTaskGetStackHighWaterMark(nullptr)));
     const bool pureTestsPassed = runPureLogicTests(testOutput);
+    esp_rom_printf("SELFTEST STACK after_pure highwater=%lu pure=%u\n",
+                   static_cast<unsigned long>(uxTaskGetStackHighWaterMark(nullptr)),
+                   pureTestsPassed ? 1U : 0U);
     const bool cleanAfterPure = !lv_is_initialized();
     const bool purePassed = cleanBeforePure && pureTestsPassed && cleanAfterPure;
     testOutput.printf(
@@ -605,8 +652,8 @@ void setup()
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB && CONFIG_IDF_TARGET_ESP32S3
     auto lcdBus = lcd->getBus();
     if (lcdBus->getBasicAttributes().type == ESP_PANEL_BUS_TYPE_RGB) {
-        // The board default is ten rows. Twenty rows is the vendor-prescribed
-        // mitigation when intermittent horizontal scan-line drift remains.
+        // The board default is ten rows. Keep forty rows in internal SRAM so
+        // sustained Wi-Fi/PSRAM traffic cannot starve the RGB scan pipeline.
         static_cast<BusRGB *>(lcdBus)->configRGB_BounceBufferSize(
             lcd->getFrameWidth() * kRgbBounceBufferRows
         );
@@ -622,6 +669,7 @@ void setup()
 
     const uint32_t startedMs = millis();
     appInit(app, startedMs);
+    Serial.printf("GRIDOPOLY_PLAYER_BUILD movement_cue=17 compiled=%s %s\n", __DATE__, __TIME__);
     transport.begin(startedMs);
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP
     remoteTileCacheBegin();
@@ -631,8 +679,7 @@ void setup()
     const bool rendererReady = uiRendererBegin();
     if (rendererReady) {
         const uint32_t renderedMs = millis();
-        uiRendererRender(app, renderedMs);
-        appNotifyFramePresented(app, renderedMs);
+        renderAppFrame(renderedMs);
     }
     lvgl_port_unlock();
     if (!rendererReady) { fault("UI_INIT"); return; }
@@ -702,7 +749,8 @@ void loop()
     InputEvent input{};
     TransportCommand command{};
     TransportEvent transportEvent{};
-    while (hardwareInputPoll(input)) {
+    bool rotaryStepApplied = false;
+    while (!rotaryStepApplied && hardwareInputPoll(input)) {
         const uint8_t beforeCommands = app.commandCount;
         appHandleInput(app, input, nowMs);
         Serial.printf(
@@ -712,6 +760,7 @@ void loop()
             app.authorityOnline ? 1u : 0u, app.boardCatalogCompatible ? 1u : 0u,
             app.pendingCommandMask
         );
+        rotaryStepApplied = input.kind == InputKind::Rotate;
     }
 
     if (lvgl_port_lock(-1)) {
@@ -770,9 +819,8 @@ void loop()
 #endif
 
     if (lvgl_port_lock(-1)) {
-        uiRendererRender(app, nowMs);
+        renderAppFrame(nowMs);
         lvgl_port_unlock();
-        appNotifyFramePresented(app, nowMs);
     }
     delay(2);
 }

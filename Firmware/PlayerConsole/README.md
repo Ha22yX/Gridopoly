@@ -1,6 +1,8 @@
 # Gridopoly Player Console
 
-Arduino firmware skeleton for the 480 x 480 Viewe UEDX48480021-MD80ET ESP32-S3 round display.
+Production Arduino firmware for the 480 x 480 Viewe UEDX48480021-MD80ET ESP32-S3 round display.
+The canonical hardware, orientation, input, rendering, cache, and release summary is
+[current-player-console-baseline.md](../../Docs/player-console/current-player-console-baseline.md).
 
 Production builds default to the Raspberry Pi Wi-Fi/UDP transport. The console joins the
 `gridopoly` access point and sends one existing Gridopoly binary frame per authenticated
@@ -149,8 +151,13 @@ any following rent or debt event even though that compact wire event has no asse
 - Extra-roll presentation is local and idempotent. Same-room resync, reconnect, duplicate
   dice events, or State/GameEvent reordering restores the `ROLL AGAIN` state without
   replaying the reward. A room change or turn advance clears the marker.
-- `AwaitMoveConfirm`: after the result presentation, the console shows the target tile
-  and waits for RFID or the manual `I'M THERE` fallback.
+- `AwaitMoveConfirm`: after the result presentation, the console shows the target tile,
+  keeps `I'M THERE` available at all times, and displays `MOVE PIECE / WAITING FOR TILE`.
+  The console never binds a Tag or infers a position locally. A server-authoritative phase
+  transition, whether caused by RFID or the manual action, first displays
+  `TILE ARRIVAL CONFIRMED` for the same readable checkpoint and then enters the identical
+  purchase, debt, auction, card, or turn-end flow. Duplicate/resync projections do not
+  restart that checkpoint.
 - `AwaitPurchase`: a forced `BUY / AUCTION` decision replaces Home.
 - `AwaitDebt`: when confirmed arrival creates rent or tax debt, a non-escapable
   Card Result-style tile-event page first names the tile, creditor, reason, amount,
