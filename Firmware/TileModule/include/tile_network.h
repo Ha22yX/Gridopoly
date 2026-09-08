@@ -103,7 +103,8 @@ class TileNetworkClient {
  public:
   void begin();
   bool consume(TileNetworkSnapshot &snapshot);
-  void updateTagObservation(TileTagReaderState state,
+  // False means the latest local inventory must be retried; it was not queued.
+  bool updateTagObservation(TileTagReaderState state,
                             const char uids[][9],
                             std::uint8_t count,
                             bool overflow);

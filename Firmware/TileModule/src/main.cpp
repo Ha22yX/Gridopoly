@@ -172,6 +172,7 @@ std::uint8_t gTagMissingEvidence[hitag_s::kMaximumInventoryTags]{};
 std::uint8_t gTagPreferredSampling = 0;
 bool gTagPreferredSamplingValid = false;
 bool gTagUiDirty = false;
+bool gTagNetworkPublishPending = false;
 bool gRfidDebug = false;
 char gSerialLine[64]{};
 std::size_t gSerialLength = 0;
@@ -940,6 +941,15 @@ TileTagReaderState networkTagReaderState(TagStatus status) {
   return TileTagReaderState::Fault;
 }
 
+void publishPendingTagObservation() {
+  if (gTagNetworkPublishPending &&
+      gNetwork.updateTagObservation(networkTagReaderState(gTagStatus),
+                                    gTagUids, gConfirmedTagCount,
+                                    gConfirmedTagOverflow)) {
+    gTagNetworkPublishPending = false;
+  }
+}
+
 void publishTagInventory(TagStatus status, const hitag_s::UidSet *tags,
                          std::uint8_t sampling,
                          std::uint8_t confirmations) {
@@ -1037,9 +1047,11 @@ void publishTagInventory(TagStatus status, const hitag_s::UidSet *tags,
   gConfirmedTagOverflow = next_overflow;
   gTagStatus = effective_status;
   if (changed) {
-    gNetwork.updateTagObservation(networkTagReaderState(gTagStatus),
-                                  gTagUids, gConfirmedTagCount,
-                                  gConfirmedTagOverflow);
+    // Local display state may advance even when the network mutex is busy.
+    // Retry the latest complete inventory until it is accepted; an identical
+    // later scan must not suppress a failed publication permanently.
+    gTagNetworkPublishPending = true;
+    publishPendingTagObservation();
 
     gTagUiDirty = true;
     const char *state = effective_status == TagStatus::Present
@@ -1978,7 +1990,7 @@ void setup() {
   renderLedScene(now);
 
   Serial.println();
-  Serial.println(F("GRIDOPOLY TILE MODULE V0.27 - TAG PLAYER LINK"));
+  Serial.println(F("GRIDOPOLY TILE MODULE V0.28 - TAG REPORT RETRY"));
   Serial.println(F("RS485 and ORDER remain disabled; server assignment uses Wi-Fi/HTTP."));
   printHelp();
   printStatus();
@@ -1987,6 +1999,7 @@ void setup() {
 void loop() {
   const std::uint32_t now = millis();
   pollSerial();
+  publishPendingTagObservation();
   if (static_cast<std::uint32_t>(now - gLastHtrcSafeRewriteMs) >=
       kHtrcSafeRewritePeriodMs) {
     gLastHtrcSafeRewriteMs = now;

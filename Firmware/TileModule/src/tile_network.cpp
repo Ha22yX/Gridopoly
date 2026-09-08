@@ -295,11 +295,11 @@ bool TileNetworkClient::consume(TileNetworkSnapshot &snapshot) {
   return changed;
 }
 
-void TileNetworkClient::updateTagObservation(TileTagReaderState state,
+bool TileNetworkClient::updateTagObservation(TileTagReaderState state,
                                              const char uids[][9],
                                              std::uint8_t count,
                                              bool overflow) {
-  if (mutex_ == nullptr) return;
+  if (mutex_ == nullptr) return false;
   const std::uint8_t normalized_count =
       state == TileTagReaderState::Stable
           ? static_cast<std::uint8_t>(
@@ -308,7 +308,7 @@ void TileNetworkClient::updateTagObservation(TileTagReaderState state,
   const bool normalized_overflow =
       state == TileTagReaderState::Stable && overflow;
   auto mutex = reinterpret_cast<SemaphoreHandle_t>(mutex_);
-  if (xSemaphoreTake(mutex, pdMS_TO_TICKS(20)) != pdTRUE) return;
+  if (xSemaphoreTake(mutex, pdMS_TO_TICKS(20)) != pdTRUE) return false;
   bool changed = observed_tags_.state != state ||
                  observed_tags_.count != normalized_count ||
                  observed_tags_.overflow != normalized_overflow;
@@ -334,6 +334,7 @@ void TileNetworkClient::updateTagObservation(TileTagReaderState state,
     }
   }
   xSemaphoreGive(mutex);
+  return true;
 }
 
 TileTagObservation TileNetworkClient::tagObservation() {
