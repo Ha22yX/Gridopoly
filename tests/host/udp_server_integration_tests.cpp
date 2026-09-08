@@ -18,6 +18,7 @@
 #include <gridopoly/core/BoardCatalog.h>
 #include <gridopoly/core/GameEngine.h>
 
+#include "settlement_assertions.h"
 #include "../../Server/RaspberryPi/src/AuthorityService.h"
 #include "../../Server/RaspberryPi/src/FileStateStore.h"
 #include "../../Server/RaspberryPi/src/UdpPlayerServer.h"
@@ -133,6 +134,52 @@ bool receiveType(Client& client, int descriptor, MessageType type, Received& out
     }
   }
   return false;
+}
+
+// Re-pair the same physical device from a new UDP endpoint. The caller chooses
+// whether this is a transport reconnect (same boot nonce) or a device reboot.
+StateSnapshot rePair(Client& client, std::uint16_t port, bool newBoot,
+                     bool expectNewSession) {
+  const auto oldSocket = client.socket;
+  const auto oldSession = client.sessionId;
+  client.socket = openClient();
+  client.server.sin_port = htons(port);
+  if (newBoot) ++client.nonce;
+  PairRequest request{};
+  request.deviceNonce = client.nonce;
+  request.capabilities = 1;
+  std::uint8_t bytes[kMaxPayloadSize]{};
+  std::size_t length = 0;
+  assert(encodePairRequest(request, bytes, sizeof(bytes), length));
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::PairRequest, bytes, length, true));
+  Received received{};
+  assert(receiveType(client, client.socket, MessageType::PairAccept, received, 1500, true));
+  PairAccept accepted{};
+  assert(decodePairAccept(received.payload.data(), received.payloadLength, accepted));
+  assert(accepted.accepted == 1 && accepted.seatId == 1 && accepted.sessionId != 0);
+  assert((accepted.sessionId != oldSession) == expectNewSession);
+  client.sessionId = accepted.sessionId;
+  deriveUdpSessionKey(client.pairKey, accepted.serverDeviceId, client.deviceId,
+                      client.nonce, client.roomId, client.sessionId, client.sessionKey);
+  assert(receiveOne(client, client.socket, received, 1500));
+  assert(received.header.type == MessageType::IdentitySnapshot);
+  IdentitySnapshot identity{};
+  assert(decodeIdentitySnapshot(received.payload.data(), received.payloadLength, identity));
+  assert(identity.selfPlayerId == 1 && identity.roomPhase == IdentityRoomPhase::Active);
+  StateSnapshot snapshot{};
+  assert(receiveType(client, client.socket, MessageType::StateSnapshot, received, 1500));
+  assert(decodeStateSnapshot(received.payload.data(), received.payloadLength, snapshot));
+  AuthoritySnapshot authority{};
+  assert(receiveType(client, client.socket, MessageType::AuthoritySnapshot, received, 1500));
+  assert(decodeAuthoritySnapshot(received.payload.data(), received.payloadLength, authority));
+  RosterSnapshot roster{};
+  assert(receiveType(client, client.socket, MessageType::RosterSnapshot, received, 1500));
+  assert(decodeRosterSnapshot(received.payload.data(), received.payloadLength, roster));
+  assert(snapshot.seatId == 1 && snapshot.stateVersion == authority.stateVersion &&
+         snapshot.stateVersion == roster.stateVersion);
+  ::close(oldSocket);
+  return snapshot;
 }
 
 bool receiveEventStream(Client& client, EventStream& stream,
@@ -596,6 +643,19 @@ int main() {
   assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
   assert(authority.stateVersion() == afterRoll);
 
+  // Recover the transport during an unfinished move, before the display gate
+  // is released. Same-boot pairing keeps its session, seat, dice and target.
+  const auto beforeReconnect = authority.stateCopy();
+  const auto reconnectProjection = rePair(client, server.port(), false, false);
+  assert(reconnectProjection.phase == 2);
+  assert(reconnectProjection.pendingTarget == beforeReconnect.pendingMove.target);
+  assert(authority.stateVersion() == beforeReconnect.stateVersion);
+  assert(authority.stateCopy().pendingMove.origin == beforeReconnect.pendingMove.origin);
+  assert(authority.stateCopy().pendingMove.dieA == beforeReconnect.pendingMove.dieA);
+  assert(authority.stateCopy().pendingMove.dieB == beforeReconnect.pendingMove.dieB);
+  assert(!authority.movementCueGateState().ready);
+  assertSettlementUnchanged(beforeReconnect, authority.stateCopy());
+
   const auto waitingForMovementCue = authority.stateCopy();
   assert(waitingForMovementCue.phase == gridopoly::core::GamePhase::AwaitMoveConfirm);
   assert(!authority.movementCueGateState().ready);
@@ -749,8 +809,80 @@ int main() {
 
   ::close(migratedSocket);
   ::close(second.socket);
-  ::close(client.socket);
+
+  // A new boot nonce replaces the session while preserving the already
+  // released move. A server transport restart then reloads the device/seat
+  // registry, keeping the same room and pending move with a new session key.
+  const auto releasedMove = authority.stateCopy();
+  const auto rebootProjection = rePair(client, server.port(), true, true);
+  assert(rebootProjection.pendingTarget == releasedMove.pendingMove.target);
+  assert(authority.movementCueReadyFor(authority.stateCopy()));
+  assert(authority.stateCopy().players[0].position == releasedMove.pendingMove.origin);
   server.stop();
+  gridopoly::pi::UdpPlayerServer restarted(authority, psk, temporary / "registry.bin",
+                                           "127.0.0.1", "127.255.255.255", 0);
+  assert(restarted.start());
+  const auto restoredProjection = rePair(client, restarted.port(), false, true);
+  assert(restoredProjection.pendingTarget == releasedMove.pendingMove.target);
+  assert(authority.roomId() == client.roomId);
+  assert(authority.movementCueReadyFor(authority.stateCopy()));
+  assert(authority.stateCopy().pendingMove.dieA == releasedMove.pendingMove.dieA);
+  assert(authority.stateCopy().pendingMove.dieB == releasedMove.pendingMove.dieB);
+
+  assertSettlementUnchanged(releasedMove, authority.stateCopy());
+
+  // The new session has no old action cache. Semantic Action17 idempotence
+  // must still hold; then a lost Confirm response is retried after a newer
+  // heartbeat, without a second movement, settlement, cash change or event.
+  movementCueReady.expectedStateVersion = authority.stateVersion();
+  assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::ActionRequest, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+  assert(received.payload[1] == 0);
+  const auto preConfirm = authority.stateCopy();
+  ActionRequest confirm{ActionCode::ConfirmPosition, 1, 0xFF,
+                        preConfirm.pendingMove.target, preConfirm.stateVersion};
+  assert(encodeActionRequest(confirm, payload, sizeof(payload), payloadLength));
+  const auto confirmSequence = client.frameSequence;
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::ActionRequest, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+  assert(received.payload[1] == 0);
+  const auto settled = authority.stateCopy();
+  assert(settled.stateVersion == preConfirm.stateVersion + 1);
+  assert(!settled.pendingMove.active && !authority.movementCueGateState().active);
+  heartbeat.appliedStateVersion = settled.stateVersion;
+  heartbeat.appliedEventSequence = authority.latestEventSequence();
+  assert(encodeHeartbeat(heartbeat, payload, sizeof(payload), payloadLength));
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::Heartbeat, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::Ack, received, 1000));
+  for (int retry = 0; retry < 3; ++retry) {
+    assert(encodeActionRequest(confirm, payload, sizeof(payload), payloadLength));
+    sendDatagram(client.socket, client.server,
+        makeDatagram(client, MessageType::ActionRequest, payload, payloadLength,
+                     false, confirmSequence));
+    assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+    assert(received.payload[1] == 0 && received.header.acknowledgement == confirmSequence);
+    assertSettlementUnchanged(settled, authority.stateCopy());
+    assert(authority.stateVersion() == settled.stateVersion);
+    assert(authority.stateCopy().nextEventSequence == settled.nextEventSequence);
+    assert(authority.stateCopy().players[0].cash == settled.players[0].cash);
+  }
+  // Even a fresh request with the current version cannot settle the move again.
+  confirm.expectedStateVersion = settled.stateVersion;
+  assert(encodeActionRequest(confirm, payload, sizeof(payload), payloadLength));
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::ActionRequest, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+  assert(received.payload[1] != 0);
+  assert(authority.stateVersion() == settled.stateVersion);
+  assert(authority.stateCopy().nextEventSequence == settled.nextEventSequence);
+  assert(authority.stateCopy().players[0].cash == settled.players[0].cash);
+  assertSettlementUnchanged(settled, authority.stateCopy());
+  ::close(client.socket);
+  restarted.stop();
   assert(authority.flush());
   std::filesystem::remove_all(temporary);
   std::cout << "GRIDOPOLY_UDP_SERVER_INTEGRATION_TESTS_PASS\n";

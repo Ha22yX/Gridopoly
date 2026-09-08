@@ -18,6 +18,7 @@
 #include <vector>
 #include <thread>
 
+#include "settlement_assertions.h"
 #include "../../Server/RaspberryPi/src/AuthorityService.h"
 #include "../../Server/RaspberryPi/src/FileStateStore.h"
 #include "../../Server/RaspberryPi/src/HttpServer.h"
@@ -615,18 +616,34 @@ int main() {
       std::to_string(waitingForTag.stateVersion)) != std::string::npos);
   assert(authority.stateVersion() == waitingForTag.stateVersion);
 
+  // Disconnect/reconnect while the destination Tag remains held. The new
+  // authority version must not discard the pending move or admit RFID early.
+  authority.setConsoleConnected(1, true);
+  authority.setConsoleConnected(1, false);
+  authority.setConsoleConnected(1, true);
+  const auto reconnectedForTag = authority.stateCopy();
+  assertSettlementUnchanged(waitingForTag, reconnectedForTag);
+  assert(!authority.movementCueGateState().ready);
+  const auto heldBeforeReady = postJson(http.port(),
+      "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":19,"
+      "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
+  assert(heldBeforeReady.status == 200);
+  assert(authority.stateVersion() == reconnectedForTag.stateVersion);
+  assertSettlementUnchanged(reconnectedForTag, authority.stateCopy());
+
   // The player console releases LEDs and RFID only after its dice result and
   // first MoveGuide frame have actually been presented.
   assert(authority.execute(gridopoly::protocol::ActionCode::MovementCueReady,
                            1, 0xFF, waitingForTag.pendingMove.target,
-                           waitingForTag.stateVersion));
-  assert(authority.stateVersion() == waitingForTag.stateVersion);
+                           reconnectedForTag.stateVersion));
+  assert(authority.stateVersion() == reconnectedForTag.stateVersion);
   const auto releasedDeparture = post(http.port(),
       "/api/tile-modules/heartbeat?moduleId=module-a&deviceId=device-a");
   assert(releasedDeparture.status == 200);
   assert(bodyText(releasedDeparture).find(
       "\"movementCue\":{\"mode\":\"departure\",\"playerId\":1,\"revision\":" +
-      std::to_string(waitingForTag.stateVersion)) != std::string::npos);
+      std::to_string(reconnectedForTag.stateVersion)) != std::string::npos);
 
   // The tag was already stable while the gate was closed. An unchanged
   // full report must be re-evaluated after readiness, without a new tag edge.
@@ -636,7 +653,7 @@ int main() {
       "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
   assert(arrived.status == 200);
   const auto arrivedState = authority.stateCopy();
-  assert(arrivedState.stateVersion == waitingForTag.stateVersion + 1);
+  assert(arrivedState.stateVersion == reconnectedForTag.stateVersion + 1);
   assert(!arrivedState.pendingMove.active);
   assert(arrivedState.players[0].position == 7);
   assert(bodyText(arrived).find(
@@ -649,9 +666,24 @@ int main() {
       "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
   assert(duplicateArrival.status == 200);
   assert(authority.stateVersion() == arrivedState.stateVersion);
+  assertSettlementUnchanged(arrivedState, authority.stateCopy());
+  // Repeated scans can change their inventory revision without becoming a new
+  // arrival transaction. Also reject fresh manual/cue requests after arrival.
+  for (unsigned revision = 20; revision < 23; ++revision) {
+    assert(postJson(http.port(),
+        "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
+        "{\"tagReaderState\":\"stable\",\"tagRevision\":" + std::to_string(revision) +
+        ",\"tags\":[\"8EFA259D\",\"8EFA259D\"],\"overflow\":false}").status == 200);
+    assert(!authority.execute(gridopoly::protocol::ActionCode::ConfirmPosition,
+                              1, 0xFF, 7, authority.stateVersion()));
+    assert(!authority.execute(gridopoly::protocol::ActionCode::MovementCueReady,
+                              1, 0xFF, 7, authority.stateVersion()));
+    assertSettlementUnchanged(arrivedState, authority.stateCopy());
+    assert(authority.stateVersion() == arrivedState.stateVersion);
+  }
   assert(postJson(http.port(),
       "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
-      "{\"tagReaderState\":\"stable\",\"tagRevision\":21,"
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":23,"
       "\"tags\":[\"XYZ\"],\"overflow\":false}").status == 400);
 
   const auto bindingRevision = authority.tagBindingRevision();

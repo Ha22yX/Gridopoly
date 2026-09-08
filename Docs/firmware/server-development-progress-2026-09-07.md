@@ -252,3 +252,36 @@ Pi相对Windows时钟超前2333–2522ms，是本轮189ms SSH往返取得的界�
 原始证据均在C:/Users/kicof/AppData/Local/Temp：gridopoly-joint-20260908-2208-http.jsonl、gridopoly-joint-20260908-2208-udp.log；派生完整状态转折文件gridopoly-joint-20260908-2208-observed-transitions.json保留前一个样本时间及首次变化完整样本。文件前缀2208代表主任务通知时段，准确开始/结束以上述epoch为准。
 
 主会话已要求删除gridopoly定时任务，AGENTS/协调文档已更新，本端不重建或替代。当前窗口结束即交付主会话审核提交本报告，临时日志不进Git，不自行续开采集或唤醒其他端空转。剩余现场协调及缺失验收由主会话负责；本次证据增加不等于全功能或性能验收完成。
+
+## 2026-09-08 新一轮：断线恢复与重复到达回归（隔离验证已完成）
+
+用户已确认此前目标灯/Tag自动到达正常，本轮不重开旧症状。新范围为玩家断线后保留席位和移动状态、Tag预放或重复识别不重复结算。服务器端只修改测试、取证辅助工具及本报告；未发现需要修改服务端生产业务代码的问题，未重新部署服务端。
+
+原有覆盖已包括：held Tag相同完整inventory/revision在gate开启后重评估、重复到达拒绝、闸门blocked/ready持久化、同移动connection-only版本变化保留gate、UDP普通动作/Action17缓存重放、boot nonce变化重用席位。本轮补交叉场景及有实际财务副作用的证据：
+
+- `authority_persistence_tests.cpp`：新增6个组合。经过Start实际获得一次startAward、费用70形成债务后显式PayDebt扣款、cash20形成未清70债务；每种分别Tag先确认和手动Confirm先确认。跨blocked/released/settled三阶段重建AuthorityService，保留room、绑定UID、目标及gate；连接状态变化不改变待移动业务。重启后重复零/旧/当前版本的Tag/Confirm/Action17/PayDebt不得再次结算。
+- `udp_server_integration_tests.cpp`：真实127.0.0.1/动态端口HMAC UDP在blocked时同nonce换endpoint重配对保持同session/seat/骰子/目标；ready时新nonce替换session；停止并新建隔离UDP server重读设备席位registry仍保留pendingMove。新session无原action cache时重复Action17仍语义幂等；Confirm成功后让更新heartbeat越过，再3次旧inner序号/新outer包重放，均返原ACK而不二次执行；当前版本新Confirm也拒绝重复结算。
+- `http_asset_integration_tests.cpp`：Tag始终预放、inventory revision19不变，跨断连/重连引起的版本变化仍先被gate阻挡，gate释放后只到达一次；随后revision20/21/22重复完整集合（含重复UID）不能重开结算，晚到的Confirm/Action17也不改变业务。后续非法UID请求revision改为23，避免无意回退。
+- 新 `tests/host/settlement_assertions.h`：共同核对所有玩家cash/position/bankrupt、所有资产owner/building/mortgage、完整pendingDebt、phase/active player/RNG、eventHead/eventCount/nextEventSequence及全部event内容。连接字段与stateVersion可因真实重连合法变化，调用方另检查应保持或递增的版本。
+
+Pi独立快照 `/home/kicofy/gridopoly-recovery-20260908.BnkLMn`：从此前隔离快照保留资产，再同步121个当前编译输入源码/测试文件；不使用生产数据、端口或registry。`recovery-focused.sh`用g++ C++17 -O2 -Wall -Wextra -Werror -pthread、asserts开启编译并执行authority_persistence、udp_server_integration、http_asset_integration三个完整目标，全部PASS/exit0。日志 `C:/Users/kicof/AppData/Local/Temp/gridopoly-recovery-20260908-focused-v2.log`。
+
+首跑失败保留在focused.log：新增费用用例错误假设真人到格自动扣款。检查GameEngine::transferPayment确认真人无论现金是否足够都先开AwaitDebt，因此按真实规则改为显式PayDebt后验证扣70；未修改生产规则来适配测试。此修正后6个组合和三个完整目标均通过。首次通过并不重复冒称本轮跑过其他全部native目标或设备SelfTest。
+
+### 可恢复单设备UDP中断工具
+
+新增 `Server/RaspberryPi/tools/interrupt-player-udp.py`，默认只打印准备信息/规则，只有显式 `--apply`执行。限制玩家地址10.42.0.0/24内且排除网关/网络/广播，端口固定4242，时长1–60秒默认40；核验当前IP/MAC邻居且拒绝FAILED/INCOMPLETE。每次唯一nft inet表、拒绝已有同名表，规则仅匹配ap0+玩家IP+UDP4242两个方向。带timeout的set元素由内核在40秒后失效，即进程SIGKILL也恢复流量；finally查询精确唯一表并删除，覆盖apply已提交但Python尚未返回的异常竞态，清理后重新列出表验证已消失。没有修改AP永久配置、房间/Tag/assignment或其他设备规则。
+
+新增 `test-interrupt-player-udp.py --netns`仅在新空network namespace运行，先检查namespace不同于父进程且只有loopback，创建隔离dummy接口和邻居。实测PASS：默认dryrun、参数保护、IP/MAC匹配保护、只有目标地址增加drop计数、正常清理、SIGTERM finally清理、真实nft apply成功后立即抛异常清理，以及SIGKILL后内核到期且后续目标发包不再计入drop。日志 `gridopoly-recovery-20260908-probe-netns-v3.log`；Pi宿主nft表仍为空。初次测试遇到local-output DROP向发送socket返回EPERM，已在测试中按预期处理并继续检查内核计数；不是权限扩大或生产网络故障。
+
+### 实机窗口交接（尚未执行）
+
+主任务已认可正常优化候选就绪后的单次窗口：120秒总观察（15秒基线/40秒UDP阻断/65秒恢复），正常通信确认恢复后再单独90秒观察中执行一次 `iw dev ap0 station del dc:b4:d9:02:d1:dc`，验证基本WiFi断关联和自动重关联。第二个操作是现有watchdog使用的单站删除，不设置拒绝列表、不重启AP；短断线不能冒称触发30秒recoverWifi分支。
+
+玩家屏仍负责COM7和候选烧录，双方已商定不与SelfTest/烧录撞窗口；本端尚未在宿主AP执行丢包规则或station del。实际开始前重读玩家在线/IP/MAC、房间与席位；保留完整sync的cash/debt/assets/events前中后快照、HTTP gate/位置/版本、UDP会话/心跳、AP日志及设备ms事件。阻断期间服务端UDP发送可能因nft output DROP出现预期txErrors，应与测试区间关联，不当作无关回归。
+
+最近只读准备快照room993580098/v214/phase6，P1 connected/cash262/position0；v212→214可以由断连/重连各+1引起，未归为SelfTest注入。主任务另报告COM6已V0.29，烧录跨租约后已恢复CARD-CF-1/map2/manual/revision15；记录已知租约行为，不扩大本轮修改分配协议。此前ded137为当前正常玩家固件交接基线，优化候选正式就绪仍以玩家屏新消息为准。
+
+剩余：玩家屏完成正常优化候选后通知双方，主任务安排上述两段实机验证；当前线上phase6无pendingMove，不注入掷骰，移动保留场景由上述隔离真实UDP/native证据覆盖。测试/工具准备完成不等于实机断线恢复已验收。主任务统一Git，待提交范围为本节涉及3个cpp、1个断言header、2个Python工具及本报告；临时日志/快照不提交。无定时任务，不重建。
+
+最终审核补强：test-interrupt-player-udp.py 的三项命名空间安全前置条件（与父namespace不同、接口仅lo、初始nft表空）均改为显式if/raise RuntimeError，不依赖可被python -O删除的assert。已用Pi python3 -O传入当前namespace，并将所有外部命令入口替换为失败哨兵：在首个namespace检查即拒绝，external commands=0；随后正常隔离netns全部场景再次PASS。最终日志为C:/Users/kicof/AppData/Local/Temp/gridopoly-recovery-20260908-probe-netns-v4.log。本次只修改测试保护和报告，不执行宿主网络中断。

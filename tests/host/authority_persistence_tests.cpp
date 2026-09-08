@@ -10,6 +10,7 @@
 #include <unistd.h>
 #endif
 
+#include "settlement_assertions.h"
 #include "../../Server/RaspberryPi/src/AuthorityService.h"
 #include "../../Server/RaspberryPi/src/FileStateStore.h"
 
@@ -380,6 +381,129 @@ int main() {
       assert(restored.execute(ActionCode::ConfirmPosition, 1, 0xFF,
                               gateTarget, waiting.stateVersion));
       assert(!restored.movementCueGateState().active);
+    }
+  }
+
+  // Financial witnesses across blocked/released/settled restarts. Exercise
+  // both winners of the manual-vs-Tag race: pass Start once, pay a fee once,
+  // or create one unresolved debt when cash is insufficient.
+  for (int scenario = 0; scenario < 3; ++scenario) {
+    for (bool manualFirst : {false, true}) {
+      const auto stem = "arrival-recovery-" + std::to_string(scenario) +
+                        (manualFirst ? "-manual" : "-tag");
+      const auto statePath = temporary / (stem + ".bin");
+      const auto metaPath = temporary / (stem + ".meta");
+      constexpr std::uint32_t uid = 0x8EFA259Du;
+      const std::uint8_t target = scenario == 0 ? 0 : 14;
+      GameState seeded{};
+      std::uint32_t room = 0;
+      {
+        gridopoly::pi::AuthorityService fixture(statePath, metaPath, 0x71A2B3C4u);
+        assert(fixture.initialize());
+        assert(fixture.newGame(16, 1));
+        assert(fixture.setPlayerTagBinding(1, uid, fixture.tagBindingRevision()));
+        seeded = fixture.stateCopy();
+        seeded.players[0].position = scenario == 0 ? 13 : 6;
+        seeded.players[0].cash = scenario == 2 ? 20 : 1000;
+        // Preserve non-empty ownership data as an additional invariant.
+        seeded.assets[0].ownerId = 2;
+        room = fixture.roomId();
+      }
+      gridopoly::pi::FileStateStore store(statePath);
+      assert(store.save(seeded));
+      GameState blocked{};
+      {
+        gridopoly::pi::AuthorityService fixture(statePath, metaPath, 0);
+        assert(fixture.initialize());
+        assert(fixture.setForcedRollTarget(1, target, fixture.stateVersion()));
+        assert(fixture.execute(ActionCode::Roll, 1, 0xFF, 0, fixture.stateVersion()));
+        blocked = fixture.stateCopy();
+        assert(blocked.pendingMove.active && !fixture.movementCueGateState().ready);
+        assert(!fixture.confirmTaggedArrival(1, uid, target, blocked.stateVersion));
+        assertSettlementUnchanged(blocked, fixture.stateCopy());
+        assert(fixture.flush());
+      }
+      GameState released{};
+      {
+        gridopoly::pi::AuthorityService fixture(statePath, metaPath, 0);
+        assert(fixture.initialize());
+        assert(fixture.roomId() == room);
+        assertSettlementUnchanged(blocked, fixture.stateCopy());
+        assert(!fixture.movementCueGateState().ready);
+        assert(fixture.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                               target, fixture.stateVersion()));
+        released = fixture.stateCopy();
+        for (int duplicate = 0; duplicate < 3; ++duplicate) {
+          assert(fixture.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                                 target, fixture.stateVersion()));
+          assertSettlementUnchanged(released, fixture.stateCopy());
+          assert(fixture.stateVersion() == released.stateVersion);
+        }
+        assert(fixture.flush());
+      }
+      GameState settled{};
+      {
+        gridopoly::pi::AuthorityService fixture(statePath, metaPath, 0);
+        assert(fixture.initialize());
+        assert(fixture.roomId() == room);
+        assertSettlementUnchanged(released, fixture.stateCopy());
+        assert(fixture.movementCueReadyFor(fixture.stateCopy()));
+        fixture.setConsoleConnected(1, true);
+        fixture.setConsoleConnected(1, false);
+        fixture.setConsoleConnected(1, true);
+        assert(fixture.movementCueReadyFor(fixture.stateCopy()));
+        assertSettlementUnchanged(released, fixture.stateCopy());
+        const auto before = fixture.stateVersion();
+        if (manualFirst) {
+          assert(fixture.execute(ActionCode::ConfirmPosition, 1, 0xFF, target, before));
+        } else {
+          assert(fixture.confirmTaggedArrival(1, uid, target, before));
+        }
+        settled = fixture.stateCopy();
+        assert(settled.stateVersion == before + 1);
+        assert(!settled.pendingMove.active && !fixture.movementCueGateState().active);
+        assert(settled.players[0].position == target);
+        if (scenario == 0) {
+          assert(settled.players[0].cash == seeded.players[0].cash + seeded.board->startAward);
+          assert(!settled.pendingDebt.active);
+        } else if (scenario == 1) {
+          // Human fees first open a payable debt, even with sufficient cash.
+          assert(settled.players[0].cash == seeded.players[0].cash);
+          assert(settled.pendingDebt.active && settled.pendingDebt.amount == 70);
+          assert(!fixture.confirmTaggedArrival(1, uid, target, fixture.stateVersion()));
+          assert(!fixture.execute(ActionCode::ConfirmPosition, 1, 0xFF,
+                                  target, fixture.stateVersion()));
+          assertSettlementUnchanged(settled, fixture.stateCopy());
+          assert(fixture.execute(ActionCode::PayDebt, 1, 0xFF, 0, fixture.stateVersion()));
+          settled = fixture.stateCopy();
+          assert(settled.players[0].cash == seeded.players[0].cash - 70);
+          assert(!settled.pendingDebt.active);
+        } else {
+          assert(settled.players[0].cash == 20);
+          assert(settled.pendingDebt.active && settled.pendingDebt.amount == 70);
+          assert(settled.phase == GamePhase::AwaitDebt);
+        }
+        assert(!fixture.confirmTaggedArrival(1, uid, target, before));
+        assert(!fixture.execute(ActionCode::ConfirmPosition, 1, 0xFF, target, before));
+        assertSettlementUnchanged(settled, fixture.stateCopy());
+        assert(fixture.flush());
+      }
+      {
+        gridopoly::pi::AuthorityService fixture(statePath, metaPath, 0);
+        assert(fixture.initialize());
+        assert(fixture.roomId() == room);
+        assert(fixture.playerTagBindings().playerTagUids[0] == uid);
+        assertSettlementUnchanged(settled, fixture.stateCopy());
+        const auto restoredVersion = fixture.stateVersion();
+        for (const auto version : {std::uint32_t{0}, released.stateVersion, restoredVersion}) {
+          assert(!fixture.confirmTaggedArrival(1, uid, target, version));
+          assert(!fixture.execute(ActionCode::ConfirmPosition, 1, 0xFF, target, version));
+          assert(!fixture.execute(ActionCode::MovementCueReady, 1, 0xFF, target, version));
+          assert(!fixture.execute(ActionCode::PayDebt, 1, 0xFF, 0, version));
+          assertSettlementUnchanged(settled, fixture.stateCopy());
+          assert(fixture.stateVersion() == restoredVersion);
+        }
+      }
     }
   }
 
