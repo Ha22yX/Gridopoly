@@ -628,9 +628,11 @@ int main() {
       "\"movementCue\":{\"mode\":\"departure\",\"playerId\":1,\"revision\":" +
       std::to_string(waitingForTag.stateVersion)) != std::string::npos);
 
+  // The tag was already stable while the gate was closed. An unchanged
+  // full report must be re-evaluated after readiness, without a new tag edge.
   const auto arrived = postJson(http.port(),
       "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
-      "{\"tagReaderState\":\"stable\",\"tagRevision\":20,"
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":19,"
       "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
   assert(arrived.status == 200);
   const auto arrivedState = authority.stateCopy();
@@ -643,7 +645,7 @@ int main() {
 
   const auto duplicateArrival = postJson(http.port(),
       "/api/tile-modules/heartbeat?moduleId=module-b&deviceId=device-b",
-      "{\"tagReaderState\":\"stable\",\"tagRevision\":20,"
+      "{\"tagReaderState\":\"stable\",\"tagRevision\":19,"
       "\"tags\":[\"8EFA259D\"],\"overflow\":false}");
   assert(duplicateArrival.status == 200);
   assert(authority.stateVersion() == arrivedState.stateVersion);

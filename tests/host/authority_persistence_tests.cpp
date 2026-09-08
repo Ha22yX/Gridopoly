@@ -254,6 +254,23 @@ int main() {
       assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
                                 static_cast<std::uint8_t>(waiting.pendingMove.target + 1u),
                                 waiting.stateVersion));
+      // Invalid versions, seats and field shapes cannot release the gate.
+      for (const auto version : {waiting.stateVersion - 1u, waiting.stateVersion + 1u}) {
+        assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                                  waiting.pendingMove.target, version));
+      }
+      for (const auto playerId : {std::uint8_t{0}, std::uint8_t{2}, std::uint8_t{7}}) {
+        assert(!authority.execute(ActionCode::MovementCueReady, playerId, 0xFF,
+                                  waiting.pendingMove.target, waiting.stateVersion));
+      }
+      assert(!authority.execute(ActionCode::MovementCueReady, 1, 0,
+                                waiting.pendingMove.target, waiting.stateVersion));
+      for (const auto target : {-1, 256}) {
+        assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                                  target, waiting.stateVersion));
+      }
+      assert(!authority.movementCueGateState().ready);
+      assert(authority.stateVersion() == waiting.stateVersion);
       assert(authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
                                waiting.pendingMove.target, waiting.stateVersion));
       assert(authority.stateVersion() == waiting.stateVersion);
@@ -282,6 +299,9 @@ int main() {
       assert(after.stateVersion == waiting.stateVersion + 1);
       assert(!after.pendingMove.active);
       assert(!authority.movementCueGateState().active);
+      assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF,
+                                waiting.pendingMove.target, after.stateVersion));
+      assert(authority.stateVersion() == after.stateVersion);
       assert(after.players[0].position == waiting.pendingMove.target);
       const auto duplicateArrival = authority.confirmTaggedArrival(
           1, firstTag, waiting.pendingMove.target, waiting.stateVersion);
@@ -379,6 +399,40 @@ int main() {
                              waiting.pendingMove.target, waiting.stateVersion));
     assert(!authority.stateCopy().pendingMove.active);
     assert(!authority.movementCueGateState().active);
+  }
+
+  // Connection-only version changes preserve a released movement; a new room
+  // must discard readiness even if it reuses the same player and destination.
+  {
+    gridopoly::pi::AuthorityService authority(
+        temporary / "movement-lifecycle-state.bin",
+        temporary / "movement-lifecycle-authority.meta", 0x51A2B3C5u);
+    assert(authority.initialize());
+    assert(authority.newGame(16, 1));
+    assert(authority.setForcedRollTarget(1, 7, authority.stateVersion()));
+    assert(authority.execute(ActionCode::Roll, 1, 0xFF, 0, authority.stateVersion()));
+    const auto waiting = authority.stateCopy();
+    assert(authority.execute(ActionCode::MovementCueReady, 1, 0xFF, 7,
+                             waiting.stateVersion));
+    authority.setConsoleConnected(1, false);
+    authority.setConsoleConnected(1, true);
+    const auto reconnected = authority.stateCopy();
+    assert(reconnected.stateVersion != waiting.stateVersion);
+    assert(authority.movementCueReadyFor(reconnected));
+    assert(!authority.execute(ActionCode::MovementCueReady, 1, 0xFF, 7,
+                              waiting.stateVersion));
+    assert(authority.execute(ActionCode::MovementCueReady, 1, 0xFF, 7,
+                             reconnected.stateVersion));
+    assert(authority.stateVersion() == reconnected.stateVersion);
+    const auto previousRoom = authority.roomId();
+    assert(authority.newGame(16, 1));
+    assert(authority.roomId() != previousRoom);
+    assert(!authority.movementCueGateState().active);
+    assert(authority.setForcedRollTarget(1, 7, authority.stateVersion()));
+    assert(authority.execute(ActionCode::Roll, 1, 0xFF, 0, authority.stateVersion()));
+    const auto newGate = authority.movementCueGateState();
+    assert(newGate.active && !newGate.ready && newGate.targetTile == 7);
+    assert(!authority.movementCueReadyFor(authority.stateCopy()));
   }
 
   // A web-admin destination override uses real dice, remains separate from

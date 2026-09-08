@@ -603,6 +603,17 @@ int main() {
       ActionCode::MovementCueReady, 1, 0xFF,
       waitingForMovementCue.pendingMove.target, afterRoll};
   assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
+  // An authenticated P1 session cannot release a movement as another seat.
+  auto forgedMovementCue = movementCueReady;
+  forgedMovementCue.playerId = 2;
+  assert(encodeActionRequest(forgedMovementCue, payload, sizeof(payload), payloadLength));
+  sendDatagram(client.socket, client.server,
+      makeDatagram(client, MessageType::ActionRequest, payload, payloadLength, false));
+  assert(receiveType(client, client.socket, MessageType::ActionResult, received, 1000));
+  assert(received.payload[1] == static_cast<std::uint8_t>(gridopoly::core::ErrorCode::InvalidPlayer));
+  assert(!authority.movementCueGateState().ready);
+  assert(authority.stateVersion() == afterRoll);
+  assert(encodeActionRequest(movementCueReady, payload, sizeof(payload), payloadLength));
   const auto movementCueSequence = client.frameSequence;
   auto movementCueDatagram = makeDatagram(client, MessageType::ActionRequest,
                                            payload, payloadLength, false);
