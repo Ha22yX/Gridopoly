@@ -16,3 +16,9 @@
 /*.obj
 **/__pycache__/
 *.pyc
+
+# Local tile firmware credentials and build output
+/Firmware/TileModule/config/secrets.local.h
+/Firmware/TileModule/build/
+/Firmware/TileModuleTests/**/build/
+/Firmware/TileModuleTests/**/.pio/
