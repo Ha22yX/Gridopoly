@@ -197,3 +197,32 @@ opaque背景内部跳过圆角mask及socket选项调用顺序修正已提交110a
 d5ff9a97b0f6bbb80f6c0da242d76b735e4090fb163025fa20e9af3410684662 来自 e4e 同路径受控增量，仅 ino/rect.c 更新，其余 2,122 源依赖未变，旧 output 保留。rowclip-perf-window-20260908-2202 完整 OFF/ON 后，ON 六场景通过：Waiting、反向跨界、MyTurn、Swipe、AssetsCold、AssetsWarm 均最大39ms，26–28FPS；Retarget 24FPS/max58ms 仍失败。主任务已独立读取 analysis-summary.txt，未将平均帧率通过当作完整验收。
 
 Retarget 峰值 mask_calc4174us/14miss、border10711us，继续核对大小圆共用四槽造成的缓存替换。下一候选在原四槽之外对 radius128..256 使用有界四槽缓存，每帧同样释放，GC 构建回退原路径；先做像素及引用/清理生命周期验证，再在同固件保持 row/outer 裁剪开启、仅切换额外缓存进行完整七场景对照。此时性能候选仍未正式部署，设备恢复目标保持含已验收输入修复的 ad8a。无需新用户许可，玩家任务继续 COM7 验证，主任务继续审核最终门槛及 Git。
+
+
+#### 大圆缓存实测与任务绑核验证决策
+
+60bddbf 已提交大圆独立缓存和补强生命周期测试。实际 LVGL 68,014 像素对照及32次双cleanup通过，覆盖空闲槽替换、共享209半径释放其中一引用后另一仍有效、全满fallback。malloc配置下未宣称allocator used/free实测，仅验证payload上限6168字节和清理后描述符为空。
+
+主任务独立重新计算受控增量清单：SelfTest其余2122依赖和normal其余2123依赖均SHA一致，变化文件与after SHA一致，base产物保留完好。诊断a73e94494750d637c657e53295503353d3d8eeb8bd5ac8f82a8786193c6fb7a6、正常b53e31f2bb8f1ae6befbc132a734904575862020ff2c3ed794922e5c3d8d7250。largecache-perf-window-20260908-2213完整结果：OFF Retarget24FPS/max58，ON26FPS/max57仍FAIL；ON其余六项26FPS/max39通过。miss14→8说明重复生成减少，仍不足以通过最终性能门槛，正常b53e未部署，恢复目标ad8a。
+
+绘制诊断中近乎空操作也出现约0.6ms计时峰值，可能包含RGB bounce中断抢占；不能把计时全归为函数自身运算。目前LVGL跟Arduino主循环同核，屏幕初始化也在该核。主任务授权仅改变LVGL任务绑定到core0，优先级/屏幕ISR/PCLK/bounce/mode3/frame ticket不变，和已有a73 core1跨启动对照，禁止运行中迁移或销毁绘制任务制造A/B。完整七项通过后仍需验证正常固件WiFi、头像下载/加载及稳定运行。是否改善以实际结果为准，暂不叠加静态圆环图片缓存。此绑核选择没有新增用户许可阻塞，也不改变原验收要求。
+
+
+#### core0 完整性能通过，正常固件部署验收进行中
+
+主任务再次独立重新计算 diagnostic/normal-core0-incremental-20260908-2224 manifest：各2123其它依赖及变化头SHA一致，base输出完好；唯一生产行为变化为LVGL_PORT_TASK_CORE从Arduino主核改为0。SelfTest545580fdd0f3c445eb6fd0e522f303323a513976a2b81d4bb10a96f846eb6389，正常候选c9b74814c21b751d00bd9dfdef4c9765f9087270a11006a820e040168a30e0c3。编译本身成功，Windows PS5辅助检查因中文路径解码失败，改用PS7独立检查HWCDC通过；故障界限见候选result.json。
+
+core0-perf-window-20260908-2223完整实测pure1/component1/perf1/clean_before1/clean_after1，FIRST FAILURE NONE。主任务直接读取原始日志，ON七项FPS/首帧ms/max间隔ms：WAIT_FWD31/14/39、WAIT_WRAP_REV36/14/39、MYTURN_5 26/34/39、RETARGET28/15/39、SWIPE_EVENT32/17/39、ASSETS_COLD28/18/39、ASSETS_WARM26/31/39，全部原门槛通过。相对于此前a73 core1的Retarget26/max57，本轮core0为28/max39；属于跨启动对照，不能冒称同一启动动态迁核或任意无线负载均已证明。
+
+主任务HTTP实读最新权威version30/room993580100/game phase1/identity phase3，P1 HARRY，四人头像/名字/ready mask15，现金各800/位置各0，无待移动/债务。原始快照保存在ToolRoot/core0-root-authority-before.json。此前串口IDENTITY phase3/stage6是身份流程字段，不能与游戏phase混用；更早网络测试时phase0只表示那个窗口状态。
+
+正常c9b748安装及至少45秒联网/头像加载/权威状态观察继续进行，实际发布状态将在尾部补记。无需重复已完成网络中断或再次让用户做相同旋钮验收。
+
+
+#### 最终正常固件已部署，本轮验收完成
+
+正常固件c9b74814c21b751d00bd9dfdef4c9765f9087270a11006a820e040168a30e0c3已安装到COM7，normal-core0-window-20260908-2226完成45秒观察并结束采集。主任务读取candidate.json及串口尾部：设备至ms45024保持WiFi status3/IP10.42.0.37，GRIDOPOLY_SNAPSHOT v34/seat1/gamephase1/cash800/position0，corner-central-launch图像ready，heap约29276/largest15348稳定。正常固件没有SelfTest结束页面。
+
+主任务再次直接HTTP获取并保存core0-root-authority-after.json，与before快照比较：v30→v34是重连过程版本更新；room、gamephase、round、active/decision player、assets、debt、auction、card、movementCueGate、forcedRoll及四名玩家身份/名称/现金/位置/头像/Tag字段均无差异，P1在线，身份avatarFinal/nameFinal/ready均15。当前是正常对局页面，未把corner art加载说成再次完整30头像组件下载，也未虚称再次实体旋钮操作。core0候选完整组件/逻辑测试通过，之前ad8a实体旋钮用户确认及两次网络故障验收保留其版本和场景界限。
+
+本轮玩家性能原门槛全部通过、正式正常候选已部署；旋钮输入修复用户已确认；服务器断线/幂等回归和有界真实网络恢复已完成；格子V0.31/40MHz刷新已获用户确认。主任务完成本轮端到端收尾及Git，不另建后台任务或周期自动化。常规真实游戏后续反馈作为新复现继续处理，不将本次有限测试扩展为所有负载/故障永不发生。

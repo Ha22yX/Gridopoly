@@ -104,3 +104,52 @@ outer-perf-window-20260908-2150完整OFF7→ON7，pure1/component1/perf0/clean1/
 尝试SPLIT_LIMIT50→96在完整native像素case23149/radius1/outline场景FAIL（oldbc89/newbc69），未构建设备版本，源码已撤回50。主任务证明大圆镜像循环会额外计算上下两行均被clip裁掉的遮罩（代表clip mask_apply132→70、129→65仍像素一致）。当前行裁剪仅跳过完全不可见镜像行、收紧单侧blend及四角循环边界；背景新增路径仅无gradient时启用，保留dither语义。68,014组真实LVGL像素对照PASS，参考固定ROW_CLIP_ENABLED=0且SPLIT仍50，pixel-rowclip-20260908-2200.log。
 
 新诊断两组均outer cull=1、SPLIT50，仅row_clip OFF/ON（setter写在LVGL锁内），完整七场景ON原门槛不变。diagnostic-rowclip-incremental-20260908-2159以e4e为基线、仅同路径ino/rect.c变化、2122其余源依赖校验，独立output/manifest；normal-rowclip-incremental-20260908-2200以7b82为基线仅rect.c变更、2123其它依赖，独立output/manifest。两构建进行中，均非fresh，不覆盖旧候选output；只有实机ON全门槛PASS后部署新normal。当前设备仍ad8a正常，≥24平均FPS已达，但完整性能目标继续未完成。
+
+### 22:12 EDT 行裁剪六项通过，剩余重定向与大圆缓存候选
+
+rowclip-perf-window-20260908-2202实测d5ff9a97b0f6bbb80f6c0da242d76b735e4090fb163025fa20e9af3410684662，pure1/component1/clean1，但perf0。ON WAIT26/max39、REV26/max39、MYTURN26/max39、RETARGET24/max58 FAIL、SWIPE28/max39、AssetsCold26/max39、AssetsWarm26/max39；原首帧/覆盖门槛保留。OFF Myturn24/max57、Retarget24/max57，资产两项已受此前outer cull改善均26/max39。行裁剪仅剩Retarget未过，本次不能标全性能通过。正常行裁剪787c9183f305beb600b604c737f556242727fcbe99591a7284ec012512714e69（1890544bytes/program1890402/RAM124568）构建及2123依赖校验通过，但未部署。finally ad8a45秒稳定/串口释放。
+
+ON Retarget峰值mask_calc4174us/14miss、border10711/bg8357，继续跟踪大圆与小卡片混存4-entry导致的重复计算。候选仅mask.c新增4槽大圆专用池，radius128..256、payload上限6168bytes，小描述符固定；其余半径走原池；全部槽active且无匹配时回退原池/既有动态路径。参数引用计数/原AA生成算法不变，每刷新cleanup同时释放两池，GC开启构建禁用额外池。SelfTest setter在LVGL锁内切换；两组均outer/row裁剪ON、SPLIT50，只比较大圆池OFF/ON。
+
+68,014实际LVGL像素对照及生命周期补强通过：pixel-largecache-lifetime-20260908-2211.log。涵盖共享209引用、释放204槽替换220且其它active参数输出不变、仍持有209时新228全满回退、范围端点128/256、范围外257和小半径1/8、payload限额、32轮双cleanup。LV_MEM_CUSTOM为malloc，lv_mem_monitor无法给真实allocator used/free；报告仅声称像素/引用行为、descriptor payload上限及代码释放检查，不伪造堆量测。
+
+diagnostic-largecache-incremental-20260908-2209以d5ff为基线仅ino/mask.c变动，2122其他源依赖；normal-largecache-incremental-20260908-2209以787c为基线仅mask.c变动，2123其他依赖。两份受控同路径增量均保留原文件/补丁/基线output与新manifest，构建进行中。当前线上仍ad8a，只有下一完整ON七场景全门槛通过才部署正常候选。
+
+
+### 22:22 EDT 大圆缓存实测与单独 core0 候选
+
+largecache-perf-window-20260908-2213 实测 a73e94494750d637c657e53295503353d3d8eeb8bd5ac8f82a8786193c6fb7a6：pure1/component1/perf0/clean1。ON 六项均26FPS/max39ms PASS，RETARGET26FPS/first18ms/max57ms FAIL；OFF Retarget24FPS/max58ms。大圆缓存使峰值miss降至8仍不足，不能部署正常b53e31f2bb8f1ae6befbc132a734904575862020ff2c3ed794922e5c3d8d7250。完整DRAW与draw-analysis.json保留，计时包含抢占且按完成flush边界聚合，不能把阶段总时简单当成纯运算成本。
+
+finally恢复ad8a并45秒观察完成，最新原日志配对room993580100/seat1/session3661319480，IDENTITY version30/revision26/phase3/stage6，至ms45038仍status3/IP10.42.0.37。此为身份消息字段；不沿用较早phase0/v25，也不把identity.phase直接当成游戏state.phase。此次没有注入游戏操作。
+
+主任务明确授权仅将LVGL_PORT_TASK_CORE改0，优先级2、RGB初始化路径、PCLK16MHz、bounce40、mode3和frame-ticket保持。静态绑核在创建任务时生效，没有运行中迁移/销毁任务。已有a73e是core1跨启动基线，新固件仍保留原先完整缓存OFF七项和ON七项；最终验收取ON原门槛。不能称core绑核为同启动A/B，暂不叠加圆环图片缓存。
+
+diagnostic-core0-incremental-20260908-2224 与 normal-core0-incremental-20260908-2224 分别以a73e/b53e为产物基线，只替换同路径lvgl_v8_port.h，各2123其他源/配置依赖列入清单；原output、原头文件、补丁及实际命令保留。属于受控增量，历史runs/inputs.json不是修改后快照。构建进行中；七项全部通过才部署正常候选并检查真实WiFi、头像组件和至少45秒稳定，否则恢复ad8a继续定位。
+
+
+### 22:27 EDT core0 完整性能通过，正常固件已部署
+
+仅绑核变更的受控增量已完成。SelfTest 545580fdd0f3c445eb6fd0e522f303323a513976a2b81d4bb10a96f846eb6389（2068560bytes/program2068414/RAM155608）和 normal c9b74814c21b751d00bd9dfdef4c9765f9087270a11006a820e040168a30e0c3（1890624bytes/program1890482/RAM124680）各2123未变源/配置依赖、变更头after SHA及基线app均重新校验通过。CLI compile均exit0；首次后置verify因Windows PowerShell5误读无BOM脚本内中文路径失败，单独在PowerShell7执行verify-build-output已PASS，两result.json如实记录，helper随后补UTF8 BOM；不是固件构建失败，也没有为此重编译。
+
+core0-perf-window-20260908-2223实际烧录、自检、finally恢复ad8a并45秒稳定全部完成。SELFTEST SUMMARY pure=1/component=1/perf=1/clean_before=1/clean_after=1，FIRST FAILURE NONE，SELFTEST PASS。最终大圆缓存ON结果如下，全部沿用既有FPS、首帧、最大间隔、覆盖和增量刷新门槛：
+
+| 场景 | FPS | 首帧ms | 最大间隔ms | 覆盖ms | 结果 |
+| --- | ---: | ---: | ---: | ---: | --- |
+| WAIT_FWD | 31 | 14 | 39 | 225 | PASS |
+| WAIT_WRAP_REV | 36 | 14 | 39 | 244 | PASS |
+| MYTURN_5 | 26 | 34 | 39 | 225 | PASS |
+| RETARGET | 28 | 15 | 39 | 320 | PASS |
+| SWIPE_EVENT | 32 | 17 | 39 | 247 | PASS |
+| ASSETS_SCROLL_COLD | 28 | 18 | 39 | 553 | PASS |
+| ASSETS_SCROLL_WARM | 26 | 31 | 39 | 528 | PASS |
+
+同一次core0启动的缓存OFF七场景也全部通过（26–32FPS/max39ms）。绑核收益的对照来自上一启动a73e/core1的同样ON suite（Retarget26FPS/max57ms）与本次core0；这是跨启动对照，不是同启动改核实验。代码创建时固定core0，未运行中迁移任务。结果支持该实现满足现有测试门槛，不能仅凭阶段计时宣称已经实测证明某一次RGB ISR抢占的精确因果或长期任意负载保证。
+
+按主任务授权，随后实际部署正常c9b748；normal-core0-window-20260908-2226完整upload Hash verified/exit0及45.037秒COM7采集保留，打开epoch1788920754278、关闭1788920799315并释放串口。设备build Sep8 22:22:08，约ms1919取得IP10.42.0.37，配对serveradaf8743/room993580100/seat1/session1617783228；SNAPSHOT v34/active1/players4/game phase1/cash800/position0，IDENTITY revision30/phase3/stage6分开记录。corner-central-launch实际下载32768bytes ready，至ms45024保持status3，heap29276/largest15348；本段未见panic/reset/fault、下载失败或setSocketOption/Bad file number错误。
+
+当前正常游戏页面没有进入头像编辑，不能把本段地图图片下载和空闲连接等同30个头像组件再次真实下载，未制造头像/游戏动作来补证据。新core0纯逻辑与组件测试包含既有旋钮顺序/边界/预览相关检查；用户在ad8a上已明确确认的每格一步/方向/反向回原选项，以及已完成的UDP40秒丢包和单站WiFi恢复，仍保留原版本和场景界限，不要求重复物理操作或网络中断。此次新正常固件已包含累计绘制优化、socket调用顺序修正、输入/预览/恢复修复及core0，设备没有停留SelfTest或旧ad8a。
+
+本端本轮完整性能门槛与正常部署/启动观察已通过，无未完成构建或占用COM7窗口。主任务负责最后权威HTTP只读对照、统一Git提交及整体交付；任何此前独立的真实移动/目标灯验收仍按协调文档自己的证据判断，本次性能测试不替代跨端物理游戏验收。
+
+
+22:28 EDT主任务完成正常部署前后的权威HTTP只读对照，原始core0-root-authority-before.json和core0-root-authority-after.json均保存在工具目录。后快照v34/gamephase1/identityphase3/P1在线，头像/名字/ready mask均15；主任务核对room/phase/round/active/decision/assets/debt/auction/card/movement/forcedRoll及全部玩家id/name/cash/pos/held/bankrupt/identityFlags/avatarURL/tagUID均无业务变化。连接造成的version/identity revision变化单独保留，不视作游戏状态变化。主任务明确无需当前普通页面重新加载30头像组件或再次物理旋钮操作，保留本次验收范围即可；剩余为主任务统一Git和整体交付。

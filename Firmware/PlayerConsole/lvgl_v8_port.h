@@ -48,13 +48,9 @@
 #define LVGL_PORT_TASK_MIN_DELAY_MS             (2)         // The minimum delay of the LVGL timer task, in milliseconds
 #define LVGL_PORT_TASK_STACK_SIZE               (6 * 1024)  // The stack size of the LVGL timer task, in bytes
 #define LVGL_PORT_TASK_PRIORITY                 (2)         // The priority of the LVGL timer task
-#ifdef ARDUINO_RUNNING_CORE
-#define LVGL_PORT_TASK_CORE                     (ARDUINO_RUNNING_CORE)  // Valid if using Arduino
-#else
-#define LVGL_PORT_TASK_CORE                     (0)                     // Valid if using ESP-IDF
-#endif
+#define LVGL_PORT_TASK_CORE                     (0)
                                                             // The core of the LVGL timer task, `-1` means the don't specify the core
-                                                            // Default is the same as the main core
+                                                            // Keep drawing separate from Arduino's RGB initialization core.
                                                             // This can be set to `1` only if the SoCs support dual-core,
                                                             // otherwise it should be set to `-1` or `0`
 
