@@ -25,8 +25,21 @@ inline DisplaySpan changedDisplaySpan(const std::uint16_t *next,
 struct DisplayTransfer {
   std::uint32_t pixels = 0;
   std::uint32_t rectangles = 0;
+  std::uint16_t first_row = UINT16_MAX;
+  std::uint16_t end_row = 0;
   bool complete = true;
 };
+
+inline bool validDisplayClockExperiment(std::uint32_t hz, std::uint32_t seconds) {
+  return seconds >= 5 && seconds <= 300 &&
+         (hz == 8'000'000 || hz == 16'000'000 || hz == 20'000'000 ||
+          hz == 26'666'667 || hz == 32'000'000 || hz == 40'000'000);
+}
+
+inline bool displayExperimentExpired(std::uint32_t now, std::uint32_t started,
+                                     std::uint32_t duration) {
+  return duration != 0 && static_cast<std::uint32_t>(now - started) >= duration;
+}
 
 // Sink writes synchronously. Commit the shadow only after each completed
 // rectangle, so a failed submission can be retried from the previous image.
@@ -64,6 +77,8 @@ DisplayTransfer presentDisplayFrame(const std::uint16_t *next,
       std::memcpy(previous + start, next + start, count * sizeof(*next));
     }
     result.pixels += static_cast<std::uint32_t>(count) * (end - y);
+    if (result.rectangles == 0) result.first_row = y;
+    result.end_row = end;
     ++result.rectangles;
     y = end;
   }

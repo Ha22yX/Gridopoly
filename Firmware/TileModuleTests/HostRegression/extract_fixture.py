@@ -35,6 +35,7 @@ if "void publishPendingTagObservation(" in main:
 else:
     pieces.append("void publishPendingTagObservation() {} // pre-fix baseline")
 pieces += [routine(main, "void publishTagInventory("),
+           routine(main, "void restoreSafeDisplay("),
            routine(main, "Rgb playerColor("),
            routine(main, "Rgb scaleColor("),
            routine(main, "void renderLedScene(")]

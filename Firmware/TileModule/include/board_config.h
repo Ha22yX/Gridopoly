@@ -3,6 +3,13 @@
 #include <cstddef>
 #include <cstdint>
 
+#if __has_include("../config/display.local.h")
+#include "../config/display.local.h"
+#endif
+#ifndef GRIDOPOLY_TILE_DISPLAY_SPI_HZ
+#define GRIDOPOLY_TILE_DISPLAY_SPI_HZ 8000000
+#endif
+
 namespace gridopoly::tile::board {
 
 inline constexpr int kLcdResetPin = 4;
@@ -30,9 +37,14 @@ inline constexpr std::size_t kWs2812Count = 10;
 inline constexpr std::uint16_t kDisplayWidth = 240;
 inline constexpr std::uint16_t kDisplayHeight = 320;
 // The first board is not reliable at 20 MHz once the Wi-Fi radio is active.
-// 8 MHz keeps margin on the ribbon/connector while remaining fast enough for
-// a complete 240x320 page transition.
-inline constexpr std::uint32_t kDisplaySpiFrequencyHz = 8'000'000;
+// Keep that fallback independent of an explicitly validated local override.
+// V0.30's internal-RAM transfer at 40 MHz passed visual checks on one module;
+// it is outside the generic ST7789V timing guarantee, not a fleet default.
+inline constexpr std::uint32_t kDisplaySafeSpiFrequencyHz = 8'000'000;
+inline constexpr std::uint32_t kDisplaySpiFrequencyHz = GRIDOPOLY_TILE_DISPLAY_SPI_HZ;
+static_assert(kDisplaySpiFrequencyHz == 8'000'000 ||
+              kDisplaySpiFrequencyHz == 40'000'000,
+              "Only the safe rate or the locally validated rate is supported");
 inline constexpr std::uint32_t kSerialBaud = 115'200;
 inline constexpr std::uint8_t kBacklightDuty = 150;
 inline constexpr std::uint8_t kMaximumLedChannel = 64;

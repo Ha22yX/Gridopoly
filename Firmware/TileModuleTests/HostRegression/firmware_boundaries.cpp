@@ -46,6 +46,20 @@ Rgb gPixels[kWs2812Count]{};
 bool gLedReady = true;
 std::uint32_t gMovementCueStartedMs = 0;
 unsigned frames = 0;
+std::uint32_t gDisplayExperimentDurationMs = 0;
+std::uint32_t gDisplayClockHz = kDisplaySpiFrequencyHz;
+bool gDiagnosticPage = false;
+unsigned displayEvents = 0;
+unsigned displayResetOrder = 0;
+unsigned displayRenderOrder = 0;
+void recoverDisplayController() {
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, gDisplayClockHz);
+  displayResetOrder = ++displayEvents;
+}
+void renderPage() {
+  TEST_ASSERT_FALSE(gDiagnosticPage);
+  displayRenderOrder = ++displayEvents;
+}
 void showPixels() { ++frames; }
 const TileState& currentTileState() { return gNetworkSnapshot.tile; }
 #include "firmware_fixture.inc"
@@ -197,6 +211,18 @@ void test_transport_and_cue_updates_do_not_invalidate_tile_page() {
   TEST_ASSERT_TRUE(pageChanged(snapshot));
 }
 
+void test_safe_display_restores_8mhz_controller_before_normal_page() {
+  gDisplayExperimentDurationMs = 300000;
+  gDisplayClockHz = 40'000'000;
+  gDiagnosticPage = true;
+  displayEvents = displayResetOrder = displayRenderOrder = 0;
+  restoreSafeDisplay();
+  TEST_ASSERT_EQUAL_UINT32(0, gDisplayExperimentDurationMs);
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, gDisplayClockHz);
+  TEST_ASSERT_EQUAL_UINT32(1, displayResetOrder);
+  TEST_ASSERT_EQUAL_UINT32(2, displayRenderOrder);
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_failed_publish_retries_identical_local_inventory);
@@ -205,5 +231,6 @@ int main() {
   RUN_TEST(test_destination_double_flash_and_departure_breath);
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
+  RUN_TEST(test_safe_display_restores_8mhz_controller_before_normal_page);
   return UNITY_END();
 }

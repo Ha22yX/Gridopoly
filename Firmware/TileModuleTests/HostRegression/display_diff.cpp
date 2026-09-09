@@ -66,6 +66,8 @@ void adjacent_spans_merge_and_do_not_erase_surroundings() {
   const auto result = present(sink);
   TEST_ASSERT_EQUAL_UINT32(800, result.pixels);
   TEST_ASSERT_EQUAL_UINT32(1, result.rectangles);
+  TEST_ASSERT_EQUAL_UINT16(290, result.first_row);
+  TEST_ASSERT_EQUAL_UINT16(298, result.end_row);
   TEST_ASSERT_EQUAL_UINT16(290, sink.rects[0].y);
   TEST_ASSERT_EQUAL_UINT16(8, sink.rects[0].height);
   assertConverged();
@@ -109,6 +111,20 @@ void random_updates_reconstruct_each_frame_exactly() {
     assertConverged();
   }
 }
+void clock_experiment_requires_supported_rate_and_bounded_deadline() {
+  TEST_ASSERT_TRUE(validDisplayClockExperiment(8'000'000, 5));
+  TEST_ASSERT_TRUE(validDisplayClockExperiment(40'000'000, 300));
+  TEST_ASSERT_FALSE(validDisplayClockExperiment(80'000'000, 30));
+  TEST_ASSERT_FALSE(validDisplayClockExperiment(20'000'000, 0));
+  TEST_ASSERT_FALSE(validDisplayClockExperiment(20'000'000, 301));
+}
+void experiment_expiry_handles_millis_wrap() {
+  TEST_ASSERT_FALSE(displayExperimentExpired(5000, 0, 0));
+  TEST_ASSERT_FALSE(displayExperimentExpired(4999, 0, 5000));
+  TEST_ASSERT_TRUE(displayExperimentExpired(5000, 0, 5000));
+  TEST_ASSERT_FALSE(displayExperimentExpired(2998, UINT32_MAX - 2000U, 5000));
+  TEST_ASSERT_TRUE(displayExperimentExpired(2999, UINT32_MAX - 2000U, 5000));
+}
 }  // namespace
 void setUp() { next.fill(0); previous.fill(0); panel.fill(0); }
 void tearDown() {}
@@ -120,5 +136,7 @@ int main() {
   RUN_TEST(edges_gaps_and_disjoint_rows_are_not_lost);
   RUN_TEST(failed_rectangle_keeps_shadow_retryable);
   RUN_TEST(random_updates_reconstruct_each_frame_exactly);
+  RUN_TEST(clock_experiment_requires_supported_rate_and_bounded_deadline);
+  RUN_TEST(experiment_expiry_handles_millis_wrap);
   return UNITY_END();
 }

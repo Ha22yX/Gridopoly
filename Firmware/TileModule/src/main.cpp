@@ -141,7 +141,16 @@ struct TagInventoryAttempt {
 };
 
 SPIClass gDisplaySpi(FSPI);
-Adafruit_ST7789 gDisplay(&gDisplaySpi, kLcdChipSelectPin,
+class BoardST7789 : public Adafruit_ST7789 {
+ public:
+  using Adafruit_ST7789::Adafruit_ST7789;
+  // commonInit calls this virtual method without a frequency. Keep every
+  // initialization command at the recovery rate, including after a bad write.
+  void begin(std::uint32_t = 0) override {
+    Adafruit_ST77xx::begin(kDisplaySafeSpiFrequencyHz);
+  }
+};
+BoardST7789 gDisplay(&gDisplaySpi, kLcdChipSelectPin,
                          kLcdDataCommandPin, kLcdResetPin);
 // PSRAM holds composed pixels and the last completed submission. SPI always
 // receives one aligned internal-RAM row, never a flash/PSRAM-backed long buffer.
@@ -165,6 +174,9 @@ DisplayCanvas gPageCanvas;
 std::uint16_t *gSubmittedFrame = nullptr;
 bool gSubmittedFrameValid = false;
 bool gFramePending = false;
+std::uint32_t gDisplayClockHz = kDisplaySpiFrequencyHz;
+std::uint32_t gDisplayExperimentStartedMs = 0;
+std::uint32_t gDisplayExperimentDurationMs = 0;
 alignas(4) std::uint16_t gDisplayRow[kDisplayWidth]{};
 struct DisplayMetrics {
   std::uint32_t frames = 0;
@@ -543,10 +555,11 @@ void initializeDisplay() {
                 static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL)));
   gDisplaySpi.begin(kLcdClockPin, kNoMisoPin, kLcdMosiPin, kLcdChipSelectPin);
   gDisplay.init(kDisplayWidth, kDisplayHeight, SPI_MODE0);
-  // ST7789::init() resets the Adafruit bus setting to its 32 MHz default.
-  // Apply the board-safe rate after init so Wi-Fi-active artwork writes really
-  // run at 8 MHz instead of silently returning to 32 MHz.
-  gDisplay.setSPISpeed(kDisplaySpiFrequencyHz);
+  Serial.printf("[DISPLAY] init_spi_hz=%u\r\n",
+                spiClockDivToFrequency(gDisplaySpi.getClockDivider()));
+  // Initialization ran at the independent safe rate. Apply the chosen normal
+  // or experiment rate only after the controller configuration is complete.
+  gDisplay.setSPISpeed(gDisplayClockHz);
   gDisplay.setRotation(0);
   gDisplay.setTextWrap(false);
   gDisplay.fillScreen(ST77XX_BLACK);
@@ -1932,6 +1945,26 @@ void presentPage() {
       ++gDisplayMetrics.full_frames;
     }
   }
+  if (transfer.pixels >= 16'000U) {
+    Serial.printf("[DISPLAY-FRAME] spi_hz=%u actual_hz=%u pixels=%u rectangles=%u rows=%u..%u submit_us=%u full=%s\r\n",
+                  gDisplayClockHz,
+                  spiClockDivToFrequency(gDisplaySpi.getClockDivider()),
+                  transfer.pixels, transfer.rectangles, transfer.first_row,
+                  transfer.end_row, gDisplayMetrics.last_us,
+                  transfer.pixels == kDisplayWidth * kDisplayHeight ? "YES" : "NO");
+  }
+}
+
+void restoreSafeDisplay() {
+  gDisplayExperimentDurationMs = 0;
+  gDisplayClockHz = kDisplaySafeSpiFrequencyHz;
+  gDiagnosticPage = false;
+  // A failed high-rate command could have changed MADCTL/COLMOD as well as
+  // pixels. Restore the controller's known configuration at the safe rate.
+  recoverDisplayController();
+  renderPage();
+  Serial.printf("[DISPLAY-CLOCK] restored_hz=%u page=TILE_OR_CONNECTION\r\n",
+                gDisplayClockHz);
 }
 
 void recoverAndRenderPage() {
@@ -1940,6 +1973,10 @@ void recoverAndRenderPage() {
 }
 
 void printStatus() {
+  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=V0.31\r\n",
+                gDisplayClockHz,
+                spiClockDivToFrequency(gDisplaySpi.getClockDivider()),
+                gDisplayExperimentDurationMs);
   Serial.printf("[DISPLAY-PERF] renderer=%s frames=%u skipped=%u rectangles=%u pixels=%u full=%u last_us=%u max_us=%u\r\n",
                 gSubmittedFrame != nullptr ? "PSRAM_DIFF" : "DIRECT_FALLBACK",
                 gDisplayMetrics.frames, gDisplayMetrics.skipped,
@@ -1994,6 +2031,9 @@ void printHelp() {
   Serial.println(F("Commands:"));
   Serial.println(F("  DIAG              toggle hardware diagnostics page"));
   Serial.println(F("  REDRAW            reset ST7789 and redraw current page"));
+  Serial.println(F("  DISPLAY SPEED hz seconds  bounded SPI experiment (5..300 s)"));
+  Serial.println(F("  DISPLAY FRAME     submit complete current page without reset"));
+  Serial.println(F("  DISPLAY SAFE      restore board-safe speed and normal page"));
   Serial.println(F("  RESTART           restart ESP32-S3 for boot timing test"));
   Serial.println(F("  BRIGHTNESS 0..255 set LCD backlight PWM"));
   Serial.println(F("  STATUS            print current state and power"));
@@ -2013,7 +2053,27 @@ void processCommand(char *command) {
     ++command;
   }
   uppercase(command);
-  if (std::strcmp(command, "DIAG") == 0) {
+  if (std::strncmp(command, "DISPLAY SPEED ", 14) == 0) {
+    unsigned long hz = 0;
+    unsigned long seconds = 0;
+    char extra = 0;
+    if (std::sscanf(command + 14, "%lu %lu %c", &hz, &seconds, &extra) == 2 &&
+        validDisplayClockExperiment(hz, seconds)) {
+      gDisplayClockHz = hz;
+      gDisplayExperimentStartedMs = millis();
+      gDisplayExperimentDurationMs = seconds * 1000U;
+      gDisplay.setSPISpeed(gDisplayClockHz);
+      Serial.printf("[DISPLAY-CLOCK] experiment_hz=%u duration_ms=%u\r\n",
+                    gDisplayClockHz, gDisplayExperimentDurationMs);
+    } else {
+      Serial.println(F("ERR: speed must be 8000000/16000000/20000000/26666667/32000000/40000000 Hz, 5..300 s"));
+    }
+  } else if (std::strcmp(command, "DISPLAY SAFE") == 0) {
+    restoreSafeDisplay();
+  } else if (std::strcmp(command, "DISPLAY FRAME") == 0) {
+    gSubmittedFrameValid = false;
+    renderPage();
+  } else if (std::strcmp(command, "DIAG") == 0) {
     gDiagnosticPage = !gDiagnosticPage;
     renderPage();
   } else if (std::strcmp(command, "REDRAW") == 0) {
@@ -2093,7 +2153,7 @@ void setup() {
   renderLedScene(now);
 
   Serial.println();
-  Serial.println(F("GRIDOPOLY TILE MODULE V0.29 - DIFFERENTIAL DISPLAY"));
+  Serial.println(F("GRIDOPOLY TILE MODULE V0.31 - VALIDATED LOCAL DISPLAY CLOCK"));
   Serial.println(F("RS485 and ORDER remain disabled; server assignment uses Wi-Fi/HTTP."));
   printHelp();
   printStatus();
@@ -2102,6 +2162,10 @@ void setup() {
 void loop() {
   const std::uint32_t now = millis();
   pollSerial();
+  if (displayExperimentExpired(millis(), gDisplayExperimentStartedMs,
+                               gDisplayExperimentDurationMs)) {
+    restoreSafeDisplay();
+  }
   publishPendingTagObservation();
   if (static_cast<std::uint32_t>(now - gLastHtrcSafeRewriteMs) >=
       kHtrcSafeRewritePeriodMs) {
