@@ -3,6 +3,9 @@
 #include <esp_attr.h>
 #include <esp_rom_sys.h>
 #include <esp_system.h>
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+#include <esp_heap_caps.h>
+#endif
 #include <lvgl.h>
 #include <new>
 #include <cstring>
@@ -21,6 +24,7 @@
 #include "wifi_udp_player_transport.h"
 
 #if GRIDOPOLY_SELF_TEST == 1
+extern "C" void gridopoly_set_row_clip(bool enabled);
 // The complete renderer and reducer suites intentionally share one Arduino test task.
 // Keep their large protocol fixtures away from the production task budget.
 SET_LOOP_TASK_STACK_SIZE(32 * 1024);
@@ -770,30 +774,45 @@ void setup()
 #if GRIDOPOLY_SELF_TEST == 1
     // Leave enough time to attach a monitor after the uploader resets native USB.
     delay(12000);
-    // One diagnostic boot compares identical fixtures with only the outer
-    // corner border cull disabled/enabled. Serial output follows both suites.
-    static CarouselPerfResult outerClipBaseline[7];
+    // One diagnostic boot keeps the outer cull enabled and compares the
+    // skipping of invisible corner rows. Serial output follows both suites.
+    const size_t resultBytes = sizeof(CarouselPerfResult) * 14;
+    auto *perfResults = static_cast<CarouselPerfResult *>(
+        heap_caps_malloc(resultBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    if (perfResults == nullptr) { fault("PERF_RESULTS_ALLOC"); return; }
+    for (uint8_t slot = 0; slot < 14; ++slot) {
+        new (&perfResults[slot]) CarouselPerfResult{};
+    }
+    CarouselPerfResult *outerClipBaseline = perfResults;
+    esp_rom_printf("SELFTEST PERF STORAGE bytes=%u internal_free=%u internal_largest=%u psram_free=%u\n",
+        static_cast<unsigned>(resultBytes),
+        static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+        static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+        static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM)));
+
     const PerfScenario baselineScenarios[] = {
         PerfScenario::WaitingForward, PerfScenario::WaitingReverseWrap,
         PerfScenario::MyTurnFive, PerfScenario::Retarget, PerfScenario::SwipeEvent,
         PerfScenario::AssetsListCold, PerfScenario::AssetsListWarm
     };
-    if (!lvgl_port_lock(-1)) { fault("LVGL_PROFILE_LOCK"); return; }
-    gridopoly_profile_outer_clip_enabled = false;
+    if (!lvgl_port_lock(-1)) { heap_caps_free(perfResults); fault("LVGL_PROFILE_LOCK"); return; }
+    gridopoly_profile_outer_clip_enabled = true;
+    gridopoly_set_row_clip(false);
     lvgl_port_unlock();
     for (uint8_t scene = 0; scene < 7; ++scene) {
         outerClipBaseline[scene] = runCarouselPerfFixture(app, baselineScenarios[scene]);
     }
-    if (!lvgl_port_lock(-1)) { fault("LVGL_PROFILE_LOCK"); return; }
+    if (!lvgl_port_lock(-1)) { heap_caps_free(perfResults); fault("LVGL_PROFILE_LOCK"); return; }
     gridopoly_profile_outer_clip_enabled = true;
+    gridopoly_set_row_clip(true);
     lvgl_port_unlock();
-    static CarouselPerfResult waitingForward;
-    static CarouselPerfResult waitingReverseWrap;
-    static CarouselPerfResult myTurnFive;
-    static CarouselPerfResult retarget;
-    static CarouselPerfResult swipeEvent;
-    static CarouselPerfResult assetsListCold;
-    static CarouselPerfResult assetsListWarm;
+    CarouselPerfResult &waitingForward = perfResults[7];
+    CarouselPerfResult &waitingReverseWrap = perfResults[8];
+    CarouselPerfResult &myTurnFive = perfResults[9];
+    CarouselPerfResult &retarget = perfResults[10];
+    CarouselPerfResult &swipeEvent = perfResults[11];
+    CarouselPerfResult &assetsListCold = perfResults[12];
+    CarouselPerfResult &assetsListWarm = perfResults[13];
     waitingForward = runCarouselPerfFixture(
         app, PerfScenario::WaitingForward
     );
@@ -820,6 +839,7 @@ void setup()
                                 swipeEvent.passed && assetsListCold.passed &&
                                 assetsListWarm.passed;
     const bool passed = purePassed && componentPassed && livePerfPassed;
+    esp_rom_printf("SELFTEST PERF VARIANTS outer_clip=1 split_limit=50 baseline_row_clip=0 candidate_row_clip=1\n");
     const char *baselineMarkers[] = {
         "BASELINE CAROUSEL PERF WAIT_FWD", "BASELINE CAROUSEL PERF WAIT_WRAP_REV",
         "BASELINE CAROUSEL PERF MYTURN_5", "BASELINE CAROUSEL PERF RETARGET",
@@ -837,6 +857,9 @@ void setup()
     printPerfResult("CAROUSEL PERF SWIPE_EVENT", swipeEvent);
     printPerfResult("LIST PERF ASSETS_SCROLL_COLD", assetsListCold);
     printPerfResult("LIST PERF ASSETS_SCROLL_WARM", assetsListWarm);
+    for (uint8_t slot = 0; slot < 14; ++slot) perfResults[slot].~CarouselPerfResult();
+    heap_caps_free(perfResults);
+    perfResults = nullptr;
     esp_rom_printf("SELFTEST SUMMARY pure=%u component=%u perf=%u clean_before=%u clean_after=%u\n",
                    purePassed ? 1U : 0U, componentPassed ? 1U : 0U,
                    livePerfPassed ? 1U : 0U, cleanBeforePure ? 1U : 0U,

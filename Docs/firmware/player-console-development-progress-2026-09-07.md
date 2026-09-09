@@ -392,3 +392,29 @@ SelfTest结束finally成功恢复ded137，45秒正常采集后，按主任务明
 需修正此前预期描述：30秒kWifiRecoveryMs是距lastWifiAttemptMs（beginWifi/recoverWifi时更新）的重试节流，不是必须连续断线30秒。本次开机已718秒，短断关联确实进入recoverWifi并证明WiFi.reconnect返回、重新DHCP和配对；不是仅SDK自动重关联，也不是30秒长断网耐久测试。没有WiFi OFF/ON/AP重启、拒绝列表或测试游戏动作。当前phase0无pendingMove，移动中恢复与幂等由服务器隔离用例证明，不冒称此次现场发生移动恢复。
 
 21:01 EDT补记：独立WiFi服务器90秒及COM7有界采集均正常结束、串口已释放。设备至ms816018保持status3/IP37，无panic；服务端尾部确认nft空、四服务active、目标associated、v15业务不变且未见watchdog介入。后续不再中断网络。两项本轮固件输入与SelfTest/production快照4/4 SHA相同，清单bg-source-snapshot-comparison.json。源码检查点110a5ba，下一候选仍在fresh构建，不能把此检查点或网络结果当成未完成性能通过。
+
+### 21:25 EDT BG候选实测未解决长帧，转入圆外裁剪因果核对
+
+bg-perf-window-20260908-2113实际SelfTest32bc19203fad156b224e7eb5731992df77c3a115d9f24f0d585eb45033b08fa3（2066112bytes/program2065970/RAM156672），pure=1/component=1/perf=0/clean_before=1/clean_after=1/FIRST FAILURE NONE。WAIT_FWD26/34/39、WAIT_WRAP_REV28/18/39、MYTURN_5 26/35/39、RETARGET24/34/58 FAIL、SWIPE_EVENT26/35/39、AssetsCold24/52/57 PASS原60ms例外、AssetsWarm25/31/57 FAIL（FPS/首帧ms/最大间隔ms）。BG内部优化仍不足。新normal4d71693b186aa6b1ce9ff0a051d05e32678a18bcefb6563daa341e2766f01c40已构建（1890256bytes/program1890110/RAM124568）但未部署。finally恢复ad8a并45秒稳定，room993580100/v17/seat1/session1598407263/phase0/cash800/position0，30组件ready，原socket日志仍在该旧恢复固件存在；COM7释放。
+
+root独立native证据显示右下PERF标签bbox与大圆外框相交、实际环像素贡献0；标签每300ms刷新与Assets尖峰时刻/额外约3800px吻合。根因仍待ESP32因果对照，不能由host时间宣称设备提升。新外侧裁剪只在draw_border_generic中，clip完全落在单个圆角象限，最近clip点距圆心的int64平方距离大于(rout+2)^2才返回；不直接使用仅检查四角的_lv_area_is_out，避免跨圆或包圆clip误判。不关闭PERF overlay、不改变其样式/频率、AA或帧率门槛。
+
+68,014组实际LVGL逐像素对照在正常宏和SelfTest诊断宏下分别通过，包含四角、包圆/跨圆大clip及原有各种opacity/blend/mask/gradient/AA/边界/非方/负坐标/radius1、2/outline。证据pixel-outer-normal-20260908-2122.log、pixel-outer-profile-20260908-2120.log，各自inputs.json记录精确源/参考/config。测试工具新增-Profile验证实际C计时宏编译；修整background匹配正则为显式转义，baseline只移除三个优化块。
+
+新SelfTest增加有界诊断：bg/bg_img/border/outline/shadow累计us，radius init/calc/hit/miss，最慢矩形coords/clip/radius/border/shadow/opa，每帧最多6个实际flush区域和溢出计数。与原s/w/c/r/g一样跨完成的last-flush边界；mask计时嵌套于绘制步骤，不能相加当独立耗时，frame索引从0开始。只在场景全部完成后打印，不在动画或ISR串口输出。完整OFF七场景静态结果后运行ON七场景，BASELINE前缀单独保留；最终pure/component/perf判定仅按ON完整七场景原门槛。生产宏无这些计时/诊断，外侧裁剪默认启用。
+
+21:24两份唯一目录fresh构建已启动，包含完整诊断/圆外裁剪，未刷入。当前正常设备仍ad8a。构建成功后检查新增静态诊断RAM、启动及七场景A/B，以有界窗口finally恢复ad8a；只有ON全门槛通过才部署新正常候选。性能尚未完成，继续执行已授权工作。
+
+21:28 EDT构建修正记录：21:24 SelfTest在Arduino依赖扫描早期失败，port直接包含src/draw/gridopoly_draw_profile.h未被库发现器解析；未形成候选、未上设备。条件include已移到lvgl.h公共入口，21:27唯一目录selftest-20260908-212716-f6e8c4cc224e4f2bbc638664aba5a99a重新fresh构建。root审查指出A/B开关写入必须在LVGL锁内，OFF/ON两处均已lock(-1)/写入/unlock，并保留fixture稳定等待；新诊断快照包含修正。21:24 production-20260908-212452-404ec1c6f41a42769896f3493954b91b继续构建，其与修正版差异均被SELF_TEST条件预处理屏蔽，生产绘制代码不变；后续记录源码快照差异，不能声称所有文件字节一致。两种宏的68,014像素PASS仍有效，新增锁保护由实际ESP32构建/运行验证。
+
+### 22:00 EDT 诊断内存修订、外侧裁剪结果与行裁剪候选
+
+1d63e15710e6cdfd237955c57cb00f6be5804764ff5ce442270128b015d3c4de虽构建成功，但实机初始化LCD时内部bounce buffer分配失败（BOARD_BEGIN），未完成组件/性能。失败原始日志outer-perf-window-20260908-2143；100秒监控结束finally恢复ad8a并45秒稳定，room100/v19/seat1/cash800/pos0。后续监控遇明确Gridopoly fault/Guru Meditation立即退出并恢复，仍保留设备原文，不伪造设备SELFTEST标记。
+
+14个大型结果槽改到board/renderer ready后PSRAM分配并placement-new，全部打印完析构释放；小profile probe仍内部存放。受控增量diagnostic-incremental-20260908-2147仅替换同路径ino，保留1d63原output、original/patched ino、patch、base-inputs及实际命令。最初2134清单包含11个Arduino自动导出产物，4个随编译变化；正确分类为2123源码依赖全不变，不能声称2134全不变。新e4e23b4671438f381161ba5754ab085b7d7365125048016b97fccb5677ed39eb（2068064bytes/program2067914/RAM155496）通过HWCDC，实机STORAGE33824bytes、internal_free64612/largest31732/psram_free7429008，板/组件正常。
+
+outer-perf-window-20260908-2150完整OFF7→ON7，pure1/component1/perf0/clean1/FIRST FAILURE NONE。OFF Retarget26/max57及Warm24/max57 FAIL；ON AssetsCold/Warm均26/max39 PASS，但Myturn24/max58、Retarget25/max58仍FAIL，其余ON26/max39 PASS。外侧裁剪有效证据为Assets遮罩生成峰值从约3ms降至常态115us、miss约9降至3，不能因一个最长间隔变化单独断言所有收益。ON Retarget峰值bg8779us/border11703/mask_calc2100/14miss，最慢rect area178,302–245,371/r8/bw1/opa200约2849us；聚合仍跨last-flush边界。flush回调区域全部是全屏，不能当作真实细粒度invareas。draw-analysis.json和完整DRAW行保留。finally已恢复ad8a、45秒稳定并释放，未部署7b82。
+
+尝试SPLIT_LIMIT50→96在完整native像素case23149/radius1/outline场景FAIL（oldbc89/newbc69），未构建设备版本，源码已撤回50。主任务证明大圆镜像循环会额外计算上下两行均被clip裁掉的遮罩（代表clip mask_apply132→70、129→65仍像素一致）。当前行裁剪仅跳过完全不可见镜像行、收紧单侧blend及四角循环边界；背景新增路径仅无gradient时启用，保留dither语义。68,014组真实LVGL像素对照PASS，参考固定ROW_CLIP_ENABLED=0且SPLIT仍50，pixel-rowclip-20260908-2200.log。
+
+新诊断两组均outer cull=1、SPLIT50，仅row_clip OFF/ON（setter写在LVGL锁内），完整七场景ON原门槛不变。diagnostic-rowclip-incremental-20260908-2159以e4e为基线、仅同路径ino/rect.c变化、2122其余源依赖校验，独立output/manifest；normal-rowclip-incremental-20260908-2200以7b82为基线仅rect.c变更、2123其它依赖，独立output/manifest。两构建进行中，均非fresh，不覆盖旧候选output；只有实机ON全门槛PASS后部署新normal。当前设备仍ad8a正常，≥24平均FPS已达，但完整性能目标继续未完成。

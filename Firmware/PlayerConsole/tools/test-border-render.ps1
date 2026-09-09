@@ -35,6 +35,7 @@ $reference = [regex]::Replace($reference, $backgroundPattern, '')
 $outerPattern = '(?s)    /\* A clip entirely in one outer corner can miss the rounded border\..*?\n    }\r?\n\r?\n'
 if ([regex]::Matches($reference, $outerPattern).Count -ne 1) { throw 'Expected exactly one outer-corner optimization block.' }
 $reference = [regex]::Replace($reference, $outerPattern, '')
+$reference = $reference.Replace('#define ROW_CLIP_ENABLED profile_row_clip', '#define ROW_CLIP_ENABLED 0').Replace('#define ROW_CLIP_ENABLED 1', '#define ROW_CLIP_ENABLED 0')
 $utf8 = [Text.UTF8Encoding]::new($false)
 [IO.File]::WriteAllText((Join-Path $OutputDir 'baseline_rect.c'), $reference, $utf8)
 $cmakeText = @'
@@ -49,7 +50,7 @@ target_compile_options(lvgl PRIVATE /w)
 add_library(baseline OBJECT baseline_rect.c)
 target_include_directories(baseline PRIVATE library/src/draw/sw)
 target_link_libraries(baseline PRIVATE lvgl)
-target_compile_definitions(baseline PRIVATE lv_draw_sw_rect=baseline_lv_draw_sw_rect lv_draw_sw_bg=baseline_lv_draw_sw_bg draw_border_generic=baseline_draw_border_generic)
+target_compile_definitions(baseline PRIVATE lv_draw_sw_rect=baseline_lv_draw_sw_rect lv_draw_sw_bg=baseline_lv_draw_sw_bg draw_border_generic=baseline_draw_border_generic gridopoly_set_row_clip=baseline_gridopoly_set_row_clip)
 add_executable(render_compare render_compare.c $<TARGET_OBJECTS:baseline>)
 target_link_libraries(render_compare PRIVATE lvgl)
 '@
@@ -59,7 +60,7 @@ if ($Profile) { $cmakeText += "`nadd_compile_definitions(GRIDOPOLY_SELF_TEST=1)`
     source = $rectPath; sourceSha256 = (Get-FileHash -LiteralPath $rectPath).Hash
     referenceSha256 = (Get-FileHash -LiteralPath (Join-Path $OutputDir 'baseline_rect.c')).Hash
     configSha256 = (Get-FileHash -LiteralPath $config).Hash
-    reference = 'Same renderer with the border-interior, background-interior and outer-corner optimization blocks removed'
+    reference = 'Same renderer with three conservative culls removed and ROW_CLIP_ENABLED=0 (SPLIT_LIMIT stays 50)'
 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $OutputDir 'inputs.json') -Encoding utf8
 $build = Join-Path $OutputDir 'build'
 $lines = @('@echo off', "call `"$VsDevCmd`" -arch=x64 >nul",

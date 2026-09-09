@@ -20,6 +20,13 @@
 #define SHADOW_UPSCALE_SHIFT    6
 #define SHADOW_ENHANCE          1
 #define SPLIT_LIMIT             50
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+static bool profile_row_clip = true;
+void gridopoly_set_row_clip(bool enabled) { profile_row_clip = enabled; }
+#define ROW_CLIP_ENABLED profile_row_clip
+#else
+#define ROW_CLIP_ENABLED 1
+#endif
 
 /**********************
  *      TYPEDEFS
@@ -258,6 +265,9 @@ static void draw_bg(lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * dsc, co
         lv_coord_t top_y = bg_coords.y1 + h;
         lv_coord_t bottom_y = bg_coords.y2 - h;
         if(top_y < clipped_coords.y1 && bottom_y > clipped_coords.y2) continue;   /*This line is clipped now*/
+        if((ROW_CLIP_ENABLED && grad_dir == LV_GRAD_DIR_NONE) &&
+           (top_y < clipped_coords.y1 || top_y > clipped_coords.y2) &&
+           (bottom_y < clipped_coords.y1 || bottom_y > clipped_coords.y2)) continue;
 
         /* Initialize the mask to opa instead of 0xFF and blend with LV_OPA_COVER.
          * It saves calculating the final opa in lv_draw_sw_blend*/
@@ -265,7 +275,7 @@ static void draw_bg(lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * dsc, co
         blend_dsc.mask_res = lv_draw_mask_apply(mask_buf, blend_area.x1, top_y, clipped_w);
         if(blend_dsc.mask_res == LV_DRAW_MASK_RES_FULL_COVER) blend_dsc.mask_res = LV_DRAW_MASK_RES_CHANGED;
 
-        if(top_y >= clipped_coords.y1) {
+        if(top_y >= clipped_coords.y1 && (!(ROW_CLIP_ENABLED && grad_dir == LV_GRAD_DIR_NONE) || top_y <= clipped_coords.y2)) {
             blend_area.y1 = top_y;
             blend_area.y2 = top_y;
 
@@ -276,7 +286,7 @@ static void draw_bg(lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * dsc, co
             lv_draw_sw_blend(draw_ctx, &blend_dsc);
         }
 
-        if(bottom_y <= clipped_coords.y2) {
+        if(bottom_y <= clipped_coords.y2 && (!(ROW_CLIP_ENABLED && grad_dir == LV_GRAD_DIR_NONE) || bottom_y >= clipped_coords.y1)) {
             blend_area.y1 = bottom_y;
             blend_area.y2 = bottom_y;
 
@@ -1337,17 +1347,20 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
             lv_coord_t top_y = outer_area->y1 + h;
             lv_coord_t bottom_y = outer_area->y2 - h;
             if(top_y < draw_area.y1 && bottom_y > draw_area.y2) continue;   /*This line is clipped now*/
+            if(ROW_CLIP_ENABLED &&
+               (top_y < draw_area.y1 || top_y > draw_area.y2) &&
+               (bottom_y < draw_area.y1 || bottom_y > draw_area.y2)) continue;
 
             lv_memset_ff(blend_dsc.mask_buf, draw_area_w);
             blend_dsc.mask_res = lv_draw_mask_apply(blend_dsc.mask_buf, blend_area.x1, top_y, draw_area_w);
 
-            if(top_y >= draw_area.y1) {
+            if(top_y >= draw_area.y1 && (!ROW_CLIP_ENABLED || top_y <= draw_area.y2)) {
                 blend_area.y1 = top_y;
                 blend_area.y2 = top_y;
                 lv_draw_sw_blend(draw_ctx, &blend_dsc);
             }
 
-            if(bottom_y <= draw_area.y2) {
+            if(bottom_y <= draw_area.y2 && (!ROW_CLIP_ENABLED || bottom_y >= draw_area.y1)) {
                 blend_area.y1 = bottom_y;
                 blend_area.y2 = bottom_y;
                 lv_draw_sw_blend(draw_ctx, &blend_dsc);
@@ -1361,7 +1374,7 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
         blend_w = lv_area_get_width(&blend_area);
         if(blend_w > 0) {
             if(left_side || top_side) {
-                for(h = draw_area.y1; h < core_area.y1; h++) {
+                for(h = draw_area.y1; h < core_area.y1 && (!ROW_CLIP_ENABLED || h <= draw_area.y2); h++) {
                     blend_area.y1 = h;
                     blend_area.y2 = h;
 
@@ -1372,7 +1385,8 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
             }
 
             if(left_side || bottom_side) {
-                for(h = core_area.y2 + 1; h <= draw_area.y2; h++) {
+                for(h = ROW_CLIP_ENABLED ? LV_MAX(core_area.y2 + 1, draw_area.y1) : core_area.y2 + 1;
+                    h <= draw_area.y2; h++) {
                     blend_area.y1 = h;
                     blend_area.y2 = h;
 
@@ -1390,7 +1404,7 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
 
         if(blend_w > 0) {
             if(right_side || top_side) {
-                for(h = draw_area.y1; h < core_area.y1; h++) {
+                for(h = draw_area.y1; h < core_area.y1 && (!ROW_CLIP_ENABLED || h <= draw_area.y2); h++) {
                     blend_area.y1 = h;
                     blend_area.y2 = h;
 
@@ -1401,7 +1415,8 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
             }
 
             if(right_side || bottom_side) {
-                for(h = core_area.y2 + 1; h <= draw_area.y2; h++) {
+                for(h = ROW_CLIP_ENABLED ? LV_MAX(core_area.y2 + 1, draw_area.y1) : core_area.y2 + 1;
+                    h <= draw_area.y2; h++) {
                     blend_area.y1 = h;
                     blend_area.y2 = h;
 
