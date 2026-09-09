@@ -176,7 +176,7 @@ bool lvgl_port_frame_ticket_presented(uint32_t ticket);
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
 // Accumulated between completed last-flush boundaries, not an exact
 // decomposition of the LVGL monitor duration on the same diagnostic line.
-struct LvglRenderTimings { uint32_t copyUs, rectUs, glyphUs; };
+struct LvglRenderTimings { uint32_t copyUs, rectUs, glyphUs; GridopolyDrawProfile details; };
 LvglRenderTimings lvgl_port_last_render_timings(void);
 uint32_t lvgl_port_last_submit_us(void);
 uint32_t lvgl_port_last_wait_us(void);

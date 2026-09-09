@@ -173,3 +173,16 @@ ad8a正常固件完成UDP120秒观测（40秒规则中断）和独立WiFi90秒�
 此前认为短断线不能证明recover分支只是准备阶段限制；源码30秒为距上次begin/recover连接尝试的节流，此次原始日志已证明实际走到该分支。没有模拟30秒以上WiFi长故障或移动中断网，当前phase0无pendingMove；移动保持和重复Tag财务幂等由556a54d隔离回归覆盖。完整时间源/采集间隙及场景界限见服务器、玩家报告，不把当前场景扩大成全部故障覆盖。
 
 opaque背景内部跳过圆角mask及socket选项调用顺序修正已提交110a5ba，54,190像素对照PASS，两份fresh候选仍在构建。源码与候选输入4/4匹配。当前设备继续ad8a，玩家两项RETARGET/ASSETS_WARM max-gap FAIL尚待新实测，下一SelfTest有界且finally恢复ad8a，构建通过后直接继续验证，无新的用户许可阻塞。主任务继续持有剩余验收，不创建自动化。
+
+
+#### 背景候选实测仍有峰值，转向外侧圆环裁剪及同固件对照
+
+32bc19203fad156b224e7eb5731992df77c3a115d9f24f0d585eb45033b08fa3 SelfTest实测pure/component通过，七场景24–28FPS，RETARGET max58ms、ASSETS_WARM max57ms仍FAIL；opaque背景优化不足以消除峰值。bg-perf-window-20260908-2113原日志已由主任务核对，finally恢复ad8a并完成45秒正常观察。BG正常候选4d71693b186aa6b1ce9ff0a051d05e32678a18bcefb6563daa341e2766f01c40虽构建通过，但未部署。
+
+主任务独立检查实际UI：两圈背景透明，outer(31,31,418,418)/radius209/border5，inner(44,44,392,392)/radius196/border2；LVGL性能标签每300ms在右下更新。实际冻结LVGL主机复刻三组FPS/CPU标签尺寸并保守扩3px，用真实两圈绘制验证该角落区域均0像素贡献；证据Temp/gridopoly-overlay-ring-review。该角落仍与外圈方形包围盒相交，现有仅内部hole裁剪不能排除；每帧mask cleanup还释放circle缓存，因此该无贡献区域值得检查是否引发额外半径计算。主机零贡献和耗时不替代设备因果证据。
+
+玩家任务实现保守外角排除：clip必须完整处于单个圆角象限，以最近点int64平方距离超过(r+2)^2才跳过border/outline路径，保留AA边界，不能用四角全外判断跨圆矩形。正常宏和SelfTest诊断宏各68,014组实际LVGL像素对照通过，工具支持4角/跨圆/包圆/非方/负坐标/半径clamp/alpha/blend/mask/gradient。
+
+新增SelfTest专用bg/img/border/outline/shadow、mask初始化/计算/hit/miss、最慢rect及最多6flush区域的有界诊断；回调不打印，所有场景结束后统一输出，计时按last-flush边界聚合且嵌套mask时间不可重复相加。先完整OFF七场景，再ON七场景；最终门槛只取ON完整suite，基线日志独立BASELINE前缀。主任务审查修正OFF/ON开关必须持LVGL锁，避免跨任务数据竞争和半帧切换。
+
+21:24旧SelfTest构建早期因Arduino发现库前的直接profile头路径失败，未部署；改为库lvgl.h公共入口在SelfTest宏下暴露头，并于21:27新fresh重建含锁修正。21:24正常候选继续，差异只在SELF_TEST屏蔽范围，其生产外侧裁剪一致。当前设备ad8a正常，待新完整A/B实测，不放宽门槛、不改变overlay/AA/PCLK/首帧回执，结束仍finally恢复ad8a。

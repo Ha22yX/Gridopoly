@@ -25,6 +25,9 @@ extern "C" {
 #include "src/misc/lv_log.h"
 #include "src/misc/lv_timer.h"
 #include "src/misc/lv_math.h"
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+#include "src/draw/gridopoly_draw_profile.h"
+#endif
 #include "src/misc/lv_mem.h"
 #include "src/misc/lv_async.h"
 #include "src/misc/lv_anim_timeline.h"

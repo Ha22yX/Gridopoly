@@ -23,6 +23,11 @@ using namespace esp_panel::drivers;
 static portMUX_TYPE frame_ticket_mux = portMUX_INITIALIZER_UNLOCKED;
 static FramePresentationTracker frame_tickets;
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+extern "C" {
+GridopolyDrawProfile gridopoly_draw_profile{};
+bool gridopoly_profile_outer_clip_enabled = true;
+uint32_t gridopoly_profile_now_us(void) { return static_cast<uint32_t>(esp_timer_get_time()); }
+}
 static uint32_t frame_submit_us = 0, frame_wait_us = 0;
 static LvglRenderTimings pending_render_timings{}, frame_render_timings{};
 static decltype(lv_draw_ctx_t::buffer_copy) unprofiled_copy = nullptr;
@@ -41,7 +46,18 @@ static void profile_rect(lv_draw_ctx_t *ctx, const lv_draw_rect_dsc_t *dsc, cons
 {
     const int64_t started = esp_timer_get_time();
     unprofiled_rect(ctx, dsc, area);
-    pending_render_timings.rectUs += static_cast<uint32_t>(esp_timer_get_time() - started);
+    const uint32_t duration = static_cast<uint32_t>(esp_timer_get_time() - started);
+    pending_render_timings.rectUs += duration;
+    ++gridopoly_draw_profile.rectCalls;
+    if (duration > gridopoly_draw_profile.peakRectUs) {
+        gridopoly_draw_profile.peakRectUs = duration;
+        gridopoly_draw_profile.peakArea = *area;
+        gridopoly_draw_profile.peakClip = *ctx->clip_area;
+        gridopoly_draw_profile.peakRadius = dsc->radius;
+        gridopoly_draw_profile.peakBorder = dsc->border_width;
+        gridopoly_draw_profile.peakShadow = dsc->shadow_width;
+        gridopoly_draw_profile.peakOpacity = dsc->bg_opa;
+    }
 }
 static void profile_letter(lv_draw_ctx_t *ctx, const lv_draw_label_dsc_t *dsc,
                            const lv_point_t *position, uint32_t letter)
@@ -436,6 +452,13 @@ static void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
 static void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map)
 {
     LCD *lcd = (LCD *)drv->user_data;
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    if (gridopoly_draw_profile.flushCount < 6) {
+        gridopoly_draw_profile.flushAreas[gridopoly_draw_profile.flushCount++] = *area;
+    } else {
+        ++gridopoly_draw_profile.flushDropped;
+    }
+#endif
 
     /* Action after last area refresh */
     if (lv_disp_flush_is_last(drv)) {
@@ -454,6 +477,8 @@ static void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
         frame_wait_us = static_cast<uint32_t>(esp_timer_get_time() - wait_started);
+        pending_render_timings.details = gridopoly_draw_profile;
+        gridopoly_draw_profile = GridopolyDrawProfile{};
         frame_render_timings = pending_render_timings;
         pending_render_timings = LvglRenderTimings{};
 #endif

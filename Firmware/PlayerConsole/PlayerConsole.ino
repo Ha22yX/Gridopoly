@@ -198,6 +198,7 @@ struct CarouselPerfResult {
     uint32_t pixelCounts[kPerfTraceCapacity]{};
     uint32_t submitUs[kPerfTraceCapacity]{}, waitUs[kPerfTraceCapacity]{};
     uint32_t copyUs[kPerfTraceCapacity]{}, rectUs[kPerfTraceCapacity]{}, glyphUs[kPerfTraceCapacity]{};
+    GridopolyDrawProfile drawProfiles[kPerfTraceCapacity]{};
     uint8_t traceCount = 0;
     uint32_t incrementalRenders = 0;
     uint32_t rebuildRenders = 0;
@@ -228,6 +229,8 @@ struct CarouselPerfProbe {
     volatile uint32_t pixelCounts[kPerfTraceCapacity]{};
     volatile uint32_t submitUs[kPerfTraceCapacity]{}, waitUs[kPerfTraceCapacity]{};
     volatile uint32_t copyUs[kPerfTraceCapacity]{}, rectUs[kPerfTraceCapacity]{}, glyphUs[kPerfTraceCapacity]{};
+    // Written/read while holding the LVGL mutex; no callback serial output.
+    GridopolyDrawProfile drawProfiles[kPerfTraceCapacity]{};
     void (*previousMonitor)(lv_disp_drv_t *, uint32_t, uint32_t) = nullptr;
 };
 
@@ -327,6 +330,7 @@ void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixe
             carouselPerfProbe.copyUs[index] = timings.copyUs;
             carouselPerfProbe.rectUs[index] = timings.rectUs;
             carouselPerfProbe.glyphUs[index] = timings.glyphUs;
+            carouselPerfProbe.drawProfiles[index] = timings.details;
         }
         ++carouselPerfProbe.frames;
         if (perfCoverageReached(nowMs, carouselPerfProbe.startedMs,
@@ -557,6 +561,7 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
         result.copyUs[index] = carouselPerfProbe.copyUs[index];
         result.rectUs[index] = carouselPerfProbe.rectUs[index];
         result.glyphUs[index] = carouselPerfProbe.glyphUs[index];
+        result.drawProfiles[index] = carouselPerfProbe.drawProfiles[index];
     }
     const UiRendererTestStats rendererStats = uiRendererGetTestStats();
     result.incrementalRenders = rendererStats.incrementalRenders;
@@ -623,6 +628,22 @@ void printPerfResult(const char *marker, const CarouselPerfResult &result)
         );
     }
     esp_rom_printf("\n");
+    for (uint8_t index = 0; index < result.traceCount; ++index) {
+        const GridopolyDrawProfile &p = result.drawProfiles[index];
+        esp_rom_printf("%s DRAW frame=%u bg=%lu img=%lu border=%lu outline=%lu shadow=%lu mask_init=%lu mask_calc=%lu hit=%lu miss=%lu calls=%lu peak_us=%lu area=%d,%d,%d,%d clip=%d,%d,%d,%d radius=%d bw=%d sw=%d opa=%u flush_dropped=%u",
+            marker, index, (unsigned long)p.bgUs, (unsigned long)p.bgImageUs,
+            (unsigned long)p.borderUs, (unsigned long)p.outlineUs, (unsigned long)p.shadowUs,
+            (unsigned long)p.maskInitUs, (unsigned long)p.maskCalcUs,
+            (unsigned long)p.maskHits, (unsigned long)p.maskMisses, (unsigned long)p.rectCalls,
+            (unsigned long)p.peakRectUs, p.peakArea.x1, p.peakArea.y1, p.peakArea.x2, p.peakArea.y2,
+            p.peakClip.x1, p.peakClip.y1, p.peakClip.x2, p.peakClip.y2,
+            p.peakRadius, p.peakBorder, p.peakShadow, p.peakOpacity, p.flushDropped);
+        for (uint8_t region = 0; region < p.flushCount; ++region) {
+            const lv_area_t &a = p.flushAreas[region];
+            esp_rom_printf(" flush=%d,%d,%d,%d", a.x1, a.y1, a.x2, a.y2);
+        }
+        esp_rom_printf("\n");
+    }
     if (result.steadyIntervals > 0) {
         esp_rom_printf(
             "%s STEADY intervals=%u fps=%u coverage_ms=%u\n",
@@ -749,6 +770,23 @@ void setup()
 #if GRIDOPOLY_SELF_TEST == 1
     // Leave enough time to attach a monitor after the uploader resets native USB.
     delay(12000);
+    // One diagnostic boot compares identical fixtures with only the outer
+    // corner border cull disabled/enabled. Serial output follows both suites.
+    static CarouselPerfResult outerClipBaseline[7];
+    const PerfScenario baselineScenarios[] = {
+        PerfScenario::WaitingForward, PerfScenario::WaitingReverseWrap,
+        PerfScenario::MyTurnFive, PerfScenario::Retarget, PerfScenario::SwipeEvent,
+        PerfScenario::AssetsListCold, PerfScenario::AssetsListWarm
+    };
+    if (!lvgl_port_lock(-1)) { fault("LVGL_PROFILE_LOCK"); return; }
+    gridopoly_profile_outer_clip_enabled = false;
+    lvgl_port_unlock();
+    for (uint8_t scene = 0; scene < 7; ++scene) {
+        outerClipBaseline[scene] = runCarouselPerfFixture(app, baselineScenarios[scene]);
+    }
+    if (!lvgl_port_lock(-1)) { fault("LVGL_PROFILE_LOCK"); return; }
+    gridopoly_profile_outer_clip_enabled = true;
+    lvgl_port_unlock();
     static CarouselPerfResult waitingForward;
     static CarouselPerfResult waitingReverseWrap;
     static CarouselPerfResult myTurnFive;
@@ -782,6 +820,15 @@ void setup()
                                 swipeEvent.passed && assetsListCold.passed &&
                                 assetsListWarm.passed;
     const bool passed = purePassed && componentPassed && livePerfPassed;
+    const char *baselineMarkers[] = {
+        "BASELINE CAROUSEL PERF WAIT_FWD", "BASELINE CAROUSEL PERF WAIT_WRAP_REV",
+        "BASELINE CAROUSEL PERF MYTURN_5", "BASELINE CAROUSEL PERF RETARGET",
+        "BASELINE CAROUSEL PERF SWIPE_EVENT", "BASELINE LIST PERF ASSETS_SCROLL_COLD",
+        "BASELINE LIST PERF ASSETS_SCROLL_WARM"
+    };
+    for (uint8_t scene = 0; scene < 7; ++scene) {
+        printPerfResult(baselineMarkers[scene], outerClipBaseline[scene]);
+    }
     esp_rom_printf("%s\n", testOutput.data());
     printPerfResult("CAROUSEL PERF WAIT_FWD", waitingForward);
     printPerfResult("CAROUSEL PERF WAIT_WRAP_REV", waitingReverseWrap);

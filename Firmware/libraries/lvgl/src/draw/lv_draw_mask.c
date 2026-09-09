@@ -7,6 +7,7 @@
  *      INCLUDES
  *********************/
 #include "lv_draw.h"
+#include "gridopoly_draw_profile.h"
 #if LV_DRAW_COMPLEX
 #include "../misc/lv_math.h"
 #include "../misc/lv_log.h"
@@ -474,6 +475,9 @@ void lv_draw_mask_angle_init(lv_draw_mask_angle_param_t * param, lv_coord_t vert
  */
 void lv_draw_mask_radius_init(lv_draw_mask_radius_param_t * param, const lv_area_t * rect, lv_coord_t radius, bool inv)
 {
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    const uint32_t profile_started = gridopoly_profile_now_us();
+#endif
     lv_coord_t w = lv_area_get_width(rect);
     lv_coord_t h = lv_area_get_height(rect);
     int32_t short_side = LV_MIN(w, h);
@@ -488,6 +492,9 @@ void lv_draw_mask_radius_init(lv_draw_mask_radius_param_t * param, const lv_area
 
     if(radius == 0) {
         param->circle = NULL;
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+        gridopoly_draw_profile.maskInitUs += gridopoly_profile_now_us() - profile_started;
+#endif
         return;
     }
 
@@ -499,6 +506,10 @@ void lv_draw_mask_radius_init(lv_draw_mask_radius_param_t * param, const lv_area
             LV_GC_ROOT(_lv_circle_cache[i]).used_cnt++;
             CIRCLE_CACHE_AGING(LV_GC_ROOT(_lv_circle_cache[i]).life, radius);
             param->circle = &LV_GC_ROOT(_lv_circle_cache[i]);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+            ++gridopoly_draw_profile.maskHits;
+            gridopoly_draw_profile.maskInitUs += gridopoly_profile_now_us() - profile_started;
+#endif
             return;
         }
     }
@@ -526,7 +537,15 @@ void lv_draw_mask_radius_init(lv_draw_mask_radius_param_t * param, const lv_area
 
     param->circle = entry;
 
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    ++gridopoly_draw_profile.maskMisses;
+    const uint32_t calc_started = gridopoly_profile_now_us();
+#endif
     circ_calc_aa4(param->circle, radius);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    gridopoly_draw_profile.maskCalcUs += gridopoly_profile_now_us() - calc_started;
+    gridopoly_draw_profile.maskInitUs += gridopoly_profile_now_us() - profile_started;
+#endif
 }
 
 /**

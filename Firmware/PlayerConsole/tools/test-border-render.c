@@ -4,6 +4,13 @@
 #include <string.h>
 #include <time.h>
 
+#include "src/draw/gridopoly_draw_profile.h"
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+GridopolyDrawProfile gridopoly_draw_profile;
+bool gridopoly_profile_outer_clip_enabled = true;
+uint32_t gridopoly_profile_now_us(void) { return (uint32_t)clock(); }
+#endif
+
 void baseline_lv_draw_sw_rect(lv_draw_ctx_t *, const lv_draw_rect_dsc_t *, const lv_area_t *);
 static lv_color_t original[480 * 480], optimized[480 * 480];
 static lv_area_t screen = {0, 0, 479, 479};
@@ -93,7 +100,9 @@ int main(void)
         {104,137,375,302}, {48,300,431,373}, {200,200,280,280},
         {31,31,448,448}, {0,0,479,479}, {31,31,32,32},
         {238,31,242,38}, {238,441,242,448}, {31,238,38,242},
-        {441,238,448,242}, {36,36,443,443}, {240,35,240,36}
+        {441,238,448,242}, {36,36,443,443}, {240,35,240,36},
+        {390,430,479,479}, {0,0,80,50}, {400,0,479,60}, {0,410,70,479},
+        {20,200,460,280}, {200,20,280,460}
     };
     for(unsigned r=0; r<sizeof radii/sizeof *radii; ++r)
     for(unsigned w=0; w<sizeof widths/sizeof *widths; ++w)

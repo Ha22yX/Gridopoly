@@ -7,6 +7,7 @@
  *      INCLUDES
  *********************/
 #include "lv_draw_sw.h"
+#include "../gridopoly_draw_profile.h"
 #include "../../misc/lv_math.h"
 #include "../../misc/lv_txt_ap.h"
 #include "../../core/lv_refr.h"
@@ -67,15 +68,15 @@ static void draw_border_simple(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer
 void lv_draw_sw_rect(lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * dsc, const lv_area_t * coords)
 {
 #if LV_DRAW_COMPLEX
-    draw_shadow(draw_ctx, dsc, coords);
+    GRIDOPOLY_PROFILE_STAGE(shadowUs, draw_shadow(draw_ctx, dsc, coords));
 #endif
 
-    draw_bg(draw_ctx, dsc, coords);
-    draw_bg_img(draw_ctx, dsc, coords);
+    GRIDOPOLY_PROFILE_STAGE(bgUs, draw_bg(draw_ctx, dsc, coords));
+    GRIDOPOLY_PROFILE_STAGE(bgImageUs, draw_bg_img(draw_ctx, dsc, coords));
 
-    draw_border(draw_ctx, dsc, coords);
+    GRIDOPOLY_PROFILE_STAGE(borderUs, draw_border(draw_ctx, dsc, coords));
 
-    draw_outline(draw_ctx, dsc, coords);
+    GRIDOPOLY_PROFILE_STAGE(outlineUs, draw_outline(draw_ctx, dsc, coords));
 
     LV_ASSERT_MEM_INTEGRITY();
 }
@@ -86,8 +87,8 @@ void lv_draw_sw_bg(lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * dsc, con
     lv_memset_00(draw_ctx->buf, lv_area_get_size(draw_ctx->buf_area) * sizeof(lv_color_t));
 #endif
 
-    draw_bg(draw_ctx, dsc, coords);
-    draw_bg_img(draw_ctx, dsc, coords);
+    GRIDOPOLY_PROFILE_STAGE(bgUs, draw_bg(draw_ctx, dsc, coords));
+    GRIDOPOLY_PROFILE_STAGE(bgImageUs, draw_bg_img(draw_ctx, dsc, coords));
 }
 
 /**********************
@@ -1179,6 +1180,29 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
      *It is always the same or inside `coords`*/
     lv_area_t draw_area;
     if(!_lv_area_intersect(&draw_area, outer_area, draw_ctx->clip_area)) return;
+
+    /* A clip entirely in one outer corner can miss the rounded border.
+     * Only test that corner's closest point; four outside clip corners alone
+     * do not prove disjointness. Two pixels retain the original AA boundary. */
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    if(gridopoly_profile_outer_clip_enabled)
+#endif
+    if(rout > 2) {
+        int32_t cx = 0, cy = 0, px = 0, py = 0;
+        bool x_corner = true, y_corner = true;
+        if(draw_area.x2 < outer_area->x1 + rout) {
+            cx = outer_area->x1 + rout; px = draw_area.x2;
+        } else if(draw_area.x1 > outer_area->x2 - rout) {
+            cx = outer_area->x2 - rout; px = draw_area.x1;
+        } else x_corner = false;
+        if(draw_area.y2 < outer_area->y1 + rout) {
+            cy = outer_area->y1 + rout; py = draw_area.y2;
+        } else if(draw_area.y1 > outer_area->y2 - rout) {
+            cy = outer_area->y2 - rout; py = draw_area.y1;
+        } else y_corner = false;
+        const int64_t dx = px - cx, dy = py - cy, safe_radius = (int32_t)rout + 2;
+        if(x_corner && y_corner && dx * dx + dy * dy > safe_radius * safe_radius) return;
+    }
 
     /* A local refresh wholly inside the border's hole cannot paint pixels.
      * Keep a two-pixel inset so the radius mask's antialiased edge always uses

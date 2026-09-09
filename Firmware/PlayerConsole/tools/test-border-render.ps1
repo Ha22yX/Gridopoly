@@ -1,5 +1,6 @@
 [CmdletBinding()]
 param(
+    [switch]$Profile,
     [string]$VsDevCmd = 'D:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\VsDevCmd.bat',
     [string]$CMake = 'D:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe',
     [string]$OutputDir = (Join-Path $env:LOCALAPPDATA ('GridopolyPlayerTools-3311\pixel-tests\' + [guid]::NewGuid().ToString('N')))
@@ -28,12 +29,12 @@ $pattern = '(?s)    /\* A local refresh wholly inside the border''s hole cannot 
 $matches = [regex]::Matches($rect, $pattern)
 if ($matches.Count -ne 1) { throw 'Expected exactly one border interior optimization block.' }
 $reference = [regex]::Replace($rect, $pattern, '')
-$backgroundPattern = '(?s)    /\* A clipped solid background wholly inside the rounded fill needs no mask\..*?
-    }?
-?
-'
+$backgroundPattern = '(?s)    /\* A clipped solid background wholly inside the rounded fill needs no mask\..*?\n    }\r?\n\r?\n'
 if ([regex]::Matches($reference, $backgroundPattern).Count -ne 1) { throw 'Expected exactly one background interior optimization block.' }
 $reference = [regex]::Replace($reference, $backgroundPattern, '')
+$outerPattern = '(?s)    /\* A clip entirely in one outer corner can miss the rounded border\..*?\n    }\r?\n\r?\n'
+if ([regex]::Matches($reference, $outerPattern).Count -ne 1) { throw 'Expected exactly one outer-corner optimization block.' }
+$reference = [regex]::Replace($reference, $outerPattern, '')
 $utf8 = [Text.UTF8Encoding]::new($false)
 [IO.File]::WriteAllText((Join-Path $OutputDir 'baseline_rect.c'), $reference, $utf8)
 $cmakeText = @'
@@ -52,12 +53,13 @@ target_compile_definitions(baseline PRIVATE lv_draw_sw_rect=baseline_lv_draw_sw_
 add_executable(render_compare render_compare.c $<TARGET_OBJECTS:baseline>)
 target_link_libraries(render_compare PRIVATE lvgl)
 '@
+if ($Profile) { $cmakeText += "`nadd_compile_definitions(GRIDOPOLY_SELF_TEST=1)`n" }
 [IO.File]::WriteAllText((Join-Path $OutputDir 'CMakeLists.txt'), $cmakeText, $utf8)
 @{
     source = $rectPath; sourceSha256 = (Get-FileHash -LiteralPath $rectPath).Hash
     referenceSha256 = (Get-FileHash -LiteralPath (Join-Path $OutputDir 'baseline_rect.c')).Hash
     configSha256 = (Get-FileHash -LiteralPath $config).Hash
-    reference = 'Same renderer with only the conservative border/background interior optimization blocks removed'
+    reference = 'Same renderer with the border-interior, background-interior and outer-corner optimization blocks removed'
 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $OutputDir 'inputs.json') -Encoding utf8
 $build = Join-Path $OutputDir 'build'
 $lines = @('@echo off', "call `"$VsDevCmd`" -arch=x64 >nul",
