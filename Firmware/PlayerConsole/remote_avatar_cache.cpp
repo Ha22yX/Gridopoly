@@ -522,7 +522,6 @@ bool downloadAsset(WiFiClient &client, const ClaimedRequest &request,
     // connect establish network truth; an actual outage follows the normal
     // bounded timeout/retry path instead of becoming an endless local retry.
     client.setTimeout(kHttpTimeoutMs);
-    client.setNoDelay(true);
     HTTPClient http;
     http.setConnectTimeout(1800);
     http.setTimeout(kHttpTimeoutMs);
@@ -531,6 +530,8 @@ bool downloadAsset(WiFiClient &client, const ClaimedRequest &request,
     const String url = String(kServerBaseUrl) + request.path;
     if (!http.begin(client, url)) return false;
     const int status = http.GET();
+    // Socket options need an established descriptor, including after reconnect.
+    if (client.connected()) client.setNoDelay(true);
     const int contentLength = http.getSize();
     const size_t maxBytes = request.kind == RequestKind::Component
         ? kMaxComponentFileBytes : kRemoteAvatarFinalBytes;

@@ -141,6 +141,24 @@ static void draw_bg(lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * dsc, co
     int32_t short_side = LV_MIN(coords_bg_w, coords_bg_h);
     int32_t rout = LV_MIN(dsc->radius, short_side >> 1);
 
+    /* A clipped solid background wholly inside the rounded fill needs no mask.
+     * Keep two pixels of clearance so the existing AA boundary path is unchanged.
+     * Partial opacity keeps the original mask path, including AA-off thresholding. */
+    if(!mask_any && grad_dir == LV_GRAD_DIR_NONE && rout > 0 && opa == LV_OPA_COVER) {
+        lv_area_t safe_bg = bg_coords;
+        safe_bg.x1 += 2;
+        safe_bg.y1 += 2;
+        safe_bg.x2 -= 2;
+        safe_bg.y2 -= 2;
+        if(safe_bg.x1 <= safe_bg.x2 && safe_bg.y1 <= safe_bg.y2 &&
+           _lv_area_is_in(&clipped_coords, &safe_bg, LV_MAX(rout - 2, 0))) {
+            blend_dsc.blend_area = &clipped_coords;
+            blend_dsc.opa = opa;
+            lv_draw_sw_blend(draw_ctx, &blend_dsc);
+            return;
+        }
+    }
+
     /*Add a radius mask if there is radius*/
     int32_t clipped_w = lv_area_get_width(&clipped_coords);
     int16_t mask_rout_id = LV_MASK_ID_INV;

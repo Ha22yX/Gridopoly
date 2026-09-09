@@ -28,6 +28,12 @@ $pattern = '(?s)    /\* A local refresh wholly inside the border''s hole cannot 
 $matches = [regex]::Matches($rect, $pattern)
 if ($matches.Count -ne 1) { throw 'Expected exactly one border interior optimization block.' }
 $reference = [regex]::Replace($rect, $pattern, '')
+$backgroundPattern = '(?s)    /\* A clipped solid background wholly inside the rounded fill needs no mask\..*?
+    }?
+?
+'
+if ([regex]::Matches($reference, $backgroundPattern).Count -ne 1) { throw 'Expected exactly one background interior optimization block.' }
+$reference = [regex]::Replace($reference, $backgroundPattern, '')
 $utf8 = [Text.UTF8Encoding]::new($false)
 [IO.File]::WriteAllText((Join-Path $OutputDir 'baseline_rect.c'), $reference, $utf8)
 $cmakeText = @'
@@ -51,7 +57,7 @@ target_link_libraries(render_compare PRIVATE lvgl)
     source = $rectPath; sourceSha256 = (Get-FileHash -LiteralPath $rectPath).Hash
     referenceSha256 = (Get-FileHash -LiteralPath (Join-Path $OutputDir 'baseline_rect.c')).Hash
     configSha256 = (Get-FileHash -LiteralPath $config).Hash
-    reference = 'Same renderer with only the conservative interior early-return block removed'
+    reference = 'Same renderer with only the conservative border/background interior optimization blocks removed'
 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $OutputDir 'inputs.json') -Encoding utf8
 $build = Join-Path $OutputDir 'build'
 $lines = @('@echo off', "call `"$VsDevCmd`" -arch=x64 >nul",

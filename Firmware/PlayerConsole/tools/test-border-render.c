@@ -9,6 +9,8 @@ static lv_color_t original[480 * 480], optimized[480 * 480];
 static lv_area_t screen = {0, 0, 479, 479};
 static lv_disp_t *display;
 static unsigned cases;
+static int background_opa = -1, blend_mode;
+static unsigned background_color = 0x125438;
 static double old_ticks, new_ticks;
 static unsigned rng = 0x934127ab;
 static unsigned next_random(void) { rng = rng * 1664525u + 1013904223u; return rng; }
@@ -18,8 +20,14 @@ static void compare(lv_area_t box, lv_area_t clip, int radius, int width,
 {
     lv_draw_rect_dsc_t dsc;
     lv_draw_rect_dsc_init(&dsc);
-    dsc.bg_opa = extras ? 128 : 0;
-    dsc.bg_color = lv_color_hex(0x125438);
+    dsc.bg_opa = background_opa >= 0 ? background_opa : (extras ? 128 : 0);
+    dsc.bg_color = lv_color_hex(background_color);
+    dsc.blend_mode = blend_mode;
+    if(extras & 8) {
+        dsc.bg_grad.dir = (extras & 16) ? LV_GRAD_DIR_HOR : LV_GRAD_DIR_VER;
+        dsc.bg_grad.stops[0].color = lv_color_hex(0x163247);
+        dsc.bg_grad.stops[1].color = lv_color_hex(0xdeb643);
+    }
     dsc.radius = radius;
     dsc.border_width = width;
     dsc.border_side = sides;
@@ -115,6 +123,27 @@ int main(void)
         int dist=dx*dx+dy*dy;
         if(dist<190*190 || dist>211*211) continue;
         lv_area_t clip={x,y,x+1,y+1};
+        compare(box,clip,209,5,LV_BORDER_SIDE_FULL,255,1,0);
+    }
+    /* Background coverage: interior, AA edge, border shrink, alpha rounding,
+     * blend modes, external masks and gradient fallback. */
+    const int bg_opacities[] = {0,1,2,3,127,128,251,252,253,254,255};
+    const unsigned colors[] = {0,0xffffff,0x125438,0xf537a9};
+    for(unsigned o=0; o<sizeof bg_opacities/sizeof *bg_opacities; ++o)
+    for(unsigned color=0; color<sizeof colors/sizeof *colors; ++color)
+    for(int mode=LV_BLEND_MODE_NORMAL; mode<=LV_BLEND_MODE_MULTIPLY; ++mode) {
+        background_opa=bg_opacities[o]; background_color=colors[color]; blend_mode=mode;
+        for(unsigned c=0; c<sizeof clips/sizeof *clips; ++c)
+        for(unsigned r=0; r<sizeof radii/sizeof *radii; ++r)
+            compare(box,clips[c],radii[r],widths[(o+c+r)%7],(o+c+r)%16,
+                    opacities[(o+c+r)%7],(c+r)%2,(c+r)%32);
+    }
+    blend_mode=LV_BLEND_MODE_NORMAL;
+    for(int y=31; y<=448; ++y) for(int x=31; x<=448; x+=3) {
+        int dx=x-240,dy=y-240,dist=dx*dx+dy*dy;
+        if(dist<190*190 || dist>211*211) continue;
+        lv_area_t clip={x,y,x+1,y+1};
+        background_opa=bg_opacities[(x+y)%11];
         compare(box,clip,209,5,LV_BORDER_SIDE_FULL,255,1,0);
     }
     printf("PASS %u pixel-identical render cases; old_cpu_ms=%.1f new_cpu_ms=%.1f (host timing only)\n",

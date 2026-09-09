@@ -50,3 +50,21 @@ INPUT TRACE ON开启90秒原始相位输出，INPUT TRACE OFF提前结束；默�
 源码检查点已由主任务统一提交：0630c01（旋钮输入）与ff348a2（预览所有权、重复到达、边框绘制、构建与验证工具）。玩家任务未执行Git写入。当前16个实现/工具文件的校验清单位于本机review-system-20260908/source-manifest.json；其中10个固件输入分别与两份最终候选快照逐文件核对，20/20匹配。两份进度报告已补齐候选SHA、实际设备仍ded137和待验收，交主任务统一提交。
 
 主任务已向用户提供当前测试草稿的具体选择：保存后更新，或明确允许丢弃草稿直接更新；两种选择尚未得到确认，未回答不视作授权。接到明确选择或确认保存的现场证据后，由主任务立即续派本任务执行已准备好的设备窗口。当前仅交付可审查的源码/构建阶段，不关闭≥24FPS、真实旋钮和两段恢复验证的总体目标；没有重建自动化。
+
+### 20:52 EDT 用户允许丢弃草稿后的合并实机验证
+
+用户已明确允许丢弃当前头像/名字草稿，原烧录前置阻塞解除。system-window-20260908-2043 对 c8faac38240d23db2ccad54b76357ed330668142bf1149afc5608189b573933d 实际烧录并运行完整 SelfTest：pure=1/component=1/perf=0，clean_before=1/clean_after=1，FIRST FAILURE NONE。七场景 fps/首帧/最大间隔分别为 WAIT_FWD 26/37/39 PASS、WAIT_WRAP_REV 28/17/39 PASS、MYTURN_5 26/35/39 PASS、RETARGET 26/18/57 FAIL、SWIPE_EVENT 26/31/39 PASS、ASSETS_SCROLL_COLD 24/55/58 PASS、ASSETS_SCROLL_WARM 25/35/58 FAIL（间隔单位ms）。Cold沿用既有60ms最大间隔例外，其58ms不能写成小于42ms；其余门槛未放宽。全部平均FPS已达24，仍有两项间隔失败，不能标完整性能通过。
+
+SelfTest结束finally成功恢复ded137，45秒正常采集后，按主任务明确安排部署功能正常候选ad8a154d50bab39551bf028d0e126f96b8e8687751071c82cdab1bf65b423b54，不让输入/预览修复继续停留源码。normal-system-window-20260908-2046保存候选SHA、完整上传和45秒启动：MAC dc:b4:d9:02:d1:dc，build Sep8 20:23:51，初始关联reason2重试后ms12242取得10.42.0.37，配对room993580100/seat1/session1245378996，v13/phase0/cash800/position0；30个组件均ready，未见组件retry/failed，后续status3稳定至ms45313。
+
+正常启动下载附近有29行可识别setSocketOption/Bad file number错误（并发日志交错，不能等同29次调用）；旧ded137恢复也有同类错误。源码downloadAsset在HTTP连接前对WiFiClient调用setNoDelay(true)，该core直接setsockopt(fd)，fd=-1会产生此日志，因此存在已定位的调用顺序问题；此次30/30组件完成，不把该日志当下载失败，也不声称零错误。后续修复应随性能候选一并构建验证。
+
+独立物理INPUT TRACE于20:50:28–20:51:58 EDT开启90秒，启用设备ms212113；目录input-trace-20260908-205028。只发送诊断ON/OFF，不reset或注入游戏输入；原始phase/step/recipe/丢失计数用于核对真实detent。主任务已收到开始/截止并负责用户最小操作请求；未出现实体操作或超时不得当PASS。两段实际网络中断仍未执行，将在独立输入窗口结束后协调。当前实际设备是ad8a功能候选，性能仍有上述两项FAIL。
+
+### 20:58 EDT 物理输入确认与下一性能候选
+
+用户向主任务明确确认“每格一步、方向正确，最后回到原选项”，本轮症状按用户实机验收通过，不扩展为全部间歇边界已证明。实际操作发生在90秒RAW TRACE结束后的recovery-udp-20260908-2052只读段：59个Avatar事件，45个编辑事件的delta到对应字段编号模数变换全部一致，应用延迟中位2ms、最大130ms，设备输入ms409685至456045；分析保存在该段avatar-input-analysis.json。普通INPUT/recipe有证据，原始AB未在实际操作期间采到，不声称完整相位到detent波形验收。无需用户重复同样操作。
+
+新的draw_bg优化只在无外部mask、无gradient、归一化opa=COVER且clip完全位于缩进2px的圆角填充内时使用一次实色blend；保留AA边缘和所有其他旧路径。第一版对半透明同样优化在case10813 AA关闭时失败，原因是原mask128会阈值化为0，而直接blend128不会；该错误版未构建固件或部署。限制opaque后54,190组实际LVGL新旧逐像素一致，覆盖11种alpha边界、4色、全部blend mode、gradient/外mask回退、AA开关、边框缩进及圆弧边缘。日志pixel-bg-20260908-2055.log与目录inputs.json保存源/参考/config SHA，host总CPU5414→5091ms仅作host参考，不代替ESP32性能。
+
+同一候选将downloadAsset的setNoDelay移到http.GET后且client.connected()时，避免连接前fd=-1。完整fresh SelfTest与normal构建已启动，当前设备仍ad8a。新自检将在网络窗口完成后执行，finally回到已验收ad8a，不回退缺输入修复的ded137。两项现有性能FAIL继续保留至新实测；不改24FPS/间隔/首帧门槛、AA、PCLK或frameTicket同步。
