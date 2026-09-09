@@ -316,3 +316,51 @@ IP有效、无panic；没有Action17、用户输入或触摸事件，不自动�
 `ded1375634d29cc454ce401dd7e1da56373e91055d2bd464a865bee3d3c31a8c`。
 下一可操作节点由主任务等待用户完成当前债务并正常进入MoveGuide后协调；
 保留功能和性能未验收清单，不把无移动的短窗口视为功能失败。
+
+## 2026-09-08 19:10 EDT 性能优化基线与重复到达修复（本轮进行中）
+
+用户已授权至少24FPS、必要SelfTest修复及真实断线恢复验证。首个有界COM7窗口记录在本机 GridopolyPlayerTools-3311/perf-window-20260908-1910，使用 SelfTest app 98ee4288cdd50aa3000ba0938ac30839d1e6fbc339c3f58d83dbef5b7259a9a7（DemoTransport，不写在线游戏）。窗口 finally 恢复正常 Action17/WiFi 候选 ded1375634d29cc454ce401dd7e1da56373e91055d2bd464a865bee3d3c31a8c，45秒观测 GOT_IP device ms1950、原room993580098/seat1恢复，权威v214/phase6/cash262/position0，COM7已释放。v212→214不归因为测试注入，服务端断连/重连也会推进版本。
+
+原始自检 component=1、pure=0、perf=0。性能：WAIT_FWD 24FPS/max39ms、WAIT_WRAP_REV 26/max39、MYTURN_5 22/max58、RETARGET 23/max57、SWIPE_EVENT 26/max39、ASSETS_SCROLL_COLD 19/max58、WARM 20/max58。后四项维持FAIL；原42ms间隔、80ms首帧等门槛未放宽。submit大多50–65us，慢帧wait约12–18.7ms，部分刷新除submit/wait外仍约32–41ms，不能简单归因为提交调用。按当前16MHz及水平548/垂直558时序估算扫描周期19.1115ms，38/39与57/58ms约为2/3次扫描，仅是时序估计。
+
+首个pure失败为 duplicate authoritative arrival does not restart or bypass the confirmation。修复 app_state.cpp 的 resyncContinuesCurrentRoll：相同房间/本人回合、MoveGuide已确认到达、同目标位置与同权威phase的resync保留确认截止；位置或phase变化仍重建。新增两个原生回归，修复前能复现同到达resync失败，修复后28/28通过；原完整SelfTest断言不改。尚待本版设备完整自检。
+
+当前实验将 LV_MEMCPY_MEMSET_STD 从0改1，比较平台内存函数，不预设更快；SelfTest新增copy/rect/glyph耗时。c/r/g定义为相邻末次flush完成边界之间累计耗时，不是同条monitor总时间的精确拆分，不用相减伪造逐帧CPU归因。没有调整PCLK、40行bounce、任务核、模式3防撕裂或Action17呈现门槛。实验构建/实测结果随后补录；当前设备仍正常ded137。
+
+### 19:32 EDT 标准内存函数A/B实测
+
+SelfTest app638c27051f96b97922d185afbf635e6135ef0e1c1631c8ff4b217cbbfde2c945（2059520 bytes）在 perf-window-20260908-1932 完成：pure=1/component=1/FIRST FAILURE NONE，证明本次重复到达修复通过完整设备自检；perf=0。MYTURN_5 22FPS/max57ms、RETARGET 23/max57、ASSETS冷20/max57、暖20/max58，标准memcpy未显示足够收益，已将LV_MEMCPY_MEMSET_STD退回0。其余三场景26FPS/max39ms通过。
+
+c一般0–1.7ms，r约12–25ms，g约2–8ms（各字段时间边界见上节），后续优化集中在矩形/圆角边框。正常ded137已自动写回，GOT_IP ms1960，原room/seat、v216 phase6 cash262 position0恢复，45秒status3无panic，窗口结束释放COM7。
+
+### 保守边框裁剪与像素回归（实机性能待测）
+
+唯一共享库变更为lv_draw_sw_rect.c：draw_border_generic在clip与外区求交后，若完整位于inner_area再缩2px的圆角内区则返回；抗锯齿边缘保留原路径。背景、阴影、outline仍由各自绘制步骤执行，不给整个对象提前返回。共享库范围已与主任务协调。
+
+工具test-border-render.ps1/test-border-render.c在ASCII临时快照编译当前LVGL与去除这段优化的参考渲染器。28,523组逐像素一致，覆盖side0..15、0/小/大/CIRCLE半径、宽度0到220、多个opacity、AA开关、背景/阴影/outline、border_post、附加线遮罩、非正方形/小尺寸/屏外坐标和圆弧边缘小clip。此为主机像素正确性，不是设备帧率。原始未修改参考文件和首轮25,523组结果另保留在native-render；可复现脚本结果见pixel-test-repro-20260908.log。本版SelfTest与正常候选正在构建，未部署优化版。
+
+后续compile-isolated脚本同时新建本轮run/libraries快照，记录sourceProjectLibraries与实际projectLibraries，避免依赖扫描反复读网络盘和共享库中途变化；外部板库仍来自已验证CLI配置。10项模拟检查通过，含新库编辑进入新run/旧run保存。当前正在编译的SelfTest仍使用启动时旧脚本输入，没有重启或替换；新production构建才用本地库快照。实际速度尚待该构建完成。
+
+### 19:44 EDT 构建缓存污染发现与修复
+
+193747 SelfTest在链接阶段失败，未上设备：lv_memset_ff/lv_memset未定义。保存的依赖文件确证lv_mem.c.d仍指向192041快照的STD1配置，而新rect.c.d指向193747的STD0配置。此前638二进制实测仍有效，但不将STD1/STD0比较作为可靠的全库单变量结论；上文“未显示足够收益”只指该候选未过门槛。失败日志compile-perf-border-20260908.log保留。
+
+194516 SelfTest改为默认唯一run/build及本轮本地库快照全新编译。compile-isolated进一步把可选ReuseBuildCache按全部sketch/项目库文件的相对路径+内容SHA256、mode/flags/core/外部库版本选择build-mode-fingerprint和同名独占锁；配置/头文件/删除/重命名变化不会复用旧对象，不删旧目录。13项模拟检查通过，新增同输入跨快照复用、lv_conf变化隔离、恢复相同配置返回对应缓存。正常候选验收同样采用新构建；之前并行准备的共享缓存production仍保留作为未验收构建，不用于替代此要求。
+
+### 19:57 EDT Avatar Setup旋钮反馈的正常固件只读采集
+
+用户新增Avatar Setup单格有时连跳问题，主任务暂管输入过滤/Avatar状态路径；玩家屏继续性能验证并负责COM7。根据主任务明确安排，在正常ded137上打开90秒采集，无DTR/RTS、写入或reset。opened hostEpochMs1788911819560，closed1788911909585，90.025秒后释放；目录avatar-input-baseline-20260908-1957。主任务现场room993580099/v9/IdentityAwaitAvatar，不能沿用此前room993580098验收上下文。
+
+旧INPUT行只有kind/delta/page/focus/queued等，没有raw回调时间或recipe。启动瞬间先读到旧progress ms50032/55041/60042再到1436621及输入，说明存在USB积压；不把第一批或同host读取批次作为物理旋转间隔证据。末段host相对79.053/81.787/84.536秒分别读到delta+1/page22/focus1/2/3。是否一次物理格触发多步需用户操作对应与新诊断，不能只凭现有日志定量断言。全程status3，无panic。
+
+当前在编辑未提交头像草稿，主任务要求保护本地draft：窗口结束后不直接烧SelfTest，先由主任务核对用户保存/允许切换。两份既有构建不包含后续输入修复；最终正常候选需合入主任务交接的输入修复后再fresh构建。此限制是现场状态变化下的主任务明确安排，不是取消原性能/恢复目标。
+
+### 20:32 EDT 合并fresh构建通过，设备仍保护原草稿
+
+两份最终候选均从唯一run/build、本轮sketch/库快照构建，exit0且HWCDC检查通过，与正常ded137分区相同；各run保留inputs.json及非merged产物artifacts.json。SelfTest为201239-cb733606813d42b9b14c196ac2f4217c，app SHA256 c8faac38240d23db2ccad54b76357ed330668142bf1149afc5608189b573933d，2065936 bytes（program2065790/RAM156672）。正常候选为201248-5be1e6777cf443feb24a5b6d9864feea，app SHA256 ad8a154d50bab39551bf028d0e126f96b8e8687751071c82cdab1bf65b423b54，1890064 bytes（program1889922/RAM124568）。均含0630c01输入修复、预览交接/提示/释放、诊断、重复到达resync及边框优化。
+
+当前未烧录新候选，COM7继续正常ded137且已释放。唯一实机前置阻塞为用户尚未确认完成当前头像/名字保存；root最后现场room993580100。待主任务确认可安全切换后，以有界SelfTest窗口实际验证完整逻辑、组件及七场景原性能门槛，并确保结束恢复正常固件；再部署正常候选、90秒显式INPUT TRACE对应物理单格/反向验证，最后与服务器分别执行UDP120秒/单站断关联90秒。后两者分别证明通信恢复/基本WiFi自动重关联，不能冒称触发30秒recoverWifi分支。此前四项性能失败仍保留，新构建不能替代24FPS或新输入修复的实机验收。
+
+源码检查点已由主任务统一提交：0630c01（旋钮输入）与ff348a2（预览所有权、重复到达、边框绘制、构建与验证工具）。玩家任务未执行Git写入。当前16个实现/工具文件的校验清单位于本机review-system-20260908/source-manifest.json；其中10个固件输入分别与两份最终候选快照逐文件核对，20/20匹配。两份进度报告已补齐候选SHA、实际设备仍ded137和待验收，交主任务统一提交。
+
+主任务已向用户提供当前测试草稿的具体选择：保存后更新，或明确允许丢弃草稿直接更新；两种选择尚未得到确认，未回答不视作授权。接到明确选择或确认保存的现场证据后，由主任务立即续派本任务执行已准备好的设备窗口。当前仅交付可审查的源码/构建阶段，不关闭≥24FPS、真实旋钮和两段恢复验证的总体目标；没有重建自动化。

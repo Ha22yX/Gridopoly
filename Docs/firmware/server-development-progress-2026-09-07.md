@@ -285,3 +285,15 @@ Pi独立快照 `/home/kicofy/gridopoly-recovery-20260908.BnkLMn`：从此前隔�
 剩余：玩家屏完成正常优化候选后通知双方，主任务安排上述两段实机验证；当前线上phase6无pendingMove，不注入掷骰，移动保留场景由上述隔离真实UDP/native证据覆盖。测试/工具准备完成不等于实机断线恢复已验收。主任务统一Git，待提交范围为本节涉及3个cpp、1个断言header、2个Python工具及本报告；临时日志/快照不提交。无定时任务，不重建。
 
 最终审核补强：test-interrupt-player-udp.py 的三项命名空间安全前置条件（与父namespace不同、接口仅lo、初始nft表空）均改为显式if/raise RuntimeError，不依赖可被python -O删除的assert。已用Pi python3 -O传入当前namespace，并将所有外部命令入口替换为失败哨兵：在首个namespace检查即拒绝，external commands=0；随后正常隔离netns全部场景再次PASS。最终日志为C:/Users/kicof/AppData/Local/Temp/gridopoly-recovery-20260908-probe-netns-v4.log。本次只修改测试保护和报告，不执行宿主网络中断。
+
+## 2026-09-09 Avatar Setup 顺序与缓存只读审查
+
+按主任务分工只读审查，不修改玩家/服务端源码、在线房间或头像草稿。在线30个GAVC的SHA256及header kindId/presetId全部匹配仓库runtime manifest；hair/face/outfit按数值1..10直接寻址，不按h1/h10/h2字典序排序。服务端与玩家端20发色、8肤色RGB均匹配清单；recipe传输字段及UI的id-1索引一致。F05 UI的Elegant oblong与源文件long-rectangle为名称别名，未见ID串位。
+
+同recipe h1-c1-f1-s1-o1两次GET均132000字节，SHA256=031dd3bb29f1a95e5c042ef8baa28b7dd7c4dfffff1da247f7febfaaac532522，ETag=31f9e447e87a710e一致，条件GET返回304。组件使用/assets/avatar-components/v1路径及内容ETag；编辑页直接缓存并本地合成组件，未依赖服务器合成预览作为每步切换路径。服务端预览key包括h/c/f/s/o，磁盘缓存gavc-v1；最终头像URL另含room/player/revision/content hash。本轮未发现服务器清单或recipe key造成的错序。
+
+已报告两处玩家UI问题：ui_renderer.cpp初绘drawAvatarSilhouette和增量updateAvatarPortrait在image非空时忽略frame.exact=false，立即更新新draft名称却保留旧完成图并隐藏更新状态；45ms settle与generation保护可跳过过期中间合成，因此视觉上可能新名旧图。最小处理为保留旧图并显示轻量更新提示，不取消generation保护，不能据此断定物理旋钮多跳根因。另kHairColorSwatches第15 Snow white为0xEBEAEA，应与实际着色0xEBEEEA一致，仅一常量差异。
+
+已核对当前部署ded137对应确切源码快照production-20260908-010418-7ae190304983448a821cdf02fc35ae05/PlayerConsole，remote_avatar_cache.cpp与工作树逐字节一致（SHA256 a6dacf7396b1367d4bda6b726821f776baadca4a65f6d67cc068c7c6ce264c17），上述exact行为和色块错误也存在于该固件源码。证据为C:/Users/kicof/AppData/Local/Temp/gridopoly-avatar-catalog-audit-20260909.json。
+
+主任务已将UI问题交玩家端修复；玩家另在处理previewDescriptor/frontbuffer与LVGL读取的所有权同步，由该端提供其验证，本报告不把其发现冒充服务器审查已复现。此审查到此交付，不扩大头像查询；原UDP恢复/单次断关联窗口继续等最终正常候选就绪。新现场room993580099/头像草稿阶段，网络窗口前必须动态重取基线，不能沿用旧room993580098。

@@ -9,7 +9,7 @@
 ## 已确认的源码缺陷
 
 1. 原RotaryInputFilter仅拒绝35ms内反向事件，接受同向返回。因此原始+1/-1/+1净1，输出却是+1/+1净2。主任务用真实旧header单独MSVC编译并执行复现，before.exe输出raw_net=1 applied_net=2、exit1。旧header、reproducer和独立ESP32编译日志保存在本机Temp/gridopoly-rotary-review，未把人为输入冒充物理GPIO捕获。
-2. 原ESP32_Knob 0.0.1使用3ms定时、A/B分别两次采样防抖。READY同时存在A/B变化标志时固定选A，下一轮会消费留下的B并发方向事件；没有验证联合Gray变化是否合法。两路同时跳变或采样漏过中间相位时不应猜测方向。
+2. 原ESP32_Knob 0.0.1使用3ms定时、A/B分别两次采样防抖。READY同时存在A/B变化标志时固定选A，下一轮会消费留下的B并发方向事件；没有验证联合Gray变化是否合法。两路同时跳变或采样漏过中间相位时不应猜测方向。 主任务又提取实际旧iot_knob.c的类型和完整knob_handler，在GPIO替身中施加11→00双位变化并保持，3次采样后旧驱动count_value=1，复现无合法方向信息仍生成一步；输出invalid_two_bit_transition=11_to_00 old_direction_count=1、exit1。材料knob-before.cpp/exe及原始source SHA在同一rotary-review临时目录。新decoder对应非法双位用例输出0已通过；这仍是原函数模拟，不冒充用户实际GPIO波形。
 3. appHandleInput/Avatar applyIdentityDraftDelta没有多步加速：按delta对字段编号循环，队列每轮拆成±1。仅显示刷新变慢不会自己改变recipe，但会使积压输入集中呈现。
 4. 玩家端审查发现previewDescriptor/front-buffer由后台改写，LVGL可能仍读旧front；旧头像页面删除之前还可能释放它的图像。另UI忽略frame.exact=false，把新选项文字与上一张头像并列且隐藏更新提示。这些显示问题由玩家任务修复，不能因此否认输入缺陷。
 
@@ -26,3 +26,27 @@
 ## 待验收
 
 输入修复源码已交接玩家任务合入缓存/绘制修复。尚需最终fresh构建、完整SelfTest及24FPS实测、正常候选部署、真实单格/反转原始相位到recipe的对应验证，再做已授权断线窗口。用户尚有未提交头像/名字草稿，已请其完成确认，期间不重刷COM7；这不阻挡代码与构建继续。没有使用定时任务，也未修改线上房间、头像草稿或玩家资产。
+
+## 玩家端异步预览与诊断集成（20:12 EDT源码冻结，实机待验）
+
+后台finishCompose保留generation+recipe双重校验，但不再直接修改LVGL图像descriptor或front。新增AvatarPreviewBuffers所有权状态：worker只写back，完成后pending back与正在显示的front都保持不变；UI在LVGL锁内获取pending后才切换descriptor，之后旧front才可供下次合成使用。新选择丢弃未显示的旧pending，进行中的过时合成不能发布。发布通知只唤醒UI领取，不从worker调用LVGL。
+
+main在锁外只调用remoteAvatarCacheRequestPreview排请求；remoteAvatarPreviewFrame及兼容精确图API要求LVGL锁。setup释放移到renderAppFrame之后仍持LVGL锁，旧页面对象先移除；进行中的合成完成后再清理组件/预览。释放后立即禁止再次暴露旧preview，防止快速退出/重入期间悬空引用。preload进入Preview不再立刻freeFinals，旧public头像等AvatarLoading/Setup新页建立后在锁内释放。未放宽原generation检查或增加第三张大图缓冲。
+
+初绘和增量两处保留旧完整头像时，若exact=false显示UPDATING PREVIEW；新选项文字不再暗示旧图已对应当前选择。Snow white色块修正为0xEBEEEA。该提示说明合成尚未完成，不把正常异步延迟标记成recipe状态倒退。
+
+验证：生产使用的所有权类通过22,768项检查/20,000次交错操作，涵盖未领取back不能复用、worker完成不改变front、UI只领取当前generation、过时/失败合成、快速丢弃重试以及显示像素在UI领取之间不可变。工具test-avatar-preview-buffers.{cpp,ps1}。当前ino/remote_avatar_cache.cpp/ui_renderer.cpp已用真实ESP32S3 compile_commands定向独立对象编译，三项exit0；layout检查通过。此为主机及编译边界证据，不是实际合成竞态被物理复现，也不是设备修复验收。
+
+INPUT TRACE ON开启90秒原始相位输出，INPUT TRACE OFF提前结束；默认关闭，自动到期继续排空诊断但不丢正常输入。主线程打印，回调不打印；开始仅清诊断，不清解码器/应用队列。GRIDOPOLY_INPUT增加input_ms/consumed_ms；GRIDOPOLY_AVATAR_INPUT记录focus/editing及recipe前后hair/hairColor/face/skin/outfit编号。提取实际serviceInputTrace编译模拟10项通过，含默认静默、有界排空、分段命令、计时回绕自动到期、超长命令恢复；日志在本机input-trace-review-20260908/result.log。
+
+合并0630c01输入修复、预览修复与边框性能修复的fresh selftest/production正在构建，分别为201239与201248独立run/build/库快照。此前194516边框-only fresh SelfTest构建通过但未烧录，未含新增输入/预览修复；194319中间production也未部署。COM7仍ded137正常固件，当前用户又新建room993580100，旧room99/98不可直接沿用。未提交头像/名字的保护请求仍pending，未把未回答或新建房间视作同意重刷。
+
+### 20:32 EDT 合并fresh构建通过，设备仍保护原草稿
+
+两份最终候选均从唯一run/build、本轮sketch/库快照构建，exit0且HWCDC检查通过，与正常ded137分区相同；各run保留inputs.json及非merged产物artifacts.json。SelfTest为201239-cb733606813d42b9b14c196ac2f4217c，app SHA256 c8faac38240d23db2ccad54b76357ed330668142bf1149afc5608189b573933d，2065936 bytes（program2065790/RAM156672）。正常候选为201248-5be1e6777cf443feb24a5b6d9864feea，app SHA256 ad8a154d50bab39551bf028d0e126f96b8e8687751071c82cdab1bf65b423b54，1890064 bytes（program1889922/RAM124568）。均含0630c01输入修复、预览交接/提示/释放、诊断、重复到达resync及边框优化。
+
+当前未烧录新候选，COM7继续正常ded137且已释放。唯一实机前置阻塞为用户尚未确认完成当前头像/名字保存；root最后现场room993580100。待主任务确认可安全切换后，以有界SelfTest窗口实际验证完整逻辑、组件及七场景原性能门槛，并确保结束恢复正常固件；再部署正常候选、90秒显式INPUT TRACE对应物理单格/反向验证，最后与服务器分别执行UDP120秒/单站断关联90秒。后两者分别证明通信恢复/基本WiFi自动重关联，不能冒称触发30秒recoverWifi分支。此前四项性能失败仍保留，新构建不能替代24FPS或新输入修复的实机验收。
+
+源码检查点已由主任务统一提交：0630c01（旋钮输入）与ff348a2（预览所有权、重复到达、边框绘制、构建与验证工具）。玩家任务未执行Git写入。当前16个实现/工具文件的校验清单位于本机review-system-20260908/source-manifest.json；其中10个固件输入分别与两份最终候选快照逐文件核对，20/20匹配。两份进度报告已补齐候选SHA、实际设备仍ded137和待验收，交主任务统一提交。
+
+主任务已向用户提供当前测试草稿的具体选择：保存后更新，或明确允许丢弃草稿直接更新；两种选择尚未得到确认，未回答不视作授权。接到明确选择或确认保存的现场证据后，由主任务立即续派本任务执行已准备好的设备窗口。当前仅交付可审查的源码/构建阶段，不关闭≥24FPS、真实旋钮和两段恢复验证的总体目标；没有重建自动化。
