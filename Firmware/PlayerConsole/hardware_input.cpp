@@ -2,7 +2,9 @@
 
 #include <Arduino.h>
 #include <Button.h>
-#include <ESP_Knob.h>
+#include <esp_timer.h>
+#include <soc/soc.h>
+#include <soc/gpio_reg.h>
 #include <freertos/FreeRTOS.h>
 #include <new>
 
@@ -16,10 +18,14 @@ InputEvent queue[kQueueCapacity] = {};
 uint8_t head = 0;
 uint8_t tail = 0;
 uint8_t count = 0;
-ESP_Knob *knob = nullptr;
+esp_timer_handle_t rotaryTimer = nullptr;
 Button *button = nullptr;
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
-gridopoly::player_console::RotaryInputFilter rotaryInputFilter;
+gridopoly::player_console::RotaryQuadratureDecoder rotaryDecoder;
+HardwareInputDiagnostic diagnostics[64]{};
+uint8_t diagnosticHead = 0, diagnosticTail = 0, diagnosticCount = 0;
+uint32_t diagnosticDropped = 0;
+uint8_t lastRawPhases = 3;
 
 void enqueueLocked(const InputEvent &event)
 {
@@ -45,19 +51,39 @@ void enqueueLocked(const InputEvent &event)
 void enqueue(const InputEvent &event)
 {
     portENTER_CRITICAL(&mux);
-    if (event.kind == InputKind::Rotate &&
-        !rotaryInputFilter.accept(event.delta, event.timestampMs)) {
-        portEXIT_CRITICAL(&mux);
-        return;
-    }
     enqueueLocked(event);
     portEXIT_CRITICAL(&mux);
 }
 
-// Reverse the electrical direction so the focus follows the physical bezel
-// motion in the installed six-o'clock orientation.
-void onLeft(int, void *) { enqueue(InputEvent{InputKind::Rotate, 1, millis()}); }
-void onRight(int, void *) { enqueue(InputEvent{InputKind::Rotate, -1, millis()}); }
+uint8_t readRotaryPhases()
+{
+    static_assert(kKnobPinA < 32 && kKnobPinB < 32, "Joint GPIO register sample");
+    const uint32_t pins = REG_READ(GPIO_IN_REG);
+    return static_cast<uint8_t>((((pins >> kKnobPinA) & 1U) << 1U) |
+                                 ((pins >> kKnobPinB) & 1U));
+}
+
+void sampleRotary(void *)
+{
+    const uint32_t nowMs = millis();
+    const uint8_t phases = readRotaryPhases();
+    portENTER_CRITICAL(&mux);
+    const uint32_t beforeInvalid = rotaryDecoder.invalidTransitions();
+    const int8_t step = rotaryDecoder.sample(phases, nowMs);
+    if (step != 0) enqueueLocked(InputEvent{InputKind::Rotate, step, nowMs});
+    if (phases != lastRawPhases || step != 0 ||
+        beforeInvalid != rotaryDecoder.invalidTransitions()) {
+        if (diagnosticCount < 64) {
+            diagnostics[diagnosticTail] = HardwareInputDiagnostic{
+                nowMs, rotaryDecoder.invalidTransitions(), diagnosticDropped,
+                phases, rotaryDecoder.stablePhases(), step, count};
+            diagnosticTail = static_cast<uint8_t>((diagnosticTail + 1U) % 64U);
+            ++diagnosticCount;
+        } else ++diagnosticDropped;
+    }
+    lastRawPhases = phases;
+    portEXIT_CRITICAL(&mux);
+}
 void onDown(void *, void *) { enqueue(InputEvent{InputKind::ButtonDown, 0, millis()}); }
 void onUp(void *, void *) { enqueue(InputEvent{InputKind::ButtonUp, 0, millis()}); }
 
@@ -65,13 +91,25 @@ void onUp(void *, void *) { enqueue(InputEvent{InputKind::ButtonUp, 0, millis()}
 
 bool hardwareInputBegin()
 {
-    if (knob != nullptr || button != nullptr) return knob != nullptr && button != nullptr;
-    knob = new (std::nothrow) ESP_Knob(kKnobPinA, kKnobPinB);
+    if (rotaryTimer != nullptr || button != nullptr)
+        return rotaryTimer != nullptr && button != nullptr;
+    pinMode(kKnobPinA, INPUT_PULLUP);
+    pinMode(kKnobPinB, INPUT_PULLUP);
+    lastRawPhases = readRotaryPhases();
+    rotaryDecoder.reset(lastRawPhases, millis());
     button = new (std::nothrow) Button(kButtonPin, false);
-    if (knob == nullptr || button == nullptr) return false;
-    knob->begin();
-    knob->attachLeftEventCallback(onLeft);
-    knob->attachRightEventCallback(onRight);
+    if (button == nullptr) return false;
+    esp_timer_create_args_t args{};
+    args.callback = sampleRotary;
+    args.dispatch_method = ESP_TIMER_TASK;
+    args.name = "gridopoly_rotary";
+    args.skip_unhandled_events = true;
+    if (esp_timer_create(&args, &rotaryTimer) != ESP_OK) return false;
+    if (esp_timer_start_periodic(rotaryTimer, 1000) != ESP_OK) {
+        esp_timer_delete(rotaryTimer);
+        rotaryTimer = nullptr;
+        return false;
+    }
     button->attachPressDownEventCb(onDown, nullptr);
     button->attachPressUpEventCb(onUp, nullptr);
     return true;
@@ -103,9 +141,33 @@ void hardwareInputTestReset()
 {
     portENTER_CRITICAL(&mux);
     head = tail = count = 0;
-    rotaryInputFilter.reset();
+    rotaryDecoder.reset(lastRawPhases, millis());
+    diagnosticHead = diagnosticTail = diagnosticCount = 0;
+    diagnosticDropped = 0;
     portEXIT_CRITICAL(&mux);
 }
 
 void hardwareInputTestEnqueue(const InputEvent &event) { enqueue(event); }
 #endif
+
+bool hardwareInputPollDiagnostic(HardwareInputDiagnostic &diagnostic)
+{
+    portENTER_CRITICAL(&mux);
+    if (diagnosticCount == 0) {
+        portEXIT_CRITICAL(&mux);
+        return false;
+    }
+    diagnostic = diagnostics[diagnosticHead];
+    diagnosticHead = static_cast<uint8_t>((diagnosticHead + 1U) % 64U);
+    --diagnosticCount;
+    portEXIT_CRITICAL(&mux);
+    return true;
+}
+
+void hardwareInputClearDiagnostics()
+{
+    portENTER_CRITICAL(&mux);
+    diagnosticHead = diagnosticTail = diagnosticCount = 0;
+    diagnosticDropped = 0;
+    portEXIT_CRITICAL(&mux);
+}

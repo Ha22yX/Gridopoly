@@ -20,7 +20,7 @@
 #include "transport_event_cursor.h"
 #include "grid_city_visual_catalog.h"
 #include "hardware_input.h"
-#include "rotary_input_filter.h"
+#include "rotary_input_tests.h"
 #include "remote_tile_cache_policy.h"
 #include "src/assets/grid_city_tile_images.h"
 
@@ -80,30 +80,9 @@ bool runTransportEventCursorTests(Stream &out)
 
 bool runRotaryInputFilterTests(Stream &out)
 {
-    using gridopoly::player_console::RotaryInputFilter;
-
-    bool ok = true;
-    RotaryInputFilter filter;
-    ok &= expect(out, filter.accept(1, 100),
-                 "rotary accepts first clockwise step");
-    ok &= expect(out, filter.accept(1, 112),
-                 "rotary accepts continued clockwise step");
-    ok &= expect(out, !filter.accept(-1, 126),
-                 "rotary rejects short opposite glitch");
-    ok &= expect(out, filter.accept(1, 132),
-                 "rotary remains monotonic after a rejected glitch");
-    ok &= expect(out, filter.accept(-1, 168),
-                 "rotary accepts deliberate reversal after the glitch window");
-    ok &= expect(out, !filter.accept(0, 169),
-                 "rotary rejects zero delta");
-
-    filter.reset();
-    ok &= expect(out, filter.accept(-1, UINT32_MAX - 10U),
-                 "rotary accepts a pre-wrap step");
-    ok &= expect(out, !filter.accept(1, 8),
-                 "rotary glitch timing survives millis wrap");
-    ok &= expect(out, filter.accept(1, 30),
-                 "rotary accepts a reversal after the wrapped window");
+    bool ok = runRotaryInputDecoderTests([&](bool passed, const char *name) {
+        return expect(out, passed, name);
+    });
 
 #if GRIDOPOLY_SELF_TEST == 1
     hardwareInputTestReset();
@@ -119,6 +98,24 @@ bool runRotaryInputFilterTests(Stream &out)
                  "coalesced rotation yields its third ordered step");
     ok &= expect(out, !hardwareInputPoll(event),
                  "ordered rotary queue drains exactly once per detent");
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 300});
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, -1, 310});
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 320});
+    ok &= expect(out, hardwareInputPoll(event) && event.delta == 1 &&
+                     hardwareInputPoll(event) && event.delta == -1 &&
+                     hardwareInputPoll(event) && event.delta == 1 &&
+                     !hardwareInputPoll(event),
+                 "decoded rapid reversals retain queue order and net displacement");
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 400});
+    hardwareInputTestEnqueue(InputEvent{InputKind::ButtonDown, 0, 401});
+    hardwareInputTestEnqueue(InputEvent{InputKind::Rotate, 1, 402});
+    hardwareInputTestEnqueue(InputEvent{InputKind::ButtonUp, 0, 403});
+    ok &= expect(out, hardwareInputPoll(event) && event.kind == InputKind::Rotate &&
+                     hardwareInputPoll(event) && event.kind == InputKind::ButtonDown &&
+                     hardwareInputPoll(event) && event.kind == InputKind::Rotate &&
+                     hardwareInputPoll(event) && event.kind == InputKind::ButtonUp &&
+                     !hardwareInputPoll(event),
+                 "rotation coalescing never crosses a button boundary");
     hardwareInputTestReset();
 #endif
     return ok;
