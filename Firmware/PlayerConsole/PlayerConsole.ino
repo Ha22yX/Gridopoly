@@ -25,6 +25,7 @@
 
 #if GRIDOPOLY_SELF_TEST == 1
 extern "C" void gridopoly_set_row_clip(bool enabled);
+extern "C" void gridopoly_set_large_circle_cache(bool enabled);
 // The complete renderer and reducer suites intentionally share one Arduino test task.
 // Keep their large protocol fixtures away from the production task budget.
 SET_LOOP_TASK_STACK_SIZE(32 * 1024);
@@ -775,7 +776,7 @@ void setup()
     // Leave enough time to attach a monitor after the uploader resets native USB.
     delay(12000);
     // One diagnostic boot keeps the outer cull enabled and compares the
-    // skipping of invisible corner rows. Serial output follows both suites.
+    // bounded large-radius cache. Serial output follows both suites.
     const size_t resultBytes = sizeof(CarouselPerfResult) * 14;
     auto *perfResults = static_cast<CarouselPerfResult *>(
         heap_caps_malloc(resultBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
@@ -797,7 +798,8 @@ void setup()
     };
     if (!lvgl_port_lock(-1)) { heap_caps_free(perfResults); fault("LVGL_PROFILE_LOCK"); return; }
     gridopoly_profile_outer_clip_enabled = true;
-    gridopoly_set_row_clip(false);
+    gridopoly_set_row_clip(true);
+    gridopoly_set_large_circle_cache(false);
     lvgl_port_unlock();
     for (uint8_t scene = 0; scene < 7; ++scene) {
         outerClipBaseline[scene] = runCarouselPerfFixture(app, baselineScenarios[scene]);
@@ -805,6 +807,7 @@ void setup()
     if (!lvgl_port_lock(-1)) { heap_caps_free(perfResults); fault("LVGL_PROFILE_LOCK"); return; }
     gridopoly_profile_outer_clip_enabled = true;
     gridopoly_set_row_clip(true);
+    gridopoly_set_large_circle_cache(true);
     lvgl_port_unlock();
     CarouselPerfResult &waitingForward = perfResults[7];
     CarouselPerfResult &waitingReverseWrap = perfResults[8];
@@ -839,7 +842,7 @@ void setup()
                                 swipeEvent.passed && assetsListCold.passed &&
                                 assetsListWarm.passed;
     const bool passed = purePassed && componentPassed && livePerfPassed;
-    esp_rom_printf("SELFTEST PERF VARIANTS outer_clip=1 split_limit=50 baseline_row_clip=0 candidate_row_clip=1\n");
+    esp_rom_printf("SELFTEST PERF VARIANTS outer_clip=1 row_clip=1 split_limit=50 baseline_large_cache=0 candidate_large_cache=1\n");
     const char *baselineMarkers[] = {
         "BASELINE CAROUSEL PERF WAIT_FWD", "BASELINE CAROUSEL PERF WAIT_WRAP_REV",
         "BASELINE CAROUSEL PERF MYTURN_5", "BASELINE CAROUSEL PERF RETARGET",

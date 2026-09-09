@@ -6,6 +6,8 @@
 
 #include "src/draw/gridopoly_draw_profile.h"
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+void gridopoly_set_large_circle_cache(bool enabled);
+uint32_t gridopoly_large_circle_cache_bytes(void);
 GridopolyDrawProfile gridopoly_draw_profile;
 bool gridopoly_profile_outer_clip_enabled = true;
 uint32_t gridopoly_profile_now_us(void) { return (uint32_t)clock(); }
@@ -58,11 +60,17 @@ static void compare(lv_area_t box, lv_area_t clip, int radius, int width,
         lv_draw_mask_line_points_init(&mask, 80, 70, 400, 390, LV_DRAW_MASK_LINE_SIDE_LEFT);
         mask_id = lv_draw_mask_add(&mask, NULL);
     }
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    gridopoly_set_large_circle_cache(false);
+#endif
     ctx->buf = original;
     clock_t start = clock();
     baseline_lv_draw_sw_rect(ctx, &dsc, &box);
     old_ticks += clock() - start;
     _lv_draw_mask_cleanup();
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    gridopoly_set_large_circle_cache(true);
+#endif
     ctx->buf = optimized;
     start = clock();
     lv_draw_sw_rect(ctx, &dsc, &box);
@@ -80,6 +88,49 @@ static void compare(lv_area_t box, lv_area_t clip, int radius, int width,
         }
     }
 }
+
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+static void check_circle_cache_lifetime(void) {
+    const int radii[] = {209,204,196,194,180,160,128,256,257,8,209,1};
+    uint32_t hashes[12];
+    for(int repeat=0; repeat<16; ++repeat) for(int enabled=0; enabled<2; ++enabled) {
+        lv_draw_mask_radius_param_t params[12];
+        gridopoly_set_large_circle_cache(enabled != 0);
+        for(int i=0; i<12; ++i) {
+            int r=radii[i]; lv_area_t box={-7,-9,2*r-8,2*r-10};
+            lv_draw_mask_radius_init(&params[i],&box,r,false);
+        }
+        /* Reuse a free large slot while all other descriptors stay active.
+         * The shared radius 209 remains referenced through params[10]. */
+        lv_draw_mask_free_param(&params[1]);
+        lv_area_t replacement={-7,-9,432,430};
+        lv_draw_mask_radius_init(&params[1],&replacement,220,false);
+        lv_draw_mask_free_param(&params[0]);
+        replacement.x2=448; replacement.y2=446;
+        lv_draw_mask_radius_init(&params[0],&replacement,228,false);
+        if(gridopoly_large_circle_cache_bytes()>6168) exit(3);
+        for(int i=0; i<12; ++i) {
+            lv_opa_t line[600]; uint32_t hash=2166136261u;
+            int id=lv_draw_mask_add(&params[i],NULL),r=(i==0 ? 228 : i==1 ? 220 : radii[i]);
+            for(int y=-9; y<2*r-9; ++y) {
+                memset(line,255,2*r);
+                lv_draw_mask_res_t result=lv_draw_mask_apply(line,-7,y,2*r);
+                hash=(hash^(unsigned)result)*16777619u;
+                for(int x=0;x<2*r;++x) hash=(hash^line[x])*16777619u;
+            }
+            lv_draw_mask_remove_id(id);
+            if(!enabled) hashes[i]=hash;
+            else if(hashes[i]!=hash) { fprintf(stderr,"CACHE PIXEL FAIL radius=%d\n",r); exit(3); }
+        }
+        for(int i=0;i<12;++i) lv_draw_mask_free_param(&params[i]);
+        _lv_draw_mask_cleanup();
+        if(gridopoly_large_circle_cache_bytes()!=0) exit(3);
+        _lv_draw_mask_cleanup();
+        if(gridopoly_large_circle_cache_bytes()!=0) exit(3);
+    }
+    printf("PASS circle cache active-entry fallback, shared references, free-slot replacement, bounds and 32 double-cleanup cycles\n");
+}
+#endif
 
 int main(void)
 {
@@ -155,6 +206,9 @@ int main(void)
         background_opa=bg_opacities[(x+y)%11];
         compare(box,clip,209,5,LV_BORDER_SIDE_FULL,255,1,0);
     }
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    check_circle_cache_lifetime();
+#endif
     printf("PASS %u pixel-identical render cases; old_cpu_ms=%.1f new_cpu_ms=%.1f (host timing only)\n",
            cases,old_ticks*1000/CLOCKS_PER_SEC,new_ticks*1000/CLOCKS_PER_SEC);
     return 0;

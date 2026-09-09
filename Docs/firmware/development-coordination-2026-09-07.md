@@ -186,3 +186,14 @@ opaque背景内部跳过圆角mask及socket选项调用顺序修正已提交110a
 新增SelfTest专用bg/img/border/outline/shadow、mask初始化/计算/hit/miss、最慢rect及最多6flush区域的有界诊断；回调不打印，所有场景结束后统一输出，计时按last-flush边界聚合且嵌套mask时间不可重复相加。先完整OFF七场景，再ON七场景；最终门槛只取ON完整suite，基线日志独立BASELINE前缀。主任务审查修正OFF/ON开关必须持LVGL锁，避免跨任务数据竞争和半帧切换。
 
 21:24旧SelfTest构建早期因Arduino发现库前的直接profile头路径失败，未部署；改为库lvgl.h公共入口在SelfTest宏下暴露头，并于21:27新fresh重建含锁修正。21:24正常候选继续，差异只在SELF_TEST屏蔽范围，其生产外侧裁剪一致。当前设备ad8a正常，待新完整A/B实测，不放宽门槛、不改变overlay/AA/PCLK/首帧回执，结束仍finally恢复ad8a。
+
+
+#### 22:08 EDT 行裁剪六项通过，继续最后 Retarget 长帧
+
+诊断静态结果数组占用内部 RAM 导致 1d63 实机 BOARD_BEGIN/bounce buffer 分配失败；没有产生性能通过证据。改为显示初始化完成后在 PSRAM 分配 33,824 字节，完成输出后释放。e4e 实际启动及完整外角裁剪 OFF/ON 通过执行，AssetsCold/Warm 最大间隔均降至 39ms，但 MyTurn/Retarget 仍 58ms。详情及失败/恢复证据已入两份玩家报告。
+
+主任务独立在冻结 LVGL 实现上验证：大圆镜像循环会为上下均不可见的行计算遮罩，代表片段 mask_apply 132→70、129→65，像素相同。玩家加入不可见行裁剪，68,014 组像素对照通过；曾尝试 SPLIT_LIMIT96 导致 radius1/outline 像素差异，已撤回 50，未部署此实验。PSRAM 修订、行裁剪及报告提交 ab662cb。
+
+d5ff9a97b0f6bbb80f6c0da242d76b735e4090fb163025fa20e9af3410684662 来自 e4e 同路径受控增量，仅 ino/rect.c 更新，其余 2,122 源依赖未变，旧 output 保留。rowclip-perf-window-20260908-2202 完整 OFF/ON 后，ON 六场景通过：Waiting、反向跨界、MyTurn、Swipe、AssetsCold、AssetsWarm 均最大39ms，26–28FPS；Retarget 24FPS/max58ms 仍失败。主任务已独立读取 analysis-summary.txt，未将平均帧率通过当作完整验收。
+
+Retarget 峰值 mask_calc4174us/14miss、border10711us，继续核对大小圆共用四槽造成的缓存替换。下一候选在原四槽之外对 radius128..256 使用有界四槽缓存，每帧同样释放，GC 构建回退原路径；先做像素及引用/清理生命周期验证，再在同固件保持 row/outer 裁剪开启、仅切换额外缓存进行完整七场景对照。此时性能候选仍未正式部署，设备恢复目标保持含已验收输入修复的 ad8a。无需新用户许可，玩家任务继续 COM7 验证，主任务继续审核最终门槛及 Git。

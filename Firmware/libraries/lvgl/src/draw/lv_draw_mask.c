@@ -18,6 +18,30 @@
  *      DEFINES
  *********************/
 #define CIRCLE_CACHE_LIFE_MAX   1000
+#define LARGE_CIRCLE_CACHE_COUNT 4
+#define LARGE_CIRCLE_RADIUS_MIN 128
+#define LARGE_CIRCLE_RADIUS_MAX 256
+#if !LV_ENABLE_GC
+/* Separate the four decorative ring radii from short-lived card corners.
+ * Every entry is still released at the normal refresh cleanup boundary. */
+static _lv_draw_mask_radius_circle_dsc_t large_circle_cache[LARGE_CIRCLE_CACHE_COUNT];
+#endif
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+static bool profile_large_circle_cache = true;
+void gridopoly_set_large_circle_cache(bool enabled) { profile_large_circle_cache = enabled; }
+uint32_t gridopoly_large_circle_cache_bytes(void) {
+    uint32_t bytes = 0;
+#if !LV_ENABLE_GC
+    for(uint8_t i = 0; i < LARGE_CIRCLE_CACHE_COUNT; ++i)
+        if(large_circle_cache[i].buf) bytes += large_circle_cache[i].radius * 6U + 6U;
+#endif
+    return bytes;
+}
+#define LARGE_CIRCLE_CACHE_ENABLED profile_large_circle_cache
+#else
+#define LARGE_CIRCLE_CACHE_ENABLED 1
+#endif
+
 #define CIRCLE_CACHE_AGING(life, r)   life = LV_MIN(life + (r < 16 ? 1 : (r >> 4)), 1000)
 
 /**********************
@@ -239,6 +263,12 @@ void _lv_draw_mask_cleanup(void)
         }
         lv_memset_00(&LV_GC_ROOT(_lv_circle_cache[i]), sizeof(LV_GC_ROOT(_lv_circle_cache[i])));
     }
+#if !LV_ENABLE_GC
+    for(i = 0; i < LARGE_CIRCLE_CACHE_COUNT; ++i) {
+        if(large_circle_cache[i].buf) lv_mem_free(large_circle_cache[i].buf);
+        lv_memset_00(&large_circle_cache[i], sizeof(large_circle_cache[i]));
+    }
+#endif
 }
 
 /**
@@ -499,13 +529,28 @@ void lv_draw_mask_radius_init(lv_draw_mask_radius_param_t * param, const lv_area
     }
 
     uint32_t i;
+    _lv_draw_mask_radius_circle_dsc_t *circle_pool = LV_GC_ROOT(_lv_circle_cache);
+    uint32_t circle_pool_count = LV_CIRCLE_CACHE_SIZE;
+#if !LV_ENABLE_GC
+    if(LARGE_CIRCLE_CACHE_ENABLED && radius >= LARGE_CIRCLE_RADIUS_MIN &&
+       radius <= LARGE_CIRCLE_RADIUS_MAX) {
+        for(i = 0; i < LARGE_CIRCLE_CACHE_COUNT; ++i) {
+            if(large_circle_cache[i].radius == radius || large_circle_cache[i].used_cnt == 0) {
+                circle_pool = large_circle_cache;
+                circle_pool_count = LARGE_CIRCLE_CACHE_COUNT;
+                break;
+            }
+        }
+        /* When all large entries are active, use the original pool/fallback. */
+    }
+#endif
 
     /*Try to reuse a circle cache entry*/
-    for(i = 0; i < LV_CIRCLE_CACHE_SIZE; i++) {
-        if(LV_GC_ROOT(_lv_circle_cache[i]).radius == radius) {
-            LV_GC_ROOT(_lv_circle_cache[i]).used_cnt++;
-            CIRCLE_CACHE_AGING(LV_GC_ROOT(_lv_circle_cache[i]).life, radius);
-            param->circle = &LV_GC_ROOT(_lv_circle_cache[i]);
+    for(i = 0; i < circle_pool_count; i++) {
+        if(circle_pool[i].radius == radius) {
+            circle_pool[i].used_cnt++;
+            CIRCLE_CACHE_AGING(circle_pool[i].life, radius);
+            param->circle = &circle_pool[i];
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
             ++gridopoly_draw_profile.maskHits;
             gridopoly_draw_profile.maskInitUs += gridopoly_profile_now_us() - profile_started;
@@ -516,10 +561,10 @@ void lv_draw_mask_radius_init(lv_draw_mask_radius_param_t * param, const lv_area
 
     /*If not found find a free entry with lowest life*/
     _lv_draw_mask_radius_circle_dsc_t * entry = NULL;
-    for(i = 0; i < LV_CIRCLE_CACHE_SIZE; i++) {
-        if(LV_GC_ROOT(_lv_circle_cache[i]).used_cnt == 0) {
-            if(!entry) entry = &LV_GC_ROOT(_lv_circle_cache[i]);
-            else if(LV_GC_ROOT(_lv_circle_cache[i]).life < entry->life) entry = &LV_GC_ROOT(_lv_circle_cache[i]);
+    for(i = 0; i < circle_pool_count; i++) {
+        if(circle_pool[i].used_cnt == 0) {
+            if(!entry) entry = &circle_pool[i];
+            else if(circle_pool[i].life < entry->life) entry = &circle_pool[i];
         }
     }
 
