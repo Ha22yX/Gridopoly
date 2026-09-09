@@ -68,3 +68,13 @@ SelfTest结束finally成功恢复ded137，45秒正常采集后，按主任务明
 新的draw_bg优化只在无外部mask、无gradient、归一化opa=COVER且clip完全位于缩进2px的圆角填充内时使用一次实色blend；保留AA边缘和所有其他旧路径。第一版对半透明同样优化在case10813 AA关闭时失败，原因是原mask128会阈值化为0，而直接blend128不会；该错误版未构建固件或部署。限制opaque后54,190组实际LVGL新旧逐像素一致，覆盖11种alpha边界、4色、全部blend mode、gradient/外mask回退、AA开关、边框缩进及圆弧边缘。日志pixel-bg-20260908-2055.log与目录inputs.json保存源/参考/config SHA，host总CPU5414→5091ms仅作host参考，不代替ESP32性能。
 
 同一候选将downloadAsset的setNoDelay移到http.GET后且client.connected()时，避免连接前fd=-1。完整fresh SelfTest与normal构建已启动，当前设备仍ad8a。新自检将在网络窗口完成后执行，finally回到已验收ad8a，不回退缺输入修复的ded137。两项现有性能FAIL继续保留至新实测；不改24FPS/间隔/首帧门槛、AA、PCLK或frameTicket同步。
+
+### 21:00 EDT 两段真实网络恢复证据
+
+正常ad8a上单设备UDP阻断实测：服务器观测UTC00:55:58.125–00:57:58.125，Pi规则00:56:13.513生效、00:56:53.516到期、.541清理tableAbsent=true，入向drop15/出向0。设备记录GRIDOPOLY_UDP degraded后重新发现，00:56:56.500服务端PairAccept，同seat1/session1245378996；HTTP v13→offline v14→online v15，设备v15/phase0/cash800/position0。完整服务端HTTP141样本/564GET零错误且业务状态未变。玩家COM7段recovery-udp-20260908-2055从00:55:06.072记录170秒，略早于服务器尾部约2秒结束，下一串口段重新打开的间隔如实保留，服务器观测连续；未把WiFi一直status3当成断关联验证。
+
+随后独立单站断关联90秒服务器窗口00:58:40.276–01:00:10.276，COM7为recovery-wifi-20260908-2058，140秒有界。实际设备DISCONNECTED event113/reason2 ms718828，短暂CONNECTED718872后IP0，wifi_lost及应用recoverWifi ms718875，udp_stop_start718875/done718876，reconnect_start718876、return requested1/elapsed3ms，随后reason8/718878、CONNECTED718938、GOTIP719968并恢复原seat/session/v15及现金位置。断关联到GOTIP约1140ms，后续稳定记录仍在完成。
+
+需修正此前预期描述：30秒kWifiRecoveryMs是距lastWifiAttemptMs（beginWifi/recoverWifi时更新）的重试节流，不是必须连续断线30秒。本次开机已718秒，短断关联确实进入recoverWifi并证明WiFi.reconnect返回、重新DHCP和配对；不是仅SDK自动重关联，也不是30秒长断网耐久测试。没有WiFi OFF/ON/AP重启、拒绝列表或测试游戏动作。当前phase0无pendingMove，移动中恢复与幂等由服务器隔离用例证明，不冒称此次现场发生移动恢复。
+
+21:01 EDT补记：独立WiFi服务器90秒及COM7有界采集均正常结束、串口已释放。设备至ms816018保持status3/IP37，无panic；服务端尾部确认nft空、四服务active、目标associated、v15业务不变且未见watchdog介入。后续不再中断网络。两项本轮固件输入与SelfTest/production快照4/4 SHA相同，清单bg-source-snapshot-comparison.json。源码检查点110a5ba，下一候选仍在fresh构建，不能把此检查点或网络结果当成未完成性能通过。

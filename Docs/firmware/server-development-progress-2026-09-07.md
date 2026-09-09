@@ -297,3 +297,34 @@ Pi独立快照 `/home/kicofy/gridopoly-recovery-20260908.BnkLMn`：从此前隔�
 已核对当前部署ded137对应确切源码快照production-20260908-010418-7ae190304983448a821cdf02fc35ae05/PlayerConsole，remote_avatar_cache.cpp与工作树逐字节一致（SHA256 a6dacf7396b1367d4bda6b726821f776baadca4a65f6d67cc068c7c6ce264c17），上述exact行为和色块错误也存在于该固件源码。证据为C:/Users/kicof/AppData/Local/Temp/gridopoly-avatar-catalog-audit-20260909.json。
 
 主任务已将UI问题交玩家端修复；玩家另在处理previewDescriptor/frontbuffer与LVGL读取的所有权同步，由该端提供其验证，本报告不把其发现冒充服务器审查已复现。此审查到此交付，不扩大头像查询；原UDP恢复/单次断关联窗口继续等最终正常候选就绪。新现场room993580099/头像草稿阶段，网络窗口前必须动态重取基线，不能沿用旧room993580098。
+
+
+## 2026-09-09 00:55–01:00 UTC 正常候选真实网络恢复验收
+
+已按主任务授权完成一次120秒UDP窗口和随后独立90秒Wi-Fi窗口，没有重复中断、注入游戏动作、改在线房间/资产/分配或部署服务器。COM7正常候选为ad8a154d50bab39551bf028d0e126f96b8e8687751071c82cdab1bf65b423b54；COM6为格子端V0.31，非旧V0.28。开始前重新核验room993580100/v13、P1/WIFI-UDP在线/cash800/position0、phase0、身份待头像确认，3名Bot均800/0，16项资产未拥有、debt/gate均inactive、events空；IP10.42.0.37与MAC dc:b4:d9:02:d1:dc匹配且已关联。当前没有pendingMove，不用这次实机冒称移动中保留；该场景由此前556a54d隔离回归支持。
+
+### UDP40秒阻断与自动重配对：PASS
+
+完整HTTP观察为Windows UTC00:55:58.125–00:57:58.125，141轮/564GET零错误；同时捕获所有UDP消息类型，末尾约3秒额外被动收尾。Pi工具blocked epoch1788915373513（00:56:13.513），expired1788915413516，cleaned1788915413541/tableAbsent=true；唯一表gridopoly_udp_probe_428232_21b2e66f入向DROP15包/1912字节，出向0包，到期set空、最终nft表清空，命令exit0。内核到期保证与finally清理均有原始输出。
+
+HTTP首次观测P1由v13/connected=true变为v14/false：Windows00:56:28.674；恢复v15/true：00:56:56.735。Pi捕获9次PairRequest和1次PairAccept，成功包Pi00:56:56.500，仍seat1/session1245378996/room993580100；同Pi时间距内核expired约2.984秒。COM7同时记录超时、重新发现、同席位/会话配对及v15完整快照，Wi-Fi全程status3，未因UDP阻断断关联。健康计数本段heartbeats/acks各+39，resyncs+2，authFailures/replayDrops/txErrors均+0；历史txErrors32未增加。
+
+### 单次Wi-Fi断关联与应用recoverWifi：PASS
+
+独立HTTP观察Windows UTC00:58:40.276–01:00:10.276，109轮/436GET零错误，开始基线已重读v15在线/原业务。仅一次iw dev ap0 station del目标MAC，命令于Windows00:58:55.311前exit0；无拒绝列表/AP重启。Pi AP日志00:58:55.678959断关联，先快速SDK重关联，随后应用reconnect带来第二轮断关联/握手；未见watchdog介入。UDP PairAccept在同Pi时间00:58:57.152，距首次AP断关联约1.473秒，同room/seat/session。
+
+设备自身millis日志：DISCONNECTED事件113/reason2在718828；CONNECTED112在718872；wifi_lost、wifi_recover status0/ip0在718875；udp_stop_done/reconnect_start在718876；reconnect_return requested1在718879，调用仅3ms；reason8在718878、CONNECTED718938、GOTIP719968。首次断线到GOTIP为设备自身1140ms，随后UDP ready/配对/身份和权威快照恢复，未reset/panic。源码wifi_udp_player_transport.cpp检查nowMs-lastWifiAttemptMs_>=kWifiRecoveryMs，lastWifiAttemptMs_仅beginWifi/recoverWifi更新：30秒是连接尝试节流，并非要求本次持续断线30秒。因此修正此前准备阶段的界限：短断线不能预先保证触发，本次原始日志已证明实际走到应用recoverWifi和WiFi.reconnect，不能再写成仅SDK自动关联；仍未覆盖持续30秒以上Wi-Fi故障、AP重启或OFF/ON路径。
+
+该短中断未跨15秒服务端peer timeout，HTTP全段v15/connected=true是预期，不能以此否定真实Wi-Fi断线。heartbeats/acks各+45、resyncs+2、authFailures/replayDrops/txErrors均+0。末检查目标STA authenticated/associated=yes，gridopoly/gridopoly-ap/gridopoly-dnsmasq/gridopoly-ap-watchdog四项active，nft无表。
+
+### 业务、采集和时钟边界
+
+两段合计250轮完整sync/health/assignments/tags共1000GET零错误。每轮完整sync与各自基线比较，room、phase/round/active/decision、board、所有玩家name/controller/cash/position/held/bankrupt/头像URL/Tag绑定、全部assets、debt、auction、card、events、forcedRoll和movementCueGate均无差异。连接造成version13→14→15、identity.revision9→10→11和onlineMask15→14→15；avatarFinalMask/nameFinalMask/readyMask始终14，players.identityFlags原生JSON整数始终[1,58,58,58]，后者不是mask字段或十六进制拼转结果。排除持续变化的identity.serverEpochMs后其余业务无变化。窗口前用户编辑过本地Avatar草稿，不将其与权威确认混为一谈；没有保存新身份或注入动作来制造结果。
+
+时间来源分别保留：HTTP received/collectorEnded来自Windows，UDP/AP和中断工具来自Pi，设备ms来自ESP32；不能直接跨源相减得到精确延迟。Wi-Fi preflight SSH date往返将Pi相对Windows超前界限限定295–471ms。UDP工具Pi expired大于Windows collectorEnded约240ms是跨主机时钟差，非finally提前或负耗时。文中精确恢复耗时均使用同一时钟。
+
+玩家首个00:52段因准备延迟未实施中断，已关闭后重新协调，不能标为故障实验。有效UDP COM7段opened epoch1788915306072、closed1788915476119，比完整HTTP末尾少约2秒，但覆盖阻断及恢复后约59秒。Wi-Fi独立COM7段opened1788915496250，两段串口之间20.131秒间隙如实保留；两次实际网络操作都在各自有效串口段内。所有服务端观测已停止，无后台续采或定时任务；最终只读capture-events确认Wi-Fi COM7段于1788915636348关闭（实际140.098秒），串口已释放，末设备ms816018仍status3。
+
+原始证据目录：C:/Users/kicof/AppData/Local/Temp/gridopoly-real-recovery-udp-20260909-005557 与 gridopoly-real-recovery-wifi-20260909-005839，各含preflight/postflight、全量http.jsonl、udp.jsonl、interruption.jsonl、journal.json、analysis.json。玩家串口目录在C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/recovery-udp-20260908-2055和recovery-wifi-20260908-2058。临时采集脚本及日志不入Git；本端仅补此报告，统一Git由主任务处理。
+
+本端本轮范围交付：隔离财务/移动幂等回归已PASS（556a54d），真实UDP及Wi-Fi恢复现已PASS并保留实际席位、会话、身份和财务状态。待移动实机保持、长时Wi-Fi故障不在本次场景；玩家性能RETARGET/ASSETS_WARM最大间隔仍FAIL，由玩家端与主任务继续，不能因本次网络通过宣称整体发布验收完成。服务器无新增业务修复或部署需求，不继续重复故障注入。
