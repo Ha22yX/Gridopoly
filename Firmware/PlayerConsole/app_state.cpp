@@ -477,6 +477,14 @@ bool resyncContinuesCurrentRoll(const AppState &state, const TransportEvent &eve
     if (event.phase == AuthorityPhase::AwaitMoveConfirm && event.pendingTarget != 0xFF) {
         return state.rollTarget == 0xFF || state.rollTarget == event.pendingTarget;
     }
+    // The server may resend the already-applied landing state while the local
+    // confirmation is still being read. Preserve that same checkpoint/deadline;
+    // a different position or phase must still rebuild from authority.
+    if (state.nav.current.page == ScreenPage::MoveGuide && state.moveArrivalPending &&
+        state.moveArrivalConfirmed && state.rollTarget != 0xFF &&
+        event.playerPosition == state.rollTarget && event.phase == state.authorityPhase) {
+        return true;
+    }
     // StateSnapshot does not carry DebtContinuation. Preserve an in-flight
     // hold-release roll using the last full Authority projection until the
     // matching full projection refreshes the metadata.

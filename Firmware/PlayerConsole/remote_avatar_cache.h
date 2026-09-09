@@ -23,15 +23,22 @@ struct RemoteAvatarPreloadProgress {
 void remoteAvatarCachePreload(const TransportAvatarRecipe &recipe);
 RemoteAvatarPreloadProgress remoteAvatarCachePreloadProgress();
 
-// Releases only setup components and the 220x300 preview. Public 128x128
-// avatars remain available for gameplay.
+// Call under the LVGL mutex AFTER removing objects that reference setup images.
+// Releases only setup components and the 220x300 preview; public avatars remain.
 void remoteAvatarCacheReleaseSetup();
+
+// Call under the LVGL mutex after entering a setup page without public avatars.
+void remoteAvatarCacheReleaseFinals();
+
+// May run outside LVGL. Updates the desired recipe and queues work only.
+void remoteAvatarCacheRequestPreview(const TransportAvatarRecipe &recipe);
 
 struct RemoteAvatarPreviewFrame {
     const lv_img_dsc_t *image = nullptr;
     bool exact = false;
 };
 
+// Call under the LVGL mutex; acquires a completed worker buffer for display.
 // Returns a locally composed 220x300 preview. The active three neutral GAVC
 // components are fetched first, then all remaining presets are warmed into a
 // transient Avatar Setup pool. Hair and skin colors are applied locally. The

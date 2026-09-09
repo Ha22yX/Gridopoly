@@ -12,7 +12,7 @@ SUMMARY = re.compile(
     r"incremental=(\d+) rebuild=(\d+) (PASS|FAIL)$"
 )
 TRACE = re.compile(r"^(CAROUSEL|LIST) PERF (\w+) DIAG (.*)$")
-SAMPLE = re.compile(r"\[(\d+):(\d+)/(\d+)(?: s=(\d+) w=(\d+))?\]")
+SAMPLE = re.compile(r"\[(\d+):(\d+)/(\d+)(?: s=(\d+) w=(\d+)(?: c=(\d+) r=(\d+) g=(\d+))?)?\]")
 
 
 def analyze(text, scan_ms):
@@ -36,11 +36,13 @@ def analyze(text, scan_ms):
         scene = scenes.get((kind, name))
         if scene is None:
             continue
-        for gap, refresh, pixels, submit, wait in SAMPLE.findall(raw):
+        for gap, refresh, pixels, submit, wait, copy, rect, glyph in SAMPLE.findall(raw):
             sample = {"gap_ms": int(gap), "refresh_ms_including_wait": int(refresh),
                       "redrawn_pixels": int(pixels)}
             if submit:
                 sample.update(submit_us=int(submit), wait_us=int(wait))
+            if copy:
+                sample.update(copy_us=int(copy), rect_us=int(rect), glyph_us=int(glyph))
             scene["samples"].append(sample)
     for scene in scenes.values():
         # First-frame latency is measured from the input, not the previous scan.
@@ -57,6 +59,7 @@ def analyze(text, scan_ms):
             "notes": ["Scan intervals are estimates from the supplied period.",
                       "LVGL monitor duration includes layout, sync, draw and flush wait.",
                       "Missing submit/wait fields are unavailable, not zero.",
+                      "Copy/rect/glyph counters span consecutive completed last-flush boundaries; they are not an exact decomposition of the monitor duration on that line.",
                       "Reported PASS/FAIL is preserved; no acceptance thresholds change."],
             "scenes": list(scenes.values())}
 

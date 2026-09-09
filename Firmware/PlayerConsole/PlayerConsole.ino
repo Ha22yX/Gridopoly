@@ -5,6 +5,7 @@
 #include <esp_system.h>
 #include <lvgl.h>
 #include <new>
+#include <cstring>
 
 #include "app_config.h"
 #include "app_state.h"
@@ -39,6 +40,55 @@ using namespace esp_panel::board;
 namespace {
 
 AppState app;
+bool inputTraceEnabled = false;
+uint32_t inputTraceDeadlineMs = 0;
+
+void serviceInputTrace(uint32_t nowMs)
+{
+    // Explicit, bounded diagnostics only. Serial commands never change input
+    // events, decoder state, identity drafts or authoritative game state.
+    static char line[32]{};
+    static uint8_t length = 0;
+    static bool overflow = false;
+    for (uint8_t count = 0; count < sizeof(line) && Serial.available() > 0; ++count) {
+        const char ch = static_cast<char>(Serial.read());
+        if (ch == '\r') continue;
+        if (ch != '\n') {
+            if (length + 1 < sizeof(line) && !overflow) line[length++] = ch;
+            else overflow = true;
+            continue;
+        }
+        line[length] = '\0';
+        if (!overflow && std::strcmp(line, "INPUT TRACE ON") == 0) {
+            hardwareInputClearDiagnostics();
+            inputTraceEnabled = true;
+            inputTraceDeadlineMs = nowMs + 90000u;
+            Serial.printf("GRIDOPOLY_INPUT_TRACE enabled=1 ms=%lu duration_ms=90000\n",
+                          static_cast<unsigned long>(nowMs));
+        } else if (!overflow && std::strcmp(line, "INPUT TRACE OFF") == 0) {
+            inputTraceEnabled = false;
+            Serial.printf("GRIDOPOLY_INPUT_TRACE enabled=0 ms=%lu reason=command\n",
+                          static_cast<unsigned long>(nowMs));
+        }
+        length = 0;
+        overflow = false;
+    }
+    if (inputTraceEnabled && static_cast<int32_t>(nowMs - inputTraceDeadlineMs) >= 0) {
+        inputTraceEnabled = false;
+        Serial.printf("GRIDOPOLY_INPUT_TRACE enabled=0 ms=%lu reason=deadline\n",
+                      static_cast<unsigned long>(nowMs));
+    }
+    HardwareInputDiagnostic diagnostic{};
+    for (uint8_t count = 0; count < 16 && hardwareInputPollDiagnostic(diagnostic); ++count) {
+        if (!inputTraceEnabled) continue;
+        Serial.printf(
+            "GRIDOPOLY_ROTARY_RAW ms=%lu raw=%u stable=%u step=%d invalid_total=%lu dropped=%lu queue=%u\n",
+            static_cast<unsigned long>(diagnostic.timestampMs), diagnostic.rawPhases,
+            diagnostic.stablePhases, diagnostic.emittedStep,
+            static_cast<unsigned long>(diagnostic.invalidTransitions),
+            static_cast<unsigned long>(diagnostic.droppedTraces), diagnostic.queueEntries);
+    }
+}
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP
 WifiUdpPlayerTransport transport;
 #elif GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_ESPNOW
@@ -147,6 +197,7 @@ struct CarouselPerfResult {
     uint16_t renderTimes[kPerfTraceCapacity]{};
     uint32_t pixelCounts[kPerfTraceCapacity]{};
     uint32_t submitUs[kPerfTraceCapacity]{}, waitUs[kPerfTraceCapacity]{};
+    uint32_t copyUs[kPerfTraceCapacity]{}, rectUs[kPerfTraceCapacity]{}, glyphUs[kPerfTraceCapacity]{};
     uint8_t traceCount = 0;
     uint32_t incrementalRenders = 0;
     uint32_t rebuildRenders = 0;
@@ -176,6 +227,7 @@ struct CarouselPerfProbe {
     volatile uint16_t renderTimes[kPerfTraceCapacity]{};
     volatile uint32_t pixelCounts[kPerfTraceCapacity]{};
     volatile uint32_t submitUs[kPerfTraceCapacity]{}, waitUs[kPerfTraceCapacity]{};
+    volatile uint32_t copyUs[kPerfTraceCapacity]{}, rectUs[kPerfTraceCapacity]{}, glyphUs[kPerfTraceCapacity]{};
     void (*previousMonitor)(lv_disp_drv_t *, uint32_t, uint32_t) = nullptr;
 };
 
@@ -271,6 +323,10 @@ void carouselPerfMonitor(lv_disp_drv_t *driver, uint32_t renderMs, uint32_t pixe
             carouselPerfProbe.pixelCounts[index] = pixelCount;
             carouselPerfProbe.submitUs[index] = lvgl_port_last_submit_us();
             carouselPerfProbe.waitUs[index] = lvgl_port_last_wait_us();
+            const LvglRenderTimings timings = lvgl_port_last_render_timings();
+            carouselPerfProbe.copyUs[index] = timings.copyUs;
+            carouselPerfProbe.rectUs[index] = timings.rectUs;
+            carouselPerfProbe.glyphUs[index] = timings.glyphUs;
         }
         ++carouselPerfProbe.frames;
         if (perfCoverageReached(nowMs, carouselPerfProbe.startedMs,
@@ -498,6 +554,9 @@ CarouselPerfResult runCarouselPerfFixture(AppState &state, PerfScenario scenario
         result.pixelCounts[index] = carouselPerfProbe.pixelCounts[index];
         result.submitUs[index] = carouselPerfProbe.submitUs[index];
         result.waitUs[index] = carouselPerfProbe.waitUs[index];
+        result.copyUs[index] = carouselPerfProbe.copyUs[index];
+        result.rectUs[index] = carouselPerfProbe.rectUs[index];
+        result.glyphUs[index] = carouselPerfProbe.glyphUs[index];
     }
     const UiRendererTestStats rendererStats = uiRendererGetTestStats();
     result.incrementalRenders = rendererStats.incrementalRenders;
@@ -552,12 +611,15 @@ void printPerfResult(const char *marker, const CarouselPerfResult &result)
     esp_rom_printf("%s DIAG", marker);
     for (uint8_t index = 0; index < result.traceCount; ++index) {
         esp_rom_printf(
-            " [%u:%u/%u s=%lu w=%lu]",
+            " [%u:%u/%u s=%lu w=%lu c=%lu r=%lu g=%lu]",
             static_cast<unsigned>(result.gaps[index]),
             static_cast<unsigned>(result.renderTimes[index]),
             static_cast<unsigned>(result.pixelCounts[index]),
             static_cast<unsigned long>(result.submitUs[index]),
-            static_cast<unsigned long>(result.waitUs[index])
+            static_cast<unsigned long>(result.waitUs[index]),
+            static_cast<unsigned long>(result.copyUs[index]),
+            static_cast<unsigned long>(result.rectUs[index]),
+            static_cast<unsigned long>(result.glyphUs[index])
         );
     }
     esp_rom_printf("\n");
@@ -750,16 +812,34 @@ void loop()
     TransportCommand command{};
     TransportEvent transportEvent{};
     bool rotaryStepApplied = false;
+    serviceInputTrace(nowMs);
     while (!rotaryStepApplied && hardwareInputPoll(input)) {
         const uint8_t beforeCommands = app.commandCount;
+        const ScreenPage beforePage = app.page;
+        const uint8_t beforeFocus = app.focus;
+        const bool beforeEditing = app.identity.editingValue;
+        const TransportAvatarRecipe beforeRecipe = app.identity.draftRecipe;
         appHandleInput(app, input, nowMs);
         Serial.printf(
-            "GRIDOPOLY_INPUT kind=%u delta=%d page=%u focus=%u queued=%u auth=%u catalog=%u pending=%04x\n",
+            "GRIDOPOLY_INPUT kind=%u delta=%d page=%u focus=%u queued=%u auth=%u catalog=%u pending=%04x input_ms=%lu consumed_ms=%lu\n",
             static_cast<unsigned>(input.kind), input.delta, static_cast<unsigned>(app.page),
             app.focus, static_cast<unsigned>(app.commandCount - beforeCommands),
             app.authorityOnline ? 1u : 0u, app.boardCatalogCompatible ? 1u : 0u,
-            app.pendingCommandMask
+            app.pendingCommandMask, static_cast<unsigned long>(input.timestampMs),
+            static_cast<unsigned long>(millis())
         );
+        if (beforePage == ScreenPage::AvatarSetup || app.page == ScreenPage::AvatarSetup) {
+            const TransportAvatarRecipe &after = app.identity.draftRecipe;
+            Serial.printf(
+                "GRIDOPOLY_AVATAR_INPUT input_ms=%lu consumed_ms=%lu delta=%d focus=%u->%u editing=%u->%u recipe=%u/%u/%u/%u/%u->%u/%u/%u/%u/%u\n",
+                static_cast<unsigned long>(input.timestampMs), static_cast<unsigned long>(millis()),
+                input.delta, beforeFocus, app.focus, beforeEditing ? 1u : 0u,
+                app.identity.editingValue ? 1u : 0u,
+                beforeRecipe.hairPresetId, beforeRecipe.hairColorId, beforeRecipe.facePresetId,
+                beforeRecipe.skinToneId, beforeRecipe.outfitPresetId,
+                after.hairPresetId, after.hairColorId, after.facePresetId,
+                after.skinToneId, after.outfitPresetId);
+        }
         rotaryStepApplied = input.kind == InputKind::Rotate;
     }
 
@@ -798,9 +878,6 @@ void loop()
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP
     if (appIdentityActive(app)) {
         avatarSetupCacheHeld = true;
-    } else if (avatarSetupCacheHeld) {
-        remoteAvatarCacheReleaseSetup();
-        avatarSetupCacheHeld = false;
     }
     if (app.page == ScreenPage::AvatarLoading) {
         remoteAvatarCachePreload(app.identity.draftRecipe);
@@ -808,7 +885,7 @@ void loop()
         appUpdateAvatarPreloadProgress(app, progress.readyCount,
                                        progress.totalCount, progress.complete);
     } else if (app.page == ScreenPage::AvatarSetup) {
-        (void)remoteAvatarPreview(app.identity.draftRecipe);
+        remoteAvatarCacheRequestPreview(app.identity.draftRecipe);
     }
     const bool tileArtworkChanged = remoteTileCacheConsumeUpdate();
     const bool avatarArtworkChanged = remoteAvatarCacheConsumeUpdate();
@@ -820,6 +897,17 @@ void loop()
 
     if (lvgl_port_lock(-1)) {
         renderAppFrame(nowMs);
+#if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP
+        // The previous page's LVGL objects must be gone before their source
+        // pixels are released. Workers defer setup cleanup while composing.
+        if (!appIdentityActive(app) && avatarSetupCacheHeld) {
+            remoteAvatarCacheReleaseSetup();
+            avatarSetupCacheHeld = false;
+        }
+        if (app.page == ScreenPage::AvatarLoading || app.page == ScreenPage::AvatarSetup) {
+            remoteAvatarCacheReleaseFinals();
+        }
+#endif
         lvgl_port_unlock();
     }
     delay(2);

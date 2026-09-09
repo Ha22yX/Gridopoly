@@ -139,7 +139,7 @@ constexpr const char *kHairColorNames[20] = {
 constexpr uint32_t kHairColorSwatches[20] = {
     0x68747C, 0xB0532B, 0x28303A, 0x50372F, 0x8E5A3C, 0xD1A44F,
     0xD8CCB0, 0x2D848A, 0x705C52, 0x8B362A, 0x682A2C, 0xC8974E,
-    0xD58B5C, 0xA6B2BC, 0xEBEAEA, 0x75253F, 0xC25577, 0x6F4EA0,
+    0xD58B5C, 0xA6B2BC, 0xEBEEEA, 0x75253F, 0xC25577, 0x6F4EA0,
     0x375DA8, 0x307D5B,
 };
 constexpr const char *kFaceNames[10] = {
@@ -2704,7 +2704,13 @@ void drawAvatarSilhouette(const TransportAvatarRecipe &recipe, bool loading)
         lv_img_set_src(avatarPortraitImage, frame.image);
         lv_obj_clear_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(avatarPortraitSpinner, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+        if (frame.exact) {
+            lv_obj_add_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+        } else {
+            lv_obj_set_pos(avatarPortraitStatus, 16, 244);
+            lv_label_set_text(avatarPortraitStatus, "UPDATING PREVIEW");
+            lv_obj_clear_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+        }
     }
 }
 
@@ -2871,18 +2877,25 @@ void updateAvatarPortrait(const AppState &state)
         lv_obj_add_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(avatarPortraitSpinner, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_pos(avatarPortraitStatus, 16, 140);
         lv_label_set_text(avatarPortraitStatus,
                           submitting ? "SAVING AVATAR" : "LOADING PREVIEW");
         return;
     }
 
     // Keep the last complete frame visible while another recipe is composing.
-    // The descriptor is stable, but its front-buffer data pointer changes.
+    // Only this LVGL owner acquires completed buffers and changes the descriptor.
     lv_img_cache_invalidate_src(frame.image);
     lv_img_set_src(avatarPortraitImage, frame.image);
     lv_obj_clear_flag(avatarPortraitImage, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(avatarPortraitSpinner, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+    if (frame.exact) {
+        lv_obj_add_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+    } else {
+        lv_obj_set_pos(avatarPortraitStatus, 16, 244);
+        lv_label_set_text(avatarPortraitStatus, "UPDATING PREVIEW");
+        lv_obj_clear_flag(avatarPortraitStatus, LV_OBJ_FLAG_HIDDEN);
+    }
 }
 
 void updateAvatarRowValues(const AppState &state)

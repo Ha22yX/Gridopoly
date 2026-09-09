@@ -24,6 +24,32 @@ static portMUX_TYPE frame_ticket_mux = portMUX_INITIALIZER_UNLOCKED;
 static FramePresentationTracker frame_tickets;
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
 static uint32_t frame_submit_us = 0, frame_wait_us = 0;
+static LvglRenderTimings pending_render_timings{}, frame_render_timings{};
+static decltype(lv_draw_ctx_t::buffer_copy) unprofiled_copy = nullptr;
+static decltype(lv_draw_ctx_t::draw_rect) unprofiled_rect = nullptr;
+static decltype(lv_draw_ctx_t::draw_letter) unprofiled_letter = nullptr;
+LvglRenderTimings lvgl_port_last_render_timings(void) { return frame_render_timings; }
+static void profile_copy(lv_draw_ctx_t *ctx, void *dest, lv_coord_t dest_stride,
+                         const lv_area_t *dest_area, void *src, lv_coord_t src_stride,
+                         const lv_area_t *src_area)
+{
+    const int64_t started = esp_timer_get_time();
+    unprofiled_copy(ctx, dest, dest_stride, dest_area, src, src_stride, src_area);
+    pending_render_timings.copyUs += static_cast<uint32_t>(esp_timer_get_time() - started);
+}
+static void profile_rect(lv_draw_ctx_t *ctx, const lv_draw_rect_dsc_t *dsc, const lv_area_t *area)
+{
+    const int64_t started = esp_timer_get_time();
+    unprofiled_rect(ctx, dsc, area);
+    pending_render_timings.rectUs += static_cast<uint32_t>(esp_timer_get_time() - started);
+}
+static void profile_letter(lv_draw_ctx_t *ctx, const lv_draw_label_dsc_t *dsc,
+                           const lv_point_t *position, uint32_t letter)
+{
+    const int64_t started = esp_timer_get_time();
+    unprofiled_letter(ctx, dsc, position, letter);
+    pending_render_timings.glyphUs += static_cast<uint32_t>(esp_timer_get_time() - started);
+}
 uint32_t lvgl_port_last_submit_us(void) { return frame_submit_us; }
 uint32_t lvgl_port_last_wait_us(void) { return frame_wait_us; }
 #endif
@@ -428,6 +454,8 @@ static void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
         frame_wait_us = static_cast<uint32_t>(esp_timer_get_time() - wait_started);
+        frame_render_timings = pending_render_timings;
+        pending_render_timings = LvglRenderTimings{};
 #endif
         portENTER_CRITICAL(&frame_ticket_mux);
         frame_tickets.bufferSwitchCompleted(switch_accepted);
@@ -681,7 +709,19 @@ static lv_disp_t *display_init(LCD *lcd)
         disp_drv.rounder_cb = rounder_callback;
     }
 
-    return lv_disp_drv_register(&disp_drv);
+    lv_disp_t *display = lv_disp_drv_register(&disp_drv);
+#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+    if (display != nullptr && display->driver->draw_ctx != nullptr) {
+        lv_draw_ctx_t *ctx = display->driver->draw_ctx;
+        unprofiled_copy = ctx->buffer_copy;
+        unprofiled_rect = ctx->draw_rect;
+        unprofiled_letter = ctx->draw_letter;
+        if (unprofiled_copy != nullptr) ctx->buffer_copy = profile_copy;
+        if (unprofiled_rect != nullptr) ctx->draw_rect = profile_rect;
+        if (unprofiled_letter != nullptr) ctx->draw_letter = profile_letter;
+    }
+#endif
+    return display;
 }
 
 static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)

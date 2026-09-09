@@ -142,5 +142,28 @@ template<class Check> bool runMovementCueAppTests(Check check)
     ok &= check(appPollCommand(state, command) && command.requestId != retiredRequest &&
         command.stateVersion == 101 && state.movementCueFramePresented,
         "cue: explicit recovery creates a fresh request at the same version without replaying presentation");
+    fresh();
+    state.page = state.nav.current.page = ScreenPage::MoveGuide;
+    state.rollAnimating = false;
+    state.rollResolved = state.rollPresentationComplete = true;
+    TransportEvent arrived{};
+    arrived.kind = TransportEventKind::StateSnapshotApplied;
+    arrived.roomId = 123; arrived.stateVersion = 101;
+    arrived.phase = AuthorityPhase::AwaitPurchase;
+    arrived.selfSeatId = arrived.activePlayerId = arrived.decisionPlayerId = 1;
+    arrived.playerCount = 2; arrived.boardSize = 24;
+    arrived.playerPosition = 7; arrived.pendingTarget = 0xFF;
+    arrived.availableActions = (1u << 2) | (1u << 3);
+    appHandleTransportEvent(state, arrived, 1000);
+    const uint32_t continueAt = state.arrivalContinueAtMs;
+    arrived.resync = true;
+    appHandleTransportEvent(state, arrived, 1001);
+    ok &= check(state.nav.current.page == ScreenPage::MoveGuide &&
+        state.moveArrivalConfirmed && continueAt != 0 && state.arrivalContinueAtMs == continueAt,
+        "arrival: same-position resync preserves confirmed page and original deadline");
+    arrived.playerPosition = 8;
+    appHandleTransportEvent(state, arrived, 1002);
+    ok &= check(!state.moveArrivalConfirmed && state.nav.current.page == ScreenPage::Purchase,
+        "arrival: changed authoritative position cannot preserve an old confirmation");
     return ok;
 }

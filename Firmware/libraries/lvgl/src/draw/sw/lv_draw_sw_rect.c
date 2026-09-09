@@ -1161,6 +1161,19 @@ void draw_border_generic(lv_draw_ctx_t * draw_ctx, const lv_area_t * outer_area,
      *It is always the same or inside `coords`*/
     lv_area_t draw_area;
     if(!_lv_area_intersect(&draw_area, outer_area, draw_ctx->clip_area)) return;
+
+    /* A local refresh wholly inside the border's hole cannot paint pixels.
+     * Keep a two-pixel inset so the radius mask's antialiased edge always uses
+     * the original renderer. This avoids constructing large circle masks for
+     * every small update inside the player's decorative rings. */
+    lv_area_t safe_inner = *inner_area;
+    safe_inner.x1 += 2;
+    safe_inner.y1 += 2;
+    safe_inner.x2 -= 2;
+    safe_inner.y2 -= 2;
+    if(safe_inner.x1 <= safe_inner.x2 && safe_inner.y1 <= safe_inner.y2 &&
+       _lv_area_is_in(&draw_area, &safe_inner, LV_MAX(rin - 2, 0))) return;
+
     int32_t draw_area_w = lv_area_get_width(&draw_area);
 
     lv_draw_sw_blend_dsc_t blend_dsc;

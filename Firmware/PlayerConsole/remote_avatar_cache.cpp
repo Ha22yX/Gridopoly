@@ -1,6 +1,7 @@
 #include "remote_avatar_cache.h"
 
 #include "avatar_component_math.h"
+#include "avatar_preview_buffers.h"
 #include "remote_tile_cache_policy.h"
 
 #include <Arduino.h>
@@ -162,11 +163,11 @@ CacheMode cacheMode = CacheMode::None;
 TransportAvatarRecipe desiredRecipe{};
 TransportAvatarRecipe composedRecipe{};
 std::array<uint8_t *, 2> previewPixels{};
-uint8_t previewFrontIndex = 0;
+AvatarPreviewBuffers previewBuffers;
+TransportAvatarRecipe pendingPreviewRecipe{};
 lv_img_dsc_t previewDescriptor{};
 bool previewReady = false;
 bool composeRequested = false;
-bool composeInProgress = false;
 bool releaseRequested = false;
 uint32_t recipeGeneration = 0;
 uint32_t desiredRecipeGeneration = 0;
@@ -307,11 +308,11 @@ void clearPreviewLocked()
         heap_caps_free(pixels);
         pixels = nullptr;
     }
-    previewFrontIndex = 0;
+    previewBuffers = AvatarPreviewBuffers{};
+    pendingPreviewRecipe = TransportAvatarRecipe{};
     previewDescriptor = lv_img_dsc_t{};
     previewReady = false;
     composeRequested = false;
-    composeInProgress = false;
     releaseRequested = false;
     desiredRecipe = TransportAvatarRecipe{};
     composedRecipe = TransportAvatarRecipe{};
@@ -330,8 +331,10 @@ void enterModeLocked(CacheMode mode)
     if (mode == CacheMode::Preview) {
         if (cacheMode == CacheMode::Preview ||
             cacheMode == CacheMode::PreviewAndFinals) return;
-        if (cacheMode == CacheMode::Finals) clearFinalsLocked();
-        cacheMode = CacheMode::Preview;
+        // Old page objects can still reference final images during preload.
+        // The UI releases them only after removing those objects under LVGL.
+        cacheMode = cacheMode == CacheMode::Finals
+            ? CacheMode::PreviewAndFinals : CacheMode::Preview;
         return;
     }
     if (mode == CacheMode::Finals) {
@@ -623,12 +626,13 @@ void completeRequest(const ClaimedRequest &request, uint8_t *bytes,
 
 bool beginComposeLocked(ComposeSnapshot &snapshot)
 {
-    if (composeInProgress || !allComponentsReadyLocked() ||
+    if (!allComponentsReadyLocked() ||
         !ensurePreviewBuffersLocked()) return false;
+
+    if (!previewBuffers.begin(desiredRecipeGeneration, snapshot.outputIndex)) return false;
 
     snapshot.recipe = desiredRecipe;
     snapshot.generation = desiredRecipeGeneration;
-    snapshot.outputIndex = static_cast<uint8_t>(previewFrontIndex ^ 1u);
     for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
         const ComponentSlot &slot = desiredComponent(kind);
         ComposeLayer &layer = snapshot.layers[kind - 1];
@@ -638,7 +642,6 @@ bool beginComposeLocked(ComposeSnapshot &snapshot)
         layer.expectedKind = slot.expectedKind;
     }
     composeRequested = false;
-    composeInProgress = true;
     return true;
 }
 
@@ -705,21 +708,14 @@ bool composePreview(const ComposeSnapshot &snapshot)
 
 bool finishComposeLocked(const ComposeSnapshot &snapshot, bool success)
 {
-    composeInProgress = false;
     bool published = false;
-    if (success && previewModeLocked() && !releaseRequested &&
+    const bool eligible = success && previewModeLocked() && !releaseRequested &&
         snapshot.generation == desiredRecipeGeneration &&
-        sameRecipe(snapshot.recipe, desiredRecipe)) {
-        previewFrontIndex = snapshot.outputIndex;
-        previewDescriptor.header.cf = LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED;
-        previewDescriptor.header.always_zero = 0;
-        previewDescriptor.header.reserved = 0;
-        previewDescriptor.header.w = kPreviewWidth;
-        previewDescriptor.header.h = kPreviewHeight;
-        previewDescriptor.data_size = kRemoteAvatarPreviewBytes;
-        previewDescriptor.data = previewPixels[previewFrontIndex];
-        composedRecipe = snapshot.recipe;
-        previewReady = true;
+        sameRecipe(snapshot.recipe, desiredRecipe);
+    if (previewBuffers.finish(snapshot.generation, desiredRecipeGeneration, eligible)) {
+        // Announce a completed back buffer; do not mutate LVGL's descriptor or
+        // recycle its front from this worker. The UI acquires it under LVGL.
+        pendingPreviewRecipe = snapshot.recipe;
         ++publishedGeneration;
         published = true;
     } else if (previewModeLocked() && !releaseRequested &&
@@ -823,6 +819,7 @@ void remoteAvatarCachePreload(const TransportAvatarRecipe &recipe)
     // can reach Ready while the final 220x300 preview allocation still fails.
     bool previewBufferReady = ensurePreviewBuffersLocked();
     if (!sameRecipe(desiredRecipe, normalized)) {
+        previewBuffers.discardPending();
         desiredRecipe = normalized;
         desiredRecipeChangedAtMs = millis();
         ++recipeGeneration;
@@ -869,7 +866,9 @@ void remoteAvatarCacheReleaseSetup()
         cacheMode = cacheMode == CacheMode::PreviewAndFinals
             ? CacheMode::Finals : CacheMode::None;
         ++desiredRecipeGeneration;
-        if (composeInProgress) {
+        previewReady = false;
+        previewBuffers.discardPending();
+        if (previewBuffers.composing()) {
             releaseRequested = true;
             composeRequested = false;
         } else {
@@ -879,9 +878,8 @@ void remoteAvatarCacheReleaseSetup()
     xSemaphoreGive(cacheMutex);
 }
 
-RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(
-    const TransportAvatarRecipe &recipe
-)
+static RemoteAvatarPreviewFrame requestPreview(const TransportAvatarRecipe &recipe,
+                                               bool acquireForLvgl)
 {
     // A temporary internal-heap shortage during boot must not make Avatar
     // Setup permanently blank. Retry once the page is actually visible.
@@ -893,6 +891,7 @@ RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(
     xSemaphoreTake(cacheMutex, portMAX_DELAY);
     enterModeLocked(CacheMode::Preview);
     if (!sameRecipe(desiredRecipe, normalized)) {
+        previewBuffers.discardPending();
         desiredRecipe = normalized;
         desiredRecipeChangedAtMs = millis();
         ++recipeGeneration;
@@ -903,18 +902,51 @@ RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(
     if (!ensurePreviewBuffersLocked()) {
         (void)recoverPreviewBufferLocked();
     }
+    if (acquireForLvgl && previewBuffers.acquire(desiredRecipeGeneration)) {
+        previewDescriptor.header.cf = LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED;
+        previewDescriptor.header.always_zero = 0;
+        previewDescriptor.header.reserved = 0;
+        previewDescriptor.header.w = kPreviewWidth;
+        previewDescriptor.header.h = kPreviewHeight;
+        previewDescriptor.data_size = kRemoteAvatarPreviewBytes;
+        previewDescriptor.data = previewPixels[previewBuffers.front()];
+        composedRecipe = pendingPreviewRecipe;
+        previewReady = true;
+        composeRequested = false;
+    }
     if (allComponentsReadyLocked() &&
         (!previewReady || !sameRecipe(composedRecipe, normalized))) {
         composeRequested = true;
         wakeWorker = true;
     }
-    if (previewReady) {
+    if (previewReady && !releaseRequested) {
         result.image = &previewDescriptor;
         result.exact = sameRecipe(composedRecipe, normalized);
     }
     xSemaphoreGive(cacheMutex);
     if (wakeWorker) wakeWorkers();
     return result;
+}
+
+void remoteAvatarCacheRequestPreview(const TransportAvatarRecipe &recipe)
+{
+    (void)requestPreview(recipe, false);
+}
+
+RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(const TransportAvatarRecipe &recipe)
+{
+    return requestPreview(recipe, true);
+}
+
+void remoteAvatarCacheReleaseFinals()
+{
+    if (!cacheStarted || cacheMutex == nullptr) return;
+    xSemaphoreTake(cacheMutex, portMAX_DELAY);
+    if (finalModeLocked()) {
+        clearFinalsLocked();
+        cacheMode = previewModeLocked() ? CacheMode::Preview : CacheMode::None;
+    }
+    xSemaphoreGive(cacheMutex);
 }
 
 const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe)
