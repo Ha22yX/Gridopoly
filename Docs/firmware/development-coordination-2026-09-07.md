@@ -266,3 +266,16 @@ Web两次提交0f4d52f/724924a：模块行展示真实ORDER顺序、未分配/�
 格子V0.32候选已编译，ORDER波形/CRC/时间回绕/邻接/重复帧/断线/调度丢帧等测试在Firmware/TileModuleTests/HostRegression/order_link.cpp，可由同目录CMake/CTest重现。首轮55例通过，decoder.exe曾Windows BAD_COMMAND启动失败后单独重跑PASS，该首轮异常不抹去。为保留source=order正在重建最终候选，最终SHA与设备版本需以随后部署记录为准。COM8确认16MB flash/8MB PSRAM，先完整备份原flash后刷；COM6保留V0.31回退。40MHz仅授权验证过的COM6 MAC白名单，COM8按8MHz，未接屏不作显示目视结论。
 
 主HTTP只读确认room993580100/version36/phase1，无pendingMove，movementCueGate inactive；COM6当前auto CORNER-START/map0，tagReaderState stable。部署后的实际锚点联调前须重新检查移动状态，不能用伪造ORDER心跳或游戏动作制造实机证据。实际接线尚未收到用户明确答复，之后以双板串口完整CRC有效帧和服务端当前链共同核验。
+
+
+#### ORDER 已部署并完成真实双板锚点分配验证
+
+服务器源码/测试06c8b77，固件/主机回归487b26d；Web0f4d52f/724924a。主独立核对服务器69项source-manifest全部匹配；最终v3 tile_debug_assignment、http_asset_integration及production build PASS。运行PID8533 SHA4095bd88d80b45047d48876709f7ba8a060c8cab7df8d0745280b74f15fa9b8a，四服务active，部署后24秒完整业务diff为空。最终格子V0.32 SHA176db3cc3ea78c920f235ebcffafeef423dbe07caf6db7bb89a9e4681e502760，两板写入校验成功；主核对其manifest6源码/5产物无差异，最终7套56项测试全部PASS。
+
+COM8烧录后仍响应ROM，启动采样GPIO0低；在已有run/hard-reset观察无输出之后，一次watchdog_reset后的窗口出现正常启动、8MHz/HTTP200。主曾发出松BOOT/复位最小动作问题，随后立即明确软件恢复成功、该操作可跳过；没有收到用户现场动作确认，不冒称已经测得电气低电平原因或排除同期用户操作。当前两块均正常V0.32，COM6维持40MHz。
+
+真实物理方向为COM8→COM6，而非注册顺序。COM8 boot426C020ABE7B4B34，COM6 boot049DC51DD2157E4C；主独立读取com6-real-chain.jsonl，其upstream严格等于COM8 boot，rx_seq9→18、accepted8→17、rejected0、timing_drops保持启动时1，validYES；窗口最终MONITOR CLOSED COM6。COM8串口显示source=order E2/map23，与当前24格地图中COM6手动START0的前一格一致。无屏模块已经运行网络和ORDER，未以此宣称它的显示或读卡通过。
+
+主经真实HTTP设置现场manual（没有伪造ORDER上报），每步留5秒让设备心跳消费：COM6设A2/map3时COM8派生map2；另指定COM8 B1/map7时COM6保留manual3；清COM6后它正向派生B2/map8，COM8保留manual7；COM6恢复START0时双方manual0/7；清COM8后最终COM6 manual0、COM8 order23。COM6实串口已捕捉START/manual→A2/manual→B2/order。每步检查当前无pendingMove/phase1；忽略identity.serverEpochMs后/api/state所有字段完全一致，room993580100/version39，未掷骰、修改资产、绑定Tag或结算。主完整证据C:/Users/kicof/AppData/Local/Temp/gridopoly-root-order-review/physical-anchor-sequence.json。
+
+本次目标“真实ORDER定序、任意锚点前后分配、多manual保留、撤销后恢复跟随”已完成代码、回归、部署及双板实际验证。真实拔线/重接/互换方向未在本窗口操作，其失效/恢复只有当前主机与服务回归证据；不扩大为所有电气场景保证。手动锚点当前内存暂存，模块临时掉线保留，服务器重启/换room或board清除。COM8读卡器单独报告fault，当前未接屏，均不冒称这些外围已验收。原玩家屏b53e频闪/错位视觉验收仍待用户反馈，ORDER完成不替代其结论。所有采集有界结束，没有新建自动化。

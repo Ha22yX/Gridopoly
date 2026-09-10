@@ -339,3 +339,32 @@ HTTP首次观测P1由v13/connected=true变为v14/false：Windows00:56:28.674；�
 Windows可见19个SSID，未见gridopoly。原始只读列表保存在C:/Users/kicof/AppData/Local/Temp/gridopoly-network-scan-20260910-0235.txt。一次有界10.0.0.2–254 TCP22探测（每地址0.8秒、24并发、无认证）仅发现10.0.0.15，SSH握手取得的ed25519主机密钥不匹配已知Pi，banner为Ubuntu；未向其发送凭据。known_hosts中与Pi密钥匹配的地址只有10.42.0.1和10.0.0.124。历史其它已知10.0.0.226也22超时。发现结果保存在gridopoly-pi-discovery-20260910-0237.json；这不是所有端口/所有网段扫描，短探测未发现不等于证明设备不存在。
 
 结论：当前管理地址和热点均无可用证据，未找到可验证的替代Pi IP，无法SSH读取四服务/AP日志或在线房间。该状态与玩家端报告status6/IP0、reason201/36相容，不能据此断定服务器进程崩溃、Pi断电或显示频闪由网络引起。下一步由主任务结合现场Pi供电/指示灯/上联情况确认；若重新可达，本端可继续只读检查服务及AP日志。此段有界检查已结束，不后台重试或新增自动化；主任务继续负责显示修复和现场最小操作，本端报告交其统一Git。
+
+
+## 2026-09-10 ORDER 物理邻接与锚点分配：服务端已部署，双板实机联调待接续
+
+用户恢复Pi供电并授权ORDER串联/锚点自动分配后，本端先只读确认10.0.0.124 HTTP/SSH恢复、四服务active、gridopoly AP channel3以及玩家MAC关联；room993580100/v36/P1在线/cash800/position0，模块auto START。证据Temp/gridopoly-order-preflight-20260910.json。前节失联是当时现场，不能继续作为当前阻塞。
+
+### 实现及接口
+
+复用TileDebugAssignments的注册、15秒模块租约、手动POST/DELETE和权威投影；新增TileOrderTopology.h记录独立物理证据，TileOrderProjection.h只做分段锚点投影，TileOrderJson.h严格解析HTTP order对象。没有新增直接写入完整拓扑列表的后门；不以注册顺序建边。物理信标/固件公共头及tile-order-protocol.md由格子端负责，WebUi/gzip由主任务负责，本端未改其文件。
+
+固件通过ORDER IN收到CRC完整信标，HTTP携带自身bootId/txSeq及上游bootId/upstreamSeq/ageMs/valid/inputState。服务器只用当前有效报告的唯一bootId映射构图；未知上游、重复boot、自环/环、多下游、stuckLow不能成为有效链。物理证据15秒TTL与模块15秒lease独立，重复seq不续证据，invalid/过期/失联撤销边。输入大小写HEX规范化；半区间序号支持回绕，拒绝旧own txSeq/旧上游seq以及换boot后的退休boot。每上游保存序号栅栏，切邻居后旧重复帧不能重新续命；这些历史记录仅用于拒绝回放，不参与过期后的活动nonce唯一性、邻接和分叉计算。历史记录有64项容量界限。
+
+任意链内manual作为锚点，ORDER OUT正向；首个manual之前负偏移回推，中间遇到新的manual重启该段基准，mapIndex对board.tileCount取模。source=auto和source=order都不作为锚点。优先级manual > ORDER派生 > legacy auto：派生可撤掉阻挡的legacy auto，该旧模块下一心跳选择剩余空位；绝不迁移manual。新manual与别的manual同格仍409。两个派生撞格或派生撞manual时争用派生均暂停+conflict，不选择遍历顺序赢家或跳空格。
+
+仅ORDER-capable模块的manual意图在内存以moduleId/deviceId/tileId另存，失联暂停实际映射并保留意图；同device重连先检查其它manual占用。冲突或设备不匹配的锚点挂起，其后段直到下个有效manual暂停anchor_unavailable，不越过它套更早锚点。离线意图可用原DELETE清除；换room/board或服务器重启清除，无新落盘。legacy未声明ORDER的模块保留原过期清理契约，已声明ORDER的模块不会因缺报告退回猜测auto。
+
+GET assignments增加顶层order（epoch/status/leaseRemainingMs/chains），modules增加orderCapable/orderStatus/orderChainId/orderIndex/orderEpoch/orderConflict/orderUpstreamModuleId/orderAnchorTileId；未知index=-1。离线但有锚点意图保留online=false/assigned=false行供撤销。派生assignment增加orderAnchorModuleId/orderOffset/orderEpoch，source新增order。epoch随图、boot或状态变化递增，不按每个heartbeat跳动。原Tag body和旧客户端继续兼容。精确字段见Docs/firmware/tile-module-debug-assignment.md新增扩展（该文件此前已存在但untracked，本轮保留其原内容并修正“没有ORDER”旧范围说明，非把全文归作本轮新增）。
+
+### 冻结测试与部署证据
+
+新增tests/host/tile_order_tests.h纳入原tile_debug_assignment完整目标：打乱注册次序仍按物理A→B→C→D；链中/链尾锚点、负偏移、环绕、分段重置、clear重派；派生争用全部暂停；无锚不auto；legacy优先级让位；物理TTL/重复seq不续；CRC已解码报告的seq回绕/旧boot与旧ownseq拒绝；跨上游回放；失联旧boot再注册不建立新lease；离线锚点保留/恢复/清除/冲突分段暂停；换房间清意图；旧离线A→B不妨碍新A→C、不污染新nonce；严格JSON整数/重复键/无效字段及复用输出对象检查。物理CRC波形解码测试属于格子端，不在本端HTTP用例伪造已通过硬件。
+
+完整http_asset_integration另加实际HTTP上报与上游映射、source/anchor/offset返回、400格式拒绝、409陈旧报告、取消锚点及GameState无变化断言。原HTTP资产/Tag/自动到达/身份场景仍全跑，未缩减替换。Pi独立快照/home/kicofy/gridopoly-order-20260910.taPGet，g++ C++17 -O2 -Wall -Wextra -Werror -pthread、asserts开启；最终v3完整tile_debug_assignment、http_asset_integration均PASS，production server编译exit0。日志C:/Users/kicof/AppData/Local/Temp/gridopoly-order-native-v3.log；前v1单目标/v2双目标结果另保留，v3为最终freeze（含boot纳入epoch）。未冒称本轮全部其它native目标重跑。
+
+主任务审核同意并明确已有用户部署授权后，本端在Windows UTC03:12:10–03:12:11仅备份binary、原子替换/usr/local/bin/gridopoly_server并restart gridopoly。未重启AP/系统、未改游戏/Tag/分配/数据文件。旧SHA346dfc92d630f07c434aa2ed56fc5f652ca147f9e5725f02396718374787da36已复制并复核于快照/previous-gridopoly-server-346dfc92d630。新SHA4095bd88d80b45047d48876709f7ba8a060c8cab7df8d0745280b74f15fa9b8a，运行PID8533的/proc/exe独立SHA匹配；69份本轮编译/测试源与Pi冻结快照逐SHA相等，含主任务最新Web/gzip。
+
+部署前无manual临时映射，随后24秒12轮HTTP三端点观察，最后room993580100/v39，剔除连接/version/identity时钟和online mask后完整sync业务diff={}；现金/位置/资产/债务/事件/玩家身份/轮次等未改。四项服务active，新的ORDER/Web元数据可读。初验时仅tile-288485ba9fe8在线，仍orderCapable=false/source auto/START、top.order epoch0/statuslegacy/chains空，准确表示旧格子报文；不能把该auto值当物理ORDER已通过。格子端随后负责COM6/COM8 V0.32部署和真实波形，主任务负责实际锚点指定，服务端没有注入线上测试拓扑或manual。
+
+部署证据目录C:/Users/kicof/AppData/Local/Temp/gridopoly-order-deploy-20260910-031207，含source-manifest.json、before.json、after-samples.json、summary.json。临时脚本/二进制/日志不提交；本端没有Git索引操作，源码/测试/报告交主任务统一提交。全部服务端有界观察已结束，无串口占用或后台重试。服务端源码、严格目标回归、构建、部署和对局完整性已完成；真实双板邻接/锚点跟随/插拔验收仍由主任务和格子任务接续，不能将当前阶段交付写成整个ORDER硬件验收完成。
