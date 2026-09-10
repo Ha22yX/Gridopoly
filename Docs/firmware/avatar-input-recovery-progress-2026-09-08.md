@@ -153,3 +153,18 @@ core0-perf-window-20260908-2223实际烧录、自检、finally恢复ad8a并45秒
 
 
 22:28 EDT主任务完成正常部署前后的权威HTTP只读对照，原始core0-root-authority-before.json和core0-root-authority-after.json均保存在工具目录。后快照v34/gamephase1/identityphase3/P1在线，头像/名字/ready mask均15；主任务核对room/phase/round/active/decision/assets/debt/auction/card/movement/forcedRoll及全部玩家id/name/cash/pos/held/bankrupt/identityFlags/avatarURL/tagUID均无业务变化。连接造成的version/identity revision变化单独保留，不视作游戏状态变化。主任务明确无需当前普通页面重新加载30头像组件或再次物理旋钮操作，保留本次验收范围即可；剩余为主任务统一Git和整体交付。
+
+
+### 2026-09-09 频闪/错位现场回归：撤回 core0 发布，视觉验收重新打开
+
+用户反馈已部署c9b748出现频闪和画面错位。主任务提供的现场图片codex-clipboard-2291fbcd-2a50-467c-9d99-174f8ae01e2e.png已实际读取：YourTurn页面外圈/内容偏移且底部残留上端元素，静态图支持错位事实，频闪由用户反馈，不能由单张照片推算频闪频率。昨日七项帧率、自检和45秒串口稳定并不证明视觉无误；c9b748的性能PASS仍是当时量测事实，但撤回其可用发布和整体视觉验收结论。
+
+COM7 visual-fault-before-20260909-2233先30.019秒无reset只读采集，打开epoch1789007568813、关闭1789007598832。首批含旧USB片段，当前设备ms约86812719..86844130（约24小时），反复reason201/36、status6/IP0/ap_result12303；recoverWifi进入后WiFi.reconnect返回requested0/1ms并有sta-is-connecting错误。没有本次新build行或flash读取，当前c9b748依据上次已核验部署链，不能冒称此次无reset日志重读了完整app hash。主任务旧服务器地址访问超时，独立服务器任务只读排查AP/地址；不把此离线故障直接归因core0。
+
+官方ESP-IDF v5.5.2 RGB LCD文档Bounce Buffer章节明确说明：两核同时经cache访问PSRAM会延长DMA EOF中断内拷贝、错过bounce切换，引发screen shift；VSYNC重启仍可能出现flicker。来源：https://docs.espressif.com/projects/esp-idf/en/v5.5.2/esp32s3/api-reference/peripherals/lcd/rgb_lcd.html#bounce-buffer-with-single-psram-frame-buffer 。这是与本次跨核变更及现场症状吻合的机制线索，仍需回退后用户视觉对照，未采硬件underflow计数就不能宣称逐事件因果已证实。实际当前sdkconfig CONFIG_ARDUINO_RUNNING_CORE=1、CONFIG_LCD_RGB_RESTART_IN_VSYNC=y、RGB_ISR_IRAM_SAFE关闭、SPIRAM_FETCH_INSTRUCTIONS/RODATA关闭；实际BusRGB flags.bb_invalidate_cache=0。没有重复开启restart或启用跨核cache失效来冒充修复。
+
+最小修复仅lvgl_v8_port.h恢复LVGL_PORT_TASK_CORE=ARDUINO_RUNNING_CORE（本板1，IDF fallback0），补充同核避免争用bounce refill的注释。优先级2、PCLK16MHz、40行bounce、mode3/direct双缓冲和frame-ticket回执屏障不变。复用已经构建验证的正常b53e31f2bb8f1ae6befbc132a734904575862020ff2c3ed794922e5c3d8d7250（1890624bytes），保留全部输入/头像预览、恢复、绘制优化及socket选项顺序修复；没有部署更老且缺功能的ded137。
+
+visual-core1-window-20260909-2234实际upload Hash verified/exit0，启动build Sep8 22:11:16；45.101秒串口观察（epoch1789007678784..1789007723885）完成并释放。到ms46511仍反复reason201/36、status6/IP0，heap约32016/largest22516，无panic/意外reset；没有拿到新权威快照，因此不能写恢复了原房间联网。source-equivalence.json及原/当前头文件保留：去注释并排除只在SELF_TEST内的旧include差异后，当前头与b53e头token完全相同；此次是复用已验证产物，未新构建。
+
+当前设备为b53e core1正常固件。该实现对应此前a73e诊断ON六项26FPS/max39ms PASS，Retarget26FPS/max57ms FAIL；c9b748/core0的七项全PASS不能移植为b53e性能结论。视觉回退效果待主任务协调用户观察；原对局场景需要AP/服务器恢复后再核对，离线等待页初步正常不能等同原场景通过。未注入游戏、改变Tag/席位/现金或创建自动化。本端继续持有视觉修复和剩余性能问题，主任务持有用户视觉协调与Git，服务器任务持有当前网络可达性排查。

@@ -226,3 +226,16 @@ core0-perf-window-20260908-2223完整实测pure1/component1/perf1/clean_before1/
 主任务再次直接HTTP获取并保存core0-root-authority-after.json，与before快照比较：v30→v34是重连过程版本更新；room、gamephase、round、active/decision player、assets、debt、auction、card、movementCueGate、forcedRoll及四名玩家身份/名称/现金/位置/头像/Tag字段均无差异，P1在线，身份avatarFinal/nameFinal/ready均15。当前是正常对局页面，未把corner art加载说成再次完整30头像组件下载，也未虚称再次实体旋钮操作。core0候选完整组件/逻辑测试通过，之前ad8a实体旋钮用户确认及两次网络故障验收保留其版本和场景界限。
 
 本轮玩家性能原门槛全部通过、正式正常候选已部署；旋钮输入修复用户已确认；服务器断线/幂等回归和有界真实网络恢复已完成；格子V0.31/40MHz刷新已获用户确认。主任务完成本轮端到端收尾及Git，不另建后台任务或周期自动化。常规真实游戏后续反馈作为新复现继续处理，不将本次有限测试扩展为所有负载/故障永不发生。
+
+
+#### 2026-09-09 玩家屏频闪/错位回归：撤回分核绘制，视觉验收重新打开
+
+用户提供照片并报告频闪和错位。照片支持画面整体错位/边缘残留；静态照片不能测量闪烁频率。此前c9b748的七项性能和45秒正常日志通过仅覆盖对应指标，未覆盖用户持续运行后的视觉稳定性，不能继续作为完整显示验收。上次将绘制移至core0的优化现已撤回，性能通过版本的视觉结论撤销，不能再宣称本轮显示系统全部完成。
+
+主任务核对实际厂商BusRGB配置：PSRAM framebuffer、bounce模式、bb_invalidate_cache=0，预编译sdkconfig已有CONFIG_LCD_RGB_RESTART_IN_VSYNC=1；因此不通过重复开启restart/修改cache invalidate制造修复。官方RGB文档指出两核同时经cache访问PSRAM会增加DMA EOF ISR复制耗时，供应不及时可造成screen shift；VSYNC恢复仍可能可见闪烁。与上次core0改动及用户症状吻合，属于有代码和官方资料支持的高优先级原因，需部署及用户目视验证，不冒称已经测得DMA欠载次数。
+
+官方来源：https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/lcd/rgb_lcd.html 。源码仅lvgl_v8_port.h恢复ARDUINO_RUNNING_CORE，并说明bounce传输与绘制同核原因。正常b53e31f2bb8f1ae6befbc132a734904575862020ff2c3ed794922e5c3d8d7250已由玩家任务核对哈希并烧录，保留输入/头像预览/圆角裁剪/大圆缓存/socket修复；只撤销分核行为。其历史Retarget26FPS/max57ms未通过42ms门槛，原c9b748的26–36FPS/max39数据不能套到当前b53e。
+
+独立发现目前断网：更新前无reset的30秒COM7日志uptime约86824秒，status6/IP0，reason201/36、ap_result12303。主任务HTTP访问旧10.0.0.124:80超时，无法保存当前权威前快照；没有冒用昨晚v34作现在状态。服务器任务已获仅只读网络/AP检查分工。b53e更新后也无AP，联网验收待恢复，不能据此归因显示修复造成断网。
+
+主任务已分别询问用户树莓派电源/热点情况及b53e画面30秒观察。当前离线页面与原YourTurn不等价，最终视觉结论应记录用户反馈及实际场景。设备保持正常固件，未注入游戏/Tag/资产/席位动作，没有创建自动化。
