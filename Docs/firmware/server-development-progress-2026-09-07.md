@@ -328,3 +328,14 @@ HTTP首次观测P1由v13/connected=true变为v14/false：Windows00:56:28.674；�
 原始证据目录：C:/Users/kicof/AppData/Local/Temp/gridopoly-real-recovery-udp-20260909-005557 与 gridopoly-real-recovery-wifi-20260909-005839，各含preflight/postflight、全量http.jsonl、udp.jsonl、interruption.jsonl、journal.json、analysis.json。玩家串口目录在C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/recovery-udp-20260908-2055和recovery-wifi-20260908-2058。临时采集脚本及日志不入Git；本端仅补此报告，统一Git由主任务处理。
 
 本端本轮范围交付：隔离财务/移动幂等回归已PASS（556a54d），真实UDP及Wi-Fi恢复现已PASS并保留实际席位、会话、身份和财务状态。待移动实机保持、长时Wi-Fi故障不在本次场景；玩家性能RETARGET/ASSETS_WARM最大间隔仍FAIL，由玩家端与主任务继续，不能因本次网络通过宣称整体发布验收完成。服务器无新增业务修复或部署需求，不继续重复故障注入。
+
+
+## 2026-09-10 02:34–02:37 UTC 新报显示异常期间的网络只读排查
+
+主任务派本端独立检查服务器/AP可达性，玩家端另负责COM7与c9/core1显示回退。本节没有改网络、重启AP、登录其它设备、注入游戏或占串口；先前网络恢复PASS是2026-09-09/ad8a的历史场景，不能当作当前在线证明。
+
+本机以太网10.0.0.234/24、WLAN10.0.0.242/24，网关均10.0.0.1，ping单次1ms成功。旧Pi10.0.0.124在两网卡邻居表均未解析，MAC全0；TCP22/80及直连无代理HTTP /health分别3秒超时。gridopoly.local和gridopoly的系统getaddrinfo失败。10.42.0.1也超时，但本机当前不在玩家AP网段，不能将其单独视为AP停止的证据。
+
+Windows可见19个SSID，未见gridopoly。原始只读列表保存在C:/Users/kicof/AppData/Local/Temp/gridopoly-network-scan-20260910-0235.txt。一次有界10.0.0.2–254 TCP22探测（每地址0.8秒、24并发、无认证）仅发现10.0.0.15，SSH握手取得的ed25519主机密钥不匹配已知Pi，banner为Ubuntu；未向其发送凭据。known_hosts中与Pi密钥匹配的地址只有10.42.0.1和10.0.0.124。历史其它已知10.0.0.226也22超时。发现结果保存在gridopoly-pi-discovery-20260910-0237.json；这不是所有端口/所有网段扫描，短探测未发现不等于证明设备不存在。
+
+结论：当前管理地址和热点均无可用证据，未找到可验证的替代Pi IP，无法SSH读取四服务/AP日志或在线房间。该状态与玩家端报告status6/IP0、reason201/36相容，不能据此断定服务器进程崩溃、Pi断电或显示频闪由网络引起。下一步由主任务结合现场Pi供电/指示灯/上联情况确认；若重新可达，本端可继续只读检查服务及AP日志。此段有界检查已结束，不后台重试或新增自动化；主任务继续负责显示修复和现场最小操作，本端报告交其统一Git。
