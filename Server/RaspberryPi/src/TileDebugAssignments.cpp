@@ -85,7 +85,9 @@ bool assignmentsEqual(const TileModuleDebugState& left,
       left.purchasePrice == right.purchasePrice &&
       left.ownerPlayerId == right.ownerPlayerId &&
       left.ownerDisplayName == right.ownerDisplayName && left.ownerRgb == right.ownerRgb &&
-      left.source == right.source;
+      left.source == right.source &&
+      left.orderAnchorModuleId == right.orderAnchorModuleId &&
+      left.orderOffset == right.orderOffset && left.orderEpoch == right.orderEpoch;
 }
 
 }  // namespace
@@ -95,6 +97,7 @@ const char* tileDebugAssignmentSourceName(TileDebugAssignmentSource source) {
     case TileDebugAssignmentSource::None: return "none";
     case TileDebugAssignmentSource::Auto: return "auto";
     case TileDebugAssignmentSource::Manual: return "manual";
+    case TileDebugAssignmentSource::Order: return "order";
   }
   return "none";
 }
@@ -262,6 +265,7 @@ void TileDebugAssignments::expireLocked(std::uint64_t now) {
       ++iterator;
       continue;
     }
+    order_.suspend(iterator->first);
     assignments_.erase(iterator->first);
     tagsChanged = tagsChanged || !iterator->second.tagLastSeenMs.empty();
     iterator = modules_.erase(iterator);
@@ -288,6 +292,7 @@ void TileDebugAssignments::synchronizeContextLocked(std::uint32_t roomId,
   contextRoomId_ = roomId;
   contextBoardId_ = boardId;
   assignments_.clear();
+  orderAnchors_.clear();
   bool hadTags = false;
   for (auto& entry : modules_) {
     auto& module = entry.second;
@@ -319,6 +324,7 @@ void TileDebugAssignments::synchronizeContextLocked(std::uint32_t roomId,
   std::uint8_t mapIndex = 0;
   for (const auto* module : ordered) {
     if (mapIndex >= state.board->tileCount) break;
+    if (order_.capable(module->moduleId)) continue;
     auto assignment = projectAssignment(state, module->moduleId, module->deviceId,
                                         state.board->tiles[mapIndex].id,
                                         TileDebugAssignmentSource::Auto);
@@ -333,7 +339,8 @@ bool TileDebugAssignments::autoAssignLocked(const GameState& state,
                                             const std::string& moduleId,
                                             std::uint64_t now,
                                             bool commitRevision) {
-  if (state.board == nullptr || assignments_.find(moduleId) != assignments_.end()) {
+  if (state.board == nullptr || order_.capable(moduleId) ||
+      assignments_.find(moduleId) != assignments_.end()) {
     return false;
   }
   const auto module = modules_.find(moduleId);
@@ -423,10 +430,123 @@ TileMovementCue TileDebugAssignments::movementCueLocked(
 
 std::uint64_t TileDebugAssignments::nowMs() const { return epochClock_(); }
 
+void TileDebugAssignments::refreshOrderLocked(const GameState& state, std::uint64_t now) {
+  std::vector<TileOrderNode> nodes;
+  std::vector<TileOrderChain> chains;
+  order_.build(now, nodes, chains);
+  nodes.erase(std::remove_if(nodes.begin(), nodes.end(), [&](const TileOrderNode& node) {
+    return !modules_.count(node.moduleId) && !orderAnchors_.count(node.moduleId);
+  }), nodes.end());
+  auto desired = assignments_;
+  // A module advertising physical ORDER can no longer use a guessed auto slot.
+  for (auto it = desired.begin(); it != desired.end();) {
+    if (it->second.source == TileDebugAssignmentSource::Order ||
+        (order_.capable(it->first) && it->second.source == TileDebugAssignmentSource::Auto)) {
+      it = desired.erase(it);
+    } else ++it;
+  }
+  for (const auto& item : desired) {
+    if (order_.capable(item.first) && item.second.source == TileDebugAssignmentSource::Manual) {
+      orderAnchors_[item.first] = {item.second.deviceId, item.second.tileId};
+    }
+  }
+  std::set<std::string> suspendedAnchors;
+  if (state.board != nullptr) for (const auto& anchor : orderAnchors_) {
+    const auto module = modules_.find(anchor.first);
+    if (module == modules_.end() || desired.count(anchor.first)) continue;
+    std::uint8_t index = 0;
+    if (module->second.deviceId != anchor.second.deviceId ||
+        findTile(*state.board, anchor.second.tileId, index) == nullptr) {
+      suspendedAnchors.insert(anchor.first); continue;
+    }
+    bool conflict = false;
+    for (const auto& other : desired) {
+      if (other.second.source == TileDebugAssignmentSource::Manual &&
+          other.second.mapIndex == index) conflict = true;
+    }
+    if (conflict) { suspendedAnchors.insert(anchor.first); continue; }
+    // Restored explicit intent also takes priority over a temporary legacy slot.
+    for (auto it = desired.begin(); it != desired.end();) {
+      if (it->second.mapIndex == index) it = desired.erase(it); else ++it;
+    }
+    desired[anchor.first] = projectAssignment(state, anchor.first, anchor.second.deviceId,
+                                               anchor.second.tileId, TileDebugAssignmentSource::Manual);
+  }
+  std::map<std::string, int> anchors, external;
+  for (const auto& item : desired) {
+    if (item.second.source == TileDebugAssignmentSource::Manual) external[item.first] = item.second.mapIndex;
+    if (item.second.source == TileDebugAssignmentSource::Manual && !suspendedAnchors.count(item.first)) {
+      anchors[item.first] = item.second.mapIndex;
+    }
+  }
+  // A suspended explicit anchor is still a segment boundary. Its followers
+  // pause instead of silently falling back to an earlier anchor.
+  if (state.board != nullptr) for (const auto& id : suspendedAnchors) {
+    std::uint8_t index = 0;
+    if (findTile(*state.board, orderAnchors_.at(id).tileId, index)) anchors[id] = index;
+  }
+  const auto plan = projectTileOrder(chains, anchors, external,
+                                    state.board == nullptr ? 0 : state.board->tileCount);
+  for (auto& node : nodes) {
+    if (suspendedAnchors.count(node.moduleId)) {
+      node.status = "conflict"; node.conflict = "manual_anchor_occupied";
+    }
+    for (const auto& placement : plan) if (placement.moduleId == node.moduleId) {
+      if (suspendedAnchors.count(node.moduleId)) break;
+      if (suspendedAnchors.count(placement.anchorModuleId)) {
+        node.status = "conflict"; node.conflict = "anchor_unavailable"; break;
+      }
+      if (placement.mapIndex < 0) node.status = "unanchored";
+      else if (placement.conflict) { node.status = "conflict"; node.conflict = "tile_occupied"; }
+    }
+  }
+  std::ostringstream fingerprint;
+  for (const auto& node : nodes) fingerprint << node.moduleId << ':' << node.bootId << ':' << node.upstreamModuleId
+      << ':' << node.chainId << ':' << node.index << ':' << node.status << ':' << node.conflict << ';';
+  const bool topologyChanged = fingerprint.str() != orderFingerprint_;
+  if (topologyChanged) { orderFingerprint_ = fingerprint.str(); ++orderEpoch_; }
+  for (const auto& placement : plan) {
+    if (placement.manual || placement.mapIndex < 0 || placement.conflict ||
+        suspendedAnchors.count(placement.moduleId) ||
+        suspendedAnchors.count(placement.anchorModuleId)) continue;
+    const auto module = modules_.find(placement.moduleId);
+    if (module == modules_.end()) continue;
+    auto assignment = projectAssignment(state, placement.moduleId, module->second.deviceId,
+        state.board->tiles[placement.mapIndex].id, TileDebugAssignmentSource::Order);
+    assignment.orderAnchorModuleId = placement.anchorModuleId;
+    assignment.orderOffset = placement.offset;
+    assignment.orderEpoch = orderEpoch_;
+    for (auto it = desired.begin(); it != desired.end();) {
+      if (it->second.source == TileDebugAssignmentSource::Auto &&
+          it->second.mapIndex == placement.mapIndex) it = desired.erase(it);
+      else ++it;
+    }
+    desired[placement.moduleId] = std::move(assignment);
+  }
+  bool changed = topologyChanged || desired.size() != assignments_.size();
+  for (const auto& item : desired) {
+    const auto previous = assignments_.find(item.first);
+    if (previous == assignments_.end() || !assignmentsEqual(item.second, previous->second)) changed = true;
+  }
+  if (changed) {
+    commitRevisionLocked(now);
+    for (auto& item : desired) {
+      const auto previous = assignments_.find(item.first);
+      if (previous != assignments_.end() && assignmentsEqual(item.second, previous->second)) {
+        item.second.revision = previous->second.revision;
+        item.second.updatedAtMs = previous->second.updatedAtMs;
+      } else { item.second.revision = revision_; item.second.updatedAtMs = now; }
+    }
+    assignments_ = std::move(desired);
+  }
+  orderNodes_ = std::move(nodes);
+  orderChains_ = std::move(chains);
+}
+
 TileDebugHeartbeatResponse TileDebugAssignments::heartbeat(
     std::uint32_t roomId, const GameState& state, const std::string& moduleId,
     const std::string& deviceId, const TileTagReport* tagReport,
-    bool movementCueReady) {
+    bool movementCueReady, const TileOrderReport* orderReport) {
   TileDebugHeartbeatResponse response{};
   response.leaseMs = kLeaseMs;
   std::lock_guard<std::mutex> lock(mutex_);
@@ -445,9 +565,15 @@ TileDebugHeartbeatResponse TileDebugAssignments::heartbeat(
     return response;
   }
   synchronizeContextLocked(roomId, state, now);
+  refreshOrderLocked(state, now);
   if (state.board == nullptr) {
     response.result = {TileDebugResultCode::BoardUnavailable, "board unavailable", false,
                        revision_};
+    response.serverRevision = revision_;
+    return response;
+  }
+  if (orderReport != nullptr && !TileOrderTopology::validReport(*orderReport)) {
+    response.result = {TileDebugResultCode::InvalidOrderReport, "invalid ORDER report", false, revision_};
     response.serverRevision = revision_;
     return response;
   }
@@ -477,6 +603,10 @@ TileDebugHeartbeatResponse TileDebugAssignments::heartbeat(
     record.deviceId = deviceId;
     record.registrationOrder = nextRegistrationOrder_++;
     record.lastSeenMs = now;
+    if (orderReport != nullptr && !order_.update(moduleId, *orderReport, now)) {
+      response.result = {TileDebugResultCode::StaleOrderReport, "stale ORDER boot or sequence", false, revision_};
+      response.serverRevision = revision_; return response;
+    }
     modules_.emplace(moduleId, std::move(record));
     if (!authorityChanged) commitRevisionLocked(now);
     autoAssignLocked(state, moduleId, now, false);
@@ -489,12 +619,18 @@ TileDebugHeartbeatResponse TileDebugAssignments::heartbeat(
       response.serverRevision = revision_;
       return response;
     }
+    if (orderReport != nullptr && !order_.update(moduleId, *orderReport, now)) {
+      response.result = {TileDebugResultCode::StaleOrderReport, "stale ORDER boot or sequence", false, revision_};
+      response.serverRevision = revision_;
+      return response;
+    }
     module->second.lastSeenMs = now;
     const bool assignedNow = autoAssignLocked(state, moduleId, now, !authorityChanged);
     response.result = {TileDebugResultCode::Ok, "ok",
                        authorityChanged || assignedNow, revision_};
   }
 
+  refreshOrderLocked(state, now);
   const auto assignment = assignments_.find(moduleId);
   if (assignment != assignments_.end()) {
     response.assigned = true;
@@ -527,6 +663,7 @@ TileDebugResult TileDebugAssignments::set(std::uint32_t roomId, const GameState&
     return {TileDebugResultCode::InvalidDeviceId, "invalid deviceId", false, revision_};
   }
   synchronizeContextLocked(roomId, state, now);
+  refreshOrderLocked(state, now);
   if (state.board == nullptr) {
     return {TileDebugResultCode::BoardUnavailable, "board unavailable", false, revision_};
   }
@@ -548,7 +685,8 @@ TileDebugResult TileDebugAssignments::set(std::uint32_t roomId, const GameState&
   const auto conflict = std::find_if(
       assignments_.begin(), assignments_.end(),
       [&moduleId, mapIndex](const auto& entry) {
-        return entry.first != moduleId && entry.second.mapIndex == mapIndex;
+        return entry.first != moduleId && entry.second.mapIndex == mapIndex &&
+            entry.second.source == TileDebugAssignmentSource::Manual;
       });
   if (conflict != assignments_.end()) {
     return {TileDebugResultCode::TileConflict,
@@ -564,7 +702,14 @@ TileDebugResult TileDebugAssignments::set(std::uint32_t roomId, const GameState&
   if (!authorityChanged) commitRevisionLocked(now);
   projected.revision = revision_;
   projected.updatedAtMs = now;
+  for (auto it = assignments_.begin(); it != assignments_.end();) {
+    if (it->first != moduleId && it->second.mapIndex == mapIndex &&
+        it->second.source != TileDebugAssignmentSource::Manual) it = assignments_.erase(it);
+    else ++it;
+  }
   assignments_[moduleId] = std::move(projected);
+  if (order_.capable(moduleId)) orderAnchors_[moduleId] = {deviceId, tileId};
+  refreshOrderLocked(state, now);
   return {TileDebugResultCode::Ok, "ok", true, revision_};
 }
 
@@ -577,18 +722,25 @@ TileDebugResult TileDebugAssignments::clear(std::uint32_t roomId, const GameStat
     return {TileDebugResultCode::InvalidModuleId, "invalid moduleId", false, revision_};
   }
   synchronizeContextLocked(roomId, state, now);
+  refreshOrderLocked(state, now);
   const bool authorityChanged = refreshAuthorityProjectionLocked(state, now);
+  const bool clearedAnchor = orderAnchors_.erase(moduleId) != 0;
   if (modules_.find(moduleId) == modules_.end()) {
+    if (clearedAnchor) { commitRevisionLocked(now); refreshOrderLocked(state, now);
+      return {TileDebugResultCode::Ok, "ok", true, revision_}; }
     return {TileDebugResultCode::ModuleOffline,
             "tile module is not online", false, revision_};
   }
   const auto found = assignments_.find(moduleId);
   if (found == assignments_.end()) {
+    if (clearedAnchor) { commitRevisionLocked(now); refreshOrderLocked(state, now);
+      return {TileDebugResultCode::Ok, "ok", true, revision_}; }
     return {TileDebugResultCode::AssignmentNotFound,
             "temporary assignment not found", false, revision_};
   }
   assignments_.erase(found);
   if (!authorityChanged) commitRevisionLocked(now);
+  refreshOrderLocked(state, now);
   return {TileDebugResultCode::Ok, "ok", true, revision_};
 }
 
@@ -598,8 +750,17 @@ TileDebugSnapshot TileDebugAssignments::snapshot(std::uint32_t roomId,
   const auto now = nowMs();
   expireLocked(now);
   synchronizeContextLocked(roomId, state, now);
+  refreshOrderLocked(state, now);
   refreshAuthorityProjectionLocked(state, now);
   TileDebugSnapshot output{};
+  output.orderEpoch = orderEpoch_;
+  output.orderChains = orderChains_;
+  output.orderLeaseRemainingMs = order_.leaseRemaining(now);
+  output.orderStatus = orderNodes_.empty() ? "legacy" : "ready";
+  for (const auto& node : orderNodes_) {
+    if (node.status == "conflict") output.orderStatus = "conflict";
+    else if (node.status != "ready" && output.orderStatus != "conflict") output.orderStatus = node.status;
+  }
   output.roomId = roomId;
   output.revision = revision_;
   output.updatedAtMs = updatedAtMs_;
@@ -631,6 +792,16 @@ TileDebugSnapshot TileDebugAssignments::snapshot(std::uint32_t roomId,
     module.lastSeenMs = entry.second.lastSeenMs;
     module.leaseRemainingMs = leaseRemainingLocked(entry.second, now);
     module.registrationOrder = entry.second.registrationOrder;
+    if (orderAnchors_.count(entry.first)) module.orderAnchorTileId = orderAnchors_.at(entry.first).tileId;
+    module.orderCapable = order_.capable(entry.first);
+    module.orderEpoch = orderEpoch_;
+    for (const auto& node : orderNodes_) if (node.moduleId == entry.first) {
+      module.orderStatus = node.status;
+      module.orderConflict = node.conflict;
+      module.orderChainId = node.chainId;
+      module.orderIndex = node.index;
+      module.orderUpstreamModuleId = node.upstreamModuleId;
+    }
     module.tagReaderState = entry.second.tagReaderState;
     module.tagRevision = entry.second.tagRevision;
     module.tagOverflow = entry.second.tagOverflow;
@@ -639,6 +810,15 @@ TileDebugSnapshot TileDebugAssignments::snapshot(std::uint32_t roomId,
       module.assigned = true;
       module.source = assignment->second.source;
     }
+    output.modules.push_back(std::move(module));
+  }
+  for (const auto& anchor : orderAnchors_) {
+    if (modules_.count(anchor.first)) continue;
+    TileDebugModule module;
+    module.moduleId = anchor.first; module.deviceId = anchor.second.deviceId;
+    module.orderAnchorTileId = anchor.second.tileId;
+    module.orderCapable = true; module.orderStatus = "stale";
+    module.orderConflict = "module_offline"; module.orderEpoch = orderEpoch_;
     output.modules.push_back(std::move(module));
   }
   std::sort(output.modules.begin(), output.modules.end(),
@@ -657,6 +837,7 @@ TileTagSnapshot TileDebugAssignments::tagSnapshot(std::uint32_t roomId,
   const auto now = nowMs();
   expireLocked(now);
   synchronizeContextLocked(roomId, state, now);
+  refreshOrderLocked(state, now);
   pruneTagHistoryLocked(now);
 
   std::unordered_map<std::uint32_t, TileDetectedTag> detected;
@@ -712,6 +893,7 @@ TileMovementCue TileDebugAssignments::movementCue(std::uint32_t roomId,
   const auto now = nowMs();
   expireLocked(now);
   synchronizeContextLocked(roomId, state, now);
+  refreshOrderLocked(state, now);
   return movementCueLocked(state, moduleId, movementCueReady);
 }
 

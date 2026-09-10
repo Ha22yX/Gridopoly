@@ -450,10 +450,13 @@ void verifyTagAggregationAndMovementCues() {
 
 }  // namespace
 
+#include "tile_order_tests.h"
+
 int main() {
   assert(std::strcmp(tileDebugAssignmentSourceName(TileDebugAssignmentSource::None), "none") == 0);
   assert(std::strcmp(tileDebugAssignmentSourceName(TileDebugAssignmentSource::Auto), "auto") == 0);
   assert(std::strcmp(tileDebugAssignmentSourceName(TileDebugAssignmentSource::Manual), "manual") == 0);
+  verifyTileOrder();
   verifyCatalogAndColors();
   verifyAutomaticAndManualAssignments();
   verifyAuthoritativeOwnershipRefresh();

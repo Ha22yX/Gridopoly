@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <gridopoly/core/GameModel.h>
+#include "TileOrderTopology.h"
 
 namespace gridopoly::pi {
 
@@ -24,12 +25,15 @@ enum class TileDebugResultCode : std::uint8_t {
   DeviceMismatch,
   DeviceConflict,
   TileConflict,
+  InvalidOrderReport,
+  StaleOrderReport,
 };
 
 enum class TileDebugAssignmentSource : std::uint8_t {
   None = 0,
   Auto,
   Manual,
+  Order,
 };
 
 enum class TileTagReaderState : std::uint8_t {
@@ -77,6 +81,9 @@ struct TileDebugPlayer {
 // owner_display_name and owner_color. This projection is never persisted and
 // never mutates authoritative GameState.
 struct TileModuleDebugState {
+  std::string orderAnchorModuleId{};
+  int orderOffset{};
+  std::uint64_t orderEpoch{};
   std::string moduleId{};
   std::string deviceId{};
   std::string tileId{};
@@ -95,6 +102,14 @@ struct TileModuleDebugState {
 };
 
 struct TileDebugModule {
+  std::string orderAnchorTileId{};
+  bool orderCapable{};
+  std::string orderStatus{"legacy"};
+  std::string orderChainId{};
+  int orderIndex{-1};
+  std::uint64_t orderEpoch{};
+  std::string orderConflict{};
+  std::string orderUpstreamModuleId{};
   std::string moduleId{};
   std::string deviceId{};
   bool online{};
@@ -145,6 +160,10 @@ struct TileMovementCue {
 };
 
 struct TileDebugSnapshot {
+  std::uint64_t orderEpoch{};
+  std::string orderStatus{"legacy"};
+  std::uint64_t orderLeaseRemainingMs{};
+  std::vector<TileOrderChain> orderChains{};
   std::uint32_t roomId{};
   std::string boardId{};
   std::uint8_t boardSize{};
@@ -184,7 +203,8 @@ class TileDebugAssignments {
       std::uint32_t roomId, const gridopoly::core::GameState& state,
       const std::string& moduleId, const std::string& deviceId,
       const TileTagReport* tagReport = nullptr,
-      bool movementCueReady = false);
+      bool movementCueReady = false,
+      const TileOrderReport* orderReport = nullptr);
   TileDebugResult set(std::uint32_t roomId, const gridopoly::core::GameState& state,
                       const std::string& moduleId, const std::string& deviceId,
                       const std::string& tileId);
@@ -211,6 +231,15 @@ class TileDebugAssignments {
     std::vector<std::uint32_t> stableTags{};
     std::unordered_map<std::uint32_t, std::uint64_t> tagLastSeenMs{};
   };
+
+  struct OrderAnchor { std::string deviceId; std::string tileId; };
+  std::map<std::string, OrderAnchor> orderAnchors_{};
+  TileOrderTopology order_{};
+  std::vector<TileOrderNode> orderNodes_{};
+  std::vector<TileOrderChain> orderChains_{};
+  std::string orderFingerprint_{};
+  std::uint64_t orderEpoch_{};
+  void refreshOrderLocked(const gridopoly::core::GameState& state, std::uint64_t now);
 
   mutable std::mutex mutex_{};
   EpochClock epochClock_{};

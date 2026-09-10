@@ -758,6 +758,50 @@ int main() {
   assert(bodyText(avatarSync).find("http://127.0.0.1/assets/avatars/") ==
          std::string::npos);
 
+
+  // Physical ORDER evidence travels through the real HTTP boundary. Merely
+  // registering B before A cannot invent physical positions or move the game.
+  const auto beforeOrder = authority.stateCopy();
+  const std::string orderA =
+      "{\"tagReaderState\":\"scanning\",\"tagRevision\":1,\"tags\":[],\"overflow\":false,"
+      "\"order\":{\"version\":1,\"bootId\":\"ABCDEF0000000001\",\"txSeq\":10,"
+      "\"upstreamBootId\":null,\"upstreamSeq\":0,\"ageMs\":0,\"valid\":false,\"inputState\":\"idle\"}}";
+  const std::string orderB =
+      "{\"tagReaderState\":\"scanning\",\"tagRevision\":1,\"tags\":[],\"overflow\":false,"
+      "\"order\":{\"version\":1,\"bootId\":\"ABCDEF0000000002\",\"txSeq\":10,"
+      "\"upstreamBootId\":\"ABCDEF0000000001\",\"upstreamSeq\":9,\"ageMs\":50,"
+      "\"valid\":true,\"inputState\":\"idle\"}}";
+  const std::string endpointA = "/api/tile-modules/heartbeat?moduleId=order-a&deviceId=od-a";
+  const std::string endpointB = "/api/tile-modules/heartbeat?moduleId=order-b&deviceId=od-b";
+  auto responseOrder = postJson(http.port(), endpointB, orderB);
+  assert(responseOrder.status == 200);
+  assert(bodyText(responseOrder).find("\"assigned\":false") != std::string::npos);
+  assert(postJson(http.port(), endpointA, orderA).status == 200);
+  auto orderView = get(http.port(), "/api/tile-debug/assignments");
+  assert(bodyText(orderView).find("\"moduleIds\":[\"order-a\",\"order-b\"]") != std::string::npos);
+  assert(bodyText(orderView).find("\"orderStatus\":\"unanchored\"") != std::string::npos);
+  const std::string anchorTile = beforeOrder.board->tiles[5].id;
+  assert(post(http.port(), "/api/tile-debug/assignment?moduleId=order-b&deviceId=od-b&tileId=" + anchorTile).status == 200);
+  responseOrder = postJson(http.port(), endpointA, orderA);
+  assert(responseOrder.status == 200);
+  assert(bodyText(responseOrder).find("\"source\":\"order\"") != std::string::npos);
+  assert(bodyText(responseOrder).find("\"mapIndex\":4") != std::string::npos);
+  assert(bodyText(responseOrder).find("\"orderAnchorModuleId\":\"order-b\",\"orderOffset\":-1") != std::string::npos);
+  for (const auto& edit : std::vector<std::pair<std::string, std::string>>{
+       {"\"txSeq\":10", "\"txSeq\":65536"}, {"\"ageMs\":50", "\"ageMs\":15001"},
+       {"\"version\":1", "\"version\":1,\"version\":1"}, {"\"valid\":true", "\"valid\":truegarbage"}}) {
+    auto invalid = orderB; invalid.replace(invalid.find(edit.first), edit.first.size(), edit.second);
+    assert(postJson(http.port(), endpointB, invalid).status == 400);
+  }
+  auto oldReport = orderB;
+  oldReport.replace(oldReport.find("\"txSeq\":10"), 10, "\"txSeq\":9");
+  assert(postJson(http.port(), endpointB, oldReport).status == 409);
+  assert(remove(http.port(), "/api/tile-debug/assignment?moduleId=order-b").status == 200);
+  responseOrder = postJson(http.port(), endpointA, orderA);
+  assert(bodyText(responseOrder).find("\"assigned\":false") != std::string::npos);
+  assertSettlementUnchanged(beforeOrder, authority.stateCopy());
+  assert(authority.stateVersion() == beforeOrder.stateVersion);
+
   http.stop();
   std::filesystem::remove_all(temporary);
   std::cout << "GRIDOPOLY_HTTP_ASSET_INTEGRATION_TESTS_PASS\n";

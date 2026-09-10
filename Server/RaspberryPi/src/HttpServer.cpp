@@ -1,3 +1,4 @@
+#include "TileOrderJson.h"
 #include "HttpServer.h"
 
 #include <arpa/inet.h>
@@ -305,7 +306,10 @@ void appendTileDebugAssignmentJson(std::ostringstream& body,
        << ",\"owner_display_name\":\"" << jsonEscape(assignment.ownerDisplayName)
        << "\",\"owner_color\":" << assignment.ownerRgb
        << ",\"revision\":" << assignment.revision
-       << ",\"updatedAtMs\":" << assignment.updatedAtMs << '}';
+       << ",\"updatedAtMs\":" << assignment.updatedAtMs
+       << ",\"orderAnchorModuleId\":\"" << jsonEscape(assignment.orderAnchorModuleId)
+       << "\",\"orderOffset\":" << assignment.orderOffset
+       << ",\"orderEpoch\":" << assignment.orderEpoch << '}';
 }
 
 std::string tileDebugJson(const TileDebugSnapshot& snapshot) {
@@ -330,9 +334,30 @@ std::string tileDebugJson(const TileDebugSnapshot& snapshot) {
          << ",\"registrationOrder\":" << module.registrationOrder
          << ",\"tagReaderState\":\"" << tileTagReaderStateName(module.tagReaderState)
          << "\",\"tagRevision\":" << module.tagRevision
-         << ",\"tagOverflow\":" << (module.tagOverflow ? "true" : "false") << '}';
+         << ",\"tagOverflow\":" << (module.tagOverflow ? "true" : "false")
+         << ",\"orderCapable\":" << (module.orderCapable ? "true" : "false")
+         << ",\"orderAnchorTileId\":\"" << jsonEscape(module.orderAnchorTileId)
+         << "\",\"orderStatus\":\"" << jsonEscape(module.orderStatus)
+         << "\",\"orderChainId\":\"" << jsonEscape(module.orderChainId)
+         << "\",\"orderIndex\":" << module.orderIndex
+         << ",\"orderEpoch\":" << module.orderEpoch
+         << ",\"orderConflict\":\"" << jsonEscape(module.orderConflict)
+         << "\",\"orderUpstreamModuleId\":\"" << jsonEscape(module.orderUpstreamModuleId) << "\"}";
   }
-  body << "],\"tiles\":[";
+  body << "],\"order\":{\"epoch\":" << snapshot.orderEpoch
+       << ",\"status\":\"" << jsonEscape(snapshot.orderStatus)
+       << "\",\"leaseRemainingMs\":" << snapshot.orderLeaseRemainingMs << ",\"chains\":[";
+  for (std::size_t i = 0; i < snapshot.orderChains.size(); ++i) {
+    if (i) body << ',';
+    const auto& chain = snapshot.orderChains[i];
+    body << "{\"chainId\":\"" << jsonEscape(chain.chainId) << "\",\"moduleIds\":[";
+    for (std::size_t j = 0; j < chain.moduleIds.size(); ++j) {
+      if (j) body << ',';
+      body << '"' << jsonEscape(chain.moduleIds[j]) << '"';
+    }
+    body << "]}";
+  }
+  body << "]},\"tiles\":[";
   for (std::size_t index = 0; index < snapshot.tiles.size(); ++index) {
     if (index != 0) body << ',';
     const auto& tile = snapshot.tiles[index];
@@ -436,6 +461,7 @@ std::string tileTagsJson(const TileTagSnapshot& tags,
 
 int tileDebugErrorStatus(TileDebugResultCode code) {
   switch (code) {
+    case TileDebugResultCode::InvalidOrderReport:
     case TileDebugResultCode::InvalidModuleId:
     case TileDebugResultCode::InvalidDeviceId: return 400;
     case TileDebugResultCode::TileNotFound:
@@ -445,6 +471,7 @@ int tileDebugErrorStatus(TileDebugResultCode code) {
     case TileDebugResultCode::ModuleOffline:
     case TileDebugResultCode::DeviceMismatch:
     case TileDebugResultCode::DeviceConflict:
+    case TileDebugResultCode::StaleOrderReport:
     case TileDebugResultCode::TileConflict: return 409;
     case TileDebugResultCode::Ok: return 200;
   }
@@ -873,11 +900,22 @@ HttpServer::Response HttpServer::route(const Request& request) {
       }
       tagReportPointer = &tagReport;
     }
+    TileOrderReport orderReport{};
+    const TileOrderReport* orderReportPointer = nullptr;
+    if (request.body.find("\"order\"") != std::string::npos) {
+      std::size_t cursor = 0;
+      if (!jsonFieldStart(request.body, "order", cursor) ||
+          !parseTileOrderObject(request.body, cursor, orderReport)) {
+        return {400, "application/json; charset=utf-8",
+                "{\"ok\":false,\"error\":\"invalid_order_report\"}", "no-store", {}, {}};
+      }
+      orderReportPointer = &orderReport;
+    }
     const auto state = authority_.stateCopy();
     const auto movementCueReady = authority_.movementCueReadyFor(state);
     auto response = tileDebug_.heartbeat(authority_.roomId(), state, module->second,
                                          device->second, tagReportPointer,
-                                         movementCueReady);
+                                         movementCueReady, orderReportPointer);
     if (!response.result) {
       return {tileDebugErrorStatus(response.result.code),
               "application/json; charset=utf-8",
