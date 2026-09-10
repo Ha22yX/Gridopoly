@@ -5,6 +5,7 @@
 #include <esp32-hal-rmt.h>
 #include <esp_system.h>
 #include <esp_heap_caps.h>
+#include <esp_mac.h>
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
@@ -18,6 +19,7 @@
 
 #include "board_config.h"
 #include "display_diff.h"
+#include "order_link_io.h"
 #include "hitag_s_decoder.h"
 #include "hitag_s_protocol.h"
 #include "tag_presence_filter.h"
@@ -1875,7 +1877,8 @@ void drawDiagnosticPage() {
   textAt(22, 128, "RS485 DIR", 1, kMuted);
   textAt(150, 128, "SAFE LOW", 1, kGreen);
   textAt(22, 150, "ORDER OUT", 1, kMuted);
-  textAt(150, 150, "SAFE LOW", 1, kGreen);
+  textAt(150, 150, orderLinkObservation().output_pulled_low ? "PULSE LOW" : "RELEASED",
+         1, kGreen);
 
   drawPanel(12, 178, 216, 94, kLine);
   char value[32];
@@ -1973,7 +1976,16 @@ void recoverAndRenderPage() {
 }
 
 void printStatus() {
-  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=V0.31\r\n",
+  const OrderLinkObservation order = orderLinkObservation();
+  Serial.printf("[ORDER] boot=%016llX tx_seq=%u upstream=%016llX rx_seq=%u valid=%s age_ms=%u input=%s out=%s timer=%s accepted=%u rejected=%u timing_drops=%u\r\n",
+                static_cast<unsigned long long>(order.boot_id), order.tx_sequence,
+                static_cast<unsigned long long>(order.upstream.boot_id),
+                order.upstream.sequence, order.valid ? "YES" : "NO", order.age_ms,
+                order.stuck_low ? "stuckLow" : order.receiving ? "receiving" : "idle",
+                order.output_pulled_low ? "LOW" : "RELEASED",
+                order.timer_ready ? "OK" : "FAIL", order.accepted, order.rejected,
+                order.timing_drops);
+  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=V0.32\r\n",
                 gDisplayClockHz,
                 spiClockDivToFrequency(gDisplaySpi.getClockDivider()),
                 gDisplayExperimentDurationMs);
@@ -2126,6 +2138,14 @@ void pollSerial() {
 
 void setup() {
   setSafeOutputs();
+  std::uint8_t factory_mac[6]{};
+  char display_device_id[18]{};
+  if (esp_read_mac(factory_mac, ESP_MAC_WIFI_STA) == ESP_OK) {
+    std::snprintf(display_device_id, sizeof(display_device_id),
+                  "%02x:%02x:%02x:%02x:%02x:%02x", factory_mac[0], factory_mac[1],
+                  factory_mac[2], factory_mac[3], factory_mac[4], factory_mac[5]);
+  }
+  gDisplayClockHz = displaySpiFrequencyForDevice(display_device_id);
   // The HTRC110 powers up with TXDIS=0. Wait for its 4 MHz oscillator, then
   // explicitly disable and verify the coil driver before slower peripherals.
   delay(15);
@@ -2147,14 +2167,17 @@ void setup() {
   const std::uint32_t now = millis();
   gLastTagScanMs = now - kTagSearchPeriodMs;
   gNetwork.begin();
+  const bool order_ready = initializeOrderLink();
+  Serial.printf("[ORDER] timer=%s period_ms=6000 ttl_ms=15000 gate=LOW_RELEASE\r\n",
+                order_ready ? "OK" : "FAIL");
   (void)gNetwork.consume(gNetworkSnapshot);
   renderPage();
   presentPage();
   renderLedScene(now);
 
   Serial.println();
-  Serial.println(F("GRIDOPOLY TILE MODULE V0.31 - VALIDATED LOCAL DISPLAY CLOCK"));
-  Serial.println(F("RS485 and ORDER remain disabled; server assignment uses Wi-Fi/HTTP."));
+  Serial.println(F("GRIDOPOLY TILE MODULE V0.32 - PHYSICAL ORDER BEACON"));
+  Serial.println(F("RS485 disabled; ORDER physical beacon and Wi-Fi/HTTP assignment enabled."));
   printHelp();
   printStatus();
 }

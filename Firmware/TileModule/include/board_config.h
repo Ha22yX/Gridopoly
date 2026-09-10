@@ -2,12 +2,16 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 
 #if __has_include("../config/display.local.h")
 #include "../config/display.local.h"
 #endif
 #ifndef GRIDOPOLY_TILE_DISPLAY_SPI_HZ
 #define GRIDOPOLY_TILE_DISPLAY_SPI_HZ 8000000
+#endif
+#ifndef GRIDOPOLY_TILE_DISPLAY_VALIDATED_DEVICE
+#define GRIDOPOLY_TILE_DISPLAY_VALIDATED_DEVICE ""
 #endif
 
 namespace gridopoly::tile::board {
@@ -45,6 +49,12 @@ inline constexpr std::uint32_t kDisplaySpiFrequencyHz = GRIDOPOLY_TILE_DISPLAY_S
 static_assert(kDisplaySpiFrequencyHz == 8'000'000 ||
               kDisplaySpiFrequencyHz == 40'000'000,
               "Only the safe rate or the locally validated rate is supported");
+inline std::uint32_t displaySpiFrequencyForDevice(const char *device_id) {
+  return device_id != nullptr && device_id[0] != '\0' &&
+                 GRIDOPOLY_TILE_DISPLAY_VALIDATED_DEVICE[0] != '\0' &&
+                 std::strcmp(device_id, GRIDOPOLY_TILE_DISPLAY_VALIDATED_DEVICE) == 0
+             ? kDisplaySpiFrequencyHz : kDisplaySafeSpiFrequencyHz;
+}
 inline constexpr std::uint32_t kSerialBaud = 115'200;
 inline constexpr std::uint8_t kBacklightDuty = 150;
 inline constexpr std::uint8_t kMaximumLedChannel = 64;

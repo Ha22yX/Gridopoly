@@ -7,3 +7,6 @@
 #ifndef GRIDOPOLY_TILE_DISPLAY_SPI_HZ
 #define GRIDOPOLY_TILE_DISPLAY_SPI_HZ 8000000
 #endif
+// A 40MHz override also needs the exact validated factory MAC in lower case.
+// Empty/missing MAC or another module always falls back to 8MHz at runtime.
+#define GRIDOPOLY_TILE_DISPLAY_VALIDATED_DEVICE ""

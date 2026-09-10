@@ -223,6 +223,16 @@ void test_safe_display_restores_8mhz_controller_before_normal_page() {
   TEST_ASSERT_EQUAL_UINT32(2, displayRenderOrder);
 }
 
+void test_display_clock_override_is_bound_to_validated_device() {
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, displaySpiFrequencyForDevice(nullptr));
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, displaySpiFrequencyForDevice(""));
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, displaySpiFrequencyForDevice("68:ee:8f:54:11:a4"));
+  const char *validated = GRIDOPOLY_TILE_DISPLAY_VALIDATED_DEVICE;
+  if (validated[0] != '\0') {
+    TEST_ASSERT_EQUAL_UINT32(kDisplaySpiFrequencyHz, displaySpiFrequencyForDevice(validated));
+  }
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_failed_publish_retries_identical_local_inventory);
@@ -232,5 +242,6 @@ int main() {
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
   RUN_TEST(test_safe_display_restores_8mhz_controller_before_normal_page);
+  RUN_TEST(test_display_clock_override_is_bound_to_validated_device);
   return UNITY_END();
 }

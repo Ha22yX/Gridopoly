@@ -15,6 +15,7 @@
 #include <cstring>
 
 #include "tile_assignment.h"
+#include "order_link_io.h"
 
 #if __has_include("config/secrets.local.h")
 #include "config/secrets.local.h"
@@ -549,7 +550,30 @@ bool TileNetworkClient::heartbeat(TileNetworkSnapshot &snapshot,
     tag_array.add(tags.uids[index]);
   }
   request["overflow"] = tags.overflow;
-  char request_body[256]{};
+  const OrderLinkObservation order = orderLinkObservation();
+  if (order.boot_id != 0) {
+    JsonObject report = request["order"].to<JsonObject>();
+    char boot_id[17];
+    std::snprintf(boot_id, sizeof(boot_id), "%016llX",
+                  static_cast<unsigned long long>(order.boot_id));
+    report["version"] = 1;
+    report["bootId"] = boot_id;
+    report["txSeq"] = order.tx_sequence;
+    report["valid"] = order.valid;
+    report["ageMs"] = order.age_ms;
+    report["upstreamSeq"] = order.upstream.sequence;
+    if (order.valid) {
+      char upstream[17];
+      std::snprintf(upstream, sizeof(upstream), "%016llX",
+                    static_cast<unsigned long long>(order.upstream.boot_id));
+      report["upstreamBootId"] = upstream;
+    } else {
+      report["upstreamBootId"] = nullptr;
+    }
+    report["inputState"] = order.stuck_low ? "stuckLow"
+                              : order.receiving ? "receiving" : "idle";
+  }
+  char request_body[768]{};
   const std::size_t request_length =
       serializeJson(request, request_body, sizeof(request_body));
   if (request_length == 0U || request_length >= sizeof(request_body)) {
@@ -696,7 +720,7 @@ bool TileNetworkClient::parsePayload(const char *payload,
   snapshot.link = assignment.manual ? TileNetworkLink::OnlineManual
                                     : TileNetworkLink::OnlineAuto;
   copyText(snapshot.source, sizeof(snapshot.source),
-           assignment.manual ? "manual" : "auto");
+           assignment.manual ? "manual" : equalsIgnoreCase(source, "order") ? "order" : "auto");
   return true;
 }
 
