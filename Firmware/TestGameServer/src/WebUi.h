@@ -220,12 +220,13 @@ function tileDebugOrderFields(module){
     orderEpoch:tileDebugText(module.orderEpoch),
     orderConflict:tileDebugText(module.orderConflict),
     orderUpstreamModuleId:tileDebugSafeIdentifier(module.orderUpstreamModuleId)?module.orderUpstreamModuleId:'',
+    orderAnchorTileId:tileDebugSafeIdentifier(module.orderAnchorTileId)?module.orderAnchorTileId:'',
   };
 }
 
 function tileDebugSourceLabel(module,assignment){
   const source=assignment&&assignment.source||module&&module.source;
-  if(source==='manual')return'手动指定（锚点）';
+  if(source==='manual'||module&&module.orderAnchorTileId)return'手动指定（锚点）';
   if(source==='order'){
     const anchor=assignment&&assignment.orderAnchorModuleId;
     return anchor?`随 ORDER 分配 · 锚点 ${anchor}`:'随 ORDER 分配';
@@ -945,8 +946,10 @@ function updateTileDebugControls(){
   $('#tile-debug-module').disabled=busy;
   $('#tile-debug-apply').disabled=busy||!tileDebugSafeIdentifier(moduleId)||!tileId||!onlineMatch;
   const assignment=tileDebugAssignmentFor(tileDebugState,moduleId);
-  $('#tile-debug-clear').disabled=busy||!tileDebugSafeIdentifier(moduleId)||!assignment||
-    (module&&module.orderCapable&&(assignment.source||module.source)!=='manual');
+  $('#tile-debug-clear').disabled=busy||!tileDebugSafeIdentifier(moduleId)||
+    (!(module&&module.orderAnchorTileId)&&(!assignment||
+      (module&&module.orderCapable&&(assignment.source||module.source)!=='manual')));
+  document.querySelectorAll('[data-clear-tile-anchor]').forEach(button=>button.disabled=busy);
 }
 
 function selectTileDebugModule(){
@@ -1028,12 +1031,14 @@ function renderTileDebug(){
     const assignment=tileDebugAssignmentFor(tileDebugState,module.moduleId);
     const details=esc(tileDebugOrderLabel(module));
     const sourceLabel=esc(tileDebugSourceLabel(module,assignment));
-    if(!assignment)return`<div class="tile-debug-row"><b>${esc(module.moduleId)} / 未分配</b><small>${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small></div>`;
+    const clearAnchor=module.orderAnchorTileId||module.source==='manual'?`<button type="button" data-clear-tile-anchor="${esc(module.moduleId)}" ${tileDebugInFlight||actionInFlight?'disabled':''}>取消手动指定</button>`:'';
+    const pending=module.orderAnchorTileId?`已指定 ${module.orderAnchorTileId}，暂未生效`:'未分配';
+    if(!assignment)return`<div class="tile-debug-row"><b>${esc(module.moduleId)} / ${esc(pending)}</b><small>${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small>${clearAnchor}</div>`;
     const owner=assignment.ownerPlayerId>0?
       `P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:'未购买';
     const updated=assignment.updatedAtMs?` / ${tileDebugUpdatedAtLabel(assignment.updatedAtMs)}`:'';
     const swatch=assignment.ownerPlayerId>0?assignment.ownerRgb:assignment.accentRgb;
-    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||'无 deviceId')} / ${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small></div>`;
+    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||'无 deviceId')} / ${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small>${clearAnchor}</div>`;
   }).join(''):'<div class="tile-debug-empty">暂无格子模块。模块联网后会显示在这里。</div>';
   if(!$('#tile-debug-context-menu').hidden)selectTileDebugModule();
   else updateTileDebugControls();
@@ -1263,6 +1268,10 @@ $('#settings-open').onclick=openSettings;
 $('#settings-cancel').onclick=closeSettings;
 $('#settings-save').onclick=saveSettings;
 $('#tile-debug-refresh').onclick=()=>refreshTileDebug('临时分配已刷新。');
+$('#tile-debug-list').onclick=event=>{
+  const button=event.target.closest('[data-clear-tile-anchor]');
+  if(button&&!tileDebugInFlight&&!actionInFlight)clearTileDebugAssignment(button.dataset.clearTileAnchor);
+};
 $('#tile-debug-module').onchange=selectTileDebugModule;
 $('#tile-debug-apply').onclick=applyTileDebugAssignment;
 $('#tile-debug-clear').onclick=()=>clearTileDebugAssignment();

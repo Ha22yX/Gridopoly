@@ -197,7 +197,7 @@ assert.deepEqual(tileDebugModel.modules[0], {
   moduleId: 'module-a', deviceId: 'device-a', assigned: true, online: true,
   lastSeenMs: 1_720_000_000_500, leaseRemainingMs: 12_000, source: 'udp',
   orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
-  orderEpoch: '', orderConflict: '', orderUpstreamModuleId: '',
+  orderEpoch: '', orderConflict: '', orderUpstreamModuleId: '', orderAnchorTileId: '',
 }, 'online module leases preserve discovery timing and source metadata');
 assert.equal(tileDebugModel.modules[1].online, false,
   'assignment-only stale modules remain visible in the overview but are not online candidates');
@@ -219,7 +219,7 @@ const orderView=tileDebugHelpers.normalizeTileDebugData({
       orderCapable:true,orderStatus:'ready',orderChainId:'chain-a',orderIndex:1,
       orderUpstreamModuleId:'chain-a',orderEpoch:3},
     {moduleId:'chain-c',deviceId:'device-c',online:true,assigned:false,
-      orderCapable:true,orderStatus:'conflict',orderIndex:-1,orderConflict:'tile_conflict'},
+      orderCapable:true,orderStatus:'conflict',orderIndex:-1,orderConflict:'tile_conflict',orderAnchorTileId:'A2'},
   ],
   assignments:[{moduleId:'chain-b',deviceId:'device-b',tile_id:'A1',source:'order',
     orderAnchorModuleId:'chain-a',orderOffset:1,orderEpoch:3}],
@@ -232,6 +232,8 @@ assert.match(tileDebugHelpers.tileDebugOrderLabel(orderView.modules[2]),/冲突/
 assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(orderView.modules[2]),/第 .* 块/,
   'an unknown physical index must not be invented');
 assert.equal(orderView.assignments[0].orderOffset,1);
+assert.equal(orderView.modules[2].orderAnchorTileId,'A2','a suspended anchor stays visible without assignment');
+assert.equal(tileDebugHelpers.tileDebugSourceLabel(orderView.modules[2],null),'手动指定（锚点）');
 assert.equal(tileDebugHelpers.tileDebugOrderLabel(tileDebugModel.modules[0]),'未启用 ORDER',
   'legacy registration order is never presented as physical topology');
 const staleView=tileDebugHelpers.normalizeTileDebugData({modules:[
