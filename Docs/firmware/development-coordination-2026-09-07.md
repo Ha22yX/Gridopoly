@@ -255,3 +255,14 @@ core0-perf-window-20260908-2223完整实测pure1/component1/perf1/clean_before1/
 多个不连续手动锚点语义已询问用户；未答时主任务明确默认按原请求分段：沿OUT为正方向取最近上游manual，首锚之前向前回推，遇新manual重置基准，地图索引取当前board.tileCount的模。例如A固定5、C固定10，则B=6、D=11。不同manual同格保留既有API拒绝，派生冲突不跳空位、不覆盖manual；无手动锚点的ORDER链显示待指定。若用户另答规则需以新答复调整。
 
 主任务已实现Web flat ORDER状态/链内序号（wire0起UI1起）/上游/锚点来源，未分配及冲突节点可见，旧legacy不伪造线序。Web脚本语法、现有全量layout检查及新增元数据/未知序号/冲突投影回归通过，gzip及36图资源生成通过。服务端/格子端仍实现中，未据此声明设备功能完成。
+
+
+#### ORDER 软件审核与双板部署准备
+
+Web两次提交0f4d52f/724924a：模块行展示真实ORDER顺序、未分配/冲突、手动锚点及派生来源；保留离线手动意图的行可取消指定。layout回归通过，资源gzip已更新，未把Web通过当作实际ORDER连线成功。AGENTS补记COM8由格子任务独占。
+
+主审核要求并核对服务器修复：新注册也拒绝退休boot/迟到序号；过期历史不再贡献活动图边，避免B掉电后永久污染新A→C；手动优先于ORDER，ORDER优先于legacy自动占格；暂停锚点保留分段边界；解析使用局部输出对象，统一invalid观测的null/age0/seq0约束。Pi隔离v2完整tile_debug_assignment与http_asset_integration及生产构建均PASS，日志C:/Users/kicof/AppData/Local/Temp/gridopoly-order-native-v2.log。随后加入boot变化推进epoch，最终冻结v3由服务器任务验证并按既有授权备份/替换binary，仅重启gridopoly，核对前后对局业务。
+
+格子V0.32候选已编译，ORDER波形/CRC/时间回绕/邻接/重复帧/断线/调度丢帧等测试在Firmware/TileModuleTests/HostRegression/order_link.cpp，可由同目录CMake/CTest重现。首轮55例通过，decoder.exe曾Windows BAD_COMMAND启动失败后单独重跑PASS，该首轮异常不抹去。为保留source=order正在重建最终候选，最终SHA与设备版本需以随后部署记录为准。COM8确认16MB flash/8MB PSRAM，先完整备份原flash后刷；COM6保留V0.31回退。40MHz仅授权验证过的COM6 MAC白名单，COM8按8MHz，未接屏不作显示目视结论。
+
+主HTTP只读确认room993580100/version36/phase1，无pendingMove，movementCueGate inactive；COM6当前auto CORNER-START/map0，tagReaderState stable。部署后的实际锚点联调前须重新检查移动状态，不能用伪造ORDER心跳或游戏动作制造实机证据。实际接线尚未收到用户明确答复，之后以双板串口完整CRC有效帧和服务端当前链共同核验。
