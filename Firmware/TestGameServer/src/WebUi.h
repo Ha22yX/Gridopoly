@@ -76,7 +76,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
   </div>
   <div id="tile-debug-preview" class="tile-debug-preview" aria-live="polite"><div class="tile-debug-preview-grid"><span>格子</span><b>等待数据</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div></div>
   <div id="tile-debug-occupancy" class="tile-debug-occupancy">该格子当前没有临时分配。</div>
-  <div class="tile-debug-actions"><button id="tile-debug-apply" class="primary" type="button">分配到此格</button><button id="tile-debug-clear" type="button">清除所选模块</button></div>
+  <div class="tile-debug-actions"><button id="tile-debug-apply" class="primary" type="button">分配到此格</button><button id="tile-debug-clear" type="button">取消手动指定</button></div>
   <div id="tile-debug-context-status" class="tile-debug-context-status" aria-live="polite">选择在线模块后应用。</div>
 </div>
 <div id="forced-selection-banner" class="selection-banner" hidden role="status">
@@ -108,7 +108,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
       <button id="new">建立测试对局</button>
     </section>
     <section class="panel tile-debug" aria-labelledby="tile-debug-title">
-      <div class="tile-debug-head"><div><h2 id="tile-debug-title">格子模块临时分配</h2><p>右键棋盘格分配模块。仅用于硬件联调，不写入对局或游戏存档。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
+      <div class="tile-debug-head"><div><h2 id="tile-debug-title">格子模块临时分配</h2><p>右键指定一个格子，同串模块沿 ORDER 顺序自动分配；其它手动指定值保留。仅用于硬件联调，不写入对局或游戏存档。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
       <div class="tile-debug-meta"><span id="tile-debug-revision">REV 0</span><span id="tile-debug-updated">尚未修改</span></div>
       <div id="tile-debug-status" class="tile-debug-status" role="status" aria-live="polite">正在读取临时分配…</div>
       <div id="tile-debug-list" class="tile-debug-list" aria-label="当前临时分配"><div class="tile-debug-empty">暂无临时分配</div></div>
@@ -210,6 +210,38 @@ function tileDebugCssColor(value){
   return/^[0-9a-f]{6}$/i.test(text)?`#${text.toUpperCase()}`:'#42526A';
 }
 
+function tileDebugOrderFields(module){
+  const statuses=['legacy','probing','ready','unanchored','stale','conflict'];
+  return{
+    orderCapable:module.orderCapable===true,
+    orderStatus:statuses.includes(module.orderStatus)?module.orderStatus:'legacy',
+    orderChainId:tileDebugSafeIdentifier(module.orderChainId)?module.orderChainId:'',
+    orderIndex:Number.isInteger(module.orderIndex)&&module.orderIndex>=0&&module.orderIndex<64?module.orderIndex:null,
+    orderEpoch:tileDebugText(module.orderEpoch),
+    orderConflict:tileDebugText(module.orderConflict),
+    orderUpstreamModuleId:tileDebugSafeIdentifier(module.orderUpstreamModuleId)?module.orderUpstreamModuleId:'',
+  };
+}
+
+function tileDebugSourceLabel(module,assignment){
+  const source=assignment&&assignment.source||module&&module.source;
+  if(source==='manual')return'手动指定（锚点）';
+  if(source==='order'){
+    const anchor=assignment&&assignment.orderAnchorModuleId;
+    return anchor?`随 ORDER 分配 · 锚点 ${anchor}`:'随 ORDER 分配';
+  }
+  return source==='auto'?'自动分配空闲格':'尚未分配';
+}
+
+function tileDebugOrderLabel(module){
+  if(!module||!module.orderCapable)return'未启用 ORDER';
+  const labels={probing:'正在识别接线',ready:'接线顺序已确认',unanchored:'等待指定一个格子',stale:'接线信息已过期',conflict:'接线或格子分配冲突',legacy:'尚无接线信息'};
+  const index=module.orderIndex===null?'':` · 第 ${module.orderIndex+1} 块`;
+  const chain=module.orderChainId?` · 链 ${module.orderChainId}`:'';
+  const upstream=module.orderUpstreamModuleId?` · 上游 ${module.orderUpstreamModuleId}`:'';
+  return`ORDER：${labels[module.orderStatus]||labels.legacy}${index}${chain}${upstream}`;
+}
+
 function normalizeTileDebugData(payload){
   const source=payload&&typeof payload==='object'?payload:{};
   const modules=(Array.isArray(source.modules)?source.modules:[]).map(module=>({
@@ -219,7 +251,8 @@ function normalizeTileDebugData(payload){
     online:module.online===true,
     lastSeenMs:Number.isFinite(Number(module.lastSeenMs))?Number(module.lastSeenMs):0,
     leaseRemainingMs:Number.isFinite(Number(module.leaseRemainingMs))?Math.max(0,Number(module.leaseRemainingMs)):0,
-    source:tileDebugText(module.source)||'manual',
+    source:tileDebugText(module.source)||'none',
+    ...tileDebugOrderFields(module),
   })).filter(module=>tileDebugSafeIdentifier(module.moduleId)&&tileDebugSafeIdentifier(module.deviceId));
   const tiles=(Array.isArray(source.tiles)?source.tiles:[]).map(tile=>({
     tileId:tileDebugText(tile.tileId),
@@ -248,6 +281,10 @@ function normalizeTileDebugData(payload){
     ownerPlayerId:Number.isInteger(Number(assignment.owner_player))?Number(assignment.owner_player):0,
     ownerDisplayName:tileDebugText(assignment.owner_display_name),
     ownerRgb:tileDebugCssColor(assignment.owner_color),
+    source:tileDebugText(assignment.source),
+    orderAnchorModuleId:tileDebugSafeIdentifier(assignment.orderAnchorModuleId)?assignment.orderAnchorModuleId:'',
+    orderOffset:Number.isInteger(assignment.orderOffset)?assignment.orderOffset:null,
+    orderEpoch:tileDebugText(assignment.orderEpoch),
     revision:Number.isInteger(Number(assignment.revision))?Number(assignment.revision):0,
     updatedAtMs:Number.isFinite(Number(assignment.updatedAtMs))?Number(assignment.updatedAtMs):0,
   })).filter(assignment=>tileDebugSafeIdentifier(assignment.moduleId)&&
@@ -255,7 +292,7 @@ function normalizeTileDebugData(payload){
   for(const assignment of assignments){
     if(!modules.some(module=>module.moduleId===assignment.moduleId)){
       modules.push({moduleId:assignment.moduleId,deviceId:assignment.deviceId,assigned:true,
-        online:false,lastSeenMs:0,leaseRemainingMs:0,source:'manual'});
+        online:false,lastSeenMs:0,leaseRemainingMs:0,source:assignment.source||'manual',...tileDebugOrderFields({})});
     }
   }
   modules.sort((left,right)=>left.moduleId.localeCompare(right.moduleId));
@@ -907,8 +944,9 @@ function updateTileDebugControls(){
   $('#tile-debug-refresh').disabled=busy;
   $('#tile-debug-module').disabled=busy;
   $('#tile-debug-apply').disabled=busy||!tileDebugSafeIdentifier(moduleId)||!tileId||!onlineMatch;
-  $('#tile-debug-clear').disabled=busy||!tileDebugSafeIdentifier(moduleId)||
-    !tileDebugAssignmentFor(tileDebugState,moduleId);
+  const assignment=tileDebugAssignmentFor(tileDebugState,moduleId);
+  $('#tile-debug-clear').disabled=busy||!tileDebugSafeIdentifier(moduleId)||!assignment||
+    (module&&module.orderCapable&&(assignment.source||module.source)!=='manual');
 }
 
 function selectTileDebugModule(){
@@ -986,14 +1024,17 @@ function renderTileDebug(){
   ).join(''):'<option value="">暂无在线模块</option>';
   $('#tile-debug-module').value=selectedModule?selectedModule.moduleId:'';
   const list=$('#tile-debug-list');
-  list.innerHTML=tileDebugState.assignments.length?tileDebugState.assignments.map(assignment=>{
+  list.innerHTML=tileDebugState.modules.length?tileDebugState.modules.map(module=>{
+    const assignment=tileDebugAssignmentFor(tileDebugState,module.moduleId);
+    const details=esc(tileDebugOrderLabel(module));
+    const sourceLabel=esc(tileDebugSourceLabel(module,assignment));
+    if(!assignment)return`<div class="tile-debug-row"><b>${esc(module.moduleId)} / 未分配</b><small>${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small></div>`;
     const owner=assignment.ownerPlayerId>0?
       `P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:'未购买';
     const updated=assignment.updatedAtMs?` / ${tileDebugUpdatedAtLabel(assignment.updatedAtMs)}`:'';
-    const module=tileDebugModuleFor(assignment.moduleId);
     const swatch=assignment.ownerPlayerId>0?assignment.ownerRgb:assignment.accentRgb;
-    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||'无 deviceId')} / ${esc(tileDebugLeaseLabel(module))} / ${esc(assignment.kind||'未知')} / ${assignment.purchasePrice>0?`¥${assignment.purchasePrice}`:'不可购买'}</small></div>`;
-  }).join(''):'<div class="tile-debug-empty">暂无临时分配。右键棋盘格开始分配。</div>';
+    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||'无 deviceId')} / ${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small></div>`;
+  }).join(''):'<div class="tile-debug-empty">暂无格子模块。模块联网后会显示在这里。</div>';
   if(!$('#tile-debug-context-menu').hidden)selectTileDebugModule();
   else updateTileDebugControls();
 }
@@ -1063,7 +1104,7 @@ async function applyTileDebugAssignment(){
     return;
   }
   const succeeded=await mutateTileDebug(`/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}&deviceId=${encodeURIComponent(deviceId)}&tileId=${encodeURIComponent(tileId)}`,'POST',
-    '临时分配已应用。');
+    '已设为手动锚点，同串模块将按 ORDER 顺序分配。');
   if(succeeded)closeTileDebugContextMenu();
 }
 
@@ -1071,7 +1112,7 @@ async function clearTileDebugAssignment(moduleId=$('#tile-debug-module').value){
   moduleId=tileDebugText(moduleId);
   if(!tileDebugSafeIdentifier(moduleId))return;
   const succeeded=await mutateTileDebug(`/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}`,'DELETE',
-    '临时分配已清除。');
+    '已取消手动指定；如同串仍有锚点，该模块会重新跟随分配。');
   if(succeeded)closeTileDebugContextMenu();
 }
 

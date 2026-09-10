@@ -172,7 +172,7 @@ const tileDebugHelperBlock = source.match(
 );
 assert.ok(tileDebugHelperBlock, 'tile debug projection helper block was not found');
 const tileDebugHelpers = Function(
-  `${tileDebugHelperBlock[1]}; return {normalizeTileDebugData,tileDebugCssColor,tileDebugSafeIdentifier,tileDebugAssignmentFor,tileDebugUpdatedAtLabel};`,
+  `${tileDebugHelperBlock[1]}; return {normalizeTileDebugData,tileDebugCssColor,tileDebugSafeIdentifier,tileDebugAssignmentFor,tileDebugUpdatedAtLabel,tileDebugSourceLabel,tileDebugOrderLabel};`,
 )();
 const tileDebugModel = tileDebugHelpers.normalizeTileDebugData({
   revision: 9,
@@ -196,6 +196,8 @@ assert.equal(tileDebugModel.modules[1].assigned, true,
 assert.deepEqual(tileDebugModel.modules[0], {
   moduleId: 'module-a', deviceId: 'device-a', assigned: true, online: true,
   lastSeenMs: 1_720_000_000_500, leaseRemainingMs: 12_000, source: 'udp',
+  orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
+  orderEpoch: '', orderConflict: '', orderUpstreamModuleId: '',
 }, 'online module leases preserve discovery timing and source metadata');
 assert.equal(tileDebugModel.modules[1].online, false,
   'assignment-only stale modules remain visible in the overview but are not online candidates');
@@ -209,6 +211,35 @@ assert.equal(tileDebugModel.assignments[0].ownerPlayerId, 2,
   'snake-case tile firmware DTO owner is normalized for rendering');
 assert.equal(Object.hasOwn(tileDebugModel.assignments[0], 'order'), false,
   'temporary assignment DTO must not imply a physical ORDER');
+const orderView=tileDebugHelpers.normalizeTileDebugData({
+  modules:[
+    {moduleId:'chain-a',deviceId:'device-a',online:true,assigned:true,source:'manual',
+      orderCapable:true,orderStatus:'ready',orderChainId:'chain-a',orderIndex:0,orderEpoch:3},
+    {moduleId:'chain-b',deviceId:'device-b',online:true,assigned:true,source:'order',
+      orderCapable:true,orderStatus:'ready',orderChainId:'chain-a',orderIndex:1,
+      orderUpstreamModuleId:'chain-a',orderEpoch:3},
+    {moduleId:'chain-c',deviceId:'device-c',online:true,assigned:false,
+      orderCapable:true,orderStatus:'conflict',orderIndex:-1,orderConflict:'tile_conflict'},
+  ],
+  assignments:[{moduleId:'chain-b',deviceId:'device-b',tile_id:'A1',source:'order',
+    orderAnchorModuleId:'chain-a',orderOffset:1,orderEpoch:3}],
+});
+assert.equal(orderView.modules.length,3,'unassigned conflicts remain visible');
+assert.equal(tileDebugHelpers.tileDebugSourceLabel(orderView.modules[0],null),'手动指定（锚点）');
+assert.match(tileDebugHelpers.tileDebugSourceLabel(orderView.modules[1],orderView.assignments[0]),/锚点 chain-a/);
+assert.match(tileDebugHelpers.tileDebugOrderLabel(orderView.modules[1]),/第 2 块.*上游 chain-a/);
+assert.match(tileDebugHelpers.tileDebugOrderLabel(orderView.modules[2]),/冲突/);
+assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(orderView.modules[2]),/第 .* 块/,
+  'an unknown physical index must not be invented');
+assert.equal(orderView.assignments[0].orderOffset,1);
+assert.equal(tileDebugHelpers.tileDebugOrderLabel(tileDebugModel.modules[0]),'未启用 ORDER',
+  'legacy registration order is never presented as physical topology');
+const staleView=tileDebugHelpers.normalizeTileDebugData({modules:[
+  {moduleId:'a',deviceId:'d',orderCapable:true,orderStatus:'stale',orderIndex:65,
+   orderChainId:'<script>',orderUpstreamModuleId:'invalid name'}]});
+assert.match(tileDebugHelpers.tileDebugOrderLabel(staleView.modules[0]),/已过期/);
+assert.equal(staleView.modules[0].orderChainId,'');
+assert.equal(staleView.modules[0].orderUpstreamModuleId,'');
 assert.equal(tileDebugHelpers.tileDebugCssColor('javascript:alert(1)'), '#42526A',
   'invalid assignment colors never reach inline CSS');
 for (const identifier of ['17', '0xA17', 'tile-01', 'dc:b4:d9:02:d1:dc', 'module_v1.2']) {
