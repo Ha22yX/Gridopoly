@@ -1,0 +1,21077 @@
+PROTEL NETLIST 2.0
+
+[
+
+DESIGNATOR
+
+J1
+
+FOOTPRINT
+
+USB-C-SMD_TYPE-C16PIN
+
+PARTTYPE
+
+TYPE-C16PIN
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TYPE-C16PIN
+
+Designator
+
+J1
+
+Device
+
+TYPE-C16PIN
+
+Unique ID
+
+gge2
+
+Name
+
+TYPE-C16PIN
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SHOU HAN(首韩)
+
+Manufacturer Part
+
+TYPE-C16PIN
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C393939
+
+LCSC Part Name
+
+16P卧贴母座
+
+Supplier Footprint
+
+SMD
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TYPE-C16PIN/372551.html
+
+Connector Type
+
+
+
+Protocol Standard
+
+
+
+Gender
+
+
+
+Mounting Type
+
+
+
+Number of Contacts
+
+
+
+Number of Ports
+
+
+
+Current Rating-Power
+
+
+
+Voltage Rating
+
+30V
+
+Connect-Disconnect Life
+
+
+
+Supplementary Features
+
+
+
+Center Height
+
+
+
+Length
+
+
+
+Detection color
+
+
+
+Operating Temperature
+
+-40℃~+85℃
+
+Description
+
+
+
+3D Model Title
+
+USB-C-SMD_TYPE-C16PIN
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R1
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R1
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge3
+
+Name
+
+5.1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+5.1kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-075K1L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C105580
+
+LCSC Part Name
+
+厚膜电阻 5.1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-075K1L/106795.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R2
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R2
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge4
+
+Name
+
+5.1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+5.1kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-075K1L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C105580
+
+LCSC Part Name
+
+厚膜电阻 5.1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-075K1L/106795.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U3
+
+FOOTPRINT
+
+WIRELM-SMD_ESP32-S3-WROOM-1
+
+PARTTYPE
+
+ESP32-S3-WROOM-1-N16R8
+
+DESCRIPTION
+
+核心芯片:ESP32-S3R8;频率:2.4GHz;天线形式:板载PCB天线;发射功率:20.5dBm;接收灵敏度:-103.5dBm;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+ESP32-S3-WROOM-1(N16R8)
+
+Designator
+
+U3
+
+Device
+
+ESP32-S3-WROOM-1-N16R8
+
+Unique ID
+
+gge16
+
+Name
+
+2.4GHz
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+不带固件 通用型Wi-Fi+低功耗蓝牙MCU模组
+
+Supplier Part
+
+C2913202
+
+Manufacturer
+
+ESPRESSIF(乐鑫)
+
+Manufacturer Part
+
+ESP32-S3-WROOM-1-N16R8
+
+Supplier Footprint
+
+SMD,25.5x18mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/ESP32-S3-WROOM-1-N16R8/3198300.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+WIRELM-SMD_ESP32-S3-WROOM-1
+
+Utilized IC / Part
+
+ESP32-S3R8
+
+Interface Type
+
+I2C；GPIO；UART；SPI；USB；I2S
+
+Value
+
+2.4GHz
+
+Antenna Type
+
+板载PCB天线
+
+Output Power
+
+20.5dBm
+
+Voltage - Supply
+
+3V~3.6V
+
+Receive  Current
+
+95mA
+
+Send  Current
+
+355mA
+
+Sensitivity
+
+-103.5dBm
+
+Operating Temperature
+
+-40℃~+65℃
+
+Description
+
+核心芯片:ESP32-S3R8;频率:2.4GHz;天线形式:板载PCB天线;发射功率:20.5dBm;接收灵敏度:-103.5dBm;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R4
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R4
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Value
+
+22Ω
+
+Name
+
+22Ω
+
+Unique ID
+
+gge17
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0722RL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C107701
+
+LCSC Part Name
+
+厚膜电阻 22Ω ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20170914/C127450_1505359406912967677.pdf
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Overload Voltage (Max)
+
+75V
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R5
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R5
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Value
+
+22Ω
+
+Name
+
+22Ω
+
+Unique ID
+
+gge18
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0722RL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C107701
+
+LCSC Part Name
+
+厚膜电阻 22Ω ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20170914/C127450_1505359406912967677.pdf
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Overload Voltage (Max)
+
+75V
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+D1
+
+FOOTPRINT
+
+SOT-9X3-3_L1.0-W0.8-P0.35-LS1.0-BR
+
+PARTTYPE
+
+TPD2EUSB30DRTR
+
+DESCRIPTION
+
+极性:单向;反向截止电压(Vrwm):5.5V;钳位电压:8V;峰值脉冲电流(Ipp):5A@8/20us;峰值脉冲功率(Ppp):45W;击穿电压(VBR):7V;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TPD2EUSB30DRTR
+
+Designator
+
+D1
+
+Device
+
+TPD2EUSB30DRTR
+
+Name
+
+TPD2EUSB30DRTR
+
+Unique ID
+
+gge19
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+单向ESD 5.5V截止 峰值脉冲电流：5A@8/20us
+
+Supplier Part
+
+C97502
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+TPD2EUSB30DRTR
+
+Supplier Footprint
+
+SOT(9x3)
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/ds/symlink/tpd2eusb30.pdf
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SOT-9X3-3_L1.0-W0.8-H0.5-LD1.0-P0.35
+
+Polarity
+
+单向
+
+Reverse Stand-Off Voltage (Vrwm)
+
+5.5V
+
+Clamping Voltage
+
+8V
+
+Peak Pulse Current (Ipp)
+
+5A@8/20us
+
+Peak Pulse Power Dissipation (Ppp)
+
+45W
+
+Voltage - Breakdown
+
+7V
+
+Number of Channels
+
+双路
+
+Operating Temperature
+
+-40℃~+85℃
+
+level of protection
+
+IEC 61000-4-5；IEC 61000-4-2
+
+Type
+
+ESD
+
+Junction Capacitance
+
+0.7pF
+
+Description
+
+极性:单向;反向截止电压(Vrwm):5.5V;钳位电压:8V;峰值脉冲电流(Ipp):5A@8/20us;峰值脉冲功率(Ppp):45W;击穿电压(VBR):7V;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R6
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R6
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Name
+
+10kΩ
+
+Unique ID
+
+gge20
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C9
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C9
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Name
+
+100nF
+
+Unique ID
+
+gge21
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C10
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C10
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Value
+
+10uF
+
+Name
+
+10uF
+
+Unique ID
+
+gge22
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10A106KP8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C19702
+
+LCSC Part Name
+
+10uF ±10% 10V
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10A106KP8NNNC/20411.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+10V
+
+Temperature Coefficient
+
+X5R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+SW2
+
+FOOTPRINT
+
+SW-SMD_L3.9-W3.0-P4.45
+
+PARTTYPE
+
+TS-1088-AR02016
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TS-1088-AR02016
+
+Designator
+
+SW2
+
+Device
+
+TS-1088-AR02016
+
+Name
+
+TS-1088-AR02016
+
+Unique ID
+
+gge23
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+XUNPU(讯普)
+
+Manufacturer Part
+
+TS-1088-AR02016
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C720477
+
+LCSC Part Name
+
+3.9*3*2mm 立贴 轻触开关
+
+Supplier Footprint
+
+SMD,4x3mm
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TS-1088-AR02016/763484.html
+
+Circuit
+
+
+
+Actuator Style
+
+
+
+Operating Force
+
+
+
+Mounting Type
+
+
+
+Length
+
+
+
+Width
+
+
+
+Switch Height
+
+
+
+with Bracket
+
+
+
+Contact Current
+
+
+
+Voltage Rating
+
+12V
+
+Actuator/Cap Color
+
+
+
+With Lamp
+
+
+
+IP Rating
+
+
+
+Termination Style
+
+
+
+Life
+
+
+
+Operating Temperature
+
+-30℃~+80℃
+
+Description
+
+
+
+3D Model Title
+
+SW-SMD_L3.9-W2.9-H2.0-LS4.8
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+SW1
+
+FOOTPRINT
+
+SW-SMD_L3.9-W3.0-P4.45
+
+PARTTYPE
+
+TS-1088-AR02016
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TS-1088-AR02016
+
+Designator
+
+SW1
+
+Device
+
+TS-1088-AR02016
+
+Name
+
+TS-1088-AR02016
+
+Unique ID
+
+gge24
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+XUNPU(讯普)
+
+Manufacturer Part
+
+TS-1088-AR02016
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C720477
+
+LCSC Part Name
+
+3.9*3*2mm 立贴 轻触开关
+
+Supplier Footprint
+
+SMD,4x3mm
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TS-1088-AR02016/763484.html
+
+Circuit
+
+
+
+Actuator Style
+
+
+
+Operating Force
+
+
+
+Mounting Type
+
+
+
+Length
+
+
+
+Width
+
+
+
+Switch Height
+
+
+
+with Bracket
+
+
+
+Contact Current
+
+
+
+Voltage Rating
+
+12V
+
+Actuator/Cap Color
+
+
+
+With Lamp
+
+
+
+IP Rating
+
+
+
+Termination Style
+
+
+
+Life
+
+
+
+Operating Temperature
+
+-30℃~+80℃
+
+Description
+
+
+
+3D Model Title
+
+SW-SMD_L3.9-W2.9-H2.0-LS4.8
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C11
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C11
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Value
+
+1uF
+
+Name
+
+1uF
+
+Unique ID
+
+gge25
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10A105KA8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C5673
+
+LCSC Part Name
+
+1uF ±10% 25V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10A105KA8NNNC/6132.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+25V
+
+Temperature Coefficient
+
+X5R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U1
+
+FOOTPRINT
+
+SO-14_L8.9-W3.9-P1.27-LS6.0-BL
+
+PARTTYPE
+
+HTRC11001T/03EE,11
+
+DESCRIPTION
+
+适用于基于NXP半导体的HITAG应答器IC的应答器。此外，该IC支持其他125 kHz应答器类型，写操作使用幅度调制，读操作使用AM/PM。接收器参数（增益因子、滤波器截止频率）可根据系统和应答器要求进行优化。设计用于轻松集成到射频识别读取器中
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+HTRC11001T/03EE,11
+
+Designator
+
+U1
+
+Device
+
+HTRC11001T/03EE,11
+
+Unique ID
+
+gge26
+
+Name
+
+125kHz
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+编码开关
+
+Supplier Part
+
+C501317
+
+Manufacturer
+
+NXP(恩智浦)
+
+Manufacturer Part
+
+HTRC11001T/03EE,11
+
+Supplier Footprint
+
+SO-14
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.nxp.com/docs/en/data-sheet/037031.pdf
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SO-14_L8.9-W3.9-H1.5-P1.27-LS6.0-BL
+
+Value
+
+125kHz
+
+Voltage - Supply
+
+4.5V~5.5V
+
+Description
+
+适用于基于NXP半导体的HITAG应答器IC的应答器。此外，该IC支持其他125 kHz应答器类型，写操作使用幅度调制，读操作使用AM/PM。接收器参数（增益因子、滤波器截止频率）可根据系统和应答器要求进行优化。设计用于轻松集成到射频识别读取器中
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C5
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C5
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge27
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C6
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+CGA0805X5R226M250MT
+
+DESCRIPTION
+
+容值:22uF;精度:±20%;额定电压:25V;温度系数:X5R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CGA0805X5R226M250MT
+
+Designator
+
+C6
+
+Device
+
+CGA0805X5R226M250MT
+
+Unique ID
+
+gge28
+
+Supplier Footprint
+
+0805
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+Value
+
+22uF
+
+Name
+
+22uF
+
+Description
+
+容值:22uF;精度:±20%;额定电压:25V;温度系数:X5R;
+
+LCSC Part Name
+
+22uF ±20% 25V
+
+Supplier Part
+
+C6119899
+
+Manufacturer
+
+HRE(芯声)
+
+Manufacturer Part
+
+CGA0805X5R226M250MT
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CGA0805X5R226M250MT/7062605.html
+
+Supplier
+
+LCSC
+
+Tolerance
+
+±20%
+
+Voltage Rating
+
+25V
+
+Temperature Coefficient
+
+X5R
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C7
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C7
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge29
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C8
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C8
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge30
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+X1
+
+FOOTPRINT
+
+OSC-SMD_4P-L3.2-W2.5-BL
+
+PARTTYPE
+
+OH2EL89CFI-111YLC-4M
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+OH2EL89CFI-111YLC-4M
+
+Designator
+
+X1
+
+Device
+
+OH2EL89CFI-111YLC-4M
+
+Unique ID
+
+gge31
+
+Name
+
+4MHz
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YXC(扬兴晶振)
+
+Manufacturer Part
+
+OH2EL89CFI-111YLC-4M
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C42448900
+
+LCSC Part Name
+
+YSO130HR 4MHZ 4P 3225 5.0V FS±30PPM -40~85℃ CMOS
+
+Supplier Footprint
+
+SMD3225-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/OH2EL89CFI-111YLC-4M/44509783.html
+
+Value
+
+4MHz
+
+Normal temperature Frequency Tolerance
+
+±10ppm
+
+Output Type
+
+CMOS
+
+Voltage - Supply
+
+5V
+
+Frequency Stability
+
+±20ppm
+
+Operating Temperature
+
+-40℃~+85℃
+
+Description
+
+
+
+3D Model Title
+
+OSC-SMD_4P-L3.2-W2.5-H1.0
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R3
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R3
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge32
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C12
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C12
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge33
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+J3
+
+FOOTPRINT
+
+CONN-TH_2P-P2.50_HX-2.54MM-2P-ZZ-MS
+
+PARTTYPE
+
+HX-XH2.54-2PZZ
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+HX-XH2.54-2PZZ
+
+Designator
+
+J3
+
+Device
+
+HX-XH2.54-2PZZ
+
+Unique ID
+
+gge34
+
+Name
+
+HX-XH2.54-2PZZ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+hanxia(韩下)
+
+Manufacturer Part
+
+HX-XH2.54-2PZZ
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C42391660
+
+LCSC Part Name
+
+1x2P 间距:2.54mm 直插 系列:XH
+
+Supplier Footprint
+
+插件,P=2.5mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/HX-XH2.54-2PZZ/44326932.html
+
+Pins Structure
+
+
+
+Pitch
+
+
+
+Mounting Type
+
+
+
+Reference Series
+
+
+
+Number of Pins
+
+
+
+Number of Rows
+
+
+
+Number of PINs Per Row
+
+
+
+Row Spacing
+
+
+
+Current Rating
+
+
+
+Contact Material
+
+
+
+Contact Plating
+
+
+
+Operating Temperature
+
+-25℃~+85℃
+
+Voltage Rating
+
+250V
+
+Plastic Material
+
+
+
+Flame Retardant Rating
+
+
+
+Color
+
+
+
+Description
+
+
+
+3D Model Title
+
+CONN-TH_2P-P2.50_HX-2.54MM-2P-ZZ-MS
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R9
+
+FOOTPRINT
+
+R2512
+
+PARTTYPE
+
+25121WJ0270T4E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+25121WJ0270T4E
+
+Designator
+
+R9
+
+Device
+
+25121WJ0270T4E
+
+Unique ID
+
+gge35
+
+Name
+
+27Ω
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+25121WJ0270T4E
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C25478
+
+LCSC Part Name
+
+27Ω ±5% 1W 厚膜电阻
+
+Supplier Footprint
+
+2512
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/25121WJ0270T4E/26221.html
+
+Type
+
+厚膜电阻
+
+Value
+
+27Ω
+
+Tolerance
+
+±5%
+
+Power(Watts)
+
+1W
+
+Voltage-Supply(Max)
+
+200V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Description
+
+
+
+3D Model Title
+
+R2512_L6.3-W3.2-H0.6
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C13
+
+FOOTPRINT
+
+C1206
+
+PARTTYPE
+
+CL31B104KEHNNNE
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL31B104KEHNNNE
+
+Designator
+
+C13
+
+Device
+
+CL31B104KEHNNNE
+
+Unique ID
+
+gge36
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL31B104KEHNNNE
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C346235
+
+LCSC Part Name
+
+100nF ±10% 250V
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL31B104KEHNNNE/322901.html
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+250V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+
+
+3D Model Title
+
+C1206_L3.2-W1.6-H1.3
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R10
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+0603WAF1001T5E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+0603WAF1001T5E
+
+Designator
+
+R10
+
+Device
+
+0603WAF1001T5E
+
+Unique ID
+
+gge37
+
+Name
+
+1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+0603WAF1001T5E
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C21190
+
+LCSC Part Name
+
+1kΩ ±1% 100mW 厚膜电阻
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/0603WAF1001T5E/21904.html
+
+Type
+
+厚膜电阻
+
+Value
+
+1kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Description
+
+
+
+3D Model Title
+
+R0603
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R8
+
+FOOTPRINT
+
+R1206
+
+PARTTYPE
+
+1206W4F2703T5E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+1206W4F2703T5E
+
+Designator
+
+R8
+
+Device
+
+1206W4F2703T5E
+
+Unique ID
+
+gge38
+
+Name
+
+270kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+1206W4F2703T5E
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C17940
+
+LCSC Part Name
+
+270kΩ ±1% 250mW 厚膜电阻
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf
+
+Type
+
+厚膜电阻
+
+Value
+
+270kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+250mW
+
+Overload Voltage (Max)
+
+200V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Description
+
+
+
+3D Model Title
+
+R1206_L3.2-W1.6-H0.6
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C14
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+TCC0805COG102J251BT
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TCC0805COG102J251BT
+
+Designator
+
+C14
+
+Device
+
+TCC0805COG102J251BT
+
+Unique ID
+
+gge39
+
+Name
+
+1nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC0805COG102J251BT
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C5375884
+
+LCSC Part Name
+
+1nF ±5% 250V
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC0805COG102J251BT/6236394.html
+
+Value
+
+1nF
+
+Tolerance
+
+±5%
+
+Voltage Rating
+
+250V
+
+Temperature Coefficient
+
+C0G
+
+Description
+
+
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C15
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+TCC0805COG102J251BT
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TCC0805COG102J251BT
+
+Designator
+
+C15
+
+Device
+
+TCC0805COG102J251BT
+
+Name
+
+1nF
+
+Unique ID
+
+gge40
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC0805COG102J251BT
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C5375884
+
+LCSC Part Name
+
+1nF ±5% 250V
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC0805COG102J251BT/6236394.html
+
+Value
+
+1nF
+
+Tolerance
+
+±5%
+
+Voltage Rating
+
+250V
+
+Temperature Coefficient
+
+C0G
+
+Description
+
+
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C16
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+TCC0805COG102J251BT
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TCC0805COG102J251BT
+
+Designator
+
+C16
+
+Device
+
+TCC0805COG102J251BT
+
+Name
+
+1nF
+
+Unique ID
+
+gge41
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC0805COG102J251BT
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C5375884
+
+LCSC Part Name
+
+1nF ±5% 250V
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC0805COG102J251BT/6236394.html
+
+Value
+
+1nF
+
+Tolerance
+
+±5%
+
+Voltage Rating
+
+250V
+
+Temperature Coefficient
+
+C0G
+
+Description
+
+
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C17
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+TCC0805COG102J251BT
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TCC0805COG102J251BT
+
+Designator
+
+C17
+
+Device
+
+TCC0805COG102J251BT
+
+Name
+
+1nF
+
+Unique ID
+
+gge42
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC0805COG102J251BT
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C5375884
+
+LCSC Part Name
+
+1nF ±5% 250V
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC0805COG102J251BT/6236394.html
+
+Value
+
+1nF
+
+Tolerance
+
+±5%
+
+Voltage Rating
+
+250V
+
+Temperature Coefficient
+
+C0G
+
+Description
+
+
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C18
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+GRM21A5C2E221JW01D
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+GRM21A5C2E221JW01D
+
+Designator
+
+C18
+
+Device
+
+GRM21A5C2E221JW01D
+
+Unique ID
+
+gge43
+
+Name
+
+220pF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+muRata(村田)
+
+Manufacturer Part
+
+GRM21A5C2E221JW01D
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C437547
+
+LCSC Part Name
+
+220pF ±5% 250V
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/GRM21A5C2E221JW01D/436002.html
+
+Value
+
+220pF
+
+Tolerance
+
+±5%
+
+Voltage Rating
+
+250V
+
+Temperature Coefficient
+
+C0G
+
+Description
+
+
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C19
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+no
+
+Convert to PCB
+
+yes
+
+Designator
+
+C19
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge44
+
+Name
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+
+
+Manufacturer
+
+
+
+Manufacturer Part
+
+
+
+Supplier
+
+
+
+Supplier Part
+
+CapAcitance.1
+
+Supplier Footprint
+
+
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C20
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+no
+
+Convert to PCB
+
+yes
+
+Designator
+
+C20
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge45
+
+Name
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+
+
+Manufacturer
+
+
+
+Manufacturer Part
+
+
+
+Supplier
+
+
+
+Supplier Part
+
+CapAcitance.1
+
+Supplier Footprint
+
+
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U4
+
+FOOTPRINT
+
+SOT-23-5_L3.0-W1.7-P0.95-LS2.8-BR
+
+PARTTYPE
+
+SN74LVC1G17DBVR
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+SN74LVC1G17DBVR
+
+Designator
+
+U4
+
+Device
+
+SN74LVC1G17DBVR
+
+Unique ID
+
+gge46
+
+Name
+
+SN74LVC1G17DBVR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+SN74LVC1G17DBVR
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C7836
+
+LCSC Part Name
+
+单施密特触发器缓冲器
+
+Supplier Footprint
+
+SOT-23-5
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/gpn/sn74lvc1g17
+
+Input type
+
+
+
+output type
+
+
+
+Voltage - Supply
+
+1.65V~5.5V
+
+Number of Elements
+
+
+
+Number of Bits per Element
+
+
+
+Channel Type
+
+
+
+Current - Output Low(IOL)
+
+
+
+Current - Output High(IOH)
+
+
+
+Logic Family
+
+
+
+Operating Temperature
+
+-40℃~+125℃
+
+Quiescent Current
+
+
+
+Propagation Delay
+
+
+
+Description
+
+
+
+3D Model Title
+
+SOT-23-5_L2.9-W1.6-H1.1-LS2.8-P0.95
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U5
+
+FOOTPRINT
+
+SOIC-14_L8.7-W3.9-P1.27-LS6.0-BL
+
+PARTTYPE
+
+74HCT125D,653
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+74HCT125D,653
+
+Designator
+
+U5
+
+Device
+
+74HCT125D,653
+
+Unique ID
+
+gge47
+
+Name
+
+74HCT125D,653
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+Nexperia(安世)
+
+Manufacturer Part
+
+74HCT125D,653
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C5962
+
+LCSC Part Name
+
+三态输出，四路缓冲器/线路驱动器
+
+Supplier Footprint
+
+SOIC-14
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/74HCT125D%252C653/6428.html
+
+Input type
+
+
+
+output type
+
+
+
+Voltage - Supply
+
+4.5V~5.5V
+
+Number of Elements
+
+
+
+Number of Bits per Element
+
+
+
+Channel Type
+
+
+
+Current - Output Low(IOL)
+
+
+
+Current - Output High(IOH)
+
+
+
+Logic Family
+
+
+
+Operating Temperature
+
+-40℃~+125℃
+
+Quiescent Current
+
+
+
+Propagation Delay
+
+
+
+Description
+
+
+
+3D Model Title
+
+SOIC-14_L8.6-W3.9-H1.8-LS6.0-P1.27
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C22
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C22
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge48
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+Supplier Footprint
+
+0603
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C21
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C21
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge49
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+Supplier Footprint
+
+0603
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R13
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R13
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge50
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Supplier Footprint
+
+0603
+
+Value
+
+10kΩ
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+3D Model Title
+
+R0603
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R11
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R11
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge51
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Supplier Footprint
+
+0603
+
+Value
+
+10kΩ
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+3D Model Title
+
+R0603
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R12
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R12
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Name
+
+10kΩ
+
+Unique ID
+
+gge52
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Supplier Footprint
+
+0603
+
+Value
+
+10kΩ
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+3D Model Title
+
+R0603
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+RIO0
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+RIO0
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge59
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U6
+
+FOOTPRINT
+
+SOIC-8_L4.9-W3.9-P1.27-LS6.0-BL
+
+PARTTYPE
+
+SN65HVD75DR
+
+DESCRIPTION
+
+类型:收发器;数据速率:20Mbps;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+SN65HVD75DR
+
+Designator
+
+U6
+
+Device
+
+SN65HVD75DR
+
+Unique ID
+
+gge60
+
+Name
+
+SN65HVD75DR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+SN65HVD72, SN65HVD75, SN65HVD78 具有IEC ESD保护的3.3V电源RS-485
+
+Supplier Part
+
+C57928
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+SN65HVD75DR
+
+Supplier Footprint
+
+SOIC-8
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/gpn/sn65hvd75
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SOIC-8_L4.9-W3.9-H1.7-LS6.0-P1.27
+
+Type
+
+收发器
+
+Number of Drivers
+
+1
+
+Number of Receivers
+
+1
+
+Voltage - Supply
+
+3V~3.6V
+
+Data Rate
+
+20Mbps
+
+Number of Nodes
+
+213
+
+ESD Protect
+
+±15kV
+
+Operating Temperature
+
+-40℃~+125℃
+
+Quiescent Supply Current
+
+950uA
+
+Communication Mode
+
+半双工
+
+Description
+
+类型:收发器;数据速率:20Mbps;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C23
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C23
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge61
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R15
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+no
+
+Convert to PCB
+
+yes
+
+Designator
+
+R15
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge62
+
+Name
+
+120R
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+120R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R14
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R14
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Name
+
+10kΩ
+
+Unique ID
+
+gge63
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R16
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R16
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge64
+
+Name
+
+1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+1kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+AC0603FR-071KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C116692
+
+LCSC Part Name
+
+厚膜电阻 1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/AC0603FR-071KL/117946.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R17
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R17
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge65
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C24
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C24
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge66
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U9
+
+FOOTPRINT
+
+VQFN-HR-12_L2.5-W2.0-P0.50-BL
+
+PARTTYPE
+
+TPS2121RUXR
+
+DESCRIPTION
+
+TPS2121 支持无缝切换的 2.7V 至 22V、56mΩ、4.5A 电源多路复用器
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TPS2121RUXR
+
+Designator
+
+U9
+
+Device
+
+TPS2121RUXR
+
+Unique ID
+
+gge70
+
+Name
+
+TPS2121RUXR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+TPS2121RUXR
+
+Supplier Part
+
+C485916
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+TPS2121RUXR
+
+Supplier Footprint
+
+VQFN-HR-12(2x2.5)
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/gpn/tps2121
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+VQFN-HR-12_L2.5-W2.0-H1.0-P0.50-BL
+
+Description
+
+TPS2121 支持无缝切换的 2.7V 至 22V、56mΩ、4.5A 电源多路复用器
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R20
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R20
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge71
+
+Name
+
+9.1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+9.1kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-079K1L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C114639
+
+LCSC Part Name
+
+厚膜电阻 9.1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-079K1L/115883.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R21
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R21
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge72
+
+Name
+
+4.7kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+4.7kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-074K7L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C99782
+
+LCSC Part Name
+
+厚膜电阻 4.7kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-074K7L/100996.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R22
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R22
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge73
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R23
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R23
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Value
+
+4.7kΩ
+
+Name
+
+4.7kΩ
+
+Unique ID
+
+gge74
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-074K7L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C99782
+
+LCSC Part Name
+
+厚膜电阻 4.7kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-074K7L/100996.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R24
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R24
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge75
+
+Name
+
+10kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C98220
+
+Value
+
+10kΩ
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R25
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R25
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge76
+
+Name
+
+1MΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+1MΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-071ML
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C105578
+
+LCSC Part Name
+
+厚膜电阻 1MΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20181102/C105578_67A9388250AF143DE4682E62257D2969.pdf
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Overload Voltage (Max)
+
+75V
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C25
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C25
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge77
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R26
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R26
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge78
+
+Name
+
+23.7kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+23.7kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0723K7L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C165751
+
+LCSC Part Name
+
+厚膜电阻 23.7kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20180904/C276339_014E484F1DBA106FB92D45EABD5A1AC1.pdf
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Overload Voltage (Max)
+
+75V
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R27
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R27
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge79
+
+Name
+
+5.1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+5.1kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-075K1L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C105580
+
+LCSC Part Name
+
+厚膜电阻 5.1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-075K1L/106795.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R30
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R30
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Value
+
+23.7kΩ
+
+Name
+
+23.7kΩ
+
+Unique ID
+
+gge80
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0723K7L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C165751
+
+LCSC Part Name
+
+厚膜电阻 23.7kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20180904/C276339_014E484F1DBA106FB92D45EABD5A1AC1.pdf
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Overload Voltage (Max)
+
+75V
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R28
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R28
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Value
+
+5.1kΩ
+
+Name
+
+5.1kΩ
+
+Unique ID
+
+gge81
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-075K1L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C105580
+
+LCSC Part Name
+
+厚膜电阻 5.1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-075K1L/106795.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R29
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R29
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge82
+
+Name
+
+36kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+36kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0736KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C114619
+
+LCSC Part Name
+
+厚膜电阻 36kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://atta.szlcsc.com/upload/public/pdf/source/20180821/C275644_0D56F95EFF785E7D9A1FEF436B37DA78.pdf
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Overload Voltage (Max)
+
+75V
+
+Operating Temperature Range
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C26
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C26
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge84
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C27
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C27
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Name
+
+10uF
+
+Unique ID
+
+gge85
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+10uF
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10A106KP8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C19702
+
+LCSC Part Name
+
+10uF ±10% 10V
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10A106KP8NNNC/20411.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+10V
+
+Temperature Coefficient
+
+X5R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C28
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C28
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Name
+
+100nF
+
+Unique ID
+
+gge86
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C29
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C29
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Value
+
+10uF
+
+Name
+
+10uF
+
+Unique ID
+
+gge87
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10A106KP8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C19702
+
+LCSC Part Name
+
+10uF ±10% 10V
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10A106KP8NNNC/20411.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+10V
+
+Temperature Coefficient
+
+X5R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C30
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C30
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Name
+
+100nF
+
+Unique ID
+
+gge88
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C31
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C31
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Value
+
+10uF
+
+Name
+
+10uF
+
+Unique ID
+
+gge89
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10A106KP8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C19702
+
+LCSC Part Name
+
+10uF ±10% 10V
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10A106KP8NNNC/20411.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+10V
+
+Temperature Coefficient
+
+X5R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U7
+
+FOOTPRINT
+
+F2016
+
+PARTTYPE
+
+2016L300/16MR
+
+DESCRIPTION
+
+耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+2016L300/16MR
+
+Designator
+
+U7
+
+Device
+
+2016L300/16MR
+
+Unique ID
+
+gge91
+
+Name
+
+2016L300/16MR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+16V 3A 2016自恢复
+
+Supplier Part
+
+C315902
+
+Manufacturer
+
+Littelfuse(美国力特)
+
+Manufacturer Part
+
+2016L300/16MR
+
+Supplier Footprint
+
+2016
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/2016L300%252F16MR/297537.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+F2016
+
+Voltage - Max
+
+16V
+
+Current - Max
+
+40A
+
+Hold Current
+
+3A
+
+Trip Current
+
+5A
+
+Power Dissipation
+
+1.6W
+
+Resistance - Initial (Ri) (Min)
+
+15mΩ
+
+Resistance - Post Trip (R1) (Max)
+
+48mΩ
+
+Time to Trip(Max)
+
+10s
+
+Operating Temperature
+
+-40℃~+85℃
+
+Length
+
+-
+
+Width
+
+-
+
+Height
+
+-
+
+Pitch
+
+-
+
+Description
+
+耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U8
+
+FOOTPRINT
+
+F2016
+
+PARTTYPE
+
+2016L300/16MR
+
+DESCRIPTION
+
+耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+2016L300/16MR
+
+Designator
+
+U8
+
+Device
+
+2016L300/16MR
+
+Unique ID
+
+gge92
+
+Name
+
+2016L300/16MR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+16V 3A 2016自恢复
+
+Supplier Part
+
+C315902
+
+Manufacturer
+
+Littelfuse(美国力特)
+
+Manufacturer Part
+
+2016L300/16MR
+
+Supplier Footprint
+
+2016
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/2016L300%252F16MR/297537.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+F2016
+
+Voltage - Max
+
+16V
+
+Current - Max
+
+40A
+
+Hold Current
+
+3A
+
+Trip Current
+
+5A
+
+Power Dissipation
+
+1.6W
+
+Resistance - Initial (Ri) (Min)
+
+15mΩ
+
+Resistance - Post Trip (R1) (Max)
+
+48mΩ
+
+Time to Trip(Max)
+
+10s
+
+Operating Temperature
+
+-40℃~+85℃
+
+Length
+
+-
+
+Width
+
+-
+
+Height
+
+-
+
+Pitch
+
+-
+
+Description
+
+耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+FB1
+
+FOOTPRINT
+
+L0805
+
+PARTTYPE
+
+MPZ2012S601AT000
+
+DESCRIPTION
+
+阻抗@频率:600Ω@100MHz;误差:±25%;直流电阻(DCR):100mΩ;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+MPZ2012S601AT000
+
+Designator
+
+FB1
+
+Device
+
+MPZ2012S601AT000
+
+Unique ID
+
+gge97
+
+Name
+
+MPZ2012S601AT000
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+单路 0805磁珠 阻抗600Ω@100MHz
+
+Supplier Part
+
+C21519
+
+Manufacturer
+
+TDK
+
+Manufacturer Part
+
+MPZ2012S601AT000
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/MPZ2012S601AT000/22238.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0805_L2.0-W1.3-H0.6
+
+Impedance @ Frequency
+
+600Ω@100MHz
+
+Tolerance
+
+±25%
+
+DC Resistance(DCR)
+
+100mΩ
+
+Current Rating
+
+2A
+
+Number of Circuits
+
+1
+
+Operating Temperature
+
+-55℃~+125℃
+
+Description
+
+阻抗@频率:600Ω@100MHz;误差:±25%;直流电阻(DCR):100mΩ;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C32
+
+FOOTPRINT
+
+CAP-SMD_BD6.3-L6.6-W6.6-FD
+
+PARTTYPE
+
+BLA10V100M6.3*6 6.3TP
+
+DESCRIPTION
+
+容值:100uF;精度:±20%;额定电压:10V;纹波电流:90mA@120Hz;等效串联电阻(ESR):-;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+BLA 10VC100 M
+
+Designator
+
+C32
+
+Device
+
+BLA10V100M6.3*6 6.3TP
+
+Unique ID
+
+gge98
+
+Name
+
+100uF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100uF ±20% 10V
+
+Supplier Part
+
+C165631
+
+Manufacturer
+
+SAMYOUNG(韩国三莹)
+
+Manufacturer Part
+
+BLA10V100M6.3*6 6.3TP
+
+Supplier Footprint
+
+SMD,D6.3xL6mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/BLA10V100M6.3*6%25206.3TP/177014.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+CAP-SMD_BD6.3-L6.6-W6.6-FD
+
+Value
+
+100uF
+
+Tolerance
+
+±20%
+
+Voltage Rating
+
+10V
+
+Ripple Current
+
+90mA@120Hz
+
+Equivalent Series Resistance(ESR)
+
+-
+
+Diameter
+
+6.3mm
+
+Height - Seated (Max)
+
+6mm
+
+Lifetime
+
+5000hrs@105℃
+
+Operating Temperature
+
+-40℃~+105℃
+
+Description
+
+容值:100uF;精度:±20%;额定电压:10V;纹波电流:90mA@120Hz;等效串联电阻(ESR):-;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U10
+
+FOOTPRINT
+
+MSOP-10_L3.0-W3.0-P0.50-LS5.0-BL
+
+PARTTYPE
+
+INA226AIDGSR
+
+DESCRIPTION
+
+放大器数:-;共模电压:0V~36V;增益:-;带宽(-3db):-;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+INA226AIDGSR
+
+Designator
+
+U10
+
+Device
+
+INA226AIDGSR
+
+Unique ID
+
+gge100
+
+Name
+
+INA226AIDGSR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+高侧/低侧测量双向电流/功率监视器，具有I²C兼容接口
+
+Supplier Part
+
+C49851
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+INA226AIDGSR
+
+Supplier Footprint
+
+VSSOP-10
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/ds/symlink/ina226.pdf
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+MSOP-10_L3.0-W3.0-H1.1-LS5.0-P0.50
+
+Number of Channels
+
+-
+
+Vcm - Common Mode Voltage
+
+0V~36V
+
+Gain
+
+-
+
+Bandwidth
+
+-
+
+Ib - Input Bias Current
+
+100pA
+
+Vos - Input Offset Voltage
+
+2.5uV
+
+Operating Temperature
+
+-40℃~+125℃
+
+Differential Voltage
+
+±40V
+
+Single Supply
+
+2.7V~5.5V
+
+Dual Supply
+
+-
+
+Quiescent Current
+
+330uA
+
+Output Current
+
+-
+
+Input Offset Voltage Drift(Vos TC)
+
+0.1uV/℃
+
+Gain Error
+
+-
+
+Slew Rate
+
+-
+
+Common Mode Rejection Ratio (CMRR)
+
+140dB
+
+Noise density(eN)
+
+-
+
+Features
+
+可编程阈值告警；使能/关断功能；双向检测；数字输出接口；高边检测；低边检测；功率监控
+
+Description
+
+放大器数:-;共模电压:0V~36V;增益:-;带宽(-3db):-;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R31
+
+FOOTPRINT
+
+RES-SMD_L6.3-W3.2
+
+PARTTYPE
+
+CSSH2512FT10L0
+
+DESCRIPTION
+
+电阻类型:采样电阻;阻值:10mΩ;精度:±1%;功率:2W;温度系数:±25ppm/℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CSSH2512FT10L0
+
+Designator
+
+R31
+
+Device
+
+CSSH2512FT10L0
+
+Unique ID
+
+gge101
+
+Name
+
+10mΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+10mΩ ±1% 2W
+
+Supplier Part
+
+C346923
+
+Manufacturer
+
+SEI(Stackpole Electronics Inc.)
+
+Manufacturer Part
+
+CSSH2512FT10L0
+
+Supplier Footprint
+
+2512
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CSSH2512FT10L0/323589.html
+
+Supplier
+
+LCSC
+
+Type
+
+采样电阻
+
+Value
+
+10mΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+2W
+
+Temperature Coefficient
+
+±25ppm/℃
+
+Description
+
+电阻类型:采样电阻;阻值:10mΩ;精度:±1%;功率:2W;温度系数:±25ppm/℃;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C34
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C34
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge102
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C1591
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R32
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R32
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge103
+
+Name
+
+4.7kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+4.7kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-074K7L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C99782
+
+LCSC Part Name
+
+厚膜电阻 4.7kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-074K7L/100996.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R33
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R33
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Value
+
+4.7kΩ
+
+Name
+
+4.7kΩ
+
+Unique ID
+
+gge104
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-074K7L
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C99782
+
+LCSC Part Name
+
+厚膜电阻 4.7kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-074K7L/100996.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U12
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U12
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U13
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U13
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_0
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R38
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+FRC0603F3300TS
+
+DESCRIPTION
+
+电阻类型:厚膜电阻;阻值:330Ω;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+FRC0603F3300TS
+
+Designator
+
+R38
+
+Device
+
+FRC0603F3300TS
+
+Unique ID
+
+gge121
+
+Name
+
+330Ω
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+330Ω ±1% 100mW 厚膜电阻
+
+Supplier Part
+
+C2933198
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FRC0603F3300TS
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FRC0603F3300TS/3279300.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+330Ω
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Description
+
+电阻类型:厚膜电阻;阻值:330Ω;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C42
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C42
+
+Device
+
+CL10B104KB8NNNC
+
+Unique ID
+
+gge122
+
+Name
+
+100nF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C43
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C43
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge123
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U14
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U14
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_1
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C44
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C44
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge124
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U15
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U15
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_2
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C45
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C45
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge125
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U16
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U16
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_3
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C46
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C46
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge126
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U17
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U17
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_4
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U18
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U18
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_5
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U19
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U19
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_6
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U20
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U20
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_7
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C47
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C47
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge127
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C48
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C48
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge128
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C49
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C49
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge129
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C50
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C50
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge130
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U21
+
+FOOTPRINT
+
+LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B
+
+PARTTYPE
+
+WS2812B-B-V6
+
+DESCRIPTION
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+WS2812B-B-V6
+
+Designator
+
+U21
+
+Device
+
+WS2812B-B-V6
+
+LCSC Part Name
+
+WS2812B-B-V6
+
+Supplier Part
+
+C52941391
+
+Manufacturer
+
+worldsemi
+
+Manufacturer Part
+
+WS2812B-B-V6
+
+Supplier Footprint
+
+SMD5050-4P
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html
+
+Supplier
+
+LCSC
+
+Name
+
+WS2812B-B-V6
+
+Description
+
+WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级
+
+Unique ID
+
+gge120_8
+
+3D Model Title
+
+LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C51
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CL10B104KB8NNNC
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL10B104KB8NNNC
+
+Designator
+
+C51
+
+Device
+
+CL10B104KB8NNNC
+
+Name
+
+100nF
+
+Unique ID
+
+gge131
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C1591
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL10B104KB8NNNC
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U22
+
+FOOTPRINT
+
+CAP-SMD_BD6.3-L6.6-W6.6-LS7.2-FD
+
+PARTTYPE
+
+RST470UF10V029
+
+DESCRIPTION
+
+容值:470uF;精度:±20%;额定电压:10V;纹波电流:260mA@120Hz;等效串联电阻(ESR):-;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+RST470UF10V029
+
+Designator
+
+U22
+
+Device
+
+RST470UF10V029
+
+Unique ID
+
+gge132
+
+Name
+
+470uF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+470uF ±20% 10V
+
+Supplier Part
+
+C4747954
+
+Manufacturer
+
+KNSCHA(科尼盛)
+
+Manufacturer Part
+
+RST470UF10V029
+
+Supplier Footprint
+
+SMD,D6.3xL7.7mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RST470UF10V029/5320081.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+CAP-SMD_BD6.3-L6.6-W6.6-LS7.2-FD
+
+Value
+
+470uF
+
+Tolerance
+
+±20%
+
+Voltage Rating
+
+10V
+
+Ripple Current
+
+260mA@120Hz
+
+Equivalent Series Resistance(ESR)
+
+-
+
+Diameter
+
+6.3mm
+
+Height - Seated (Max)
+
+7.7mm
+
+Lifetime
+
+2000hrs@105℃
+
+Operating Temperature
+
+-40℃~+105℃
+
+Description
+
+容值:470uF;精度:±20%;额定电压:10V;纹波电流:260mA@120Hz;等效串联电阻(ESR):-;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+J4
+
+FOOTPRINT
+
+HDR-TH_8P-P2.54-V-F-R2-C4-S2.54
+
+PARTTYPE
+
+DS1023-2*4SF11
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+DS1023-2*4SF11
+
+Designator
+
+J4
+
+Device
+
+DS1023-2*4SF11
+
+LCSC Part Name
+
+黑色 2x4P 间距:2.54mm 直插
+
+Supplier Part
+
+C92271
+
+Manufacturer
+
+CONNFLY
+
+Manufacturer Part
+
+DS1023-2*4SF11
+
+Supplier Footprint
+
+插件,P=2.54mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/DS1023-2*4SF11/93464.html
+
+Supplier
+
+LCSC
+
+Holes Structure
+
+
+
+Pitch
+
+
+
+Row Spacing
+
+
+
+Mounting Type
+
+
+
+Number of Rows
+
+
+
+Number of Positions
+
+
+
+Current Rating
+
+
+
+Voltage Rating (Max)
+
+
+
+Holes Direction
+
+
+
+Insulation Height
+
+
+
+Contact Material
+
+
+
+Contact Plating
+
+
+
+Operating Temperature
+
+-40℃~+105℃
+
+Name
+
+DS1023-2*4SF11
+
+Description
+
+
+
+Unique ID
+
+gge15
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+3D Model Title
+
+HDR-TH_8P-P2.54-F-LI-2X4P
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U23
+
+FOOTPRINT
+
+SOIC-8_L4.9-W3.9-P1.27-LS6.0-BL-EP2.3
+
+PARTTYPE
+
+LMR16030SDDAR
+
+DESCRIPTION
+
+功能类型:降压型;工作电压:4.3V~60V;输出电压:800mV~50V;输出电流:3A;输出类型:可调;
+
+Component Kind
+
+Standard
+
+LCSC Part Name
+
+降压型 3A 4.3V~60V
+
+Supplier Part
+
+C136648
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+LMR16030SDDAR
+
+Supplier Footprint
+
+SO-8-EP
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/ds/symlink/lmr16030.pdf
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SOIC-8_L4.9-W3.9-P1.27-LS6.0-BL-EP2.3
+
+Function
+
+降压型
+
+Voltage - Supply
+
+4.3V~60V
+
+Output Voltage
+
+800mV~50V
+
+Output Current
+
+3A
+
+Frequency - Switching
+
+2.5MHz
+
+Operating Temperature
+
+-40℃~+125℃@(TJ)
+
+Synchronous Rectifier
+
+否
+
+Number of Outputs
+
+1
+
+Topology
+
+降压式
+
+Quiescent Current
+
+40uA
+
+Switch tube (built-in/external)
+
+内置
+
+Output Type
+
+可调
+
+Features
+
+轻载高效模式；频率同步；逐波限流；可调软启动；过流保护；工作状态指示
+
+Description
+
+功能类型:降压型;工作电压:4.3V~60V;输出电压:800mV~50V;输出电流:3A;输出类型:可调;
+
+Symbol
+
+LMR16030SDDAR
+
+Device
+
+LMR16030SDDAR
+
+Unique ID
+
+gge133
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+U23
+
+Name
+
+LMR16030SDDAR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U24
+
+FOOTPRINT
+
+F2920
+
+PARTTYPE
+
+2920L150/60GR
+
+DESCRIPTION
+
+耐压(Vmax):60V;最大电流(Imax):15A;保持电流(Ihold):1.5A;跳闸电流(Itrip):3A;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+60V 1.5A 2920自恢复
+
+Supplier Part
+
+C19078738
+
+Manufacturer
+
+LUTE(陆特)
+
+Manufacturer Part
+
+2920L150/60GR
+
+Supplier Footprint
+
+2920
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/2920L150%252F60GR/20283539.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+F2920-1
+
+Voltage - Max
+
+60V
+
+Current - Max
+
+15A
+
+Hold Current
+
+1.5A
+
+Trip Current
+
+3A
+
+Power Dissipation
+
+2.5W
+
+Resistance - Initial (Ri) (Min)
+
+35mΩ
+
+Resistance - Post Trip (R1) (Max)
+
+230mΩ
+
+Time to Trip(Max)
+
+2s
+
+Operating Temperature
+
+-40℃~+85℃
+
+Length
+
+-
+
+Width
+
+-
+
+Height
+
+-
+
+Pitch
+
+-
+
+Description
+
+耐压(Vmax):60V;最大电流(Imax):15A;保持电流(Ihold):1.5A;跳闸电流(Itrip):3A;
+
+Symbol
+
+2920L150/60GR
+
+Device
+
+2920L150/60GR
+
+Unique ID
+
+gge134
+
+Designator
+
+U24
+
+Name
+
+2920L150/60GR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+D6
+
+FOOTPRINT
+
+SMB_L4.4-W3.6-LS5.4-RD
+
+PARTTYPE
+
+SMBJ30A_C83851
+
+DESCRIPTION
+
+极性:单向;反向截止电压(Vrwm):30V;钳位电压:48.4V;峰值脉冲电流(Ipp):12.4A;峰值脉冲功率(Ppp):600W;击穿电压:33.3V;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+单向TVS 30V截止 峰值浪涌电流：12.4A
+
+Supplier Part
+
+C83851
+
+Manufacturer
+
+Littelfuse(美国力特)
+
+Manufacturer Part
+
+SMBJ30A
+
+Supplier Footprint
+
+DO-214AA
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/SMBJ30A/85018.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SMB_L4.4-W3.6-LS5.4-RD
+
+Polarity
+
+单向
+
+Reverse Stand-Off Voltage (Vrwm)
+
+30V
+
+Clamping Voltage
+
+48.4V
+
+Peak Pulse Current (Ipp)
+
+12.4A
+
+Peak Pulse Power Dissipation (Ppp)
+
+600W
+
+Voltage - Breakdown
+
+33.3V
+
+Reverse Leakage Current (Ir)
+
+1uA
+
+Operating Temperature
+
+-65℃~+150℃
+
+level of protection
+
+IEC 61000-4-4；IEC 61000-4-2
+
+Type
+
+TVS
+
+Description
+
+极性:单向;反向截止电压(Vrwm):30V;钳位电压:48.4V;峰值脉冲电流(Ipp):12.4A;峰值脉冲功率(Ppp):600W;击穿电压:33.3V;
+
+Symbol
+
+SMBJ30A_C83851
+
+Device
+
+SMBJ30A_C83851
+
+Designator
+
+D6
+
+Name
+
+SMBJ30A
+
+Unique ID
+
+gge135
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C52
+
+FOOTPRINT
+
+C1210
+
+PARTTYPE
+
+TCC1210X7R225K101MT
+
+DESCRIPTION
+
+容值:2.2uF;精度:±10%;额定电压:100V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+2.2uF ±10% 100V
+
+Supplier Part
+
+C5449052
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC1210X7R225K101MT
+
+Supplier Footprint
+
+1210
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC1210X7R225K101MT/6351015.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1210_L3.2-W2.5-H2.5
+
+Value
+
+2.2uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+100V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:2.2uF;精度:±10%;额定电压:100V;温度系数:X7R;
+
+Symbol
+
+TCC1210X7R225K101MT
+
+Device
+
+TCC1210X7R225K101MT
+
+Designator
+
+C52
+
+Name
+
+2.2uF
+
+Unique ID
+
+gge136
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C55
+
+FOOTPRINT
+
+C1210
+
+PARTTYPE
+
+TCC1210X7R225K101MT
+
+DESCRIPTION
+
+容值:2.2uF;精度:±10%;额定电压:100V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+2.2uF ±10% 100V
+
+Supplier Part
+
+C5449052
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC1210X7R225K101MT
+
+Supplier Footprint
+
+1210
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC1210X7R225K101MT/6351015.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1210_L3.2-W2.5-H2.5
+
+Value
+
+2.2uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+100V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:2.2uF;精度:±10%;额定电压:100V;温度系数:X7R;
+
+Symbol
+
+TCC1210X7R225K101MT
+
+Device
+
+TCC1210X7R225K101MT
+
+Designator
+
+C55
+
+Name
+
+2.2uF
+
+Unique ID
+
+gge139
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C53
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+TCC0805X7R104K101DT
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:100V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+100nF ±10% 100V
+
+Supplier Part
+
+C344180
+
+Manufacturer
+
+CCTC(三环)
+
+Manufacturer Part
+
+TCC0805X7R104K101DT
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/TCC0805X7R104K101DT/322732.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+100V
+
+Temperature Coefficient
+
+X7R
+
+Description
+
+容值:100nF;精度:±10%;额定电压:100V;温度系数:X7R;
+
+Symbol
+
+TCC0805X7R104K101DT
+
+Device
+
+TCC0805X7R104K101DT
+
+Designator
+
+C53
+
+Name
+
+100nF
+
+Unique ID
+
+gge137
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C54
+
+FOOTPRINT
+
+CAP-SMD_BD6.3-L6.6-W6.6-LS7.3-FD
+
+PARTTYPE
+
+RV63V47M6X8
+
+DESCRIPTION
+
+容值:47uF;精度:±20%;额定电压:63V;纹波电流:63mA@120Hz;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+47uF ±20% 63V
+
+Supplier Part
+
+C48971005
+
+Manufacturer
+
+JIERR(捷而瑞)
+
+Manufacturer Part
+
+RV63V47M6X8
+
+Supplier Footprint
+
+SMD,D6.3xL7.7mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RV63V47M6X8/51296210.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+CAP-SMD_BD6.3-L6.6-W6.6-LS7.3-FD
+
+Value
+
+47uF
+
+Tolerance
+
+±20%
+
+Voltage Rating
+
+63V
+
+Ripple Current
+
+63mA@120Hz
+
+Diameter
+
+6.3mm
+
+Height - Seated (Max)
+
+7.7mm
+
+Lifetime
+
+2000hrs@105℃
+
+Operating Temperature
+
+-40℃~+105℃
+
+Description
+
+容值:47uF;精度:±20%;额定电压:63V;纹波电流:63mA@120Hz;
+
+Symbol
+
+RV63V47M6X8
+
+Device
+
+RV63V47M6X8
+
+Designator
+
+C54
+
+Name
+
+47uF
+
+Unique ID
+
+gge138
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C56
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CC0603KRX7R9BB104
+
+DESCRIPTION
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CC0603KRX7R9BB104
+
+Device
+
+CC0603KRX7R9BB104
+
+Unique ID
+
+gge140
+
+Designator
+
+C56
+
+LCSC Part Name
+
+100nF ±10% 50V
+
+Supplier Part
+
+C14663
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+CC0603KRX7R9BB104
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CC0603KRX7R9BB104/15331.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Name
+
+100nF
+
+Description
+
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R39
+
+FOOTPRINT
+
+R0402
+
+PARTTYPE
+
+RC0402FR-0749K9L
+
+DESCRIPTION
+
+电阻类型:厚膜电阻;阻值:49.9kΩ;精度:±1%;功率:62.5mW;工作电压:50V;温度系数:±100ppm/℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+厚膜电阻 49.9kΩ ±1% 62.5mW
+
+Supplier Part
+
+C137969
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0402FR-0749K9L
+
+Supplier Footprint
+
+0402
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0402FR-0749K9L/149285.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0402_L1.0-W0.5-H0.4
+
+Type
+
+厚膜电阻
+
+Value
+
+49.9kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+62.5mW
+
+Voltage-Supply(Max)
+
+50V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Description
+
+电阻类型:厚膜电阻;阻值:49.9kΩ;精度:±1%;功率:62.5mW;工作电压:50V;温度系数:±100ppm/℃;
+
+Symbol
+
+RC0402FR-0749K9L
+
+Device
+
+RC0402FR-0749K9L
+
+Unique ID
+
+gge141
+
+Designator
+
+R39
+
+Name
+
+49.9kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+L2
+
+FOOTPRINT
+
+IND-SMD_L6.6-W6.4_XAL6060-103ME
+
+PARTTYPE
+
+XAL6060-822MEC
+
+DESCRIPTION
+
+电感值:8.2uH;精度:±20%;额定电流:6A;饱和电流(Isat):8.4A;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+AEC-Q200
+
+Supplier Part
+
+C19191627
+
+Manufacturer
+
+Coilcraft(线艺)
+
+Manufacturer Part
+
+XAL6060-822MEC
+
+Supplier Footprint
+
+SMD,6.5x6.3mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.coilcraft.com/getmedia/ea51f14b-7f32-4dc6-8dfe-d4b70549040f/xal60xx.pdf
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+IND-SMD_L6.6-W6.4_XAL6060-103ME
+
+Value
+
+8.2uH
+
+Tolerance
+
+±20%
+
+Current Rating
+
+6A
+
+Current - Saturation(Isat)
+
+8.4A
+
+DC Resistance(DCR)
+
+24mΩ
+
+Description
+
+电感值:8.2uH;精度:±20%;额定电流:6A;饱和电流(Isat):8.4A;
+
+Symbol
+
+XAL6060-822MEC
+
+Device
+
+XAL6060-822MEC
+
+Unique ID
+
+gge142
+
+Designator
+
+L2
+
+Name
+
+8.2uH
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R34
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+FRC0603F1003TS
+
+DESCRIPTION
+
+电阻类型:厚膜电阻;阻值:100kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+100kΩ ±1% 100mW 厚膜电阻
+
+Supplier Part
+
+C2906980
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FRC0603F1003TS
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FRC0603F1003TS/3180493.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+100kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Description
+
+电阻类型:厚膜电阻;阻值:100kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+
+Symbol
+
+FRC0603F1003TS
+
+Device
+
+FRC0603F1003TS
+
+Unique ID
+
+gge143
+
+Designator
+
+R34
+
+Name
+
+100kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R35
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+0603WAF1782T5E
+
+DESCRIPTION
+
+电阻类型:厚膜电阻;阻值:17.8kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+17.8kΩ ±1% 100mW 厚膜电阻
+
+Supplier Part
+
+C22821
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+0603WAF1782T5E
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/0603WAF1782T5E/23548.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+17.8kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Description
+
+电阻类型:厚膜电阻;阻值:17.8kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+
+Symbol
+
+0603WAF1782T5E
+
+Device
+
+0603WAF1782T5E
+
+Unique ID
+
+gge144
+
+Designator
+
+R35
+
+Name
+
+17.8kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C35
+
+FOOTPRINT
+
+C1206
+
+PARTTYPE
+
+FCC1206X226K160HT
+
+DESCRIPTION
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+22uF ±10% 16V
+
+Supplier Part
+
+C5137635
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FCC1206X226K160HT
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FCC1206X226K160HT/5747087.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1206_L3.2-W1.6-H1.3
+
+Value
+
+22uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+16V
+
+Temperature Coefficient
+
+X5R
+
+Description
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Symbol
+
+FCC1206X226K160HT
+
+Device
+
+FCC1206X226K160HT
+
+Unique ID
+
+gge145
+
+Designator
+
+C35
+
+Name
+
+22uF
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C36
+
+FOOTPRINT
+
+C1206
+
+PARTTYPE
+
+FCC1206X226K160HT
+
+DESCRIPTION
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+22uF ±10% 16V
+
+Supplier Part
+
+C5137635
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FCC1206X226K160HT
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FCC1206X226K160HT/5747087.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1206_L3.2-W1.6-H1.3
+
+Value
+
+22uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+16V
+
+Temperature Coefficient
+
+X5R
+
+Description
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Symbol
+
+FCC1206X226K160HT
+
+Device
+
+FCC1206X226K160HT
+
+Designator
+
+C36
+
+Name
+
+22uF
+
+Unique ID
+
+gge146
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C37
+
+FOOTPRINT
+
+C1206
+
+PARTTYPE
+
+FCC1206X226K160HT
+
+DESCRIPTION
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+22uF ±10% 16V
+
+Supplier Part
+
+C5137635
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FCC1206X226K160HT
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FCC1206X226K160HT/5747087.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1206_L3.2-W1.6-H1.3
+
+Value
+
+22uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+16V
+
+Temperature Coefficient
+
+X5R
+
+Description
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Symbol
+
+FCC1206X226K160HT
+
+Device
+
+FCC1206X226K160HT
+
+Designator
+
+C37
+
+Name
+
+22uF
+
+Unique ID
+
+gge147
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C38
+
+FOOTPRINT
+
+C1206
+
+PARTTYPE
+
+FCC1206X226K160HT
+
+DESCRIPTION
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+22uF ±10% 16V
+
+Supplier Part
+
+C5137635
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FCC1206X226K160HT
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FCC1206X226K160HT/5747087.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1206_L3.2-W1.6-H1.3
+
+Value
+
+22uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+16V
+
+Temperature Coefficient
+
+X5R
+
+Description
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Symbol
+
+FCC1206X226K160HT
+
+Device
+
+FCC1206X226K160HT
+
+Designator
+
+C38
+
+Name
+
+22uF
+
+Unique ID
+
+gge148
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+D3
+
+FOOTPRINT
+
+SMA_L4.3-W2.6-LS5.0-RD
+
+PARTTYPE
+
+SS510_C18199171
+
+DESCRIPTION
+
+二极管配置:独立式;正向压降(Vf):850mV@5A;直流反向耐压(Vr):100V;整流电流:5A;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+LCSC Part Name
+
+电压:100V 电流:5A
+
+Supplier Part
+
+C18199171
+
+Manufacturer
+
+R+O(宏嘉诚)
+
+Manufacturer Part
+
+SS510
+
+Supplier Footprint
+
+SMA(DO-214AC)
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/SS510/19354403.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SMA_L4.3-W2.6-LS5.0-RD
+
+Diode Configuration
+
+独立式
+
+Voltage - Forward(Vf@If)
+
+850mV@5A
+
+Voltage - DC Reverse(Vr)
+
+100V
+
+Current - Rectified
+
+5A
+
+Reverse Leakage Current (Ir)
+
+50uA@100V
+
+Operating Junction Temperature Range
+
+-55℃~+150℃
+
+Non-Repetitive Peak Forward Surge Current
+
+120A
+
+Description
+
+二极管配置:独立式;正向压降(Vf):850mV@5A;直流反向耐压(Vr):100V;整流电流:5A;
+
+Symbol
+
+SS510_C18199171
+
+Device
+
+SS510_C18199171
+
+Unique ID
+
+gge149
+
+Designator
+
+D3
+
+Name
+
+SS510
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U25
+
+FOOTPRINT
+
+MSOP-8_L3.0-W3.0-P0.65-LS5.0-BL
+
+PARTTYPE
+
+TPS62160DGKR
+
+DESCRIPTION
+
+功能类型:降压型;工作电压:3V~17V;输出电压:900mV~6V;输出电流:1A;输出类型:可调;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TPS62160DGKR
+
+Designator
+
+U25
+
+Device
+
+TPS62160DGKR
+
+Unique ID
+
+gge156
+
+Name
+
+TPS62160DGKR
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+降压型 1A 3V~17V
+
+Supplier Part
+
+C60726
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+TPS62160DGKR
+
+Supplier Footprint
+
+MSOP-8
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/gpn/tps62160
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+MSOP-8_L3.0-W3.0-P0.65-LS5.0-BL
+
+Function
+
+降压型
+
+Voltage - Supply
+
+3V~17V
+
+Output Voltage
+
+900mV~6V
+
+Output Current
+
+1A
+
+Frequency - Switching
+
+2.25MHz
+
+Operating Temperature
+
+-40℃~+85℃@(TA)
+
+Synchronous Rectifier
+
+是
+
+Number of Outputs
+
+1
+
+Topology
+
+降压式
+
+Quiescent Current
+
+17uA
+
+Switch tube (built-in/external)
+
+内置
+
+Output Type
+
+可调
+
+Features
+
+轻载高效模式；过流保护；工作状态指示
+
+Description
+
+功能类型:降压型;工作电压:3V~17V;输出电压:900mV~6V;输出电流:1A;输出类型:可调;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C39
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C39
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge157
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+10µF
+
+Name
+
+10µF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C40
+
+FOOTPRINT
+
+C0603
+
+PARTTYPE
+
+CAP_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+C40
+
+Symbol
+
+Capacitance
+
+Device
+
+CAP_0603
+
+Unique ID
+
+gge158
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+C0603_L1.6-W0.8-H0.8
+
+Value
+
+100nF
+
+Name
+
+100nF
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C2
+
+FOOTPRINT
+
+C1206
+
+PARTTYPE
+
+FCC1206X226K160HT
+
+DESCRIPTION
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+FCC1206X226K160HT
+
+Designator
+
+C2
+
+Device
+
+FCC1206X226K160HT
+
+Unique ID
+
+gge160
+
+LCSC Part Name
+
+22uF ±10% 16V
+
+Supplier Part
+
+C5137635
+
+Manufacturer
+
+FOJAN(富捷)
+
+Manufacturer Part
+
+FCC1206X226K160HT
+
+Supplier Footprint
+
+1206
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FCC1206X226K160HT/5747087.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C1206_L3.2-W1.6-H1.3
+
+Value
+
+22uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+16V
+
+Temperature Coefficient
+
+X5R
+
+Name
+
+22uF
+
+Description
+
+容值:22uF;精度:±10%;额定电压:16V;温度系数:X5R;
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R7
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R7
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge161
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Value
+
+312kΩ
+
+Name
+
+312kΩ
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R36
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R36
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge162
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Value
+
+100K
+
+Name
+
+100K
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+LED1
+
+FOOTPRINT
+
+LED0603-RD
+
+PARTTYPE
+
+LTST-C190KSKT
+
+DESCRIPTION
+
+灯头类型:-;发光颜色:黄色;正向压降(Vf):2.1V;功率:75mW;正向电流:20mA;波长:584.5nm~597nm;二极管配置:独立二极管;透镜颜色:无色透明透镜;色温:-;发光强度:104mcd;发光角度:130°;载带方式:-;工作温度:-30℃~+85℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+LTST-C190KSKT
+
+Designator
+
+LED1
+
+Device
+
+LTST-C190KSKT
+
+Name
+
+LTST-C190KSKT
+
+Unique ID
+
+gge163
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+黄灯
+
+Supplier Part
+
+C125095
+
+Manufacturer
+
+LITEON(光宝)
+
+Manufacturer Part
+
+LTST-C190KSKT
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/LTST-C190KSKT/136371.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+LED0603-RD
+
+Lamp Holder Type
+
+-
+
+Illumination Color
+
+黄色
+
+Voltage - Forward(Vf)
+
+2.1V
+
+Power(Watts)
+
+75mW
+
+Forward Current
+
+20mA
+
+Wavelength - Dominant
+
+584.5nm~597nm
+
+Peak Wavelength
+
+588nm
+
+Diode Configuration
+
+独立二极管
+
+Lens Color
+
+无色透明透镜
+
+Color Temperature
+
+-
+
+Luminous Intensity
+
+104mcd
+
+Viewing Angle
+
+130°
+
+Mounting Style
+
+-
+
+Operating Temperature
+
+-30℃~+85℃
+
+Description
+
+灯头类型:-;发光颜色:黄色;正向压降(Vf):2.1V;功率:75mW;正向电流:20mA;波长:584.5nm~597nm;二极管配置:独立二极管;透镜颜色:无色透明透镜;色温:-;发光强度:104mcd;发光角度:130°;载带方式:-;工作温度:-30℃~+85℃;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R37
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R37
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge164
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Value
+
+2.2kΩ
+
+Name
+
+2.2kΩ
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U2
+
+FOOTPRINT
+
+IND-SMD_L2.0-W1.6-B
+
+PARTTYPE
+
+FTC201610S2R2MBCA
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+FTC201610S2R2MBCA
+
+Designator
+
+U2
+
+Device
+
+FTC201610S2R2MBCA
+
+Unique ID
+
+gge165
+
+Name
+
+FTC201610S2R2MBCA
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+2.2uH ±20% 3A
+
+Supplier Part
+
+C5832344
+
+Manufacturer
+
+cjiang(长江微电)
+
+Manufacturer Part
+
+FTC201610S2R2MBCA
+
+Supplier Footprint
+
+0806
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/FTC201610S2R2MBCA/6763464.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+IND-SMD_L2.0-W1.6-B
+
+Value
+
+
+
+Tolerance
+
+
+
+Current Rating
+
+
+
+Current - Saturation(Isat)
+
+
+
+DC Resistance(DCR)
+
+
+
+Type
+
+
+
+Description
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+JIN1
+
+FOOTPRINT
+
+HDR-TH_6P-P2.54-H-M-W10.3
+
+PARTTYPE
+
+HX PZ2.54-1x6P WZ
+
+DESCRIPTION
+
+插针结构:1x6P;间距:2.54mm;行距:-;圆针/方针:方针;安装方式:弯插;排数:单排;总PIN位数:6P;额定电流:3A;额定电压:1kV;配合针长度:6mm;塑高:2.5mm;端接针长度:3mm;触头材质:黄铜;触头镀层:金;工作温度:-40℃~+105℃;颜色:黑色;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+HX PZ2.54-1X6P WZ
+
+Designator
+
+JIN1
+
+Device
+
+HX PZ2.54-1x6P WZ
+
+Unique ID
+
+gge166
+
+Name
+
+HX PZ2.54-1x6P WZ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+1x6P 间距:2.54mm 方针 弯插
+
+Supplier Part
+
+C32713265
+
+Manufacturer
+
+hanxia(韩下)
+
+Manufacturer Part
+
+HX PZ2.54-1x6P WZ
+
+Supplier Footprint
+
+弯插,P=2.54mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/HX%2520PZ2.54-1x6P%2520WZ/34444545.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+HDR-TH_6P-P2.54-M-WI-1X6P
+
+Pin Structure
+
+1x6P
+
+Pitch
+
+2.54mm
+
+Row Spacing
+
+-
+
+Circluar Pins/Square Pins
+
+方针
+
+Mounting Type
+
+弯插
+
+Number of Rows
+
+单排
+
+Number of Pins
+
+6P
+
+Current Rating
+
+3A
+
+Voltage Rating (Max)
+
+1kV
+
+Length of Mating Pin
+
+6mm
+
+Insulation Height
+
+2.5mm
+
+Length of End Connection Pin
+
+3mm
+
+Contact Material
+
+黄铜
+
+Contact Plating
+
+金
+
+Operating Temperature
+
+-40℃~+105℃
+
+Color
+
+黑色
+
+Supplementary Features
+
+-
+
+Description
+
+插针结构:1x6P;间距:2.54mm;行距:-;圆针/方针:方针;安装方式:弯插;排数:单排;总PIN位数:6P;额定电流:3A;额定电压:1kV;配合针长度:6mm;塑高:2.5mm;端接针长度:3mm;触头材质:黄铜;触头镀层:金;工作温度:-40℃~+105℃;颜色:黑色;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+JOUT1
+
+FOOTPRINT
+
+HDR-TH_6P-P2.54-H-F-W10.0-N
+
+PARTTYPE
+
+LAIL-PM2.54-6P-W
+
+DESCRIPTION
+
+插孔结构:1x6P;间距:2.54mm;圆孔/方孔:方孔;安装方式:弯插;排数:单排;总孔位数:6P;额定电流:3A;额定电压:250V;插孔方向:顶部;塑高:8.5mm;触头材质:黄铜;触头镀层:金;工作温度:-25℃~+80℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Name
+
+LAIL-PM2.54-6P-W
+
+Designator
+
+JOUT1
+
+Symbol
+
+LAIL-PM2.54-6P-W
+
+Device
+
+LAIL-PM2.54-6P-W
+
+Unique ID
+
+gge167
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+1x6P 间距:2.54mm 弯插
+
+Supplier Part
+
+C54973819
+
+Manufacturer
+
+LAILAN(莱联)
+
+Manufacturer Part
+
+LAIL-PM2.54-6P-W
+
+Supplier Footprint
+
+弯插,P=2.54mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/LAIL-PM2.54-6P-W/58554897.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+HDR-TH_6P-P2.54-H-F-W10.0-N
+
+Holes Structure
+
+1x6P
+
+Pitch
+
+2.54mm
+
+Circular Hole / Square Hole
+
+方孔
+
+Mounting Type
+
+弯插
+
+Number of Rows
+
+单排
+
+Number of Positions
+
+6P
+
+Current Rating
+
+3A
+
+Voltage Rating (Max)
+
+250V
+
+Holes Direction
+
+顶部
+
+Insulation Height
+
+8.5mm
+
+Contact Material
+
+黄铜
+
+Contact Plating
+
+金
+
+Operating Temperature
+
+-25℃~+80℃
+
+Description
+
+插孔结构:1x6P;间距:2.54mm;圆孔/方孔:方孔;安装方式:弯插;排数:单排;总孔位数:6P;额定电流:3A;额定电压:250V;插孔方向:顶部;塑高:8.5mm;触头材质:黄铜;触头镀层:金;工作温度:-25℃~+80℃;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+Q1
+
+FOOTPRINT
+
+SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR
+
+PARTTYPE
+
+2N7002
+
+DESCRIPTION
+
+数量:1个N沟道;漏源电压(Vdss):60V;连续漏极电流(Id):115mA;导通电阻(RDS(on)):7.5Ω@10V,500mA;耗散功率(Pd):200mW;阈值电压(Vgs(th)):2.5V;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+2N7002_C727149
+
+Designator
+
+Q1
+
+Device
+
+2N7002
+
+Unique ID
+
+gge67
+
+Name
+
+2N7002
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+1个N沟道 耐压:60V 电流:115mA
+
+Supplier Part
+
+C727149
+
+Manufacturer
+
+TWGMC(迪嘉)
+
+Manufacturer Part
+
+2N7002
+
+Supplier Footprint
+
+SOT-23
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/2N7002/774254.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95
+
+Number
+
+1个N沟道
+
+Drain to Source Voltage
+
+60V
+
+Current - Continuous Drain(Id)
+
+115mA
+
+RDS(on)
+
+7.5Ω@10V,500mA
+
+Pd - Power Dissipation
+
+200mW
+
+Gate Threshold Voltage (Vgs(th))
+
+2.5V
+
+Gate Charge(Qg)
+
+-
+
+Input Capacitance(Ciss)
+
+50pF@25V
+
+Reverse Transfer Capacitance (Crss@Vds)
+
+5pF@25V
+
+Operating Temperature
+
+-55℃~+150℃
+
+Description
+
+数量:1个N沟道;漏源电压(Vdss):60V;连续漏极电流(Id):115mA;导通电阻(RDS(on)):7.5Ω@10V,500mA;耗散功率(Pd):200mW;阈值电压(Vgs(th)):2.5V;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R18
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R18
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge68
+
+Name
+
+1kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+1kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+AC0603FR-071KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C116692
+
+LCSC Part Name
+
+厚膜电阻 1kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/AC0603FR-071KL/117946.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R19
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+Res_0603
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Designator
+
+R19
+
+Symbol
+
+电阻
+
+Device
+
+Res_0603
+
+Unique ID
+
+gge69
+
+Name
+
+100kΩ
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+Value
+
+100kΩ
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-07100KL
+
+Supplier
+
+LCSC
+
+Supplier Part
+
+C14675
+
+LCSC Part Name
+
+厚膜电阻 100kΩ ±1% 100mW
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-07100KL/15343.html
+
+Tolerance
+
+±1%
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Power(Watts)
+
+100mW
+
+Type
+
+厚膜电阻
+
+Voltage-Supply(Max)
+
+75V
+
+Operating Temperature
+
+-55℃~+155℃
+
+Supplier Footprint
+
+0603
+
+3D Model Title
+
+R0603
+
+Description
+
+
+
+Sim Model
+
+
+
+Sim Model Title
+
+
+
+Sim Model Path
+
+
+
+NGSpice Model
+
+
+
+NGSpice Model Title
+
+
+
+NGspice Model Path
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+D4
+
+FOOTPRINT
+
+SOT-23-3_L2.9-W1.6-P1.90-LS2.8-BR
+
+PARTTYPE
+
+SM712_C502564
+
+DESCRIPTION
+
+极性:-;反向截止电压(Vrwm):12V;钳位电压:26V;峰值脉冲电流(Ipp):17A;峰值脉冲功率(Ppp):400W;击穿电压:13.3V;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+SM712_C502564
+
+Designator
+
+D4
+
+Device
+
+SM712_C502564
+
+Name
+
+SM712
+
+Unique ID
+
+gge94
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+300W 12V 7V 双电压 ESD管
+
+Supplier Part
+
+C502564
+
+Manufacturer
+
+MDD(辰达半导体)
+
+Manufacturer Part
+
+SM712
+
+Supplier Footprint
+
+SOT-23
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/SM712/515070.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+SOT-23-3L_L2.9-W1.6-H1.1-LS2.8-P0.95
+
+Polarity
+
+-
+
+Reverse Stand-Off Voltage (Vrwm)
+
+12V
+
+Clamping Voltage
+
+26V
+
+Peak Pulse Current (Ipp)
+
+17A
+
+Peak Pulse Power Dissipation (Ppp)
+
+400W
+
+Voltage - Breakdown
+
+13.3V
+
+Reverse Leakage Current (Ir)
+
+1uA
+
+Number of Channels
+
+双路
+
+Operating Temperature
+
+-55℃~+150℃
+
+level of protection
+
+IEC 61000-4-2；IEC 61000-4-4；IEC 61000-4-5
+
+Type
+
+ESD
+
+Junction Capacitance
+
+75pF；45pF
+
+Description
+
+极性:-;反向截止电压(Vrwm):12V;钳位电压:26V;峰值脉冲电流(Ipp):17A;峰值脉冲功率(Ppp):400W;击穿电压:13.3V;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+JIN3
+
+FOOTPRINT
+
+HDR-TH_3P-P2.54-H-M-W10.4
+
+PARTTYPE
+
+PZ254R-11-03P
+
+DESCRIPTION
+
+插针结构:1x3P;间距:2.54mm;行距:-;圆针/方针:方针;安装方式:弯插;排数:单排;总PIN位数:3P;额定电流:3A;额定电压:250V;配合针长度:6mm;塑高:2.5mm;端接针长度:-;触头材质:黄铜;触头镀层:-;工作温度:-40℃~+105℃;颜色:黑色;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+PZ254R-11-03P
+
+Designator
+
+JIN3
+
+Device
+
+PZ254R-11-03P
+
+Unique ID
+
+gge168
+
+Name
+
+PZ254R-11-03P
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+1x3P 间距:2.54mm 方针 弯插
+
+Supplier Part
+
+C492411
+
+Manufacturer
+
+XFCN(兴飞)
+
+Manufacturer Part
+
+PZ254R-11-03P
+
+Supplier Footprint
+
+弯插,P=2.54mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/PZ254R-11-03P/502967.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+HDR-TH_3P-P2.54-M-WI-1X3P
+
+Pin Structure
+
+1x3P
+
+Pitch
+
+2.54mm
+
+Row Spacing
+
+-
+
+Circluar Pins/Square Pins
+
+方针
+
+Mounting Type
+
+弯插
+
+Number of Rows
+
+单排
+
+Number of Pins
+
+3P
+
+Current Rating
+
+3A
+
+Voltage Rating (Max)
+
+250V
+
+Length of Mating Pin
+
+6mm
+
+Insulation Height
+
+2.5mm
+
+Length of End Connection Pin
+
+-
+
+Contact Material
+
+黄铜
+
+Contact Plating
+
+-
+
+Operating Temperature
+
+-40℃~+105℃
+
+Color
+
+黑色
+
+Description
+
+插针结构:1x3P;间距:2.54mm;行距:-;圆针/方针:方针;安装方式:弯插;排数:单排;总PIN位数:3P;额定电流:3A;额定电压:250V;配合针长度:6mm;塑高:2.5mm;端接针长度:-;触头材质:黄铜;触头镀层:-;工作温度:-40℃~+105℃;颜色:黑色;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+JOUT3
+
+FOOTPRINT
+
+HDR-TH_3P-P2.54-H-F-W10.3-N
+
+PARTTYPE
+
+LAIL-PM2.54-3P-W
+
+DESCRIPTION
+
+插孔结构:1x3P;间距:2.54mm;圆孔/方孔:方孔;安装方式:弯插;排数:单排;总孔位数:3P;额定电流:3A;额定电压:250V;插孔方向:顶部;塑高:8.5mm;触头材质:黄铜;触头镀层:金;工作温度:-25℃~+80℃;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Name
+
+LAIL-PM2.54-3P-W
+
+Designator
+
+JOUT3
+
+Symbol
+
+LAIL-PM2.54-3P-W
+
+Device
+
+LAIL-PM2.54-3P-W
+
+Unique ID
+
+gge169
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+LCSC Part Name
+
+1x3P 间距:2.54mm 弯插
+
+Supplier Part
+
+C54973822
+
+Manufacturer
+
+LAILAN(莱联)
+
+Manufacturer Part
+
+LAIL-PM2.54-3P-W
+
+Supplier Footprint
+
+弯插,P=2.54mm
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/LAIL-PM2.54-3P-W/58554900.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+HDR-TH_3P-P2.54-H-F-W10.3-N
+
+Holes Structure
+
+1x3P
+
+Pitch
+
+2.54mm
+
+Circular Hole / Square Hole
+
+方孔
+
+Mounting Type
+
+弯插
+
+Number of Rows
+
+单排
+
+Number of Positions
+
+3P
+
+Current Rating
+
+3A
+
+Voltage Rating (Max)
+
+250V
+
+Holes Direction
+
+顶部
+
+Insulation Height
+
+8.5mm
+
+Contact Material
+
+黄铜
+
+Contact Plating
+
+金
+
+Operating Temperature
+
+-25℃~+80℃
+
+Description
+
+插孔结构:1x3P;间距:2.54mm;圆孔/方孔:方孔;安装方式:弯插;排数:单排;总孔位数:3P;额定电流:3A;额定电压:250V;插孔方向:顶部;塑高:8.5mm;触头材质:黄铜;触头镀层:金;工作温度:-25℃~+80℃;
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+U201
+
+FOOTPRINT
+
+VSON-10_L3.0-W3.0-P0.50-TL-EP-1
+
+PARTTYPE
+
+TPS26621DRCR
+
+DESCRIPTION
+
+通道数:1;工作电压:4.5V~60V;安装方式:表面安装;
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+TPS26621DRCR
+
+Designator
+
+U201
+
+Device
+
+TPS26621DRCR
+
+LCSC Part Name
+
+具有集成输入和输出反极性保护功能的60V800mA工业电子保险丝
+
+Supplier Part
+
+C1848341
+
+Manufacturer
+
+TI(德州仪器)
+
+Manufacturer Part
+
+TPS26621DRCR
+
+Supplier Footprint
+
+SON-10(3x3)
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://www.ti.com/cn/lit/ds/symlink/tps2662.pdf
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+VSON-10_L3.0-W3.0-P0.50-TL-EP-1
+
+FET Type
+
+内置FET
+
+Number of Lines
+
+1
+
+Threshold Voltage
+
+-
+
+Trigger Current
+
+25mA~880mA
+
+Voltage Rating
+
+4.5V~60V
+
+Reset Voltage
+
+-
+
+Mounting Type
+
+表面安装
+
+Peak Output Current(Source)
+
+-
+
+Peak Output Current(Sink)
+
+-
+
+RDS(on)
+
+478mΩ
+
+Operating temperature
+
+-40℃~+125℃
+
+Length
+
+3mm
+
+Width
+
+3mm
+
+Height
+
+-
+
+Features
+
+热保护；过流保护；过压钳位保护；欠压锁定；短路保护
+
+Name
+
+TPS26621DRCR
+
+Description
+
+通道数:1;工作电压:4.5V~60V;安装方式:表面安装;
+
+Unique ID
+
+HP-U201
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R201
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+0603WAF2203T5E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+0603WAF2203T5E
+
+Designator
+
+R201
+
+Device
+
+0603WAF2203T5E
+
+LCSC Part Name
+
+220kΩ ±1% 100mW 厚膜电阻
+
+Supplier Part
+
+C22961
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+0603WAF2203T5E
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/0603WAF2203T5E/23688.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+220kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Name
+
+220kΩ
+
+Description
+
+
+
+Unique ID
+
+HP-R201
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R202
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+0603WAF4701T5E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+0603WAF4701T5E
+
+Designator
+
+R202
+
+Device
+
+0603WAF4701T5E
+
+LCSC Part Name
+
+厚膜电阻 4.7kΩ ±1%
+
+Supplier Part
+
+C23162
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+0603WAF4701T5E
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/0603WAF4701T5E/23889.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+4.7kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Name
+
+4.7kΩ
+
+Description
+
+
+
+Unique ID
+
+HP-R202
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R204
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+RC0603FR-0710KL
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+RC0603FR-0710KL
+
+Designator
+
+R204
+
+Device
+
+RC0603FR-0710KL
+
+LCSC Part Name
+
+厚膜电阻 10kΩ ±1% 100mW
+
+Supplier Part
+
+C98220
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+RC0603FR-0710KL
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/RC0603FR-0710KL/99429.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+10kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Name
+
+10kΩ
+
+Description
+
+
+
+Unique ID
+
+HP-R204
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R205
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+0603WAF4422T5E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+0603WAF4422T5E
+
+Designator
+
+R205
+
+Device
+
+0603WAF4422T5E
+
+LCSC Part Name
+
+厚膜电阻 44.2kΩ ±1%
+
+Supplier Part
+
+C23056
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+0603WAF4422T5E
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/0603WAF4422T5E/23783.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+44.2kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Name
+
+44.2kΩ
+
+Description
+
+
+
+Unique ID
+
+HP-R205
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+R206
+
+FOOTPRINT
+
+R0603
+
+PARTTYPE
+
+0603WAF4702T5E
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+0603WAF4702T5E
+
+Designator
+
+R206
+
+Device
+
+0603WAF4702T5E
+
+LCSC Part Name
+
+厚膜电阻 47kΩ ±1%
+
+Supplier Part
+
+C25819
+
+Manufacturer
+
+UNI-ROYAL(厚声)
+
+Manufacturer Part
+
+0603WAF4702T5E
+
+Supplier Footprint
+
+0603
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/0603WAF4702T5E/26562.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+R0603
+
+Type
+
+厚膜电阻
+
+Value
+
+47kΩ
+
+Tolerance
+
+±1%
+
+Power(Watts)
+
+100mW
+
+Voltage-Supply(Max)
+
+75V
+
+Temperature Coefficient
+
+±100ppm/℃
+
+Operating Temperature
+
+-55℃~+155℃
+
+Name
+
+47kΩ
+
+Description
+
+
+
+Unique ID
+
+HP-R206
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C202
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+CL21B105KBFNNNE
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CL21B105KBFNNNE
+
+Designator
+
+C202
+
+Device
+
+CL21B105KBFNNNE
+
+LCSC Part Name
+
+1uF ±10% 50V
+
+Supplier Part
+
+C28323
+
+Manufacturer
+
+SAMSUNG(三星)
+
+Manufacturer Part
+
+CL21B105KBFNNNE
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Basic Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CL21B105KBFNNNE/29074.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+Value
+
+1uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Name
+
+1uF
+
+Description
+
+
+
+Unique ID
+
+HP-C202
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+[
+
+DESIGNATOR
+
+C203
+
+FOOTPRINT
+
+C0805
+
+PARTTYPE
+
+CC0805KKX7R9BB225
+
+DESCRIPTION
+
+
+
+Component Kind
+
+Standard
+
+Add into BOM
+
+yes
+
+Convert to PCB
+
+yes
+
+Symbol
+
+CC0805KKX7R9BB225
+
+Designator
+
+C203
+
+Device
+
+CC0805KKX7R9BB225
+
+LCSC Part Name
+
+2.2uF ±10% 50V
+
+Supplier Part
+
+C125847
+
+Manufacturer
+
+YAGEO(国巨)
+
+Manufacturer Part
+
+CC0805KKX7R9BB225
+
+Supplier Footprint
+
+0805
+
+JLCPCB Part Class
+
+Extended Part
+
+Datasheet
+
+https://item.szlcsc.com/datasheet/CC0805KKX7R9BB225/137127.html
+
+Supplier
+
+LCSC
+
+3D Model Title
+
+C0805_L2.0-W1.3-H1.3
+
+Value
+
+2.2uF
+
+Tolerance
+
+±10%
+
+Voltage Rating
+
+50V
+
+Temperature Coefficient
+
+X7R
+
+Name
+
+2.2uF
+
+Description
+
+
+
+Unique ID
+
+HP-C203
+
+Reuse Block
+
+
+
+Group ID
+
+
+
+Channel ID
+
+
+
+
+
+*
+
+]
+
+(
+
+GND
+
+J1-A1B12 TYPE-C16PIN-GND Passive
+
+J1-B1A12 TYPE-C16PIN-GND Passive
+
+J1-1 TYPE-C16PIN-SHELL Passive
+
+J1-2 TYPE-C16PIN-SHELL Passive
+
+J1-3 TYPE-C16PIN-SHELL Passive
+
+J1-4 TYPE-C16PIN-SHELL Passive
+
+R1-1 Res_0603-1 Input
+
+R2-1 Res_0603-1 Input
+
+U3-1 ESP32-S3-WROOM-1-N16R8-GND Passive
+
+U3-40 ESP32-S3-WROOM-1-N16R8-GND Passive
+
+U3-41 ESP32-S3-WROOM-1-N16R8-GND Passive
+
+D1-3 TPD2EUSB30DRTR-GND Passive
+
+C9-2 CAP_0603-2 Input
+
+C10-2 CAP_0603-2 Input
+
+SW2-2 TS-1088-AR02016-2 Passive
+
+SW1-1 TS-1088-AR02016-1 Passive
+
+C11-1 CAP_0603-1 Input
+
+U1-1 HTRC11001T/03EE,11-VSS Passive
+
+U1-5 HTRC11001T/03EE,11-MODE Passive
+
+C5-1 CAP_0603-1 Input
+
+C6-1 CGA0805X5R226M250MT-1 Passive
+
+C7-1 CAP_0603-1 Input
+
+C8-1 CAP_0603-1 Input
+
+X1-2 OH2EL89CFI-111YLC-4M-GND Passive
+
+C12-1 CAP_0603-1 Input
+
+R10-2 0603WAF1001T5E-2 Input
+
+U4-3 SN74LVC1G17DBVR-GND Passive
+
+U5-1 74HCT125D,653-1OE# Passive
+
+U5-4 74HCT125D,653-2OE# Passive
+
+U5-7 74HCT125D,653-GND Passive
+
+U5-10 74HCT125D,653-3OE# Passive
+
+U5-12 74HCT125D,653-4A Passive
+
+C22-1 CAP_0603-1 Input
+
+C21-1 CAP_0603-1 Input
+
+R13-1 Res_0603-1 Input
+
+R12-2 Res_0603-2 Input
+
+U6-5 SN65HVD75DR-GND Passive
+
+C23-1 CAP_0603-1 Input
+
+R14-2 Res_0603-2 Input
+
+C24-1 CAP_0603-1 Input
+
+U9-12 TPS2121RUXR-GND Passive
+
+R21-1 Res_0603-1 Input
+
+R23-1 Res_0603-1 Input
+
+C25-2 CAP_0603-2 Input
+
+R27-1 Res_0603-1 Input
+
+R28-1 Res_0603-1 Input
+
+R29-2 Res_0603-2 Input
+
+C26-1 CAP_0603-1 Input
+
+C27-1 CAP_0603-1 Input
+
+C28-1 CAP_0603-1 Input
+
+C29-1 CAP_0603-1 Input
+
+C30-1 CAP_0603-1 Input
+
+C31-1 CAP_0603-1 Input
+
+C32-2 BLA10V100M6.3*6 6.3TP-2 Passive
+
+U10-1 INA226AIDGSR-A1 Passive
+
+U10-2 INA226AIDGSR-A0 Passive
+
+U10-7 INA226AIDGSR-GND Passive
+
+C34-2 CAP_0603-2 Input
+
+U12-3 WS2812B-B-V6-VSS Passive
+
+U13-3 WS2812B-B-V6-VSS Passive
+
+C42-2 CL10B104KB8NNNC-2 Passive
+
+C43-2 CL10B104KB8NNNC-2 Passive
+
+U14-3 WS2812B-B-V6-VSS Passive
+
+C44-2 CL10B104KB8NNNC-2 Passive
+
+U15-3 WS2812B-B-V6-VSS Passive
+
+C45-2 CL10B104KB8NNNC-2 Passive
+
+U16-3 WS2812B-B-V6-VSS Passive
+
+C46-2 CL10B104KB8NNNC-2 Passive
+
+U17-3 WS2812B-B-V6-VSS Passive
+
+U18-3 WS2812B-B-V6-VSS Passive
+
+U19-3 WS2812B-B-V6-VSS Passive
+
+U20-3 WS2812B-B-V6-VSS Passive
+
+C47-2 CL10B104KB8NNNC-2 Passive
+
+C48-2 CL10B104KB8NNNC-2 Passive
+
+C49-2 CL10B104KB8NNNC-2 Passive
+
+C50-2 CL10B104KB8NNNC-2 Passive
+
+U21-3 WS2812B-B-V6-VSS Passive
+
+C51-2 CL10B104KB8NNNC-2 Passive
+
+U22-2 RST470UF10V029-2 Input
+
+J4-1 DS1023-2*4SF11-1 Input
+
+U23-7 LMR16030SDDAR-GND Passive
+
+U23-9 LMR16030SDDAR-EP Passive
+
+D6-2 SMBJ30A_C83851-2 Passive
+
+C52-2 TCC1210X7R225K101MT-2 Passive
+
+C55-2 TCC1210X7R225K101MT-2 Passive
+
+C53-1 TCC0805X7R104K101DT-1 Passive
+
+C54-2 RV63V47M6X8-2 Input
+
+R39-1 RC0402FR-0749K9L-1 Input
+
+R35-2 0603WAF1782T5E-2 Input
+
+C35-2 FCC1206X226K160HT-2 Passive
+
+C36-2 FCC1206X226K160HT-2 Passive
+
+C37-2 FCC1206X226K160HT-2 Passive
+
+C38-2 FCC1206X226K160HT-2 Passive
+
+D3-2 SS510_C18199171-A Passive
+
+U25-1 TPS62160DGKR-PGND Passive
+
+U25-4 TPS62160DGKR-AGND Passive
+
+C39-1 CAP_0603-1 Input
+
+C40-1 CAP_0603-1 Input
+
+C2-1 FCC1206X226K160HT-1 Passive
+
+R36-1 Res_0603-1 Input
+
+LED1-1 LTST-C190KSKT-- Passive
+
+Q1-2 2N7002-S Passive
+
+R19-1 Res_0603-1 Input
+
+D4-3 SM712_C502564-3 Passive
+
+JIN3-1 PZ254R-11-03P-1 Passive
+
+JIN3-2 PZ254R-11-03P-2 Passive
+
+JIN3-3 PZ254R-11-03P-3 Passive
+
+JOUT3-1 LAIL-PM2.54-3P-W-1 Passive
+
+JOUT3-2 LAIL-PM2.54-3P-W-2 Passive
+
+JOUT3-3 LAIL-PM2.54-3P-W-3 Passive
+
+U201-6 TPS26621DRCR-GND Passive
+
+C203-2 CC0805KKX7R9BB225-2 Input
+
+)
+
+(
+
+USB_VBUS
+
+J1-A4B9 TYPE-C16PIN-VBUS Passive
+
+J1-B4A9 TYPE-C16PIN-VBUS Passive
+
+U7-2 2016L300/16MR-2 Passive
+
+)
+
+(
+
+USB_CC1
+
+J1-A5 TYPE-C16PIN-CC1 Passive
+
+R1-2 Res_0603-2 Input
+
+)
+
+(
+
+USB_DP
+
+J1-A6 TYPE-C16PIN-DP1 Passive
+
+J1-B6 TYPE-C16PIN-DP2 Passive
+
+R4-2 Res_0603-2 Input
+
+D1-1 TPD2EUSB30DRTR-D+ Passive
+
+)
+
+(
+
+USB_DM
+
+J1-A7 TYPE-C16PIN-DN1 Passive
+
+J1-B7 TYPE-C16PIN-DN2 Passive
+
+R5-2 Res_0603-2 Input
+
+D1-2 TPD2EUSB30DRTR-D- Passive
+
+)
+
+(
+
+USB_CC2
+
+J1-B5 TYPE-C16PIN-CC2 Passive
+
+R2-2 Res_0603-2 Input
+
+)
+
+(
+
+3V3_SYS
+
+U3-2 ESP32-S3-WROOM-1-N16R8-3V3 Passive
+
+R6-1 Res_0603-1 Input
+
+C9-1 CAP_0603-1 Input
+
+C10-1 CAP_0603-1 Input
+
+U4-5 SN74LVC1G17DBVR-VCC Passive
+
+C21-2 CAP_0603-2 Input
+
+RIO0-2 Res_0603-2 Input
+
+U6-8 SN65HVD75DR-VCC Passive
+
+C23-2 CAP_0603-2 Input
+
+R17-1 Res_0603-1 Input
+
+R24-2 Res_0603-2 Input
+
+U10-6 INA226AIDGSR-VS+ Passive
+
+C34-1 CAP_0603-1 Input
+
+R32-1 Res_0603-1 Input
+
+R33-1 Res_0603-1 Input
+
+J4-2 DS1023-2*4SF11-2 Input
+
+U25-6 TPS62160DGKR-VOS Passive
+
+C2-2 FCC1206X226K160HT-2 Passive
+
+R7-2 Res_0603-2 Input
+
+R37-1 Res_0603-1 Input
+
+U2-2 FTC201610S2R2MBCA-2 Passive
+
+)
+
+(
+
+MCU_EN
+
+U3-3 ESP32-S3-WROOM-1-N16R8-EN Passive
+
+R6-2 Res_0603-2 Input
+
+SW2-1 TS-1088-AR02016-1 Passive
+
+C11-2 CAP_0603-2 Input
+
+)
+
+(
+
+LCD_RST
+
+U3-4 ESP32-S3-WROOM-1-N16R8-IO4 Passive
+
+J4-8 DS1023-2*4SF11-8 Input
+
+)
+
+(
+
+LCD_DC
+
+U3-5 ESP32-S3-WROOM-1-N16R8-IO5 Passive
+
+J4-7 DS1023-2*4SF11-7 Input
+
+)
+
+(
+
+LCD_MOSI
+
+U3-6 ESP32-S3-WROOM-1-N16R8-IO6 Passive
+
+J4-6 DS1023-2*4SF11-6 Input
+
+)
+
+(
+
+LCD_SCLK
+
+U3-7 ESP32-S3-WROOM-1-N16R8-IO7 Passive
+
+J4-5 DS1023-2*4SF11-5 Input
+
+)
+
+(
+
+LCD_CS
+
+U3-8 ESP32-S3-WROOM-1-N16R8-IO15 Passive
+
+J4-4 DS1023-2*4SF11-4 Input
+
+)
+
+(
+
+LCD_BL_PWM
+
+U3-9 ESP32-S3-WROOM-1-N16R8-IO16 Passive
+
+J4-3 DS1023-2*4SF11-3 Input
+
+)
+
+(
+
+ESP_RFID_SCLK
+
+U3-10 ESP32-S3-WROOM-1-N16R8-IO17 Passive
+
+U5-2 74HCT125D,653-1A Passive
+
+R13-2 Res_0603-2 Input
+
+)
+
+(
+
+ESP_RFID_DIN
+
+U3-11 ESP32-S3-WROOM-1-N16R8-IO18 Passive
+
+U5-5 74HCT125D,653-2A Passive
+
+R12-1 Res_0603-1 Input
+
+)
+
+(
+
+ESP_RFID_DOUT
+
+U3-12 ESP32-S3-WROOM-1-N16R8-IO8 Passive
+
+U4-4 SN74LVC1G17DBVR-Y Passive
+
+)
+
+(
+
+USB_DM_MCU
+
+U3-13 ESP32-S3-WROOM-1-N16R8-IO19 Passive
+
+R5-1 Res_0603-1 Input
+
+)
+
+(
+
+USB_DP_MCU
+
+U3-14 ESP32-S3-WROOM-1-N16R8-IO20 Passive
+
+R4-1 Res_0603-1 Input
+
+)
+
+(
+
+ESP_ORDER_IN
+
+U3-17 ESP32-S3-WROOM-1-N16R8-IO9 Passive
+
+R16-2 Res_0603-2 Input
+
+R17-2 Res_0603-2 Input
+
+C24-2 CAP_0603-2 Input
+
+)
+
+(
+
+ESP_ORDER_OUT
+
+U3-18 ESP32-S3-WROOM-1-N16R8-IO10 Passive
+
+R18-1 Res_0603-1 Input
+
+)
+
+(
+
+CURRENT_SCL
+
+U3-19 ESP32-S3-WROOM-1-N16R8-IO11 Passive
+
+U10-5 INA226AIDGSR-SCL Passive
+
+R33-2 Res_0603-2 Input
+
+)
+
+(
+
+CURRENT_SDA
+
+U3-20 ESP32-S3-WROOM-1-N16R8-IO12 Passive
+
+U10-4 INA226AIDGSR-SDA Passive
+
+R32-2 Res_0603-2 Input
+
+)
+
+(
+
+RS485_DIR
+
+U3-22 ESP32-S3-WROOM-1-N16R8-IO14 Passive
+
+U6-2 SN65HVD75DR-RE# Passive
+
+U6-3 SN65HVD75DR-DE Passive
+
+R14-1 Res_0603-1 Input
+
+)
+
+(
+
+ESP_LED_DATA_3V3
+
+U3-23 ESP32-S3-WROOM-1-N16R8-IO21 Passive
+
+U5-9 74HCT125D,653-3A Passive
+
+)
+
+(
+
+MCU_BOOT
+
+U3-27 ESP32-S3-WROOM-1-N16R8-IO0 Passive
+
+SW1-2 TS-1088-AR02016-2 Passive
+
+RIO0-1 Res_0603-1 Input
+
+)
+
+(
+
+U3_RXD0
+
+U3-36 ESP32-S3-WROOM-1-N16R8-RXD0 Passive
+
+U6-1 SN65HVD75DR-R Passive
+
+)
+
+(
+
+U3_TXD0
+
+U3-37 ESP32-S3-WROOM-1-N16R8-TXD0 Passive
+
+U6-4 SN65HVD75DR-D Passive
+
+)
+
+(
+
+U1_TX2
+
+U1-2 HTRC11001T/03EE,11-TX2 Passive
+
+C14-2 TCC0805COG102J251BT-2 Passive
+
+C15-2 TCC0805COG102J251BT-2 Passive
+
+C16-2 TCC0805COG102J251BT-2 Passive
+
+C17-2 TCC0805COG102J251BT-2 Passive
+
+C18-2 GRM21A5C2E221JW01D-2 Passive
+
+C19-2 CAP_0603-2 Input
+
+C20-2 CAP_0603-2 Input
+
+)
+
+(
+
+5V_RFID
+
+U1-3 HTRC11001T/03EE,11-VDD Passive
+
+C5-2 CAP_0603-2 Input
+
+C6-2 CGA0805X5R226M250MT-2 Passive
+
+X1-4 OH2EL89CFI-111YLC-4M-VDD Passive
+
+R3-2 Res_0603-2 Input
+
+C12-2 CAP_0603-2 Input
+
+FB1-2 MPZ2012S601AT000-2 Passive
+
+)
+
+(
+
+U1_TX1
+
+U1-4 HTRC11001T/03EE,11-TX1 Passive
+
+R9-1 25121WJ0270T4E-1 Input
+
+)
+
+(
+
+RFID_CLK_4M
+
+U1-6 HTRC11001T/03EE,11-XTAL1 Passive
+
+X1-3 OH2EL89CFI-111YLC-4M-Output Passive
+
+)
+
+(
+
+HTRC_SCLK
+
+U1-8 HTRC11001T/03EE,11-SCLK Passive
+
+U5-3 74HCT125D,653-1Y Passive
+
+)
+
+(
+
+HTRC_DIN
+
+U1-9 HTRC11001T/03EE,11-DIN Passive
+
+U5-6 74HCT125D,653-2Y Passive
+
+)
+
+(
+
+HTRC_DOUT_5V
+
+U1-10 HTRC11001T/03EE,11-DOUT Passive
+
+U4-2 SN74LVC1G17DBVR-A Passive
+
+R11-2 Res_0603-2 Input
+
+)
+
+(
+
+RFID_CEXT
+
+U1-12 HTRC11001T/03EE,11-CEXT Passive
+
+C7-2 CAP_0603-2 Input
+
+)
+
+(
+
+RFID_QGND_FILT
+
+U1-13 HTRC11001T/03EE,11-QGND Passive
+
+C8-2 CAP_0603-2 Input
+
+)
+
+(
+
+U1_RX
+
+U1-14 HTRC11001T/03EE,11-RX Passive
+
+R8-1 1206W4F2703T5E-1 Input
+
+)
+
+(
+
+RFID_OSC_OE
+
+X1-1 OH2EL89CFI-111YLC-4M-Tri-state Passive
+
+R3-1 Res_0603-1 Input
+
+)
+
+(
+
+ANT_COIL_A
+
+J3-1 HX-XH2.54-2PZZ-1 Passive
+
+C13-2 CL31B104KEHNNNE-2 Passive
+
+R10-1 0603WAF1001T5E-1 Input
+
+)
+
+(
+
+ANT_TAP_HV
+
+J3-2 HX-XH2.54-2PZZ-2 Passive
+
+R8-2 1206W4F2703T5E-2 Input
+
+C14-1 TCC0805COG102J251BT-1 Passive
+
+C15-1 TCC0805COG102J251BT-1 Passive
+
+C16-1 TCC0805COG102J251BT-1 Passive
+
+C17-1 TCC0805COG102J251BT-1 Passive
+
+C18-1 GRM21A5C2E221JW01D-1 Passive
+
+C19-1 CAP_0603-1 Input
+
+C20-1 CAP_0603-1 Input
+
+)
+
+(
+
+RFID_TX1_AC
+
+R9-2 25121WJ0270T4E-2 Input
+
+C13-1 CL31B104KEHNNNE-1 Passive
+
+)
+
+(
+
+LED_DATA_5V_RAW
+
+U5-8 74HCT125D,653-3Y Passive
+
+R38-2 FRC0603F3300TS-2 Passive
+
+)
+
+(
+
+5V_IN
+
+U5-13 74HCT125D,653-4OE# Passive
+
+U5-14 74HCT125D,653-VCC Passive
+
+C22-2 CAP_0603-2 Input
+
+R11-1 Res_0603-1 Input
+
+FB1-1 MPZ2012S601AT000-1 Passive
+
+U10-8 INA226AIDGSR-VBUS Passive
+
+U10-9 INA226AIDGSR-VIN- Passive
+
+R31-2 CSSH2512FT10L0-2 Passive
+
+U12-1 WS2812B-B-V6-VDD Passive
+
+U13-1 WS2812B-B-V6-VDD Passive
+
+C42-1 CL10B104KB8NNNC-1 Passive
+
+C43-1 CL10B104KB8NNNC-1 Passive
+
+U14-1 WS2812B-B-V6-VDD Passive
+
+C44-1 CL10B104KB8NNNC-1 Passive
+
+U15-1 WS2812B-B-V6-VDD Passive
+
+C45-1 CL10B104KB8NNNC-1 Passive
+
+U16-1 WS2812B-B-V6-VDD Passive
+
+C46-1 CL10B104KB8NNNC-1 Passive
+
+U17-1 WS2812B-B-V6-VDD Passive
+
+U18-1 WS2812B-B-V6-VDD Passive
+
+U19-1 WS2812B-B-V6-VDD Passive
+
+U20-1 WS2812B-B-V6-VDD Passive
+
+C47-1 CL10B104KB8NNNC-1 Passive
+
+C48-1 CL10B104KB8NNNC-1 Passive
+
+C49-1 CL10B104KB8NNNC-1 Passive
+
+C50-1 CL10B104KB8NNNC-1 Passive
+
+U21-1 WS2812B-B-V6-VDD Passive
+
+C51-1 CL10B104KB8NNNC-1 Passive
+
+U22-1 RST470UF10V029-1 Input
+
+U25-2 TPS62160DGKR-VIN Passive
+
+U25-3 TPS62160DGKR-EN Passive
+
+C39-2 CAP_0603-2 Input
+
+C40-2 CAP_0603-2 Input
+
+)
+
+(
+
+BUS_A
+
+U6-6 SN65HVD75DR-A Passive
+
+R15-1 Res_0603-1 Input
+
+JIN1-5 HX PZ2.54-1x6P WZ-5 Passive
+
+JOUT1-5 LAIL-PM2.54-6P-W-5 Passive
+
+D4-2 SM712_C502564-2 Passive
+
+)
+
+(
+
+BUS_B
+
+U6-7 SN65HVD75DR-B Passive
+
+R15-2 Res_0603-2 Input
+
+JIN1-6 HX PZ2.54-1x6P WZ-6 Passive
+
+JOUT1-6 LAIL-PM2.54-6P-W-6 Passive
+
+D4-1 SM712_C502564-1 Passive
+
+)
+
+(
+
+ORDER_IN
+
+R16-1 Res_0603-1 Input
+
+JIN1-4 HX PZ2.54-1x6P WZ-4 Passive
+
+)
+
+(
+
+5V_SELECTED
+
+U9-1 TPS2121RUXR-OUT Passive
+
+U9-8 TPS2121RUXR-OUT Passive
+
+C30-2 CAP_0603-2 Input
+
+C31-2 CAP_0603-2 Input
+
+C32-1 BLA10V100M6.3*6 6.3TP-1 Passive
+
+U10-10 INA226AIDGSR-VIN+ Passive
+
+R31-1 CSSH2512FT10L0-1 Passive
+
+)
+
+(
+
+$4N237
+
+U9-2 TPS2121RUXR-IN2 Passive
+
+R22-1 Res_0603-1 Input
+
+R30-1 Res_0603-1 Input
+
+C28-2 CAP_0603-2 Input
+
+C29-2 CAP_0603-2 Input
+
+U7-1 2016L300/16MR-1 Passive
+
+)
+
+(
+
+$4N244
+
+U9-3 TPS2121RUXR-CP2 Passive
+
+R22-2 Res_0603-2 Input
+
+R23-2 Res_0603-2 Input
+
+)
+
+(
+
+$4N253
+
+U9-4 TPS2121RUXR-OV2 Passive
+
+R30-2 Res_0603-2 Input
+
+R28-2 Res_0603-2 Input
+
+)
+
+(
+
+$4N251
+
+U9-5 TPS2121RUXR-OV1 Passive
+
+R26-2 Res_0603-2 Input
+
+R27-2 Res_0603-2 Input
+
+)
+
+(
+
+$4N242
+
+U9-6 TPS2121RUXR-PR1 Passive
+
+R20-1 Res_0603-1 Input
+
+R21-2 Res_0603-2 Input
+
+R25-1 Res_0603-1 Input
+
+)
+
+(
+
+$4N232
+
+U9-7 TPS2121RUXR-IN1 Passive
+
+R20-2 Res_0603-2 Input
+
+R26-1 Res_0603-1 Input
+
+C26-2 CAP_0603-2 Input
+
+C27-2 CAP_0603-2 Input
+
+U8-2 2016L300/16MR-2 Passive
+
+)
+
+(
+
+$4N246
+
+U9-9 TPS2121RUXR-ST Passive
+
+R24-1 Res_0603-1 Input
+
+R25-2 Res_0603-2 Input
+
+)
+
+(
+
+$4N256
+
+U9-10 TPS2121RUXR-ILM Passive
+
+R29-1 Res_0603-1 Input
+
+)
+
+(
+
+PWRMUX_SS
+
+U9-11 TPS2121RUXR-SS Passive
+
+C25-1 CAP_0603-1 Input
+
+)
+
+(
+
+5V_FROM_24
+
+U8-1 2016L300/16MR-1 Passive
+
+L2-2 XAL6060-822MEC-2 Passive
+
+R34-2 FRC0603F1003TS-2 Passive
+
+C35-1 FCC1206X226K160HT-1 Passive
+
+C36-1 FCC1206X226K160HT-1 Passive
+
+C37-1 FCC1206X226K160HT-1 Passive
+
+C38-1 FCC1206X226K160HT-1 Passive
+
+)
+
+(
+
+LED_DATA_02
+
+U12-2 WS2812B-B-V6-DOUT Passive
+
+U13-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_01
+
+U12-4 WS2812B-B-V6-DIN Passive
+
+R38-1 FRC0603F3300TS-1 Passive
+
+)
+
+(
+
+LED_DATA_03
+
+U13-2 WS2812B-B-V6-DOUT Passive
+
+U14-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_04
+
+U14-2 WS2812B-B-V6-DOUT Passive
+
+U15-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_05
+
+U15-2 WS2812B-B-V6-DOUT Passive
+
+U16-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_06
+
+U16-2 WS2812B-B-V6-DOUT Passive
+
+U17-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_07
+
+U17-2 WS2812B-B-V6-DOUT Passive
+
+U18-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_08
+
+U18-2 WS2812B-B-V6-DOUT Passive
+
+U19-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_09
+
+U19-2 WS2812B-B-V6-DOUT Passive
+
+U20-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+LED_DATA_10
+
+U20-2 WS2812B-B-V6-DOUT Passive
+
+U21-4 WS2812B-B-V6-DIN Passive
+
+)
+
+(
+
+BUCK24_BOOT
+
+U23-1 LMR16030SDDAR-BOOT Passive
+
+C56-1 CC0603KRX7R9BB104-1 Passive
+
+)
+
+(
+
+24V_BUCK_IN
+
+U23-2 LMR16030SDDAR-VIN Passive
+
+C52-1 TCC1210X7R225K101MT-1 Passive
+
+C55-1 TCC1210X7R225K101MT-1 Passive
+
+C54-1 RV63V47M6X8-1 Input
+
+U201-10 TPS26621DRCR-OUT Passive
+
+R206-1 0603WAF4702T5E-1 Input
+
+)
+
+(
+
+HP_RUN
+
+U23-3 LMR16030SDDAR-EN Passive
+
+U201-9 TPS26621DRCR-FLT# Passive
+
+R206-2 0603WAF4702T5E-2 Input
+
+)
+
+(
+
+BUCK24_RT
+
+U23-4 LMR16030SDDAR-RT/SYNC Passive
+
+R39-2 RC0402FR-0749K9L-2 Input
+
+)
+
+(
+
+BUCK24_FB
+
+U23-5 LMR16030SDDAR-FB Passive
+
+R34-1 FRC0603F1003TS-1 Passive
+
+R35-1 0603WAF1782T5E-1 Input
+
+)
+
+(
+
+HP_SS
+
+U23-6 LMR16030SDDAR-SS or PGOOD Passive
+
+C203-1 CC0805KKX7R9BB225-1 Input
+
+)
+
+(
+
+BUCK24_SW
+
+U23-8 LMR16030SDDAR-SW Passive
+
+C56-2 CC0603KRX7R9BB104-2 Passive
+
+L2-1 XAL6060-822MEC-1 Passive
+
+D3-1 SS510_C18199171-K Passive
+
+)
+
+(
+
+24V_BUS
+
+U24-1 2920L150/60GR-1 Passive
+
+JIN1-1 HX PZ2.54-1x6P WZ-1 Passive
+
+JIN1-2 HX PZ2.54-1x6P WZ-2 Passive
+
+JIN1-3 HX PZ2.54-1x6P WZ-3 Passive
+
+JOUT1-1 LAIL-PM2.54-6P-W-1 Passive
+
+JOUT1-2 LAIL-PM2.54-6P-W-2 Passive
+
+JOUT1-3 LAIL-PM2.54-6P-W-3 Passive
+
+)
+
+(
+
+HP_RAW
+
+U24-2 2920L150/60GR-2 Passive
+
+D6-1 SMBJ30A_C83851-1 Passive
+
+C53-2 TCC0805X7R104K101DT-2 Passive
+
+U201-1 TPS26621DRCR-IN Passive
+
+R201-1 0603WAF2203T5E-1 Input
+
+)
+
+(
+
+$4N425
+
+U25-5 TPS62160DGKR-FB Passive
+
+R7-1 Res_0603-1 Input
+
+R36-2 Res_0603-2 Input
+
+)
+
+(
+
+$4N420
+
+U25-7 TPS62160DGKR-SW Passive
+
+U2-1 FTC201610S2R2MBCA-1 Passive
+
+)
+
+(
+
+$4N430
+
+LED1-2 LTST-C190KSKT-+ Passive
+
+R37-2 Res_0603-2 Input
+
+)
+
+(
+
+ORDER_OUT
+
+JOUT1-4 LAIL-PM2.54-6P-W-4 Passive
+
+Q1-3 2N7002-D Passive
+
+)
+
+(
+
+ORDER_GATE
+
+Q1-1 2N7002-G Passive
+
+R18-2 Res_0603-2 Input
+
+R19-2 Res_0603-2 Input
+
+)
+
+(
+
+HP_RTN
+
+U201-11 TPS26621DRCR-PAD Passive
+
+U201-5 TPS26621DRCR-RTN Passive
+
+R204-2 RC0603FR-0710KL-2 Input
+
+R205-2 0603WAF4422T5E-2 Input
+
+C202-2 CL21B105KBFNNNE-2 Input
+
+)
+
+(
+
+HP_ILIM
+
+U201-7 TPS26621DRCR-ILIM Passive
+
+R205-1 0603WAF4422T5E-1 Input
+
+)
+
+(
+
+HP_DT
+
+U201-8 TPS26621DRCR-dVdT Passive
+
+C202-1 CL21B105KBFNNNE-1 Input
+
+)
+
+(
+
+HP_OV
+
+U201-3 TPS26621DRCR-OVP Passive
+
+R202-2 0603WAF4701T5E-2 Input
+
+R204-1 RC0603FR-0710KL-1 Input
+
+)
+
+(
+
+HP_UV
+
+U201-2 TPS26621DRCR-UVLO Passive
+
+R201-2 0603WAF2203T5E-2 Input
+
+R202-1 0603WAF4701T5E-1 Input
+
+)

@@ -1,0 +1,10 @@
+{
+  "long": {
+    "pin_networks_unchanged": true,
+    "connected_pins": 423
+  },
+  "corner": {
+    "pin_networks_unchanged": true,
+    "connected_pins": 691
+  }
+}

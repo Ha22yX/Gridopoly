@@ -1,0 +1,50 @@
+{
+  "async": true,
+  "primitiveType": "Component",
+  "primitiveId": "a447c407323b6ecc",
+  "componentType": "part",
+  "x": 1425,
+  "y": 272,
+  "subPartName": "0603WAF6801T5E.1",
+  "rotation": 270,
+  "mirror": false,
+  "addIntoBom": true,
+  "addIntoPcb": true,
+  "net": "",
+  "component": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "06e9007479083114",
+    "name": "0603WAF6801T5E"
+  },
+  "symbol": {
+    "uuid": "ac8dd1e34bfd42fc",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "name": "0603WAF6801T5E"
+  },
+  "footprint": {
+    "uuid": "5aa4f04a6bc72ca3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "name": "R0603"
+  },
+  "designator": "R120",
+  "name": "5.6k",
+  "uniqueId": "gge215",
+  "manufacturer": "UNI-ROYAL(厚声)",
+  "manufacturerId": "0603WAF5601T5E",
+  "supplier": "LCSC",
+  "supplierId": "C23189",
+  "otherProperty": {
+    "LCSC Part Name": "厚膜电阻 5.6kΩ ±1%",
+    "Supplier Footprint": "0603",
+    "JLCPCB Part Class": "Basic Part",
+    "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF5601T5E/23916.html",
+    "Type": "厚膜电阻",
+    "Value": "5.6kΩ",
+    "Tolerance": "±1%",
+    "Power(Watts)": "100mW",
+    "Voltage-Supply(Max)": "75V",
+    "Temperature Coefficient": "±100ppm/℃",
+    "Operating Temperature": "-55℃~+155℃",
+    "Description": ""
+  }
+}

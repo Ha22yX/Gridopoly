@@ -1,0 +1,11 @@
+{
+  "url": "https://www.lcsc.com/product-detail/C23189.html",
+  "checked_utc": "2026-09-21T05:48:06.930208+00:00",
+  "html_sha256": "3c66b9aecc950871af82d4b13d6f4e07010c41ebfda0063e0808584cde67fc92",
+  "stock_matches": [
+    "\"domesticStockVO\":{\"total\":869000,\"shipImmediately\":869000,\"ship3Days\":0},\"overseasStockVO\":{\"total\":869000,\"shipImmediately\":869000,\"ship3Days\":0},\"productPriceList\":[{\"ladder\":100,\"productPrice\":"
+  ],
+  "sku": "C23189",
+  "domestic_immediate_stock": 869000,
+  "chinese_url": "https://item.szlcsc.com/23916.html"
+}
