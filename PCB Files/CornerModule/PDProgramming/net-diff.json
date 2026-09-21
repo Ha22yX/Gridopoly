@@ -1,0 +1,62 @@
+{
+  "U101-8": [
+    "PD_SDA",
+    "CURRENT_SDA"
+  ],
+  "J101-5": [
+    "PD_RST",
+    null
+  ],
+  "R109-1": [
+    "PD_PROG3V3",
+    null
+  ],
+  "R109-2": [
+    "PD_SDA",
+    null
+  ],
+  "J101-1": [
+    "GND",
+    null
+  ],
+  "R108-1": [
+    "PD_PROG3V3",
+    null
+  ],
+  "J101-2": [
+    "PD_PROG3V3",
+    null
+  ],
+  "J101-3": [
+    "PD_SCL",
+    null
+  ],
+  "J101-4": [
+    "PD_SDA",
+    null
+  ],
+  "R108-2": [
+    "PD_SCL",
+    null
+  ],
+  "U3-21": [
+    null,
+    "PD_RST"
+  ],
+  "U101-7": [
+    "PD_SCL",
+    "CURRENT_SCL"
+  ],
+  "U101-22": [
+    "GND",
+    "3V3_SYS"
+  ],
+  "C128-2": [
+    null,
+    "3V3_SYS"
+  ],
+  "C128-1": [
+    null,
+    "GND"
+  ]
+}

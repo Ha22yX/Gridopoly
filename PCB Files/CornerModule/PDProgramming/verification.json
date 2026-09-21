@@ -1,0 +1,105 @@
+{
+  "corner_net_changes": {
+    "J101-3": [
+      "PD_SCL",
+      null
+    ],
+    "R109-1": [
+      "PD_PROG3V3",
+      null
+    ],
+    "U101-7": [
+      "PD_SCL",
+      "CURRENT_SCL"
+    ],
+    "J101-4": [
+      "PD_SDA",
+      null
+    ],
+    "C128-2": [
+      null,
+      "3V3_SYS"
+    ],
+    "R109-2": [
+      "PD_SDA",
+      null
+    ],
+    "U3-21": [
+      null,
+      "PD_RST"
+    ],
+    "R108-1": [
+      "PD_PROG3V3",
+      null
+    ],
+    "U101-8": [
+      "PD_SDA",
+      "CURRENT_SDA"
+    ],
+    "U101-22": [
+      "GND",
+      "3V3_SYS"
+    ],
+    "C128-1": [
+      null,
+      "GND"
+    ],
+    "R108-2": [
+      "PD_SCL",
+      null
+    ],
+    "J101-5": [
+      "PD_RST",
+      null
+    ],
+    "J101-1": [
+      "GND",
+      null
+    ],
+    "J101-2": [
+      "PD_PROG3V3",
+      null
+    ]
+  },
+  "long_pin_map_unchanged": true,
+  "corner_other_connected_pins_unchanged": true,
+  "removed": [
+    "J101",
+    "R108",
+    "R109"
+  ],
+  "added": [
+    "C128"
+  ],
+  "i2c_gpio": {
+    "scl": 11,
+    "sda": 12
+  },
+  "reset_gpio": 13,
+  "stusb4500_address_7bit": "0x28",
+  "ina226_address_7bit": "0x40",
+  "gpio13_no_connect_removed": true,
+  "remaining_u3_nc_pins": [
+    "15",
+    "16",
+    "24",
+    "25",
+    "26",
+    "28",
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "38",
+    "39"
+  ],
+  "drc_warnings": 2,
+  "pcb_changed": false,
+  "firmware_nvm_writer_implemented": false,
+  "hardware_tested": false,
+  "u3_no_connect_source_records": 15,
+  "api_nc_flag_note": "Getter may report false after native import; source markers and SVG checked."
+}
