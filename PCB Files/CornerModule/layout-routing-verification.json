@@ -1,0 +1,923 @@
+{
+  "scope": {
+    "pcb": "Corner module / PCB2_2",
+    "document_uuid": "d03bb2d6c85bb69d",
+    "schematic_edited": false,
+    "other_pcbs_edited": false
+  },
+  "saved_source_sha256": "08311e5fd6bc21894eb13696a13755dff34c59065f18a87243ebfe41ebfc123e",
+  "verification": {
+    "native_strict_drc_errors": [],
+    "all_five_pours_rebuilt": true,
+    "native_document_save_succeeded": true,
+    "native_canvas_visually_inspected": true,
+    "independent_copper_overlap_count": 0,
+    "independent_clearances_under_4mil_count": 0,
+    "independent_dsn_excludes_pours": [
+      "GND",
+      "24V_BUS"
+    ]
+  },
+  "preserved": {
+    "outline_mm": [
+      80,
+      80
+    ],
+    "component_count": 138,
+    "all_components_except_C53_C56_unchanged": true,
+    "J4_8pin_socket_unchanged": true,
+    "all_daisy_chain_connectors_unchanged": true,
+    "all_10_RGB_LEDs_unchanged": true,
+    "mounting_holes_unchanged": true,
+    "netlist_and_component_library_links_unchanged": true,
+    "protected_trace_records_unchanged": [
+      "BUS_A",
+      "BUS_B",
+      "USB_DP",
+      "USB_DM",
+      "USB_DP_MCU",
+      "USB_DM_MCU"
+    ],
+    "all_203_previous_native_vias_unchanged": true,
+    "standalone_pad_count": 0
+  },
+  "component_changes": {
+    "C53": {
+      "before": {
+        "partitionId": "",
+        "groupId": "8",
+        "layerId": 1,
+        "x": 2151.811,
+        "y": -1900,
+        "angle": 0,
+        "attrs": {
+          "Unique ID": "gge137",
+          "Reuse Block": "",
+          "Group ID": "",
+          "Channel ID": "$4I512"
+        },
+        "locked": false,
+        "zIndex": -1
+      },
+      "after": {
+        "partitionId": "",
+        "groupId": "8",
+        "layerId": 1,
+        "x": 1840.5512,
+        "y": -1598.4252,
+        "angle": -90,
+        "attrs": {
+          "Unique ID": "gge137",
+          "Reuse Block": "",
+          "Group ID": "",
+          "Channel ID": "$4I512"
+        },
+        "locked": false,
+        "zIndex": -1
+      }
+    },
+    "C56": {
+      "before": {
+        "partitionId": "",
+        "groupId": "8",
+        "layerId": 1,
+        "x": 1981.811,
+        "y": -1795,
+        "angle": -90,
+        "attrs": {
+          "Unique ID": "gge140",
+          "Reuse Block": "",
+          "Group ID": "",
+          "Channel ID": "$4I514"
+        },
+        "locked": false,
+        "zIndex": -1
+      },
+      "after": {
+        "partitionId": "",
+        "groupId": "8",
+        "layerId": 1,
+        "x": 1956.6929,
+        "y": -1782.2835,
+        "angle": -90,
+        "attrs": {
+          "Unique ID": "gge140",
+          "Reuse Block": "",
+          "Group ID": "",
+          "Channel ID": "$4I514"
+        },
+        "locked": false,
+        "zIndex": -1
+      }
+    }
+  },
+  "new_ground_via": {
+    "7283c6a2f46c4d03": {
+      "partitionId": "",
+      "groupId": 0,
+      "netName": "GND",
+      "ruleName": "",
+      "centerX": 1905.5514,
+      "centerY": -1564.0544,
+      "holeDiameter": 12,
+      "viaDiameter": 24,
+      "viaType": "NORMAL",
+      "topSolderExpansion": null,
+      "bottomSolderExpansion": null,
+      "locked": false,
+      "unusedInnerLayers": []
+    }
+  },
+  "routing": {
+    "line_segments_before": 1232,
+    "line_segments_after": 1176,
+    "total_line_length_before_mm": 3119.826224959544,
+    "total_line_length_after_mm": 3172.8644982214932,
+    "shortcut_operations": 66,
+    "shortcut_length_saved_mm": 52.22013764500816,
+    "note": "Overall routed length increases because traces bypass the module antenna area. Local shortening is not a total board length reduction.",
+    "operations": [
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 190.62781374238534,
+        "after_mil": 169.67130393628304,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 726.2527348245899,
+        "after_mil": 697.2240879079886,
+        "segments_before": 6,
+        "segments_after": 5
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 538.5906092299767,
+        "after_mil": 509.56196231337543,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 623.6546754785478,
+        "after_mil": 594.6260285619464,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 628.0204864259604,
+        "after_mil": 598.9918395093589,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 666.4116905284137,
+        "after_mil": 637.3830436118125,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 294.40509327091894,
+        "after_mil": 265.37644635431764,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 637.0102634801942,
+        "after_mil": 607.9816165635931,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 178.96000000000004,
+        "after_mil": 145.78398510500014,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 190.43701758793742,
+        "after_mil": 167.17250921758495,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 96.2379267020361,
+        "after_mil": 84.60127911857778,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 97.937586155941,
+        "after_mil": 96.97689639823304,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 91.37999999999988,
+        "after_mil": 71.02685022465313,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 109.84800753768775,
+        "after_mil": 109.84800753768761,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 80.9600010513036,
+        "after_mil": 76.49337946439843,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 16,
+        "before_mil": 306.45559474493194,
+        "after_mil": 235.8253967444162,
+        "segments_before": 4,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 16,
+        "before_mil": 646.5156274847714,
+        "after_mil": 646.5156274847714,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 2,
+        "before_mil": 289.74667034519797,
+        "after_mil": 268.7901605390955,
+        "segments_before": 5,
+        "segments_after": 4
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 2,
+        "before_mil": 226.03980049777326,
+        "after_mil": 75.13877200360037,
+        "segments_before": 4,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 2,
+        "before_mil": 129.49970160264556,
+        "after_mil": 116.77934910957731,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 2,
+        "before_mil": 116.55896536343779,
+        "after_mil": 116.55896536343779,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 2,
+        "before_mil": 186.58416979932014,
+        "after_mil": 165.55150775632603,
+        "segments_before": 4,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 2,
+        "before_mil": 56.309999999999945,
+        "after_mil": 45.01896641474137,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "24V_BUCK_IN",
+        "layer": 1,
+        "before_mil": 2046.23521906943,
+        "after_mil": 2036.0761963916425,
+        "segments_before": 18,
+        "segments_after": 12
+      },
+      {
+        "type": "shorten",
+        "net": "$4N244",
+        "layer": 1,
+        "before_mil": 116.15576276552594,
+        "after_mil": 115.98881235765357,
+        "segments_before": 6,
+        "segments_after": 5
+      },
+      {
+        "type": "shorten",
+        "net": "$4N256",
+        "layer": 1,
+        "before_mil": 153.3620902311783,
+        "after_mil": 153.3591608258825,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "$4N253",
+        "layer": 15,
+        "before_mil": 428.9167001776726,
+        "after_mil": 396.3128965530992,
+        "segments_before": 10,
+        "segments_after": 6
+      },
+      {
+        "type": "shorten",
+        "net": "PWRMUX_SS",
+        "layer": 1,
+        "before_mil": 177.44442697169276,
+        "after_mil": 177.44442697169276,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 374.1230087693666,
+        "after_mil": 345.0943618527652,
+        "segments_before": 4,
+        "segments_after": 3
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 628.0246285615838,
+        "after_mil": 598.9959816449825,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 584.0544151522645,
+        "after_mil": 555.0257682356632,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 628.0163442903361,
+        "after_mil": 598.987697373735,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 631.5557937967521,
+        "after_mil": 602.5271468801508,
+        "segments_before": 4,
+        "segments_after": 3
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 347.31831447301533,
+        "after_mil": 347.31831447301533,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 1,
+        "before_mil": 478.1651539295433,
+        "after_mil": 376.17378710448406,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 736.7532791732215,
+        "after_mil": 694.4770719696878,
+        "segments_before": 7,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 122.17534370000602,
+        "after_mil": 114.36388155425124,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 116.34720376902489,
+        "after_mil": 95.02750637159376,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 651.8241399266042,
+        "after_mil": 601.0160871073973,
+        "segments_before": 7,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 124.66981487021579,
+        "after_mil": 103.71330506411327,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 89.21410852485644,
+        "after_mil": 86.522419843961,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "5V_IN",
+        "layer": 2,
+        "before_mil": 108.95264532779814,
+        "after_mil": 90.66146381289795,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "3V3_SYS",
+        "layer": 1,
+        "before_mil": 69.12178715550178,
+        "after_mil": 69.12178715550185,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "3V3_SYS",
+        "layer": 1,
+        "before_mil": 65.86984848098346,
+        "after_mil": 65.86984848098346,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "3V3_SYS",
+        "layer": 1,
+        "before_mil": 64.64112698372212,
+        "after_mil": 64.64112698372217,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "3V3_SYS",
+        "layer": 1,
+        "before_mil": 46.53662481734239,
+        "after_mil": 46.53662481734246,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "3V3_SYS",
+        "layer": 2,
+        "before_mil": 69.98230552508639,
+        "after_mil": 68.50319477007854,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "HTRC_DOUT_5V",
+        "layer": 17,
+        "before_mil": 1342.7310496569642,
+        "after_mil": 1223.6744586602283,
+        "segments_before": 10,
+        "segments_after": 5
+      },
+      {
+        "type": "shorten",
+        "net": "5V_RFID",
+        "layer": 1,
+        "before_mil": 909.4591899399707,
+        "after_mil": 837.9327856432252,
+        "segments_before": 14,
+        "segments_after": 10
+      },
+      {
+        "type": "shorten",
+        "net": "ESP_ORDER_IN",
+        "layer": 17,
+        "before_mil": 1262.5482442328912,
+        "after_mil": 1262.5453140393638,
+        "segments_before": 7,
+        "segments_after": 5
+      },
+      {
+        "type": "shorten",
+        "net": "CURRENT_SCL",
+        "layer": 15,
+        "before_mil": 918.550013592233,
+        "after_mil": 918.5500135922329,
+        "segments_before": 4,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "CURRENT_SDA",
+        "layer": 17,
+        "before_mil": 999.5209665440987,
+        "after_mil": 999.5209665440987,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "HTRC_SCLK",
+        "layer": 17,
+        "before_mil": 999.8714743259337,
+        "after_mil": 999.8714743259337,
+        "segments_before": 5,
+        "segments_after": 4
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_10",
+        "layer": 1,
+        "before_mil": 71.98799999999994,
+        "after_mil": 52.98918846844654,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_09",
+        "layer": 1,
+        "before_mil": 70.15000000000006,
+        "after_mil": 52.227863940804895,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_02",
+        "layer": 1,
+        "before_mil": 80.86106981681397,
+        "after_mil": 46.6821476428542,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_05",
+        "layer": 1,
+        "before_mil": 65.60300000000052,
+        "after_mil": 50.34443487269476,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_07",
+        "layer": 1,
+        "before_mil": 68.78600000000051,
+        "after_mil": 51.662876641728325,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_07",
+        "layer": 1,
+        "before_mil": 64.8910000000003,
+        "after_mil": 50.0495148162849,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "USB_VBUS",
+        "layer": 16,
+        "before_mil": 1904.1931635479543,
+        "after_mil": 1320.741533752879,
+        "segments_before": 11,
+        "segments_after": 5
+      },
+      {
+        "type": "shorten",
+        "net": "LED_DATA_04",
+        "layer": 1,
+        "before_mil": 91.89800000000037,
+        "after_mil": 68.72721745966803,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "$4N430",
+        "layer": 1,
+        "before_mil": 316.95392908705435,
+        "after_mil": 316.95392908705435,
+        "segments_before": 5,
+        "segments_after": 4
+      },
+      {
+        "type": "shorten",
+        "net": "ORDER_IN",
+        "layer": 2,
+        "before_mil": 43.997999999999934,
+        "after_mil": 33.39936598401643,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "24V_BUS",
+        "layer": 2,
+        "before_mil": 601.47,
+        "after_mil": 579.2804097426929,
+        "segments_before": 2,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 1,
+        "before_mil": 199.90532626074523,
+        "after_mil": 178.24880166167856,
+        "segments_before": 3,
+        "segments_after": 2
+      },
+      {
+        "type": "shorten",
+        "net": "GND",
+        "layer": 17,
+        "before_mil": 440.00054811037927,
+        "after_mil": 415.3134197929429,
+        "segments_before": 5,
+        "segments_after": 4
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "LCD_RST",
+        "layer": 15,
+        "before_mil": 577.7946624468445,
+        "after_mil": 940.1159262170047
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "LCD_DC",
+        "layer": 16,
+        "before_mil": 696.6786587539008,
+        "after_mil": 1091.9121674027726
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "LCD_MOSI",
+        "layer": 15,
+        "before_mil": 586.6008427733266,
+        "after_mil": 1062.392990593274
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "LCD_SCLK",
+        "layer": 15,
+        "before_mil": 705.4848390806767,
+        "after_mil": 1157.165126217005
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "LCD_CS",
+        "layer": 16,
+        "before_mil": 595.4070231015751,
+        "after_mil": 1254.6425158861566
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "LCD_BL_PWM",
+        "layer": 2,
+        "before_mil": 714.291019409142,
+        "after_mil": 970.7139089735748
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "3V3_SYS",
+        "layer": 17,
+        "before_mil": 560.80745945463,
+        "after_mil": 583.4402541881209
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "RS485_DIR",
+        "layer": 17,
+        "before_mil": 1330.185221692204,
+        "after_mil": 1556.6537079033767
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "USB_VBUS",
+        "layer": 17,
+        "before_mil": 1468.9436309757366,
+        "after_mil": 1480.6593597282747
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "U3_TXD0",
+        "layer": 2,
+        "before_mil": 955.8774955674247,
+        "after_mil": 1353.379787603858
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "U3_RXD0",
+        "layer": 2,
+        "before_mil": 837.163854668423,
+        "after_mil": 1341.0956157451328
+      },
+      {
+        "type": "antenna_reroute",
+        "net": "ORDER_OUT",
+        "layer": 2,
+        "before_mil": 1834.7189079461357,
+        "after_mil": 1897.5331520393283
+      }
+    ],
+    "power_routes": [
+      {
+        "ref": "C53",
+        "from_mm": [
+          54.6559994,
+          -48.26
+        ],
+        "to_mm": [
+          46.75,
+          -40.6
+        ],
+        "from_angle": 0,
+        "to_angle": 270,
+        "removed_pad_stubs": []
+      },
+      {
+        "ref": "C56",
+        "from_mm": [
+          50.337999399999994,
+          -45.592999999999996
+        ],
+        "to_mm": [
+          49.7,
+          -45.27
+        ],
+        "from_angle": -90,
+        "to_angle": 270,
+        "removed_pad_stubs": [
+          "25088aeb592349f8",
+          "67b41170ae6521a7",
+          "d5d45eeb43fb69c7"
+        ]
+      },
+      {
+        "net": "24V_BUCK_IN",
+        "layer": 1,
+        "length_mm": 0.9496016664068675
+      },
+      {
+        "net": "GND",
+        "layer": 1,
+        "length_mm": 1.703605122421383
+      },
+      {
+        "net": "GND",
+        "layer": 16,
+        "length_mm": 5.782904108141209
+      },
+      {
+        "net": "BUCK24_SW",
+        "layer": 1,
+        "length_mm": 2.716616690169182
+      },
+      {
+        "net": "BUCK24_BOOT",
+        "layer": 1,
+        "length_mm": 2.716284690169192
+      }
+    ]
+  },
+  "antenna_keepout": {
+    "regions": {
+      "54fd08a215afb525": {
+        "partitionId": "",
+        "groupId": 0,
+        "layerId": 12,
+        "width": 0.2,
+        "prohibitType": [
+          "TRACK",
+          "COPPER",
+          "FILL",
+          "PLANE"
+        ],
+        "path": [
+          [
+            937.481,
+            -935.75,
+            "L",
+            937.481,
+            -699.53,
+            1646.141,
+            -699.53,
+            1646.141,
+            -935.75,
+            937.481,
+            -935.75
+          ]
+        ],
+        "locked": true,
+        "name": "PROHIBIT",
+        "regionType": "PROHIBIT"
+      }
+    },
+    "area_mm": [
+      18,
+      6
+    ],
+    "trace_and_copper_clearance_below_antenna": true,
+    "limitation": "Fixed J4 and connectors prevent complete manufacturer-recommended 15 mm surrounding antenna clearance. This is not RF qualification; radio performance requires hardware verification."
+  },
+  "sources": [
+    "https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/pcb-layout-design.html",
+    "https://www.ti.com/lit/ds/symlink/lmr16030.pdf"
+  ]
+}
