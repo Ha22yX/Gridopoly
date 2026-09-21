@@ -1,5 +1,7 @@
 # 角落模块 USB-C PD → 24V_BUS 电源规划
 
+> 历史阶段记录：后续已增加两板紧凑支路保护、R120=5.6k及角落ESP32配置PD（删除J101）。当前状态见[硬件基线](hardware-baseline.md)、[理论复核](unified-power-theory-review-2026-09-21.md)与[最新PD连接](corner-pd-esp32-programming-2026-09-21.md)；下文“当前”、旧库存及验证数字只对应本阶段。
+
 日期：2026-09-20。状态：历史架构候选。后续已经完成框内原理图，最终采用 STUSB4500 + TPS55340 + TPS26600；以下候选器件不再是当前 BOM。以 [原理图设计与验证记录](corner-usbc-pd-24v-schematic-2026-09-20.md) 为准。PCB 布局和样机热设计验证尚未完成。
 
 ## 1. 目标和第一版边界

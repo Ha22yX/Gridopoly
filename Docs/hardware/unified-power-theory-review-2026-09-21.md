@@ -23,7 +23,7 @@
 
 此前已对两种模块的未使用引脚补充 NC，并整理部分供应商属性；本次最终导出与复核前网表比较，长边 423、角落 691 个已连接引脚的网络映射全部不变。PCB 尚未同步这次电源原理图改动，不能直接用旧 PCB 投产。
 
-本目录的 corner/long-schematic 是最新复核快照。Hotplug 目录的原理图、图片与旧计算是前一版本记录；其 BOM-stock.csv 已将 R120 更新为 C23189，最新 R120 库存证据在本目录。
+本阶段 corner/long-schematic 是R120复核快照。角落后续最新网表已移至PCB Files/CornerModule/PDProgramming；长边仍以PowerIntegrity为准。此处691引脚是主控PD编程改动之前的数目，最新角落为685。Hotplug 目录的原理图、图片与旧计算是前一版本记录；其 BOM-stock.csv 已将 R120 更新为 C23189，最新 R120 库存证据在本目录。
 
 ## 主环路
 

@@ -1,65 +1,32 @@
 # Gridopoly ESP32-S3 固件开发指南
 
-更新日期：2026-07-31
+更新日期：2026-09-21
 
 本文给出单格模块固件的开发基线。GPIO 的最终定义来自
 [ESP32-S3 引脚与接口定义](../hardware/esp32-s3-pin-map.md)，通信和物理顺序来自
 [模块互连方案](../hardware/module-interconnect-5wire.md)。
 
-## 1. 推荐工作流
+## 1. 当前实际工程与构建
 
-- 框架：ESP-IDF。
-- 芯片目标：`esp32s3`。
-- 构建：CMake + `idf.py`。
-- 调试/日志：USB Serial/JTAG，GPIO19=D-、GPIO20=D+。
-- 单元测试：ESP-IDF Unity；协议编码、CRC、RFID 解码在主机侧增加纯 C/C++
-  测试。
-- 版本管理：固定可复现的 ESP-IDF 版本和 `sdkconfig.defaults`，不要让开发机各自
-  使用未记录的 IDF 版本。
-
-初始化工程：
+正式格子工程是 `Firmware/TileModule`，PlatformIO + Arduino，不是新建空白 ESP-IDF 工程。platformio.ini 固定 espressif32@7.0.1、C++17、16MB分区、qio_opi/OPI PSRAM与USB CDC；依赖版本按该文件，不凭开发机默认安装。
 
 ```powershell
-idf.py create-project gridopoly-tile
-cd gridopoly-tile
-idf.py set-target esp32s3
-idf.py menuconfig
-idf.py build
-idf.py flash monitor
+cd Firmware/TileModule
+pio run -e tile_esp32s3
+pio test -e native
 ```
 
-建议启用 USB Serial/JTAG 控制台。GPIO43/44 虽然网络名带 `TXD0/RXD0`，
-固件可通过 GPIO Matrix 把它们分配给 `UART_NUM_1`，避免与控制台职责混淆。
+构建不等于烧录。串口身份、设备运行版本及本机忽略配置先核对，实际刷写流程见[工程README](../../Firmware/TileModule/README.md)。协议/模型主机测试不代替屏幕、RFID、ORDER电气或PD验证。
 
-N16R8 表示 16MB Flash 和 8MB Octal PSRAM。`sdkconfig.defaults` 应固定
-16MB Flash 和 Octal PSRAM 配置；大块屏幕缓冲优先放 PSRAM。分区表需为 OTA
-和资源缓存预留空间，不要按常见 4MB 模组默认值构建。
+## 2. 目录与板型
 
-## 2. 建议目录
+板级定义位于 `include/board_config.h`，实现位于 `src/`，本机配置在 `config/`，禁止提交网络凭据。共享业务模型与协议位于 Firmware/libraries。
 
-```text
-firmware/
-  CMakeLists.txt
-  sdkconfig.defaults
-  main/
-    app_main.c
-    board_pins.h
-    board_config.h
-  components/
-    tile_protocol/
-    tile_rs485/
-    tile_order/
-    tile_display/
-    tile_led/
-    tile_rfid/
-    tile_power_monitor/
-    tile_self_test/
-  test/
-```
-
-业务代码不得直接出现裸 GPIO 数字；所有硬件定义放入 `board_pins.h`。
+当前V0.32支持显示、LED、INA226、RFID、HTTP心跳和ORDER物理信标，未启用RS485。长边/角落显式板型和STUSB4500维护驱动尚待实现，见[PD固件规格](corner-pd-firmware.md)。保留旧板构建，不复制整套业务工程；角落才增加GPIO13复位PD。
 
 ## 3. 板级 GPIO
+
+以下宏是共同核心的说明示例；实际代码以include/board_config.h为准。角落下一版须增加受板型约束的PD_RESET=13/STUSB4500=0x28，不能把长边GPIO13一并初始化。
 
 ```c
 #pragma once
@@ -106,6 +73,7 @@ GPIO35、36、37 被 N16R8 的 Octal PSRAM占用，禁止分配。GPIO3、45、4
 
 | 功能 | 启动状态 | 原因 |
 | --- | --- | --- |
+| 角落 `PD_RST` GPIO13 | 低 | 不在正常启动时复位正在供电的PD合同；固件待实现 |
 | `RS485_DIR` GPIO14 | 低 | DE=0、/RE=0，默认接收且不占用总线 |
 | `ORDER_OUT` GPIO10 | 低 | Q1 截止，开漏输出释放 |
 | `LCD_BL_PWM` GPIO16 | 低 | 上电先关闭背光，降低浪涌 |
@@ -114,7 +82,7 @@ GPIO35、36、37 被 N16R8 的 Octal PSRAM占用，禁止分配。GPIO3、45、4
 | `LED_DATA` GPIO21 | 低 | 防止 WS2812 随机锁存 |
 | `RFID_SCLK/DIN` | 低 | HTRC110 初始化前保持稳定 |
 
-ORDER 为低有效令牌：GPIO10 输出高会打开 Q1，把下一块板的 `ORDER_IN`
+ORDER 开漏线为低有效：GPIO10 输出高会打开 Q1，把下一块板的 `ORDER_IN`
 拉低；输出低会释放 ORDER 链。上电、复位和异常退出时都必须释放。
 
 ## 5. 推荐启动顺序
@@ -122,25 +90,24 @@ ORDER 为低有效令牌：GPIO10 输出高会打开 Q1，把下一块板的 `OR
 1. 建立 USB 日志，输出固件版本、硬件版本、复位原因和 eFuse MAC。
 2. 设置第 4 节的安全 GPIO 状态。
 3. 初始化 NVS，读取运行地址、校准参数和故障计数。
-4. 初始化 INA226，确认 `3V3_SYS` 和 I2C 正常。
-5. 初始化 RS485 UART，保持接收状态。
-6. 初始化 ORDER 输入滤波和状态机，但不立即向下游传令牌。
+4. 初始化共享I²C与INA226；3V3_SYS由外部仪表验证，INA226不直接测3.3V。
+5. GPIO14 保持低/接收安全态；当前固件不启动 RS485 数据传输。
+6. 初始化 ORDER V1 信标收发状态机，依协议启动；不能继续套用令牌枚举。
 7. 初始化屏幕，保持低背光，完成后再渐亮。
 8. 初始化 RMT 和 10 颗 WS2812，先发送全黑帧。
 9. 初始化 HTRC110、4MHz 时钟接口和解码任务。
-10. 执行自检并上报 `BOOT_REPORT`；只有自检通过才接受高功耗命令。
+10. 执行自检并通过当前HTTP心跳报告状态；后续版本化扩展硬件/PD能力，不把历史BOOT_REPORT提案当现有wire。
 
 任一外设失败不应让看门狗反复重启整板。记录故障并进入降级模式，例如屏幕
-失败时仍保留 RS485、ORDER 和电流上报。
+显示失败不应阻塞HTTP、ORDER和有效电量上报；RS485尚未启用。
 
 ## 6. 外设驱动约束
 
 ### 6.1 ST7789
 
 - 240×320、只写 SPI，无 MISO。
-- 从 SPI mode 0、20MHz 开始验证；稳定后可提高到 40MHz，再根据屏幕模块
-  和实际波形决定是否继续提高。
-- 使用 DMA 分块发送，避免一次申请完整帧缓冲。
+- 当前默认8MHz，按已验证设备身份才使用本机40MHz配置；不能推广到全部板。
+- 当前采用PSRAM合成/提交帧差分与内部RAM行发送；以实际驱动为准，不重复整页清空。
 - 原始 RGB565 全屏为 `240 × 320 × 2 = 153600` 字节。
 - 背光必须使用 PWM 和功耗策略控制，不要把 GPIO16 当作普通常高电源。
 
@@ -178,7 +145,7 @@ Power_LSB = 25 × Current_LSB = 2.5mW/bit
 - Bus Voltage、Shunt Voltage、Current、Power。
 - 连续平均值和峰值；不要只上传单次读数。
 
-### 6.4 RS485
+### 6.4 RS485（后续实现约束，当前未启用）
 
 - 推荐使用 `UART_NUM_1`，TX=43、RX=44。
 - 初始波特率 115200；多板稳定后使用 921600。
@@ -190,27 +157,48 @@ Power_LSB = 25 × Current_LSB = 2.5mW/bit
 
 ### 6.5 ORDER
 
-输入 GPIO9 带 10kΩ上拉和 100nF 滤波，低电平表示收到上游令牌。建议：
+当前为每板独立物理信标，不是ENUM_NEXT/PASS_TOKEN。GPIO10低释放、高拉低下游；1ms任务按6秒周期发送bootId/seq/CRC，通过HTTP报告接收到的实际上游。
 
-- 连续读取为低至少 2～5ms 后确认令牌。
-- 一个模块只在“未分配且持有令牌”时响应 `ENUM_NEXT`。
-- 地址写入 NVS 前先完成主控确认，避免掉电留下半枚举状态。
-- 传递令牌时 GPIO10 置高；收到下游确认或超时后置低释放。
-- 枚举超时必须可恢复，不能永久把 ORDER_OUT 拉低。
+准确脉宽、序号、TTL、卡低和调度异常规则以[ORDER V1](tile-order-protocol.md)为准；服务器当前拒绝闭环，完整环形产品需要先定义断点或新增协议。
 
-### 6.6 HTRC110 与 125kHz 标签
+### 6.6 HTRC110 与 HITAG S256
 
 - HTRC110 是三线串行控制接口，不应直接套用标准 SPI 驱动。
 - 命令、采样和时序按 HTRC110 数据手册实现。
-- HTRC110 输出的是原始解调数据；固件还要实现 EM4100/TK4100
-  Manchester 解码、帧头、行/列奇偶校验和固定 ID 提取。
-- 先以“单标签进入线圈”为设计前提。EM4100/TK4100 没有防冲突协议，
-  多个棋子同时放在同一格时通常会碰撞、无有效帧或读数不稳定。
-- 连续收到至少 2～3 个相同且校验正确的帧后再上报 `TAG_PRESENT`。
+- 当前标签为 HITAG S256；固件发送 Advanced UID REQUEST `11001`，解码
+  `SOF 111 + UID0..UID3` 的 AC2K 2kbit/s 响应，并按 `UID3..UID0` 显示 8 位十六进制 UID。
+- 发生碰撞时，V0.26 在场保持开启的同一 Init 会话内按碰撞位展开 AC SEQUENCE；
+  每条前缀命令由 `k[5] + UID prefix[k] + CRC8` 组成，逐个恢复剩余 `32-k` 位 UID。
+- 解码必须选择时间上最早的完整 SOF，不能在后续 AC 数据内部搜索“更深”的伪碰撞；
+  每个采样相位连续确认两次，最多三轮枚举取 UID 并集。
+- 单格集合最多保留 6 个去重 UID，500ms 复检一次；超过上限显示 `6+`。每个 UID 使用独立饱和缺失证据：漏读加 2、有效读取减 1、阈值 3，兼顾单次抗抖和约 0.5～1 秒的真实离场响应；零星边缘响应不得把离场确认整体清零。
+  协议状态机和 CRC 已通过原生测试，但多实体标签仍必须完成线圈中心、边缘和叠放验收。
+- 初次单标签仍需连续收到 3 个相同 UID 后再发布。
+- UID 扫描只发送识别请求，不得发送标签存储器写命令。
 - 标签离开应使用超时去抖，避免边缘位置反复出现/消失。
 - 谐振电容和天线电感属于硬件标定项，固件不能修复严重失谐。
 
+### 6.7 Tag 联机与移动提示
+
+V0.27 的 HTTP 心跳请求可带完整 Tag JSON：`tagReaderState` 只能为 `scanning`、`stable` 或
+`fault`，`tagRevision` 是模块本地变更游标，`tags` 为最多 6 个大写 8 位十六进制 UID，
+`overflow` 表示枚举结果被截断。稳定集合、reader 状态或 overflow 变化时立即发心跳；否则
+维持 2 秒续租。只有 `stable && !overflow` 的完整集合能够触发游戏逻辑，扫描中、故障和溢出
+状态只用于诊断。模块重启后 revision 可从头开始，服务器必须以每次完整 body 为准。
+
+心跳响应的 `movementCue` 固定包含 `mode`、`playerId` 和 `revision`。`departure` 表示当前格
+是本次移动起点，整圈 LED 橙色呼吸；`destination` 表示目标格，整圈 LED 绿色双闪；其他格
+使用 `none`。目标提示优先于出发提示，移动提示优先于常态的地区色、所有者色和占用呼吸。
+固件仅在 revision 或 cue 内容变化时重置动画，重复心跳不得使动画不断从第一帧开始。
+
+Tag 与玩家的一对一绑定、跨模块全局汇总和自动到达均属于服务器权威状态。目标格稳定读到
+当前移动玩家的绑定 UID 后，服务器复用现有 `ConfirmPosition` 事务；格子不得自行推进回合，
+玩家控制屏的手动确认入口必须保留。相邻格同时识别的强度仲裁仍是后续能力。
+
+
 ## 7. 功耗模式
+
+当前每板约1W是设计预算，不是现有亮度常量已经证明的最坏功耗。须实现并实测启动、维护、正常、降载策略，见[PD与统一功耗固件规格](corner-pd-firmware.md)。INA226仅测本地5V侧，不能代表整盘24V总功率。硬件限流/软启动自行工作，不等待服务器计数。
 
 定义至少三档：
 
@@ -228,12 +216,14 @@ Power_LSB = 25 × Current_LSB = 2.5mW/bit
 ## 8. 模块身份与配置
 
 - 永久唯一 ID：ESP32-S3 eFuse 默认 MAC。
-- 运行地址：每次 ORDER 枚举由树莓派分配，建议 16 位。
+- 当前按设备身份、HTTP租约及ORDER锚点派生assignment；16位RS485运行地址仍是历史提案。
 - `order_index`：物理顺序号，从 0 或 1 开始必须在协议中固定。
 - NVS 保存：硬件版本、亮度上限、INA226 校准、RFID 参数和最后故障。
 - 不要把上一次运行地址当成当前物理顺序；重新拼接棋盘后必须重新枚举。
 
-## 9. RS485 协议 V0
+## 9. 历史提案：RS485 协议 V0（未部署）
+
+以下帧格式仅保留设计背景，不是当前Tile V0.32的通信契约。当前使用HTTP与ORDER V1；将来启用RS485须重新审查并版本化。
 
 当前建议冻结为下列二进制帧，所有多字节整数使用小端：
 
