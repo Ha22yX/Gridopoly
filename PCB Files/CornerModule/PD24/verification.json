@@ -1,0 +1,127 @@
+{
+  "physicalPinsChecked": 188,
+  "netMismatch": [],
+  "outsideOriginalContentChanges": [],
+  "permittedOriginalChanges": [
+    {
+      "type": "ATTR",
+      "id": "a0c16c8a32b1dfa1",
+      "before": {
+        "x": null,
+        "y": null,
+        "rotation": null,
+        "color": null,
+        "fontFamily": null,
+        "fontSize": null,
+        "fontWeight": null,
+        "italic": null,
+        "underline": null,
+        "align": null,
+        "value": "",
+        "keyVisible": null,
+        "valueVisible": null,
+        "key": "Unique ID",
+        "fillColor": null,
+        "parentId": "b143ffac24fa3447",
+        "zIndex": -2
+      },
+      "after": {
+        "x": null,
+        "y": null,
+        "rotation": null,
+        "color": null,
+        "fontFamily": null,
+        "fontSize": null,
+        "fontWeight": null,
+        "italic": null,
+        "underline": null,
+        "align": null,
+        "value": "gge170",
+        "keyVisible": null,
+        "valueVisible": null,
+        "key": "Unique ID",
+        "fillColor": null,
+        "parentId": "b143ffac24fa3447",
+        "zIndex": -2
+      }
+    },
+    {
+      "type": "COMPONENT",
+      "id": "c3780e39b5800a74",
+      "before": {
+        "partId": "pid8a0e77bacb214e",
+        "x": 2185,
+        "y": -560,
+        "rotation": 0,
+        "isMirror": false,
+        "attrs": {},
+        "zIndex": 677
+      },
+      "after": {
+        "partId": "pid8a0e77bacb214e",
+        "x": 2210,
+        "y": -450,
+        "rotation": 0,
+        "isMirror": false,
+        "attrs": {},
+        "zIndex": 677
+      }
+    },
+    {
+      "type": "ATTR",
+      "id": "45b3e1474105bb80",
+      "before": {
+        "x": 2225,
+        "y": -560,
+        "rotation": 0,
+        "color": null,
+        "fontFamily": null,
+        "fontSize": null,
+        "fontWeight": null,
+        "italic": null,
+        "underline": null,
+        "align": "LEFT_MIDDLE",
+        "value": "24V_BUS",
+        "keyVisible": null,
+        "valueVisible": true,
+        "key": "Name",
+        "fillColor": null,
+        "parentId": "c3780e39b5800a74",
+        "zIndex": 3,
+        "locked": false
+      },
+      "after": {
+        "x": 2250,
+        "y": -450,
+        "rotation": 0,
+        "color": null,
+        "fontFamily": null,
+        "fontSize": null,
+        "fontWeight": null,
+        "italic": null,
+        "underline": null,
+        "align": "LEFT_MIDDLE",
+        "value": "24V_BUS",
+        "keyVisible": null,
+        "valueVisible": true,
+        "key": "Name",
+        "fillColor": null,
+        "parentId": "c3780e39b5800a74",
+        "zIndex": 3,
+        "locked": false
+      }
+    }
+  ],
+  "pinsOutsideFrame": [],
+  "duplicateDesignators": [],
+  "newPhysicalComponents": 50,
+  "stockSkuCount": 26,
+  "stockMinimum": 182,
+  "drcSummary": [
+    {
+      "type": "warn",
+      "count": 3
+    }
+  ],
+  "drcWarningDetails": "Not exposed by v3.2.203 API. No error/fatal entries returned; warnings not signed off."
+}
