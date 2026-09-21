@@ -1,0 +1,137 @@
+{
+  "power_block_total": 25,
+  "existing_pcb_parts_reused": 17,
+  "actual_new_parts": 8,
+  "new_designators": [
+    "U201",
+    "R201",
+    "R202",
+    "R204",
+    "R205",
+    "R206",
+    "C202",
+    "C203"
+  ],
+  "existing_matches": [
+    {
+      "ref": "U23",
+      "schematic_uid": "gge133",
+      "pcb_uid": "gge133",
+      "pcb_primitive_id": "6e7e8f12bdf8a1b3",
+      "status": "existing-part-replacement"
+    },
+    {
+      "ref": "U24",
+      "schematic_uid": "gge134",
+      "pcb_uid": "gge134",
+      "pcb_primitive_id": "33ca6e12b4a55d30",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "D6",
+      "schematic_uid": "gge135",
+      "pcb_uid": "gge135",
+      "pcb_primitive_id": "5044b1166b4ca6ad",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C52",
+      "schematic_uid": "gge136",
+      "pcb_uid": "gge136",
+      "pcb_primitive_id": "5f6a24f693754e4d",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C55",
+      "schematic_uid": "gge139",
+      "pcb_uid": "gge139",
+      "pcb_primitive_id": "b508c3fa40d58326",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C53",
+      "schematic_uid": "gge137",
+      "pcb_uid": "gge137",
+      "pcb_primitive_id": "2c8251d22d237724",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C54",
+      "schematic_uid": "gge138",
+      "pcb_uid": "gge138",
+      "pcb_primitive_id": "f484b6cdeb792b98",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C56",
+      "schematic_uid": "gge140",
+      "pcb_uid": "gge140",
+      "pcb_primitive_id": "f46ed38f54f9324a",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "R39",
+      "schematic_uid": "gge141",
+      "pcb_uid": "gge141",
+      "pcb_primitive_id": "7e9e132f737a6a3b",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "L2",
+      "schematic_uid": "gge142",
+      "pcb_uid": "gge142",
+      "pcb_primitive_id": "436b95679255c7a9",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "R34",
+      "schematic_uid": "gge143",
+      "pcb_uid": "gge143",
+      "pcb_primitive_id": "26bd67c7160fea12",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "R35",
+      "schematic_uid": "gge144",
+      "pcb_uid": "gge144",
+      "pcb_primitive_id": "9fd768c02c7ba180",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C35",
+      "schematic_uid": "gge145",
+      "pcb_uid": "gge145",
+      "pcb_primitive_id": "7aa255cde451e2c6",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C36",
+      "schematic_uid": "gge146",
+      "pcb_uid": "gge146",
+      "pcb_primitive_id": "79e7e23e86690cf6",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C37",
+      "schematic_uid": "gge147",
+      "pcb_uid": "gge147",
+      "pcb_primitive_id": "6a0209a3ae00b920",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "C38",
+      "schematic_uid": "gge148",
+      "pcb_uid": "gge148",
+      "pcb_primitive_id": "c183915934fa662f",
+      "status": "existing-part-reused"
+    },
+    {
+      "ref": "D3",
+      "schematic_uid": "gge149",
+      "pcb_uid": "gge149",
+      "pcb_primitive_id": "2a8a49e3a395d4f1",
+      "status": "existing-part-reused"
+    }
+  ],
+  "pcb_modified": false
+}
