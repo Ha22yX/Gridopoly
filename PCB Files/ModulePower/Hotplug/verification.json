@@ -1,0 +1,47 @@
+{
+  "date_utc": "2026-09-21T05:10:24.298021+00:00",
+  "new_parts_per_module": 8,
+  "replaced_parts": {
+    "U23": [
+      "C90665",
+      "C136648"
+    ]
+  },
+  "reused_input_capacitor": "C53/C344180",
+  "local_skus": 21,
+  "combined_power_skus": 51,
+  "minimum_domestic_immediate_stock": 140,
+  "stock_all_ge100_and_40_module_4_corner_qty": true,
+  "schematic_only": true,
+  "pcb_modified": false,
+  "bench_validated": false,
+  "drc": {
+    "long": [
+      {
+        "type": "warn",
+        "count": 2
+      }
+    ],
+    "corner": [
+      {
+        "type": "warn",
+        "count": 4
+      }
+    ]
+  },
+  "drc_warning_details": "Not exposed by current API; warnings are not waived or claimed cleared.",
+  "verification": {
+    "long": {
+      "pinsChecked": 423,
+      "oldPinsCompared": 398,
+      "powerPinsChecked": 66,
+      "errors": []
+    },
+    "corner": {
+      "pinsChecked": 691,
+      "oldPinsCompared": 666,
+      "powerPinsChecked": 66,
+      "errors": []
+    }
+  }
+}

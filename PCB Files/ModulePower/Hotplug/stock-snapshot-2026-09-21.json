@@ -1,0 +1,716 @@
+[
+  {
+    "sku": "C124379",
+    "stock": 21940,
+    "domestic": {
+      "total": 21940,
+      "shipImmediately": 21940,
+      "ship3Days": 0
+    },
+    "model": "B-2100S05P-A110",
+    "url": "https://www.lcsc.com/product-detail/C124379.html",
+    "chinese_url": "https://item.szlcsc.com/125654.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "1ae468ac16e0f0b3ede9d6616e80ef2656e17b1f6220f3d015f89e9976cc4c71"
+  },
+  {
+    "sku": "C125847",
+    "stock": 4370,
+    "domestic": {
+      "total": 4370,
+      "shipImmediately": 4370,
+      "ship3Days": 0
+    },
+    "model": "CC0805KKX7R9BB225",
+    "url": "https://www.lcsc.com/product-detail/C125847.html",
+    "chinese_url": "https://item.szlcsc.com/137127.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "f430398bb5144d1bd5f0b1cc4b8b0996050607de6f90609151e506d9e71b093b"
+  },
+  {
+    "sku": "C136648",
+    "stock": 89815,
+    "domestic": {
+      "total": 89815,
+      "shipImmediately": 89815,
+      "ship3Days": 0
+    },
+    "model": "LMR16030SDDAR",
+    "url": "https://www.lcsc.com/product-detail/C136648.html",
+    "chinese_url": "https://item.szlcsc.com/147964.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "82067301f6be8a345cc29856c9ef6ac40cdb1d16b8866dbf47838e9fa3a1ca8e"
+  },
+  {
+    "sku": "C137969",
+    "stock": 1449300,
+    "domestic": {
+      "total": 1449300,
+      "shipImmediately": 1449300,
+      "ship3Days": 0
+    },
+    "model": "RC0402FR-0749K9L",
+    "url": "https://www.lcsc.com/product-detail/C137969.html",
+    "chinese_url": "https://item.szlcsc.com/149285.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "922ec3a7fa5c7479e5a04deeba35f4a31ab0a7d545593b1121177e86c1fa20c3"
+  },
+  {
+    "sku": "C14663",
+    "stock": 9972200,
+    "domestic": {
+      "total": 9972200,
+      "shipImmediately": 9972200,
+      "ship3Days": 0
+    },
+    "model": "CC0603KRX7R9BB104",
+    "url": "https://www.lcsc.com/product-detail/C14663.html",
+    "chinese_url": "https://item.szlcsc.com/15331.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "b0ab7df5d729788c01a17a2c7c9b2f830b69c870ba2c9bd4d7d6e44a35cfae75"
+  },
+  {
+    "sku": "C1588",
+    "stock": 5389750,
+    "domestic": {
+      "total": 5389750,
+      "shipImmediately": 5389750,
+      "ship3Days": 0
+    },
+    "model": "CL10B102KB8NNNC",
+    "url": "https://www.lcsc.com/product-detail/C1588.html",
+    "chinese_url": "https://item.szlcsc.com/1940.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "22f1736bf1a938a441262b24fa3805aab8a3c01ea0ca1bd659ec1aed370a557f"
+  },
+  {
+    "sku": "C1591",
+    "stock": 330800,
+    "domestic": {
+      "total": 330800,
+      "shipImmediately": 330800,
+      "ship3Days": 0
+    },
+    "model": "CL10B104KB8NNNC",
+    "url": "https://www.lcsc.com/product-detail/C1591.html",
+    "chinese_url": "https://item.szlcsc.com/1943.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "cde19f6d7a7c56229015cbda2f853861415ae9f14a103d14bf7cc97e8a4fcd45"
+  },
+  {
+    "sku": "C16072",
+    "stock": 26885,
+    "domestic": {
+      "total": 26885,
+      "shipImmediately": 26885,
+      "ship3Days": 0
+    },
+    "model": "AO4407A",
+    "url": "https://www.lcsc.com/product-detail/C16072.html",
+    "chinese_url": "https://item.szlcsc.com/16754.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "9378adb3d16232841f5a4dd0b021ef3c65d94dd1c2d9d90da91094fb18db5403"
+  },
+  {
+    "sku": "C18199171",
+    "stock": 29890,
+    "domestic": {
+      "total": 29890,
+      "shipImmediately": 29890,
+      "ship3Days": 0
+    },
+    "model": "SS510",
+    "url": "https://www.lcsc.com/product-detail/C18199171.html",
+    "chinese_url": "https://item.szlcsc.com/19354403.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "4a785a8502aeab97186ad9403f8261739329910790a0c02559fd715324b53339"
+  },
+  {
+    "sku": "C1848341",
+    "stock": 140,
+    "domestic": {
+      "total": 140,
+      "shipImmediately": 140,
+      "ship3Days": 0
+    },
+    "model": "TPS26621DRCR",
+    "url": "https://www.lcsc.com/product-detail/C1848341.html",
+    "chinese_url": "https://item.szlcsc.com/1939154.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "e87663b6e02791d7978f1cf494f92389cd84921a9e78614f59eafa8f2861cba3"
+  },
+  {
+    "sku": "C1850278",
+    "stock": 1000,
+    "domestic": {
+      "total": 1000,
+      "shipImmediately": 1000,
+      "ship3Days": 0
+    },
+    "model": "TPS26632RGER",
+    "url": "https://www.lcsc.com/product-detail/C1850278.html",
+    "chinese_url": "https://item.szlcsc.com/1941091.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "5f34663f5f7c56dc174bd9d66c59d3206aabd2d5e035d0a54c780a43e80d9263"
+  },
+  {
+    "sku": "C19078738",
+    "stock": 8660,
+    "domestic": {
+      "total": 8660,
+      "shipImmediately": 8660,
+      "ship3Days": 0
+    },
+    "model": "2920L150/60GR",
+    "url": "https://www.lcsc.com/product-detail/C19078738.html",
+    "chinese_url": "https://item.szlcsc.com/20283539.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "e3d2ddbff4ba3af1ed8738ef9ff9c701754a6f7301ae4ee3732c0f2d9a31dd51"
+  },
+  {
+    "sku": "C19191627",
+    "stock": 217,
+    "domestic": {
+      "total": 217,
+      "shipImmediately": 217,
+      "ship3Days": 0
+    },
+    "model": "XAL6060-822MEC",
+    "url": "https://www.lcsc.com/product-detail/C19191627.html",
+    "chinese_url": "https://item.szlcsc.com/20430605.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "099c0d20c55e05dbe2c8c6518383f7d6d4479589dba0962a99ce9accab642aa2"
+  },
+  {
+    "sku": "C19666",
+    "stock": 1064570,
+    "domestic": {
+      "total": 1064570,
+      "shipImmediately": 1064570,
+      "ship3Days": 0
+    },
+    "model": "CL10A475KO8NNNC",
+    "url": "https://www.lcsc.com/product-detail/C19666.html",
+    "chinese_url": "https://item.szlcsc.com/20375.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "bdcc974239b5ea93fe4b8bf1619a23a30c1ae3f60f1e9b0d7530fc844020b10f"
+  },
+  {
+    "sku": "C22775",
+    "stock": 7340400,
+    "domestic": {
+      "total": 7340400,
+      "shipImmediately": 7340400,
+      "ship3Days": 0
+    },
+    "model": "0603WAF1000T5E",
+    "url": "https://www.lcsc.com/product-detail/C22775.html",
+    "chinese_url": "https://item.szlcsc.com/23502.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "c00b8a283e7f48b43f8d3b8b188b1b8af4c7d23b45fe630504de8775989f5873"
+  },
+  {
+    "sku": "C22795",
+    "stock": 540900,
+    "domestic": {
+      "total": 540900,
+      "shipImmediately": 540900,
+      "ship3Days": 0
+    },
+    "model": "0603WAF1303T5E",
+    "url": "https://www.lcsc.com/product-detail/C22795.html",
+    "chinese_url": "https://item.szlcsc.com/23522.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "228728abca02b67368ddf5e78d2ba5977a8dfb0d8e498e2583186dbf14cc741b"
+  },
+  {
+    "sku": "C22821",
+    "stock": 58800,
+    "domestic": {
+      "total": 58800,
+      "shipImmediately": 58800,
+      "ship3Days": 0
+    },
+    "model": "0603WAF1782T5E",
+    "url": "https://www.lcsc.com/product-detail/C22821.html",
+    "chinese_url": "https://item.szlcsc.com/23548.html",
+    "checked_utc": "2026-09-21T05:08:07Z",
+    "html_sha256": "e0c6a4fdcfe5e27c4480a2f7a239ccfb26cc6f1bfd7fdd794bdafb6f8bc11a50"
+  },
+  {
+    "sku": "C22923",
+    "stock": 20600,
+    "domestic": {
+      "total": 20600,
+      "shipImmediately": 20600,
+      "ship3Days": 0
+    },
+    "model": "0603WAF2672T5E",
+    "url": "https://www.lcsc.com/product-detail/C22923.html",
+    "chinese_url": "https://item.szlcsc.com/23650.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "d35cba029b9d24c54340929471e0f338bce93a72ac04b3257ee05d8b5f2a14f0"
+  },
+  {
+    "sku": "C22961",
+    "stock": 1339800,
+    "domestic": {
+      "total": 1339800,
+      "shipImmediately": 1339800,
+      "ship3Days": 0
+    },
+    "model": "0603WAF2203T5E",
+    "url": "https://www.lcsc.com/product-detail/C22961.html",
+    "chinese_url": "https://item.szlcsc.com/23688.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "4f23c2ae36d95aef5871181a577efeb246b4b3235220b99b990d1eee0fd0485f"
+  },
+  {
+    "sku": "C23040",
+    "stock": 32900,
+    "domestic": {
+      "total": 32900,
+      "shipImmediately": 32900,
+      "ship3Days": 0
+    },
+    "model": "0603WAF4021T5E",
+    "url": "https://www.lcsc.com/product-detail/C23040.html",
+    "chinese_url": "https://item.szlcsc.com/23767.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "17e954f23973b84b16a0df2839480e27b8905730e12ac354fc161c51603585ab"
+  },
+  {
+    "sku": "C23056",
+    "stock": 193000,
+    "domestic": {
+      "total": 193000,
+      "shipImmediately": 193000,
+      "ship3Days": 0
+    },
+    "model": "0603WAF4422T5E",
+    "url": "https://www.lcsc.com/product-detail/C23056.html",
+    "chinese_url": "https://item.szlcsc.com/23783.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "b4d53524af8594ef70dfbb1d722bfd46cb1be233720b008b3987a28ba7fb60f5"
+  },
+  {
+    "sku": "C23162",
+    "stock": 15656200,
+    "domestic": {
+      "total": 15656200,
+      "shipImmediately": 15656200,
+      "ship3Days": 0
+    },
+    "model": "0603WAF4701T5E",
+    "url": "https://www.lcsc.com/product-detail/C23162.html",
+    "chinese_url": "https://item.szlcsc.com/23889.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "8d4b7065af45656a7ddf8973b7c923212219e9a1eb1bc4cb6350f40dede920ad"
+  },
+  {
+    "sku": "C23179",
+    "stock": 5112400,
+    "domestic": {
+      "total": 5112400,
+      "shipImmediately": 5112400,
+      "ship3Days": 0
+    },
+    "model": "0603WAF4700T5E",
+    "url": "https://www.lcsc.com/product-detail/C23179.html",
+    "chinese_url": "https://item.szlcsc.com/23906.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "a669f6d3b6151070fa59f5d14a067215a68b94360b3539b537731d63fe109b0e"
+  },
+  {
+    "sku": "C23212",
+    "stock": 1424600,
+    "domestic": {
+      "total": 1424600,
+      "shipImmediately": 1424600,
+      "ship3Days": 0
+    },
+    "model": "0603WAF6801T5E",
+    "url": "https://www.lcsc.com/product-detail/C23212.html",
+    "chinese_url": "https://item.szlcsc.com/23939.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "35aa9345184b42f72b619742062e8022e6dbcb9515bf2bdef91966e1eed1d052"
+  },
+  {
+    "sku": "C23266",
+    "stock": 18900,
+    "domestic": {
+      "total": 18900,
+      "shipImmediately": 18900,
+      "ship3Days": 0
+    },
+    "model": "0603WAF9312T5E",
+    "url": "https://www.lcsc.com/product-detail/C23266.html",
+    "chinese_url": "https://item.szlcsc.com/23993.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "579b90fea1984599d6ca7bfb994da3e8fad22821c97fdbbe40910a2d1581fb32"
+  },
+  {
+    "sku": "C2480",
+    "stock": 601250,
+    "domestic": {
+      "total": 601250,
+      "shipImmediately": 601250,
+      "ship3Days": 0
+    },
+    "model": "SS14",
+    "url": "https://www.lcsc.com/product-detail/C2480.html",
+    "chinese_url": "https://item.szlcsc.com/2857.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "7b79936229932351314674cbd93cf33b26004c08f76685f5ed491c038ad4f6cd"
+  },
+  {
+    "sku": "C25819",
+    "stock": 345600,
+    "domestic": {
+      "total": 345600,
+      "shipImmediately": 345600,
+      "ship3Days": 0
+    },
+    "model": "0603WAF4702T5E",
+    "url": "https://www.lcsc.com/product-detail/C25819.html",
+    "chinese_url": "https://item.szlcsc.com/26562.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "7f63156cb6964aaec92682f2eaaabc97345aaa9a502274d8031a9eb6db7f0381"
+  },
+  {
+    "sku": "C2678061",
+    "stock": 5443,
+    "domestic": {
+      "total": 5443,
+      "shipImmediately": 5443,
+      "ship3Days": 0
+    },
+    "model": "STUSB4500QTR",
+    "url": "https://www.lcsc.com/product-detail/C2678061.html",
+    "chinese_url": "https://item.szlcsc.com/2769977.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "36a06d1bf7157c58b246c2871430dd63183b523806ccae77c4a5afce673ec28d"
+  },
+  {
+    "sku": "C27694",
+    "stock": 86900,
+    "domestic": {
+      "total": 86900,
+      "shipImmediately": 86900,
+      "ship3Days": 0
+    },
+    "model": "CL10C471JB8NNNC",
+    "url": "https://www.lcsc.com/product-detail/C27694.html",
+    "chinese_url": "https://item.szlcsc.com/28444.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "7bf77d46ad584a92b544a8097c0dd39c0022d68e65cbe3e117b92b99b147c847"
+  },
+  {
+    "sku": "C28323",
+    "stock": 557060,
+    "domestic": {
+      "total": 557060,
+      "shipImmediately": 557060,
+      "ship3Days": 0
+    },
+    "model": "CL21B105KBFNNNE",
+    "url": "https://www.lcsc.com/product-detail/C28323.html",
+    "chinese_url": "https://item.szlcsc.com/29074.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "ebbe880b0b472e0be58ab98cc2744dce175539e7eebe33ca7c1a27ebb0b99486"
+  },
+  {
+    "sku": "C2906980",
+    "stock": 4877800,
+    "domestic": {
+      "total": 4877800,
+      "shipImmediately": 4877800,
+      "ship3Days": 0
+    },
+    "model": "FRC0603F1003TS",
+    "url": "https://www.lcsc.com/product-detail/C2906980.html",
+    "chinese_url": "https://item.szlcsc.com/3180493.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "c1d096535fb3433dc9d89b8380abfa544fc29bf99e364a960b87b7e22ea13c5c"
+  },
+  {
+    "sku": "C2935152",
+    "stock": 1995,
+    "domestic": {
+      "total": 1995,
+      "shipImmediately": 1995,
+      "ship3Days": 0
+    },
+    "model": "ESDA25W",
+    "url": "https://www.lcsc.com/product-detail/C2935152.html",
+    "chinese_url": "https://item.szlcsc.com/3283820.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "12688b91d94f3478b1114b1e36bfe7079b93c5d95fbf5f6ff855c41d232ecccc"
+  },
+  {
+    "sku": "C2941042",
+    "stock": 2125,
+    "domestic": {
+      "total": 2125,
+      "shipImmediately": 2125,
+      "ship3Days": 0
+    },
+    "model": "LM74700QDBVRQ1",
+    "url": "https://www.lcsc.com/product-detail/C2941042.html",
+    "chinese_url": "https://item.szlcsc.com/3310653.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "66e3f7bd7810f361b70635bf16ac77e72c1fc26e26f9d0788444586c4e019247"
+  },
+  {
+    "sku": "C2960683",
+    "stock": 89940,
+    "domestic": {
+      "total": 89940,
+      "shipImmediately": 89940,
+      "ship3Days": 0
+    },
+    "model": "FRC2512F1001TS",
+    "url": "https://www.lcsc.com/product-detail/C2960683.html",
+    "chinese_url": "https://item.szlcsc.com/3347785.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "75eae559fdff3e0d301aa7b78afa9db7cdbdd5573df4492c3dc423144d1ba6a4"
+  },
+  {
+    "sku": "C337225",
+    "stock": 1395,
+    "domestic": {
+      "total": 1395,
+      "shipImmediately": 1395,
+      "ship3Days": 0
+    },
+    "model": "LR12FTESR004",
+    "url": "https://www.lcsc.com/product-detail/C337225.html",
+    "chinese_url": "https://item.szlcsc.com/315187.html",
+    "checked_utc": "2026-09-21T05:08:08Z",
+    "html_sha256": "9cd5875ac91cc1a8137038ee606eac8060412f3f0e624612b6fb72807126f867"
+  },
+  {
+    "sku": "C344180",
+    "stock": 398780,
+    "domestic": {
+      "total": 398780,
+      "shipImmediately": 398780,
+      "ship3Days": 0
+    },
+    "model": "TCC0805X7R104K101DT",
+    "url": "https://www.lcsc.com/product-detail/C344180.html",
+    "chinese_url": "https://item.szlcsc.com/322732.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "20c35926e6b0088db08c1028778401f1604556741c80559f4ae12cd70c7a88bd"
+  },
+  {
+    "sku": "C357285",
+    "stock": 3610,
+    "domestic": {
+      "total": 3610,
+      "shipImmediately": 3610,
+      "ship3Days": 0
+    },
+    "model": "TMPC1707HP-4R7MG-D",
+    "url": "https://www.lcsc.com/product-detail/C357285.html",
+    "chinese_url": "https://item.szlcsc.com/332390.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "a1559c1f2e09c27cec7f5b60d7b4f3e5b7e15ae1a25350e9b0d92f0fa8f1d93e"
+  },
+  {
+    "sku": "C442493",
+    "stock": 699,
+    "domestic": {
+      "total": 699,
+      "shipImmediately": 699,
+      "ship3Days": 0
+    },
+    "model": "LM5176PWPR",
+    "url": "https://www.lcsc.com/product-detail/C442493.html",
+    "chinese_url": "https://item.szlcsc.com/442668.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "d7524e9bb493b45c3e3a7f7eb5498693df7a2c97ad2dab2c46d0a67681a71be0"
+  },
+  {
+    "sku": "C46528106",
+    "stock": 23235,
+    "domestic": {
+      "total": 23235,
+      "shipImmediately": 23235,
+      "ship3Days": 0
+    },
+    "model": "118EC454",
+    "url": "https://www.lcsc.com/product-detail/C46528106.html",
+    "chinese_url": "https://item.szlcsc.com/48653971.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "569e4d08b587b21aa052489092329149a97e4d2b94c3774dcbe8686ec527e878"
+  },
+  {
+    "sku": "C48971005",
+    "stock": 384360,
+    "domestic": {
+      "total": 384360,
+      "shipImmediately": 384360,
+      "ship3Days": 0
+    },
+    "model": "RV63V47M6X8",
+    "url": "https://www.lcsc.com/product-detail/C48971005.html",
+    "chinese_url": "https://item.szlcsc.com/51296210.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "e11cb07f8dac039405fab05c6493ce4223450e9a9fcdad1059ada09f7a8753be"
+  },
+  {
+    "sku": "C5137635",
+    "stock": 165870,
+    "domestic": {
+      "total": 165870,
+      "shipImmediately": 165870,
+      "ship3Days": 0
+    },
+    "model": "FCC1206X226K160HT",
+    "url": "https://www.lcsc.com/product-detail/C5137635.html",
+    "chinese_url": "https://item.szlcsc.com/5747087.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "0cf8114ab4fbb37e8994a609efb76b924008977b46d1a21375c85da6007cd056"
+  },
+  {
+    "sku": "C5178540",
+    "stock": 6440,
+    "domestic": {
+      "total": 6440,
+      "shipImmediately": 6440,
+      "ship3Days": 0
+    },
+    "model": "HX TYPE-C 16P 3MD 5A",
+    "url": "https://www.lcsc.com/product-detail/C5178540.html",
+    "chinese_url": "https://item.szlcsc.com/5834062.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "83a09cf9e3e8460a54ddf86196803ec61fe21cfe16de42e8093d38ccf7747684"
+  },
+  {
+    "sku": "C523793",
+    "stock": 5480,
+    "domestic": {
+      "total": 5480,
+      "shipImmediately": 5480,
+      "ship3Days": 0
+    },
+    "model": "TVS2200DRVR",
+    "url": "https://www.lcsc.com/product-detail/C523793.html",
+    "chinese_url": "https://item.szlcsc.com/541577.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "7308bec6a3ddcb522dd3bb4e40ca63e449899affddad26033d0a4ff41ea1bb88"
+  },
+  {
+    "sku": "C531431",
+    "stock": 22197,
+    "domestic": {
+      "total": 22197,
+      "shipImmediately": 22197,
+      "ship3Days": 0
+    },
+    "model": "CGA5L1X7R1H106KT0Y0N",
+    "url": "https://www.lcsc.com/product-detail/C531431.html",
+    "chinese_url": "https://item.szlcsc.com/551592.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "c0a8e2ea1cf53aa5ef9e6bc5b1dd4108dec29f683812faffab91b6817ad88f29"
+  },
+  {
+    "sku": "C5449052",
+    "stock": 190,
+    "domestic": {
+      "total": 190,
+      "shipImmediately": 190,
+      "ship3Days": 0
+    },
+    "model": "TCC1210X7R225K101MT",
+    "url": "https://www.lcsc.com/product-detail/C5449052.html",
+    "chinese_url": "https://item.szlcsc.com/6351015.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "28ea577f832522c9a9b362105d8b222e8d4ebacc24144b4833ae8a40dd24f3df"
+  },
+  {
+    "sku": "C699190",
+    "stock": 360,
+    "domestic": {
+      "total": 360,
+      "shipImmediately": 360,
+      "ship3Days": 0
+    },
+    "model": "BZT52C12S",
+    "url": "https://www.lcsc.com/product-detail/C699190.html",
+    "chinese_url": "https://item.szlcsc.com/733882.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "1e110b5a180337186c9991b3ad9ef20da5a82d0dae0367e0c0f3fceff0aace66"
+  },
+  {
+    "sku": "C83851",
+    "stock": 20585,
+    "domestic": {
+      "total": 20585,
+      "shipImmediately": 20585,
+      "ship3Days": 0
+    },
+    "model": "SMBJ30A",
+    "url": "https://www.lcsc.com/product-detail/C83851.html",
+    "chinese_url": "https://item.szlcsc.com/85018.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "1a5ea9a08d5f6e5e8094e0221a4b35c15ba84c1b1a1267424f1c498ff1cfc7de"
+  },
+  {
+    "sku": "C861286",
+    "stock": 6540,
+    "domestic": {
+      "total": 6540,
+      "shipImmediately": 6540,
+      "ship3Days": 0
+    },
+    "model": "RT0603BRD07294KL",
+    "url": "https://www.lcsc.com/product-detail/C861286.html",
+    "chinese_url": "https://item.szlcsc.com/921624.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "f69bc062a4d9ada9d57e6c81cbac63277a53d19071010d182249d9247b2362ff"
+  },
+  {
+    "sku": "C86513",
+    "stock": 634,
+    "domestic": {
+      "total": 634,
+      "shipImmediately": 634,
+      "ship3Days": 0
+    },
+    "model": "CSD18540Q5B",
+    "url": "https://www.lcsc.com/product-detail/C86513.html",
+    "chinese_url": "https://item.szlcsc.com/87690.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "765f157f9f515c89ee8d4abd8da1c9a9d0d583b024b7a427b398704ecfa2b1e3"
+  },
+  {
+    "sku": "C95204",
+    "stock": 426960,
+    "domestic": {
+      "total": 426960,
+      "shipImmediately": 426960,
+      "ship3Days": 0
+    },
+    "model": "RT0603BRD0710KL",
+    "url": "https://www.lcsc.com/product-detail/C95204.html",
+    "chinese_url": "https://item.szlcsc.com/96405.html",
+    "checked_utc": "2026-09-21T05:08:09Z",
+    "html_sha256": "1da4f18d7992333f52ab51a086cf3c9b4363e12cc4acc41e01562da7766267e2"
+  },
+  {
+    "sku": "C98220",
+    "stock": 11176900,
+    "domestic": {
+      "total": 11176900,
+      "shipImmediately": 11176900,
+      "ship3Days": 0
+    },
+    "model": "RC0603FR-0710KL",
+    "url": "https://www.lcsc.com/product-detail/C98220.html",
+    "chinese_url": "https://item.szlcsc.com/99429.html",
+    "checked_utc": "2026-09-21T05:08:10Z",
+    "html_sha256": "ff1781859939faf47f53dbb1fcfdbb2602cd801eff8b14872b3a177cb5408eae"
+  }
+]

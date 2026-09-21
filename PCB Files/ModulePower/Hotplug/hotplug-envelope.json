@@ -1,0 +1,41 @@
+{
+  "assumptions": [
+    "24 V bus; 1% resistors; capacitor initial tolerance 10% and X7R 15% are included.",
+    "Resistor temperature coefficient, capacitor aging, parasitics, converter load interaction and wiring dynamics are not bounded here.",
+    "LMR16030 SS current has a typical value only; 0.55 s is NOT a guaranteed minimum.",
+    "60 W is total power drawn at the 24 V bus including local conversion losses and protection overhead."
+  ],
+  "uvlo_nominal_V": 19.15918367346939,
+  "uvlo_initial_bounds_V": [
+    18.453567342897554,
+    20.047380997732425
+  ],
+  "uvlo_falling_bounds_V": [
+    17.04330062234795,
+    18.50188969009826
+  ],
+  "ovp_nominal_V": 28.164,
+  "ovp_initial_bounds_V": [
+    27.12553311584158,
+    29.471360154545454
+  ],
+  "branch_current_limit_A": {
+    "nominal_table": 0.152,
+    "minimum_with_R1pct": 0.14356435643564355,
+    "maximum_with_R1pct": 0.1606060606060606
+  },
+  "efuse_ramp_s_nominal": 0.4927322000492731,
+  "local_cap_uF": 51.4,
+  "local_cap_upper_uF": 61.965999999999994,
+  "local_cap_charge_A_nominal": 0.0025035912000000004,
+  "local_cap_charge_A_bound": 0.0047560727529411765,
+  "simultaneous_40_cap_charge_A": 0.19024291011764705,
+  "simultaneous_40_precharge_and_aux_A": 0.2342864050603658,
+  "efuse_flt_deglitch_s_nominal": 0.57375,
+  "buck_soft_start_s_nominal": 0.55,
+  "en_fault_low_V_estimate": 0.08854578787878788,
+  "efuse_precharge_loss_J_upper": 0.017846208,
+  "fixed_bus24V_single_module_1W_A": 0.041666666666666664,
+  "full_system_60W_bus_A": 2.5,
+  "note": "FLT delays the buck until local capacitors finish charging. Delay terms must not simply be treated as independent guaranteed limits. Hotplug and full-load stability still require PCB + bench testing."
+}
