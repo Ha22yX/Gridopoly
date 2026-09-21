@@ -1,0 +1,40 @@
+{
+  "date_utc": "2026-09-21T01:13:22.156381+00:00",
+  "document_uuid": "d03bb2d6c85bb69d",
+  "document_name": "PCB2_2",
+  "scope": "corner module PCB only",
+  "converted_standalone_pads": 147,
+  "board_vias_before": 56,
+  "board_vias_after": 203,
+  "component_embedded_vias_unchanged": 4,
+  "standalone_pads_remaining": 0,
+  "component_count_unchanged": 138,
+  "line_count_unchanged": 1232,
+  "preserved_per_conversion": [
+    "primitive_id",
+    "position",
+    "net",
+    "drill_diameter",
+    "copper_diameter",
+    "solder_mask_expansion",
+    "group",
+    "lock_state"
+  ],
+  "drill_mm": 0.29999939999999997,
+  "diameter_counts_mm": {
+    "0.59944": 134,
+    "0.50038": 13
+  },
+  "preexisting_unassigned_net_via": {
+    "id": "bb256455d071a035",
+    "x_mm": 17.4449994,
+    "y_mm": -16.637,
+    "action": "preserved without assigning a net"
+  },
+  "all_other_source_records_unchanged_except_pour_rebuild_and_editor_state": true,
+  "existing_board_vias_unchanged": true,
+  "pours_rebuilt": 5,
+  "native_strict_drc_errors": [],
+  "saved": true,
+  "source_sha256": "8941f70dc1a55fdc6b56eb99423238d3da194fc670bc51497477770fcbdeef8c"
+}
