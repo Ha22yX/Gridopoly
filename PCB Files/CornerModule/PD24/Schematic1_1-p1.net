@@ -9539,11 +9539,11 @@ Description
 DESIGNATOR
 USB1
 FOOTPRINT
-USB-C-SMD_TYPE-C-16PIN-2MD-073
+USB-C-SMD_TYPE-C-2MD-16P
 PARTTYPE
-TYPE-C 16PIN 2MD(073)
+TYPE-C-2MD-16P
 DESCRIPTION
-连接器类型:Type-C;协议标准:-;公母:母;安装方式:卧贴;触点数量:16P;端口数量:1;额定电流 - 电源:3A;工作温度:-25℃~+85℃;
+
 Component Kind
 Standard
 Add into BOM
@@ -9551,61 +9551,59 @@ yes
 Convert to PCB
 yes
 Symbol
-TYPE-C 16PIN 2MD(073)
+TYPE-C-2MD-16P
 Designator
 USB1
 Device
-TYPE-C 16PIN 2MD(073)
+TYPE-C-2MD-16P
 LCSC Part Name
-Type-C 母 卧贴
+
 Supplier Part
-C2765186
+C42418793
 Manufacturer
-SHOU HAN(首韩)
+JXTCONN(聚兴泰)
 Manufacturer Part
-TYPE-C 16PIN 2MD(073)
+TYPE-C-2MD-16P
 Supplier Footprint
-SMD
+
 JLCPCB Part Class
-Extended Part
+
 Datasheet
-https://item.szlcsc.com/datasheet/TYPE-C%252016PIN%25202MD(073)/2901843.html
+
 Supplier
 LCSC
 3D Model Title
-USB-C-SMD_TYPE-C-6PIN-2MD-073
+USB-C-SMD_TYPE-C-2MD-16P
 Connector Type
-Type-C
+
 Protocol Standard
--
+
 Gender
-母
+
 Mounting Type
-卧贴
+
 Number of Contacts
-16P
+
 Number of Ports
-1
+
 Current Rating-Power
-3A
+
 Voltage Rating
-5V
+
 Connect-Disconnect Life
-1万次
-Supplementary Features
--
+
 Center Height
--
+
 Length
--
+
 Detection color
-黑色
+
 Operating Temperature
--25℃~+85℃
+
 Name
-TYPE-C 16PIN 2MD(073)
+TYPE-C-2MD-16P (20V/3A)
 Description
-连接器类型:Type-C;协议标准:-;公母:母;安装方式:卧贴;触点数量:16P;端口数量:1;额定电流 - 电源:3A;工作温度:-25℃~+85℃;
+
 Unique ID
 gge170
 Reuse Block
@@ -12421,7 +12419,7 @@ R115
 FOOTPRINT
 R0603
 PARTTYPE
-0603WAF1783T5E
+RC0603FR-07169KL
 DESCRIPTION
 
 Component Kind
@@ -12431,19 +12429,19 @@ yes
 Convert to PCB
 yes
 Symbol
-0603WAF1783T5E
+RC0603FR-07169KL
 Designator
 R115
 Device
-0603WAF1783T5E
+RC0603FR-07169KL
 LCSC Part Name
 
 Supplier Part
-C22823
+C137791
 Manufacturer
-UNI-ROYAL(厚声)
+YAGEO(国巨)
 Manufacturer Part
-0603WAF1783T5E
+RC0603FR-07169KL
 Supplier Footprint
 
 JLCPCB Part Class
@@ -12457,7 +12455,7 @@ R0603
 Type
 
 Value
-178k
+
 Tolerance
 
 Power(Watts)
@@ -12469,7 +12467,7 @@ Temperature Coefficient
 Operating Temperature
 
 Name
-178k
+169k
 Description
 
 Unique ID
@@ -12557,7 +12555,7 @@ R117
 FOOTPRINT
 R0603
 PARTTYPE
-0603WAF2103T5E
+0603WAF2203T5E
 DESCRIPTION
 
 Component Kind
@@ -12567,19 +12565,19 @@ yes
 Convert to PCB
 yes
 Symbol
-0603WAF2103T5E
+0603WAF2203T5E
 Designator
 R117
 Device
-0603WAF2103T5E
+0603WAF2203T5E
 LCSC Part Name
 
 Supplier Part
-C22952
+C22961
 Manufacturer
 UNI-ROYAL(厚声)
 Manufacturer Part
-0603WAF2103T5E
+0603WAF2203T5E
 Supplier Footprint
 
 JLCPCB Part Class
@@ -12593,7 +12591,7 @@ R0603
 Type
 
 Value
-210k
+
 Tolerance
 
 Power(Watts)
@@ -12605,7 +12603,7 @@ Temperature Coefficient
 Operating Temperature
 
 Name
-210k
+220k
 Description
 
 Unique ID
@@ -13122,10 +13120,12 @@ JIN3-3 PZ254R-11-03P-3 Passive
 JOUT3-1 LAIL-PM2.54-3P-W-1 Passive 
 JOUT3-2 LAIL-PM2.54-3P-W-2 Passive 
 JOUT3-3 LAIL-PM2.54-3P-W-3 Passive 
-USB1-A1B12 TYPE-C 16PIN 2MD(073)-GND Passive 
-USB1-B1A12 TYPE-C 16PIN 2MD(073)-GND Passive 
-USB1-14 TYPE-C 16PIN 2MD(073)-EH Passive 
-USB1-13 TYPE-C 16PIN 2MD(073)-EH Passive 
+USB1-3 TYPE-C-2MD-16P-3 Passive 
+USB1-1 TYPE-C-2MD-16P-1 Passive 
+USB1-4 TYPE-C-2MD-16P-4 Passive 
+USB1-2 TYPE-C-2MD-16P-2 Passive 
+USB1-B1A12 TYPE-C-2MD-16P-GND Passive 
+USB1-A1B12 TYPE-C-2MD-16P-GND Passive 
 U101-10 STUSB4500QTR-GND Passive 
 U101-12 STUSB4500QTR-ADDR0 Passive 
 U101-13 STUSB4500QTR-ADDR1 Passive 
@@ -13695,9 +13695,23 @@ R18-2 Res_0603-2 Input
 R19-2 Res_0603-2 Input   
 )
 (
+PD_CC2 
+USB1-B5 TYPE-C-2MD-16P-CC2 Passive 
+U101-4 STUSB4500QTR-CC2 Passive 
+U101-5 STUSB4500QTR-CC2DB Passive 
+D104-2 ESDA25W-K Passive 
+)
+(
+PD_CC1 
+USB1-A5 TYPE-C-2MD-16P-CC1 Passive 
+U101-1 STUSB4500QTR-CC1DB Passive 
+U101-2 STUSB4500QTR-CC1 Passive 
+D104-1 ESDA25W-K Passive 
+)
+(
 PD_RAW 
-USB1-A4B9 TYPE-C 16PIN 2MD(073)-VBUS Passive 
-USB1-B4A9 TYPE-C 16PIN 2MD(073)-VBUS Passive 
+USB1-B4A9 TYPE-C-2MD-16P-VBUS Passive 
+USB1-A4B9 TYPE-C-2MD-16P-VBUS Passive 
 U101-24 STUSB4500QTR-VDD Passive 
 Q101-1 AO4407A_C16072-S Passive 
 Q101-2 AO4407A_C16072-S Passive 
@@ -13710,20 +13724,6 @@ R101-1 0603WAF4702T5E-1 Input
 C101-1 CL10B104KB8NNNC-1 Passive 
 R105-1 FRC2512F1001TS-1 Passive 
 C103-1 CL21B105KBFNNNE-1 Input   
-)
-(
-PD_CC1 
-USB1-A5 TYPE-C 16PIN 2MD(073)-CC1 Passive 
-U101-1 STUSB4500QTR-CC1DB Passive 
-U101-2 STUSB4500QTR-CC1 Passive 
-D104-1 ESDA25W-K Passive 
-)
-(
-PD_CC2 
-USB1-B5 TYPE-C 16PIN 2MD(073)-CC2 Passive 
-U101-4 STUSB4500QTR-CC2 Passive 
-U101-5 STUSB4500QTR-CC2DB Passive 
-D104-2 ESDA25W-K Passive 
 )
 (
 PD_RST 
@@ -13832,20 +13832,20 @@ C110-1 CGA5L1X7R1H106KT0Y0N-1 Passive
 C111-1 CGA5L1X7R1H106KT0Y0N-1 Passive 
 C112-1 CGA5L1X7R1H106KT0Y0N-1 Passive 
 R112-1 RC0603FR-07187KL-1 Passive 
-R115-1 0603WAF1783T5E-1 Input   
-R117-1 0603WAF2103T5E-1 Input   
+R115-2 RC0603FR-07169KL-2 Input   
+R117-2 0603WAF2203T5E-2 Input   
 C118-1 CL10B104KB8NNNC-1 Passive 
 )
 (
 PD_UV 
 U103-3 TPS26600PWPR-UVLO Passive 
-R115-2 0603WAF1783T5E-2 Input   
+R115-1 RC0603FR-07169KL-1 Input   
 R116-1 RC0603FR-0710KL-1 Input   
 )
 (
 PD_OV 
 U103-5 TPS26600PWPR-OVP Passive 
-R117-2 0603WAF2103T5E-2 Input   
+R117-1 0603WAF2203T5E-1 Input   
 R118-1 RC0603FR-0710KL-1 Input   
 )
 (

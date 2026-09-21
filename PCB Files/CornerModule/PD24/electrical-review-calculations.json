@@ -1,0 +1,70 @@
+{
+  "sources": [
+    "https://www.ti.com/lit/ds/symlink/tps55340.pdf",
+    "https://www.ti.com/lit/ds/symlink/tps2660.pdf",
+    "https://www.ti.com/lit/ds/symlink/lmr16030.pdf"
+  ],
+  "conditions": "Reference full-temperature min/max + independent 1% initial resistors. Bias/leakage conservative. Resistor TCR handled separately. Calculated scenarios, not bench measurements.",
+  "boost_voltage_V": [
+    23.269184976237625,
+    25.181310733333337
+  ],
+  "old_UV_rising_V": [
+    21.657863584158417,
+    23.488483050505053
+  ],
+  "new_UV_rising_V": [
+    20.622213178217823,
+    22.362801323232322
+  ],
+  "old_OV_rising_V": [
+    25.232255346534654,
+    27.490906969696972
+  ],
+  "new_OV_rising_V": [
+    26.37807702970297,
+    28.741664444444446
+  ],
+  "new_UV_nominal_V": 21.301,
+  "new_OV_nominal_V": 27.369999999999997,
+  "UV_static_margin_old_V": -0.21929807426742798,
+  "UV_static_margin_new_V": 0.9063836530053031,
+  "OV_static_margin_old_V": 0.05094461320131671,
+  "OV_static_margin_new_V": 1.1967662963696313,
+  "current_limit_A": [
+    1.5786194004015786,
+    1.6783216783216783,
+    1.7800381436745074
+  ],
+  "bus_capacitance_F_nominal": 0.001236,
+  "bus_capacitance_F_high": 0.0014724,
+  "eFuse_slew_V_per_s_typ": 525.5454545454545,
+  "eFuse_ramp_s_from_gain_typ": 0.04606889811451307,
+  "eFuse_ramp_s_from_datasheet_equation": 0.042611888,
+  "capacitive_inrush_A_typ": 0.6495741818181817,
+  "capacitive_inrush_A_highC_at_typical_slew": 0.7738131272727272,
+  "input_current_A_36W_worst_voltage_assumed85eff": 2.7773504485294125,
+  "inductor_peak_A_8uH_400kHz_assumed": 3.7197975488605666,
+  "CPL_counterexample": {
+    "bus_voltage_V": 8,
+    "load_W": 24,
+    "load_current_A": 3.0,
+    "limit_A_max": 1.7800381436745074,
+    "cap_current_at_current_limit_A": -1.2199618563254926,
+    "interpretation": "If all modules already draw their 1W input at 8V, load alone exceeds the largest current limit and bus cannot ramp upward. Does not prove real modules draw this profile. Their UVLO, 4ms regulator soft-start and MCU/RFID/LED boot timing must be characterized."
+  },
+  "TCR_sensitivity_at_plusminus100ppm_per_C_for65C_delta": {
+    "boost_V": [
+      22.984070203428427,
+      25.49442773948653
+    ],
+    "UV_V": [
+      20.370660549901622,
+      22.63932297811388
+    ],
+    "OV_V": [
+      26.052004929168714,
+      29.10163346263345
+    ]
+  }
+}
