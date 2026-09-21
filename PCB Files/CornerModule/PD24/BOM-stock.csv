@@ -1,28 +1,36 @@
-﻿LCSC,Manufacturer part,Designators,Qty per board,Stock checked 2026-09-20,Source
-C124379,B-2100S05P-A110,J101,1,22260,https://www.lcsc.com/product-detail/C124379.html
-C14858,CL10C101JB8NNNC,C116,1,1030400,https://www.lcsc.com/product-detail/C14858.html
-C1591,CL10B104KB8NNNC,C101 C102 C106 C113 C114 C115 C118 C119,8,381900,https://www.lcsc.com/product-detail/C1591.html
-C16072,AO4407A,Q101 Q102,2,26935,https://www.lcsc.com/product-detail/C16072.html
-C165762,RC0603FR-07187KL,R112,1,11800,https://www.lcsc.com/product-detail/C165762.html
-C169167,TPS55340RTER,U102,1,20627,https://www.lcsc.com/product-detail/C169167.html
-C2041441,SRP7050TA-100M,L101,1,182,https://www.lcsc.com/product-detail/C2041441.html
-C22452,SS54,D101,1,2034540,https://www.lcsc.com/product-detail/C22452.html
-C137791,RC0603FR-07169KL,R115,1,13700,https://www.lcsc.com/product-detail/C137791.html
-C22961,0603WAF2203T5E,R117,1,1339800,https://www.lcsc.com/product-detail/C22961.html
-C23048,0603WAF4023T5E,R120,1,21600,https://www.lcsc.com/product-detail/C23048.html
-C23162,0603WAF4701T5E,R108 R109,2,15662400,https://www.lcsc.com/product-detail/C23162.html
-C25819,0603WAF4702T5E,R101 R103,2,345700,https://www.lcsc.com/product-detail/C25819.html
-C25965,0603WAF2551T5E,R111,1,34700,https://www.lcsc.com/product-detail/C25965.html
-C25980,0603WAF7151T5E,R119,1,9300,https://www.lcsc.com/product-detail/C25980.html
-C2678061,STUSB4500QTR,U101,1,5443,https://www.lcsc.com/product-detail/C2678061.html
-C28323,CL21B105KBFNNNE,C103 C104 C105,3,557830,https://www.lcsc.com/product-detail/C28323.html
-C2907078,FRC0603F9532TS,R110,1,120400,https://www.lcsc.com/product-detail/C2907078.html
-C2935152,ESDA25W,D104,1,1995,https://www.lcsc.com/product-detail/C2935152.html
-C2960683,FRC2512F1001TS,R105 R106,2,90020,https://www.lcsc.com/product-detail/C2960683.html
-C523793,TVS2200DRVR,U104,1,5480,https://www.lcsc.com/product-detail/C523793.html
-C531431,CGA5L1X7R1H106KT0Y0N,C108 C109 C110 C111 C112,5,27097,https://www.lcsc.com/product-detail/C531431.html
-C544399,TPS26600PWPR,U103,1,4962,https://www.lcsc.com/product-detail/C544399.html
-C64705,CL10B224KB8NNNC,C117,1,362750,https://www.lcsc.com/product-detail/C64705.html
-C699190,BZT52C12S,D102 D103,2,360,https://www.lcsc.com/product-detail/C699190.html
-C98220,RC0603FR-0710KL,R102 R104 R107 R113 R114 R116 R118,7,11191400,https://www.lcsc.com/product-detail/C98220.html
-C42418793,TYPE-C-2MD-16P,USB1,1,3765,https://www.lcsc.com/product-detail/C42418793.html
+﻿LCSC,Manufacturer part,Designators,Qty per board,Stock checked UTC,Stock,Source
+C124379,B-2100S05P-A110,J101,1,2026-09-21T04:19:47Z,21940,https://www.lcsc.com/product-detail/C124379.html
+C125847,CC0805KKX7R9BB225,C120 C121,2,2026-09-21T04:19:47Z,4390,https://www.lcsc.com/product-detail/C125847.html
+C1588,CL10B102KB8NNNC,C122 C123,2,2026-09-21T04:19:48Z,5390750,https://www.lcsc.com/product-detail/C1588.html
+C1591,CL10B104KB8NNNC,C101 C102 C106 C107 C111 C116 C117 C118 C125 C126 C127,11,2026-09-21T04:19:47Z,331500,https://www.lcsc.com/product-detail/C1591.html
+C16072,AO4407A,Q101 Q102,2,2026-09-21T04:19:48Z,26885,https://www.lcsc.com/product-detail/C16072.html
+C1850278,TPS26632RGER,U105,1,2026-09-21T04:19:48Z,1000,https://www.lcsc.com/product-detail/C1850278.html
+C19666,CL10A475KO8NNNC,C124,1,2026-09-21T04:19:48Z,1064570,https://www.lcsc.com/product-detail/C19666.html
+C22775,0603WAF1000T5E,R124,1,2026-09-21T04:19:48Z,7340400,https://www.lcsc.com/product-detail/C22775.html
+C22795,0603WAF1303T5E,R111 R113,2,2026-09-21T04:19:48Z,540900,https://www.lcsc.com/product-detail/C22795.html
+C22923,0603WAF2672T5E,R119,1,2026-09-21T04:19:48Z,20600,https://www.lcsc.com/product-detail/C22923.html
+C23040,0603WAF4021T5E,R115,1,2026-09-21T04:19:48Z,32900,https://www.lcsc.com/product-detail/C23040.html
+C23162,0603WAF4701T5E,R108 R109,2,2026-09-21T04:19:48Z,15656200,https://www.lcsc.com/product-detail/C23162.html
+C23179,0603WAF4700T5E,R110,1,2026-09-21T04:19:48Z,5112500,https://www.lcsc.com/product-detail/C23179.html
+C23212,0603WAF6801T5E,R120,1,2026-09-21T04:19:48Z,1424600,https://www.lcsc.com/product-detail/C23212.html
+C23266,0603WAF9312T5E,R118,1,2026-09-21T04:19:48Z,18900,https://www.lcsc.com/product-detail/C23266.html
+C2480,SS14,D107 D108,2,2026-09-21T04:19:48Z,601250,https://www.lcsc.com/product-detail/C2480.html
+C25819,0603WAF4702T5E,R101 R103 R116 R125,4,2026-09-21T04:19:48Z,345500,https://www.lcsc.com/product-detail/C25819.html
+C2678061,STUSB4500QTR,U101,1,2026-09-21T04:19:49Z,5443,https://www.lcsc.com/product-detail/C2678061.html
+C27694,CL10C471JB8NNNC,C119,1,2026-09-21T04:19:49Z,86900,https://www.lcsc.com/product-detail/C27694.html
+C28323,CL21B105KBFNNNE,C103 C104 C105,3,2026-09-21T04:19:49Z,557080,https://www.lcsc.com/product-detail/C28323.html
+C2935152,ESDA25W,D104,1,2026-09-21T04:19:49Z,1995,https://www.lcsc.com/product-detail/C2935152.html
+C2941042,LM74700QDBVRQ1,U103,1,2026-09-21T04:19:49Z,2125,https://www.lcsc.com/product-detail/C2941042.html
+C2960683,FRC2512F1001TS,R105 R106,2,2026-09-21T04:19:49Z,89940,https://www.lcsc.com/product-detail/C2960683.html
+C337225,LR12FTESR004,R123,1,2026-09-21T04:19:49Z,1395,https://www.lcsc.com/product-detail/C337225.html
+C357285,TMPC1707HP-4R7MG-D,L101,1,2026-09-21T04:19:49Z,3610,https://www.lcsc.com/product-detail/C357285.html
+C442493,LM5176PWPR,U102,1,2026-09-21T04:19:49Z,699,https://www.lcsc.com/product-detail/C442493.html
+C46528106,118EC454,C108 C112 C113,3,2026-09-21T04:19:49Z,23235,https://www.lcsc.com/product-detail/C46528106.html
+C5178540,HX TYPE-C 16P 3MD 5A,USB1,1,2026-09-21T04:19:49Z,6440,https://www.lcsc.com/product-detail/C5178540.html
+C523793,TVS2200DRVR,U104,1,2026-09-21T04:19:49Z,5480,https://www.lcsc.com/product-detail/C523793.html
+C531431,CGA5L1X7R1H106KT0Y0N,C109 C110 C114 C115,4,2026-09-21T04:19:49Z,22197,https://www.lcsc.com/product-detail/C531431.html
+C699190,BZT52C12S,D102 D103 D105 D106,4,2026-09-21T04:19:49Z,360,https://www.lcsc.com/product-detail/C699190.html
+C861286,RT0603BRD07294KL,R121,1,2026-09-21T04:19:49Z,6540,https://www.lcsc.com/product-detail/C861286.html
+C86513,CSD18540Q5B,Q103 Q104 Q105 Q106 Q107,5,2026-09-21T04:19:49Z,634,https://www.lcsc.com/product-detail/C86513.html
+C95204,RT0603BRD0710KL,R122,1,2026-09-21T04:19:49Z,426880,https://www.lcsc.com/product-detail/C95204.html
+C98220,RC0603FR-0710KL,R102 R104 R107 R112 R114 R117,6,2026-09-21T04:19:50Z,11177100,https://www.lcsc.com/product-detail/C98220.html

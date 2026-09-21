@@ -66,5 +66,6 @@
       26.052004929168714,
       29.10163346263345
     ]
-  }
+  },
+  "historical_version_notice": "Superseded TPS55340 20V/3A design. Current 0–60W model: power-envelope.json; review: Docs/hardware/corner-usbc-pd-24v-60w-review-2026-09-21.md"
 }

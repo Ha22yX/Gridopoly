@@ -1,0 +1,223 @@
+{
+  "status": "ENGINEERING PROTOTYPE — hardware validation outstanding",
+  "assumptions": {
+    "efficiency": 0.9,
+    "pd_input_min_v": 18,
+    "pd_input_nominal_v": 20,
+    "load_w": 60,
+    "power_stage_target_w": 72,
+    "ring_is_electrically_parallel": true,
+    "switch_hz_approx": 300000,
+    "switch_frequency_tolerance_not_in_loop_estimate": true
+  },
+  "output": {
+    "nominal_before_ideal_diode_v": 24.32,
+    "initial_fb_tolerance_min_v": 23.90891188811189,
+    "initial_fb_and_bias_tolerance_max_v": 24.73995074339339,
+    "ideal_diode_drop_typical_v": 0.02,
+    "resistor_temperature_drift_not_in_voltage_bound": true,
+    "bleeder_no_load_w": 0.012584306382978723,
+    "nominal_60w_output_a": 2.5,
+    "nominal_72w_output_a": 3.0
+  },
+  "input": {
+    "nominal_60w_at_20v_a": 3.3333333333333335,
+    "min_efuse_current_a": 4.143564356435643,
+    "max_efuse_current_a": 4.863636363636364,
+    "nominal_limit_a": 4.5,
+    "available_output_w_18v_90pct_min_limit": 67.12574257425742,
+    "power_stage_target_not_full_corner_guarantee": true
+  },
+  "soft_start": {
+    "nominal_s": 0.352,
+    "estimated_min_s_with_cap_temp": 0.20885102362204724,
+    "max_40node_cap_f": 0.0027161999999999998,
+    "capacitor_charge_current_a": 0.32175400935938403,
+    "hypothetical_cpl60w_current_at_3p8v_plus_charge_a": 16.111227693569912,
+    "minimum_buck_valley_limit_25c_resistor_a": 16.336633663366335,
+    "startup_not_guaranteed": true
+  },
+  "compensation": {
+    "zero_hz": 10.63869940453846,
+    "hf_pole_hz_approx": 23405.13868998461,
+    "deadbeat_cslope_pf": 469.99999999999994,
+    "rhp_zero_18v_60w_hz": 182858.87078643296,
+    "estimates": [
+      {
+        "vin": 18,
+        "cap_f": 0.00016,
+        "estimated_boost_crossover_hz": 10786.62827726955
+      },
+      {
+        "vin": 18,
+        "cap_f": 0.00022,
+        "estimated_boost_crossover_hz": 7844.8205652869465
+      },
+      {
+        "vin": 18,
+        "cap_f": 0.00268,
+        "estimated_boost_crossover_hz": 643.9778075981822
+      },
+      {
+        "vin": 20,
+        "cap_f": 0.00016,
+        "estimated_boost_crossover_hz": 11985.142530299501
+      },
+      {
+        "vin": 20,
+        "cap_f": 0.00022,
+        "estimated_boost_crossover_hz": 8716.467294763273
+      },
+      {
+        "vin": 20,
+        "cap_f": 0.00268,
+        "estimated_boost_crossover_hz": 715.5308973313136
+      },
+      {
+        "vin": 21,
+        "cap_f": 0.00016,
+        "estimated_boost_crossover_hz": 12584.399656814478
+      },
+      {
+        "vin": 21,
+        "cap_f": 0.00022,
+        "estimated_boost_crossover_hz": 9152.29065950144
+      },
+      {
+        "vin": 21,
+        "cap_f": 0.00268,
+        "estimated_boost_crossover_hz": 751.3074421978794
+      }
+    ],
+    "phase_margin_not_verified": true
+  },
+  "ring_cases": [
+    {
+      "nodes": 16,
+      "total_w": 16,
+      "segment_loop_r_ohm": 0.05,
+      "source_v": 23.888911888111892,
+      "min_v": 23.81729058426271,
+      "wire_loss_w": 0.034057110788617055,
+      "largest_segment_a": 0.33559622107567577,
+      "source_a": 0.6711924421512805
+    },
+    {
+      "nodes": 16,
+      "total_w": 16,
+      "segment_loop_r_ohm": 0.075,
+      "source_v": 23.888911888111892,
+      "min_v": 23.781344262419047,
+      "wire_loss_w": 0.05120969452082648,
+      "largest_segment_a": 0.3359552282933957,
+      "source_a": 0.6719104565866967
+    },
+    {
+      "nodes": 16,
+      "total_w": 16,
+      "segment_loop_r_ohm": 0.1,
+      "source_v": 23.888911888111892,
+      "min_v": 23.74530656133308,
+      "wire_loss_w": 0.06844600708732398,
+      "largest_segment_a": 0.33631598797921214,
+      "source_a": 0.6726319759583888
+    },
+    {
+      "nodes": 32,
+      "total_w": 32,
+      "segment_loop_r_ohm": 0.05,
+      "source_v": 23.888911888111892,
+      "min_v": 23.609639365486068,
+      "wire_loss_w": 0.2595203403023858,
+      "largest_segment_a": 0.6751986128704601,
+      "source_a": 1.350397225740707
+    },
+    {
+      "nodes": 32,
+      "total_w": 32,
+      "segment_loop_r_ohm": 0.075,
+      "source_v": 23.888911888111892,
+      "min_v": 23.467897631897237,
+      "wire_loss_w": 0.39304591333227595,
+      "largest_segment_a": 0.6779933314774667,
+      "source_a": 1.3559866629547912
+    },
+    {
+      "nodes": 32,
+      "total_w": 32,
+      "segment_loop_r_ohm": 0.1,
+      "source_v": 23.888911888111892,
+      "min_v": 23.324693556804537,
+      "wire_loss_w": 0.529210263878557,
+      "largest_segment_a": 0.680843280250194,
+      "source_a": 1.361686560500317
+    },
+    {
+      "nodes": 40,
+      "total_w": 40,
+      "segment_loop_r_ohm": 0.05,
+      "source_v": 23.888911888111892,
+      "min_v": 23.45293717968203,
+      "wire_loss_w": 0.5059261798883568,
+      "largest_segment_a": 0.847797638688732,
+      "source_a": 1.695595277377393
+    },
+    {
+      "nodes": 40,
+      "total_w": 40,
+      "segment_loop_r_ohm": 0.075,
+      "source_v": 23.888911888111892,
+      "min_v": 23.229728829208884,
+      "wire_loss_w": 0.770563216154577,
+      "largest_segment_a": 0.8533365480691657,
+      "source_a": 1.7066730961381893
+    },
+    {
+      "nodes": 40,
+      "total_w": 40,
+      "segment_loop_r_ohm": 0.1,
+      "source_v": 23.888911888111892,
+      "min_v": 23.002805288838367,
+      "wire_loss_w": 1.0436252003942643,
+      "largest_segment_a": 0.8590517934012354,
+      "source_a": 1.7181035868024708
+    },
+    {
+      "nodes": 40,
+      "total_w": 60,
+      "segment_loop_r_ohm": 0.05,
+      "source_v": 23.888911888111892,
+      "min_v": 23.229728829209048,
+      "wire_loss_w": 1.155844824231381,
+      "largest_segment_a": 1.2800048221035354,
+      "source_a": 2.5600096442069997
+    },
+    {
+      "nodes": 40,
+      "total_w": 60,
+      "segment_loop_r_ohm": 0.075,
+      "source_v": 23.888911888111892,
+      "min_v": 22.88788999701318,
+      "wire_loss_w": 1.7752234694715199,
+      "largest_segment_a": 1.292968548706123,
+      "source_a": 2.5859370974121516
+    },
+    {
+      "nodes": 40,
+      "total_w": 60,
+      "segment_loop_r_ohm": 0.1,
+      "source_v": 23.888911888111892,
+      "min_v": 22.5370141109081,
+      "wire_loss_w": 2.4258586150497203,
+      "largest_segment_a": 1.3065864805014016,
+      "source_a": 2.6131729610027676
+    }
+  ],
+  "notes": [
+    "0 W means no external load; powered corner and input circuit still consume power.",
+    "Minimum-load-free topology is not proof of measured zero-load regulation.",
+    "No guarantee for an arbitrary 60 W constant-power load starting at 3.8 V.",
+    "Steady cable/connector resistance, transient current and thermal limits require measurement.",
+    "Only one externally powered corner; no current-sharing or summed supplies guarantee."
+  ]
+}

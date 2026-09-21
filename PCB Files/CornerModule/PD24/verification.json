@@ -1,22 +1,23 @@
 {
-  "physicalPinsChecked": 190,
-  "netMismatch": [],
-  "outsideOriginalContentChanges": [],
-  "permittedOriginalRecordsChanged": 108,
-  "newPhysicalComponents": 50,
-  "changedParts": [
-    "USB1: C2765186 -> C42418793, user authorized",
-    "R115: C22823 178k -> C137791 169k",
-    "R117: C22952 210k -> C22961 220k"
-  ],
-  "duplicateDesignators": [],
-  "drcSummary": [
+  "parts": 74,
+  "pins": 287,
+  "intentional_nc": 24,
+  "pin_mismatches": [],
+  "outside_native_differences": [],
+  "outside_net_changes": [],
+  "wire_intersections_different_nets": [],
+  "duplicate_designators": [],
+  "drc": [
     {
       "type": "warn",
       "count": 3
     }
   ],
-  "drcWarningDetails": "Not exposed by installed API; unresolved.",
-  "releaseStatus": "HOLD - whole-board cold-start, input transient margin, loop and thermal validation incomplete",
-  "evidence": "Manufacturer datasheets, native netlist, original-record scope comparison; no hardware measurements or transistor-level simulation."
+  "checked_utc": "2026-09-21T04:23:08.032024+00:00",
+  "status": "ENGINEERING PROTOTYPE: not validated under load",
+  "scope": "Only corner input rectangle; PCB and receiver circuits unchanged",
+  "all_stock_over_100": true,
+  "stock_minimum": 360,
+  "source_sha256": "7a6b7d4e2a29788e75f72b5b83d5313441291f896ffa83cb465000bbae2fed0e",
+  "drc_warning_details_unavailable": true
 }
