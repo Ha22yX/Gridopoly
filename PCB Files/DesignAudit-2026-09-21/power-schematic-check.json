@@ -1,0 +1,73 @@
+{
+  "scope": "DC24 entry and common branch power schematic only; no PCB/coil/display certification",
+  "boards": {
+    "corner": {
+      "sha256": "63c47fe8e557dd2e07d68bb5b36063b73ed984224917a683a8f047caed304681",
+      "total_components": 152,
+      "power_components_checked": 35,
+      "power_pins_checked": 97
+    },
+    "long": {
+      "sha256": "01e99b30a572e93d2c359f35c2414c173ab88769c03af49de586e6798cc95d46",
+      "total_components": 141,
+      "power_components_checked": 29,
+      "power_pins_checked": 84
+    }
+  },
+  "failures": [],
+  "calculation": {
+    "uvlo_nominal_V": 19.15918367346939,
+    "uvlo_initial_bounds_V": [
+      18.453567342897554,
+      20.047380997732425
+    ],
+    "uvlo_fall_initial_bounds_V": [
+      17.04330062234795,
+      18.50188969009826
+    ],
+    "ovp_nominal_V": 28.164,
+    "ovp_initial_bounds_V": [
+      27.12553311584158,
+      29.471360154545454
+    ],
+    "ilim_nominal_A": 0.152,
+    "ilim_initial_bounds_A": [
+      0.14356435643564355,
+      0.1606060606060606
+    ],
+    "buck_nominal_V": 4.963483146067415,
+    "buck_full_temp_reference_and_initial_R_bounds_V": [
+      4.782446879519412,
+      5.149576098059244
+    ],
+    "buck_nominal_frequency_kHz": 500,
+    "buck_softstart_typical_s": 0.55,
+    "efuse_ramp_typical_s_at_24V": 0.4927322000492731,
+    "efuse_flt_deglitch_typical_s": 0.57375,
+    "precharge_40_nominal_A": 0.10014364800000003,
+    "precharge_40_cap_tolerance_plus_aux_bound_A": 0.23552457980750174,
+    "en_fault_low_V_estimate": 0.09259693767461852,
+    "module_input_power_at_20V_lower_ilim_W": 2.871287128712871,
+    "module_5V_power_at_20V_lower_ilim_eta85_example_W": 2.4405940594059405,
+    "forty_simultaneous_at_branch_limit_A": [
+      5.742574257425742,
+      6.424242424242425
+    ],
+    "entry_60W_bus_at_23_3V_A": 2.575107296137339,
+    "entry_diode_heat_at_Vf_0_7_example_W": 1.8025751072961373,
+    "examples_bus_power_W_per_board": {
+      "16": 3.75,
+      "24": 2.5,
+      "32": 1.875,
+      "40": 1.5
+    },
+    "assumptions": [
+      "60W denotes total 24V bus input power, including module conversion losses.",
+      "UVLO/OVP use datasheet threshold/leakage and initial resistor tolerance; resistor drift is not bounded.",
+      "Precharge excludes DC connector transients, 5V load startup, wire impedance, and converter-loop dynamics.",
+      "SS charge current is typical only. This is not transient simulation or a guaranteed delay.",
+      "85% efficiency and 0.7V diode drop are calculation assumptions, not measured operating points.",
+      "Current-limit figures are protection thresholds, not recommended continuous operating currents."
+    ]
+  }
+}
