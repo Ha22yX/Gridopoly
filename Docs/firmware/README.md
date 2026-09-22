@@ -6,7 +6,7 @@
 
 | 工程 | 当前技术/职责 | 下一阶段 |
 | --- | --- | --- |
-| Firmware/TileModule | PlatformIO + Arduino，V0.32；Wi-Fi/HTTP、显示、RFID、LED、INA226、ORDER物理信标 | 长边/角落板型、PD维护固件、功耗预算、全盘/拓扑验证 |
+| Firmware/TileModule | PlatformIO + Arduino，V0.32；Wi-Fi/HTTP、显示、RFID、LED、INA226、ORDER物理信标 | 长边/角落板型、功耗管理、预算、全盘/拓扑验证 |
 | Firmware/PlayerConsole | Arduino构建、LVGL与RGB圆屏、输入、认证UDP及HTTP素材 | core1下长帧优化，正常游戏视觉确认与回归 |
 | Server/RaspberryPi | C++权威服务、HTTP/UDP、游戏/持久化、模块映射与ORDER锚点 | 新能力诊断、全盘恢复/容量、功率估算与拓扑产品化 |
 | Firmware/libraries | GridopolyCore / GridopolyProtocol | 跨端契约变更统一版本化，保留兼容测试 |
@@ -15,11 +15,11 @@
 ## 板级与格子开发
 
 - [两种PCB设计](../hardware/pcb-variants.md)、[GPIO接口](../hardware/esp32-s3-pin-map.md)、[格子固件指南](firmware-development-guide.md)。
-- [PD固件与功耗要求（待实现）](corner-pd-firmware.md)、[电源验收](../hardware/power-system-acceptance.md)。
+- [直接24V板功耗与固件要求（待实现）](module-power-firmware.md)、[电源验收](../hardware/power-system-acceptance.md)。
 - [ORDER V1](tile-order-protocol.md)、[分配/Tag/自动到达](tile-module-debug-assignment.md)。
 - [格子工程实际构建说明](../../Firmware/TileModule/README.md)、[ORDER双板记录](tile-order-development-progress-2026-09-09.md)。
 
-两种棋盘PCB复用格子业务，角落才具有STUSB4500；玩家圆屏是第三类设备，不复用这些针脚。现有V0.32还没有新PD配置逻辑。
+两种棋盘PCB复用格子业务；当前角落已删除STUSB4500及其配置接口，GPIO13为NC，GPIO11/12用于INA226。玩家圆屏是第三类设备，不复用这些针脚。PD固件规格仅保留历史，不列入当前待办。
 
 ## 正式服务与玩家链路
 

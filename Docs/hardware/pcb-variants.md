@@ -1,5 +1,9 @@
 # 长边模块与角落模块：当前 PCB 设计
 
+> 2026-09-22文档同步：[硬件入口](README.md)汇总直接24V、BOM与接口结论；[开发汇报](development-handoff-2026-09-22.md)区分历史修改、已验证及待验收。原日期的核查数据未在本轮重新测量。
+
+> 2026-09-21 最新变更：用户已取消角落 PD→24V，改为 5.5×2.1mm 中心正极的直接24V输入；见[当前直流入口设计](corner-dc24-input-2026-09-21.md)。当前角落为PCB2_5；原理图与PCB器件/网络已更新，入口布局布线和整盘验收待完成。
+
 更新：2026-09-21。本文是两种 PCB 的当前身份、接口及制造交接规范；原理图实现与 PCB 完成状态分别记录。
 
 ## 两种板型
@@ -8,15 +12,15 @@
 | --- | --- | --- |
 | 工程树 | 长边模块 / Schematic1 / p1 | 角落模块 / Schematic1_1 / p1 |
 | 原理图 UUID | `262b1ccbed23ba63` | `ae9c8047ce85d7f8` |
-| PCB | PCB2_1 | PCB2_2 |
-| PCB UUID | `7840864f79449b47` | `d03bb2d6c85bb69d` |
-| 外形 | 长方形，尺寸以当前 PCB 板框及装配图为准 | 80 × 80 mm，圆角方板 |
+| PCB | PCB2_1 | PCB2_5 |
+| PCB UUID | `7840864f79449b47` | `6f97d7be5a40dd66` |
+| 外形 | 主体约48×80mm，接口凸出处最大宽约54mm；机械尺寸以最终制造图为准 | 80 × 80 mm，圆角方板 |
 | 板间公母接口 | 相对边 | 相邻边；俯视时母座在公针所在边顺时针 90° 的边，例如左公、上母 |
 | 本地 24V→5V 保护 | TPS26621 + LMR16030SDDAR | 相同 |
-| USB1 PD→24V 源 | 无 | STUSB4500 + TPS26632 + LM5176 + LM74700 |
-| J1 USB | 本地 5V/调试 | 本地 5V/调试，也用于首次 PD 配置供电 |
-| GPIO11/12 | INA226 | INA226 与 STUSB4500 共享 I²C |
-| GPIO13 | 未连接 | PD_RST，高有效 |
+| 外部24V源入口 | 无 | J301 DC圆孔母座 + F301/D301/D302/C301/C302 |
+| J1 USB | 本地 5V/调试 | 本地 5V/调试 |
+| GPIO11/12 | INA226 | INA226 I²C |
+| GPIO13 | 未连接 | 未连接（NC） |
 
 旧名 Board1 对应长边开发沿革，不能再代表唯一 PCB。日期命名的备份不作为当前交付板。
 两种棋盘板都不是独立的 480×480 玩家圆形终端；后者仍由 Firmware/PlayerConsole 管理。
@@ -49,22 +53,20 @@
 
 记录：[过孔核对](../../PCB%20Files/CornerModule/pad-to-via-verification.json)、[布局布线核对](../../PCB%20Files/CornerModule/layout-routing-verification.json)、[当时 PCB 导出](../../PCB%20Files/CornerModule/PCB2_2.epcb)。
 
-## 原理图已更新，PCB 待同步
+## PCB 实施状态与旧候选沿革
 
-两种板的本地电源区均为原有 17 件 + 新增 8 件，共 25 件；U23 替换为 S 型。角落另有 PD 源及最新 ESP32 配置连接。尚未完成这些新增/换网器件的 PCB 同步、布线、热设计和制造输出。
+历史角落 PCB2_2 曾完成218器件的重排/布线候选，固定17器件保持原位。随后用户取消PD，该候选不再是当前制造版本。当前PCB2_5为152器件，入口关联重复问题已修复，但仍未完成布局布线及制造放行。详见[本轮布局、检查结果与待验收项](corner-pcb-layout-candidate-2026-09-21.md)。旧218器件候选的独立检查包含原生地铜连通证据，但其原生DRC返回错误；这些结果不代表当前152器件直流版已通过检查。
 
-同步顺序：先核对长边的 U201 与 7 个阻容实际占地，再完成角落入口功率区；保留现有机械接口，按 Unique ID 更新原件，不重复新增原有 17 件。具体布局约束见[统一接入保护](unified-module-hotplug-power-2026-09-21.md)。
-
-关键检查包括 HP_RTN 与 GND 分离、保护后储能、U23 SS、C128 靠近 VSYS、四开关高 di/dt 回路、自举与栅极回路、4mΩ Kelvin 采样、USB1 全电源焊尾载流、MOS/电感散热、天线净空和真实过孔载流。
+长边 PCB 本轮没有修改；其新增本地电源保护仍需核对同步与布线状态。两种板本地电源区均为原有 17 件 + 新增 8 件，共 25 件，不能把整个电源区计作新增 25 件。
 
 ## 证据优先级
 
-| 范围 | 当前受版本控制的参考 |
+| 范围 | 现有导出与记录（是否已提交须另查Git） |
 | --- | --- |
-| 最新角落原理图 | [PDProgramming](../../PCB%20Files/CornerModule/PDProgramming/corner-schematic.esch) 与同目录 net / verification.json |
-| 最新长边电源原理图 | [PowerIntegrity 长边](../../PCB%20Files/ModulePower/PowerIntegrity/long-schematic.esch) 与同目录 net |
-| 理论计算 | [PowerIntegrity](../../PCB%20Files/ModulePower/PowerIntegrity/power-integrity-results.json)，R120=5.6k |
-| 器件采购快照 | [Hotplug BOM](../../PCB%20Files/ModulePower/Hotplug/BOM-stock.csv)，须结合最新 C128/R120 记录 |
+| 最新角落同步修复 | [SyncRepair](../../PCB%20Files/CornerModule/DC24-2026-09-21/SyncRepair/README.md)，优先于父目录初版快照 |
+| 两板供电核查网表 | [DesignAudit](../../PCB%20Files/DesignAudit-2026-09-21/)及[供电核查](power-schematic-audit-2026-09-21.md)，角落152件、长边141件 |
+| 当前计算边界 | [供电核查](power-schematic-audit-2026-09-21.md)；PowerIntegrity中PD环路及R120计算仅为历史 |
+| 器件采购 | [BOM复核](bom-review-2026-09-21.md)及最终同版导出；旧PD的C128/R120不再采购 |
 | 编辑中的完整工程 | PCB Files/Gridopoly.eprj2；本地未提交变化须另核对，不能认为与上述导出自动相同 |
 
-PD24 → Hotplug → PowerIntegrity → PDProgramming 是角落电源记录的先后顺序；旧文件保留用于追溯，不能相互覆盖。最新 PDProgramming 仅更新角落；长边仍参考 PowerIntegrity。下单前必须生成同一工程快照的原理图、PCB、BOM、坐标和 Gerber。
+PD24 → Hotplug → PowerIntegrity → PDProgramming 是角落电源记录的先后顺序；旧文件保留用于追溯，不能相互覆盖。最新 DC24 记录取代角落 PDProgramming；长边仍参考 PowerIntegrity。下单前必须生成同一工程快照的原理图、PCB、BOM、坐标和 Gerber。

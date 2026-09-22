@@ -1,17 +1,21 @@
 # Gridopoly 文档中心
 
+> 2026-09-22硬件同步：见[完整硬件开发汇报](hardware/development-handoff-2026-09-22.md)，PD方案已取消，当前证据与限制以该汇报及所链接的直接24V审查为准。
+
+> 2026-09-21 最新变更：用户已取消角落 PD→24V，改为 5.5×2.1mm 中心正极的直接24V输入；见[当前直流入口设计](hardware/corner-dc24-input-2026-09-21.md)。当前角落为PCB2_5；原理图与PCB器件/网络已更新，入口布局布线和整盘验收待完成。
+
 [软件与固件后续需求/验收](firmware/development-roadmap-2026-09-21.md)按格子、服务端、玩家屏和拓扑列出实施要求。
 
 更新：2026-09-21。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)了解已完成、已部署、待验证与下一步，再按下表进入规范。历史实测不等于当前设备在线状态。
 
-当前产品有 **长边模块 PCB2_1、角落模块 PCB2_2 两种棋盘 PCB**，另有独立玩家圆形终端。正式权威服务为 Raspberry Pi 5；玩家走认证 Wi-Fi/UDP，格子 V0.32 走 Wi-Fi/HTTP 与 ORDER 物理邻接信标，RS485 尚未启用。
+当前产品有 **长边模块 PCB2_1、角落模块 PCB2_5 两种棋盘 PCB**，另有独立玩家圆形终端。正式权威服务为 Raspberry Pi 5；玩家走认证 Wi-Fi/UDP，格子 V0.32 走 Wi-Fi/HTTP 与 ORDER 物理邻接信标，RS485 尚未启用。
 
 ## 当前最重要的状态
 
 - 两板共用本地 24V→5V 受控充电/限流设计；长边电源区是 17 原件 + 8 新件，不是新增25件。
-- 角落提供 USB1 PD→24V_BUS，目标单板或16–40个约1W模块、源出口0–60W。需单口20V5A电源与5A线；0外接负载不等于零自身功耗。
-- 原理图已有有条件理论复核；新增电源 PCB 同步、PD NVM 固件及整盘硬件验收尚未完成，不能标“稳定供电已全面实测”。
-- J101 已取消，角落 ESP32 GPIO11/12共享I²C、GPIO13复位PD、VSYS=3.3V。首次用原有 J1 调试口供电配置，日常才仅接 USB1。
+- 角落改为 J301 直接24V输入，5.5×2.1mm中心正极，6件入口保护电路；建议稳压24V/5A电源，60W目标尚待热设计及整盘验收。
+- 新增供电原理图181项引脚断言通过，见[供电复核](hardware/power-schematic-audit-2026-09-21.md)。旧PD布局候选已被替代；当前角落同步重复问题已修复，最终布局布线、两板制造放行及整盘验收仍未完成。
+- PD电路与NVM配置需求已取消；GPIO11/12仍连接INA226，GPIO13未连接。J1保留本地USB调试用途。
 - 当前板间每侧是6Pin+3Pin共9触点，旧15触点磁吸表已废止。电源闭环与 ORDER/RS485 拓扑分开设计；当前 ORDER 拒绝闭环。
 - 玩家显示 core0 曾性能全通过，但因用户反馈闪烁/错位已回到 core1；视觉验收与 Retarget 长帧仍待完成。
 
@@ -23,7 +27,8 @@
 | 产品目标 | [目标与里程碑](product/product-goals.md) |
 | PCB与硬件 | [两种 PCB](hardware/pcb-variants.md) → [硬件基线](hardware/hardware-baseline.md) → [GPIO/接口](hardware/esp32-s3-pin-map.md) → [模块互连](hardware/module-interconnect-5wire.md) |
 | 固件全貌 | [固件文档入口](firmware/README.md) → [格子开发指南](firmware/firmware-development-guide.md) |
-| PD与功耗开发 | [角落 PD 固件规格](firmware/corner-pd-firmware.md) → [供电验收](hardware/power-system-acceptance.md) |
+| 电源与功耗开发 | [直流板固件要求](firmware/module-power-firmware.md) → [供电验收](hardware/power-system-acceptance.md) |
+| 硬件开发汇报 | [硬件总索引](hardware/README.md) → [2026-09-22交接](hardware/development-handoff-2026-09-22.md) → [电源选购](hardware/external-24v-supply.md) |
 | 制板和调试 | [首板清单](hardware/bring-up-checklist.md) → [采购核对](hardware/bom-review-2026-09-21.md) |
 | 服务端 | [Raspberry Pi](firmware/raspberry-pi-server.md) → [玩家UDP](firmware/wifi-udp-player-protocol.md) |
 | 格子联动 | [分配/Tag/自动到达](firmware/tile-module-debug-assignment.md) → [ORDER V1](firmware/tile-order-protocol.md) |
@@ -43,9 +48,11 @@
 | 0–60W四开关入口 | [60W审查](hardware/corner-usbc-pd-24v-60w-review-2026-09-21.md)，随后又增加接收端保护及主控配置 |
 | 双板紧凑支路 | [8件新增方案](hardware/unified-module-hotplug-power-2026-09-21.md) |
 | R120及理论裕量 | [理论复核](hardware/unified-power-theory-review-2026-09-21.md)，不是硬件实测 |
-| 最新角落编程连接 | [ESP32配置PD](hardware/corner-pd-esp32-programming-2026-09-21.md)，取代J101流程 |
+| 历史角落编程连接 | [ESP32配置PD](hardware/corner-pd-esp32-programming-2026-09-21.md)，已取消，不实施NVM固件 |
+| 当前直接24V | [DC入口](hardware/corner-dc24-input-2026-09-21.md)及[181引脚供电复核](hardware/power-schematic-audit-2026-09-21.md) |
+| 当前接口/BOM | [36针对接核查](hardware/interconnect-audit-2026-09-21.md)及[13张匹配提示](hardware/bom-review-2026-09-21.md) |
 
-同一文件的早期“当前”只指当时快照。最终角落原理图在 PCB Files/CornerModule/PDProgramming，长边在 PCB Files/ModulePower/PowerIntegrity；PCB布局导出早于这些原理图电源变更。
+同一文件的早期“当前”只指当时快照。角落优先使用DC24-2026-09-21/SyncRepair同步修复记录，两板供电审查网表位于PCB Files/DesignAudit-2026-09-21。PDProgramming、PowerIntegrity中的PD部分及LayoutCandidate-2026-09-21均为历史；不得用于覆盖直接24V工程。
 
 ## 开发记录与历史
 

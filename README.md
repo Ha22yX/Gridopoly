@@ -54,7 +54,7 @@ flowchart TB
     Bus --> TileA
     TileA --> TileB
     TileB --> TileN
-    Pi <--> Player
+    Pi <-->|"WPA2 / HMAC UDP / HTTP 素材"| Player
     Piece -. 放置与识别 .-> TileA
 ```
 
@@ -74,6 +74,8 @@ flowchart TB
 
 ## 当前硬件
 
+2026-09-22硬件文档更新：现有长边PCB2_1和角落PCB2_5两种棋盘板；角落改为直接24V输入、5.5×2.1mm中心正极，建议选用24V/5A稳压电源，USB-PD方案已取消。新增供电原理图核查通过不等于PCB或整盘投产验收；详见[硬件入口](Docs/hardware/README.md)与[开发汇报](Docs/hardware/development-handoff-2026-09-22.md)。
+
 | 子系统 | 当前方案 | 作用 |
 | --- | --- | --- |
 | 本地主控 | ESP32-S3-WROOM-1-N16R8 | 屏幕、灯效、RFID、通信与本地状态 |
@@ -81,9 +83,9 @@ flowchart TB
 | 显示 | ST7789，240×320，只写 SPI | 显示格子内容 |
 | 状态灯 | 10 × WS2812B-B-V6 | 独立寻址的环形状态灯 |
 | RFID | HTRC110 + 外置约 384µH 天线 | 读取 125kHz 无源标签 |
-| 模块总线 | SN65HVD75 半双工 RS485 | 多模块数据通信 |
+| 模块总线 | SN65HVD75 半双工RS485硬件预留 | 当前格子经Wi-Fi/HTTP通信；RS485尚未启用 |
 | 顺序检测 | GPIO + 2N7002 开漏链路 | 自动识别物理连接顺序 |
-| 母线供电 | 24V 分布，LMR16030 本地降至 5V | 降低长链路电流与压降 |
+| 母线供电 | 角落DC24V入口，TPS26621支路保护，LMR16030SDDAR降至5V | 整盘60W为待实测设计目标，非每板输出能力 |
 | 电源选择 | TPS2121 | 本地 5V 与 USB VBUS 二选一 |
 | 系统电源 | TPS62160DGKR，5V 转 3.3V | ESP32-S3 与 3.3V 外设供电 |
 | 电流检测 | INA226 + 10mΩ 分流电阻 | 测量单模块 5V 输入电流 |
@@ -112,8 +114,10 @@ TPS2121 -> 5V_SELECTED -> INA226 分流电阻 -> 5V_IN
 7. [硬件基线](Docs/hardware/hardware-baseline.md)：确认当前工程、PCB、BOM 和发布边界。
 8. [树莓派权威服务端](Docs/firmware/raspberry-pi-server.md)：构建、部署、双网络、持久化和发布测试。
 9. [玩家屏 Wi-Fi/UDP 协议](Docs/firmware/wifi-udp-player-protocol.md)：圆屏配对、鉴权、快照和断线恢复。
-10. [双向交易按需协议](Docs/firmware/trade-protocol.md)：双方资产/现金报价、反报价、重连恢复和原子结算。
-11. [原理图历史审查](Docs/archive/schematic-review-2026-07-27.md)：仅用于追溯历史问题，不作为当前接线依据。
+10. [头像组件流协议](Docs/firmware/avatar-component-protocol.md)：30 个中性 GAVC、圆屏本地着色和最终头像。
+11. [玩家详情按需协议](Docs/firmware/player-detail-query-protocol.md)：位置、资产与最近 10 条财务流水。
+12. [双向交易按需协议](Docs/firmware/trade-protocol.md)：双方资产/现金报价、反报价、重连恢复和原子结算。
+13. [原理图历史审查](Docs/archive/schematic-review-2026-07-27.md)：仅用于追溯历史问题，不作为当前接线依据。
 
 ## 项目状态
 
@@ -129,6 +133,9 @@ Gridopoly 目前处于**单格模块硬件原型阶段**。
 - 纯 C++ 权威游戏核心、16/24/32/40 格地图和机器人测试对局。
 - Raspberry Pi 5 权威服务、网页测试端、原子存档与 systemd 自启。
 - 独立 `gridopoly` 玩家网络以及 HMAC 认证的 Wi-Fi/UDP 玩家屏同步协议。
+- 真人/Bot 冻结席位、Avatar/Name/Ready、统一 5 秒倒计时和最终头像持久化。
+- 玩家详情、双向交易、机器人间隔、指定下一次投骰目标、地产归属和逐格移动网页工具。
+- 36 张网页格子图、36 张圆屏 RGB565 格子图和 30 个按需头像 GAVC 组件。
 
 ### 正在进行
 

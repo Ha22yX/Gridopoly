@@ -16,17 +16,17 @@ pio run -e tile_esp32s3
 pio test -e native
 ```
 
-构建不等于烧录。串口身份、设备运行版本及本机忽略配置先核对，实际刷写流程见[工程README](../../Firmware/TileModule/README.md)。协议/模型主机测试不代替屏幕、RFID、ORDER电气或PD验证。
+构建不等于烧录。串口身份、设备运行版本及本机忽略配置先核对，实际刷写流程见[工程README](../../Firmware/TileModule/README.md)。协议/模型主机测试不代替屏幕、RFID、ORDER电气或供电验证。
 
 ## 2. 目录与板型
 
 板级定义位于 `include/board_config.h`，实现位于 `src/`，本机配置在 `config/`，禁止提交网络凭据。共享业务模型与协议位于 Firmware/libraries。
 
-当前V0.32支持显示、LED、INA226、RFID、HTTP心跳和ORDER物理信标，未启用RS485。长边/角落显式板型和STUSB4500维护驱动尚待实现，见[PD固件规格](corner-pd-firmware.md)。保留旧板构建，不复制整套业务工程；角落才增加GPIO13复位PD。
+当前V0.32支持显示、LED、INA226、RFID、HTTP心跳和ORDER物理信标，未启用RS485。长边/角落显式板型和功耗管理尚待实现，见[直接24V板固件要求](module-power-firmware.md)。保留旧板构建，不复制整套业务工程；当前两板均不需要PD驱动，GPIO13为NC。
 
 ## 3. 板级 GPIO
 
-以下宏是共同核心的说明示例；实际代码以include/board_config.h为准。角落下一版须增加受板型约束的PD_RESET=13/STUSB4500=0x28，不能把长边GPIO13一并初始化。
+以下宏是共同核心的说明示例；实际代码以include/board_config.h为准。当前两板均不得加入PD_RESET=13或STUSB4500=0x28启动依赖；GPIO13未连接，GPIO11/12保留INA226功能。
 
 ```c
 #pragma once
@@ -73,7 +73,7 @@ GPIO35、36、37 被 N16R8 的 Octal PSRAM占用，禁止分配。GPIO3、45、4
 
 | 功能 | 启动状态 | 原因 |
 | --- | --- | --- |
-| 角落 `PD_RST` GPIO13 | 低 | 不在正常启动时复位正在供电的PD合同；固件待实现 |
+| GPIO13（两板NC） | 不初始化为PD控制 | 当前已取消PD_RESET功能 |
 | `RS485_DIR` GPIO14 | 低 | DE=0、/RE=0，默认接收且不占用总线 |
 | `ORDER_OUT` GPIO10 | 低 | Q1 截止，开漏输出释放 |
 | `LCD_BL_PWM` GPIO16 | 低 | 上电先关闭背光，降低浪涌 |
@@ -96,7 +96,7 @@ ORDER 开漏线为低有效：GPIO10 输出高会打开 Q1，把下一块板的 
 7. 初始化屏幕，保持低背光，完成后再渐亮。
 8. 初始化 RMT 和 10 颗 WS2812，先发送全黑帧。
 9. 初始化 HTRC110、4MHz 时钟接口和解码任务。
-10. 执行自检并通过当前HTTP心跳报告状态；后续版本化扩展硬件/PD能力，不把历史BOOT_REPORT提案当现有wire。
+10. 执行自检并通过当前HTTP心跳报告状态；后续版本化扩展板型/电源诊断能力，不把历史BOOT_REPORT提案当现有wire。
 
 任一外设失败不应让看门狗反复重启整板。记录故障并进入降级模式，例如屏幕
 显示失败不应阻塞HTTP、ORDER和有效电量上报；RS485尚未启用。
@@ -198,7 +198,7 @@ Tag 与玩家的一对一绑定、跨模块全局汇总和自动到达均属于�
 
 ## 7. 功耗模式
 
-当前每板约1W是设计预算，不是现有亮度常量已经证明的最坏功耗。须实现并实测启动、维护、正常、降载策略，见[PD与统一功耗固件规格](corner-pd-firmware.md)。INA226仅测本地5V侧，不能代表整盘24V总功率。硬件限流/软启动自行工作，不等待服务器计数。
+当前每板约1W是设计预算，不是现有亮度常量已经证明的最坏功耗。须实现并实测启动、维护、正常、降载策略，见[直接24V板功耗固件规格](module-power-firmware.md)。INA226仅测本地5V侧，不能代表整盘24V总功率。硬件限流/软启动自行工作，不等待服务器计数。
 
 定义至少三档：
 

@@ -1,21 +1,25 @@
 # Gridopoly 单格模块引脚与接口定义
 
-> 2026-09-21 更新：角落模块已取消 J101，STUSB4500 改由 GPIO11/12 共享 I²C、GPIO13 复位，VSYS 接 3.3V，首次经 J1 USB 调试口供电配置。长边模块 GPIO13 仍未连接。详见 [PD 主控配置连接](corner-pd-esp32-programming-2026-09-21.md)。
+> 2026-09-22文档同步：[硬件入口](README.md)汇总直接24V、BOM与接口结论；[开发汇报](development-handoff-2026-09-22.md)区分历史修改、已验证及待验收。原日期的核查数据未在本轮重新测量。
+
+> 2026-09-21 最新变更：用户已取消角落 PD→24V，改为 5.5×2.1mm 中心正极的直接24V输入；见[当前直流入口设计](corner-dc24-input-2026-09-21.md)。当前角落为PCB2_5；原理图与PCB器件/网络已更新，入口布局布线和整盘验收待完成。
+
+> 当前角落已删除整套PD源及配置电路；GPIO11/12仅服务原INA226，GPIO13标为NC。
 
 
 更新日期：2026-09-21
 
 本文以 2026-09-21 两种原理图导出为当前连接依据，共同核心沿用早期PCB复核。
-新增电源/PD连接尚未同步PCB；不能把下面原理图引脚声明成已验证的PCB焊盘。
+角落直接24V改版已完成器件关联/焊盘网络同步修复，但布局布线和制造检查未完成；长边新增电源区也未获PCB放行。下表不构成完整PCB验收。
 
 ## 1. 当前硬件快照
 
-- 长边 PCB2_1 / 7840864f79449b47；角落 PCB2_2 / d03bb2d6c85bb69d，详见[板型对照](pcb-variants.md)。
+- 长边 PCB2_1 / 7840864f79449b47；角落 PCB2_5 / 6f97d7be5a40dd66，详见[板型对照](pcb-variants.md)。
 - 两板 ESP32-S3-WROOM-1-N16R8，16MB Flash、8MB Octal PSRAM；现有六层铜。
 - J4 为2×4屏幕母座；10颗WS2812由GPIO21驱动。
 - 母线24V_BUS；每侧6Pin+3Pin共9触点，3正极/3地/A/B/ORDER。
-- U23当前原理图为LMR16030SDDAR；U201受控接入保护。角落另有USB1 PD源。
-- GPIO11/12仍为CURRENT_SCL/SDA，角落共享PD；GPIO13仅角落为PD_RST。
+- U23当前原理图为LMR16030SDDAR；U201受控接入保护。角落另有J301直接24V输入。
+- GPIO11/12仍为CURRENT_SCL/SDA；GPIO13不再接PD。
 - 历史144器件/136 BOM统计已过期，制造数量从最终两板快照分别导出。
 
 ## 2. 电源域
@@ -100,9 +104,9 @@ ESP32-S3 的 GPIO 均不耐受 5V。
 | 16 | GPIO46 | - | 启动配置、仅输入 | 未连接，谨慎使用 |
 | 17 | GPIO9 | `ESP_ORDER_IN` | 顺序检测输入 | 已连接 |
 | 18 | GPIO10 | `ESP_ORDER_OUT` | 顺序开漏输出控制 | 已连接 |
-| 19 | GPIO11 | `CURRENT_SCL` | INA226/角落PD共享I2C SCL | 已连接 |
-| 20 | GPIO12 | `CURRENT_SDA` | INA226/角落PD共享I2C SDA | 已连接 |
-| 21 | GPIO13 | 角落 PD_RST；长边无连接 | PD 高有效复位 | 角落原理图已接，固件待实现 |
+| 19 | GPIO11 | `CURRENT_SCL` | INA226 I2C SCL | 已连接 |
+| 20 | GPIO12 | `CURRENT_SDA` | INA226 I2C SDA | 已连接 |
+| 21 | GPIO13 | 无连接 | 预留 | 两板未连接；角落已加NC |
 | 22 | GPIO14 | `RS485_DIR` | RS485 DE 与 /RE | 已连接 |
 | 23 | GPIO21 | `ESP_LED_DATA_3V3` | WS2812 数据 | 已连接 |
 | 24 | GPIO47 | - | 扩展 | 未连接 |
@@ -125,7 +129,7 @@ ESP32-S3 的 GPIO 均不耐受 5V。
 | 41 | EPAD/GND | `GND` | 模组地/散热焊盘 | 已连接 |
 
 旧文档曾将 INA226 写成 GPIO12/13；当前正确值为 GPIO11=SCL、
-GPIO12=SDA。角落与STUSB4500共享此总线（0x28），GPIO13接PD_RST；长边GPIO13仍未连接。复用4.7k上拉，PD VSYS接3V3_SYS。
+GPIO12=SDA。两种板均保留INA226总线及原4.7k上拉，角落已删除STUSB4500支路；GPIO13未连接。
 
 ## 4. 固件板级定义
 
@@ -370,9 +374,9 @@ U23 为 `LMR16030SDDAR`，LCSC `C136648`。
 | C35～C38 | 4 × 22µF/16V | 输出滤波 |
 | R34/R35 | 100kΩ/17.8kΩ | 5V 反馈分压 |
 
-U201及R201/R202/R204/R205/R206/C202/C203共8件新增器件详见[紧凑接入保护](unified-module-hotplug-power-2026-09-21.md)。U23换型、HP_RUN、HP_SS及HP_RTN必须一起同步PCB；本地限流约144–161mA，不再按5V/3A作为整板可用额定。
+U201及R201/R202/R204/R205/R206/C202/C203共8件新增器件详见[直接24V供电复核](power-schematic-audit-2026-09-21.md)。U23换型、HP_RUN、HP_SS及HP_RTN必须一起同步PCB；本地限流约144–161mA，不再按5V/3A作为整板可用额定。
 
-角落USB1为C5178540，独立于本节J1。PD编程使用GPIO11/12/13，删除J101/R108/R109，C128接VSYS；详见[最新PD连接](corner-pd-esp32-programming-2026-09-21.md)。
+角落原PD入口USB1已删除，改为J301直接24V输入；本节J1仍保留。
 
 ## 13. 双路 5V 与电流检测
 
