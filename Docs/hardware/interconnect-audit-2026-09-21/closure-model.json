@@ -1,0 +1,270 @@
+{
+  "scenario": "4 corners + 28 straight modules; 7 per side",
+  "assumed_pad_row_spacing_mm": 14.5,
+  "closure_residual_mm": 9.699080161833462e-14,
+  "closure_angle_deg": 0,
+  "placements": [
+    {
+      "board": "corner",
+      "angle": 0,
+      "translation_mm": [
+        0,
+        0
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        12.73272134
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        76.63572134
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        140.53872134
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        204.44172134
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        268.34472134
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        332.24772134
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        396.15072134
+      ]
+    },
+    {
+      "board": "corner",
+      "angle": 90,
+      "translation_mm": [
+        -2.9960138199999946,
+        460.05372134000004
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -15.728735159999994,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -79.63173516,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -143.53473516,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -207.43773516,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -271.34073516,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -335.24373516,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 180,
+      "translation_mm": [
+        -399.14673516000005,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "corner",
+      "angle": 180,
+      "translation_mm": [
+        -463.04973516000007,
+        457.05770752000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        444.32498618000005
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        380.4219861800001
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        316.51898618000007
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        252.61598618000005
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        188.71298618000006
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        124.80998618000005
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        60.906986180000054
+      ]
+    },
+    {
+      "board": "corner",
+      "angle": 270,
+      "translation_mm": [
+        -460.0537213400001,
+        -2.9960138199999466
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -447.3210000000001,
+        4.973799150320701e-14
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -383.4180000000001,
+        4.973799150320701e-14
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -319.5150000000001,
+        4.973799150320701e-14
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -255.61200000000008,
+        4.973799150320701e-14
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -191.7090000000001,
+        4.973799150320701e-14
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -127.80600000000008,
+        4.973799150320701e-14
+      ]
+    },
+    {
+      "board": "long",
+      "angle": 0,
+      "translation_mm": [
+        -63.903000000000084,
+        4.973799150320701e-14
+      ]
+    }
+  ],
+  "long_output_padrow_normal_offset_mm": 0.127,
+  "connector_group_center_spacing_mm": 13.462,
+  "pin_pitch_mm": 2.54,
+  "note": "2D nominal geometry only; spacing is illustrative, not a released assembly dimension.",
+  "tangential_pin_checks": 36,
+  "max_tangential_error_mm": 0.0
+}
