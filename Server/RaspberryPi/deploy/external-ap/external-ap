@@ -1,0 +1,4 @@
+#!/bin/sh
+# No sudo, environment sourcing, eval or implicit installation.
+set -eu
+exec python3 "$(dirname -- "$0")/external_ap.py" "$@"
