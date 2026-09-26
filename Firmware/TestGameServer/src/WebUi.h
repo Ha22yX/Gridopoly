@@ -30,7 +30,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     .identity-state{font:700 10px/1.2 ui-monospace,Consolas,monospace;letter-spacing:.05em;color:var(--muted)}.identity-state.ready{color:var(--ok)}.identity-state.generating{color:var(--accent)}
     .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}button,select,input{border:1px solid #3a4a61;background:var(--panel2);color:var(--ink);padding:10px;border-radius:8px}button{cursor:pointer;font-weight:700}button.primary{background:var(--accent);border-color:var(--accent);color:#15130a}button:disabled{opacity:.35;cursor:not-allowed}
     .newgame{display:grid;grid-template-columns:1fr;gap:8px}.newgame button{grid-column:1/-1}.newgame h2{margin:0;font-size:15px}.newgame p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.device-list{display:grid;gap:4px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}.pairing-actions{display:flex;gap:8px;margin-top:10px}.pairing-actions[hidden]{display:none}.events{height:240px;overflow:auto;font:12px/1.5 ui-monospace,Consolas,monospace;color:#c6d1e1}.event{padding:4px 0;border-bottom:1px solid #202b3a}
-    .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;color:var(--muted)}.kv b{color:var(--ink)}.error{color:var(--danger)}
+    .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;color:var(--muted)}.kv b{color:var(--ink)}.error,.newgame .error{color:var(--danger)}
     .settings-open{padding:7px 12px;white-space:nowrap}.modal[hidden],.context-menu[hidden],.selection-banner[hidden]{display:none}.modal{position:fixed;z-index:20;inset:0;display:grid;place-items:center;padding:20px;background:#02050ab8;backdrop-filter:blur(5px)}.settings-card{width:min(520px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:20px;border:1px solid #40516a;border-radius:14px;background:#111923;box-shadow:0 24px 80px #000b}.settings-card h2{margin:0 0 6px;font-size:20px}.settings-card p{margin:0 0 18px;color:var(--muted)}.settings-field{display:grid;gap:7px}.settings-field input,.settings-field select{width:100%;font-size:16px;font-variant-numeric:tabular-nums}.settings-hint{min-height:20px;margin-top:8px;color:var(--muted);font-size:12px}.settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.tag-list{display:grid;gap:7px;margin-top:10px}.tag-preview{padding:10px;border:1px solid var(--line);border-radius:8px;background:#0d151f;color:var(--muted);font:11px/1.45 ui-monospace,Consolas,monospace}.tag-mark{display:inline-block;margin-left:6px;color:#52DCB7;font:9px/1.3 ui-monospace,Consolas,monospace}
     .tile-debug{display:grid;gap:10px}.tile-debug-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.tile-debug-head h2{margin:0;font-size:14px}.tile-debug-head p{margin:2px 0 0;color:var(--muted);font-size:11px}.tile-debug-head button{padding:6px 9px;white-space:nowrap}.tile-debug-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font:11px/1.3 ui-monospace,Consolas,monospace}.tile-debug-form{display:grid;grid-template-columns:1fr;gap:8px}.tile-debug-field{display:grid;gap:5px;min-width:0;color:var(--muted);font-size:11px}.tile-debug-field select{width:100%;min-width:0}.tile-debug-preview{--preview-accent:#42526a;display:grid;grid-template-columns:8px 1fr;gap:8px;min-height:64px;padding:9px;border:1px solid var(--line);border-radius:8px;background:#0d151f}.tile-debug-preview::before{content:"";border-radius:4px;background:var(--preview-accent)}.tile-debug-preview-grid{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;min-width:0;color:var(--muted);font-size:10px}.tile-debug-preview-grid b{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-debug-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile-debug-status{min-height:18px;color:var(--muted);font-size:11px}.tile-debug-list{max-height:230px;overflow:auto;border-top:1px solid var(--line)}.tile-debug-row{display:grid;gap:2px;padding:8px 0;border-bottom:1px solid #202b3a}.tile-debug-row b,.tile-debug-row small{display:block}.tile-debug-row small{color:var(--muted);font-size:10px}.tile-debug-swatch{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:2px;background:var(--swatch);vertical-align:1px}.tile-debug-empty{padding:12px 0;color:var(--muted);font-size:11px;text-align:center}
     .context-menu{position:fixed;z-index:30;width:220px;padding:7px;border:1px solid #40516a;border-radius:10px;background:#111923;box-shadow:0 18px 55px #000c}.context-title{padding:7px 8px 9px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.context-menu button{display:block;width:100%;border:0;background:transparent;text-align:left;padding:9px}.context-menu button[hidden]{display:none}.context-menu button:hover:not(:disabled),.context-menu button:focus-visible{background:#213149}.context-menu button:active:not(:disabled){transform:translateY(1px)}.context-menu .danger{color:var(--danger)}
@@ -105,11 +105,12 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     </section>
     <section class="panel newgame">
       <h2>开始新游戏</h2>
-      <p>自动加入在线玩家屏，机器人补齐至 4 人。开局后按屏幕提示，依次在高亮格子配对棋子。</p>
+      <p>自动加入在线玩家屏，机器人补齐至 4 人。开局后按屏幕提示，依次在高亮格子配对棋子。单块模块或未闭环的串联也可测试，无需先分配格子。</p>
       <div id="device-list" class="device-list" aria-live="polite">正在查找玩家屏…</div>
       <select id="size" aria-label="地图格数"><option>16</option><option>24</option><option selected>32</option><option>40</option></select>
       <p id="newgame-roster">等待在线终端列表</p>
       <button id="new" class="primary" disabled>开始新游戏</button>
+      <p id="newgame-result" role="status" aria-live="polite" hidden></p>
     </section>
     <section class="panel tile-debug" aria-labelledby="tile-debug-title">
       <div class="tile-debug-head"><div><h2 id="tile-debug-title">棋盘模块与顺序</h2><p>完整环自动识别四角并排布格子；右键指定角落可调整起点。开链仍按手动锚点分配。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
@@ -1347,21 +1348,37 @@ async function refresh(force=false){
   }
 }
 
-async function send(path){
+async function send(path,feedbackSelector=''){
   if(actionInFlight||!state)return;
+  const feedback=feedbackSelector?$(feedbackSelector):null;
+  const report=(message,failed=false)=>{
+    if(!feedback)return;
+    feedback.hidden=false;
+    feedback.textContent=message;
+    feedback.className=failed?'error':'';
+  };
   clearTimeout(pollTimer);
   setBusy(true);
   if(refreshController)refreshController.abort();
   $('#status').textContent='正在提交操作…';
   $('#status').className='';
+  report('正在创建新游戏…');
   try{
     const response=await fetchWithTimeout(path,{method:'POST',cache:'no-store'},8000);
     const result=await response.json();
-    if(!response.ok)throw new Error(result.message||result.error||`HTTP ${response.status}`);
+    if(!response.ok||result.ok===false)throw new Error(result.message||result.error||`HTTP ${response.status}`);
     $('#status').textContent=result.version===undefined?'操作已接受':`操作已接受 · 状态 ${result.version}`;
+    report('新游戏已创建，请按玩家屏提示配对棋子。');
   }catch(error){
-    $('#status').textContent=`操作失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    const messages={
+      no_eligible_players:'未检测到支持配对的在线玩家屏，请检查连接后重试。',
+      too_many_players:'在线玩家屏超过4台，请断开多余的屏幕后重试。',
+      automatic_players_require_32_tiles:'当前服务器仅支持32格自动组队，请更新服务器或选择32格。'
+    };
+    const detail=error.name==='AbortError'?'请求超时，请先核对当前对局状态再重试。':messages[error.message]||error.message;
+    $('#status').textContent=`操作失败：${detail}`;
     $('#status').className='error';
+    report(`新建游戏失败：${detail}`,true);
   }finally{
     setBusy(false);
     await refresh(true);
@@ -1377,7 +1394,7 @@ document.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{
 });
 $('#new').onclick=()=>{
   if(!validateNewGameCounts())return;
-  send(`/api/new?size=${$('#size').value}&autoPlayers=1`);
+  send(`/api/new?size=${$('#size').value}&autoPlayers=1`,'#newgame-result');
 };
 $('#pairing-retry').onclick=async()=>{
   const pairing=state&&state.tagPairing;

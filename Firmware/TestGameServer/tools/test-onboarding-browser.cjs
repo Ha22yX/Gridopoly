@@ -29,6 +29,7 @@ const {chromium}=require('playwright');
         connected:true,cash:800,position:0,identityFlags:id<3?1:58,tagUid:'',avatarUrl:''})),
       events:[],assets:[]};
     const posts=[];
+    let newGameFailure='';
     const json=(route,value,status=200)=>route.fulfill({status,contentType:'application/json',body:JSON.stringify(value)});
     await page.route('http://gridopoly.test/**',async route=>{
       const url=new URL(route.request().url());
@@ -41,6 +42,7 @@ const {chromium}=require('playwright');
         boardSize:32,boardId:next.board.id,revision:1,updatedAtMs:0,modules:[],tiles:[],assignments:[]});
       if(url.pathname==='/api/new'){
         posts.push(url);
+        if(newGameFailure)return json(route,{ok:false,message:newGameFailure},409);
         next.roomId+=1;next.tagPairing.roomId=next.roomId;
         return json(route,{ok:true,version:next.version});
       }
@@ -73,6 +75,7 @@ const {chromium}=require('playwright');
     assert.equal(posts[0].searchParams.get('autoPlayers'),'1');
     assert.equal(posts[0].searchParams.has('humans'),false);
     assert.equal(posts[0].searchParams.has('bots'),false);
+    assert.match(await page.locator('#newgame-result').innerText(),/新游戏已创建/);
     await page.locator('#pairing-retry').click();
     await page.waitForFunction(()=>document.querySelector('.pairing-target')?.dataset.tileIndex==='9');
     assert.equal(posts[1].searchParams.get('operation'),'retry');
@@ -117,6 +120,25 @@ const {chromium}=require('playwright');
     assert.equal(posts.at(-1).searchParams.get('action'),'sell');
     assert.equal(posts.at(-1).searchParams.get('arg'),'1');
     assert.equal(posts.at(-1).searchParams.get('expected'),'1');
+
+    // A rejected creation must remain visible after the automatic state refresh.
+    // Otherwise the screen stays in the old room while the web UI just says online.
+    const previousRoom=next.roomId;
+    newGameFailure='no_eligible_players';
+    await page.locator('#size').selectOption('24');
+    await page.locator('#new').click();
+    await page.waitForFunction(()=>!actionInFlight&&!refreshInFlight);
+    assert.equal(posts.at(-1).searchParams.get('size'),'24');
+    assert.equal(next.roomId,previousRoom);
+    assert.match(await page.locator('#newgame-result').innerText(),/新建游戏失败.*在线玩家屏/);
+    await page.evaluate(()=>refresh(true));
+    assert.match(await page.locator('#newgame-result').innerText(),/新建游戏失败.*在线玩家屏/);
+    newGameFailure='';
+    await page.locator('#new').click();
+    await page.waitForFunction(()=>!actionInFlight&&!refreshInFlight);
+    assert.equal(next.roomId,previousRoom+1);
+    assert.match(await page.locator('#newgame-result').innerText(),/新游戏已创建/);
+    assert.equal(await page.locator('#newgame-result').getAttribute('class'),'');
 
     devices.push({deviceId:3,online:true,eligible:true},{deviceId:4,online:true,eligible:true},
       {deviceId:5,online:true,eligible:true});
