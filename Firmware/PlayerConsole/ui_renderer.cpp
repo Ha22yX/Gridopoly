@@ -9,6 +9,7 @@
 #include "app_state.h"
 #include "demo_data.h"
 #include "remote_avatar_cache.h"
+#include "tag_pair_view.h"
 #include "src/assets/grid_city_tile_images.h"
 #include "src/fonts/ui_fonts.h"
 #include "ui_carousel.h"
@@ -672,6 +673,12 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
             state.auctionPassed == rendered.auctionPassed &&
             (state.page == ScreenPage::AvatarSetup ||
              identityVisualStateUnchanged(state.identity, rendered.identity)) &&
+            state.winnerPlayerId == rendered.winnerPlayerId &&
+            (state.page != ScreenPage::TagPairing ||
+             (state.identity.tagPairSnapshotValid == rendered.identity.tagPairSnapshotValid &&
+              memcmp(&state.identity.tagPair, &rendered.identity.tagPair,
+                     sizeof(state.identity.tagPair)) == 0 &&
+              state.pendingCommandMask == rendered.pendingCommandMask)) &&
             state.toastUntilMs == rendered.toastUntilMs &&
            textStateUnchanged(state.toast, rendered.toast);
 }
@@ -742,6 +749,7 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
             return action == TouchAction::DetailPrimary && state.focus == 0;
         case ScreenPage::Purchase:
         case ScreenPage::Auction:
+        case ScreenPage::TagPairing:
             return action == (state.focus == 0 ? TouchAction::DetailPrimary
                                                : TouchAction::DetailSecondary);
         case ScreenPage::AvatarSetup:
@@ -1497,18 +1505,28 @@ void drawAssetDetail(const AppState &state)
                 break;
             case AssetDetailAction::Build: {
                 const int32_t cost = appAssetBuildingCost(state, state.selectedAsset);
-                if (cost > 0) snprintf(actionText, sizeof(actionText), "BUILD  $%ld",
+                const bool landmark = appAssetBuildingLevel(state, state.selectedAsset) == 4;
+                if (landmark && appBankLandmarkStock(state) == 0)
+                    snprintf(actionText, sizeof(actionText), "NO LANDMARKS");
+                else if (!landmark && appBankBuildingStock(state) == 0)
+                    snprintf(actionText, sizeof(actionText), "NO BUILDINGS");
+                else if (cost > 0) snprintf(actionText, sizeof(actionText), "BUILD  $%ld",
                                        static_cast<long>(cost));
                 else snprintf(actionText, sizeof(actionText), "BUILD");
                 break;
             }
             case AssetDetailAction::SellBuilding: {
                 const int32_t proceeds = appAssetBuildingCost(state, state.selectedAsset) / 2;
-                if (proceeds > 0) snprintf(actionText, sizeof(actionText), "SELL  +$%ld",
+                if (appAssetBuildingLevel(state, state.selectedAsset) == 5 && appBankBuildingStock(state) < 4)
+                    snprintf(actionText, sizeof(actionText), "BANK NEEDS 4");
+                else if (proceeds > 0) snprintf(actionText, sizeof(actionText), "SELL 1  +$%ld",
                                            static_cast<long>(proceeds));
                 else snprintf(actionText, sizeof(actionText), "SELL BUILDING");
                 break;
             }
+            case AssetDetailAction::SellBuildingGroup:
+                snprintf(actionText, sizeof(actionText), "SELL GROUP");
+                break;
             case AssetDetailAction::Trade:
                 snprintf(actionText, sizeof(actionText), "TRADE");
                 break;
@@ -2519,11 +2537,17 @@ void drawDebtAssets(const AppState &state)
         const uint8_t assetIndex = appVisibleAssetIndex(state, row);
         const uint8_t buildingLevel = appAssetBuildingLevel(state, assetIndex);
         const bool canSellBuilding = appDebtBuildingSaleEligible(state, assetIndex);
+        const bool canSellGroup = appBuildingGroupSaleEligible(state, assetIndex);
         const bool canMortgage = appDebtAssetEligible(state, assetIndex);
         if (buildingLevel != 0) {
-            if (canSellBuilding) {
-                snprintf(meta[row], sizeof(meta[row]), "SELL +$%ld",
+            if (canSellGroup) {
+                snprintf(meta[row], sizeof(meta[row]), "GROUP +$%ld / OPTIONS",
+                         static_cast<long>(appBuildingGroupSaleProceeds(state, assetIndex)));
+            } else if (canSellBuilding) {
+                snprintf(meta[row], sizeof(meta[row]), "SELL 1 +$%ld",
                          static_cast<long>(appDebtBuildingSaleProceeds(state, assetIndex)));
+            } else if (buildingLevel == 5 && appBankBuildingStock(state) < 4) {
+                snprintf(meta[row], sizeof(meta[row]), "BANK NEEDS 4 BUILDINGS");
             } else {
                 snprintf(meta[row], sizeof(meta[row]), "SELL EVENLY");
             }
@@ -2539,7 +2563,7 @@ void drawDebtAssets(const AppState &state)
             appAssetVisual(state, assetIndex)
         );
         items[row] = UiListItemView{appAssetDisplayName(state, assetIndex), meta[row], "",
-                                   canSellBuilding || canMortgage,
+                                   canSellBuilding || canSellGroup || canMortgage,
                                    appDebtAssetSelected(state, assetIndex),
                                    visual.accent, visual.groupCode, true};
     }
@@ -3018,6 +3042,75 @@ void updateIdentityCountdown(const AppState &state, uint32_t nowMs)
     lv_label_set_text(identityCountdownLabel, text);
 }
 
+void drawGameOutcome(const AppState &state)
+{
+    const bool finished = state.authorityPhase == AuthorityPhase::GameOver;
+    const bool winnerKnown = state.winnerPlayerId != 0;
+    const bool won = winnerKnown && state.winnerPlayerId == state.selfSeatId;
+    const uint32_t accent = won ? kGreen : kMuted;
+    drawOuterRing(accent);
+    drawHeader(finished ? "GAME OVER" : "SPECTATING", "GRIDOPOLY");
+    uiLabel(root, finished ? (winnerKnown ? (won ? "YOU WIN" : "GAME FINISHED") : "GAME FINISHED")
+                           : "YOU ARE BANKRUPT",
+            UiRect{80, 149, 320, 52}, &lv_font_montserrat_24, won ? kGreen : kText);
+    char line[64];
+    if (finished && winnerKnown) {
+        snprintf(line, sizeof(line), "WINNER: %s", appPlayerNameById(state, state.winnerPlayerId));
+    } else if (finished) {
+        snprintf(line, sizeof(line), "SYNCING FINAL RESULT");
+    } else {
+        snprintf(line, sizeof(line), "PLAYER %u IS TAKING A TURN", state.activePlayerId);
+    }
+    uiLabel(root, line, UiRect{70, 220, 340, 58}, &ui_font_16, kText);
+    uiLabel(root, finished ? (won ? "Congratulations!" : "Better luck next game.")
+                           : "You can watch the remaining players finish.",
+            UiRect{90, 289, 300, 62}, &ui_font_16, kMuted);
+    uiLabel(root, finished ? "WAITING FOR A NEW GAME" : "NO ACTION REQUIRED",
+            UiRect{100, 370, 280, 24}, &lv_font_montserrat_12, kMuted);
+}
+
+void drawTagPairing(const AppState &state)
+{
+    const auto view = tagPairView(state);
+    const auto &pair = state.identity.tagPair;
+    const bool success = pair.state == TransportTagPairState::SuccessRemove ||
+                         tagPairMayEditIdentity(pair);
+    const uint32_t accent = !state.authorityOnline ? kMuted : (success ? kGreen : kYellow);
+    drawOuterRing(accent);
+    drawHeader(view.title, "ROOM SETUP");
+    char seat[32];
+    snprintf(seat, sizeof(seat), "YOU ARE PLAYER %u", state.selfSeatId);
+    uiLabel(root, seat, UiRect{100, 119, 280, 24}, &lv_font_montserrat_14, accent);
+    uiLabel(root, view.instruction, UiRect{70, 162, 340, 54}, &lv_font_montserrat_20, kText);
+    uiLabel(root, view.detail, UiRect{90, 228, 300, 66}, &ui_font_16, kMuted);
+    char progress[64];
+    if (!state.identity.tagPairSnapshotValid) {
+        snprintf(progress, sizeof(progress), "WAITING FOR PAIRING DETAILS");
+    } else if (pair.activePlayerId != 0 && pair.activePlayerId != state.selfSeatId) {
+        snprintf(progress, sizeof(progress), "PLAYER %u IS PAIRING", pair.activePlayerId);
+    } else if (pair.readerMapIndex != 0xFF) {
+        snprintf(progress, sizeof(progress), "HIGHLIGHTED TILE %u", pair.readerMapIndex);
+    } else {
+        snprintf(progress, sizeof(progress), "FOLLOW THE HIGHLIGHTED TILE");
+    }
+    uiLabel(root, progress, UiRect{90, 299, 300, 32}, &lv_font_montserrat_14, accent);
+    if (appTagPairCanManage(state)) {
+        const char *texts[] = {"TRY AGAIN", "CANCEL"};
+        const TouchAction actions[] = {TouchAction::DetailPrimary, TouchAction::DetailSecondary};
+        for (uint8_t index = 0; index < 2; ++index) {
+            auto *button = uiBox(root, UiRect{static_cast<int16_t>(104 + index * 142), 349, 130, 42},
+                                 state.focus == index ? 0x16302A : kPanel,
+                                 state.focus == index ? kGreen : kLine, 6);
+            auto *text = uiLabel(button, texts[index], UiRect{5, 12, 120, 20},
+                                 &lv_font_montserrat_14, kText);
+            makeClickable(button, actions[index], text, kGreen);
+        }
+    } else if (state.pendingCommandMask &
+               (1u << static_cast<uint8_t>(TransportCommandKind::TagPairRequest))) {
+        uiLabel(root, "UPDATING PAIRING...", UiRect{100, 355, 280, 28}, &ui_font_16, kMuted);
+    }
+}
+
 void drawPlayerReady(const AppState &state, uint32_t nowMs)
 {
     drawOuterRing(kGreen);
@@ -3093,6 +3186,7 @@ void applyModal(const AppState &state, uint32_t nowMs, bool create)
         case ModalKind::TradeAction: amountPrefix = "YOU GIVE"; break;
         case ModalKind::DebtMortgageConfirm: amountPrefix = "RAISE"; break;
         case ModalKind::DebtSellBuildingConfirm: amountPrefix = "RAISE"; break;
+        case ModalKind::SellBuildingGroupConfirm: amountPrefix = "TOTAL"; break;
         case ModalKind::None: break;
     }
     char amount[40];
@@ -3101,8 +3195,12 @@ void applyModal(const AppState &state, uint32_t nowMs, bool create)
     char detail[96];
     snprintf(detail, sizeof(detail), "%s / %s", state.modal.counterparty,
              state.modal.purpose);
+    if (state.modal.kind == ModalKind::SellBuildingGroupConfirm)
+        snprintf(detail, sizeof(detail), "ALL BUILDINGS / SAME COLOR");
     char cash[40];
     snprintf(cash, sizeof(cash), "AVAILABLE CASH  $%ld", static_cast<long>(state.money));
+    if (state.modal.kind == ModalKind::SellBuildingGroupConfirm)
+        snprintf(cash, sizeof(cash), "LAND OWNERSHIP IS KEPT");
     char countdown[32] = "";
     if (state.modal.deadlineMs != 0) {
         snprintf(countdown, sizeof(countdown), "%.1fs remaining",
@@ -3255,6 +3353,9 @@ void rebuild(const AppState &state, uint32_t nowMs)
         case ScreenPage::NameReview: drawNameReview(state); break;
         case ScreenPage::NameHandwriting: drawNameHandwriting(state); break;
         case ScreenPage::PlayerReady: drawPlayerReady(state, nowMs); break;
+        case ScreenPage::TagPairing: drawTagPairing(state); break;
+        case ScreenPage::GameOver:
+        case ScreenPage::Spectator: drawGameOutcome(state); break;
     }
     drawToast(state, nowMs);
     drawActivityHud(state, nowMs);

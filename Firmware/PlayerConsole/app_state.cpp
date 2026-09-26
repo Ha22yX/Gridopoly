@@ -190,7 +190,8 @@ void clearExtraRollRoomLifecycle(AppState &state)
 
 bool isIdentityPage(ScreenPage page)
 {
-    return page == ScreenPage::AvatarLoading || page == ScreenPage::AvatarSetup ||
+    return page == ScreenPage::TagPairing ||
+           page == ScreenPage::AvatarLoading || page == ScreenPage::AvatarSetup ||
            page == ScreenPage::NameReview ||
            page == ScreenPage::NameHandwriting || page == ScreenPage::PlayerReady;
 }
@@ -563,6 +564,9 @@ bool isOrdinaryPage(ScreenPage page)
         case ScreenPage::Purchase:
         case ScreenPage::Auction:
         case ScreenPage::AvatarLoading:
+        case ScreenPage::TagPairing:
+        case ScreenPage::GameOver:
+        case ScreenPage::Spectator:
         case ScreenPage::AvatarSetup:
         case ScreenPage::NameReview:
         case ScreenPage::NameHandwriting:
@@ -710,6 +714,9 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
                            !state.auctionPassed && state.decisionPlayerId == state.selfSeatId &&
                            (state.availableActions & kActionAuctionPass) != 0 ? 2 : 0;
         case ScreenPage::AvatarLoading: return 0;
+        case ScreenPage::TagPairing: return appTagPairCanManage(state) ? 2 : 0;
+        case ScreenPage::GameOver:
+        case ScreenPage::Spectator: return 0;
         case ScreenPage::AvatarSetup: return 6;
         case ScreenPage::NameReview: return 3;
         case ScreenPage::NameHandwriting: return 2;
@@ -958,6 +965,8 @@ bool queueCommand(AppState &state, TransportCommandKind kind, uint32_t transacti
                    uint8_t assetIndex = 0xFF, int32_t argument = 0,
                    uint8_t targetPlayerId = 0)
 {
+    if (appTagPairBlocksIdentity(state) || state.authorityPhase == AuthorityPhase::GameOver ||
+        appSelfBankrupt(state)) return false;
     const uint8_t index = commandIndex(kind);
     const uint32_t mask = commandMask(kind);
     if (!state.authorityOnline || !state.boardCatalogCompatible || state.commandCount == 4 ||
@@ -1111,6 +1120,7 @@ bool queueIdentityRequest(AppState &state, TransportIdentityOperation operation,
                           uint32_t nowMs)
 {
     const bool mutation = operation != TransportIdentityOperation::Query;
+    if (mutation && appTagPairBlocksIdentity(state)) return false;
     const TransportCommandKind kind = TransportCommandKind::IdentityRequest;
     const uint8_t index = commandIndex(kind);
     const uint32_t mask = commandMask(kind);
@@ -1208,6 +1218,10 @@ void applyIdentitySnapshot(AppState &state, const TransportEvent &event,
     state.identity.nameReadyMask = event.identityNameReadyMask;
     state.identity.readyMask = event.identityReadyMask;
     state.identity.onlineMask = event.identityOnlineMask;
+    state.identity.selfStage = event.identitySelfStage;
+    if (event.identityPhase == TransportIdentityPhase::TagPairing) {
+        state.identity.tagPairRequired = true;
+    }
     if (event.identity != nullptr) {
         memcpy(state.identity.seats, event.identity->seats,
                sizeof(state.identity.seats));
@@ -1247,6 +1261,16 @@ void applyIdentitySnapshot(AppState &state, const TransportEvent &event,
         }
     }
 
+    if (appTagPairBlocksIdentity(state)) {
+        state.identity.phase = IdentityClientPhase::TagPairing;
+        state.identity.editingValue = false;
+        state.identity.avatarEditOverride = false;
+        showIdentityPage(state, ScreenPage::TagPairing,
+                         state.page == ScreenPage::TagPairing && state.focus < 2
+                             ? state.focus : 0);
+        return;
+    }
+
     if (event.identityPhase == TransportIdentityPhase::Inactive ||
         event.identityPhase == TransportIdentityPhase::Active) {
         state.identity.phase = IdentityClientPhase::Inactive;
@@ -1264,10 +1288,10 @@ void applyIdentitySnapshot(AppState &state, const TransportEvent &event,
     const bool seatProvesNameReady =
         (self.flags & gridopoly::protocol::IdentitySeatNameFinal) != 0;
     const bool rawStageProvesAvatarReady =
-        event.identitySelfStage >= static_cast<uint8_t>(
+        event.identitySelfStage <= 6 && event.identitySelfStage >= static_cast<uint8_t>(
             gridopoly::protocol::IdentitySeatStage::NameSetup);
     const bool rawStageProvesNameReady =
-        event.identitySelfStage >= static_cast<uint8_t>(
+        event.identitySelfStage <= 6 && event.identitySelfStage >= static_cast<uint8_t>(
             gridopoly::protocol::IdentitySeatStage::Ready);
     const bool stageProvesAvatarReady =
         event.identityPhase == TransportIdentityPhase::AwaitName ||
@@ -1339,8 +1363,25 @@ void applyIdentitySnapshot(AppState &state, const TransportEvent &event,
     showIdentityPage(state, ScreenPage::PlayerReady, 0);
 }
 
+void resumeIdentityAfterPairing(AppState &state, uint32_t nowMs)
+{
+    TransportEvent identity{};
+    identity.selfSeatId = state.selfSeatId;
+    identity.identityPhase = state.identity.authorityPhase;
+    identity.identityRevision = state.identity.revision;
+    identity.identitySeatCount = state.identity.seatCount;
+    identity.identityHumanMask = state.identity.humanMask;
+    identity.identityAvatarReadyMask = state.identity.avatarReadyMask;
+    identity.identityNameReadyMask = state.identity.nameReadyMask;
+    identity.identityReadyMask = state.identity.readyMask;
+    identity.identityOnlineMask = state.identity.onlineMask;
+    identity.identitySelfStage = state.identity.selfStage;
+    applyIdentitySnapshot(state, identity, nowMs);
+}
+
 bool reconcileCompletedAvatarSubmission(AppState &state)
 {
+    if (appTagPairBlocksIdentity(state)) return false;
     if ((state.nav.current.page != ScreenPage::AvatarLoading &&
          state.nav.current.page != ScreenPage::AvatarSetup) ||
         state.identity.avatarEditOverride ||
@@ -1413,7 +1454,8 @@ bool isGenericModalCompletion(const AppState &state, const TransportEvent &event
         return event.requestId ==
             state.pendingRequestIds[commandIndex(TransportCommandKind::UnmortgageRequest)];
     }
-    if (state.modal.kind == ModalKind::DebtSellBuildingConfirm) {
+    if (state.modal.kind == ModalKind::DebtSellBuildingConfirm ||
+        state.modal.kind == ModalKind::SellBuildingGroupConfirm) {
         return event.requestId ==
             state.pendingRequestIds[commandIndex(TransportCommandKind::SellBuildingRequest)];
     }
@@ -1445,6 +1487,7 @@ bool isActiveModalRequest(const AppState &state, uint32_t requestId)
                    requestId == state.pendingRequestIds[
                        commandIndex(TransportCommandKind::MortgageBatchRequest)];
         case ModalKind::DebtSellBuildingConfirm:
+        case ModalKind::SellBuildingGroupConfirm:
             return requestId == state.pendingRequestIds[
                 commandIndex(TransportCommandKind::SellBuildingRequest)];
         case ModalKind::None:
@@ -1615,6 +1658,25 @@ void submitModal(AppState &state, uint32_t nowMs)
                 state.modal.submitting = true;
             }
             return;
+        case ModalKind::SellBuildingGroupConfirm: {
+            if (!appBuildingGroupSaleEligible(state, state.selectedAsset)) {
+                dismissModal(state);
+                showToast(state, "SALE NO LONGER AVAILABLE", nowMs);
+                return;
+            }
+            const int32_t proceeds = appBuildingGroupSaleProceeds(state, state.selectedAsset);
+            if (proceeds != state.modal.amount) {
+                state.modal.amount = proceeds;
+                showToast(state, "AMOUNT CHANGED - REVIEW AGAIN", nowMs);
+                return;
+            }
+            if (queueCommand(state, TransportCommandKind::SellBuildingRequest,
+                             state.modal.transactionId, nowMs, 0, 0,
+                             state.selectedAsset, 1)) {
+                state.modal.submitting = true;
+            }
+            return;
+        }
         case ModalKind::None:
             return;
     }
@@ -1718,6 +1780,14 @@ void activate(AppState &state, uint32_t nowMs)
                 }
                 if (action == AssetDetailAction::Build ||
                     action == AssetDetailAction::SellBuilding) {
+                    if (action == AssetDetailAction::SellBuilding &&
+                        state.authorityPhase == AuthorityPhase::AwaitDebt) {
+                        showModal(state, ModalKind::DebtSellBuildingConfirm, true,
+                                  "SELL ONE LEVEL", "CITY BANK", "ONE BUILDING LEVEL ONLY",
+                                  appDebtBuildingSaleProceeds(state, state.selectedAsset),
+                                  state.debt.transactionId, 0);
+                        return;
+                    }
                     const TransportCommandKind kind = action == AssetDetailAction::Build
                         ? TransportCommandKind::BuildRequest
                         : TransportCommandKind::SellBuildingRequest;
@@ -1725,6 +1795,15 @@ void activate(AppState &state, uint32_t nowMs)
                         showToast(state, action == AssetDetailAction::Build
                                              ? "BUILDING..." : "SELLING BUILDING...", nowMs);
                     }
+                    return;
+                }
+                if (action == AssetDetailAction::SellBuildingGroup) {
+                    showModal(state, ModalKind::SellBuildingGroupConfirm, true,
+                              "SELL WHOLE GROUP", "CITY BANK",
+                              "ALL BUILDINGS IN THIS COLOR GROUP",
+                              appBuildingGroupSaleProceeds(state, state.selectedAsset),
+                              state.authorityPhase == AuthorityPhase::AwaitDebt
+                                  ? state.debt.transactionId : 0, 0);
                     return;
                 }
                 if (action == AssetDetailAction::Trade) {
@@ -1894,12 +1973,10 @@ void activate(AppState &state, uint32_t nowMs)
             {
                 const uint8_t assetIndex = appVisibleAssetIndex(state, focus);
                 state.selectedAsset = assetIndex;
-                if (appDebtBuildingSaleEligible(state, assetIndex)) {
-                    showModal(state, ModalKind::DebtSellBuildingConfirm, false,
-                              "SELL BUILDING", "CITY BANK",
-                              "LIQUIDATE ONE BUILDING",
-                              appDebtBuildingSaleProceeds(state, assetIndex),
-                              state.debt.transactionId, 0);
+                if (appDebtBuildingSaleEligible(state, assetIndex) ||
+                    appBuildingGroupSaleEligible(state, assetIndex)) {
+                    pushPage(state, ScreenPage::AssetDetail);
+                    setFocus(state, appDebtBuildingSaleEligible(state, assetIndex) ? 2 : 3);
                 } else if (appAssetBuildingLevel(state, assetIndex) != 0) {
                     showToast(state, "SELL EVENLY ACROSS GROUP", nowMs);
                 } else if (appDebtAssetEligible(state, assetIndex)) {
@@ -2054,6 +2131,13 @@ void activate(AppState &state, uint32_t nowMs)
                 showIdentityPage(state, ScreenPage::NameReview, 0);
                 touchRevision(state);
             }
+            return;
+        case ScreenPage::TagPairing:
+            appRequestTagPair(state, focus == 0 ? TransportTagPairOperation::Retry
+                                               : TransportTagPairOperation::Cancel, nowMs);
+            return;
+        case ScreenPage::GameOver:
+        case ScreenPage::Spectator:
             return;
         case ScreenPage::PlayerReady:
             return;
@@ -2264,8 +2348,13 @@ void presentDebtAuthorityState(AppState &state, uint32_t nowMs)
         }
         return;
     }
-    if (state.modal.kind == ModalKind::DebtSellBuildingConfirm &&
+    if ((state.modal.kind == ModalKind::DebtSellBuildingConfirm ||
+         state.modal.kind == ModalKind::SellBuildingGroupConfirm) &&
         state.modal.submitting) return;
+    // Keep the debt asset's explicit single/group choices open during heartbeat
+    // projections. Its Back button still returns to the forced debt list.
+    if (state.nav.current.page == ScreenPage::AssetDetail && state.nav.depth != 0 &&
+        state.nav.stack[state.nav.depth - 1].page == ScreenPage::DebtAssets) return;
     if ((state.availableActions & kActionDeclareBankruptcy) != 0) {
         if (state.nav.current.page != ScreenPage::Bankruptcy) {
             replaceForcedPage(state, ScreenPage::Bankruptcy);
@@ -2574,6 +2663,25 @@ void finishAuctionResult(AppState &state, uint32_t nowMs)
     }
 }
 
+bool presentGameOutcome(AppState &state)
+{
+    const bool finished = state.authorityPhase == AuthorityPhase::GameOver;
+    if (!finished && !appSelfBankrupt(state)) return false;
+    state.availableActions = 0;
+    state.homePhase = HomePhase::Waiting;
+    clearRollFlow(state);
+    clearExtraRollRoomLifecycle(state);
+    clearEndTurnPresentation(state);
+    state.auctionPresentation = AuctionPresentationPhase::None;
+    state.auctionPresentationUntilMs = 0;
+    state.commandCount = state.commandHead = state.commandTail = 0;
+    clearStaleSubmissions(state);
+    dismissModal(state);
+    const ScreenPage page = finished ? ScreenPage::GameOver : ScreenPage::Spectator;
+    if (state.page != page) replaceForcedPage(state, page);
+    return true;
+}
+
 void applyAuthoritySnapshot(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
     const AuthorityPhase previousPhase = state.authorityPhase;
@@ -2646,6 +2754,8 @@ void applyAuthoritySnapshot(AppState &state, const TransportEvent &event, uint32
     // continue arriving while the lobby converges, but they must never pull a
     // console out of avatar, name, or ready/countdown pages.
     if (state.identity.phase != IdentityClientPhase::Inactive) return;
+
+    if (presentGameOutcome(state)) return;
 
     const bool ownDecision = event.decisionPlayerId == event.selfSeatId;
     if (previousPhase == AuthorityPhase::AwaitDebt &&
@@ -2755,6 +2865,7 @@ void applyAuthoritySnapshot(AppState &state, const TransportEvent &event, uint32
 
 void applyFullAuthorityProjection(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
+    if (event.selfSeatId != 0) state.selfSeatId = event.selfSeatId;
     const AuthorityPhase previousPhase = state.authorityPhase;
     const uint8_t previousAuctionAssetIndex = state.auctionAssetIndex;
     const uint32_t previousAuctionGeneration = state.auctionGeneration;
@@ -2818,6 +2929,8 @@ void applyFullAuthorityProjection(AppState &state, const TransportEvent &event, 
     state.auctionGeneration = event.auctionGeneration;
 
     if (state.identity.phase != IdentityClientPhase::Inactive) return;
+
+    if (presentGameOutcome(state)) return;
 
     if (activeAuction) {
         const bool seenKey = auctionKeyMatches(
@@ -3050,6 +3163,63 @@ bool appIdentityActive(const AppState &state)
     return state.identity.phase != IdentityClientPhase::Inactive;
 }
 
+bool appSelfBankrupt(const AppState &state)
+{
+    if (state.debt.bankruptcyResolved) return true;
+    if (!state.authoritySnapshotValid || state.selfSeatId == 0) return false;
+    for (const auto &player : state.authorityPlayers) {
+        if (player.playerId == state.selfSeatId) return (player.flags & 0x02u) != 0;
+    }
+    return false;
+}
+
+bool appTagPairBlocksIdentity(const AppState &state)
+{
+    return state.identity.tagPairSuccessUntilMs != 0 ||
+           (state.identity.selfStage == 7 &&
+            (!state.identity.tagPairSnapshotValid || !tagPairMayEditIdentity(state.identity.tagPair))) ||
+           (state.identity.tagPairRequired &&
+            (!state.identity.tagPairSnapshotValid ||
+             !tagPairMayEditIdentity(state.identity.tagPair)));
+}
+
+bool appTagPairCanManage(const AppState &state)
+{
+    const auto &pair = state.identity.tagPair;
+    return state.authorityOnline && state.identity.tagPairSnapshotValid &&
+           (pair.flags & kTagPairEnabled) != 0 && pair.sessionId != 0 &&
+           pair.activePlayerId == state.selfSeatId && state.selfSeatId != 0 &&
+           (pair.flags & kTagPairSelfBound) == 0 &&
+           (state.pendingCommandMask & commandMask(TransportCommandKind::TagPairRequest)) == 0;
+}
+
+bool appRequestTagPair(AppState &state, TransportTagPairOperation operation, uint32_t nowMs)
+{
+    const bool query = operation == TransportTagPairOperation::Query;
+    if (!state.authorityOnline || state.selfSeatId == 0 || state.authorityRoomId == 0 ||
+        state.commandCount == 4 || (!query && !appTagPairCanManage(state)) ||
+        (state.pendingCommandMask & commandMask(TransportCommandKind::TagPairRequest)) != 0) {
+        return false;
+    }
+    auto &command = state.commandQueue[state.commandTail];
+    command = TransportCommand{};
+    command.kind = TransportCommandKind::TagPairRequest;
+    command.requestId = state.nextRequestId++;
+    if (command.requestId == 0) command.requestId = state.nextRequestId++;
+    command.roomId = state.authorityRoomId;
+    command.targetPlayerId = state.selfSeatId;
+    command.tagPairOperation = operation;
+    command.tagPairSessionId = query ? 0 : state.identity.tagPair.sessionId;
+    command.tagPairRevision = query ? 0 : state.identity.tagPair.revision;
+    command.clientTimeMs = nowMs;
+    state.commandTail = static_cast<uint8_t>((state.commandTail + 1) % 4);
+    ++state.commandCount;
+    state.pendingCommandMask |= commandMask(command.kind);
+    state.pendingRequestIds[commandIndex(command.kind)] = command.requestId;
+    touchRevision(state);
+    return true;
+}
+
 uint32_t appIdentityCountdownRemainingMs(const AppState &state, uint32_t nowMs)
 {
     if (state.identity.phase != IdentityClientPhase::Countdown ||
@@ -3074,6 +3244,7 @@ uint8_t appIdentityReadyCount(const AppState &state)
 void appUpdateAvatarPreloadProgress(AppState &state, uint8_t readyCount,
                                     uint8_t totalCount, bool complete)
 {
+    if (appTagPairBlocksIdentity(state)) return;
     const uint8_t normalizedTotal = totalCount == 0 ? 30 : totalCount;
     bool changed = state.identity.avatarPreloadReadyCount != readyCount ||
                    state.identity.avatarPreloadTotalCount != normalizedTotal;
@@ -3122,6 +3293,7 @@ void appUpdateAvatarPreloadProgress(AppState &state, uint8_t readyCount,
 
 bool appIdentityAppendCharacter(AppState &state, char character)
 {
+    if (appTagPairBlocksIdentity(state)) return false;
     const bool allowed = (character >= 'A' && character <= 'Z') ||
                          (character >= 'a' && character <= 'z') ||
                          (character >= '0' && character <= '9') ||
@@ -3141,6 +3313,7 @@ bool appIdentityAppendCharacter(AppState &state, char character)
 
 bool appIdentityDeleteCharacter(AppState &state)
 {
+    if (appTagPairBlocksIdentity(state)) return false;
     const size_t length = strlen(state.identity.draftName);
     if (length == 0) return false;
     state.identity.draftName[length - 1] = '\0';
@@ -3560,11 +3733,70 @@ bool actionExposed(const AppState &state, uint32_t action)
 
 } // namespace
 
+uint16_t appBankBuildingStock(const AppState &state)
+{
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.boardSize);
+    if (!state.fullAuthoritySnapshotValid || board == nullptr ||
+        state.authorityAssetCount != board->assetCount) return 0;
+    uint16_t used = 0;
+    for (uint8_t index = 0; index < board->assetCount; ++index) {
+        const uint8_t level = state.authorityAssets[index].buildingLevel;
+        if (level < 5) used += level;
+    }
+    return used < board->buildingStock ? board->buildingStock - used : 0;
+}
+
+uint16_t appBankLandmarkStock(const AppState &state)
+{
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.boardSize);
+    if (!state.fullAuthoritySnapshotValid || board == nullptr ||
+        state.authorityAssetCount != board->assetCount) return 0;
+    uint16_t used = 0;
+    for (uint8_t index = 0; index < board->assetCount; ++index)
+        if (state.authorityAssets[index].buildingLevel == 5) ++used;
+    return used < board->landmarkStock ? board->landmarkStock - used : 0;
+}
+
+int32_t appBuildingGroupSaleProceeds(const AppState &state, uint8_t assetIndex)
+{
+    const auto *definition = authorityAssetDefinition(state, assetIndex);
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.boardSize);
+    if (!state.fullAuthoritySnapshotValid || definition == nullptr || board == nullptr ||
+        state.authorityAssetCount != board->assetCount ||
+        definition->kind != gridopoly::core::TileKind::Property ||
+        definition->group == gridopoly::core::kNoGroup) return 0;
+    int64_t proceeds = 0;
+    for (uint8_t index = 0; index < board->assetCount; ++index) {
+        if (board->assets[index].kind == gridopoly::core::TileKind::Property &&
+            board->assets[index].group == definition->group) {
+            proceeds += static_cast<int64_t>(state.authorityAssets[index].buildingLevel) *
+                        (board->assets[index].economy.buildingCost / 2);
+        }
+    }
+    return proceeds > INT32_MAX ? 0 : static_cast<int32_t>(proceeds);
+}
+
+bool appBuildingGroupSaleEligible(const AppState &state, uint8_t assetIndex)
+{
+    uint8_t owned = 0, total = 0;
+    const int32_t proceeds = appBuildingGroupSaleProceeds(state, assetIndex);
+    return state.authorityOnline && state.boardCatalogCompatible && !appSelfBankrupt(state) &&
+           (state.authorityPhase == AuthorityPhase::AwaitRoll ||
+            state.authorityPhase == AuthorityPhase::TurnEnd ||
+            (state.authorityPhase == AuthorityPhase::AwaitDebt &&
+             state.decisionPlayerId == state.selfSeatId)) &&
+           (state.availableActions & kActionSellBuilding) != 0 &&
+           appAssetBuildingLevel(state, assetIndex) != 0 &&
+           appAssetGroupProgress(state, assetIndex, owned, total) && owned == total &&
+           proceeds > 0 && static_cast<int64_t>(proceeds) + state.money <= INT32_MAX;
+}
+
 bool appDebtBuildingSaleEligible(const AppState &state, uint8_t assetIndex)
 {
     return assetOwnedBySelf(state, assetIndex) &&
            (state.availableActions & kActionSellBuilding) != 0 &&
            appAssetBuildingLevel(state, assetIndex) != 0 &&
+           (appAssetBuildingLevel(state, assetIndex) != 5 || appBankBuildingStock(state) >= 4) &&
            sellEvenlyAllowed(state, assetIndex);
 }
 
@@ -3585,7 +3817,8 @@ AssetDetailAction appAssetDetailActionAt(const AppState &state, uint8_t actionIn
     (void)state;
     if (actionIndex == 1) return AssetDetailAction::Build;
     if (actionIndex == 2) return AssetDetailAction::SellBuilding;
-    if (actionIndex == 3) return AssetDetailAction::Trade;
+    if (actionIndex == 3) return groupHasBuildings(state, state.selectedAsset)
+        ? AssetDetailAction::SellBuildingGroup : AssetDetailAction::Trade;
     return AssetDetailAction::MortgageOrRedeem;
 }
 
@@ -3602,6 +3835,8 @@ bool appAssetDetailActionVisible(const AppState &state, AssetDetailAction action
                    owned == total && appAssetBuildingLevel(state, assetIndex) < 5;
         }
         case AssetDetailAction::SellBuilding:
+            return appAssetBuildingLevel(state, assetIndex) != 0;
+        case AssetDetailAction::SellBuildingGroup:
             return appAssetBuildingLevel(state, assetIndex) != 0;
         case AssetDetailAction::Trade:
             return !appAssetMortgaged(state, assetIndex);
@@ -3627,12 +3862,17 @@ bool appAssetDetailActionEnabled(const AppState &state, AssetDetailAction action
             return actionExposed(state, kActionBuild) &&
                    !groupHasMortgage(state, assetIndex) &&
                    appAssetBuildingLevel(state, assetIndex) < 5 &&
+                   (appAssetBuildingLevel(state, assetIndex) == 4
+                        ? appBankLandmarkStock(state) != 0 : appBankBuildingStock(state) != 0) &&
                    buildEvenlyAllowed(state, assetIndex) &&
                    state.money >= appAssetBuildingCost(state, assetIndex);
         case AssetDetailAction::SellBuilding:
             return actionExposed(state, kActionSellBuilding) &&
                    appAssetBuildingLevel(state, assetIndex) != 0 &&
+                   (appAssetBuildingLevel(state, assetIndex) != 5 || appBankBuildingStock(state) >= 4) &&
                    sellEvenlyAllowed(state, assetIndex);
+        case AssetDetailAction::SellBuildingGroup:
+            return appBuildingGroupSaleEligible(state, assetIndex);
         case AssetDetailAction::Trade:
             return kTradeBackendAvailable && actionExposed(state, kActionTrade) &&
                    !appAssetMortgaged(state, assetIndex) &&
@@ -3733,6 +3973,12 @@ uint8_t appTradeReceiverCandidateAt(const AppState &state, uint8_t candidateInde
 
 void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
 {
+    if (appTagPairBlocksIdentity(state) && state.page != ScreenPage::TagPairing) {
+        state.identity.phase = IdentityClientPhase::TagPairing;
+        showIdentityPage(state, ScreenPage::TagPairing, 0);
+        touchRevision(state);
+        return;
+    }
     syncLegacyState(state);
     if (acknowledgeActivityPresentation(state)) touchRevision(state);
     if (state.nav.current.page == ScreenPage::Home &&
@@ -3870,6 +4116,44 @@ bool appPollCommand(AppState &state, TransportCommand &command)
 
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
+    // Pairing has its own revision and room/session lifecycle. It must not
+    // advance or roll back the game's stateVersion.
+    if (event.kind == TransportEventKind::TagPairSnapshotReceived) {
+        if (event.tagPair == nullptr || event.roomId == 0 ||
+            event.roomId != state.authorityRoomId ||
+            event.tagPair->selfPlayerId != state.selfSeatId) return;
+        const auto &incoming = *event.tagPair;
+        const bool newEpoch = event.tagPairEpochReset && event.resync;
+        if (state.identity.tagPairSnapshotValid && !newEpoch &&
+            tagPairRevisionIsOlder(incoming.revision, state.identity.tagPair.revision)) return;
+        if (newEpoch) {
+            clearPendingKind(state, TransportCommandKind::TagPairRequest);
+            state.identity.tagPairSuccessUntilMs = 0;
+        }
+        if (event.requestId != 0) clearPendingRequest(state, event.requestId);
+        if (tagPairMayEditIdentity(incoming) &&
+            (!state.identity.tagPairSnapshotValid || !tagPairMayEditIdentity(state.identity.tagPair))) {
+            state.identity.tagPairSuccessUntilMs = nowMs + 1200u;
+            if (state.identity.tagPairSuccessUntilMs == 0) state.identity.tagPairSuccessUntilMs = 1;
+        }
+        state.identity.tagPair = incoming;
+        state.identity.tagPair.moduleId[32] = '\0';
+        state.identity.tagPair.playerName[16] = '\0';
+        state.identity.tagPairSnapshotValid = true;
+        state.identity.tagPairRequired = state.identity.tagPairRequired ||
+                                        (incoming.flags & kTagPairEnabled) != 0;
+        state.authorityOnline = true;
+        if (appTagPairBlocksIdentity(state)) {
+            state.identity.phase = IdentityClientPhase::TagPairing;
+            showIdentityPage(state, ScreenPage::TagPairing,
+                             state.page == ScreenPage::TagPairing && state.focus < 2
+                                 ? state.focus : 0);
+        } else if (state.page == ScreenPage::TagPairing && state.identity.revision != 0) {
+            resumeIdentityAfterPairing(state, nowMs);
+        }
+        touchRevision(state);
+        return;
+    }
     if (event.requestId != 0 && event.requestId == state.movementCueRequestId &&
         (event.kind == TransportEventKind::CommandCompleted ||
          event.kind == TransportEventKind::CommandRejected ||
@@ -3892,6 +4176,11 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
         state.authorityRoomId != 0 && state.authorityRoomId != event.roomId;
     if (authoritativeProjection && event.roomId != 0) {
         if (roomChanged) {
+            state.winnerPlayerId = 0;
+            state.debt = DebtState{};
+            state.authoritySnapshotValid = false;
+            state.fullAuthoritySnapshotValid = false;
+            state.authorityPhase = AuthorityPhase::Lobby;
             clearAuctionRoomLifecycle(state);
             clearTradeRoomLifecycle(state);
             clearActivityRoomLifecycle(state);
@@ -3922,7 +4211,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
     const bool matchingBankruptcyResolution = isMatchingBankruptcyResolution(state, event);
     const bool matchingActiveModalRequest = isActiveModalRequest(state, event.requestId);
     if (authoritativeProjection && !authoritativeResync &&
-        (state.debt.bankruptcyPending || state.debt.bankruptcyResolved)) return;
+        state.debt.bankruptcyPending && event.phase != AuthorityPhase::GameOver) return;
     if (!authoritativeProjection) {
         if (state.debt.bankruptcyResolved) return;
         if (state.debt.bankruptcyPending && !matchingBankruptcyResolution) return;
@@ -3983,6 +4272,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
 
     switch (event.kind) {
         case TransportEventKind::None:
+        case TransportEventKind::TagPairSnapshotReceived:
         case TransportEventKind::MovementCueRetryRequested:
             return;
         case TransportEventKind::ConnectionLost:
@@ -4352,9 +4642,14 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                         message = "Property redeemed";
                     } else if (completedKind == ModalKind::DebtSellBuildingConfirm) {
                         message = "BUILDING SOLD";
+                    } else if (completedKind == ModalKind::SellBuildingGroupConfirm) {
+                        message = "GROUP BUILDINGS SOLD";
                     }
                     showToast(state, message, nowMs);
-                    if (completedKind == ModalKind::DebtSellBuildingConfirm) {
+                    if ((completedKind == ModalKind::DebtSellBuildingConfirm ||
+                         completedKind == ModalKind::SellBuildingGroupConfirm) &&
+                        state.authorityPhase == AuthorityPhase::AwaitDebt) {
+                        replaceForcedPage(state, ScreenPage::DebtAssets);
                         presentDebtAuthorityState(state, nowMs);
                     }
                 } else if (!matchesAuctionReady) {
@@ -4425,6 +4720,14 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
 
 void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 {
+    if (state.page == ScreenPage::GameOver || state.page == ScreenPage::Spectator) return;
+    if (appTagPairBlocksIdentity(state)) {
+        if (action == TouchAction::DetailPrimary || action == TouchAction::DetailSecondary) {
+            appRequestTagPair(state, action == TouchAction::DetailPrimary
+                ? TransportTagPairOperation::Retry : TransportTagPairOperation::Cancel, nowMs);
+        }
+        return;
+    }
     if (state.tradeReceiverPickerOpen) {
         const uint16_t rawPicker = static_cast<uint16_t>(action);
         const uint16_t firstPicker = static_cast<uint16_t>(TouchAction::TradeReceiverOption0);
@@ -4580,6 +4883,19 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 
 void appTick(AppState &state, uint32_t nowMs)
 {
+    if (!appIdentityActive(state) && presentGameOutcome(state)) return;
+    if (state.identity.tagPairSuccessUntilMs != 0 &&
+        hasReachedDeadline(nowMs, state.identity.tagPairSuccessUntilMs)) {
+        state.identity.tagPairSuccessUntilMs = 0;
+        if (!appTagPairBlocksIdentity(state) && state.page == ScreenPage::TagPairing &&
+            state.identity.revision != 0) resumeIdentityAfterPairing(state, nowMs);
+        touchRevision(state);
+    }
+    if (appTagPairBlocksIdentity(state) && state.page != ScreenPage::TagPairing) {
+        state.identity.phase = IdentityClientPhase::TagPairing;
+        showIdentityPage(state, ScreenPage::TagPairing, 0);
+        touchRevision(state);
+    }
     synchronizeMovementCue(state);
     if (state.movementCueRetryAtMs != 0 &&
         hasReachedDeadline(nowMs, state.movementCueRetryAtMs)) {

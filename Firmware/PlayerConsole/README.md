@@ -9,6 +9,28 @@ Production builds default to the Raspberry Pi Wi-Fi/UDP transport. The console j
 UDP datagram to `10.42.0.1:4242`. ESP-NOW remains available as a compile-time fallback;
 self-test builds retain `DemoTransport`, so UI and state-machine tests require no radio peer.
 
+Each screen now announces `GP-<12 hexadecimal MAC digits>` and derives its stable device ID
+from all six MAC bytes. New-game discovery freezes the human seats on the server. Unpaired
+screens show the sequential token queue, selected reader, place/remove instructions and
+explicit retry/cancel actions; only the active human may change the pairing session.
+Once that player's binding is persisted, a brief take-back message leads to independent
+avatar/name editing while the next human pairs. Pairing revision is independent of game
+stateVersion. A new authenticated transport session may rebuild a lower pairing revision;
+wire Resync alone cannot. Pending epoch markers survive event-queue congestion.
+
+`GameOver` displays the authoritative winner and this player's result. Bankrupt players
+remain spectators until that terminal result arrives. A new room clears both states.
+The renderer remains on Arduino core 1 with the existing RGB/bounce configuration.
+
+For an isolated normal candidate, run `tools/compile-isolated.ps1 -Mode production`.
+This freezes sketch, project libraries and the five board/IO libraries, verifies linked
+HWCDC, and exports `candidate.json` plus `candidate-sources.json` in the printed local run
+directory. The manifest identifies all four actual flash segments, source hashes and the
+checkout base revision; `normalFirmware:true` does not mean the candidate has been flashed
+or visually accepted. Source manifests contain hashes of local configuration, never its
+contents. `tools/test-setup-client.ps1` and `tools/test-tag-transport.ps1` run the host
+pairing, identity, terminal, stock/sale and transport-queue regressions.
+
 ## Raspberry Pi connection
 
 1. Copy `config/secrets.example.h` to the ignored `config/secrets.local.h`.
@@ -174,9 +196,12 @@ any following rent or debt event even though that compact wire event has no asse
   presentation does not require avatar assets and does not alter the authoritative
   creditor or payment transaction.
   When cash is insufficient, the authority replaces the payment hold with a forced
-  asset resolver that has no Back action. Built properties expose `SELL +$...`; one
-  building is sold per non-cancelable hold confirmation for half its building cost,
-  and the server enforces even selling across the color group. A group containing any
+  asset resolver that has no Back action. Built properties open Asset Detail with
+  separate `SELL 1` and `SELL GROUP` choices; Back returns to the forced debt list.
+  Both debt sale confirmations can be cancelled without sending a command. `SELL 1`
+  uses action argument 0 and sells one level for half its building cost. `SELL GROUP`
+  uses argument 1, shows the total proceeds, and requires a 1.2-second hold before
+  selling every building in the color group while retaining land ownership. A group containing any
   building cannot be mortgaged. Once its buildings are cleared, eligible properties can
   be selected and mortgaged in a batch. After every sale or mortgage, the newest
   Authority decides whether the console returns to payment, continues liquidation, or
@@ -219,8 +244,13 @@ only when the complete color group is owned; `Sell Building` appears when that p
 a building; `Trade` appears only for an unmortgaged asset. The final enablement remains
 stricter: even building, no group mortgage, available cash, ownership, and the rule that a
 traded color group has no buildings are all rechecked by the server. These actions never
-reflow: Mortgage/Redeem is top-left, Build top-right, Sell Building bottom-left, and Trade
-bottom-right. Hidden actions leave their slot empty, and rotary focus skips that slot.
+reflow: Mortgage/Redeem uses semantic slot 0, Build slot 1, Sell One Level slot 2, and
+slot 3 offers Sell Group while the group contains buildings, otherwise Trade. Visible
+actions use the existing centered one/two/three/four-button layouts; rotary focus skips
+hidden actions. Complete authority assets and BoardCatalog stocks determine available
+bank pieces. A landmark downgrade requires four ordinary buildings in the bank; an
+explicit whole-group liquidation needs no intermediate stock. All decisions remain
+subject to the server's current action permissions and ownership rules.
 
 ## Controls
 

@@ -44,6 +44,9 @@ enum class ScreenPage : uint8_t {
     NameHandwriting,
     PlayerReady,
     AvatarLoading,
+    TagPairing,
+    GameOver,
+    Spectator,
 };
 
 enum class IdentityClientPhase : uint8_t {
@@ -56,6 +59,7 @@ enum class IdentityClientPhase : uint8_t {
     Ready,
     Countdown,
     AvatarLoading,
+    TagPairing,
 };
 
 enum class AvatarEditField : uint8_t {
@@ -124,6 +128,7 @@ enum class ModalKind : uint8_t {
     VoluntaryUnmortgage,
     TradeAction,
     DebtSellBuildingConfirm,
+    SellBuildingGroupConfirm,
 };
 
 enum class ModalFocus : uint8_t { Confirm, Cancel, ResolveAssets };
@@ -145,6 +150,7 @@ enum class AssetDetailAction : uint8_t {
     Build,
     SellBuilding,
     Trade,
+    SellBuildingGroup,
 };
 
 enum class TouchAction : uint16_t {
@@ -338,6 +344,11 @@ struct IdentityState {
     uint8_t nameReadyMask = 0;
     uint8_t readyMask = 0;
     uint8_t onlineMask = 0;
+    uint8_t selfStage = 0;
+    bool tagPairRequired = false;
+    bool tagPairSnapshotValid = false;
+    uint32_t tagPairSuccessUntilMs = 0;
+    TransportTagPairSnapshot tagPair{};
     uint8_t avatarPreloadReadyCount = 0;
     uint8_t avatarPreloadTotalCount = 30;
     uint8_t focus = 0;
@@ -522,7 +533,7 @@ struct AppState {
     uint32_t nextRequestId = 1;
     uint32_t stateVersion = 1;
     uint32_t pendingCommandMask = 0;
-    uint32_t pendingRequestIds[25]{};
+    uint32_t pendingRequestIds[static_cast<uint8_t>(TransportCommandKind::TagPairRequest) + 1]{};
     uint32_t pendingPayNowStartedMs = 0;
     uint32_t buttonDownMs = 0;
     bool buttonHeld = false;

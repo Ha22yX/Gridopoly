@@ -18,7 +18,7 @@ public:
 protected:
     enum class LinkState : uint8_t { Scanning, Pairing, AwaitSnapshot, Online };
     enum class TxKind : uint8_t {
-        Unknown, PairRequest, Heartbeat, Action, Query, Trade, Identity
+        Unknown, PairRequest, Heartbeat, Action, Query, Trade, Identity, TagPair
     };
 
     struct RxItem {
@@ -117,6 +117,12 @@ protected:
     PendingPlayerDetailQuery pendingPlayerDetail_{};
     PendingTradeRequest pendingTrade_{};
     PendingIdentityRequest pendingIdentity_{};
+    PendingIdentityRequest pendingTagPair_{};
+    TransportTagPairSnapshot tagPairSnapshot_{};
+    bool tagPairSnapshotValid_ = false;
+    bool tagPairEpochPending_ = true;
+    bool tagPairAutomaticQuery_ = false;
+    uint32_t lastTagPairQueryMs_ = 0;
     TransportPlayerDetailPayload playerDetailPayload_{};
     TransportIdentityPayload identityPayload_{};
     LinkState linkState_ = LinkState::Scanning;
@@ -169,6 +175,11 @@ protected:
     void processTradeResponse(const gridopoly::protocol::DecodedFrame &frame);
     void processIdentitySnapshot(const gridopoly::protocol::DecodedFrame &frame,
                                  uint32_t nowMs);
+    void processTagPairSnapshot(const gridopoly::protocol::DecodedFrame &frame, uint32_t nowMs);
+    bool beginTagPairRequest(const TransportCommand &command, uint32_t nowMs);
+    bool sendTagPairRequest(uint32_t nowMs);
+    void tickTagPair(uint32_t nowMs);
+    void finishTagPairRequest(bool accepted);
     bool queuePrivateCardSkipBefore(uint32_t nextSequence, uint32_t stateVersion);
     void clearProjection(bool clearQueuedEvents);
     void resetSession(uint32_t nowMs);

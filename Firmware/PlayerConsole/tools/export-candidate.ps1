@@ -1,0 +1,40 @@
+[CmdletBinding()]
+param([Parameter(Mandatory=$true)][string]$RunDir)
+$ErrorActionPreference = 'Stop'
+$RunDir = (Resolve-Path -LiteralPath $RunDir).Path
+$inputs = Get-Content -LiteralPath (Join-Path $RunDir 'inputs.json') -Raw | ConvertFrom-Json
+if ($inputs.mode -ne 'production' -or $inputs.flags -match 'GRIDOPOLY_SELF_TEST') {
+    throw 'Only a normal production build can become a player release candidate'
+}
+$manifest = Get-Content -LiteralPath $inputs.sourceManifest -Raw | ConvertFrom-Json
+foreach ($entry in $manifest.files) {
+    if ((Get-FileHash -LiteralPath $entry.snapshotPath).Hash.ToLowerInvariant() -ne $entry.sha256) {
+        throw "Frozen source changed during build: $($entry.path)"
+    }
+}
+$flashArgs = Get-Content -LiteralPath (Join-Path $inputs.build 'flash_args') -Raw
+if ($flashArgs -notmatch '--flash-mode\s+(\w+)\s+--flash-freq\s+(\w+)\s+--flash-size\s+(\w+)') {
+    throw 'Cannot parse actual generated flash parameters'
+}
+$flashMode = $Matches[1]; $flashFrequency = $Matches[2]; $flashSize = $Matches[3]
+$segments = @([regex]::Matches($flashArgs, '(?m)^\s*(0x[0-9a-fA-F]+)\s+(\S+)\s*$') | ForEach-Object {
+    $binary = Join-Path $inputs.build $_.Groups[2].Value
+    if (!(Test-Path -LiteralPath $binary -PathType Leaf)) { throw "Missing binary: $binary" }
+    @{
+        offset = [Convert]::ToUInt32($_.Groups[1].Value.Substring(2), 16)
+        path = (Resolve-Path -LiteralPath $binary).Path
+        sha256 = (Get-FileHash -LiteralPath $binary).Hash.ToLowerInvariant()
+    }
+})
+if ($segments.Count -ne 4 -or @($segments | Where-Object { $_.offset -eq 65536 }).Count -ne 1) {
+    throw 'Expected exactly bootloader, partition table, boot_app0 and application segments'
+}
+$candidatePath = Join-Path $RunDir 'candidate.json'
+@{
+    schemaVersion = 1; profile = 'player'; normalFirmware = $true; chip = 'esp32s3'
+    flashMode = $flashMode; flashFrequency = $flashFrequency; flashSize = $flashSize
+    gitRevision = $inputs.gitRevision; sourceManifest = $inputs.sourceManifest
+    sourceDigest = (Get-FileHash -LiteralPath $inputs.sourceManifest).Hash.ToLowerInvariant()
+    segments = $segments
+} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $candidatePath -Encoding utf8
+Write-Host "Normal player candidate: $candidatePath"

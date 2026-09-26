@@ -56,6 +56,11 @@ $sourceLibraries = $libraries
 $libraries = Join-Path $run 'libraries'
 New-Item -ItemType Directory -Path $libraries | Out-Null
 Get-ChildItem -LiteralPath $sourceLibraries | Copy-Item -Destination $libraries -Recurse
+# Freeze board/IO dependencies too. Explicit --libraries resolves these copies
+# before the mutable Arduino user library directory.
+foreach ($name in $dependencyVersions.Keys) {
+    Copy-Item -LiteralPath (Join-Path $externalLibraries $name) -Destination $libraries -Recurse
+}
 $flags = '-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE -DLV_COLOR_16_SWAP=0 -DESP_PANEL_BOARD_DEFAULT_USE_SUPPORTED=1 -DBOARD_VIEWE_UEDX48480021_MD80ET -DCONFIG_LVGL_PORT_AVOID_TEARING_MODE=3'
 $fqbn = 'esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,CDCOnBoot=cdc,DebugLevel=error,UploadMode=default,USBMode=hwcdc'
 if ($Mode -eq 'selftest') { $flags += ' -DGRIDOPOLY_SELF_TEST=1' }
@@ -64,6 +69,7 @@ if ($Mode -eq 'espnow') { $flags += ' -DGRIDOPOLY_USE_ESPNOW=1' }
 # Reuse objects only when every sketch/library input and build flag is identical;
 # a changed configuration/header/deleted file must select a different cache.
 $fingerprintRows = [Collections.Generic.List[string]]::new()
+$sourceRecords = [Collections.Generic.List[object]]::new()
 $fingerprintRows.Add("esp32:esp32@3.3.11|$fqbn|$Mode|$flags|$config|$externalLibraries")
 foreach ($name in ($dependencyVersions.Keys | Sort-Object)) {
     $fingerprintRows.Add("external:$name=$($dependencyVersions[$name] -join ',')")
@@ -71,7 +77,16 @@ foreach ($name in ($dependencyVersions.Keys | Sort-Object)) {
 foreach ($inputRoot in @(@{name='sketch'; path=$stage}, @{name='libraries'; path=$libraries})) {
     Get-ChildItem -LiteralPath $inputRoot.path -Recurse -File | Sort-Object FullName | ForEach-Object {
         $relative = $_.FullName.Substring($inputRoot.path.Length + 1)
-        $fingerprintRows.Add("$($inputRoot.name)/$relative=$((Get-FileHash -LiteralPath $_.FullName).Hash)")
+        $digest = (Get-FileHash -LiteralPath $_.FullName).Hash.ToLowerInvariant()
+        $fingerprintRows.Add("$($inputRoot.name)/$relative=$digest")
+        $originRoot = if ($inputRoot.name -eq 'sketch') { $project }
+            elseif (Test-Path -LiteralPath (Join-Path $sourceLibraries $relative)) { $sourceLibraries }
+            else { $externalLibraries }
+        $sourceRecords.Add(@{
+            path = "$($inputRoot.name)/$relative".Replace('\', '/')
+            snapshotPath = $_.FullName; sourcePath = Join-Path $originRoot $relative
+            sha256 = $digest; size = $_.Length
+        })
     }
 }
 $sha = [Security.Cryptography.SHA256]::Create()
@@ -81,6 +96,15 @@ try {
 } finally { $sha.Dispose() }
 $build = if ($ReuseBuildCache) { Join-Path $ToolRoot "build-$Mode-$fingerprint" } else { Join-Path $run 'build' }
 $output = Join-Path $run 'output'
+$gitRevision = (& git -c safe.directory='*' -C $repo rev-parse HEAD).Trim()
+if ($LASTEXITCODE -ne 0 -or $gitRevision -notmatch '^[0-9a-f]{40}$') { throw 'Cannot identify source Git revision' }
+$sourceManifest = Join-Path $run 'candidate-sources.json'
+@{
+    schemaVersion = 1; gitRevision = $gitRevision; mode = $Mode
+    core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; flags = $flags
+    buildInputFingerprint = $fingerprint; files = @($sourceRecords.ToArray())
+    note = 'Git revision is the checkout base; file hashes identify the exact possibly uncommitted source snapshot. Local secrets are hashed, never embedded.'
+} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $sourceManifest -Encoding utf8
 @{
     mode = $Mode; core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; source = $project; snapshot = $stage
     sourceProjectLibraries = $sourceLibraries
@@ -88,6 +112,7 @@ $output = Join-Path $run 'output'
     externalVersions = $dependencyVersions; config = $config; flags = $flags
     build = $build; output = $output; reuseBuildCache = [bool]$ReuseBuildCache
     buildInputFingerprint = $fingerprint
+    gitRevision = $gitRevision; sourceManifest = $sourceManifest
 } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $run 'inputs.json') -Encoding utf8
 Write-Host "Build inputs: $(Join-Path $run 'inputs.json')"
 Write-Host "Build output: $output"
@@ -101,7 +126,11 @@ try {
     & $cli compile --fqbn $fqbn --jobs 8 --build-path $build --output-dir $output --libraries $libraries --config-file $config --build-property "compiler.c.extra_flags=$flags" --build-property "compiler.cpp.extra_flags=$flags" $stage
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     & $verifier -BuildDir $build
-    exit $LASTEXITCODE
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    if ($Mode -eq 'production') {
+        & (Join-Path $PSScriptRoot 'export-candidate.ps1') -RunDir $run
+    }
+    exit 0
 } finally {
     if ($null -ne $cacheLock) { $cacheLock.Dispose() }
 }

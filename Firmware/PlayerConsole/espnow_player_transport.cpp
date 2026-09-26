@@ -8,6 +8,7 @@
 #include <mbedtls/sha256.h>
 
 #include "authority_snapshot_reducer.h"
+#include "player_device_identity.h"
 
 #ifndef GRIDOPOLY_ESPNOW_VERBOSE_DIAGNOSTICS
 #define GRIDOPOLY_ESPNOW_VERBOSE_DIAGNOSTICS 0
@@ -87,6 +88,7 @@ TransportIdentityPhase mapIdentityStage(IdentityRoomPhase roomPhase,
         case IdentitySeatStage::Ready: return TransportIdentityPhase::Ready;
         case IdentitySeatStage::Countdown: return TransportIdentityPhase::Countdown;
         case IdentitySeatStage::Active: return TransportIdentityPhase::Active;
+        case IdentitySeatStage::TagPairing: return TransportIdentityPhase::TagPairing;
     }
     return TransportIdentityPhase::Inactive;
 }
@@ -108,7 +110,7 @@ void EspNowPlayerTransport::begin(uint32_t nowMs)
     authoritySnapshot_ = AuthoritySnapshot{};
     rosterSnapshot_ = RosterSnapshot{};
     snapshotValid_ = false;
-    deviceId_ = static_cast<uint32_t>(ESP.getEfuseMac() & 0xFFFFFFFFu);
+    deviceId_ = playerDeviceId(ESP.getEfuseMac());
     deviceNonce_ = esp_random();
     if (deviceNonce_ == 0) deviceNonce_ = 1;
     const char *psk = GRIDOPOLY_ESPNOW_TEST_PSK;
@@ -133,6 +135,8 @@ void EspNowPlayerTransport::begin(uint32_t nowMs)
 
 bool EspNowPlayerTransport::send(const TransportCommand &command, uint32_t nowMs)
 {
+    if (command.kind == TransportCommandKind::TagPairRequest)
+        return beginTagPairRequest(command, nowMs);
     if (command.kind == TransportCommandKind::MovementCueReadyRequest)
         return beginMovementCueReady(command, nowMs);
     const bool playerDetail = command.kind == TransportCommandKind::PlayerDetailRequest;
@@ -191,6 +195,7 @@ void EspNowPlayerTransport::tick(uint32_t nowMs)
     }
     if (linkState_ != LinkState::Online) return;
     tickMovementCueReady(nowMs);
+    tickTagPair(nowMs);
     if (pending_.active) {
         const uint32_t pendingAgeMs = nowMs - pending_.startedMs;
         const uint32_t sinceLastSendMs = nowMs - pending_.lastSendMs;
@@ -420,6 +425,8 @@ void EspNowPlayerTransport::process(const RxItem &item, uint32_t nowMs)
         processTradeResponse(frame);
     } else if (frame.header.type == MessageType::IdentitySnapshot) {
         processIdentitySnapshot(frame, nowMs);
+    } else if (frame.header.type == MessageType::TagPairSnapshot) {
+        processTagPairSnapshot(frame, nowMs);
     }
 }
 
@@ -986,6 +993,12 @@ void EspNowPlayerTransport::clearProjection(bool clearQueuedEvents)
     rosterSnapshotValid_ = false;
     identitySnapshotValid_ = false;
     identitySetupActive_ = false;
+    pendingTagPair_ = PendingIdentityRequest{};
+    tagPairSnapshot_ = TransportTagPairSnapshot{};
+    tagPairSnapshotValid_ = false;
+    tagPairEpochPending_ = true;
+    tagPairAutomaticQuery_ = false;
+    lastTagPairQueryMs_ = 0;
     appliedStateVersion_ = 0;
     eventCursor_.reset();
     privateCardDrawSequence_ = 0;
@@ -1168,8 +1181,8 @@ bool EspNowPlayerTransport::sendPairRequest(uint32_t nowMs)
 {
     PairRequest request{};
     request.deviceNonce = deviceNonce_;
-    request.capabilities = 0x00000001u;
-    std::strncpy(request.displayName, "GRID-P1", sizeof(request.displayName) - 1);
+    request.capabilities = kCapabilityWifiUdp | kCapabilityTagPairing;
+    playerDeviceDiscoveryName(ESP.getEfuseMac(), request.displayName);
     uint8_t payload[32]{};
     size_t payloadLength = 0;
     if (!encodePairRequest(request, payload, sizeof(payload), payloadLength)) return false;
@@ -1640,7 +1653,7 @@ bool EspNowPlayerTransport::beginPendingAction(const TransportCommand &command, 
                               snapshot_.stateVersion);
             break;
         case TransportCommandKind::SellBuildingRequest:
-            sent = sendAction(ActionCode::SellBuilding, command.assetIndex, 0,
+            sent = sendAction(ActionCode::SellBuilding, command.assetIndex, command.argument,
                               snapshot_.stateVersion);
             break;
         case TransportCommandKind::DeclareBankruptcyRequest:
@@ -1672,6 +1685,7 @@ bool EspNowPlayerTransport::beginPendingAction(const TransportCommand &command, 
         case TransportCommandKind::TradeReject:
         case TransportCommandKind::TradeCancel:
         case TransportCommandKind::IdentityRequest:
+        case TransportCommandKind::TagPairRequest:
             rejectPending(TransportError::ActionNotAllowed);
             return true;
     }

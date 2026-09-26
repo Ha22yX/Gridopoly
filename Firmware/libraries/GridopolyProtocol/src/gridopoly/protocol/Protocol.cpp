@@ -80,7 +80,7 @@ bool validIdentitySnapshotValue(const IdentitySnapshot& value) {
   const auto selfStage = static_cast<std::uint8_t>(value.selfStage);
   const auto result = static_cast<std::uint8_t>(value.result);
   const auto operation = static_cast<std::uint8_t>(value.operationEcho);
-  if (roomPhase < 1 || roomPhase > 3 || selfStage < 1 || selfStage > 6 || result > 11 ||
+  if (roomPhase < 1 || roomPhase > 3 || selfStage < 1 || selfStage > 7 || result > 11 ||
       operation > 3 || value.playerCount == 0 || value.playerCount > value.seats.size() ||
       value.selfPlayerId == 0 || value.selfPlayerId > value.playerCount ||
       value.avatarCatalogVersion != kAvatarCatalogVersionV1 ||
@@ -1111,6 +1111,84 @@ bool decodeIdentitySnapshot(const std::uint8_t* input, std::size_t length,
     return false;
   }
   value = decoded;
+  return true;
+}
+
+bool encodeTagPairRequest(const TagPairRequest& v, std::uint8_t* out,
+                          std::size_t capacity, std::size_t& written) {
+  written = 0;
+  const auto op = static_cast<std::uint8_t>(v.operation);
+  if (!out || capacity < kTagPairRequestSize || op < 1 || op > 3 ||
+      v.playerId == 0 || v.playerId > 4 || v.roomId == 0 ||
+      (op != 1 && v.requestId == 0)) return false;
+  std::memset(out, 0, kTagPairRequestSize);
+  out[0] = 1; out[1] = op; out[2] = v.playerId;
+  put32(out + 4, v.requestId); put32(out + 8, v.roomId);
+  put32(out + 12, v.sessionId); put32(out + 16, v.expectedRevision);
+  written = kTagPairRequestSize;
+  return true;
+}
+
+bool decodeTagPairRequest(const std::uint8_t* in, std::size_t length,
+                          TagPairRequest& value) {
+  if (!in || length != kTagPairRequestSize || in[0] != 1 || in[3] != 0) return false;
+  TagPairRequest v;
+  v.operation = static_cast<TagPairOperation>(in[1]); v.playerId = in[2];
+  v.requestId = get32(in + 4); v.roomId = get32(in + 8);
+  v.sessionId = get32(in + 12); v.expectedRevision = get32(in + 16);
+  std::array<std::uint8_t, kTagPairRequestSize> encoded{}; std::size_t written = 0;
+  if (!encodeTagPairRequest(v, encoded.data(), encoded.size(), written) ||
+      std::memcmp(encoded.data(), in, length) != 0) return false;
+  value = v;
+  return true;
+}
+
+bool encodeTagPairSnapshot(const TagPairSnapshot& v, std::uint8_t* out,
+                           std::size_t capacity, std::size_t& written) {
+  written = 0;
+  if (!out || capacity < kTagPairSnapshotSize ||
+      static_cast<std::uint8_t>(v.state) > 10 ||
+      static_cast<std::uint8_t>(v.result) > 8 || v.selfPlayerId > 4 ||
+      v.activePlayerId > 4 || (v.requiredHumanMask & 0xF0u) != 0 ||
+      (v.boundMask & ~v.requiredHumanMask) != 0 || (v.flags & 0xE0u) != 0 ||
+      (v.readerMapIndex != 0xFF && v.readerMapIndex >= 32) ||
+      v.moduleId.back() != 0 || v.playerName.back() != 0) return false;
+  std::memset(out, 0, kTagPairSnapshotSize);
+  out[0] = 1; out[1] = static_cast<std::uint8_t>(v.state);
+  out[2] = static_cast<std::uint8_t>(v.result); out[3] = v.selfPlayerId;
+  put32(out + 4, v.requestId); put32(out + 8, v.roomId);
+  put32(out + 12, v.revision); put32(out + 16, v.sessionId);
+  put32(out + 20, v.expiresInMs); put32(out + 24, v.tagUid);
+  out[28] = v.activePlayerId; out[29] = v.requiredHumanMask;
+  out[30] = v.boundMask; out[31] = v.flags;
+  for (std::size_t i = 0; i < 32 && v.moduleId[i]; ++i)
+    out[32 + i] = static_cast<std::uint8_t>(v.moduleId[i]);
+  for (std::size_t i = 0; i < 16 && v.playerName[i]; ++i)
+    out[64 + i] = static_cast<std::uint8_t>(v.playerName[i]);
+  put32(out + 80, v.readerTagRevision); out[84] = v.readerMapIndex;
+  written = kTagPairSnapshotSize;
+  return true;
+}
+
+bool decodeTagPairSnapshot(const std::uint8_t* in, std::size_t length,
+                           TagPairSnapshot& value) {
+  if (!in || length != kTagPairSnapshotSize || in[0] != 1 ||
+      in[85] != 0 || in[86] != 0 || in[87] != 0) return false;
+  TagPairSnapshot v;
+  v.state = static_cast<TagPairState>(in[1]);
+  v.result = static_cast<TagPairResultCode>(in[2]); v.selfPlayerId = in[3];
+  v.requestId = get32(in + 4); v.roomId = get32(in + 8);
+  v.revision = get32(in + 12); v.sessionId = get32(in + 16);
+  v.expiresInMs = get32(in + 20); v.tagUid = get32(in + 24);
+  v.activePlayerId = in[28]; v.requiredHumanMask = in[29];
+  v.boundMask = in[30]; v.flags = in[31];
+  std::memcpy(v.moduleId.data(), in + 32, 32);
+  std::memcpy(v.playerName.data(), in + 64, 16);
+  v.readerTagRevision = get32(in + 80); v.readerMapIndex = in[84];
+  std::array<std::uint8_t, kTagPairSnapshotSize> encoded{}; std::size_t written = 0;
+  if (!encodeTagPairSnapshot(v, encoded.data(), encoded.size(), written) ||
+      std::memcmp(encoded.data(), in, length) != 0) return false;
+  value = v;
   return true;
 }
 

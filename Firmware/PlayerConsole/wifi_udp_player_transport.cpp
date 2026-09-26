@@ -1,4 +1,5 @@
 #include "wifi_udp_player_transport.h"
+#include "player_device_identity.h"
 
 #include <ESP.h>
 #include <WiFi.h>
@@ -108,7 +109,7 @@ void WifiUdpPlayerTransport::begin(uint32_t nowMs)
     snapshotValid_ = false;
     authoritySnapshotValid_ = false;
     rosterSnapshotValid_ = false;
-    deviceId_ = static_cast<uint32_t>(ESP.getEfuseMac() & 0xFFFFFFFFu);
+    deviceId_ = playerDeviceId(ESP.getEfuseMac());
     deviceNonce_ = esp_random();
     if (deviceNonce_ == 0) deviceNonce_ = 1;
     const char *psk = GRIDOPOLY_WIFI_UDP_PSK;
@@ -176,6 +177,7 @@ void WifiUdpPlayerTransport::tick(uint32_t nowMs)
     if (linkState_ != LinkState::Online) return;
 
     tickMovementCueReady(nowMs);
+    tickTagPair(nowMs);
     if (pending_.active) {
         const uint32_t pendingAgeMs = nowMs - pending_.startedMs;
         const uint32_t sinceLastSendMs = nowMs - pending_.lastSendMs;
@@ -471,6 +473,8 @@ void WifiUdpPlayerTransport::processUdpFrame(const DecodedFrame &frame, uint32_t
         processTradeResponse(frame);
     } else if (frame.header.type == MessageType::IdentitySnapshot) {
         processIdentitySnapshot(frame, nowMs);
+    } else if (frame.header.type == MessageType::TagPairSnapshot) {
+        processTagPairSnapshot(frame, nowMs);
     }
 }
 

@@ -32,6 +32,8 @@ enum class MessageType : std::uint8_t {
   TradeResponse = 0x28,
   IdentityRequest = 0x29,
   IdentitySnapshot = 0x2A,
+  TagPairRequest = 0x2B,
+  TagPairSnapshot = 0x2C,
 };
 
 enum FrameFlags : std::uint16_t {
@@ -450,6 +452,7 @@ enum class IdentitySeatStage : std::uint8_t {
   Ready = 4,
   Countdown = 5,
   Active = 6,
+  TagPairing = 7,
 };
 
 enum class IdentityResultCode : std::uint8_t {
@@ -538,6 +541,57 @@ struct IdentitySnapshot {
   std::array<IdentitySeatRecord, 6> seats{};
 };
 
+constexpr std::uint32_t kCapabilityWifiUdp = 0x01u;
+constexpr std::uint32_t kCapabilityTagPairing = 0x02u;
+constexpr std::size_t kTagPairRequestSize = 20;
+constexpr std::size_t kTagPairSnapshotSize = 88;
+static_assert(kTagPairSnapshotSize <= kMaxPayloadSize,
+              "tag pairing snapshot must fit one protocol payload");
+
+enum class TagPairOperation : std::uint8_t { Query = 1, Retry = 2, Cancel = 3 };
+enum class TagPairState : std::uint8_t {
+  Disabled = 0, WaitingReader = 1, ClearRequired = 2, AwaitingTag = 3,
+  SuccessRemove = 4, AlreadyBound = 5, MultipleTags = 6, ReaderOffline = 7,
+  TimedOut = 8, Cancelled = 9, Complete = 10,
+};
+enum class TagPairResultCode : std::uint8_t {
+  Ok = 0, InvalidRequest = 1, Unauthorized = 2, RoomStale = 3,
+  SessionStale = 4, RevisionStale = 5, NotAllowed = 6,
+  RequestIdConflict = 7, PersistFailed = 8,
+};
+enum TagPairSnapshotFlags : std::uint8_t {
+  TagPairFlagEnabled = 1u << 0, TagPairFlagSelfBound = 1u << 1,
+  TagPairFlagCanEditIdentity = 1u << 2, TagPairFlagResync = 1u << 3,
+  TagPairFlagReplay = 1u << 4,
+};
+struct TagPairRequest {
+  TagPairOperation operation{TagPairOperation::Query};
+  std::uint8_t playerId{};
+  std::uint32_t requestId{};
+  std::uint32_t roomId{};
+  std::uint32_t sessionId{};
+  std::uint32_t expectedRevision{};
+};
+struct TagPairSnapshot {
+  TagPairState state{TagPairState::Disabled};
+  TagPairResultCode result{TagPairResultCode::Ok};
+  std::uint8_t selfPlayerId{};
+  std::uint32_t requestId{};
+  std::uint32_t roomId{};
+  std::uint32_t revision{};
+  std::uint32_t sessionId{};
+  std::uint32_t expiresInMs{};
+  std::uint32_t tagUid{};
+  std::uint8_t activePlayerId{};
+  std::uint8_t requiredHumanMask{};
+  std::uint8_t boundMask{};
+  std::uint8_t flags{};
+  std::array<char, 33> moduleId{};
+  std::array<char, 17> playerName{};
+  std::uint32_t readerTagRevision{};
+  std::uint8_t readerMapIndex{0xFF};
+};
+
 struct PairRequest {
   std::uint32_t deviceNonce{};
   std::uint32_t capabilities{};
@@ -605,6 +659,14 @@ bool encodeIdentitySnapshot(const IdentitySnapshot& value, std::uint8_t* output,
                             std::size_t capacity, std::size_t& written);
 bool decodeIdentitySnapshot(const std::uint8_t* input, std::size_t length,
                             IdentitySnapshot& value);
+bool encodeTagPairRequest(const TagPairRequest& value, std::uint8_t* output,
+                          std::size_t capacity, std::size_t& written);
+bool decodeTagPairRequest(const std::uint8_t* input, std::size_t length,
+                          TagPairRequest& value);
+bool encodeTagPairSnapshot(const TagPairSnapshot& value, std::uint8_t* output,
+                           std::size_t capacity, std::size_t& written);
+bool decodeTagPairSnapshot(const std::uint8_t* input, std::size_t length,
+                           TagPairSnapshot& value);
 bool encodePairRequest(const PairRequest& value, std::uint8_t* output, std::size_t capacity,
                        std::size_t& written);
 bool decodePairRequest(const std::uint8_t* input, std::size_t length, PairRequest& value);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "tag_pair_types.h"
 
 enum class TransportCommandKind : uint8_t {
     RollRequest,
@@ -28,6 +29,7 @@ enum class TransportCommandKind : uint8_t {
     CardContinueRequest,
     IdentityRequest,
     MovementCueReadyRequest,
+    TagPairRequest,
 };
 
 enum class TransportEventKind : uint8_t {
@@ -54,6 +56,7 @@ enum class TransportEventKind : uint8_t {
     TradeResponseReceived,
     IdentitySnapshotReceived,
     MovementCueRetryRequested, // Local recovery event; does not alter the wire.
+    TagPairSnapshotReceived,
 };
 
 inline bool transportEventAdvancesAppliedStateVersion(
@@ -93,6 +96,7 @@ enum class TransportIdentityPhase : uint8_t {
     Ready = 4,
     Countdown = 5,
     Active = 6,
+    TagPairing = 7,
 };
 
 enum class TransportIdentityResult : uint8_t {
@@ -281,6 +285,9 @@ struct TransportCommand {
     uint8_t targetPlayerId = 0;
     // Append local metadata so existing aggregate command initializers stay valid.
     uint32_t roomId = 0; // Not an additional wire field.
+    TransportTagPairOperation tagPairOperation = TransportTagPairOperation::Query;
+    uint32_t tagPairSessionId = 0;
+    uint32_t tagPairRevision = 0;
 };
 
 struct TransportEvent {
@@ -397,6 +404,10 @@ struct TransportEvent {
     const TransportPlayerDetailPayload *playerDetail = nullptr;
     // Valid until the transport's next tick/poll cycle. The app copies it immediately.
     const TransportIdentityPayload *identity = nullptr;
+    // Coalesced latest pairing projection; copied before the next transport tick.
+    const TransportTagPairSnapshot *tagPair = nullptr;
+    // Local only: first authenticated projection after transport session reset.
+    bool tagPairEpochReset = false;
     uint8_t detailPlayerId = 0;
     uint8_t detailPosition = 0;
     uint8_t detailAssetCount = 0;
