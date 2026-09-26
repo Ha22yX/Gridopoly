@@ -29,14 +29,14 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     .badge{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--player-color,#58A7EB);color:#08121c;font-weight:800;overflow:hidden}.badge img{width:100%;height:100%;object-fit:cover}.money{font-variant-numeric:tabular-nums;color:var(--ok)}
     .identity-state{font:700 10px/1.2 ui-monospace,Consolas,monospace;letter-spacing:.05em;color:var(--muted)}.identity-state.ready{color:var(--ok)}.identity-state.generating{color:var(--accent)}
     .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}button,select,input{border:1px solid #3a4a61;background:var(--panel2);color:var(--ink);padding:10px;border-radius:8px}button{cursor:pointer;font-weight:700}button.primary{background:var(--accent);border-color:var(--accent);color:#15130a}button:disabled{opacity:.35;cursor:not-allowed}
-    .newgame{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.newgame button{grid-column:1/-1}.events{height:240px;overflow:auto;font:12px/1.5 ui-monospace,Consolas,monospace;color:#c6d1e1}.event{padding:4px 0;border-bottom:1px solid #202b3a}
+    .newgame{display:grid;grid-template-columns:1fr;gap:8px}.newgame button{grid-column:1/-1}.newgame h2{margin:0;font-size:15px}.newgame p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.device-list{display:grid;gap:4px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}.pairing-actions{display:flex;gap:8px;margin-top:10px}.pairing-actions[hidden]{display:none}.events{height:240px;overflow:auto;font:12px/1.5 ui-monospace,Consolas,monospace;color:#c6d1e1}.event{padding:4px 0;border-bottom:1px solid #202b3a}
     .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;color:var(--muted)}.kv b{color:var(--ink)}.error{color:var(--danger)}
     .settings-open{padding:7px 12px;white-space:nowrap}.modal[hidden],.context-menu[hidden],.selection-banner[hidden]{display:none}.modal{position:fixed;z-index:20;inset:0;display:grid;place-items:center;padding:20px;background:#02050ab8;backdrop-filter:blur(5px)}.settings-card{width:min(520px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:20px;border:1px solid #40516a;border-radius:14px;background:#111923;box-shadow:0 24px 80px #000b}.settings-card h2{margin:0 0 6px;font-size:20px}.settings-card p{margin:0 0 18px;color:var(--muted)}.settings-field{display:grid;gap:7px}.settings-field input,.settings-field select{width:100%;font-size:16px;font-variant-numeric:tabular-nums}.settings-hint{min-height:20px;margin-top:8px;color:var(--muted);font-size:12px}.settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.tag-list{display:grid;gap:7px;margin-top:10px}.tag-preview{padding:10px;border:1px solid var(--line);border-radius:8px;background:#0d151f;color:var(--muted);font:11px/1.45 ui-monospace,Consolas,monospace}.tag-mark{display:inline-block;margin-left:6px;color:#52DCB7;font:9px/1.3 ui-monospace,Consolas,monospace}
     .tile-debug{display:grid;gap:10px}.tile-debug-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.tile-debug-head h2{margin:0;font-size:14px}.tile-debug-head p{margin:2px 0 0;color:var(--muted);font-size:11px}.tile-debug-head button{padding:6px 9px;white-space:nowrap}.tile-debug-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font:11px/1.3 ui-monospace,Consolas,monospace}.tile-debug-form{display:grid;grid-template-columns:1fr;gap:8px}.tile-debug-field{display:grid;gap:5px;min-width:0;color:var(--muted);font-size:11px}.tile-debug-field select{width:100%;min-width:0}.tile-debug-preview{--preview-accent:#42526a;display:grid;grid-template-columns:8px 1fr;gap:8px;min-height:64px;padding:9px;border:1px solid var(--line);border-radius:8px;background:#0d151f}.tile-debug-preview::before{content:"";border-radius:4px;background:var(--preview-accent)}.tile-debug-preview-grid{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;min-width:0;color:var(--muted);font-size:10px}.tile-debug-preview-grid b{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-debug-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile-debug-status{min-height:18px;color:var(--muted);font-size:11px}.tile-debug-list{max-height:230px;overflow:auto;border-top:1px solid var(--line)}.tile-debug-row{display:grid;gap:2px;padding:8px 0;border-bottom:1px solid #202b3a}.tile-debug-row b,.tile-debug-row small{display:block}.tile-debug-row small{color:var(--muted);font-size:10px}.tile-debug-swatch{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:2px;background:var(--swatch);vertical-align:1px}.tile-debug-empty{padding:12px 0;color:var(--muted);font-size:11px;text-align:center}
     .context-menu{position:fixed;z-index:30;width:220px;padding:7px;border:1px solid #40516a;border-radius:10px;background:#111923;box-shadow:0 18px 55px #000c}.context-title{padding:7px 8px 9px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.context-menu button{display:block;width:100%;border:0;background:transparent;text-align:left;padding:9px}.context-menu button[hidden]{display:none}.context-menu button:hover:not(:disabled),.context-menu button:focus-visible{background:#213149}.context-menu button:active:not(:disabled){transform:translateY(1px)}.context-menu .danger{color:var(--danger)}
     .tile-debug-context{width:min(360px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow:auto;padding:12px}.tile-debug-context .context-title{padding:1px 2px 10px;margin-bottom:10px;color:var(--ink);font-size:13px}.tile-debug-context .context-subtitle{display:block;margin-top:2px;color:var(--muted);font:10px/1.35 ui-monospace,Consolas,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-debug-context .tile-debug-actions button{border:1px solid #3a4a61;background:var(--panel2);text-align:center}.tile-debug-context .tile-debug-actions button.primary{background:var(--accent);border-color:var(--accent);color:#15130a}.tile-debug-context-status{min-height:16px;margin-top:8px;color:var(--muted);font-size:10px}.tile-debug-context-status.error{color:var(--danger)}.tile-debug-occupancy{margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;background:#0d151f;color:var(--muted);font-size:10px}.tile-debug-occupancy b{color:var(--ink)}.tile-debug-occupancy span{display:block;margin-top:2px;overflow-wrap:anywhere}
     .selection-banner{position:fixed;z-index:15;left:50%;top:72px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:calc(100vw - 28px);padding:10px 12px 10px 16px;border:1px solid #ffcb4590;border-radius:999px;background:#111923f2;box-shadow:0 10px 36px #000a}.selection-banner b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.selection-banner button{padding:6px 10px}.tile.forced-candidate{cursor:pointer;outline:2px solid #58A7EB;box-shadow:0 0 0 3px #58A7EB22,0 0 24px #58A7EB55;animation:forced-pulse 1.2s ease-in-out infinite alternate}.tile.forced-candidate::before{height:7px;background:#58A7EB}.tile.forced-target{outline:2px solid var(--accent);box-shadow:0 0 0 3px #ffcb4522,0 0 24px #ffcb4555}.tile.forced-candidate:hover{transform:translateY(-2px);filter:brightness(1.12)}@keyframes forced-pulse{to{box-shadow:0 0 0 5px #58A7EB30,0 0 30px #58A7EB70}}
-    .board[data-size="40"] .tile{padding-inline:3px}.board[data-size="40"] .tile .n{font-size:8px}.board[data-size="40"] .tile.owned .n{padding-right:18px}.board[data-size="40"] .tile .owner-badge{top:8px;right:2px;min-width:16px;height:12px;padding:0 2px;border-radius:4px;font-size:7px}.board[data-size="40"] .tile .id{font-size:9px}.board[data-size="40"] .tile .id small{display:none}.board[data-size="40"] .tile .meta{font-size:7px}
+    .tile.pairing-target{outline:3px solid #B486F7;box-shadow:0 0 22px #B486F777}.board[data-size="40"] .tile{padding-inline:3px}.board[data-size="40"] .tile .n{font-size:8px}.board[data-size="40"] .tile.owned .n{padding-right:18px}.board[data-size="40"] .tile .owner-badge{top:8px;right:2px;min-width:16px;height:12px;padding:0 2px;border-radius:4px;font-size:7px}.board[data-size="40"] .tile .id{font-size:9px}.board[data-size="40"] .tile .id small{display:none}.board[data-size="40"] .tile .meta{font-size:7px}
     @media(max-width:980px){main{grid-template-columns:1fr}.board{min-height:0}.panel:first-child{padding:8px}.tile-art{opacity:.62}}
     @media(max-width:520px){.tile-debug-form{grid-template-columns:1fr}.tile-debug-actions{grid-template-columns:1fr}.tile-debug-meta{display:grid;gap:3px}.tile-debug-context{width:calc(100vw - 16px)}}
   </style>
@@ -87,7 +87,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
   <section class="panel"><div id="board" class="board"></div></section>
   <aside class="stack">
     <section class="panel"><div class="kv"><span>地图</span><b id="map">—</b><span>回合</span><b id="round">—</b><span>阶段</span><b id="phase">—</b><span>当前回合</span><b id="active">—</b><span>等待决策</span><b id="decision">—</b><span>状态版本</span><b id="version">—</b><span>Wi-Fi 玩家屏</span><b id="peers">—</b></div></section>
-    <section class="panel"><div id="workflow" class="kv"><span>事务</span><b>无待处理事务</b></div></section>
+    <section class="panel"><div id="workflow" class="kv" aria-live="polite"><span>事务</span><b>无待处理事务</b></div><div id="pairing-actions" class="pairing-actions" hidden><button id="pairing-retry" type="button">换一个配对格子</button></div></section>
     <section class="panel"><div id="players" class="players"></div></section>
     <section class="panel controls">
       <button data-action="roll" class="primary">掷骰</button><button data-action="confirm">确认棋子到位</button>
@@ -102,13 +102,15 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
       <input id="bid" type="number" min="10" step="10" value="10" title="拍卖金额"><span style="align-self:center;color:var(--muted)">拍卖金额</span>
     </section>
     <section class="panel newgame">
-      <select id="humans" aria-label="Human players"><option value="1" selected>1 Human</option><option value="2">2 Humans</option><option value="3">3 Humans</option><option value="4">4 Humans</option><option value="5">5 Humans</option></select>
+      <h2>开始新游戏</h2>
+      <p>自动加入在线玩家屏，机器人补齐至 4 人。开局后按屏幕提示，依次在高亮格子配对棋子。</p>
+      <div id="device-list" class="device-list" aria-live="polite">正在查找玩家屏…</div>
       <select id="size" aria-label="地图格数"><option>16</option><option>24</option><option selected>32</option><option>40</option></select>
-      <select id="bots" aria-label="机器人数量"><option value="0">0 个机器人</option><option value="1">1 个机器人</option><option value="2">2 个机器人</option><option value="3" selected>3 个机器人</option><option value="4">4 个机器人</option><option value="5">5 个机器人</option></select>
-      <button id="new">建立测试对局</button>
+      <p id="newgame-roster">等待在线终端列表</p>
+      <button id="new" class="primary" disabled>开始新游戏</button>
     </section>
     <section class="panel tile-debug" aria-labelledby="tile-debug-title">
-      <div class="tile-debug-head"><div><h2 id="tile-debug-title">格子模块临时分配</h2><p>右键指定一个格子，同串模块沿 ORDER 顺序自动分配；其它手动指定值保留。仅用于硬件联调，不写入对局或游戏存档。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
+      <div class="tile-debug-head"><div><h2 id="tile-debug-title">棋盘模块与顺序</h2><p>完整环自动识别四角并排布格子；右键指定角落可调整起点。开链仍按手动锚点分配。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
       <div class="tile-debug-meta"><span id="tile-debug-revision">REV 0</span><span id="tile-debug-updated">尚未修改</span></div>
       <div id="tile-debug-status" class="tile-debug-status" role="status" aria-live="polite">正在读取临时分配…</div>
       <div id="tile-debug-list" class="tile-debug-list" aria-label="当前临时分配"><div class="tile-debug-empty">暂无临时分配</div></div>
@@ -213,6 +215,7 @@ function tileDebugCssColor(value){
 function tileDebugOrderFields(module){
   const statuses=['legacy','probing','ready','unanchored','stale','conflict'];
   return{
+    moduleRole:['long','corner'].includes(module.moduleRole)?module.moduleRole:'unknown',
     orderCapable:module.orderCapable===true,
     orderStatus:statuses.includes(module.orderStatus)?module.orderStatus:'legacy',
     orderChainId:tileDebugSafeIdentifier(module.orderChainId)?module.orderChainId:'',
@@ -240,7 +243,9 @@ function tileDebugOrderLabel(module){
   const index=module.orderIndex===null?'':` · 第 ${module.orderIndex+1} 块`;
   const chain=module.orderChainId?` · 链 ${module.orderChainId}`:'';
   const upstream=module.orderUpstreamModuleId?` · 上游 ${module.orderUpstreamModuleId}`:'';
-  return`ORDER：${labels[module.orderStatus]||labels.legacy}${index}${chain}${upstream}`;
+  const role={long:'长边',corner:'角落',unknown:'板型未设置'}[module.moduleRole]||'板型未设置';
+  const conflict=module.orderConflict?` · ${module.orderConflict}`:'';
+  return`${role} · ORDER：${labels[module.orderStatus]||labels.legacy}${index}${chain}${upstream}${conflict}`;
 }
 
 function normalizeTileDebugData(payload){
@@ -341,12 +346,95 @@ let tileDebugState=normalizeTileDebugData(null);
 let tileDebugInFlight=false;
 let tagBindingState={roomId:0,tagRevision:0,bindingRevision:0,tags:[],bindings:[]};
 let tagBindingPlayerId=0;
+let playerDevices=[];
+let playerDevicesReady=false;
+let playerDevicesDueAt=0;
+let playerDevicesError='';
+let pendingPairingRequest=null;
+
+// TESTABLE_ONBOARDING_HELPERS_BEGIN
+function normalizePlayerDevices(payload){
+  const devices=Array.isArray(payload&&payload.devices)?payload.devices:[];
+  return devices.filter(device=>device&&device.deviceId!==undefined).map(device=>({
+    deviceId:String(device.deviceId),displayName:String(device.displayName||''),
+    online:device.online===true,seatId:Number(device.seatId)||0,
+    capabilities:Number(device.capabilities)||0,
+    eligible:device.eligible===true,
+  }));
+}
+
+function newGameRoster(devices,ready){
+  const online=devices.filter(device=>device.online&&device.eligible);
+  const unique=new Set(online.map(device=>device.deviceId));
+  const count=online.length;
+  const valid=ready&&count>=1&&count<=4&&unique.size===count;
+  const message=!ready?'无法读取玩家屏，请检查服务器连接':count===0?'请接通至少一个支持棋子配对的玩家屏':
+    unique.size!==count?'玩家屏身份重复，请检查设备':count>4?'在线玩家屏超过 4 个，请断开不参加本局的屏幕':
+    `${count} 名真人 + ${4-count} 个机器人 · 共 4 人`;
+  return{valid,humans:count,bots:Math.max(0,4-count),message};
+}
+
+function pairingView(pairing,roomId){
+  if(!pairing||pairing.enabled!==true||Number(pairing.roomId)!==Number(roomId))return null;
+  const messages={
+    disabled:'本局未启用棋子配对',waiting_reader:'正在寻找在线读卡格子，请接通格子模块',
+    clear_required:'请先拿走高亮格子上的棋子，清空后再放入本人的棋子',
+    awaiting_tag:'请把本人的棋子放入高亮格子的感应区',
+    success_remove:'绑定成功！请拿回自己的棋子',
+    already_bound:'这个棋子已属于其他玩家，请拿走并换一个新棋子',
+    multiple_tags:'检测到多个棋子，请先拿走，只放入一个',
+    reader_offline:'配对格子已离线，正在等待恢复；也可以换一个格子',
+    timed_out:'配对超时，请重试或换一个格子',cancelled:'配对已暂停，重试后继续',
+    complete:'所有真人棋子已绑定，请完成头像和姓名设置',
+  };
+  const count=mask=>{let total=0;for(let bit=0;bit<4;bit+=1)if(Number(mask)&(1<<bit))total+=1;return total;};
+  const required=Number(pairing.requiredHumanMask)||0;
+  return{
+    message:messages[pairing.state]||'配对状态未知，请刷新服务器状态',
+    activePlayerId:Number(pairing.activePlayerId)||0,moduleId:String(pairing.moduleId||''),
+    readerMapIndex:Number.isInteger(pairing.readerMapIndex)?pairing.readerMapIndex:255,
+    required:count(required),bound:count((Number(pairing.boundMask)||0)&required),
+    complete:pairing.state==='complete',canRetry:pairing.canRetry===true,
+  };
+}
+
+function gameResult(next){
+  if(!next||Number(next.phase)!==7)return null;
+  const winner=(next.players||[]).find(player=>Number(player.id)===Number(next.winnerPlayerId));
+  return winner?`${String(winner.name||'').trim()||`P${winner.id}`} 获胜`:'本局已结束';
+}
+// TESTABLE_ONBOARDING_HELPERS_END
+
+async function refreshPlayerDevices(signal){
+  if(Date.now()<playerDevicesDueAt)return;
+  playerDevicesDueAt=Date.now()+2000;
+  try{
+    const response=await fetchWithTimeout('/api/player-devices',{cache:'no-store',signal});
+    const payload=await response.json();
+    if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
+    playerDevices=normalizePlayerDevices(payload);
+    playerDevicesReady=true;
+    playerDevicesError='';
+  }catch(error){
+    playerDevicesReady=false;
+    playerDevicesError=error.name==='AbortError'?'读取超时':error.message;
+  }
+  $('#device-list').innerHTML=playerDevices.map(device=>
+    `<span>${device.online?'●':'○'} ${esc(device.displayName||device.deviceId)} · ${device.online?'在线':'离线'}${device.eligible?'':' · 需更新固件或解决设备身份冲突'}${device.seatId?` · 当前 P${device.seatId}`:''}</span>`).join('')||'尚未发现玩家屏';
+  validateNewGameCounts(false);
+}
 
 function hasIdentityFlag(player,flag){
   return!!(Number(player&&player.identityFlags||0)&flag);
 }
 
 function identitySeatLabel(player){
+  const pairing=state&&state.tagPairing;
+  if(pairing&&pairing.enabled&&hasIdentityFlag(player,1)&&!player.tagUid){
+    return Number(pairing.activePlayerId)===Number(player.id)?['棋子配对中','generating']:['等待配对',''];
+  }
+  if(pairing&&pairing.enabled&&hasIdentityFlag(player,1)&&player.tagUid&&
+      !(Number(pairing.identityEditableMask)&(1<<(Number(player.id)-1))))return['已绑定 · 请拿回棋子','ready'];
   if(hasIdentityFlag(player,32))return['READY','ready'];
   if(hasIdentityFlag(player,4))return['GENERATING','generating'];
   if(hasIdentityFlag(player,8)&&!hasIdentityFlag(player,16))return['NAME SETUP',''];
@@ -361,6 +449,7 @@ function identityReadyCount(identity){
 }
 
 function renderIdentityWorkflow(next){
+  $('#pairing-actions').hidden=true;
   if(!next||!next.identity||Number(next.identity.phase)===3)return false;
   const identity=next.identity;
   const playerCount=(next.players||[]).length;
@@ -373,7 +462,11 @@ function renderIdentityWorkflow(next){
   }
   const avatarCount=identityReadyCount({readyMask:identity.avatarFinalMask});
   const nameCount=identityReadyCount({readyMask:identity.nameFinalMask});
-  $('#workflow').innerHTML=`<span>身份流程</span><b>Avatar → Name → Ready</b><span>头像完成</span><b>${avatarCount} / ${playerCount}</b><span>名字完成</span><b>${nameCount} / ${playerCount}</b><span>已就绪</span><b>${ready} / ${playerCount}</b>`;
+  const pairing=pairingView(next.tagPairing,next.roomId);
+  const pairingHtml=pairing?`<span>棋子配对</span><b>${pairing.bound} / ${pairing.required}</b><span>当前提示</span><b>${esc(pairing.message)}</b>${pairing.activePlayerId&&!pairing.complete?`<span>轮到</span><b>P${pairing.activePlayerId}</b><span>配对格子</span><b>${esc(pairing.moduleId||'正在选择')}${pairing.readerMapIndex<next.board.size?` · 第 ${pairing.readerMapIndex+1} 格`:''}</b>`:''}`:'';
+  $('#workflow').innerHTML=`${pairingHtml}<span>身份流程</span><b>棋子 → 头像 → 姓名 → 就绪</b><span>头像完成</span><b>${avatarCount} / ${playerCount}</b><span>名字完成</span><b>${nameCount} / ${playerCount}</b><span>已就绪</span><b>${ready} / ${playerCount}</b>`;
+  $('#pairing-actions').hidden=!pairing||!pairing.canRetry;
+  $('#pairing-retry').disabled=actionInFlight||!pairing||!pairing.canRetry;
   return true;
 }
 
@@ -509,6 +602,9 @@ function render(next){
   }
   reconcileVisualPositions(previous,next);
   state=next;
+  if(pendingPairingRequest&&(!next.tagPairing||pendingPairingRequest.roomId!==next.roomId||
+      pendingPairingRequest.sessionId!==next.tagPairing.sessionId||
+      pendingPairingRequest.expectedRevision!==next.tagPairing.revision))pendingPairingRequest=null;
   if(next.identity&&Number.isFinite(Number(next.identity.serverEpochMs))){
     serverEpochOffsetMs=Number(next.identity.serverEpochMs)-Date.now();
   }
@@ -518,12 +614,14 @@ function render(next){
   const identityActive=!next.identity||Number(next.identity.phase)===3;
   $('#phase').textContent=identityActive?(phases[next.phase]||next.phase):
     (Number(next.identity.phase)===2?'开局倒计时':'身份设置');
-  $('#active').textContent=identityActive?`P${next.activePlayer}`:'—';
-  $('#decision').textContent=identityActive?`P${next.decisionPlayer}`:'—';
+  $('#active').textContent=identityActive&&!gameResult(next)?`P${next.activePlayer}`:'—';
+  $('#decision').textContent=identityActive&&!gameResult(next)?`P${next.decisionPlayer}`:'—';
   $('#version').textContent=next.identity?`${next.version} · I${next.identity.revision}`:next.version;
   $('#peers').textContent=next.espnowPeers;
   if(renderIdentityWorkflow(next)){
     // Identity setup owns the workflow panel until the authority activates the game.
+  }else if(gameResult(next)){
+    $('#workflow').innerHTML=`<span>游戏结束</span><b>${esc(gameResult(next))}</b><span>下一局</span><b>在下方开始新游戏，重新配对棋子</b>`;
   }else if(next.card&&next.card.active&&next.card.stage===1){
     $('#workflow').innerHTML=`<span>卡片揭示</span><b>${next.card.deck===1?'Chance':'Community Chest'} #${next.card.catalog}</b><span>玩家</span><b>P${next.card.player}</b><span>状态</span><b>等待继续，尚未执行财务或移动效果</b>`;
   }else if(next.debt.active){
@@ -544,9 +642,9 @@ function render(next){
   board.dataset.size=next.board.size;
   board.style.gridTemplateColumns=`repeat(${side+1},1fr)`;
   board.style.gridTemplateRows=`repeat(${side+1},1fr)`;
-  const centerStatus=identityActive?`当前 P${next.activePlayer}`:
+  const centerStatus=identityActive?(gameResult(next)||`当前 P${next.activePlayer}`):
     (Number(next.identity.phase)===2?'所有玩家已就绪 · 即将开始':'等待真人玩家完成身份设置');
-  board.innerHTML=`<div class="center"><div><b>GRIDOPOLY</b><small>${next.board.size} 格 · ${next.players.length} 位玩家 · ${centerStatus}</small></div></div>`;
+  board.innerHTML=`<div class="center"><div><b>GRIDOPOLY</b><small>${next.board.size} 格 · ${next.players.length} 位玩家 · ${esc(centerStatus)}</small></div></div>`;
   next.tiles.forEach(tile=>{
     const [row,column]=boardPosition(tile.i,next.board.size);
     const element=document.createElement('div');
@@ -567,6 +665,12 @@ function render(next){
     const art=visual[1]?`<img class="tile-art" src="/assets/tiles/${visual[1]}" alt="" loading="lazy" decoding="async">`:'';
     element.title=`${String(tile.i).padStart(2,'0')} · ${visual[0]} · ${tile.id}${asset?` · ${asset}`:''}${owner?` · 所有者 ${owner.name}`:''}`;
     element.setAttribute('aria-label',element.title);
+    const pairing=pairingView(next.tagPairing,next.roomId);
+    if(pairing&&!pairing.complete&&pairing.readerMapIndex===tile.i){
+      element.classList.add('pairing-target');
+      element.title+=` · P${pairing.activePlayerId} 棋子配对格子`;
+      element.setAttribute('aria-label',element.title);
+    }
     element.dataset.baseTitle=element.title;
     const meta=asset?`<span class="meta">${asset}</span>`:'';
     const ownerBadge=owner?`<span class="owner-badge" title="${esc(owner.name)}" aria-label="所有者 ${esc(owner.name)}">${esc(owner.label)}</span>`:'';
@@ -586,7 +690,7 @@ function render(next){
       const role=hasIdentityFlag(player,2)?'BOT':'HUMAN';
       return`<div class="player" data-player-id="${player.id}" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${tagMark}</b><small style="display:block;color:var(--muted)">${role} · ${player.connected?'在线':'离线'}</small></div><span class="identity-state ${identityState[1]}">${identityState[0]}</span></div>`;
     }
-    return`<div class="player ${player.id===next.activePlayer?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键设置目的地或分配Tag" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}${tagMark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?'在线':'离线'} · 格 ${player.position}${player.held?' · 限制区':''}${player.bankrupt?' · 已破产':''}</small></div><span class="money">¥${player.cash}</span></div>`;
+    return`<div class="player ${player.id===(gameResult(next)?next.winnerPlayerId:next.activePlayer)?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键设置目的地或分配Tag" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}${tagMark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?'在线':'离线'} · 格 ${player.position}${player.held?' · 限制区':''}${player.bankrupt?' · 已破产':''}</small></div><span class="money">¥${player.cash}</span></div>`;
   }).join('');
   renderForcedRollSelection();
   $('#events').innerHTML=next.events.slice().reverse().map(event=>`<div class="event">#${event.seq} E${event.kind} · P${event.actor} → P${event.target} · A${event.asset} · ${event.amount}</div>`).join('');
@@ -612,21 +716,20 @@ function setBusy(busy){
     updateActionButtons();
     validateNewGameCounts(false);
     updateTileDebugControls();
+    if(state)renderIdentityWorkflow(state);
   }
 }
 
 function validateNewGameCounts(announce=true){
-  const humans=Number($('#humans').value);
-  const bots=Number($('#bots').value);
-  const valid=Number.isInteger(humans)&&Number.isInteger(bots)&&humans>=1&&bots>=0&&
-    humans+bots>=2&&humans+bots<=6;
-  $('#new').disabled=actionInFlight||!valid;
+  const roster=newGameRoster(playerDevices,playerDevicesReady);
+  $('#new').disabled=actionInFlight||!roster.valid;
+  $('#newgame-roster').textContent=roster.message+(playerDevicesError?`（${playerDevicesError}）`:'');
+  $('#newgame-roster').className=roster.valid?'':'error';
   if(announce){
-    $('#status').textContent=valid?`建局配置：${humans} 真人 + ${bots} 机器人`:
-      '总人数必须为 2–6，且至少有 1 名真人玩家';
-    $('#status').className=valid?'':'error';
+    $('#status').textContent=roster.message;
+    $('#status').className=roster.valid?'':'error';
   }
-  return valid;
+  return roster.valid;
 }
 
 function forcedRollSupported(){
@@ -1203,8 +1306,9 @@ async function refresh(force=false){
   refreshInFlight=true;
   refreshController=new AbortController();
   try{
+    await refreshPlayerDevices(refreshController.signal);
     const requireFull=force||Date.now()>=fullSyncDueAt;
-    const query=!requireFull&&state?`?since=${state.version}&peers=${state.espnowPeers}&room=${state.roomId}&network=${state.network}&control=${state.controlVersion||0}&tagBindings=${state.tagBindingRevision||0}&identity=${state.identity?state.identity.revision:0}`:'';
+    const query=!requireFull&&state?`?since=${state.version}&peers=${state.espnowPeers}&room=${state.roomId}&network=${state.network}&control=${state.controlVersion||0}&tagBindings=${state.tagBindingRevision||0}&identity=${state.identity?state.identity.revision:0}&pairing=${state.tagPairing?state.tagPairing.revision:0}`:'';
     const response=await fetchWithTimeout(`/api/sync${query}`,{cache:'no-store',signal:refreshController.signal});
     if(response.status===204){
       if(state&&state.identity&&Number(state.identity.phase)===2)renderIdentityWorkflow(state);
@@ -1244,7 +1348,7 @@ async function send(path){
     const response=await fetchWithTimeout(path,{method:'POST',cache:'no-store'},8000);
     const result=await response.json();
     if(!response.ok)throw new Error(result.message||result.error||`HTTP ${response.status}`);
-    $('#status').textContent=`操作已接受 · 状态 ${result.version}`;
+    $('#status').textContent=result.version===undefined?'操作已接受':`操作已接受 · 状态 ${result.version}`;
   }catch(error){
     $('#status').textContent=`操作失败：${error.name==='AbortError'?'请求超时':error.message}`;
     $('#status').className='error';
@@ -1258,11 +1362,21 @@ document.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{
   const argument=button.dataset.action==='bid'?`&arg=${$('#bid').value}`:button.dataset.action==='cardcontinue'&&state.card?`&arg=${state.card.instance}`:'';
   send(`/api/action?action=${button.dataset.action}&player=${state.decisionPlayer}&asset=${$('#asset').value}&expected=${state.version}${argument}`);
 });
-$('#humans').onchange=()=>validateNewGameCounts();
-$('#bots').onchange=()=>validateNewGameCounts();
 $('#new').onclick=()=>{
   if(!validateNewGameCounts())return;
-  send(`/api/new?size=${$('#size').value}&humans=${$('#humans').value}&bots=${$('#bots').value}`);
+  send(`/api/new?size=${$('#size').value}&autoPlayers=1`);
+};
+$('#pairing-retry').onclick=async()=>{
+  const pairing=state&&state.tagPairing;
+  if(actionInFlight||!pairing||!pairing.canRetry)return;
+  if(!pendingPairingRequest){
+    const bytes=new Uint32Array(1);
+    crypto.getRandomValues(bytes);
+    pendingPairingRequest={playerId:pairing.activePlayerId,requestId:bytes[0]||1,
+      roomId:state.roomId,sessionId:pairing.sessionId,expectedRevision:pairing.revision};
+  }
+  const query=new URLSearchParams({operation:'retry',...pendingPairingRequest});
+  await send(`/api/tag-pairing?${query}`);
 };
 $('#settings-open').onclick=openSettings;
 $('#settings-cancel').onclick=closeSettings;

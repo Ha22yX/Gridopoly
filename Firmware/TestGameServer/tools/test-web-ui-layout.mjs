@@ -45,12 +45,10 @@ assert.ok(source.includes('&tagBindings=${state.tagBindingRevision||0}'),
   'conditional sync must include the independent Tag-binding revision');
 assert.ok(source.includes('&identity=${state.identity?state.identity.revision:0}'),
   'conditional sync must include the independent identity projection revision');
-assert.ok(source.includes('&humans=${$(\'#humans\').value}&bots=${$(\'#bots\').value}'),
-  'new game requests must freeze separate human and bot seat counts');
-assert.ok(source.includes('humans+bots>=2&&humans+bots<=6'),
-  'new game controls must enforce the authoritative 2–6 total player limit');
-assert.ok(source.includes('<option value="0">0 个机器人</option>'),
-  'web setup must allow an all-human room');
+assert.ok(source.includes('/api/new?size=${$(\'#size\').value}&autoPlayers=1'),
+  'new game requests must freeze discovered controllers at the authority');
+assert.ok(!source.includes('id="humans"') && !source.includes('id="bots"'),
+  'normal game setup must not send stale manually selected seat counts');
 assert.ok(source.includes('serverEpochOffsetMs=Number(next.identity.serverEpochMs)-Date.now()'),
   'identity countdown must follow the authority epoch rather than a local five-second timer');
 assert.ok(source.includes('function renderIdentityWorkflow('),
@@ -122,8 +120,8 @@ assert.ok(!source.includes('&ownerPlayerId=${ownerPlayerId}') &&
   'tile debug UI must not expose or submit a forged owner override');
 assert.ok(source.includes("'POST',") && source.includes("'DELETE',"),
   'tile debug panel must expose explicit set and clear mutations');
-assert.ok(source.includes('仅用于硬件联调，不写入对局或游戏存档。'),
-  'tile debug panel must disclose that assignments are isolated from authority state');
+assert.ok(source.includes('完整环自动识别四角并排布格子'),
+  'module panel must explain the ring assignment workflow');
 assert.ok(source.includes('.tile-debug-form{display:grid;grid-template-columns:1fr;gap:8px}'),
   'the single online-module control must use the full form width');
 assert.ok(source.includes('<select id="tile-debug-module">') &&
@@ -196,7 +194,7 @@ assert.equal(tileDebugModel.modules[1].assigned, true,
 assert.deepEqual(tileDebugModel.modules[0], {
   moduleId: 'module-a', deviceId: 'device-a', assigned: true, online: true,
   lastSeenMs: 1_720_000_000_500, leaseRemainingMs: 12_000, source: 'udp',
-  orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
+  moduleRole:'unknown',orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
   orderEpoch: '', orderConflict: '', orderUpstreamModuleId: '', orderAnchorTileId: '',
 }, 'online module leases preserve discovery timing and source metadata');
 assert.equal(tileDebugModel.modules[1].online, false,
