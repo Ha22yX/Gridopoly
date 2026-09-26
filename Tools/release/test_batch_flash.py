@@ -1,0 +1,451 @@
+import csv
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+import batch_flash as batch
+from flash_layout import check_existing_layout, parse_partitions, validate_images
+from flash_worker import EspToolApi, process_job
+from prepare_release import prepare
+
+
+def partition_table(app_size=0x640000, nvs_offset=0x9000):
+    rows = [(1, 2, nvs_offset, 0x5000, b'nvs'),
+            (1, 0, 0xe000, 0x2000, b'otadata'),
+            (0, 16, 0x10000, app_size, b'app0'),
+            (0, 17, 0x10000 + app_size, app_size, b'app1'),
+            (1, 130, 0x10000 + 2 * app_size, 0xff0000 - 0x10000 - 2 * app_size, b'spiffs'),
+            (1, 3, 0xff0000, 0x10000, b'coredump')]
+    entries = b''.join(struct.pack('<HBBII16sI', 0x50aa, kind, subtype, offset,
+                                  size, name, 0) for kind, subtype, offset, size, name in rows)
+    data = entries + b'\xeb\xeb' + b'\xff' * 14 + hashlib.md5(entries).digest()
+    return data.ljust(3072, b'\xff')
+
+
+class FakeEsp:
+    def __init__(self, api, handle=None):
+        self.api = api
+        self._port = object() if handle is None else handle
+        self.closed = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.closed = True
+        self.api.calls.append(('close', self._port))
+
+    def connect(self, reset, attempts):
+        self.api.calls.append(('connect', self._port))
+        if self.api.on_connect:
+            self.api.on_connect()
+
+    def read_mac(self, kind):
+        assert kind == 'BASE_MAC'
+        self.api.calls.append(('mac', self._port))
+        return tuple(bytes.fromhex(self.api.mac.replace(':', '')))
+
+    def change_baud(self, baud):
+        assert baud == 460800
+        self.api.calls.append(('baud', self._port))
+
+
+class FakeApi:
+    version = '5.3.1'
+
+    def __init__(self, mac='02:12:34:56:78:90', old=None):
+        self.mac = mac
+        self.old = b'\xff' * 4096 if old is None else old
+        self.calls = []
+        self.on_connect = None
+        self.change_handle = False
+        self.fail_write = False
+        self.fail_verify = False
+        self.fail_reset = False
+        self.capacity = '16MB'
+        self.written = None
+
+    def loader(self, port, baud):
+        self.rom = FakeEsp(self)
+        self.calls.append(('open', self.rom._port))
+        return self.rom
+
+    def run_stub(self, rom):
+        self.stub = FakeEsp(self, None if self.change_handle else rom._port)
+        return self.stub
+
+    def attach_flash(self, esp):
+        self.calls.append(('attach', esp._port))
+
+    def detect_flash_size(self, esp):
+        return self.capacity
+
+    def read_flash(self, esp, offset, size, **kwargs):
+        assert (offset, size) == (0x8000, 4096)
+        self.calls.append(('read', esp._port))
+        return self.old
+
+    def write_flash(self, esp, images, **kwargs):
+        self.calls.append(('write', esp._port))
+        assert esp.WRITE_FLASH_ATTEMPTS == 1  # esptool must never reconnect mid-write.
+        assert kwargs['erase_all'] is False and kwargs['force'] is False
+        assert all(isinstance(data, bytes) for _, data in images)
+        if self.fail_write:
+            raise OSError('device unplugged; COM may now belong to another board')
+        self.written = images
+
+    def verify_flash(self, esp, images, **kwargs):
+        self.calls.append(('verify', esp._port))
+        assert images is self.written
+        if self.fail_verify:
+            raise RuntimeError('verification mismatch')
+
+    def reset_chip(self, esp, mode):
+        self.calls.append(('reset', esp._port))
+        if self.fail_reset:
+            raise RuntimeError('reset failed after verification')
+
+
+class ReleaseTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.candidates = []
+        for name in sorted(batch.PROFILES):
+            source = self.root / f'{name}-sources.json'
+            source.write_text(json.dumps({'source.cpp': 'a' * 64}), encoding='utf-8')
+            segments = []
+            for offset in (0, 0x8000, 0xe000, 0x10000):
+                path = self.root / f'{name}-{offset}.bin'
+                path.write_bytes(partition_table() if offset == 0x8000 else name.encode() * 12)
+                segments.append({'offset': offset, 'path': str(path), 'sha256': batch.sha256(path)})
+            profile = {'schemaVersion': 1, 'profile': name, 'chip': 'esp32s3', 'normalFirmware': True,
+                       'flashSize': '16MB', 'flashMode': 'dio', 'flashFrequency': '80m',
+                       'gitRevision': 'a' * 40, 'sourceDigest': batch.sha256(source),
+                       'sourceManifest': str(source), 'segments': segments}
+            path = self.root / f'{name}.json'
+            path.write_text(json.dumps(profile), encoding='utf-8')
+            self.candidates.append(path)
+        self.manifest = prepare(self.candidates, self.root / 'release')
+        self.release = batch.load_release(self.manifest)
+        self.devices = [{'label': 'corner-01', 'port': 'COM6', 'mac': '02:12:34:56:78:90',
+                         'profile': 'tile-corner'},
+                        {'label': 'long-01', 'port': 'COM8', 'mac': '02:12:34:56:78:91',
+                         'profile': 'tile-long'}]
+
+    def inventory(self, devices):
+        path = self.root / 'inventory.csv'
+        with path.open('w', newline='', encoding='utf-8') as handle:
+            writer = csv.DictWriter(handle, fieldnames=['label', 'port', 'mac', 'profile'])
+            writer.writeheader()
+            writer.writerows(devices)
+        return path
+
+    def changed_manifest(self, change):
+        data = json.loads(self.manifest.read_text(encoding='utf-8'))
+        change(data)
+        self.manifest.write_text(json.dumps(data), encoding='utf-8')
+
+    def job(self, operation='flash'):
+        device = self.devices[0]
+        return {'operation': operation, 'device': device,
+                'profile': self.release['profiles'][device['profile']]}
+
+    def test_portable_package_and_blank_inventory(self):
+        self.assertEqual(set(self.release['profiles']), batch.PROFILES)
+        template = self.manifest.with_name('inventory-template.csv')
+        self.assertEqual(len(template.read_text().splitlines()), 37)
+        with self.assertRaises(ValueError):
+            batch.load_inventory(template)
+        for name in ('flash_worker.py', 'flash_layout.py', 'batch_flash.py'):
+            self.assertTrue(self.manifest.with_name(name).is_file())
+        for profile in self.release['profiles'].values():
+            self.assertFalse(Path(profile['sourceManifest']).is_absolute())
+            self.assertEqual(batch.sha256(self.manifest.parent / profile['sourceManifest']),
+                             profile['sourceDigest'])
+
+    def test_partial_batch_must_be_explicit(self):
+        inventory = self.inventory(self.devices)
+        with self.assertRaises(ValueError):
+            batch.load_inventory(inventory)
+        self.assertEqual(len(batch.load_inventory(inventory, partial=True)), 2)
+
+    def test_portable_scripts_run_outside_repository_without_serial(self):
+        inventory = self.inventory(self.devices)
+        result = subprocess.run([sys.executable, '-B', str(self.manifest.with_name('batch_flash.py')),
+                                 str(self.manifest), str(inventory), '--partial'],
+                                cwd=self.root, capture_output=True, text=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('DRY RUN', result.stdout)
+        job = self.job(); job['operation'] = 'invalid-no-serial'
+        result = subprocess.run([sys.executable, '-B', str(self.manifest.with_name('flash_worker.py'))],
+                                input=json.dumps(job), cwd=self.root, capture_output=True,
+                                text=True, timeout=10)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('invalid worker operation', result.stderr)
+        self.assertNotIn(batch.RESULT_PREFIX, result.stdout)
+
+    def test_duplicate_mac_or_port_rejected(self):
+        for field in ('mac', 'port', 'label'):
+            with self.subTest(field=field):
+                devices = [dict(d) for d in self.devices]
+                devices[1][field] = devices[0][field]
+                with self.assertRaises(ValueError):
+                    batch.load_inventory(self.inventory(devices), partial=True)
+
+    def test_changed_binary_rejected(self):
+        Path(self.job()['profile']['segments'][0]['resolvedPath']).write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError, 'SHA-256'):
+            batch.load_release(self.manifest)
+
+    def test_diagnostic_firmware_rejected_before_packaging_or_serial(self):
+        for marker in (False, None, 'true'):
+            with self.subTest(marker=marker):
+                self.changed_manifest(lambda d: d['profiles']['player'].update(normalFirmware=marker))
+                with self.assertRaisesRegex(ValueError, 'normal firmware'):
+                    batch.load_release(self.manifest)
+                value = json.loads(self.candidates[0].read_text())
+                value['normalFirmware'] = marker
+                self.candidates[0].write_text(json.dumps(value))
+                destination = self.root / 'diagnostic-rejected'
+                with self.assertRaisesRegex(ValueError, 'normal firmware'):
+                    prepare(self.candidates, destination)
+                self.assertFalse(destination.exists())
+
+    def test_path_escape_rejected(self):
+        self.changed_manifest(lambda d: d['profiles']['player']['segments'][0].update(path='../outside.bin'))
+        with self.assertRaisesRegex(ValueError, 'escapes'):
+            batch.load_release(self.manifest)
+
+    def test_source_manifest_escape_or_hash_rejected(self):
+        self.changed_manifest(lambda d: d['profiles']['player'].update(sourceManifest='../outside.json'))
+        with self.assertRaisesRegex(ValueError, 'escapes'):
+            batch.load_release(self.manifest)
+        value = json.loads(self.candidates[0].read_text())
+        Path(value['sourceManifest']).write_text('{}')
+        with self.assertRaisesRegex(ValueError, 'source manifest SHA'):
+            prepare(self.candidates, self.root / 'bad-source')
+
+    def test_flash_overlap_rejected(self):
+        self.changed_manifest(lambda d: d['profiles']['player']['segments'][1].update(offset=0))
+        with self.assertRaisesRegex(ValueError, 'overlapping'):
+            batch.load_release(self.manifest)
+
+    def test_prepare_rejects_nvs_segment(self):
+        path = self.candidates[0]
+        value = json.loads(path.read_text())
+        data = self.root / 'nvs.bin'
+        data.write_bytes(b'\xff' * 4096)
+        value['segments'].append({'offset': 0x9000, 'path': str(data), 'sha256': batch.sha256(data)})
+        path.write_text(json.dumps(value))
+        with self.assertRaisesRegex(ValueError, 'only bootloader'):
+            prepare(self.candidates, self.root / 'bad-nvs')
+        self.assertFalse((self.root / 'bad-nvs').exists())
+
+    def test_load_rejects_nvs_segment(self):
+        path = self.manifest.parent / 'nvs.bin'
+        path.write_bytes(b'\xff' * 4096)
+        self.changed_manifest(lambda d: d['profiles']['player']['segments'].append(
+            {'offset': 0x9000, 'path': 'nvs.bin', 'sha256': batch.sha256(path)}))
+        with self.assertRaisesRegex(ValueError, 'only bootloader'):
+            batch.load_release(self.manifest)
+
+    def test_partition_md5_and_app_boundary(self):
+        images = batch.load_profile_images(self.job()['profile'])
+        corrupt = bytearray(dict(images)[0x8000]); corrupt[12] ^= 1
+        for replacement, message in [(bytes(corrupt), 'MD5'), (b'\xff' * 3072, 'partition')]:
+            altered = [(offset, replacement if offset == 0x8000 else data) for offset, data in images]
+            with self.assertRaisesRegex(ValueError, message):
+                validate_images(altered)
+        altered = [(offset, b'A' * (0x640000 + 1) if offset == 0x10000 else data)
+                   for offset, data in images]
+        with self.assertRaisesRegex(ValueError, 'boundary'):
+            validate_images(altered)
+
+    def test_bootloader_and_otadata_boundaries(self):
+        images = batch.load_profile_images(self.job()['profile'])
+        for target, size in ((0, 0x8001), (0xe000, 0x2001)):
+            with self.subTest(offset=target), self.assertRaisesRegex(ValueError, 'boundary'):
+                validate_images([(offset, b'A' * size if offset == target else data)
+                                 for offset, data in images])
+
+    def test_existing_layout_preserves_nvs_and_filesystems(self):
+        job = self.job()
+        for old in (b'\xff' * 4096, partition_table().ljust(4096, b'\xff')):
+            result = process_job(job, FakeApi(old=old))
+            self.assertEqual(result['status'], 'verified')
+        api = FakeApi(old=partition_table(app_size=0x300000).ljust(4096, b'\xff'))
+        with self.assertRaisesRegex(ValueError, 'separate migration'):
+            process_job(job, api)
+        self.assertNotIn('write', [name for name, _ in api.calls])
+        self.assertTrue(api.rom.closed)
+
+    def test_corrupt_existing_layout_rejected_before_write(self):
+        api = FakeApi(old=b'\0' * 4096)
+        with self.assertRaises(ValueError):
+            process_job(self.job(), api)
+        self.assertNotIn('write', [name for name, _ in api.calls])
+
+    def test_one_serial_handle_for_mac_write_verify(self):
+        api = FakeApi()
+        result = process_job(self.job(), api)
+        self.assertEqual(result['status'], 'verified')
+        self.assertEqual(sum(name == 'open' for name, _ in api.calls), 1)
+        self.assertEqual(len({id(handle) for _, handle in api.calls}), 1)
+        steps = [name for name, _ in api.calls]
+        self.assertLess(steps.index('write'), steps.index('verify'))
+        self.assertLess(steps.index('verify'), steps.index('reset'))
+        self.assertEqual(steps[-1], 'close')
+
+    def test_stub_cannot_replace_serial_handle(self):
+        api = FakeApi(); api.change_handle = True
+        with self.assertRaisesRegex(RuntimeError, 'changed the serial handle'):
+            process_job(self.job(), api)
+        self.assertNotIn('write', [name for name, _ in api.calls])
+        self.assertTrue(api.rom.closed)
+
+    def test_wrong_mac_or_capacity_blocks_write(self):
+        for api in (FakeApi(mac='02:aa:bb:cc:dd:ee'), FakeApi()):
+            if api.mac == self.devices[0]['mac']:
+                api.capacity = '8MB'
+            with self.assertRaises(ValueError):
+                process_job(self.job(), api)
+            self.assertNotIn('write', [name for name, _ in api.calls])
+
+    def test_changed_binary_rejected_before_open(self):
+        job = self.job()
+        Path(job['profile']['segments'][0]['resolvedPath']).write_bytes(b'changed')
+        api = FakeApi()
+        with self.assertRaisesRegex(ValueError, 'SHA-256'):
+            process_job(job, api)
+        self.assertFalse(api.calls)
+
+    def test_write_and_verify_use_frozen_bytes_even_if_file_changes(self):
+        job = self.job()
+        segment = next(s for s in job['profile']['segments'] if s['offset'] == 0x10000)
+        path = Path(segment['resolvedPath'])
+        expected = path.read_bytes()
+        api = FakeApi(); api.on_connect = lambda: path.write_bytes(b'changed-after-hash')
+        self.assertEqual(process_job(job, api)['status'], 'verified')
+        self.assertEqual(dict(api.written)[0x10000], expected)
+
+    def test_write_verify_and_reset_failures_never_return_success(self):
+        for flag in ('fail_write', 'fail_verify', 'fail_reset'):
+            with self.subTest(flag=flag):
+                api = FakeApi(); setattr(api, flag, True)
+                with self.assertRaises((OSError, RuntimeError)):
+                    process_job(self.job(), api)
+                self.assertTrue(api.rom.closed)
+                self.assertEqual(sum(name == 'open' for name, _ in api.calls), 1)
+
+    def test_esptool_version_checked_before_open(self):
+        api = FakeApi(); api.version = '5.2.0'
+        with self.assertRaisesRegex(ValueError, '5.3.1'):
+            process_job(self.job(), api)
+        self.assertFalse(api.calls)
+
+    def test_swapped_device_after_preflight_is_not_written_or_verified(self):
+        calls = []
+        def runner(python, job):
+            api = FakeApi(mac=job['device']['mac'] if job['operation'] == 'preflight'
+                          else '02:aa:bb:cc:dd:ee')
+            calls.append(api)
+            return process_job(job, api)
+        log = self.root / 'log.jsonl'
+        with self.assertRaisesRegex(ValueError, 'expected'):
+            batch.flash_batch(self.release, self.devices, sys.executable, log, runner)
+        self.assertFalse(any(name == 'write' for api in calls for name, _ in api.calls))
+        self.assertNotIn('verified', [json.loads(line)['status'] for line in log.read_text().splitlines()])
+
+    def test_wrong_mac_preflight_writes_nothing(self):
+        operations = []
+        def runner(python, job):
+            operations.append(job['operation'])
+            return process_job(job, FakeApi())
+        with self.assertRaisesRegex(ValueError, 'expected'):
+            batch.flash_batch(self.release, self.devices, sys.executable, self.root / 'log.jsonl', runner)
+        self.assertNotIn('flash', operations)
+
+    def test_write_failure_stops_next_device(self):
+        operations = []
+        def runner(python, job):
+            operations.append((job['operation'], job['device']['mac']))
+            api = FakeApi(mac=job['device']['mac'])
+            api.fail_write = job['operation'] == 'flash'
+            return process_job(job, api)
+        with self.assertRaises(OSError):
+            batch.flash_batch(self.release, self.devices, sys.executable, self.root / 'log.jsonl', runner)
+        self.assertEqual(sum(op == 'flash' for op, _ in operations), 1)
+
+    def test_each_device_gets_own_profile_and_verification(self):
+        def runner(python, job):
+            self.assertEqual(job['device']['profile'], job['profile']['profile'])
+            return process_job(job, FakeApi(mac=job['device']['mac']))
+        log = self.root / 'log.jsonl'
+        batch.flash_batch(self.release, self.devices, sys.executable, log, runner)
+        self.assertEqual(sum(json.loads(line)['status'] == 'verified'
+                             for line in log.read_text().splitlines()), 2)
+
+    def test_worker_bad_identity_result_rejected(self):
+        def runner(python, job):
+            return {'status': 'preflight_ok', 'mac': '02:aa:bb:cc:dd:ee',
+                    'profile': job['device']['profile'], 'esptoolVersion': '5.3.1'}
+        with self.assertRaisesRegex(ValueError, 'result identity'):
+            batch.flash_batch(self.release, self.devices, sys.executable, self.root / 'log.jsonl', runner)
+
+    def test_worker_timeout_stops_batch_and_logs_failure(self):
+        operations = []
+        def runner(python, job):
+            operations.append(job['operation'])
+            if job['operation'] == 'flash':
+                raise subprocess.TimeoutExpired('worker', 240)
+            return process_job(job, FakeApi(mac=job['device']['mac']))
+        log = self.root / 'log.jsonl'
+        with self.assertRaises(subprocess.TimeoutExpired):
+            batch.flash_batch(self.release, self.devices, sys.executable, log, runner)
+        self.assertEqual(operations.count('flash'), 1)
+        self.assertEqual(json.loads(log.read_text().splitlines()[-1])['status'], 'failed')
+
+    def test_worker_exit_zero_without_result_is_not_success(self):
+        completed = subprocess.CompletedProcess([], 0, 'unrelated output\n', '')
+        with patch.object(batch.subprocess, 'run', return_value=completed) as run:
+            with self.assertRaisesRegex(ValueError, 'explicit result'):
+                batch.run_worker(sys.executable, self.job())
+            self.assertEqual(run.call_args.kwargs['timeout'], 240)
+
+    def test_real_tile_partition_if_build_is_available(self):
+        path = Path('C:/Users/kicof/AppData/Local/GridopolyTileTools/build-v033/tile_esp32s3_long/partitions.bin')
+        if not path.is_file():
+            self.skipTest('local tile build is not available')
+        data = path.read_bytes()
+        self.assertEqual(data, partition_table())
+        self.assertEqual(next(p for p in parse_partitions(data) if p[2] == b'nvs')[3:5],
+                         (0x9000, 0x5000))
+
+    def test_installed_esptool_api_signatures_without_serial(self):
+        try:
+            api = EspToolApi()
+        except ImportError:
+            self.skipTest('esptool==5.3.1 is not installed in this test interpreter')
+        import inspect
+        self.assertEqual(api.version, '5.3.1')
+        inspect.signature(api.loader).bind('unused-port', 115200)
+        inspect.signature(api.loader.connect).bind(None, 'default-reset', 3)
+        inspect.signature(api.write_flash).bind(None, [], flash_mode='dio', flash_freq='80m',
+                                               flash_size='16MB', erase_all=False, force=False,
+                                               no_progress=True)
+        inspect.signature(api.verify_flash).bind(None, [], flash_mode='dio', flash_freq='80m',
+                                                flash_size='16MB')
+        inspect.signature(api.read_flash).bind(None, 0x8000, 4096, no_progress=True)
+        inspect.signature(api.reset_chip).bind(None, 'hard-reset')
+
+
+if __name__ == '__main__':
+    unittest.main()
