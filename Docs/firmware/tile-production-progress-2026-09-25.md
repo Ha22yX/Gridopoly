@@ -59,3 +59,13 @@ PnP匹配既有COM6，ROM重复读取factory MAC `28:84:85:ba:9f:e8`、ESP32-S3�
 部署前本任务已读到room993580107/version12。主明确此前v9→12源于04:59:35Z服务端重启及旧玩家屏重连，不是游戏动作。本窗口与玩家任务固件部署并行，前后/api/state实际diff为：espnowPeers1→0、onlineMask15→14、identity revision7→8、P1 connected true→false、version12→13以及serverEpochMs。其余字段一致，包括room、游戏、资产及Tag绑定；不能写成所有字段完全无变化。玩家连接恢复由玩家/主任务继续，不由格子任务越权操作COM7。
 
 原始证据目录 `C:/Users/kicof/AppData/Local/GridopolyTileTools/com6-v033-deploy-20260926/`：before/after-state.json、before/after-assignments.json、before/after-serial.jsonl、backup.log、backup-chunked.log、backup-v411.log、backup-manifest.json、com6-before-v033-boot-through-app.bin、com6-v032-rollback.bin、com6.csv、flash-events.jsonl、flash.log、deployment-result.json。所有本任务串口与工具进程已结束。当前COM6已实际升级V0.33；COM8没有接入/未升级，32实体与真实逐人配对验收仍未做，交主协调下一步。
+
+## 2026-09-26 单板未分配时的配对路径核查
+
+针对用户点击新游戏后玩家屏仍等待、格子未显示配对的问题，本任务只读审查V0.33，并按主任务授权对COM6进行一次20秒被动采集，没有发送STATUS、复位、刷机、建局、绑定或分配格号。串口记录只有采集器OPEN/CLOSED（epochMs 1790455419811至1790455439951，20.140秒），没有设备日志，不能据此声称捕获了配对active、UID变化或屏幕/灯效表现。进程正常退出，COM6已释放。
+
+生产代码没有把assigned、ORDER上游或闭环作为配对条件：tile_network.cpp先解析pairing，再走未分配的NoFreeTile返回；main.cpp的配对页面和LED优先于未分配/连接提示，周期连接动画亦检查配对不可见；扫描开始时根据有效配对信号锁定room/session，再随新扫描回传，不依赖格号或ORDER。诊断页面是显式调试例外，没有证据表明现场启用了该页。本轮未发现需要修改的格子固件缺陷，因此没有修改固件、重编候选或重复已有回归。
+
+本任务2026-09-26 20:44:10Z只读HTTP证据仍为旧room993580107/version13、tagPairing disabled/session0；唯一COM6为V0.33/long/online/stable、assigned=false、unanchored、closedRing=false。原始state.json、assignments.json、http-utc.txt和passive-serial.jsonl保存在 `C:/Users/kicof/AppData/Local/GridopolyTileTools/single-reader-review-20260926/`。此时没有配对下行，与不显示配对相符，不能归因为单板拓扑限制。
+
+后续主任务另行GET确认新32格房room993580108/version11已tagPairing complete/boundMask1、P1Tag8EFA24DF，COM6仍单板未分配/未锚定/未闭环。这是主任务提供的后续现场HTTP结果，支持单板实际绑定可以完成，不是本次串口捕获或视觉验收。服务器任务另确认此前autoPlayers只允许32格，与Web同时提供16/24/32/40的行为不一致，正在修复并做四种地图的单未分配reader回归；该修复、部署和Web错误显示由对应任务继续负责。
