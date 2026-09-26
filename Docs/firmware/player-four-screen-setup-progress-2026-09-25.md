@@ -80,3 +80,86 @@
 部署前后及采集结束后的完整 `/api/state` 对照只变化旧屏连接、peer数、onlineMask、version12→13、identity revision7→8和服务器时钟。房间993580107、24格、现金/位置/资产/Tag/身份内容和待结算业务保持不变。本端没有新建游戏、改registry/分配/Tag、注入旋钮或游戏命令，也没有触碰COM6/COM8。
 
 现场日志没有JoinStatus/page埋点，本轮也没有屏幕照片或目视反馈，所以 `WAITING FOR NEW GAME` 是依据已刷代码和实际发现状态的预期，不能标作真实页面目视通过。此前频闪/错位及Retarget max57ms限制仍保留；未跑新benchmark。主任务继续协调真实等待页文字/视觉确认、新局及多屏实体Tag流程；本端交回报告和源码所有权，所有构建/烧录/采集进程均已结束，COM7已释放。
+
+
+## 2026-09-26 16:44–16:47 EDT 新局反馈只读审核与真实入席
+
+用户反馈网页新游戏后仍显示WAITING FOR NEW GAME。主任务分工由服务器/Web定位新局未成功，本端审核已刷109df在真正新room建立后的认证入席与Tag接收，不刷机、不发游戏/Tag/新局动作。审阅9个生产文件与109df冻结清单逐SHA一致，记录于本地 `newgame-readonly-20260926-0218/source-audit.json`；目录名称的0218只是证据标签，实际时间以UTC时间戳和采集事件为准。
+
+未发现本症状对应的玩家生产缺陷：拒绝后回Scanning持续接收广播；Pairing/Online时认证同server的新room立即清session/投影再PairRequest。新PairAccept按room/ack/session认证并派seat，合法设置期Identity（包括TagPairing stage7）解除等待页。服务器sendIdentity先发Tag；首个Tag可能在App尚无合法room/seat时被忽略，但Identity使transport Online/identitySetupActive，此后正常2秒自动Query，Tag parser允许同revision重新投递，因此不会因首次Tag先到永久卡在等待页。本次没有修改生产逻辑或重复泛测。
+
+仅进行一次授权20秒COM7采集，实际UTC20:44:00.865–20:44:20.887（20.022秒），DTR/RTS均false且无复位命令。**这次采集存在实际扰动**：开头旧uptime55832273/status3/IP10.42.0.37及旧room发现后，约opened+21ms的读取批次出现ROM `rst:0x15 (USB_UART_CHIP_RESET)`，接着正常重新启动。不能称其为“无复位采集”；与串口打开相邻的USB-UART复位是明确日志证据，未通过再开端口重现实验来猜测具体驱动控制线过程。
+
+随后20秒内多次event113/reason2，status6/IP0；本机固定ESP32S3/3.3.11头文件将reason2定义为AUTH_EXPIRE。HTTP一度显示新屏offline/eligible=false。串口按时closed后不再打开，未刷机或修改凭据/AP；UTC20:45:27Z仅HTTP复查已online=true/eligible=true/seat0。已同步主任务及服务器暂离线、USB复位和自行恢复，不能将短窗口离线留作当前状态。源码有30秒节流WiFi.reconnect路径，但本轮没有取得该分支的串口记录，不冒称实测走到特定分支。
+
+**UTC20:46:42Z再次GET已经取得真实新room接纳证据**：`roomId=993580108/version=11`，`GP-DCB4D902D1DC/deviceId2057322951` 在线、capabilities3、seat1并列入frozenDevices。TagPairing已enabled，state=complete、revision7、session547832328、requiredHumanMask/boundMask/identityEditableMask均1；Identity revision12/phase1/avatarFinalMask15/nameFinalMask14/readyMask14/onlineMask15。来源为 `newroom-state.json` 和 `newroom-devices.json`。这证明109df在不重刷、不额外复位的情况下被真实新room认证入席；Tag已绑定完成是服务器状态，不冒称本端亲眼观察了实体拿放或屏幕具体页面。收尾脚本原先断言旧seat0，因实际已变seat1而中止，之后按新快照记录，没有写下旧状态结论。
+
+完整本地证据目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/newgame-readonly-20260926-0218/`，含player.log/jsonl、capture-events、分阶段HTTP快照、source-audit和review-result。当前屏幕仍109df、已加入新房间，COM7保持关闭，无构建/采集后台进程；本端没有触发新局或任何游戏、Tag、身份操作，未修改生产文件/索引。报告交主任务统一提交；后续具体页面反馈、姓名与开局以及单板现场流程由主任务继续协调，若有新玩家端缺陷再针对性处理。
+
+## 2026-09-26 Avatar 焦点与手写输入修复（候选完成，待部署）
+
+用户在109df报告头像旋钮偶发跳项、方向观感异常及延迟，手写H尚未写完就提交、断笔以及不出字。本轮先以真实生产代码做主机复现，没有重新打开COM7：生产reducer身份心跳例原2项失败；真实LVGL加生产renderer/handwriting例原3项失败，证明Tag心跳、草稿字符追加和断线提示会销毁同页画布。根因是setFocus只更新nav而不更新identity.focus，下一次身份快照恢复旧焦点；NameHandwriting同焦点状态revision走rebuild，画布删除回调清除墨迹并取消识别generation。这两条与服务器HTTP识字无关，识字实际完全本地执行。
+
+修复同步identity焦点，并在同room/seat的手写页保留画布，仅更新姓名、状态、焦点及提示层。头像仍使用现有保留对象路径，配方/提交状态/新预览改变时才重新获取预览，焦点和心跳不再重复刷新头像。没有反转旋钮Gray解码或更改RGB核心、时钟、bounce buffer、帧票据。实际旋钮方向及显示延迟仍须候选上机后验证，主机结果不是现场延迟测量。
+
+触摸改为LVGL控制器每次回调直接记录物理样本和抬笔，10ms读取周期，笔迹按16ms节流绘制；应用循环不再二次读取缓存状态。1.2秒空闲从真实最后接触/抬笔计时，锁内用新millis，带符号deadline防旧时间戳误触发。连续pressed跨140ms调度间隙保持连线；明确release、移出画布或控制器读失败才断开contact。控制器-1与合法0分开：错误最多保留UI按压100ms后释放，错误期间不伪造笔迹/不启动DONE识别，恢复有效样本后再继续。没有实机I2C错误证据，本项是错误边界修正。
+
+DELETE优先清当前墨迹并取消旧worker结果，画布空时才删草稿末字。触摸和实体按钮的DONE共用pending请求，末字识别并追加后才回姓名审核；NUL保留墨迹，结束本次DONE并提示补写/清除，补写仍得到完整idle窗口。名字满、点数溢出均保留提示而不悄悄丢字。旧worker忙时不把新generation误标已尝试，仅真正入队才更新attemptedGeneration。画布删除/重建、新笔画及DELETE都使旧结果失效；worker输入是固定拷贝，LVGL对象仍只由其锁内所有者操作。
+
+识别器原本拒绝少于4点的长笔画，现按几何拒绝点触、允许2/3点可见线段。完整三笔H另复现神经网络以margin0.715判B而模板判H；未改神经网络0.45门槛或模型权重。新增通用几何匹配门控：归一化模板双向均方距离总和不超过4像素平方，且次优至少差2倍，采用清晰模板；其余仍走神经网络及原低置信模板回退。独立A–Z笔迹312组宽度/横杠变体原284正确，现301正确，原正确样本0退步；12组H的6点稀疏与密集插值笔迹一致，R/K、Y/T保留。仍有11/312合成路径误判，这些计数不能作为真人手写准确率，也未重训或重新宣称EMNIST准确率。
+
+本地证据根目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/`：`input-session-before-20260926.log`（旧焦点2 FAIL），`native-input-runtime-20260926/before-ascii-v3.log`（旧画布3 FAIL，原源码镜像保留）；修复后 `input-session-after-20260926.log` 4/4、`input-runtime-final-v3-20260926.log` 40/40、`input-fix-setup.log` 83/83、`input-fix-rotary.log` 15/15。UI layout/glyph检查通过。新runtime使用真实LVGL、生产reducer/renderer/识别器与模型，只替代硬件任务/分配和网络图片缓存；覆盖140ms主循环及控制器调度间隙、抬笔、旧时间戳、millis溢出、H完整性、拒识恢复、DONE/DELETE、满名字、失联及保留头像更新。
+
+独立只读审查另在Temp冻结生产源码，真实worker受控暂停后检查添笔、DELETE、页面重建和旧结果发布，13/13通过；集成复核发现的DONE失败后补写过早提交已修复，并加入最终40项。审查证据分别为 `C:/Users/kicof/AppData/Local/Temp/gridopoly-handwriting-generation-audit-20260926/` 和 `.../gridopoly-handwriting-integration-audit-20260926/`；后者原日志保留了修复前失败，不能误称旧日志全通过。
+
+正常固件候选run为 `runs/production-20260926-171245-ebcd9d9f5f3046d4a44323b06a1cf129/`。首次全量构建捕获LVGL8输入定时器字段错误，已改为 `input->driver->read_timer`；失败日志、原port源及manifest保留在 `before-input-timer-fix/`，仅这一源受控更新，其余2126不变，详见 `timer-fix-change.json`。修正底本编译成功后发现同一poll的两次DELETE被bool请求合并，最小复现失败记录 `input-action-order-before-20260926.log`；最终ino在触摸队列前处理实体pending，并在每个触摸动作后service，保持原顺序。新增两次DELETE、DELETE→DONE、实体pending→触摸三例，最终 `input-runtime-final-v4-20260926.log` 为43/43。独立DONE恢复复验 `C:/Users/kicof/AppData/Local/Temp/gridopoly-handwriting-done-recheck-20260926/done-recheck.log` 为7/7，通过异步NUL、workerBusy、1199/1200ms及先追加后离页边界。
+
+成功底本app `b04ff784e46e0e43485924d37207b566ca768b31d9c036daad26f64ca531eb3a` 的完整源码/库和四段固件保存在run的 `before-action-order/`，candidate及manifest重定向后可独立核验。最后仅ino受控增量，其余2126不变，记录 `action-order-change.json`。最终app SHA **`efbe3d08ca59cf73d395202105dc91a4e874cea53e05c8eac90a69e3162deea7`**，文件1,905,536B、program1,905,390B、RAM125,672B，HWCDC验证PASS。sourceDigest **`7ea4c62f984d30dbf983769845ec5320b2f11ea8de48221d0e2997b27a2c9c1e`**，构建基准Git仍 `f6cfc39b616294e5ce5b8647cf99ab030e708498`；最终逐SHA核验2127冻结源与当前源、四段二进制全部一致，核验时当前提交为 `18a75e2d343fcbaeae061d58a7369f57ce95fc55`，证据 `final-verification.json`。bootloader/分区表/boot_app0与109df相同，四段布局及旧分区兼容检查通过。
+
+本轮首次run `production-20260926-171145-95e735ca77444bfaa20d7ac1c29ace77` 在新DONE问题被发现后于快照阶段取消，没有候选，不发布。当前设备仍109df，COM7关闭；本节不表示已经刷写或完成现场验收。主任务统一Git提交及batch32-v3发布包，随后协调仅COM7正常固件更新，保留room108、已绑Tag和确认身份。部署证据预备目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/input-fix-com7-20260926/` 已保存并逐SHA核验109df回退四段；该备份来自既有发布产物，并非本轮设备读回。
+
+## 2026-09-26 17:31–17:32 EDT 输入修复普通固件已部署
+
+本节取代上一节“待部署”的设备状态。主任务独立核验后生成 `C:/Users/kicof/GridopolyReleases/batch32-2026-09-26-v3/release.json`，明确通知用户屏幕会重启、未确认的RAM草稿可能需要重写，并授权仅COM7正常更新。实际以Python3.12及进程级 `PYTHONPATH=C:/Users/kicof/AppData/Local/GridopolyReleaseTools/python-packages` 使用esptool5.3.1；dry-run无串口打开，随后MAC/Flash/真实旧分区预检及同一写入上下文内四段写验全部VERIFIED。当前实际app为 **efbe3d08ca59cf73d395202105dc91a4e874cea53e05c8eac90a69e3162deea7**。只写0x0/0x8000/0xe000/0x10000四段，未erase-all或写NVS/文件系统/设备配置，未触碰COM6/COM8。
+
+仅一次45秒启动采集：UTC21:31:55.308895开串口至21:32:40.317408观察完成，工具记录实际45.000秒，21:32:40.321408关闭且isOpen=false/exit0。已知预检和正式写验各执行一次hard-reset；采集DTR/RTS初值false且未请求reset。窗口从板卡初始化开始，只有一次build标记（Sep26 17:29:22）及普通ready，未出现ROM rst、第二套启动、panic/Guru Meditation/abort。不能把“未捕获ROM rst”写成证明USB打开绝无复位效果，也没有为验证这一点重开串口。
+
+固件记录WiFi GOT_IP事件ms1870、IP10.42.0.37，随后正常UDP认证 `paired seat=1 room=993580108`、Identity phase1/stage3及Tag快照。5–40秒的8次状态均status3/IP10.42.0.37，内部heap31504–31568、largest22516。采集后的真实设备列表为唯一 `GP-DCB4D902D1DC` / device2057322951 / capabilities3 / online=true / eligible=true / seat1。完整前后 `/api/state` 只差version16→18、identity.revision16→18和serverEpochMs；room、32格棋盘、全部玩家/资产/事件/Tag、冻结设备及已确认身份内容没有业务差异。avatarFinalMask15/nameFinalMask14保持，TagPairing complete/session1361533898/revision2及boundMask1保持。
+
+本地部署证据目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/input-fix-com7-20260926/` 包含仅COM7清单、四段109df回退产物、flash.jsonl、player.log/jsonl、capture-events.jsonl、HTTP前后全量快照、state-differences.json及verification.json。两个本地分区辅助调用最初误用函数名/将3072B产物传给要求4096B设备读回的接口，仅本地报错且未开串口；随后使用validate_images和parse_partitions正确核验了产物布局，实际设备分区由批量工具完整预检验证，未把填充数据当设备读取。
+
+构建、写验及采集进程均已结束，COM7已释放。本端未发新局、Tag、身份确认或游戏动作。源码/host回归、真实普通启动联网及状态保持已验证；此窗口没有人工旋钮/笔迹视觉证据，实体顺时针手感、画面无断笔、H识别和DONE/DELETE操作仍交主任务与用户现场验收，不把此次启动观察宣称为已完成输入手感或显示性能验收。
+
+## 2026-09-26 Avatar 行选择残余回跳：实机记录与旋钮恢复修正
+
+用户随后确认手写已正常，但头像各行之间的选择框仍在慢转和快转时卡住或回跳，明确不是编辑字段数值。本轮保持手写、触摸、RGB设置及界面代码不变。主任务复核状态投影，独立真实LVGL审查共1046次采样未发现边框或实际flush像素回旧高亮；该结果只排除所测界面路径，不等于实机旋钮验收。
+
+首个有限采集窗口因用户已从room108切换至109，而准备脚本仍以旧room作为ready门槛，18.047秒后退出并关闭，没有开启INPUT TRACE。保留 `avatar-focus-trace-20260926/` 失败证据；不把它归为设备故障，也没有恢复旧room。经主任务协调后只重试一次：`avatar-focus-trace-live-20260926/` 于UTC21:37:50.282647打开COM7，21:37:53.335498取得TRACE ON回执，90秒后OFF，21:39:23.316379关闭，isOpen=false/exit0。该窗口未出现重启或fault，没有发送游戏、Tag或身份操作。设备仍为普通固件efbe3d08；没有部署诊断固件。
+
+捕获2049条raw、47个decoder步进及对应47次Avatar旋转消费，另有4次按钮事件。所有旋转时editing=0，配方不变；焦点始终按clamp(previous+delta,0..5)变化，没有事件间自行复位。诊断ring dropped=0、输入队列最大2条，输入至消费延迟中位3ms/P95 65ms/最大119ms，不能把全部体验解释成队列堆积。invalid从198升至446，共248次双相跳变；这些可能包含接点变化及短Gray相位漏采，日志不能证明机械故障。raw记录并非每次1ms轮询；两等相位00/11都有多次长停留，保留现有half-step机械尺度。
+
+旧生产C++解码器按前一raw补齐缺失1ms采样，可复现47个实际输出中的46个，23处stable记录不一致，模拟invalid251与实采增量248不同；未知调度间隙不能被补点还原，所以不宣称完整波形逐点复现。实际431493–431539的12条局部记录则与旧解码器完全匹配：0→1→3在431498输出+1，随后3→0非法跳变，0→2→3在431539输出−1，回到同一物理停留位却把行选择撤回。
+
+生产修正只涉及 `rotary_input_filter.h` 和 `rotary_input_tests.h`：保留最后由合法路径取得的detent；非法跳变不替换锚点，只有完整合法半周期到不同可信端点才输出。合法立即反转、正反方向、00/11两停留位尺度、1ms采样/去抖均不变。启动在01/10且尚无锚点时仍在首个合法detent同步；已有锚点在非法中间相位恢复时保留。零净回摆不会将非法终点升级为可信锚点。
+
+初版锚点候选被主审发现上述“零净回摆”和“非法中间相位后半程恢复”两条反例，针对回归实际6 FAIL，修正后最终30/30 PASS，包含实采片段、相位/方向镜像、10倍慢时序、恢复后合法立即反转、4000合法转换及真实appHandleInput行焦点一致性。失败日志 `anchor-review-before.log` 保留，没有把初版通过25项写成最终充分验证。未重复无变化的手写43项测试。
+
+最终同一整段raw回放为37步（+19/−18），相对旧模拟46步删除9步，没有新增步或改变剩余步的符号/时间；≤150ms反向仍有430061→430116与445838→445846两组。初版42步结果已被最终结果取代。另一个“非法后无条件丢弃下一半程”方案仅29步且会额外漏计，未采用。不能把实采47步当作12个物理刻度的错误计数，也不能把所有反向认定为错误；用户真实操作总次数尚无完整对齐。当前策略会保守丢弃方向不明的半程，仍可能漏计，需普通候选上机后验证卡顿和回跳是否改善。
+
+完整证据目录为 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/avatar-focus-trace-live-20260926/`：原始player.log/jsonl、events、前后HTTP快照、raw.csv、analysis.json、实际C++ replay/compare、compare-final.log及production-tests.log。正常构建使用原成功run受控增量，efbe完整2127源、四段和可独立核验的重定向candidate/sourceManifest已保存于run下 `before-rotary-anchor/`；初版两header及manifest另保存在 `rotary-anchor-review-v1-unbuilt/`，明确未构建、未部署。最终仅两header变化、其余2125源不变，见 `rotary-anchor-change.json`。本节编写时新构建进行中、COM7关闭；不能据此声明新版本已部署或用户已验收。
+
+后续普通构建已完成：app SHA **`9c4e182530b4f1e5043bd1180c3658664c9bba089f2f526972a8009a9d1d4437`**，program1,905,434B、文件1,905,584B、RAM125,672B，HWCDC PASS。candidate仍位于run `production-20260926-171245-ebcd9d9f5f3046d4a44323b06a1cf129/candidate.json`，sourceDigest **`f8a69b41e0916c5b2fe658832453a0451c7064040e99fc745f0c68efe0224a45`**。再次逐SHA校验2127冻结源及当前源一致、四段一致，相对efbe恰好上述两header变化，证据 `candidate-verification.json`。bootloader、分区表及boot_app0均沿用efbe原SHA。当前只完成源码、回归和构建；候选交主任务统一Git/发布包与COM7部署协调，尚未写入设备，实机仍efbe。
+
+## 2026-09-26 17:54–17:55 EDT 旋钮恢复修正已部署，现场手感待验收
+
+本节取代上一节“尚未写入设备”的状态。主任务最终独立复核生产header 21/21 PASS，证据 `C:/Users/kicof/AppData/Local/Temp/gridopoly-rotary-production-final-audit-20260926/audit.log`，filter SHA b83cf35b与候选一致；两个header由主任务提交 **fd051e2**。主任务生成v4并完成单COM7 dry-run，发布manifest `C:/Users/kicof/GridopolyReleases/batch32-2026-09-26-v4/release.json` 的SHA为 `b852c45167777731475e17703f1100342c49f3cb33877d2df47909fc5ab574ef`，玩家端执行前再次验证该SHA和应用SHA。
+
+沿用已有授权，仅对COM7/MAC dc:b4:d9:02:d1:dc更新普通应用 **9c4e182530b4f1e5043bd1180c3658664c9bba089f2f526972a8009a9d1d4437**。固定Python3.12/esptool5.3.1，批量工具真实MAC/16MB/旧分区预检通过，在正式写入同一上下文内四段写验VERIFIED。只写0x0/0x8000/0xe000/0x10000，未erase-all或写NVS/文件系统，COM6/COM8未触碰。前后快照均实时GET，不以109作为恢复目标，没有发送新局、Tag、身份或游戏动作。
+
+单次启动观察于UTC21:54:20.705186打开，21:55:05.710480结束，实际45.000秒；21:55:05.715476关闭，isOpen=false/exit0。预检和写验各自有工具要求的hard-reset；采集DTR/RTS初始false、没有另发reset。窗口唯一build为Sep26 17:50:22，唯一普通ready，没有ROM rst、第二套启动或panic/abort。启动前约29秒出现反复event113/reason2（当前固定core定义AUTH_EXPIRE），30.459秒取得IP，随后正常认证 `paired seat=1 room=993580109`。35.034及40.037秒status3/IP10.42.0.37，内部heap分别21460/17044、largest7668；启动期间仍在装载头像素材。这是短窗口先连接失败后自行恢复，不是45秒始终联网，不据此修改网络或重复开串口。
+
+实际HTTP前后room均993580109，version9→11、identity.revision10→12和serverEpochMs改变；除这三处之外完整业务diff为空。TagPairing complete/session2754481782/revision7保持，boundMask1保持，avatarFinalMask14/nameFinalMask14/readyMask14/onlineMask15保持。唯一设备GP-DCB4D902D1DC/device2057322951仍online=true/eligible=true/capabilities3/seat1。当前房间玩家1外貌尚未确认，不能把其它房间曾确认的外貌或RAM草稿冒称已在本房间保存。
+
+完整证据目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/rotary-anchor-com7-20260926/`，包含player-inventory.csv、flash.jsonl、串口原文/jsonl、capture-events、HTTP前后快照、state-differences.json和verification.json。`rollback-efbe/`的四段已逐SHA确认，来自前次部署产物而非本轮设备读回。准备阶段PowerShell曾拒绝保留设备名COM7.csv的目标拷贝，随后采用player-inventory.csv；该错误仅涉及本地清单准备，没有打开串口或写设备。
+
+源码、30项生产旋钮/真实reducer回归、独立21项复核、普通构建、写验及正常入局均已完成，所有进程结束、COM7已释放。**旋钮慢转/快转卡顿与行选择回跳仍待用户现场复测**，候选保守漏计及日志不能区分的合法快速反转边界仍在；不把部署检查通过宣称为输入手感最终修复。主任务负责协调用户最小复测动作，玩家屏任务按新反馈继续定位，不额外后台录制或自动重刷。
