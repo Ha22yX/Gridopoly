@@ -3,7 +3,8 @@
 #include "app_types.h"
 #include "grid_city_visual_catalog.h"
 
-void appInit(AppState &state, uint32_t nowMs);
+void appInit(AppState &state, uint32_t nowMs, bool waitForAuthority = false);
+bool appAwaitingGame(const AppState &state);
 void appHandleInput(AppState &state, const InputEvent &event, uint32_t nowMs);
 void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs);
 void appTick(AppState &state, uint32_t nowMs);

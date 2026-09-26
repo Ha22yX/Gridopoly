@@ -604,6 +604,7 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
            state.landingEventAcknowledged == rendered.landingEventAcknowledged &&
            state.turnsUntilYou == rendered.turnsUntilYou &&
            state.authorityOnline == rendered.authorityOnline &&
+           state.joinStatus == rendered.joinStatus &&
            state.fullAuthoritySnapshotValid == rendered.fullAuthoritySnapshotValid &&
            state.rosterSnapshotValid == rendered.rosterSnapshotValid &&
            state.playerDetail.loadState == rendered.playerDetail.loadState &&
@@ -1228,7 +1229,7 @@ void drawToast(const AppState &state, uint32_t nowMs)
 
 void drawConnectionStatus(const AppState &state)
 {
-    if (state.authorityOnline) return;
+    if (state.authorityOnline || state.page == ScreenPage::WaitingForGame) return;
 
     lv_obj_t *badge = uiBox(root, kConnectionLostBadge, kBg, kRed, 8);
     if (badge == nullptr) return;
@@ -1335,6 +1336,23 @@ void drawActivityHud(const AppState &state, uint32_t nowMs)
     }
     makeClickable(badge, TouchAction::ActivityOpen);
     lv_obj_move_foreground(badge);
+}
+
+void drawWaitingForGame(const AppState &state)
+{
+    const bool waiting = state.joinStatus == TransportJoinStatus::WaitingForNewGame;
+    const bool syncing = state.joinStatus == TransportJoinStatus::Syncing;
+    const uint32_t accent = waiting ? kYellow : kGreen;
+    drawOuterRing(accent);
+    uiLabel(root, "GRIDOPOLY", UiRect{100, 116, 280, 30}, &lv_font_montserrat_20, accent);
+    uiLabel(root, waiting ? "WAITING FOR\nNEW GAME" :
+                  (syncing ? "JOINING GAME" : "CONNECTING"),
+            UiRect{70, 188, 340, 64}, &lv_font_montserrat_20, kText);
+    uiLabel(root, waiting ? "Start a new game\non the web panel." :
+                  (syncing ? "Loading your player setup." : "Looking for the game server."),
+            UiRect{70, 276, 340, 54}, &lv_font_montserrat_16, kText);
+    uiLabel(root, "Keep this screen powered on.", UiRect{80, 356, 320, 24},
+            &lv_font_montserrat_12, kMuted);
 }
 
 void drawHome(const AppState &state, uint32_t nowMs)
@@ -3356,6 +3374,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
         case ScreenPage::TagPairing: drawTagPairing(state); break;
         case ScreenPage::GameOver:
         case ScreenPage::Spectator: drawGameOutcome(state); break;
+        case ScreenPage::WaitingForGame: drawWaitingForGame(state); break;
     }
     drawToast(state, nowMs);
     drawActivityHud(state, nowMs);

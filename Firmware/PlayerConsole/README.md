@@ -9,6 +9,15 @@ Production builds default to the Raspberry Pi Wi-Fi/UDP transport. The console j
 UDP datagram to `10.42.0.1:4242`. ESP-NOW remains available as a compile-time fallback;
 self-test builds retain `DemoTransport`, so UI and state-machine tests require no radio peer.
 
+Before its first authoritative identity/game snapshot, a normal network screen starts
+on a dedicated Connecting page with no sample cash, board position or gameplay controls.
+An authenticated admission refusal shows a persistent `WAITING FOR NEW GAME` page asking
+the user to start a game on the web panel; it is not presented as a Wi-Fi failure. The
+refusal survives ordinary discovery retries. Acceptance changes the page to Joining
+Game until the real snapshot arrives. Screens that already received real state retain
+their business page and the existing offline marker through reconnection. The explicit
+production initialization flag leaves all SelfTest/demo performance scenes unchanged.
+
 Each screen now announces `GP-<12 hexadecimal MAC digits>` and derives its stable device ID
 from all six MAC bytes. New-game discovery freezes the human seats on the server. Unpaired
 screens show the sequential token queue, selected reader, place/remove instructions and

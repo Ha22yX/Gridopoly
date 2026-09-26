@@ -57,6 +57,14 @@ enum class TransportEventKind : uint8_t {
     IdentitySnapshotReceived,
     MovementCueRetryRequested, // Local recovery event; does not alter the wire.
     TagPairSnapshotReceived,
+    JoinStatusChanged, // Local authenticated admission status; no wire change.
+};
+
+enum class TransportJoinStatus : uint8_t {
+    Inactive,
+    Connecting,
+    WaitingForNewGame,
+    Syncing,
 };
 
 inline bool transportEventAdvancesAppliedStateVersion(
@@ -293,6 +301,7 @@ struct TransportCommand {
 struct TransportEvent {
     TransportEventKind kind = TransportEventKind::None;
     TransportError error = TransportError::None;
+    TransportJoinStatus joinStatus = TransportJoinStatus::Inactive;
     uint32_t roomId = 0;
     uint32_t requestId = 0;
     uint32_t stateVersion = 0;

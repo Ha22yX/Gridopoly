@@ -756,7 +756,7 @@ void setup()
     if (!hardwareInputBegin()) { fault("INPUT_INIT"); return; }
 
     const uint32_t startedMs = millis();
-    appInit(app, startedMs);
+    appInit(app, startedMs, GRIDOPOLY_PLAYER_TRANSPORT != GRIDOPOLY_TRANSPORT_DEMO);
     Serial.printf("GRIDOPOLY_PLAYER_BUILD movement_cue=17 compiled=%s %s\n", __DATE__, __TIME__);
     transport.begin(startedMs);
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP

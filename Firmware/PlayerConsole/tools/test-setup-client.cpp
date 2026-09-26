@@ -88,6 +88,92 @@ void projectCore(AppState &app, const gridopoly::core::GameEngine &engine,
     appHandleTransportEvent(app, event, now + 1);
 }
 
+void joiningChecks() {
+    AppState app{}; appInit(app, 0, true);
+    check(app.page == ScreenPage::WaitingForGame && appAwaitingGame(app) &&
+          app.money == 0 && app.playerCount == 0 && !app.authorityOnline &&
+          appPageContentCount(app) == 0 && !appCanNavigateBack(app),
+          "production first frame waits for authority without demo cash, position or actions");
+    AppState diagnostic{}; appInit(diagnostic, 0);
+    check(diagnostic.page == ScreenPage::Home && !appAwaitingGame(diagnostic) && diagnostic.money == 1860,
+          "existing self-test fixtures keep their explicit demo Home instead of benchmarking waiting page");
+    appHandleTouch(app, TouchAction::HomeAssets, 10);
+    appHandleTouch(app, TouchAction::DemoTurn, 11);
+    appHandleInput(app, InputEvent{InputKind::ButtonDown, 0, 12}, 12);
+    appHandleInput(app, InputEvent{InputKind::ButtonUp, 0, 4012}, 4012);
+    TransportCommand command{};
+    check(app.page == ScreenPage::WaitingForGame && !appPollCommand(app, command),
+          "waiting screen ignores stale home, demo and long-hold inputs");
+    TransportEvent join{}; join.kind = TransportEventKind::JoinStatusChanged;
+    join.joinStatus = TransportJoinStatus::WaitingForNewGame;
+    appHandleTransportEvent(app, join, 4100); appTick(app, 20000);
+    check(app.page == ScreenPage::WaitingForGame && app.joinStatus == TransportJoinStatus::WaitingForNewGame &&
+          app.toastUntilMs == 0 && !app.hasAuthoritativeState,
+          "authenticated refusal is a persistent new-game page rather than an expiring disconnect toast");
+    join.joinStatus = TransportJoinStatus::Connecting; appHandleTransportEvent(app, join, 20001);
+    check(app.joinStatus == TransportJoinStatus::WaitingForNewGame,
+          "ordinary discovery retry cannot erase the actionable new-game refusal");
+    join.joinStatus = TransportJoinStatus::WaitingForNewGame; appHandleTransportEvent(app, join, 20002);
+    check(app.page == ScreenPage::WaitingForGame && !appPollCommand(app, command),
+          "repeated admission refusal remains stable and cannot enqueue game actions");
+    join.joinStatus = TransportJoinStatus::Syncing; appHandleTransportEvent(app, join, 20003);
+    check(app.page == ScreenPage::WaitingForGame && app.joinStatus == TransportJoinStatus::Syncing && app.money == 0,
+          "PairAccept alone waits for real player state without revealing placeholder gameplay");
+    auto actual = game(2, AuthorityPhase::AwaitRoll, false);
+    actual.cash = 1117; actual.playerPosition = 8;
+    appHandleTransportEvent(app, actual, 20004);
+    check(app.hasAuthoritativeState && !appAwaitingGame(app) && app.page == ScreenPage::Home &&
+          app.money == 1117 && app.position == 8 && app.authorityOnline,
+          "first real state projection replaces waiting with authoritative cash and location");
+    TransportEvent lost{}; lost.kind = TransportEventKind::ConnectionLost;
+    appHandleTransportEvent(app, lost, 21000);
+    check(app.page == ScreenPage::Home && app.money == 1117 && app.position == 8 && !app.authorityOnline,
+          "previously joined screen preserves real business page during temporary disconnect");
+    join.joinStatus = TransportJoinStatus::WaitingForNewGame; appHandleTransportEvent(app, join, 21001);
+    check(app.page == ScreenPage::Home && !appAwaitingGame(app) && app.money == 1117,
+          "admission retry after a real session never replaces retained business state with onboarding");
+    actual.stateVersion = 31; actual.resync = true; actual.cash = 1120;
+    appHandleTransportEvent(app, actual, 21002);
+    check(app.authorityOnline && app.joinStatus == TransportJoinStatus::Inactive && app.money == 1120,
+          "authenticated resync restores original gameplay recovery semantics");
+
+    AppState setup{}; appInit(setup, 0, true);
+    applyPair(setup, pairing(1, 1), 30000);
+    check(appAwaitingGame(setup), "early Tag snapshot cannot expose a placeholder game before seat context");
+    appHandleTransportEvent(setup, identity(1), 30001);
+    applyPair(setup, pairing(1, 2), 30002);
+    check(setup.hasAuthoritativeState && !appAwaitingGame(setup) && setup.page == ScreenPage::TagPairing,
+          "legitimate identity then Tag pairing leaves onboarding for the token instructions");
+    AppState disconnected{}; appInit(disconnected, 0, true);
+    appHandleTransportEvent(disconnected, join, 31000);
+    appHandleTransportEvent(disconnected, lost, 31001);
+    check(disconnected.joinStatus == TransportJoinStatus::Connecting && disconnected.page == ScreenPage::WaitingForGame,
+          "real link loss while awaiting a new game shows connecting without revealing demo state");
+    AppState activeRoom{}; appInit(activeRoom, 0, true);
+    auto activeIdentity = identity(1, 6); activeIdentity.identityPhase = TransportIdentityPhase::Active;
+    appHandleTransportEvent(activeRoom, activeIdentity, 32000);
+    check(appAwaitingGame(activeRoom) && activeRoom.page == ScreenPage::WaitingForGame,
+          "active-room identity alone cannot open Home before cash and position arrive");
+    auto completePair = pairing(1, 1); completePair.state = TransportTagPairState::Complete;
+    completePair.flags |= kTagPairSelfBound | kTagPairCanEditIdentity;
+    applyPair(activeRoom, completePair, 32001);
+    check(activeRoom.page == ScreenPage::WaitingForGame,
+          "early completed Tag binding cannot bypass waiting for real gameplay state");
+    actual.roomId = 100; actual.selfSeatId = 1;
+    appHandleTransportEvent(activeRoom, actual, 32002);
+    applyPair(activeRoom, completePair, 32003);
+    check(activeRoom.page == ScreenPage::Home && activeRoom.money == 1120 &&
+          activeRoom.identity.tagPairSuccessUntilMs == 0,
+          "restoring an active game does not invent a take-token-back success interruption");
+    AppState fullOnly{}; appInit(fullOnly, 0, true);
+    auto fullState = game(3, AuthorityPhase::TurnEnd, true);
+    fullState.players[2].cash = 411; fullState.players[2].position = 9;
+    appHandleTransportEvent(fullOnly, fullState, 33000);
+    check(!appAwaitingGame(fullOnly) && fullOnly.page == ScreenPage::Home &&
+          fullOnly.money == 411 && fullOnly.position == 9,
+          "full authority arriving before compact snapshot also opens Home with actual player values");
+}
+
 void buildingSaleChecks() {
     using namespace gridopoly::core;
     const auto *board = BoardCatalog::findBySize(32);
@@ -222,6 +308,7 @@ int main() {
         seats.seats[index].flags = gridopoly::protocol::IdentitySeatPresent |
             gridopoly::protocol::IdentitySeatHuman | gridopoly::protocol::IdentitySeatConnected;
     }
+    joiningChecks();
     char discovery[17]{}; playerDeviceDiscoveryName(0xdcd102d9b4dcULL, discovery);
     check(std::strcmp(discovery, "GP-dcb4d902d1dc") == 0 && discovery[16] == 0,
           "discovery carries all MAC bytes in canonical order");

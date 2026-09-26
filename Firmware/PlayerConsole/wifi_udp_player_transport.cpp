@@ -320,6 +320,10 @@ void WifiUdpPlayerTransport::resetUdpSession(uint32_t nowMs)
     lastServerFrameMs_ = nowMs;
     lastHeartbeatMs_ = nowMs;
     lossReported_ = false;
+    TransportEvent connecting{};
+    connecting.kind = TransportEventKind::JoinStatusChanged;
+    connecting.joinStatus = TransportJoinStatus::Connecting;
+    push(connecting); // clearProjection has already emptied the app queue.
 }
 
 void WifiUdpPlayerTransport::pollDatagrams(uint32_t nowMs)
@@ -419,10 +423,22 @@ void WifiUdpPlayerTransport::processUdpPairAccept(
         frame.header.acknowledgement != nextSequence_ - 1) return;
     PairAccept accept{};
     if (!decodePairAccept(frame.payload, frame.header.payloadLength, accept) ||
-        accept.accepted != 1 || accept.seatId == 0 || accept.wifiChannel != 0 ||
+        accept.wifiChannel != 0 ||
         accept.serverDeviceId != serverDeviceId_ || accept.sessionId == 0 ||
         accept.sessionId != datagram.header.sessionId) {
         resetUdpSession(nowMs);
+        return;
+    }
+    if (accept.accepted != 1 || accept.seatId == 0) {
+        const bool denied = accept.accepted == 0;
+        resetUdpSession(nowMs);
+        if (denied) {
+            TransportEvent waiting{};
+            waiting.kind = TransportEventKind::JoinStatusChanged;
+            waiting.joinStatus = TransportJoinStatus::WaitingForNewGame;
+            // Publish after reset, otherwise clearProjection drops the reason.
+            push(waiting);
+        }
         return;
     }
 
@@ -435,6 +451,10 @@ void WifiUdpPlayerTransport::processUdpPairAccept(
     pairStartedMs_ = nowMs;
     lastServerFrameMs_ = nowMs;
     lastHeartbeatMs_ = nowMs - 2000;
+    TransportEvent syncing{};
+    syncing.kind = TransportEventKind::JoinStatusChanged;
+    syncing.joinStatus = TransportJoinStatus::Syncing;
+    push(syncing);
     if (sendHeartbeat()) lastHeartbeatMs_ = nowMs;
     Serial.printf("GRIDOPOLY_UDP paired seat=%u room=%lu session=%lu\n", seatId_,
                   static_cast<unsigned long>(roomId_),

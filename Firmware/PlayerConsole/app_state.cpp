@@ -567,6 +567,7 @@ bool isOrdinaryPage(ScreenPage page)
         case ScreenPage::TagPairing:
         case ScreenPage::GameOver:
         case ScreenPage::Spectator:
+        case ScreenPage::WaitingForGame:
         case ScreenPage::AvatarSetup:
         case ScreenPage::NameReview:
         case ScreenPage::NameHandwriting:
@@ -713,7 +714,8 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
                            !auctionOpening(state) &&
                            !state.auctionPassed && state.decisionPlayerId == state.selfSeatId &&
                            (state.availableActions & kActionAuctionPass) != 0 ? 2 : 0;
-        case ScreenPage::AvatarLoading: return 0;
+        case ScreenPage::AvatarLoading:
+        case ScreenPage::WaitingForGame: return 0;
         case ScreenPage::TagPairing: return appTagPairCanManage(state) ? 2 : 0;
         case ScreenPage::GameOver:
         case ScreenPage::Spectator: return 0;
@@ -965,7 +967,7 @@ bool queueCommand(AppState &state, TransportCommandKind kind, uint32_t transacti
                    uint8_t assetIndex = 0xFF, int32_t argument = 0,
                    uint8_t targetPlayerId = 0)
 {
-    if (appTagPairBlocksIdentity(state) || state.authorityPhase == AuthorityPhase::GameOver ||
+    if (appAwaitingGame(state) || appTagPairBlocksIdentity(state) || state.authorityPhase == AuthorityPhase::GameOver ||
         appSelfBankrupt(state)) return false;
     const uint8_t index = commandIndex(kind);
     const uint32_t mask = commandMask(kind);
@@ -2138,6 +2140,7 @@ void activate(AppState &state, uint32_t nowMs)
             return;
         case ScreenPage::GameOver:
         case ScreenPage::Spectator:
+        case ScreenPage::WaitingForGame:
             return;
         case ScreenPage::PlayerReady:
             return;
@@ -3134,7 +3137,7 @@ void applyGameEventPresentation(AppState &state, const TransportEvent &event, ui
 
 } // namespace
 
-void appInit(AppState &state, uint32_t nowMs)
+void appInit(AppState &state, uint32_t nowMs, bool waitForAuthority)
 {
     state = AppState{};
     for (uint8_t index = 0; index < kPlayerCount; ++index) {
@@ -3145,7 +3148,24 @@ void appInit(AppState &state, uint32_t nowMs)
     }
     state.toast = "旋转浏览 · 按下选择";
     state.toastUntilMs = nowMs + 1500;
+    if (waitForAuthority) {
+        state.joinStatus = TransportJoinStatus::Connecting;
+        state.authorityOnline = false;
+        state.money = 0;
+        state.position = state.turnsUntilYou = state.selfSeatId = state.playerCount = 0;
+        state.activePlayerId = state.decisionPlayerId = 0;
+        state.stateVersion = 0;
+        state.authorityPhase = AuthorityPhase::Lobby;
+        state.nav.current = NavigationEntry{ScreenPage::WaitingForGame, 0, 0};
+        state.toast = "";
+        state.toastUntilMs = 0;
+    }
     syncLegacyState(state);
+}
+
+bool appAwaitingGame(const AppState &state)
+{
+    return !state.hasAuthoritativeState && state.joinStatus != TransportJoinStatus::Inactive;
 }
 
 HomePhase appPresentedHomePhase(const AppState &state)
@@ -3973,6 +3993,7 @@ uint8_t appTradeReceiverCandidateAt(const AppState &state, uint8_t candidateInde
 
 void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
 {
+    if (appAwaitingGame(state)) return;
     if (appTagPairBlocksIdentity(state) && state.page != ScreenPage::TagPairing) {
         state.identity.phase = IdentityClientPhase::TagPairing;
         showIdentityPage(state, ScreenPage::TagPairing, 0);
@@ -4030,6 +4051,7 @@ void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs)
 
 void appHandleInput(AppState &state, const InputEvent &event, uint32_t nowMs)
 {
+    if (appAwaitingGame(state)) return;
     syncLegacyState(state);
     if (acknowledgeActivityPresentation(state)) touchRevision(state);
     if (state.tradeReceiverPickerOpen) {
@@ -4090,6 +4112,7 @@ static void synchronizeMovementCue(AppState &state)
 
 bool appPollCommand(AppState &state, TransportCommand &command)
 {
+    if (appAwaitingGame(state)) return false;
     synchronizeMovementCue(state);
     // User actions always drain first, including manual arrival confirmation.
     if (state.commandCount == 0) {
@@ -4116,9 +4139,31 @@ bool appPollCommand(AppState &state, TransportCommand &command)
 
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
+    if (event.kind == TransportEventKind::JoinStatusChanged) {
+        if (event.joinStatus == TransportJoinStatus::Inactive) return;
+        // Admission refusal remains actionable through normal discovery retries.
+        // A real Wi-Fi loss uses ConnectionLost and may show Connecting again.
+        if (state.joinStatus != TransportJoinStatus::WaitingForNewGame ||
+            event.joinStatus != TransportJoinStatus::Connecting || state.hasAuthoritativeState) {
+            state.joinStatus = event.joinStatus;
+        }
+        state.authorityOnline = false;
+        state.commandCount = state.commandHead = state.commandTail = 0;
+        clearStaleSubmissions(state);
+        if (!state.hasAuthoritativeState) {
+            state.availableActions = 0;
+            dismissModal(state);
+            state.toast = "";
+            state.toastUntilMs = 0;
+            replaceForcedPage(state, ScreenPage::WaitingForGame);
+        }
+        touchRevision(state);
+        return;
+    }
     // Pairing has its own revision and room/session lifecycle. It must not
     // advance or roll back the game's stateVersion.
     if (event.kind == TransportEventKind::TagPairSnapshotReceived) {
+        if (appAwaitingGame(state)) return;
         if (event.tagPair == nullptr || event.roomId == 0 ||
             event.roomId != state.authorityRoomId ||
             event.tagPair->selfPlayerId != state.selfSeatId) return;
@@ -4131,7 +4176,9 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
             state.identity.tagPairSuccessUntilMs = 0;
         }
         if (event.requestId != 0) clearPendingRequest(state, event.requestId);
-        if (tagPairMayEditIdentity(incoming) &&
+        if (state.identity.authorityPhase != TransportIdentityPhase::Inactive &&
+            state.identity.authorityPhase != TransportIdentityPhase::Active &&
+            tagPairMayEditIdentity(incoming) &&
             (!state.identity.tagPairSnapshotValid || !tagPairMayEditIdentity(state.identity.tagPair))) {
             state.identity.tagPairSuccessUntilMs = nowMs + 1200u;
             if (state.identity.tagPairSuccessUntilMs == 0) state.identity.tagPairSuccessUntilMs = 1;
@@ -4236,6 +4283,17 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
         (roomChanged || authoritativeResync || event.stateVersion > state.stateVersion)) {
         state.stateVersion = event.stateVersion;
     }
+    const bool admittedProjection = event.roomId != 0 && event.selfSeatId != 0 &&
+        ((event.kind == TransportEventKind::IdentitySnapshotReceived && event.identitySeatCount != 0 &&
+          event.identityPhase != TransportIdentityPhase::Inactive &&
+          event.identityPhase != TransportIdentityPhase::Active) ||
+         ((event.kind == TransportEventKind::StateSnapshotApplied ||
+           event.kind == TransportEventKind::AuthoritySnapshotApplied) && event.playerCount != 0));
+    if (admittedProjection) {
+        state.hasAuthoritativeState = true;
+        state.joinStatus = TransportJoinStatus::Inactive;
+        if (state.page == ScreenPage::WaitingForGame) resetHome(state, 0);
+    }
     if (transportInterruptsInlineEditing(state, event) && clearInlineEditing(state)) {
         touchRevision(state);
     }
@@ -4272,11 +4330,19 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
 
     switch (event.kind) {
         case TransportEventKind::None:
+        case TransportEventKind::JoinStatusChanged:
         case TransportEventKind::TagPairSnapshotReceived:
         case TransportEventKind::MovementCueRetryRequested:
             return;
         case TransportEventKind::ConnectionLost:
             state.authorityOnline = false;
+            if (appAwaitingGame(state)) {
+                state.joinStatus = TransportJoinStatus::Connecting;
+                state.toast = "";
+                state.toastUntilMs = 0;
+                touchRevision(state);
+                return;
+            }
             state.tradeReceiverPickerOpen = false;
             state.commandHead = 0;
             state.commandTail = 0;
@@ -4720,6 +4786,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
 
 void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 {
+    if (appAwaitingGame(state)) return;
     if (state.page == ScreenPage::GameOver || state.page == ScreenPage::Spectator) return;
     if (appTagPairBlocksIdentity(state)) {
         if (action == TouchAction::DetailPrimary || action == TouchAction::DetailSecondary) {
@@ -4883,6 +4950,7 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 
 void appTick(AppState &state, uint32_t nowMs)
 {
+    if (appAwaitingGame(state)) return;
     if (!appIdentityActive(state) && presentGameOutcome(state)) return;
     if (state.identity.tagPairSuccessUntilMs != 0 &&
         hasReachedDeadline(nowMs, state.identity.tagPairSuccessUntilMs)) {

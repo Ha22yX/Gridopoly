@@ -47,6 +47,7 @@ enum class ScreenPage : uint8_t {
     TagPairing,
     GameOver,
     Spectator,
+    WaitingForGame,
 };
 
 enum class IdentityClientPhase : uint8_t {
@@ -526,6 +527,8 @@ struct AppState {
     int8_t boundaryPulseDirection = 0;
     uint32_t boundaryPulseRevision = 0;
     bool authorityOnline = true;
+    bool hasAuthoritativeState = false;
+    TransportJoinStatus joinStatus = TransportJoinStatus::Inactive;
     TransportCommand commandQueue[4]{};
     uint8_t commandHead = 0;
     uint8_t commandTail = 0;
