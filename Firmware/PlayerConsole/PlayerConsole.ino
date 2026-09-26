@@ -917,10 +917,13 @@ void loop()
     }
 
     if (lvgl_port_lock(-1)) {
+        // Apply the physical button request before newer queued touch actions.
+        uiRendererServiceHandwriting(app, millis());
         TouchAction action = TouchAction::None;
         while (uiRendererPollTouch(action)) {
             const uint8_t beforeCommands = app.commandCount;
             appHandleTouch(app, action, nowMs);
+            uiRendererServiceHandwriting(app, millis());
             Serial.printf(
                 "GRIDOPOLY_TOUCH action=%u page=%u focus=%u queued=%u auth=%u catalog=%u pending=%04x\n",
                 static_cast<unsigned>(action), static_cast<unsigned>(app.page), app.focus,

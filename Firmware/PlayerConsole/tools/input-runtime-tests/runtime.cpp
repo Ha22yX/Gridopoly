@@ -292,6 +292,43 @@ int main() {
     uiRendererInvalidateArtwork(); uiRendererRender(app, ++t);
     check(previewQueries == previewBefore + 2 && avatarRowBindings[0].object == row,
           "newly published portrait is still acquired when artwork invalidation arrives");
+    app.page = app.nav.current.page = ScreenPage::NameHandwriting;
+    app.identity.phase = IdentityClientPhase::NameHandwriting;
+    app.identity.handwritingDoneRequested = false;
+    app.focus = app.nav.current.focus = 0;
+    std::strcpy(app.identity.draftName, "ABC");
+    ++app.revision; uiRendererRender(app, ++t); lv_obj_update_layout(lv_scr_act());
+    auto serviceQueuedActions = [&]() {
+        uiRendererServiceHandwriting(app, ++t);
+        TouchAction action = TouchAction::None;
+        while (uiRendererPollTouch(action)) {
+            appHandleTouch(app, action, ++t);
+            uiRendererServiceHandwriting(app, ++t);
+        }
+        uiRendererServiceHandwriting(app, ++t);
+    };
+    enqueueTouch(TouchAction::NameDelete); enqueueTouch(TouchAction::NameDelete);
+    serviceQueuedActions();
+    check(strcmp(app.identity.draftName, "A") == 0,
+          "two queued DELETE actions both take effect in their original order");
+    uiHandwritingRecordTouch(true, 100, 150, ++t);
+    uiHandwritingRecordTouch(false, 100, 150, ++t);
+    enqueueTouch(TouchAction::NameDelete); enqueueTouch(TouchAction::HandwritingConfirm);
+    serviceQueuedActions();
+    check(app.page == ScreenPage::NameReview && strcmp(app.identity.draftName, "A") == 0,
+          "queued DELETE then DONE clears ink and returns to review without losing DONE");
+    uiRendererRender(app, ++t);
+    appHandleTouch(app, TouchAction::NameEdit, ++t);
+    uiRendererRender(app, ++t); lv_obj_update_layout(lv_scr_act());
+    std::strcpy(app.identity.draftName, "ABC");
+    uiHandwritingRecordTouch(true, 100, 150, ++t);
+    uiHandwritingRecordTouch(false, 100, 150, ++t);
+    ++t; appHandleInput(app, InputEvent{InputKind::ButtonDown, 0, t}, t);
+    t += 30; appHandleInput(app, InputEvent{InputKind::ButtonUp, 0, t}, t);
+    enqueueTouch(TouchAction::NameDelete);
+    serviceQueuedActions();
+    check(!uiHandwritingHasInk() && strcmp(app.identity.draftName, "AB") == 0,
+          "physical pending DELETE clears ink before the following touch DELETE removes a draft letter");
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;
 }
