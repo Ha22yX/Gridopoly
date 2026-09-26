@@ -10,7 +10,7 @@ class RotaryQuadratureDecoder {
 public:
     void reset(uint8_t phases, uint32_t atMs = 0)
     {
-        stable_ = candidate_ = phases & 3U;
+        stable_ = candidate_ = detent_ = phases & 3U;
         candidateAtMs_ = atMs;
         quarters_ = 0;
         synchronized_ = isDetent(stable_);
@@ -35,10 +35,17 @@ public:
             ++invalidTransitions_;
             quarters_ = 0;
             synchronized_ = isDetent(phases);
+            // Keep the last detent reached by a legal path. The unknown jump
+            // must not make a return to that same detent count as another step.
             return 0;  // A missed/invalid pair cannot establish direction.
         }
         if (!synchronized_) {
-            if (isDetent(phases)) synchronized_ = true;
+            if (isDetent(phases)) {
+                synchronized_ = true;
+                // Startup between detents has no anchor yet. Recovery from a
+                // missed edge must retain an existing one across partial paths.
+                if (!isDetent(detent_)) detent_ = phases;
+            }
             quarters_ = 0;
             return 0;
         }
@@ -51,7 +58,13 @@ public:
         quarters_ += transitions[(previous << 2U) | phases];
         if (!isDetent(phases)) return 0;
         // Reverse once at the hardware boundary for the installed bezel.
-        const int8_t step = quarters_ == 2 ? -1 : quarters_ == -2 ? 1 : 0;
+        // A complete legal half-cycle must connect distinct trusted detents.
+        // In particular, 3 -> (invalid 0) -> 2 -> 3 is a return, not a step.
+        const int8_t step = phases == detent_ ? 0 :
+            (quarters_ == 2 ? -1 : quarters_ == -2 ? 1 : 0);
+        // A zero-net return at an untrusted endpoint cannot promote it into
+        // an anchor. Only a complete half-cycle can validate that endpoint.
+        if (quarters_ == 2 || quarters_ == -2) detent_ = phases;
         quarters_ = 0;
         return step;
     }
@@ -61,7 +74,7 @@ public:
 
 private:
     static bool isDetent(uint8_t phases) { return phases == 0 || phases == 3; }
-    uint8_t stable_ = 3, candidate_ = 3;
+    uint8_t stable_ = 3, candidate_ = 3, detent_ = 3;
     uint32_t candidateAtMs_ = 0, invalidTransitions_ = 0;
     int8_t quarters_ = 0;
     bool synchronized_ = true;

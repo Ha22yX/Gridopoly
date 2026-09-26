@@ -39,8 +39,86 @@ template<class Check> bool runRotaryInputDecoderTests(Check check)
     ok &= check(total == 0 && decoder.invalidTransitions() == 1,
                 "rotary: simultaneous A/B change does not guess a direction");
     sample(2); sample(3);
-    ok &= check(total == -1,
-                "rotary: a legal detent after invalid input resynchronizes correctly");
+    ok &= check(total == 0 && events == 0,
+                "rotary: invalid jump then return to the trusted detent is not a step");
+    sample(2); sample(0);
+    ok &= check(total == 1 && events == 1,
+                "rotary: the next complete half-cycle after recovery counts immediately");
+    reset(0); sample(3); sample(2); sample(0);
+    ok &= check(total == 0 && events == 0,
+                "rotary: invalid-return rejection is symmetric at both detents");
+    sample(2); sample(3); sample(2); sample(0);
+    ok &= check(total == 0 && events == 2,
+                "rotary: legal immediate reversal still counts both steps after recovery");
+    reset(); sample(0); sample(3); sample(0); sample(3);
+    sample(2); sample(0);
+    ok &= check(total == 1 && events == 1 && decoder.invalidTransitions() == 4,
+                "rotary: repeated invalid detent jumps do not discard the next trusted path");
+    reset(); sample(1); sample(2); sample(0);
+    ok &= check(total == 0 && events == 0 && decoder.invalidTransitions() == 1,
+                "rotary: invalid intermediate phases discard the incomplete movement");
+    sample(2); sample(3);
+    ok &= check(total == 0 && events == 0,
+                "rotary: partial recovery cannot replace an existing trusted detent");
+    sample(2); sample(0); sample(2); sample(3);
+    ok &= check(total == 0 && events == 2,
+                "rotary: complete movement and immediate reversal work after partial recovery");
+    reset(0); sample(1); sample(2); sample(3); sample(2); sample(0);
+    ok &= check(total == 0 && events == 0,
+                "rotary: partial recovery preserves the trusted detent in the mirrored direction");
+    reset(); sample(0); sample(2); sample(0); sample(2); sample(3);
+    ok &= check(total == 0 && events == 0,
+                "rotary: zero-net bounce at an invalid endpoint cannot create a trusted detent");
+    sample(2); sample(0); sample(2); sample(3);
+    ok &= check(total == 0 && events == 2,
+                "rotary: complete movement and reversal work after invalid-endpoint bounce");
+    reset(0); sample(3); sample(2); sample(3); sample(2); sample(0);
+    ok &= check(total == 0 && events == 0,
+                "rotary: invalid-endpoint bounce rejection is symmetric at both detents");
+    // Actual COM7 raw records from 2026-09-26, firmware efbe3d08, ms 431493
+    // through 431539. Production originally emitted +1 at 431498 and -1 at
+    // 431539 after the illegal 3 -> 0 at 431502. Missing polls are filled with
+    // the previous raw value at 1 ms; the old decoder matches this excerpt.
+    struct RawRecord { uint32_t at; uint8_t phases; };
+    const RawRecord recorded[] = {
+        {431493, 1}, {431497, 3}, {431498, 3}, {431501, 0},
+        {431502, 0}, {431521, 2}, {431528, 3}, {431529, 2},
+        {431534, 3}, {431535, 2}, {431538, 3}, {431539, 3}
+    };
+    const uint32_t scales[] = {1U, 10U};
+    bool actualTrace = true, mirroredTrace = true, slowTrace = true;
+    for (uint8_t swap = 0; swap < 2; ++swap) {
+        for (uint8_t complement = 0; complement < 2; ++complement) {
+            for (uint32_t scale : scales) {
+                auto transform = [&](uint8_t phase) {
+                    if (swap) phase = ((phase & 1U) << 1U) | ((phase & 2U) >> 1U);
+                    return static_cast<uint8_t>(phase ^ (complement ? 3U : 0U));
+                };
+                decoder.reset(transform(0), 0);
+                int traceTotal = 0, traceEvents = 0;
+                uint8_t raw = 0;
+                uint32_t at = 0;
+                for (const auto &record : recorded) {
+                    const uint32_t target = (record.at - 431492U) * scale;
+                    while (++at < target) {
+                        const int step = decoder.sample(transform(raw), at);
+                        traceTotal += step; traceEvents += step != 0;
+                    }
+                    raw = record.phases;
+                    const int step = decoder.sample(transform(raw), at);
+                    traceTotal += step; traceEvents += step != 0;
+                }
+                const bool pass = traceTotal == (swap ? -1 : 1) && traceEvents == 1 &&
+                    decoder.invalidTransitions() == 1;
+                if (!swap && !complement && scale == 1) actualTrace &= pass;
+                else if (scale == 10) slowTrace &= pass;
+                else mirroredTrace &= pass;
+            }
+        }
+    }
+    ok &= check(actualTrace, "rotary: actual COM7 illegal-return excerpt cannot undo the row change");
+    ok &= check(mirroredTrace, "rotary: captured illegal-return recovery is symmetric in phase and direction");
+    ok &= check(slowTrace, "rotary: captured recovery does not depend on a short reversal timeout");
     reset(1); sample(0);
     ok &= check(total == 0, "rotary: startup between detents emits no partial step");
     sample(2); sample(3);
@@ -77,11 +155,30 @@ template<class Check> bool runRotaryInputDecoderTests(Check check)
     AppState &state = *storage;
     appInit(state, 0);
     state.page = state.nav.current.page = ScreenPage::AvatarSetup;
-    state.focus = state.nav.current.focus = 0;
-    state.identity.editingValue = true;
+    state.focus = state.nav.current.focus = state.identity.focus = 1;
+    state.identity.editingValue = false;
     state.identity.draftInitialized = true;
     state.identity.phase = IdentityClientPhase::AvatarEditing;
     state.identity.draftRecipe.hairPresetId = 1;
+    decoder.reset(0, 431492);
+    uint32_t traceAt = 431492;
+    uint8_t traceRaw = 0;
+    auto dispatchSample = [&](uint8_t raw, uint32_t at) {
+        const int step = decoder.sample(raw, at);
+        if (step) appHandleInput(state,
+            InputEvent{InputKind::Rotate, static_cast<int16_t>(step), at}, at);
+    };
+    for (const auto &record : recorded) {
+        while (++traceAt < record.at) dispatchSample(traceRaw, traceAt);
+        traceRaw = record.phases;
+        dispatchSample(traceRaw, traceAt);
+    }
+    ok &= check(state.focus == 2 && state.nav.current.focus == 2 &&
+                state.identity.focus == 2 && !state.identity.editingValue &&
+                state.identity.draftRecipe.hairPresetId == 1 && state.commandCount == 0,
+                "rotary: actual COM7 recovery preserves the Avatar row without editing a value");
+    state.focus = state.nav.current.focus = state.identity.focus = 0;
+    state.identity.editingValue = true;
     auto apply = [&](uint8_t phasesValue) {
         const int step = sample(phasesValue);
         if (step) appHandleInput(state,
