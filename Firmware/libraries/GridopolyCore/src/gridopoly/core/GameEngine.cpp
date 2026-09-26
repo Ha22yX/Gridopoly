@@ -233,13 +233,33 @@ Result GameEngine::unmortgage(std::uint8_t playerId, std::uint8_t assetIndex) {
   return ok();
 }
 
-Result GameEngine::build(std::uint8_t playerId, std::uint8_t assetIndex) {
+std::uint16_t GameEngine::availableBuildings() const {
+  std::uint16_t used = 0;
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    const auto level = state_.assets[i].buildingLevel;
+    if (level < 5) used += level;
+  }
+  return used < state_.board->buildingStock ? state_.board->buildingStock - used : 0;
+}
+
+std::uint16_t GameEngine::availableLandmarks() const {
+  std::uint16_t used = 0;
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    if (state_.assets[i].buildingLevel == 5) ++used;
+  }
+  return used < state_.board->landmarkStock ? state_.board->landmarkStock - used : 0;
+}
+
+Result GameEngine::canBuild(std::uint8_t playerId, std::uint8_t assetIndex) const {
   if (assetIndex >= state_.board->assetCount) return error(ErrorCode::InvalidArgument, "invalid asset");
-  auto* actor = player(playerId);
-  auto& asset = state_.assets[assetIndex];
+  const auto* actor = player(playerId);
+  const auto& asset = state_.assets[assetIndex];
   const auto& definition = state_.board->assets[assetIndex];
-  if (actor == nullptr || definition.kind != TileKind::Property || asset.ownerId != playerId) {
+  if (actor == nullptr || actor->bankrupt || definition.kind != TileKind::Property || asset.ownerId != playerId) {
     return error(ErrorCode::NotOwner, "not a buildable owned property");
+  }
+  if (state_.phase != GamePhase::AwaitRoll && state_.phase != GamePhase::TurnEnd) {
+    return error(ErrorCode::InvalidPhase, "building requires a stable turn phase");
   }
   if (asset.mortgaged || asset.buildingLevel >= 5 || !ownsCompleteGroup(playerId, definition.group)) {
     return error(ErrorCode::RuleViolation, "group is not buildable");
@@ -255,6 +275,18 @@ Result GameEngine::build(std::uint8_t playerId, std::uint8_t assetIndex) {
     return error(actor->cash < definition.economy.buildingCost ? ErrorCode::NotEnoughCash : ErrorCode::RuleViolation,
                  actor->cash < definition.economy.buildingCost ? "not enough cash" : "build evenly");
   }
+  if (asset.buildingLevel == 4 ? availableLandmarks() == 0 : availableBuildings() == 0) {
+    return error(ErrorCode::RuleViolation, "building stock exhausted");
+  }
+  return ok();
+}
+
+Result GameEngine::build(std::uint8_t playerId, std::uint8_t assetIndex) {
+  const auto allowed = canBuild(playerId, assetIndex);
+  if (!allowed) return allowed;
+  auto* actor = player(playerId);
+  auto& asset = state_.assets[assetIndex];
+  const auto& definition = state_.board->assets[assetIndex];
   actor->cash -= definition.economy.buildingCost;
   asset.buildingLevel++;
   emit(EventKind::BuildingChanged, playerId, 0, assetIndex, -definition.economy.buildingCost, asset.buildingLevel);
@@ -262,13 +294,19 @@ Result GameEngine::build(std::uint8_t playerId, std::uint8_t assetIndex) {
   return ok();
 }
 
-Result GameEngine::sellBuilding(std::uint8_t playerId, std::uint8_t assetIndex) {
+Result GameEngine::canSellBuilding(std::uint8_t playerId, std::uint8_t assetIndex) const {
   if (assetIndex >= state_.board->assetCount) return error(ErrorCode::InvalidArgument, "invalid asset");
-  auto* actor = player(playerId);
-  auto& asset = state_.assets[assetIndex];
+  const auto* actor = player(playerId);
+  const auto& asset = state_.assets[assetIndex];
   const auto& definition = state_.board->assets[assetIndex];
-  if (actor == nullptr || asset.ownerId != playerId || asset.buildingLevel == 0) {
+  if (actor == nullptr || actor->bankrupt || asset.ownerId != playerId ||
+      definition.kind != TileKind::Property || asset.buildingLevel == 0) {
     return error(ErrorCode::RuleViolation, "no building to sell");
+  }
+  if (state_.phase != GamePhase::AwaitRoll && state_.phase != GamePhase::TurnEnd &&
+      !(state_.phase == GamePhase::AwaitDebt && state_.pendingDebt.active &&
+        state_.pendingDebt.debtorId == playerId)) {
+    return error(ErrorCode::InvalidPhase, "sale requires a stable turn phase or own debt");
   }
   std::uint8_t maximum = 0;
   for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
@@ -277,10 +315,72 @@ Result GameEngine::sellBuilding(std::uint8_t playerId, std::uint8_t assetIndex) 
     }
   }
   if (asset.buildingLevel < maximum) return error(ErrorCode::RuleViolation, "sell evenly");
+  if (asset.buildingLevel == 5 && availableBuildings() < 4) {
+    return error(ErrorCode::RuleViolation, "not enough buildings to downgrade landmark");
+  }
+  return ok();
+}
+
+Result GameEngine::sellBuilding(std::uint8_t playerId, std::uint8_t assetIndex) {
+  const auto allowed = canSellBuilding(playerId, assetIndex);
+  if (!allowed) return allowed;
+  auto* actor = player(playerId);
+  auto& asset = state_.assets[assetIndex];
+  const auto& definition = state_.board->assets[assetIndex];
   asset.buildingLevel--;
   const auto proceeds = definition.economy.buildingCost / 2;
   actor->cash += proceeds;
   emit(EventKind::BuildingChanged, playerId, 0, assetIndex, proceeds, asset.buildingLevel);
+  changed();
+  return ok();
+}
+
+Result GameEngine::canLiquidateBuildingGroup(std::uint8_t playerId, std::uint8_t assetIndex) const {
+  if (assetIndex >= state_.board->assetCount) return error(ErrorCode::InvalidArgument, "invalid asset");
+  const auto* actor = player(playerId);
+  const auto& definition = state_.board->assets[assetIndex];
+  if (actor == nullptr || actor->bankrupt || definition.kind != TileKind::Property ||
+      state_.assets[assetIndex].ownerId != playerId || state_.assets[assetIndex].buildingLevel == 0) {
+    return error(ErrorCode::RuleViolation, "no building group to liquidate");
+  }
+  if (state_.phase != GamePhase::AwaitRoll && state_.phase != GamePhase::TurnEnd &&
+      !(state_.phase == GamePhase::AwaitDebt && state_.pendingDebt.active &&
+        state_.pendingDebt.debtorId == playerId)) {
+    return error(ErrorCode::InvalidPhase, "sale requires a stable turn phase or own debt");
+  }
+  // Validate the complete transaction before changing cash, levels or events.
+  // Selling all levels evenly to zero needs no intermediate physical stock.
+  std::int64_t proceeds = 0;
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    if (state_.board->assets[i].kind == TileKind::Property &&
+        state_.board->assets[i].group == definition.group) {
+      if (state_.assets[i].ownerId != playerId) {
+        return error(ErrorCode::NotOwner, "not owner of complete building group");
+      }
+      proceeds += static_cast<std::int64_t>(state_.assets[i].buildingLevel) *
+          (state_.board->assets[i].economy.buildingCost / 2);
+    }
+  }
+  if (proceeds + actor->cash > std::numeric_limits<std::int32_t>::max()) {
+    return error(ErrorCode::RuleViolation, "cash limit exceeded");
+  }
+  return ok();
+}
+
+Result GameEngine::liquidateBuildingGroup(std::uint8_t playerId, std::uint8_t assetIndex) {
+  const auto allowed = canLiquidateBuildingGroup(playerId, assetIndex);
+  if (!allowed) return allowed;
+  auto* actor = player(playerId);
+  const auto& definition = state_.board->assets[assetIndex];
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    const auto& property = state_.board->assets[i];
+    auto& asset = state_.assets[i];
+    if (property.kind != TileKind::Property || property.group != definition.group || asset.buildingLevel == 0) continue;
+    const auto proceeds = asset.buildingLevel * (property.economy.buildingCost / 2);
+    asset.buildingLevel = 0;
+    actor->cash += proceeds;
+    emit(EventKind::BuildingChanged, playerId, 0, i, proceeds, 0);
+  }
   changed();
   return ok();
 }
@@ -349,7 +449,7 @@ Result GameEngine::declareBankruptcy(std::uint8_t playerId) {
   if (debtor == nullptr) return error(ErrorCode::InvalidPlayer, "invalid debtor");
   bankrupt(*debtor, creditorId);
   if (cardDebt) completePendingCard(0, CardEffectOutcome::Bankrupt, false);
-  if (state_.phase != GamePhase::GameOver) state_.phase = GamePhase::TurnEnd;
+  finishLanding(*debtor);
   changed();
   return ok();
 }
@@ -796,6 +896,35 @@ std::size_t GameEngine::runTradeBots(std::uint64_t nowEpochMs, std::size_t maxAc
   return actions;
 }
 
+bool GameEngine::manageBotAssets(PlayerState& actor) {
+  if (actor.controller != ControllerKind::Bot || actor.bankrupt || actor.id != state_.activePlayerId ||
+      (state_.phase != GamePhase::AwaitRoll && state_.phase != GamePhase::TurnEnd)) return false;
+
+  // Keep one start award (or two hold fees) liquid. Each invocation commits at
+  // most one asset action; runBots counts it against the caller's action budget.
+  const auto reserve = std::max<std::int64_t>(state_.board->startAward,
+      static_cast<std::int64_t>(state_.board->holdReleaseFee) * 2);
+  const auto budget = static_cast<std::int64_t>(actor.cash) - reserve;
+  if (budget <= 0) return false;
+
+  // Restore rent-producing deeds first, including mortgages that block a whole
+  // group's development. A successful redemption cannot repeat on that deed.
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    const auto& asset = state_.assets[i];
+    if (asset.ownerId != actor.id || !asset.mortgaged) continue;
+    const auto value = static_cast<std::int64_t>(state_.board->assets[i].economy.mortgageValue);
+    if (value + (value + 9) / 10 <= budget && unmortgage(actor.id, i)) return true;
+  }
+  // canBuild shares the human rules, including balanced levels, ownership,
+  // mortgages and the actual common stock. No stock/affordable action means
+  // the caller immediately proceeds to rolling or ending the turn.
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    if (state_.board->assets[i].economy.buildingCost <= budget &&
+        canBuild(actor.id, i) && build(actor.id, i)) return true;
+  }
+  return false;
+}
+
 std::size_t GameEngine::runBots(std::size_t maxActions) {
   std::size_t actions = 0;
   while (actions < maxActions && state_.phase != GamePhase::Lobby && state_.phase != GamePhase::GameOver) {
@@ -804,6 +933,7 @@ std::size_t GameEngine::runBots(std::size_t maxActions) {
     Result result = ok();
     switch (state_.phase) {
       case GamePhase::AwaitRoll:
+        if (manageBotAssets(*actor)) break;
         result = roll(actor->id);
         break;
       case GamePhase::AwaitMoveConfirm:
@@ -832,19 +962,7 @@ std::size_t GameEngine::runBots(std::size_t maxActions) {
           result = payDebt(actor->id);
           break;
         }
-        bool raised = false;
-        for (std::uint8_t i = 0; i < state_.board->assetCount && !raised; ++i) {
-          if (state_.assets[i].ownerId == actor->id && state_.assets[i].buildingLevel != 0) {
-            raised = static_cast<bool>(sellBuilding(actor->id, i));
-          }
-        }
-        for (std::uint8_t i = 0; i < state_.board->assetCount && !raised; ++i) {
-          if (state_.assets[i].ownerId == actor->id && !state_.assets[i].mortgaged &&
-              state_.assets[i].buildingLevel == 0) {
-            raised = static_cast<bool>(mortgage(actor->id, i));
-          }
-        }
-        if (raised) {
+        if (raiseBotCash(actor->id)) {
           actions++;
           continue;
         }
@@ -852,6 +970,7 @@ std::size_t GameEngine::runBots(std::size_t maxActions) {
         break;
       }
       case GamePhase::TurnEnd:
+        if (manageBotAssets(*actor)) break;
         result = endTurn(actor->id);
         break;
       default:
@@ -871,7 +990,13 @@ std::uint32_t GameEngine::actionsFor(std::uint8_t playerId) const {
     if (state_.pendingDebt.active && state_.pendingDebt.debtorId == playerId) {
       if (actor->cash >= state_.pendingDebt.amount) result |= ActionPayDebt;
       if (maximumLiquidationCash(playerId) < state_.pendingDebt.amount) result |= ActionDeclareBankruptcy;
-      result |= ActionMortgage | ActionSellBuilding;
+      result |= ActionMortgage;
+      for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+        if (canSellBuilding(playerId, i) || canLiquidateBuildingGroup(playerId, i)) {
+          result |= ActionSellBuilding;
+          break;
+        }
+      }
     }
     return result;
   }
@@ -909,7 +1034,11 @@ std::uint32_t GameEngine::actionsFor(std::uint8_t playerId) const {
       result |= ActionEndTurn;
     }
   }
-  result |= ActionMortgage | ActionUnmortgage | ActionBuild | ActionSellBuilding;
+  result |= ActionMortgage | ActionUnmortgage;
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    if (canBuild(playerId, i)) result |= ActionBuild;
+    if (canSellBuilding(playerId, i) || canLiquidateBuildingGroup(playerId, i)) result |= ActionSellBuilding;
+  }
   if (tradeMutationPhaseAllowed()) result |= ActionTrade;
   return result;
 }
@@ -1181,8 +1310,14 @@ void GameEngine::completePendingCard(std::int32_t amount, CardEffectOutcome outc
 
 void GameEngine::finishLanding(PlayerState& actor) {
   if (state_.phase == GamePhase::GameOver) return;
+  // A bankrupt actor cannot issue EndTurn. Finish its turn exactly once and
+  // never let an old landing continuation overwrite the next player's phase.
+  if (actor.id != state_.activePlayerId) return;
   state_.pendingPurchase = {};
-  if (actor.bankrupt || actor.inHold || actor.doublesStreak == 0) state_.phase = GamePhase::TurnEnd;
+  if (actor.bankrupt) {
+    emit(EventKind::TurnEnded, actor.id);
+    advanceTurn();
+  } else if (actor.inHold || actor.doublesStreak == 0) state_.phase = GamePhase::TurnEnd;
   else state_.phase = GamePhase::AwaitRoll;
 }
 
@@ -1286,29 +1421,19 @@ bool GameEngine::transferPayment(PlayerState& payer, std::uint8_t creditorId, st
                                  DebtContinuation continuation, std::uint8_t dieA, std::uint8_t dieB,
                                  std::int32_t* settledAmount) {
   if (settledAmount != nullptr) *settledAmount = 0;
-  if (amount <= 0 || payer.bankrupt) return true;
+  if (payer.bankrupt) return false;
+  if (amount <= 0) return true;
+  const auto previousPhase = state_.phase;
+  state_.pendingDebt = {true, payer.id, creditorId, assetIndex, eventKind, continuation, dieA, dieB, amount};
+  state_.phase = GamePhase::AwaitDebt;
   if (payer.controller != ControllerKind::Bot) {
-    state_.pendingDebt = {true, payer.id, creditorId, assetIndex, eventKind, continuation, dieA, dieB, amount};
-    state_.phase = GamePhase::AwaitDebt;
     emit(EventKind::DebtOpened, payer.id, creditorId, assetIndex, amount);
     return false;
   }
 
-  while (payer.cash < amount) {
-    bool raised = false;
-    for (std::uint8_t i = 0; i < state_.board->assetCount && !raised; ++i) {
-      if (state_.assets[i].ownerId == payer.id && state_.assets[i].buildingLevel != 0) {
-        raised = static_cast<bool>(sellBuilding(payer.id, i));
-      }
-    }
-    for (std::uint8_t i = 0; i < state_.board->assetCount && !raised; ++i) {
-      if (state_.assets[i].ownerId == payer.id && !state_.assets[i].mortgaged &&
-          state_.assets[i].buildingLevel == 0) {
-        raised = static_cast<bool>(mortgage(payer.id, i));
-      }
-    }
-    if (!raised) break;
-  }
+  while (payer.cash < amount && raiseBotCash(payer.id)) {}
+  state_.pendingDebt = {};
+  state_.phase = previousPhase;
 
   const auto paid = std::min(amount, payer.cash);
   payer.cash -= paid;
@@ -1319,8 +1444,34 @@ bool GameEngine::transferPayment(PlayerState& payer, std::uint8_t creditorId, st
   if (eventKind != EventKind::CardApplied) {
     emit(eventKind, payer.id, creditorId, assetIndex, paid);
   }
-  if (paid < amount) bankrupt(payer, creditorId);
+  if (paid < amount) {
+    bankrupt(payer, creditorId);
+    if (eventKind == EventKind::CardApplied) {
+      completePendingCard(paid, CardEffectOutcome::Bankrupt, false);
+    }
+    finishLanding(payer);
+    // Bankruptcy is not a successful payment: in particular the third failed
+    // hold roll must not release/move this actor after the next turn starts.
+    return false;
+  }
   return true;
+}
+
+bool GameEngine::raiseBotCash(std::uint8_t playerId) {
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    if (canSellBuilding(playerId, i) && sellBuilding(playerId, i)) return true;
+  }
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    const auto& asset = state_.assets[i];
+    if (asset.ownerId == playerId && !asset.mortgaged && asset.buildingLevel == 0 &&
+        mortgage(playerId, i)) return true;
+  }
+  // A bank with fewer than four buildings cannot perform a landmark downgrade.
+  // The atomic group sale remains legal and avoids a solvent bot getting stuck.
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    if (canLiquidateBuildingGroup(playerId, i) && liquidateBuildingGroup(playerId, i)) return true;
+  }
+  return false;
 }
 
 void GameEngine::resumeDebtContinuation(const PendingDebt& debt) {
@@ -1353,10 +1504,25 @@ std::int32_t GameEngine::maximumLiquidationCash(std::uint8_t playerId) const {
 }
 
 void GameEngine::bankrupt(PlayerState& debtor, std::uint8_t creditorId) {
+  // Buildings are sold to the bank before the remaining estate changes owner.
+  // This is one bankruptcy transaction and does not require intermediate stock
+  // for landmark downgrades. Mortgage status still follows the underlying deed.
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    auto& asset = state_.assets[i];
+    if (asset.ownerId != debtor.id || asset.buildingLevel == 0) continue;
+    const auto proceeds = asset.buildingLevel * (state_.board->assets[i].economy.buildingCost / 2);
+    asset.buildingLevel = 0;
+    debtor.cash += proceeds;
+    emit(EventKind::BuildingChanged, debtor.id, 0, i, proceeds, 0);
+  }
   const auto remainingCash = debtor.cash;
   debtor.bankrupt = true;
   debtor.inHold = false;
+  debtor.doublesStreak = 0;
   debtor.cash = 0;
+  if (state_.pendingDebt.debtorId == debtor.id) state_.pendingDebt = {};
+  if (state_.pendingMove.playerId == debtor.id) state_.pendingMove = {};
+  if (state_.pendingPurchase.playerId == debtor.id) state_.pendingPurchase = {};
   if (remainingCash > 0 && creditorId != 0) {
     if (auto* creditor = player(creditorId)) creditor->cash += remainingCash;
   }

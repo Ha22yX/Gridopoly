@@ -7,6 +7,8 @@
 
 using namespace gridopoly::core;
 
+#include "core_rule_regression_tests.h"
+
 int main() {
   assert(BoardCatalog::count() == 4);
   assert(BoardCatalog::findBySize(16)->assetCount == 9);
@@ -381,6 +383,7 @@ int main() {
   assert(insolventHistory.entries[latestFinancialIndex].kind == EventKind::CardApplied);
   assert(insolventHistory.entries[latestFinancialIndex].amount == -10);
 
+  core_rule_regression::run();
   std::cout << "GRIDOPOLY_CORE_TESTS_PASS\n";
   return 0;
 }

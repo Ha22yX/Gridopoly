@@ -22,6 +22,14 @@ class GameEngine {
   Result unmortgage(std::uint8_t playerId, std::uint8_t assetIndex);
   Result build(std::uint8_t playerId, std::uint8_t assetIndex);
   Result sellBuilding(std::uint8_t playerId, std::uint8_t assetIndex);
+  Result canBuild(std::uint8_t playerId, std::uint8_t assetIndex) const;
+  Result canSellBuilding(std::uint8_t playerId, std::uint8_t assetIndex) const;
+  Result canLiquidateBuildingGroup(std::uint8_t playerId, std::uint8_t assetIndex) const;
+  // Atomically sells a whole group, including landmarks when the bank cannot
+  // supply the four buildings required by a single-level downgrade.
+  Result liquidateBuildingGroup(std::uint8_t playerId, std::uint8_t assetIndex);
+  std::uint16_t availableBuildings() const;
+  std::uint16_t availableLandmarks() const;
   Result continueCard(std::uint8_t playerId, std::uint16_t cardInstanceId);
   Result payDebt(std::uint8_t playerId);
   Result declareBankruptcy(std::uint8_t playerId);
@@ -81,6 +89,8 @@ class GameEngine {
                        std::int32_t* settledAmount = nullptr);
   void resumeDebtContinuation(const PendingDebt& debt);
   std::int32_t maximumLiquidationCash(std::uint8_t playerId) const;
+  bool raiseBotCash(std::uint8_t playerId);
+  bool manageBotAssets(PlayerState& actor);
   void bankrupt(PlayerState& debtor, std::uint8_t creditorId);
   void checkGameOver();
   void advanceTurn();
