@@ -14,6 +14,8 @@
 #include <gridopoly/protocol/UdpEnvelope.h>
 
 #include "AuthorityService.h"
+#include <map>
+#include <set>
 
 namespace gridopoly::pi {
 
@@ -89,6 +91,7 @@ class UdpPlayerServer {
     std::uint32_t roomId{};
     std::uint32_t deviceId{};
     std::uint32_t deviceNonce{};
+    std::uint32_t capabilities{};
     std::uint8_t seatId{};
     sockaddr_in endpoint{};
     std::array<std::uint8_t, gridopoly::protocol::kUdpKeySize> key{};
@@ -125,6 +128,12 @@ class UdpPlayerServer {
   std::string broadcastAddress_;
   std::uint16_t port_{};
   std::array<std::uint8_t, gridopoly::protocol::kUdpKeySize> pairKey_{};
+  struct PairingReplay {
+    std::uint32_t nonce{}, roomId{};
+    gridopoly::protocol::UdpReplayWindow window{};
+    std::set<std::uint32_t> retiredNonces;
+  };
+  std::map<std::uint32_t, PairingReplay> pairingReplay_;
   std::array<Session, 6> sessions_{};
   std::array<RegistryEntry, 6> registry_{};
   std::thread thread_{};
@@ -179,6 +188,8 @@ class UdpPlayerServer {
   bool sendTradeResync(Session& session);
   bool sendTradeNotification(Session& session, std::uint32_t tradeId);
   bool sendIdentity(Session& session, bool resync);
+  bool sendTagPairing(Session& session, bool resync);
+  void processTagPairing(Session& session, const gridopoly::protocol::DecodedFrame& frame);
   bool sendPendingCard(Session& session, bool resync);
   bool sendSnapshot(Session& session, bool resync);
   bool sendAuthority(Session& session, bool resync);

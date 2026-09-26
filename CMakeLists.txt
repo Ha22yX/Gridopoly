@@ -107,6 +107,31 @@ if(GRIDOPOLY_BUILD_TESTS)
   target_link_libraries(gridopoly_tile_debug_assignment_tests PRIVATE gridopoly_tile_debug)
   add_test(NAME gridopoly_tile_debug_assignment_tests
     COMMAND gridopoly_tile_debug_assignment_tests)
+  add_executable(gridopoly_tag_pairing_model_tests tests/host/tag_pairing_model_tests.cpp)
+  target_include_directories(gridopoly_tag_pairing_model_tests PRIVATE Server/RaspberryPi/src)
+  target_link_libraries(gridopoly_tag_pairing_model_tests PRIVATE gridopoly_protocol)
+  target_compile_features(gridopoly_tag_pairing_model_tests PRIVATE cxx_std_17)
+  add_test(NAME gridopoly_tag_pairing_model_tests COMMAND gridopoly_tag_pairing_model_tests)
+
+  add_executable(gridopoly_tag_pairing_authority_tests
+    tests/host/tag_pairing_authority_tests.cpp
+    Server/RaspberryPi/src/AuthorityService.cpp
+    Server/RaspberryPi/src/FileStateStore.cpp)
+  target_include_directories(gridopoly_tag_pairing_authority_tests PRIVATE Server/RaspberryPi/src Firmware/TestGameServer/src)
+  target_link_libraries(gridopoly_tag_pairing_authority_tests PRIVATE
+    gridopoly_core gridopoly_protocol gridopoly_server_projection gridopoly_identity gridopoly_avatar_renderer)
+  target_compile_features(gridopoly_tag_pairing_authority_tests PRIVATE cxx_std_17)
+  target_compile_definitions(gridopoly_tag_pairing_authority_tests PRIVATE
+    _CRT_SECURE_NO_WARNINGS GRIDOPOLY_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
+  if(MSVC)
+    target_compile_options(gridopoly_tag_pairing_model_tests PRIVATE /W4 /WX)
+    target_compile_options(gridopoly_tag_pairing_authority_tests PRIVATE /W4 /WX)
+  else()
+    target_compile_options(gridopoly_tag_pairing_model_tests PRIVATE -Wall -Wextra -Werror)
+    target_compile_options(gridopoly_tag_pairing_authority_tests PRIVATE -Wall -Wextra -Werror)
+  endif()
+  add_test(NAME gridopoly_tag_pairing_authority_tests COMMAND gridopoly_tag_pairing_authority_tests)
+
   add_executable(gridopoly_identity_model_tests tests/host/identity_model_tests.cpp)
   target_link_libraries(gridopoly_identity_model_tests PRIVATE gridopoly_identity)
   add_test(NAME gridopoly_identity_model_tests COMMAND gridopoly_identity_model_tests)
@@ -205,6 +230,20 @@ if(UNIX AND NOT APPLE)
   install(TARGETS gridopoly_server RUNTIME DESTINATION bin)
 
   if(GRIDOPOLY_BUILD_TESTS)
+    add_executable(gridopoly_onboarding_network_tests
+      tests/host/onboarding_network_tests.cpp
+      Server/RaspberryPi/src/AuthorityService.cpp Server/RaspberryPi/src/FileStateStore.cpp
+      Server/RaspberryPi/src/UdpPlayerServer.cpp Server/RaspberryPi/src/HttpServer.cpp)
+    target_include_directories(gridopoly_onboarding_network_tests PRIVATE
+      Server/RaspberryPi/src Firmware/TestGameServer/src)
+    target_link_libraries(gridopoly_onboarding_network_tests PRIVATE
+      gridopoly_core gridopoly_protocol gridopoly_server_projection gridopoly_identity
+      gridopoly_avatar_renderer gridopoly_tile_debug pthread)
+    target_compile_features(gridopoly_onboarding_network_tests PRIVATE cxx_std_17)
+    target_compile_definitions(gridopoly_onboarding_network_tests PRIVATE GRIDOPOLY_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
+    target_compile_options(gridopoly_onboarding_network_tests PRIVATE -Wall -Wextra -Werror)
+    add_test(NAME gridopoly_onboarding_network_tests COMMAND gridopoly_onboarding_network_tests)
+
     add_executable(gridopoly_udp_server_integration_tests
       tests/host/udp_server_integration_tests.cpp
       Server/RaspberryPi/src/AuthorityService.cpp

@@ -384,6 +384,10 @@ bool AuthorityService::initialize() {
   observedVersion_ = engine_.state().stateVersion;
   noteChangedLocked();
   lastBotAt_ = std::chrono::steady_clock::now();
+  if (!restored || identity_.humanCount > 4) { automaticPlayers_ = false; frozenDevices_ = {}; }
+  tagPairing_.begin(roomId_, automaticPlayers_ ? identity_.humanCount : 0, playerTagUids_, randomNonZero);
+  if (automaticPlayers_) tagPairing_.restoreRemovals(tagReaderOrigins_, pendingTagRemovalMask_, playerTagUids_);
+  observedTagPairRevision_ = tagPairing_.revision();
   maybeActivateIdentityRoomLocked();
   return saveMetadataLocked();
 }
@@ -464,6 +468,33 @@ bool AuthorityService::loadMetadataLocked() {
     } else {
       movementCueGate_ = MovementCueGateState{};
     }
+    std::uint32_t onboardingMagic = 0;
+    std::uint8_t automatic = 0;
+    std::array<ConsoleDeviceInfo, 4> frozen{};
+    input.read(reinterpret_cast<char*>(&onboardingMagic), sizeof(onboardingMagic));
+    if (!input || onboardingMagic != 0x31424E4Fu) return true;  // "ONB1".
+    input.read(reinterpret_cast<char*>(&automatic), sizeof(automatic));
+    for (auto& device : frozen) {
+      std::array<char, 17> name{};
+      input.read(reinterpret_cast<char*>(&device.deviceId), sizeof(device.deviceId));
+      input.read(reinterpret_cast<char*>(&device.capabilities), sizeof(device.capabilities));
+      input.read(name.data(), 16); device.displayName = name.data();
+    }
+    if (input && automatic <= 1) {
+      automaticPlayers_ = automatic != 0; frozenDevices_ = frozen;
+      for (const auto& device : frozen) if (device.deviceId) consoleDevices_[device.deviceId] = device;
+      std::uint32_t removalMagic = 0; std::uint8_t removalMask = 0;
+      std::array<std::string, 4> origins;
+      input.read(reinterpret_cast<char*>(&removalMagic), sizeof(removalMagic));
+      if (!input || removalMagic != 0x31444E50u) return true;  // "PND1".
+      input.read(reinterpret_cast<char*>(&removalMask), sizeof(removalMask));
+      for (auto& origin : origins) {
+        std::array<char, 33> id{}; input.read(id.data(), 32); origin = id.data();
+      }
+      if (input && (removalMask & 0xF0u) == 0) {
+        tagReaderOrigins_ = origins; pendingTagRemovalMask_ = removalMask;
+      }
+    }
     return true;
   }
   roomId_ = randomNonZero();
@@ -507,6 +538,24 @@ bool AuthorityService::saveMetadataLocked() const {
                sizeof(movementCueGate_.originTile));
   output.write(reinterpret_cast<const char*>(&movementCueGate_.targetTile),
                sizeof(movementCueGate_.targetTile));
+  const std::uint32_t onboardingMagic = 0x31424E4Fu;
+  const std::uint8_t automatic = automaticPlayers_ ? 1 : 0;
+  output.write(reinterpret_cast<const char*>(&onboardingMagic), sizeof(onboardingMagic));
+  output.write(reinterpret_cast<const char*>(&automatic), sizeof(automatic));
+  for (const auto& device : frozenDevices_) {
+    std::array<char, 16> name{};
+    std::memcpy(name.data(), device.displayName.data(), std::min(name.size(), device.displayName.size()));
+    output.write(reinterpret_cast<const char*>(&device.deviceId), sizeof(device.deviceId));
+    output.write(reinterpret_cast<const char*>(&device.capabilities), sizeof(device.capabilities));
+    output.write(name.data(), name.size());
+  }
+  const std::uint32_t removalMagic = 0x31444E50u;
+  output.write(reinterpret_cast<const char*>(&removalMagic), sizeof(removalMagic));
+  output.write(reinterpret_cast<const char*>(&pendingTagRemovalMask_), sizeof(pendingTagRemovalMask_));
+  for (const auto& origin : tagReaderOrigins_) {
+    std::array<char, 32> id{}; std::memcpy(id.data(), origin.data(), std::min(origin.size(), id.size()));
+    output.write(id.data(), id.size());
+  }
   output.flush();
   if (!output) return false;
   output.close();
@@ -545,6 +594,7 @@ bool AuthorityService::flushLocked() {
 
 void AuthorityService::maybeStartIdentityCountdownLocked() {
   if (identity_.phase != IdentityRoomPhase::AvatarSetup || identity_.playerCount == 0) return;
+  if (tagPairing_.enabled() && tagPairing_.state() != TagPairState::Complete) return;
   for (std::uint8_t index = 0; index < identity_.playerCount; ++index) {
     if (!identity_.seats[index].ready) return;
   }
@@ -575,6 +625,8 @@ void AuthorityService::tick() {
   std::lock_guard<std::mutex> lock(mutex_);
   const auto now = std::chrono::steady_clock::now();
   drainAvatarCompletionsLocked();
+  tagPairing_.tick(epochClock_(), playerTagUids_);
+  tagPairChangedLocked();
   maybeStartIdentityCountdownLocked();
   maybeActivateIdentityRoomLocked();
   engine_.expireTrades(unixEpochMs());
@@ -608,6 +660,8 @@ Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t botCount) 
   std::lock_guard<std::mutex> lock(mutex_);
   const auto* board = BoardCatalog::findBySize(boardSize);
   if (board == nullptr || botCount > 5) return error(ErrorCode::InvalidArgument, "unsupported board or bot count");
+  automaticPlayers_ = false; frozenDevices_ = {};
+  tagPairing_.begin(roomId_ + 1, 0, playerTagUids_, randomNonZero);
   ++roomId_;
   if (roomId_ == 0) roomId_ = 1;
   auto result = engine_.reset(*board, randomNonZero());
@@ -646,6 +700,11 @@ Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t botCount) 
 Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t humanCount,
                                  std::uint8_t botCount) {
   std::lock_guard<std::mutex> lock(mutex_);
+  return newIdentityGameLocked(boardSize, humanCount, botCount, {}, false);
+}
+
+Result AuthorityService::newIdentityGameLocked(std::uint8_t boardSize, std::uint8_t humanCount,
+    std::uint8_t botCount, const std::array<ConsoleDeviceInfo, 4>& devices, bool automatic) {
   const auto* board = BoardCatalog::findBySize(boardSize);
   const auto playerCountWide = static_cast<unsigned>(humanCount) + botCount;
   if (board == nullptr || humanCount == 0 || humanCount > 6 || botCount > 5 ||
@@ -659,6 +718,7 @@ Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t humanCount
 
   ++roomId_;
   if (roomId_ == 0) roomId_ = 1;
+  automaticPlayers_ = automatic; frozenDevices_ = devices;
   const auto roomSeed = randomNonZero();
   auto result = engine_.reset(*board, roomSeed);
   for (std::uint8_t index = 0; result && index < humanCount; ++index) {
@@ -691,6 +751,8 @@ Result AuthorityService::newGame(std::uint8_t boardSize, std::uint8_t humanCount
   ++controlVersion_;
   if (controlVersion_ == 0) controlVersion_ = 1;
   clearPlayerTagBindingsLocked();
+  tagPairing_.begin(roomId_, automatic ? humanCount : 0, playerTagUids_, randomNonZero);
+  observedTagPairRevision_ = tagPairing_.revision();
   store_.clear();
   identityStore_.clear();
   persistedVersion_ = 0;
@@ -741,7 +803,10 @@ Result AuthorityService::executeLocked(ActionCode action, std::uint8_t playerId,
     case ActionCode::Mortgage: return engine_.mortgage(playerId, assetIndex);
     case ActionCode::Unmortgage: return engine_.unmortgage(playerId, assetIndex);
     case ActionCode::Build: return engine_.build(playerId, assetIndex);
-    case ActionCode::SellBuilding: return engine_.sellBuilding(playerId, assetIndex);
+    case ActionCode::SellBuilding:
+      if (argument == 0) return engine_.sellBuilding(playerId, assetIndex);
+      if (argument == 1) return engine_.liquidateBuildingGroup(playerId, assetIndex);
+      return error(ErrorCode::InvalidArgument, "sell argument must be 0 (one level) or 1 (entire group)");
     case ActionCode::PayDebt: return engine_.payDebt(playerId);
     case ActionCode::DeclareBankruptcy: return engine_.declareBankruptcy(playerId);
     case ActionCode::AuctionBid: return engine_.auctionBid(playerId, argument);
@@ -967,6 +1032,8 @@ void AuthorityService::projectIdentityLocked(std::uint8_t sourceSeat,
     output.selfStage = IdentitySeatStage::Active;
   } else if (identity_.phase == IdentityRoomPhase::Countdown) {
     output.selfStage = IdentitySeatStage::Countdown;
+  } else if (self.human && !tagPairing_.canEdit(sourceSeat, playerTagUids_)) {
+    output.selfStage = IdentitySeatStage::TagPairing;
   } else if (self.avatarGenerating) {
     output.selfStage = IdentitySeatStage::AvatarGenerating;
   } else if (!self.avatarFinal) {
@@ -1029,7 +1096,8 @@ void AuthorityService::handleIdentityRequest(std::uint8_t sourceSeat,
 
   auto result = IdentityResultCode::Ok;
   if (request.operation != IdentityOperation::Query) {
-    if (identity_.phase != IdentityRoomPhase::AvatarSetup) {
+    if (identity_.phase != IdentityRoomPhase::AvatarSetup ||
+        !tagPairing_.canEdit(sourceSeat, playerTagUids_)) {
       result = IdentityResultCode::NotAllowed;
     } else if (request.expectedStateVersion != engine_.state().stateVersion) {
       result = IdentityResultCode::StateVersionStale;
@@ -1291,6 +1359,222 @@ bool AuthorityService::makeTradeNotification(std::uint8_t sourceSeat, std::uint3
   return true;
 }
 
+bool AuthorityService::observeConsoleDevice(std::uint32_t deviceId, const PairRequest& request) {
+  if (!deviceId) return false;
+  std::string name(request.displayName, strnlen(request.displayName, 16));
+  if (request.capabilities & kCapabilityTagPairing) {
+    if (name.size() != 15 || name.compare(0, 3, "GP-") != 0) return false;
+    std::uint32_t hash = 2166136261u;
+    auto hex = [](char c) -> int {
+      if (c >= '0' && c <= '9') return c - '0';
+      if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+      if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+      return -1;
+    };
+    for (unsigned i = 3; i < 15; i += 2) {
+      const int high = hex(name[i]), low = hex(name[i + 1]);
+      if (high < 0 || low < 0) return false;
+      hash ^= static_cast<std::uint8_t>((high << 4) | low); hash *= 16777619u;
+    }
+    if ((hash == 0 ? 1 : hash) != deviceId) return false;
+    for (unsigned i = 3; i < 15; ++i) if (name[i] >= 'a' && name[i] <= 'f') name[i] -= 'a' - 'A';
+  }
+  std::lock_guard<std::mutex> lock(mutex_);
+  auto found = consoleDevices_.find(deviceId);
+  if (found != consoleDevices_.end()) {
+    auto& prior = found->second;
+    if (prior.collision) return false;
+    if ((prior.capabilities & kCapabilityTagPairing) &&
+        (!(request.capabilities & kCapabilityTagPairing) || prior.displayName != name)) {
+      prior.collision = true; return false;
+    }
+  } else {
+    if (consoleDevices_.size() >= 64) return false;
+    found = consoleDevices_.emplace(deviceId, ConsoleDeviceInfo{}).first;
+  }
+  found->second = {deviceId, request.capabilities, name, epochClock_(), false};
+  return true;
+}
+
+void AuthorityService::touchConsoleDevice(std::uint32_t deviceId) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  const auto device = consoleDevices_.find(deviceId);
+  if (device != consoleDevices_.end() && !device->second.collision)
+    device->second.lastSeenMs = epochClock_();
+}
+
+bool AuthorityService::automaticPlayers() const {
+  std::lock_guard<std::mutex> lock(mutex_); return automaticPlayers_;
+}
+
+std::uint8_t AuthorityService::frozenSeatForDevice(std::uint32_t deviceId) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  if (!automaticPlayers_ || !deviceId) return 0;
+  const auto device = consoleDevices_.find(deviceId);
+  if (device == consoleDevices_.end() || device->second.collision) return 0;
+  for (std::uint8_t i = 0; i < frozenDevices_.size(); ++i)
+    if (frozenDevices_[i].deviceId == deviceId &&
+        frozenDevices_[i].displayName == device->second.displayName) return i + 1;
+  return 0;
+}
+
+Result AuthorityService::newAutoGame(std::uint8_t boardSize) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  if (boardSize != 32) return error(ErrorCode::InvalidArgument, "automatic_players_require_32_tiles");
+  const auto now = epochClock_();
+  std::array<ConsoleDeviceInfo, 4> selected{};
+  std::uint8_t count = 0;
+  for (const auto& pair : consoleDevices_) {
+    const auto& d = pair.second;
+    if (d.collision || !(d.capabilities & kCapabilityTagPairing) || !d.lastSeenMs ||
+        now < d.lastSeenMs || now - d.lastSeenMs >= 15000) continue;
+    if (count == 4) return error(ErrorCode::RuleViolation, "too_many_players");
+    selected[count++] = d;
+  }
+  if (!count) return error(ErrorCode::RuleViolation, "no_eligible_players");
+  return newIdentityGameLocked(boardSize, count, static_cast<std::uint8_t>(4 - count), selected, true);
+}
+
+std::string AuthorityService::devicesJsonLocked(bool frozen) const {
+  std::ostringstream out; out << '[';
+  const auto now = epochClock_(); bool first = true;
+  auto append = [&](const ConsoleDeviceInfo& d, unsigned seat) {
+    if (!d.deviceId) return;
+    const auto live = consoleDevices_.find(d.deviceId);
+    const bool online = live != consoleDevices_.end() && !live->second.collision &&
+        live->second.lastSeenMs && now >= live->second.lastSeenMs && now - live->second.lastSeenMs < 15000;
+    if (!first) out << ',';
+    first = false;
+    out << "{\"deviceId\":" << d.deviceId << ",\"displayName\":";
+    appendJsonString(out, d.displayName.c_str());
+    out << ",\"online\":" << (online ? "true" : "false") << ",\"seatId\":" << seat
+        << ",\"capabilities\":" << d.capabilities
+        << ",\"eligible\":" << (online && (d.capabilities & kCapabilityTagPairing) ? "true" : "false") << '}';
+  };
+  if (frozen) {
+    if (automaticPlayers_) for (unsigned i = 0; i < frozenDevices_.size(); ++i) append(frozenDevices_[i], i + 1);
+  } else for (const auto& pair : consoleDevices_) {
+    unsigned seat = 0;
+    if (automaticPlayers_) for (unsigned i = 0; i < frozenDevices_.size(); ++i)
+      if (frozenDevices_[i].deviceId == pair.first) seat = i + 1;
+    append(pair.second, seat);
+  }
+  out << ']'; return out.str();
+}
+
+std::string AuthorityService::playerDevicesJson() const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return "{\"maxPlayers\":4,\"devices\":" + devicesJsonLocked(false) + '}';
+}
+
+bool AuthorityService::commitPairedTagLocked(std::uint8_t player, std::uint32_t uid) {
+  if (!automaticPlayers_ || identity_.phase != IdentityRoomPhase::AvatarSetup ||
+      player == 0 || player > identity_.humanCount || uid == 0 ||
+      playerTagUids_[player - 1] != 0 ||
+      std::find(playerTagUids_.begin(), playerTagUids_.end(), uid) != playerTagUids_.end()) return false;
+  const auto priorRevision = tagBindingRevision_;
+  const auto priorOrigin = tagReaderOrigins_[player - 1]; const auto priorRemoval = pendingTagRemovalMask_;
+  const auto pairing = tagPairing_.snapshot(0, playerTagUids_, epochClock_());
+  tagReaderOrigins_[player - 1] = pairing.moduleId.data();
+  pendingTagRemovalMask_ |= static_cast<std::uint8_t>(1u << (player - 1));
+  playerTagUids_[player - 1] = uid; tagBindingRevision_ = nextRevision(tagBindingRevision_);
+  if (!saveMetadataLocked()) {
+    playerTagUids_[player - 1] = 0; tagBindingRevision_ = priorRevision;
+    tagReaderOrigins_[player - 1] = priorOrigin; pendingTagRemovalMask_ = priorRemoval; return false;
+  }
+  return true;
+}
+
+bool AuthorityService::commitTagRemovalLocked(const std::string& module) {
+  const auto prior = pendingTagRemovalMask_;
+  for (unsigned i = 0; i < tagReaderOrigins_.size(); ++i) if (tagReaderOrigins_[i] == module)
+    pendingTagRemovalMask_ &= static_cast<std::uint8_t>(~(1u << i));
+  if (pendingTagRemovalMask_ == prior) return true;
+  if (saveMetadataLocked()) return true;
+  pendingTagRemovalMask_ = prior; return false;
+}
+
+void AuthorityService::tagPairChangedLocked() {
+  if (observedTagPairRevision_ == tagPairing_.revision()) return;
+  observedTagPairRevision_ = tagPairing_.revision();
+  identity_.identityRevision = nextRevision(identity_.identityRevision);
+  saveIdentityLocked();
+}
+
+void AuthorityService::observeTagReader(std::uint32_t room, const TagPairReaderObservation& report) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  if (room != roomId_) return;
+  tagPairing_.observe(report, epochClock_(), playerTagUids_, [this](std::uint8_t player, std::uint32_t uid) {
+    return commitPairedTagLocked(player, uid);
+  }, [this](const std::string& module) { return commitTagRemovalLocked(module); });
+  tagPairChangedLocked();
+  maybeStartIdentityCountdownLocked();
+}
+
+void AuthorityService::tagPairNameLocked(TagPairSnapshot& out) const {
+  out.playerName.fill(0);
+  if (out.activePlayerId && out.activePlayerId <= identity_.playerCount)
+    std::strncpy(out.playerName.data(), identity_.seats[out.activePlayerId - 1].name.data(), 16);
+}
+
+TagPairSnapshot AuthorityService::makeTagPairSnapshot(std::uint8_t self, bool resync) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  auto out = tagPairing_.snapshot(self, playerTagUids_, epochClock_()); tagPairNameLocked(out);
+  if (resync) out.flags |= TagPairFlagResync;
+  return out;
+}
+
+TagPairSnapshot AuthorityService::moduleTagPairSnapshot(const std::string& module) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  auto out = tagPairing_.readerSnapshot(module, playerTagUids_, epochClock_());
+  tagPairNameLocked(out); return out;
+}
+
+bool AuthorityService::tagPairingBlocksArrival(const std::string& module) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  if (automaticPlayers_) for (unsigned i = 0; i < tagReaderOrigins_.size(); ++i)
+    if ((pendingTagRemovalMask_ & (1u << i)) && tagReaderOrigins_[i] == module) return true;
+  return (automaticPlayers_ && identity_.phase != IdentityRoomPhase::Active) ||
+      tagPairing_.readerSnapshot(module, playerTagUids_, epochClock_()).state != TagPairState::Disabled;
+}
+
+void AuthorityService::handleTagPairRequest(std::uint8_t source, const TagPairRequest& request,
+                                            TagPairSnapshot& out) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  out = tagPairing_.request(source, request, playerTagUids_, epochClock_());
+  tagPairNameLocked(out); tagPairChangedLocked();
+}
+
+std::uint32_t AuthorityService::tagPairingRevision() const {
+  std::lock_guard<std::mutex> lock(mutex_); return tagPairing_.revision();
+}
+
+std::string AuthorityService::tagPairingJson() const { return tagPairingJson(makeTagPairSnapshot(0)); }
+
+std::string AuthorityService::tagPairingJson(const TagPairSnapshot& v) {
+  std::ostringstream out;
+  const bool mutableState = v.activePlayerId != 0 && v.state != TagPairState::SuccessRemove &&
+      v.state != TagPairState::Complete && v.state != TagPairState::Disabled;
+  out << "{\"enabled\":" << ((v.flags & TagPairFlagEnabled) ? "true" : "false")
+      << ",\"roomId\":" << v.roomId << ",\"revision\":" << v.revision
+      << ",\"sessionId\":" << v.sessionId << ",\"state\":\"" << tagPairStateName(v.state)
+      << "\",\"result\":" << static_cast<unsigned>(v.result)
+      << ",\"requestId\":" << v.requestId
+      << ",\"replay\":" << ((v.flags & TagPairFlagReplay) ? "true" : "false")
+      << ",\"activePlayerId\":" << static_cast<unsigned>(v.activePlayerId) << ",\"playerName\":";
+  appendJsonString(out, v.playerName.data()); out << ",\"moduleId\":";
+  appendJsonString(out, v.moduleId.data());
+  out << ",\"readerMapIndex\":" << static_cast<unsigned>(v.readerMapIndex)
+      << ",\"readerTagRevision\":" << v.readerTagRevision << ",\"expiresInMs\":" << v.expiresInMs
+      << ",\"requiredHumanMask\":" << static_cast<unsigned>(v.requiredHumanMask)
+      << ",\"boundMask\":" << static_cast<unsigned>(v.boundMask)
+      << ",\"identityEditableMask\":" << static_cast<unsigned>(v.boundMask)
+      << ",\"tagUid\":" << v.tagUid
+      << ",\"canRetry\":" << (mutableState ? "true" : "false")
+      << ",\"canCancel\":" << (mutableState && v.state != TagPairState::Cancelled ? "true" : "false") << '}';
+  return out.str();
+}
+
 bool AuthorityService::activateConsoleSeat(std::uint8_t seatId, const char* displayName) {
   std::lock_guard<std::mutex> lock(mutex_);
   auto& state = engine_.mutableStateForRestore();
@@ -1510,6 +1794,7 @@ Result AuthorityService::markMovementCueReadyLocked(
 }
 
 void AuthorityService::clearPlayerTagBindingsLocked() {
+  tagReaderOrigins_ = {}; pendingTagRemovalMask_ = 0;
   playerTagUids_.fill(0);
   tagBindingRevision_ = nextRevision(tagBindingRevision_);
 }
@@ -1557,6 +1842,8 @@ bool AuthorityService::clearForcedRollTarget() {
 PlayerTagBindingResult AuthorityService::setPlayerTagBinding(
     std::uint8_t playerId, std::uint32_t tagUid, std::uint32_t expectedRevision) {
   std::lock_guard<std::mutex> lock(mutex_);
+  if (automaticPlayers_) return {PlayerTagBindingResultCode::NotAllowed,
+      "automatic rooms require reader pairing", false, tagBindingRevision_};
   auto& state = engine_.mutableStateForRestore();
   if (playerId == 0 || playerId > state.playerCount) {
     return {PlayerTagBindingResultCode::InvalidPlayer, "invalid player", false,
@@ -1598,6 +1885,8 @@ PlayerTagBindingResult AuthorityService::setPlayerTagBinding(
 PlayerTagBindingResult AuthorityService::clearPlayerTagBinding(
     std::uint8_t playerId, std::uint32_t expectedRevision) {
   std::lock_guard<std::mutex> lock(mutex_);
+  if (automaticPlayers_) return {PlayerTagBindingResultCode::NotAllowed,
+      "automatic rooms require reader pairing", false, tagBindingRevision_};
   auto& state = engine_.mutableStateForRestore();
   if (playerId == 0 || playerId > state.playerCount) {
     return {PlayerTagBindingResultCode::InvalidPlayer, "invalid player", false,
@@ -1797,6 +2086,9 @@ std::string AuthorityService::syncJson(const std::string& serviceIp) const {
       << ",\"origin\":" << static_cast<unsigned>(forcedRoll_.originTile) << "}"
       << ",\"phase\":" << static_cast<unsigned>(state.phase)
       << ",\"round\":" << static_cast<unsigned>(state.roundNumber)
+      << ",\"bankInventory\":{\"buildings\":" << engine_.availableBuildings()
+      << ",\"landmarks\":" << engine_.availableLandmarks() << "}"
+      << ",\"winnerPlayerId\":" << static_cast<unsigned>(state.winnerPlayerId)
       << ",\"activePlayer\":" << static_cast<unsigned>(state.activePlayerId)
       << ",\"decisionPlayer\":" << static_cast<unsigned>(engine_.decisionPlayerId())
       << ",\"actions\":" << engine_.actionsFor(engine_.decisionPlayerId())
@@ -1806,6 +2098,10 @@ std::string AuthorityService::syncJson(const std::string& serviceIp) const {
   out << "},\"board\":{\"id\":";
   appendJsonString(out, state.board->id);
   out << ",\"size\":" << static_cast<unsigned>(state.board->tileCount) << "},";
+  auto pairing = tagPairing_.snapshot(0, playerTagUids_, epochClock_());
+  tagPairNameLocked(pairing);
+  out << "\"tagPairing\":" << tagPairingJson(pairing)
+      << ",\"frozenDevices\":" << devicesJsonLocked(true) << ',';
   appendWorkflowJson(out, state);
   std::uint8_t avatarMask = 0;
   std::uint8_t nameMask = 0;

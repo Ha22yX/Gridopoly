@@ -189,6 +189,21 @@ void UdpPlayerServer::processPairing(const std::uint8_t* bytes, std::size_t leng
     ++diagnostics_.validDatagrams;
     ++diagnostics_.pairRequests;
   }
+  if (frame.header.roomId != observedRoomId_) resetForNewRoom(frame.header.roomId);
+  if (request.capabilities & kCapabilityTagPairing) {
+    if (!pairingReplay_.count(frame.header.deviceId) && pairingReplay_.size() >= 64) return;
+    auto& fence = pairingReplay_[frame.header.deviceId];
+    if (fence.roomId != frame.header.roomId) { fence.roomId = frame.header.roomId; fence.window = {}; }
+    if (fence.nonce != request.deviceNonce) {
+      if (fence.retiredNonces.count(request.deviceNonce) || fence.retiredNonces.size() >= 64) return;
+      if (fence.nonce) fence.retiredNonces.insert(fence.nonce);
+      fence.nonce = request.deviceNonce; fence.window = {};
+    }
+    if (!fence.window.accept(datagram.header.packetSequence)) {
+      std::lock_guard<std::mutex> lock(diagnosticsMutex_); ++diagnostics_.replayDrops; return;
+    }
+  }
+  if (!authority_.observeConsoleDevice(frame.header.deviceId, request)) return;
   auto* session = findSessionByDevice(frame.header.deviceId, request.deviceNonce);
   if (session == nullptr) {
     // A device reboot changes its boot nonce.  Retire the previous session for
@@ -218,6 +233,7 @@ void UdpPlayerServer::processPairing(const std::uint8_t* bytes, std::size_t leng
     sendPairAccept(rejected, frame.header.sequence);
     return;
   }
+  session->capabilities = request.capabilities;
   session->endpoint = source;
   session->lastSeen = std::chrono::steady_clock::now();
   if (!authority_.activateConsoleSeat(session->seatId, request.displayName)) {
@@ -255,7 +271,10 @@ void UdpPlayerServer::processSession(Session& session, const std::uint8_t* bytes
   }
   DecodedFrame frame{};
   if (!decodeFrame(datagram.frame, datagram.header.frameLength, frame) ||
-      frame.header.deviceId != session.deviceId || frame.header.roomId != session.roomId) return;
+      frame.header.deviceId != session.deviceId || frame.header.roomId != session.roomId ||
+      session.roomId != authority_.roomId()) return;
+  if (authority_.automaticPlayers() && authority_.frozenSeatForDevice(session.deviceId) != session.seatId) return;
+  authority_.touchConsoleDevice(session.deviceId);
   if (!sameEndpoint(session.endpoint, source)) {
     session.endpoint = source;
     std::lock_guard<std::mutex> lock(diagnosticsMutex_);
@@ -270,6 +289,9 @@ void UdpPlayerServer::processSession(Session& session, const std::uint8_t* bytes
   {
     std::lock_guard<std::mutex> lock(diagnosticsMutex_);
     ++diagnostics_.validDatagrams;
+  }
+  if (frame.header.type == MessageType::TagPairRequest) {
+    processTagPairing(session, frame); return;
   }
   if (frame.header.type == MessageType::PlayerDetailRequest) {
     processPlayerDetail(session, frame);
@@ -522,6 +544,7 @@ void UdpPlayerServer::processHeartbeat(Session& session, const DecodedFrame& fra
     std::lock_guard<std::mutex> lock(diagnosticsMutex_);
     ++diagnostics_.heartbeats;
   }
+  sendTagPairing(session, false);
   const auto version = authority_.stateVersion();
   if (authority_.identityPhase() != IdentityRoomPhase::Active) {
     // Before the game becomes active, IdentitySnapshot is the only projection
@@ -682,6 +705,7 @@ UdpPlayerServer::Session* UdpPlayerServer::allocateSession(std::uint32_t deviceI
 }
 
 std::uint8_t UdpPlayerServer::seatForDevice(std::uint32_t deviceId) {
+  if (authority_.automaticPlayers()) return authority_.frozenSeatForDevice(deviceId);
   const auto state = authority_.stateCopy();
   for (const auto& entry : registry_) {
     if (entry.deviceId == deviceId && entry.seatId != 0 &&
@@ -970,7 +994,29 @@ bool UdpPlayerServer::sendRoster(Session& session, bool resync) {
                 session.lastRxSequence, payload, written);
 }
 
+bool UdpPlayerServer::sendTagPairing(Session& session, bool resync) {
+  if (!(session.capabilities & kCapabilityTagPairing)) return true;
+  const auto snapshot = authority_.makeTagPairSnapshot(session.seatId, resync);
+  std::array<std::uint8_t, kTagPairSnapshotSize> payload{}; std::size_t written = 0;
+  return encodeTagPairSnapshot(snapshot, payload.data(), payload.size(), written) &&
+      sendFrame(session, MessageType::TagPairSnapshot, resync ? FlagResync : FlagNone,
+                session.lastRxSequence, payload.data(), written);
+}
+
+void UdpPlayerServer::processTagPairing(Session& session, const DecodedFrame& frame) {
+  if (!(session.capabilities & kCapabilityTagPairing)) return;
+  TagPairRequest request;
+  if (!decodeTagPairRequest(frame.payload, frame.header.payloadLength, request)) return;
+  TagPairSnapshot snapshot;
+  authority_.handleTagPairRequest(session.seatId, request, snapshot);
+  if (isNewerSequence(frame.header.sequence, session.lastRxSequence)) session.lastRxSequence = frame.header.sequence;
+  std::array<std::uint8_t, kTagPairSnapshotSize> payload{}; std::size_t written = 0;
+  if (encodeTagPairSnapshot(snapshot, payload.data(), payload.size(), written))
+    sendFrame(session, MessageType::TagPairSnapshot, FlagResponse, frame.header.sequence, payload.data(), written);
+}
+
 bool UdpPlayerServer::sendIdentity(Session& session, bool resync) {
+  if (!sendTagPairing(session, resync)) return false;
   IdentitySnapshot snapshot{};
   std::uint8_t payload[kIdentitySnapshotSize]{};
   std::size_t written = 0;

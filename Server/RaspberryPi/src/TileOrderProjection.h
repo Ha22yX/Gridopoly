@@ -12,6 +12,7 @@ namespace gridopoly::pi {
 struct TileOrderChain {
   std::string chainId;
   std::vector<std::string> moduleIds;
+  bool closedRing{};
 };
 
 struct TileOrderPlacement {
@@ -25,6 +26,23 @@ struct TileOrderPlacement {
   bool conflict{};
 };
 
+// A closed board has one phase, not independent open-chain segments. Its
+// canonical root is a corner; every valid manual anchor must preserve corners.
+inline bool tileOrderRingPhase(const TileOrderChain& chain,
+    const std::map<std::string, int>& anchors, int boardSize, int& phase) {
+  phase = 0;
+  if (!chain.closedRing || boardSize != 32 || chain.moduleIds.size() != 32) return false;
+  bool anchored = false;
+  for (std::size_t i = 0; i < chain.moduleIds.size(); ++i) {
+    const auto a = anchors.find(chain.moduleIds[i]);
+    if (a == anchors.end()) continue;
+    const int candidate = ((a->second - static_cast<int>(i)) % 32 + 32) % 32;
+    if (a->second < 0 || a->second >= 32 || candidate % 8 || (anchored && phase != candidate)) return false;
+    phase = candidate; anchored = true;
+  }
+  return true;
+}
+
 // Explicit anchors retain their values. Between anchors use the nearest
 // upstream anchor; before the first anchor extrapolate backwards. Every
 // contender for a duplicate position is withheld, rather than arbitrarily
@@ -36,6 +54,21 @@ inline std::vector<TileOrderPlacement> projectTileOrder(
   std::vector<TileOrderPlacement> output;
   if (boardSize <= 0) return output;
   for (const auto& chain : chains) {
+    if (chain.closedRing) {
+      int phase = 0;
+      const bool valid = tileOrderRingPhase(chain, anchors, boardSize, phase);
+      std::size_t anchor = 0;
+      for (std::size_t i = 0; i < chain.moduleIds.size(); ++i) if (anchors.count(chain.moduleIds[i])) { anchor = i; break; }
+      for (std::size_t i = 0; i < chain.moduleIds.size(); ++i) {
+        TileOrderPlacement p;
+        p.moduleId = chain.moduleIds[i]; p.chainId = chain.chainId; p.index = i;
+        p.anchorModuleId = chain.moduleIds[anchor]; p.offset = static_cast<int>(i) - static_cast<int>(anchor);
+        p.manual = anchors.count(p.moduleId) != 0; p.conflict = !valid;
+        p.mapIndex = valid ? (static_cast<int>(i) + phase) % 32 : -1;
+        output.push_back(std::move(p));
+      }
+      continue;
+    }
     int firstAnchor = -1;
     for (std::size_t i = 0; i < chain.moduleIds.size(); ++i) {
       if (anchors.count(chain.moduleIds[i])) {
@@ -71,6 +104,12 @@ inline std::vector<TileOrderPlacement> projectTileOrder(
       if (external.first != p.moduleId && external.second == p.mapIndex) occupied = true;
     }
     if (occupied) p.conflict = true;
+  }
+  // A ring is usable only as one consistent complete board.
+  for (const auto& chain : chains) if (chain.closedRing) {
+    bool conflict = false;
+    for (const auto& p : output) if (p.chainId == chain.chainId && p.conflict) conflict = true;
+    if (conflict) for (auto& p : output) if (p.chainId == chain.chainId) p.conflict = true;
   }
   return output;
 }

@@ -102,6 +102,8 @@ struct TileModuleDebugState {
 };
 
 struct TileDebugModule {
+  std::string moduleRole{"unknown"}, firmwareVersion;
+  bool closedRing{};
   std::string orderAnchorTileId{};
   bool orderCapable{};
   std::string orderStatus{"legacy"};
@@ -124,6 +126,8 @@ struct TileDebugModule {
 };
 
 struct TileTagReport {
+  bool hasFreshness{}, fresh{};
+  std::uint32_t scanSequence{}, ageMs{}, pairingRoomId{}, pairingSessionId{};
   TileTagReaderState readerState{TileTagReaderState::Scanning};
   std::uint32_t revision{};
   bool overflow{};

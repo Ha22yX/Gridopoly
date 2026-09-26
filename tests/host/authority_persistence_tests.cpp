@@ -172,7 +172,15 @@ int main() {
     assert(legacyMetadata.roomId() == legacyRoom);
     assert(legacyMetadata.serverDeviceId() == legacyDevice);
     assert(legacyMetadata.botActionIntervalMs() == 2300);
-    assert(std::filesystem::file_size(legacyMetadataPath) == 61);
+    // Keep the original 61-byte prefix and append the frozen-device and
+    // pending-reader extensions. Old binaries can ignore these trailing bytes.
+    assert(std::filesystem::file_size(legacyMetadataPath) == 295);
+    std::ifstream migrated(legacyMetadataPath, std::ios::binary);
+    std::uint32_t extension = 0;
+    migrated.seekg(61); migrated.read(reinterpret_cast<char*>(&extension), sizeof(extension));
+    assert(extension == 0x31424E4Fu);  // ONB1
+    migrated.seekg(162); migrated.read(reinterpret_cast<char*>(&extension), sizeof(extension));
+    assert(extension == 0x31444E50u);  // PND1
   }
   {
     gridopoly::pi::AuthorityService restoredSettings(

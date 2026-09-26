@@ -9,6 +9,9 @@
 namespace gridopoly::pi {
 
 struct TileOrderReport {
+  // Role is top-level heartbeat metadata, independent of order.version=1.
+  std::string moduleRole{"unknown"};
+  std::string firmwareVersion;
   std::uint32_t version{1};
   std::string bootId;
   std::uint16_t txSeq{};
@@ -20,6 +23,9 @@ struct TileOrderReport {
 };
 
 struct TileOrderNode {
+  std::string moduleRole{"unknown"};
+  std::string firmwareVersion;
+  bool closedRing{};
   std::string bootId;
   std::string moduleId;
   std::string upstreamModuleId;
@@ -41,7 +47,8 @@ class TileOrderTopology {
         });
   }
   static bool validReport(const TileOrderReport& r) {
-    return r.version == 1 && validBootId(r.bootId) && r.ageMs <= kEvidenceLeaseMs &&
+    return (r.moduleRole == "unknown" || r.moduleRole == "long" || r.moduleRole == "corner") &&
+        r.version == 1 && validBootId(r.bootId) && r.ageMs <= kEvidenceLeaseMs &&
         (r.inputState == "idle" || r.inputState == "receiving" ||
          r.inputState == "stuckLow") &&
         (r.valid ? validBootId(r.upstreamBootId) :
@@ -121,6 +128,7 @@ class TileOrderTopology {
       const auto& id = item.first;
       const auto& r = item.second;
       auto& n = byId[id]; n.moduleId = id; n.bootId = r.report.bootId; n.status = "ready";
+      n.moduleRole = r.report.moduleRole; n.firmwareVersion = r.report.firmwareVersion;
       if (now >= r.reportUntil || (r.report.valid && now >= r.evidenceUntil)) {
         n.status = "stale"; n.conflict = "expired_evidence";
       } else if (r.report.inputState == "stuckLow") {
@@ -169,15 +177,48 @@ class TileOrderTopology {
         if (children[id].size() > 1) { status = "conflict"; reason = "multiple_downstream"; }
         if (n.upstreamModuleId.empty()) head = id;
       }
-      if (head.empty()) { status = "conflict"; reason = "cycle"; }
+      bool closedRing = false;
+      if (head.empty() && status == "ready") {
+        if (component.size() != 32) { status = "conflict"; reason = "cycle"; }
+        else {
+          unsigned corners = 0;
+          for (const auto& id : component) {
+            if (byId[id].moduleRole == "corner") {
+              ++corners; if (head.empty() || id < head) head = id;
+            } else if (byId[id].moduleRole != "long") { status = "conflict"; reason = "unknown_module_role"; }
+          }
+          if (status == "ready" && corners != 4) { status = "conflict"; reason = "invalid_corner_count"; }
+          if (status == "ready") {
+            std::string cursor = head;
+            std::set<std::string> walked;
+            for (unsigned i = 0; i < 32; ++i) {
+              if (cursor.empty() || !walked.insert(cursor).second || children[cursor].size() != 1 ||
+                  (byId[cursor].moduleRole == "corner") != (i % 8 == 0)) {
+                status = "conflict"; reason = "invalid_corner_spacing"; break;
+              }
+              cursor = *children[cursor].begin();
+            }
+            if (status == "ready" && (cursor != head || walked.size() != component.size())) {
+              status = "conflict"; reason = "incomplete_ring";
+            }
+            closedRing = status == "ready";
+          }
+        }
+      }
+      if (!closedRing && status == "ready" && std::any_of(component.begin(), component.end(),
+          [&](const std::string& id) { return ringMembers_.count(id) != 0; })) {
+        status = "stale"; reason = "ring_open";
+      }
       if (status != "ready") {
         for (const auto& id : component) { byId[id].status = status; byId[id].conflict = reason; }
         continue;
       }
-      TileOrderChain chain; chain.chainId = head;
+      TileOrderChain chain; chain.chainId = head; chain.closedRing = closedRing;
+      if (closedRing) ringMembers_.insert(component.begin(), component.end());
       std::string cursor = head;
-      while (!cursor.empty()) {
-        auto& n = byId[cursor]; n.chainId = head; n.index = static_cast<int>(chain.moduleIds.size());
+      while (!cursor.empty() && chain.moduleIds.size() < component.size()) {
+        auto& n = byId[cursor]; n.chainId = head; n.closedRing = closedRing;
+        n.index = static_cast<int>(chain.moduleIds.size());
         chain.moduleIds.push_back(cursor);
         cursor = children[cursor].empty() ? std::string{} : *children[cursor].begin();
       }
@@ -197,6 +238,9 @@ class TileOrderTopology {
     std::set<std::string> retiredBoots;
   };
   std::map<std::string, Record> records_;
+  // A previously validated ring cannot silently become an anchored open chain
+  // after a cable/reader lease is lost. Clear only with the topology instance.
+  mutable std::set<std::string> ringMembers_;
 };
 
 }  // namespace gridopoly::pi

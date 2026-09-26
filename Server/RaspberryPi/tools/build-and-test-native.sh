@@ -92,6 +92,16 @@ build_and_run gridopoly_tile_debug_assignment_tests \
   "${TILE_DEBUG_SOURCES[@]}" \
   "$ROOT/tests/host/tile_debug_assignment_tests.cpp"
 
+build_and_run gridopoly_tag_pairing_model_tests \
+  "${PROTOCOL_SOURCES[@]}" \
+  "$ROOT/tests/host/tag_pairing_model_tests.cpp"
+
+build_and_run gridopoly_tag_pairing_authority_tests \
+  -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \
+  "${CORE_SOURCES[@]}" "${PROTOCOL_SOURCES[@]}" "${PROJECTION_SOURCES[@]}" \
+  "${IDENTITY_SOURCES[@]}" "${AVATAR_SOURCES[@]}" "${AUTHORITY_SOURCES[@]}" \
+  "$ROOT/tests/host/tag_pairing_authority_tests.cpp"
+
 build_and_run gridopoly_identity_model_tests \
   "${PROTOCOL_SOURCES[@]}" \
   "${IDENTITY_SOURCES[@]}" \
@@ -167,6 +177,15 @@ build_and_run gridopoly_http_asset_integration_tests \
   "$ROOT/Server/RaspberryPi/src/UdpPlayerServer.cpp" \
   "$ROOT/Server/RaspberryPi/src/HttpServer.cpp" \
   "$ROOT/tests/host/http_asset_integration_tests.cpp"
+
+build_and_run gridopoly_onboarding_network_tests \
+  -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \
+  "${CORE_SOURCES[@]}" "${PROTOCOL_SOURCES[@]}" "${PROJECTION_SOURCES[@]}" \
+  "${IDENTITY_SOURCES[@]}" "${AVATAR_SOURCES[@]}" "${AUTHORITY_SOURCES[@]}" \
+  "${TILE_DEBUG_SOURCES[@]}" \
+  "$ROOT/Server/RaspberryPi/src/UdpPlayerServer.cpp" \
+  "$ROOT/Server/RaspberryPi/src/HttpServer.cpp" \
+  "$ROOT/tests/host/onboarding_network_tests.cpp"
 
 echo "GRIDOPOLY_NATIVE_BUILD name=gridopoly_server"
 "$CXX" "${COMMON_FLAGS[@]}" \

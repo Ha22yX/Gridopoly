@@ -496,15 +496,22 @@ void TileDebugAssignments::refreshOrderLocked(const GameState& state, std::uint6
       if (suspendedAnchors.count(placement.anchorModuleId)) {
         node.status = "conflict"; node.conflict = "anchor_unavailable"; break;
       }
-      if (placement.mapIndex < 0) node.status = "unanchored";
-      else if (placement.conflict) { node.status = "conflict"; node.conflict = "tile_occupied"; }
+      if (placement.conflict) { node.status = "conflict"; node.conflict = node.closedRing ? "ring_or_tile_conflict" : "tile_occupied"; }
+      else if (placement.mapIndex < 0) node.status = "unanchored";
     }
   }
   std::ostringstream fingerprint;
   for (const auto& node : nodes) fingerprint << node.moduleId << ':' << node.bootId << ':' << node.upstreamModuleId
-      << ':' << node.chainId << ':' << node.index << ':' << node.status << ':' << node.conflict << ';';
+      << ':' << node.chainId << ':' << node.index << ':' << node.status << ':' << node.conflict
+      << ':' << node.moduleRole << ':' << node.closedRing << ';';
   const bool topologyChanged = fingerprint.str() != orderFingerprint_;
   if (topologyChanged) { orderFingerprint_ = fingerprint.str(); ++orderEpoch_; }
+  for (const auto& chain : chains) if (chain.closedRing) {
+    const bool invalid = std::any_of(plan.begin(), plan.end(), [&](const TileOrderPlacement& p) {
+      return p.chainId == chain.chainId && p.conflict;
+    });
+    if (invalid) for (const auto& id : chain.moduleIds) desired.erase(id);
+  }
   for (const auto& placement : plan) {
     if (placement.manual || placement.mapIndex < 0 || placement.conflict ||
         suspendedAnchors.count(placement.moduleId) ||
@@ -693,6 +700,17 @@ TileDebugResult TileDebugAssignments::set(std::uint32_t roomId, const GameState&
             "tile is assigned to another online module", false, revision_};
   }
 
+  for (const auto& chain : orderChains_) {
+    if (!chain.closedRing || std::find(chain.moduleIds.begin(), chain.moduleIds.end(), moduleId) == chain.moduleIds.end()) continue;
+    std::map<std::string, int> anchors;
+    for (const auto& anchor : orderAnchors_) {
+      std::uint8_t index = 0;
+      if (findTile(*state.board, anchor.second.tileId, index)) anchors[anchor.first] = index;
+    }
+    anchors[moduleId] = mapIndex; int phase = 0;
+    if (!tileOrderRingPhase(chain, anchors, state.board->tileCount, phase))
+      return {TileDebugResultCode::TileConflict, "manual anchor conflicts with ring corner phase", false, revision_};
+  }
   auto projected = projectAssignment(state, moduleId, deviceId, tileId,
                                      TileDebugAssignmentSource::Manual);
   const auto found = assignments_.find(moduleId);
@@ -796,6 +814,8 @@ TileDebugSnapshot TileDebugAssignments::snapshot(std::uint32_t roomId,
     module.orderCapable = order_.capable(entry.first);
     module.orderEpoch = orderEpoch_;
     for (const auto& node : orderNodes_) if (node.moduleId == entry.first) {
+      module.moduleRole = node.moduleRole; module.firmwareVersion = node.firmwareVersion;
+      module.closedRing = node.closedRing;
       module.orderStatus = node.status;
       module.orderConflict = node.conflict;
       module.orderChainId = node.chainId;

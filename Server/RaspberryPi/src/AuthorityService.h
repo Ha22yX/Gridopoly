@@ -18,8 +18,16 @@
 #include "FileStateStore.h"
 #include "AvatarRenderer.h"
 #include "FileIdentityStore.h"
+#include "TagPairingModel.h"
 
 namespace gridopoly::pi {
+
+struct ConsoleDeviceInfo {
+  std::uint32_t deviceId{}, capabilities{};
+  std::string displayName;
+  std::uint64_t lastSeenMs{};
+  bool collision{};
+};
 
 struct ForcedRollState {
   bool active{};
@@ -50,6 +58,7 @@ enum class PlayerTagBindingResultCode : std::uint8_t {
   InvalidTag,
   RevisionMismatch,
   PersistFailed,
+  NotAllowed,
 };
 
 struct PlayerTagBindingResult {
@@ -119,6 +128,22 @@ class AuthorityService {
   bool makeTradeNotification(std::uint8_t sourceSeat, std::uint32_t tradeId,
                              gridopoly::protocol::TradeResponse& output) const;
 
+  bool observeConsoleDevice(std::uint32_t deviceId, const gridopoly::protocol::PairRequest& request);
+  void touchConsoleDevice(std::uint32_t deviceId);
+  bool automaticPlayers() const;
+  std::uint8_t frozenSeatForDevice(std::uint32_t deviceId) const;
+  gridopoly::core::Result newAutoGame(std::uint8_t boardSize);
+  std::string playerDevicesJson() const;
+  void observeTagReader(std::uint32_t roomId, const TagPairReaderObservation& report);
+  gridopoly::protocol::TagPairSnapshot makeTagPairSnapshot(std::uint8_t self, bool resync = false) const;
+  gridopoly::protocol::TagPairSnapshot moduleTagPairSnapshot(const std::string& moduleId) const;
+  void handleTagPairRequest(std::uint8_t source, const gridopoly::protocol::TagPairRequest& request,
+                            gridopoly::protocol::TagPairSnapshot& output);
+  std::string tagPairingJson() const;
+  static std::string tagPairingJson(const gridopoly::protocol::TagPairSnapshot& value);
+  std::uint32_t tagPairingRevision() const;
+  bool tagPairingBlocksArrival(const std::string& moduleId) const;
+
   bool activateConsoleSeat(std::uint8_t seatId, const char* displayName);
   bool isHumanSeat(std::uint8_t seatId) const;
   void setConsoleConnected(std::uint8_t seatId, bool connected);
@@ -180,6 +205,20 @@ class AuthorityService {
   std::array<std::uint32_t, gridopoly::core::kMaxPlayers> playerTagUids_{};
   std::uint32_t tagBindingRevision_{1};
   IdentityRoomState identity_{};
+  std::map<std::uint32_t, ConsoleDeviceInfo> consoleDevices_;
+  std::array<ConsoleDeviceInfo, 4> frozenDevices_{};
+  bool automaticPlayers_{};
+  std::array<std::string, 4> tagReaderOrigins_{};
+  std::uint8_t pendingTagRemovalMask_{};
+  TagPairingModel tagPairing_;
+  std::uint32_t observedTagPairRevision_{};
+  gridopoly::core::Result newIdentityGameLocked(std::uint8_t boardSize, std::uint8_t humans,
+      std::uint8_t bots, const std::array<ConsoleDeviceInfo, 4>& devices, bool automatic);
+  void tagPairChangedLocked();
+  bool commitPairedTagLocked(std::uint8_t player, std::uint32_t uid);
+  bool commitTagRemovalLocked(const std::string& module);
+  void tagPairNameLocked(gridopoly::protocol::TagPairSnapshot& output) const;
+  std::string devicesJsonLocked(bool frozen) const;
   std::function<std::uint64_t()> epochClock_{};
   std::unique_ptr<AvatarRenderer> avatarRenderer_{};
 

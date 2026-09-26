@@ -1,5 +1,6 @@
 #include "TileOrderJson.h"
 #include "HttpServer.h"
+#include "JsonObjectFields.h"
 
 #include <arpa/inet.h>
 #include <algorithm>
@@ -204,16 +205,11 @@ bool parseTagUid(const std::string& text, std::uint32_t& output) {
 }
 
 bool jsonFieldStart(const std::string& body, const char* key, std::size_t& cursor) {
-  const std::string needle = std::string("\"") + key + "\"";
-  const auto found = body.find(needle);
-  if (found == std::string::npos || body.find(needle, found + needle.size()) != std::string::npos) {
-    return false;
-  }
-  cursor = found + needle.size();
-  while (cursor < body.size() && std::isspace(static_cast<unsigned char>(body[cursor]))) ++cursor;
-  if (cursor >= body.size() || body[cursor++] != ':') return false;
-  while (cursor < body.size() && std::isspace(static_cast<unsigned char>(body[cursor]))) ++cursor;
-  return cursor < body.size();
+  std::map<std::string, std::size_t> fields;
+  if (!jsonObjectFields(body, fields)) return false;
+  const auto found = fields.find(key);
+  if (found == fields.end()) return false;
+  cursor = found->second; return true;
 }
 
 bool jsonStringField(const std::string& body, const char* key, std::string& output) {
@@ -230,7 +226,8 @@ bool jsonUnsignedField(const std::string& body, const char* key, std::uint32_t& 
   if (!jsonFieldStart(body, key, cursor)) return false;
   const auto begin = cursor;
   while (cursor < body.size() && std::isdigit(static_cast<unsigned char>(body[cursor]))) ++cursor;
-  if (cursor == begin) return false;
+  if (cursor == begin || (cursor < body.size() && body[cursor] != ',' && body[cursor] != '}' &&
+      !std::isspace(static_cast<unsigned char>(body[cursor])))) return false;
   const auto parsed = std::from_chars(body.data() + begin, body.data() + cursor, output);
   return parsed.ec == std::errc{} && parsed.ptr == body.data() + cursor;
 }
@@ -283,7 +280,18 @@ bool parseTileTagReport(const std::string& body, TileTagReport& output) {
   else if (state == "stable") output.readerState = TileTagReaderState::Stable;
   else if (state == "fault") output.readerState = TileTagReaderState::Fault;
   else return false;
+  const bool anyFreshness = body.find("\"tagScanSeq\"") != std::string::npos ||
+      body.find("\"tagAgeMs\"") != std::string::npos || body.find("\"tagFresh\"") != std::string::npos ||
+      body.find("\"pairingRoomId\"") != std::string::npos || body.find("\"pairingSessionId\"") != std::string::npos;
+  if (anyFreshness) {
+    if (!jsonUnsignedField(body, "tagScanSeq", output.scanSequence) ||
+        !jsonUnsignedField(body, "tagAgeMs", output.ageMs) || !jsonBoolField(body, "tagFresh", output.fresh) ||
+        !jsonUnsignedField(body, "pairingRoomId", output.pairingRoomId) ||
+        !jsonUnsignedField(body, "pairingSessionId", output.pairingSessionId)) return false;
+    output.hasFreshness = true;
+  }
   std::sort(output.tags.begin(), output.tags.end());
+  if (output.hasFreshness && std::adjacent_find(output.tags.begin(), output.tags.end()) != output.tags.end()) return false;
   output.tags.erase(std::unique(output.tags.begin(), output.tags.end()), output.tags.end());
   return true;
 }
@@ -335,6 +343,9 @@ std::string tileDebugJson(const TileDebugSnapshot& snapshot) {
          << ",\"tagReaderState\":\"" << tileTagReaderStateName(module.tagReaderState)
          << "\",\"tagRevision\":" << module.tagRevision
          << ",\"tagOverflow\":" << (module.tagOverflow ? "true" : "false")
+         << ",\"moduleRole\":\"" << jsonEscape(module.moduleRole)
+         << "\",\"firmwareVersion\":\"" << jsonEscape(module.firmwareVersion)
+         << "\",\"closedRing\":" << (module.closedRing ? "true" : "false")
          << ",\"orderCapable\":" << (module.orderCapable ? "true" : "false")
          << ",\"orderAnchorTileId\":\"" << jsonEscape(module.orderAnchorTileId)
          << "\",\"orderStatus\":\"" << jsonEscape(module.orderStatus)
@@ -350,7 +361,8 @@ std::string tileDebugJson(const TileDebugSnapshot& snapshot) {
   for (std::size_t i = 0; i < snapshot.orderChains.size(); ++i) {
     if (i) body << ',';
     const auto& chain = snapshot.orderChains[i];
-    body << "{\"chainId\":\"" << jsonEscape(chain.chainId) << "\",\"moduleIds\":[";
+    body << "{\"chainId\":\"" << jsonEscape(chain.chainId)
+         << "\",\"closedRing\":" << (chain.closedRing ? "true" : "false") << ",\"moduleIds\":[";
     for (std::size_t j = 0; j < chain.moduleIds.size(); ++j) {
       if (j) body << ',';
       body << '"' << jsonEscape(chain.moduleIds[j]) << '"';
@@ -388,7 +400,8 @@ std::string tileDebugJson(const TileDebugSnapshot& snapshot) {
 
 std::string tileModuleHeartbeatJson(const TileDebugHeartbeatResponse& response,
                                     const std::string& moduleId,
-                                    const std::string& deviceId) {
+                                    const std::string& deviceId,
+                                    const TagPairSnapshot& pairing) {
   std::ostringstream body;
   body << "{\"ok\":true,\"assigned\":" << (response.assigned ? "true" : "false")
        << ",\"source\":\"" << tileDebugAssignmentSourceName(response.source)
@@ -400,6 +413,12 @@ std::string tileModuleHeartbeatJson(const TileDebugHeartbeatResponse& response,
        << tileMovementCueModeName(response.movementCue.mode)
        << "\",\"playerId\":" << static_cast<unsigned>(response.movementCue.playerId)
        << ",\"revision\":" << response.movementCue.revision << '}';
+  body << ",\"pairing\":{\"active\":" << (pairing.state != TagPairState::Disabled ? "true" : "false")
+       << ",\"roomId\":" << pairing.roomId << ",\"sessionId\":" << pairing.sessionId
+       << ",\"revision\":" << pairing.revision << ",\"state\":\"" << tagPairStateName(pairing.state)
+       << "\",\"playerId\":" << static_cast<unsigned>(pairing.activePlayerId)
+       << ",\"playerName\":\"" << jsonEscape(pairing.playerName.data())
+       << "\",\"leaseMs\":" << pairing.expiresInMs << '}';
   if (response.assigned) {
     body << ",\"assignment\":";
     appendTileDebugAssignmentJson(body, response.assignment);
@@ -909,6 +928,13 @@ HttpServer::Response HttpServer::route(const Request& request) {
         return {400, "application/json; charset=utf-8",
                 "{\"ok\":false,\"error\":\"invalid_order_report\"}", "no-store", {}, {}};
       }
+      if (request.body.find("\"moduleRole\"") != std::string::npos &&
+          (!jsonStringField(request.body, "moduleRole", orderReport.moduleRole) ||
+           (orderReport.moduleRole != "long" && orderReport.moduleRole != "corner" && orderReport.moduleRole != "unknown")))
+        return {400, "application/json", "{\"ok\":false,\"error\":\"invalid_module_role\"}", "no-store", {}, {}};
+      if (request.body.find("\"firmwareVersion\"") != std::string::npos &&
+          (!jsonStringField(request.body, "firmwareVersion", orderReport.firmwareVersion) || orderReport.firmwareVersion.size() > 64))
+        return {400, "application/json", "{\"ok\":false,\"error\":\"invalid_firmware_version\"}", "no-store", {}, {}};
       orderReportPointer = &orderReport;
     }
     const auto state = authority_.stateCopy();
@@ -921,7 +947,22 @@ HttpServer::Response HttpServer::route(const Request& request) {
               "application/json; charset=utf-8",
               tileDebugErrorJson(response.result), "no-store", {}, {}};
     }
-    if (response.movementCue.mode == TileMovementCueMode::Destination &&
+    if (tagReportPointer && orderReportPointer && tagReport.hasFreshness) {
+      TagPairReaderObservation reader;
+      reader.moduleId = module->second; reader.deviceId = device->second; reader.bootId = orderReport.bootId;
+      reader.mapIndex = response.assigned ? response.assignment.mapIndex : 0xFF;
+      reader.stable = tagReport.readerState == TileTagReaderState::Stable;
+      reader.fault = tagReport.readerState == TileTagReaderState::Fault;
+      reader.overflow = tagReport.overflow; reader.hasFreshness = true; reader.fresh = tagReport.fresh;
+      reader.scanSequence = tagReport.scanSequence; reader.ageMs = tagReport.ageMs;
+      reader.tagRevision = tagReport.revision; reader.roomId = tagReport.pairingRoomId;
+      reader.sessionId = tagReport.pairingSessionId; reader.tags = tagReport.tags;
+      authority_.observeTagReader(authority_.roomId(), reader);
+    }
+    const bool pairingBlocksArrival = authority_.tagPairingBlocksArrival(module->second) ||
+        (tagReport.hasFreshness && (!tagReport.fresh || tagReport.ageMs >= TagPairingModel::kFreshMs ||
+                                    tagReport.pairingRoomId != 0 || tagReport.pairingSessionId != 0));
+    if (!pairingBlocksArrival && response.movementCue.mode == TileMovementCueMode::Destination &&
         response.tagReaderState == TileTagReaderState::Stable &&
         !response.tagOverflow && response.movementCue.playerId != 0) {
       const auto bindings = authority_.playerTagBindings();
@@ -943,7 +984,8 @@ HttpServer::Response HttpServer::route(const Request& request) {
       }
     }
     return {200, "application/json; charset=utf-8",
-            tileModuleHeartbeatJson(response, module->second, device->second),
+            tileModuleHeartbeatJson(response, module->second, device->second,
+                                    authority_.moduleTagPairSnapshot(module->second)),
             "no-store", {}, {}};
   }
   if (request.path == "/api/player-tag-binding" && request.method == "POST") {
@@ -1197,7 +1239,8 @@ HttpServer::Response HttpServer::route(const Request& request) {
         unsignedQuery(request, "network", 0) == authority_.networkId() &&
         unsignedQuery(request, "control", 0) == authority_.controlVersion() &&
         unsignedQuery(request, "tagBindings", 0) == authority_.tagBindingRevision() &&
-        unsignedQuery(request, "identity", 0xFFFFFFFFu) == authority_.identityRevision();
+        unsignedQuery(request, "identity", 0xFFFFFFFFu) == authority_.identityRevision() &&
+        (!authority_.automaticPlayers() || unsignedQuery(request, "pairing", 0) == authority_.tagPairingRevision());
     if (unchanged) return {204, {}, {}, "no-store", {}, {}};
     return {200, "application/json; charset=utf-8",
             request.path == "/api/sync" ? authority_.syncJson(serviceIp_)
@@ -1229,12 +1272,34 @@ HttpServer::Response HttpServer::route(const Request& request) {
     return {result ? 200 : 409, "application/json; charset=utf-8", body.str(),
             "no-store", {}, {}};
   }
+  if (request.method == "GET" && request.path == "/api/player-devices")
+    return {200, "application/json; charset=utf-8", authority_.playerDevicesJson(), "no-store", {}, {}};
+  if (request.path == "/api/tag-pairing" && request.method == "GET")
+    return {200, "application/json; charset=utf-8", authority_.tagPairingJson(), "no-store", {}, {}};
+  if (request.path == "/api/tag-pairing" && request.method == "POST") {
+    const auto operation = request.query.find("operation");
+    const auto player = unsignedQuery(request, "playerId");
+    if (operation == request.query.end() || (operation->second != "retry" && operation->second != "cancel") ||
+        player == 0 || player > 4)
+      return {400, "application/json", "{\"ok\":false,\"error\":\"invalid_pairing_request\"}", "no-store", {}, {}};
+    TagPairRequest input;
+    input.operation = operation->second == "retry" ? TagPairOperation::Retry : TagPairOperation::Cancel;
+    input.playerId = static_cast<std::uint8_t>(player); input.requestId = unsignedQuery(request, "requestId");
+    input.roomId = unsignedQuery(request, "roomId"); input.sessionId = unsignedQuery(request, "sessionId");
+    input.expectedRevision = unsignedQuery(request, "expectedRevision");
+    TagPairSnapshot output; authority_.handleTagPairRequest(input.playerId, input, output);
+    const int status = output.result == TagPairResultCode::Ok ? 200 :
+        output.result == TagPairResultCode::InvalidRequest ? 400 :
+        output.result == TagPairResultCode::Unauthorized ? 403 : 409;
+    return {status, "application/json; charset=utf-8", AuthorityService::tagPairingJson(output), "no-store", {}, {}};
+  }
   if (request.method == "POST" && request.path == "/api/new") {
     const auto boardSize = unsignedQuery(request, "size", 32);
     const auto humanCount = unsignedQuery(request, "humans", 1);
     const auto botCount = unsignedQuery(request, "bots", 3);
     const auto result = boardSize > 0xFFu || humanCount > 0xFFu || botCount > 0xFFu
         ? Result{ErrorCode::InvalidArgument, "unsupported board or player counts"}
+        : unsignedQuery(request, "autoPlayers") == 1 ? authority_.newAutoGame(static_cast<std::uint8_t>(boardSize))
         : authority_.newGame(static_cast<std::uint8_t>(boardSize),
                              static_cast<std::uint8_t>(humanCount),
                              static_cast<std::uint8_t>(botCount));

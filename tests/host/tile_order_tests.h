@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TileOrderJson.h"
+#include <iomanip>
+#include <gridopoly/core/GameEngine.h>
 
 namespace {
 
@@ -231,7 +233,92 @@ void verifyOrderProjectionAndJson() {
   }
 }
 
+void verifyClosedOrderRing() {
+  auto id = [](unsigned i) { std::ostringstream out; out << "ring-" << std::setw(2) << std::setfill('0') << i; return out.str(); };
+  auto report = [](unsigned i, unsigned sequence = 1) {
+    auto r = orderReport(i + 1, (i + 31) % 32 + 1, sequence);
+    r.moduleRole = i % 8 == 0 ? "corner" : "long"; return r;
+  };
+  TileOrderTopology topology;
+  std::vector<TileOrderNode> nodes; std::vector<TileOrderChain> chains;
+  for (unsigned i = 32; i-- > 0;) assert(topology.update(id(i), report(i), 100));
+  topology.build(100, nodes, chains);
+  assert(chains.size() == 1 && chains[0].closedRing && chains[0].chainId == id(0));
+  for (unsigned i = 0; i < 32; ++i) assert(chains[0].moduleIds[i] == id(i));
+  auto plan = projectTileOrder(chains, {}, {}, 32);
+  assert(plan.size() == 32);
+  for (unsigned i = 0; i < 32; ++i) assert(plan[i].mapIndex == static_cast<int>(i) && !plan[i].conflict);
+  plan = projectTileOrder(chains, {{id(8), 16}, {id(17), 25}}, {}, 32);
+  for (unsigned i = 0; i < 32; ++i) assert(plan[i].mapIndex == static_cast<int>((i + 8) % 32) && !plan[i].conflict);
+  for (const auto& anchors : std::vector<std::map<std::string, int>>{
+       {{id(0), 1}}, {{id(0), 0}, {id(8), 16}}, {{id(1), 8}}}) {
+    plan = projectTileOrder(chains, anchors, {}, 32);
+    for (const auto& p : plan) assert(p.conflict);
+  }
+  plan = projectTileOrder(chains, {}, {{"outside-manual", 5}}, 32);
+  for (const auto& p : plan) assert(p.conflict);
+  plan = projectTileOrder(chains, {}, {}, 16);
+  for (const auto& p : plan) assert(p.conflict);
+  // Random boot identifiers and registration order must not select START.
+  auto reboot = report(8, 2); reboot.bootId = "fffffffffffffff0";
+  assert(topology.update(id(8), reboot, 200));
+  auto follower = report(9, 2); follower.upstreamBootId = reboot.bootId;
+  assert(topology.update(id(9), follower, 200));
+  topology.build(200, nodes, chains); assert(chains.size() == 1 && chains[0].chainId == id(0));
+  // An open former ring is withheld, including a still-live head and manual followers.
+  auto broken = report(0, 2); broken.valid = false; broken.upstreamBootId.clear(); broken.upstreamSeq = 0;
+  assert(topology.update(id(0), broken, 201));
+  topology.build(201, nodes, chains); assert(chains.empty());
+  for (const auto& n : nodes) assert(n.status == "stale" && n.conflict == "ring_open");
+  auto repaired = report(0, 3); assert(topology.update(id(0), repaired, 202));
+  topology.build(202, nodes, chains); assert(chains.size() == 1 && chains[0].closedRing);
+  auto unknown = report(2, 2); unknown.moduleRole = "unknown";
+  assert(topology.update(id(2), unknown, 203));
+  topology.build(203, nodes, chains); assert(chains.empty());
+  for (const auto& n : nodes) assert(n.status == "conflict");
+  TileOrderTopology wrongSpacing;
+  for (unsigned i = 0; i < 32; ++i) {
+    auto r = report(i); if (i == 7) r.moduleRole = "corner"; if (i == 8) r.moduleRole = "long";
+    assert(wrongSpacing.update(id(i), r, 1));
+  }
+  wrongSpacing.build(1, nodes, chains); assert(chains.empty());
+  for (const auto& n : nodes) assert(n.conflict == "invalid_corner_spacing");
+
+  GameEngine engine; assert(engine.reset(*BoardCatalog::findBySize(32), 1));
+  const auto state = engine.state(); std::uint64_t now = 1000;
+  TileDebugAssignments service([&] { return now; });
+  for (unsigned i = 0; i < 32; ++i) {
+    const auto r = report(i); assert(service.heartbeat(2, state, id(i), "dev-" + id(i), nullptr, false, &r).result);
+  }
+  auto view = service.snapshot(2, state); assert(view.assignments.size() == 32);
+  assert(moduleFor(view, id(0).c_str()).moduleRole == "corner" && moduleFor(view, id(0).c_str()).closedRing);
+  assert(service.set(2, state, id(0), "dev-" + id(0), state.board->tiles[8].id));
+  view = service.snapshot(2, state); assert(assignmentFor(view, id(31).c_str()).mapIndex == 7);
+  const auto before = view.revision;
+  assert(!service.set(2, state, id(1), "dev-" + id(1), state.board->tiles[10].id));
+  view = service.snapshot(2, state); assert(view.revision == before && assignmentFor(view, id(1).c_str()).mapIndex == 9);
+  assert(service.heartbeat(2, state, id(0), "dev-" + id(0), nullptr, false, &broken).result);
+  view = service.snapshot(2, state); assert(view.assignments.size() == 1);
+  assert(assignmentFor(view, id(0).c_str()).source == TileDebugAssignmentSource::Manual);
+  // An anchor entered while a chain was open may become invalid when it closes.
+  // Preserve that intent for correction, but do not display any invalid ring mapping.
+  TileDebugAssignments closing([&] { return now; });
+  for (unsigned i = 0; i < 32; ++i) {
+    auto r = report(i);
+    if (i == 0) { r.valid = false; r.upstreamBootId.clear(); r.upstreamSeq = 0; }
+    assert(closing.heartbeat(3, state, id(i), "dev-" + id(i), nullptr, false, &r).result);
+  }
+  assert(closing.set(3, state, id(1), "dev-" + id(1), state.board->tiles[0].id));
+  const auto close = report(0, 2);
+  assert(closing.heartbeat(3, state, id(0), "dev-" + id(0), nullptr, false, &close).result);
+  view = closing.snapshot(3, state); assert(view.assignments.empty() && view.orderStatus == "conflict");
+  assert(!moduleFor(view, id(1).c_str()).orderAnchorTileId.empty());
+  assert(closing.clear(3, state, id(1)));
+  assert(closing.snapshot(3, state).assignments.size() == 32);
+}
+
 void verifyTileOrder() {
+  verifyClosedOrderRing();
   verifyOrderPhysicalGraph(); verifyOrderAnchorsAndLeases(); verifyOrderProjectionAndJson();
   verifyOrderPriorityAndSuspendedSegment();
 }
