@@ -18,7 +18,7 @@
 
 新能力位 `0x02` 表示 Tag 配对，原 Wi-Fi UDP 位为 `0x01`。新屏的 deviceId 为六字节完整 MAC 的 FNV-1a32（ESP.getEfuseMac 低字节在先，hash=0 映射为1）；PairRequest.displayName 为 `GP-` 加同序六字节十二位十六进制。服务端复算并拒绝身份冲突。设备 boot nonce 不作为稳定身份。新握手的 nonce/packetSequence 重放不能刷新 online。
 
-`POST /api/new?size=32&autoPlayers=1` 从当前合格在线屏冻结 1..4 个真实席位，按稳定 deviceId 排序，机器人补到总共4席。零合格屏或多于4屏返回 HTTP409，message 分别为 `no_eligible_players`、`too_many_players`，不改变房间。自动模式只支持32格。显式 humans/bots 调试接口保留旧行为。
+`POST /api/new?size=32&autoPlayers=1` 从当前合格在线屏冻结 1..4 个真实席位，按稳定 deviceId 排序，机器人补到总共4席。size 默认32，也接受 BoardCatalog 支持的16、24、40；其它尺寸拒绝且不改变房间。零合格屏或多于4屏返回 HTTP409，message 分别为 `no_eligible_players`、`too_many_players`，不改变房间。自动人数与 Tag 配对不要求32实体闭环，单块未分配 reader 或开放链同样可用。完整32闭环的角色/角落规则仅约束该拓扑的编号。显式 humans/bots 调试接口保留旧行为。
 
 冻结的 full identity 与 seat 持久化；重连/设备重启不抢占其它座位，晚加入的设备不能挤占机器人。旧截断 deviceId 不自动偷迁已占座位；新固件即使在旧局被拒绝席位，仍能通过发现接口计入下一自动新局。
 

@@ -230,7 +230,9 @@ void zeroFiveAndWrongBoardRejectWithoutChangingRoom() {
   for (std::uint8_t i = 1; i <= 5; ++i) { devices.push_back(device(i)); CHECK(f.discover(devices.back())); }
   CHECK(!f.authority->newAutoGame(32));
   CHECK(f.authority->roomId() == room && f.authority->stateVersion() == version);
-  CHECK(!f.authority->newAutoGame(24));
+  const auto unsupported = f.authority->newAutoGame(23);
+  CHECK(!unsupported && unsupported.code == gridopoly::core::ErrorCode::InvalidArgument);
+  CHECK(f.authority->roomId() == room && f.authority->stateVersion() == version);
   CHECK(readBytes(f.directory / "authority.meta") == initialMetadata);
   f.now += 15000; // The exact online lease boundary is ineligible.
   CHECK(!f.authority->newAutoGame(32) && f.authority->roomId() == room);

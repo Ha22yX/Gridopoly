@@ -1420,7 +1420,8 @@ std::uint8_t AuthorityService::frozenSeatForDevice(std::uint32_t deviceId) const
 
 Result AuthorityService::newAutoGame(std::uint8_t boardSize) {
   std::lock_guard<std::mutex> lock(mutex_);
-  if (boardSize != 32) return error(ErrorCode::InvalidArgument, "automatic_players_require_32_tiles");
+  if (BoardCatalog::findBySize(boardSize) == nullptr)
+    return error(ErrorCode::InvalidArgument, "unsupported board size");
   const auto now = epochClock_();
   std::array<ConsoleDeviceInfo, 4> selected{};
   std::uint8_t count = 0;

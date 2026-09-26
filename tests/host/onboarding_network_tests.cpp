@@ -11,9 +11,11 @@
 #include <cstdint>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include <functional>
 #include <iomanip>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -99,6 +101,12 @@ std::string stringValue(const std::string& text, const std::string& key) {
   return text.substr(content, end - content);
 }
 
+std::string readFile(const std::filesystem::path& path) {
+  std::ifstream input(path, std::ios::binary);
+  assert(input);
+  return {std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+}
+
 void waitUntil(const std::function<bool()>& predicate) {
   const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
   while (!predicate()) {
@@ -142,7 +150,7 @@ struct Fixture {
   std::unique_ptr<gridopoly::pi::UdpPlayerServer> udp;
   std::unique_ptr<gridopoly::pi::HttpServer> http;
 
-  explicit Fixture(const char* name) {
+  explicit Fixture(const char* name, std::uint8_t initialBoardSize = 32) {
     directory = std::filesystem::temp_directory_path() /
         ("gridopoly-onboarding-network-" + std::to_string(::getpid()) + '-' + name);
     assert(!std::filesystem::exists(directory));
@@ -156,7 +164,7 @@ struct Fixture {
     authority = std::make_unique<gridopoly::pi::AuthorityService>(directory / "state.bin",
         directory / "authority.meta", 0xA0102040u, std::chrono::milliseconds(1200), options);
     assert(authority->initialize());
-    assert(authority->newGame(32, 1, 3));
+    assert(authority->newGame(initialBoardSize, 1, 3));
     udp = std::make_unique<gridopoly::pi::UdpPlayerServer>(*authority, kPsk,
         directory / "registry.bin", "127.0.0.1", "127.255.255.255", 0);
     http = std::make_unique<gridopoly::pi::HttpServer>(*authority, *udp,
@@ -370,11 +378,12 @@ struct Client {
   }
 };
 
-void newAutomaticGame(Fixture& fixture, std::uint8_t humans) {
+void newAutomaticGame(Fixture& fixture, std::uint8_t humans, std::uint8_t boardSize = 32) {
   const auto priorRoom = fixture.authority->roomId();
-  const auto result = fixture.post("/api/new?size=32&autoPlayers=1");
+  const auto result = fixture.post("/api/new?size=" + std::to_string(boardSize) + "&autoPlayers=1");
   assert(result.status == 200 && number(result.body, "roomId") != priorRoom);
   assert(fixture.authority->stateCopy().playerCount == 4);
+  assert(fixture.authority->stateCopy().board->tileCount == boardSize);
   const auto sync = fixture.get("/api/sync");
   assert(sync.status == 200 && sync.body.find("\"frozenDevices\":[") != std::string::npos);
   assert(sync.body.find("\"tagPairing\":{") != std::string::npos);
@@ -671,6 +680,90 @@ void tagOnboardingAcrossTransports() {
   assert(sync.status == 200 && sync.body.find("\"winnerPlayerId\":0") != std::string::npos);
 }
 
+void singleUnassignedReaderAcrossSupportedBoards() {
+  for (const std::uint8_t boardSize : std::array<std::uint8_t, 4>{{16, 24, 32, 40}}) {
+    const auto name = "single-reader-" + std::to_string(boardSize);
+    Fixture fixture(name.c_str(), 24);
+    // Reproduce the deployed migration: the old truncated identity reserves the
+    // only legacy human seat, while the new full-MAC console remains discoverable.
+    Client legacy(fixture, 0xDC, false);
+    legacy.deviceId = 0x02D9B4DCu;
+    assert(legacy.pair(fixture).accepted == 1);
+    Client player(fixture, 0xDC);
+    assert(player.name == "GP-DCB4D902D1DC");
+    assert(player.pair(fixture).accepted == 0);
+    const auto devices = fixture.get("/api/player-devices");
+    assert(devices.status == 200 && occurrences(devices.body, "\"eligible\":true") == 1);
+    assert(devices.body.find("\"displayName\":\"GP-DCB4D902D1DC\",\"online\":true,\"seatId\":0") !=
+        std::string::npos);
+
+    // Rejection of an unsupported board is transactional even with an eligible
+    // console, so this cannot pass merely because discovery found nobody.
+    const auto previousRoom = fixture.authority->roomId();
+    const auto previousGame = fixture.authority->stateCopy();
+    assert(previousGame.board->tileCount == 24);
+    const auto metadata = readFile(fixture.directory / "authority.meta");
+    const auto invalid = fixture.post("/api/new?size=23&autoPlayers=1");
+    assert(invalid.status == 409 && invalid.body.find("\"ok\":false") != std::string::npos);
+    assert(fixture.authority->roomId() == previousRoom);
+    assert(fixture.authority->stateVersion() == previousGame.stateVersion);
+    assertOnboardingGameplayUnchanged(previousGame, fixture.authority->stateCopy());
+    assert(readFile(fixture.directory / "authority.meta") == metadata);
+
+    Reader reader(fixture, "only-reader", "C0FFEE0000000001");
+    constexpr std::uint32_t uid = 0x10203040u;
+    reader.report({uid}); // Existing inventory, no ORDER neighbor, no manual anchor.
+    auto assertUnassignedOpenReader = [&] {
+      const auto topology = fixture.get("/api/tile-debug/assignments");
+      assert(topology.status == 200);
+      assert(occurrences(topology.body, "\"online\":true") == 1);
+      assert(occurrences(topology.body, "\"assigned\":false") == 1);
+      assert(topology.body.find("\"assignments\":[]") != std::string::npos);
+      assert(topology.body.find("\"closedRing\":true") == std::string::npos);
+      assert(topology.body.find("\"orderAnchorTileId\":\"\"") != std::string::npos);
+      assert(topology.body.find("\"orderUpstreamModuleId\":\"\"") != std::string::npos);
+      assert(topology.body.find("\"orderStatus\":\"unanchored\"") != std::string::npos);
+    };
+    assertUnassignedOpenReader();
+    newAutomaticGame(fixture, 1, boardSize);
+    assert(player.pair(fixture).accepted == 1 && player.seat == 1);
+    player.expectOnboardingSync(1);
+    const auto gameBefore = fixture.authority->stateCopy();
+    assert(gameBefore.players[0].controller == gridopoly::core::ControllerKind::RealConsole);
+    for (std::size_t i = 1; i < 4; ++i)
+      assert(gameBefore.players[i].controller == gridopoly::core::ControllerKind::Bot);
+
+    const auto selected = reader.report({uid});
+    assert(selected.body.find("\"assigned\":false") != std::string::npos);
+    assert(selected.body.find("\"pairing\":{\"active\":true") != std::string::npos);
+    auto pairing = player.query();
+    assert(pairing.state == TagPairState::ClearRequired && pairing.requiredHumanMask == 1);
+    assert(pairing.boundMask == 0 && pairing.readerMapIndex == 255);
+    assert(std::string(pairing.moduleId.data()) == reader.module);
+    reader.echo(pairing);
+    reader.report({uid});
+    assert(player.query().boundMask == 0); // Pre-existing UID cannot bind the new room.
+    reader.report({});
+    assert(player.query().state == TagPairState::AwaitingTag);
+    const auto success = reader.report({uid});
+    assert(success.body.find("\"state\":\"success_remove\"") != std::string::npos);
+    pairing = player.query();
+    assert(pairing.state == TagPairState::SuccessRemove && pairing.boundMask == 1 && pairing.tagUid == uid);
+    assert((pairing.flags & (TagPairFlagSelfBound | TagPairFlagCanEditIdentity)) ==
+        (TagPairFlagSelfBound | TagPairFlagCanEditIdentity));
+    assert(fixture.authority->playerTagBindings().playerTagUids[0] == uid);
+    IdentityRequest identityQuery; identityQuery.requestId = 200;
+    assert(player.identityRequest(identityQuery).selfStage == IdentitySeatStage::AvatarSetup);
+    assertUnassignedOpenReader();
+    assert(fixture.authority->stateVersion() == gameBefore.stateVersion);
+    assertOnboardingGameplayUnchanged(gameBefore, fixture.authority->stateCopy());
+    reader.report({}); // Removal is a fresh scan on the same sole reader/session.
+    fixture.advance(1001);
+    assert(player.query().state == TagPairState::Complete);
+    assertOnboardingGameplayUnchanged(gameBefore, fixture.authority->stateCopy());
+  }
+}
+
 void ringHeartbeatWire() {
   Fixture fixture("ring-wire");
   const auto room = fixture.authority->roomId();
@@ -725,6 +818,7 @@ void ringHeartbeatWire() {
 int main() {
   discoveryAndFrozenSeats();
   tagOnboardingAcrossTransports();
+  singleUnassignedReaderAcrossSupportedBoards();
   ringHeartbeatWire();
   std::cout << "onboarding HTTP/UDP network tests passed\n";
 }
