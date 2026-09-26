@@ -90,11 +90,13 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     <section class="panel"><div id="workflow" class="kv" aria-live="polite"><span>事务</span><b>无待处理事务</b></div><div id="pairing-actions" class="pairing-actions" hidden><button id="pairing-retry" type="button">换一个配对格子</button></div></section>
     <section class="panel"><div id="players" class="players"></div></section>
     <section class="panel controls">
+      <div id="bank-inventory" style="grid-column:1/-1;color:var(--muted)" aria-live="polite">银行建筑库存：等待数据</div>
       <button data-action="roll" class="primary">掷骰</button><button data-action="confirm">确认棋子到位</button>
       <button data-action="buy">购买</button><button data-action="decline">放弃并拍卖</button>
       <button data-action="end">结束回合</button><button data-action="holdfee">支付离场费</button>
       <button data-action="mortgage">抵押所选资产</button><button data-action="unmortgage">赎回所选资产</button>
       <button data-action="build">建设所选地产</button><button data-action="sell">出售所选建筑</button>
+      <button data-action="sellgroup">清算所在整组建筑</button><span></span>
       <button data-action="paydebt" class="primary">确认支付债务</button><button data-action="bankrupt">确认无法偿还</button>
       <button data-action="bid" class="primary">拍卖出价</button><button data-action="passbid">退出本次拍卖</button>
       <button data-action="cardcontinue" class="primary">继续执行卡片</button><span></span>
@@ -123,7 +125,7 @@ const $=selector=>document.querySelector(selector);
 const esc=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const phases=['大厅','等待掷骰','等待棋子确认','购买决定','拍卖','债务处理','回合结束','游戏结束','等待卡片确认'];
 const kinds=['起点','地产','交通枢纽','基础设施','Chance','Community Chest','费用','限制区','自由中庭','前往限制区'];
-const actionBits={roll:1,confirm:2,buy:4,decline:8,end:16,mortgage:32,unmortgage:64,build:128,sell:256,holdfee:1024,paydebt:2048,bankrupt:4096,bid:8192,passbid:16384,cardcontinue:65536};
+const actionBits={roll:1,confirm:2,buy:4,decline:8,end:16,mortgage:32,unmortgage:64,build:128,sell:256,sellgroup:256,holdfee:1024,paydebt:2048,bankrupt:4096,bid:8192,passbid:16384,cardcontinue:65536};
 const tileVisuals={
   A1:['Rivet Row','a1-rivet-row.png','#C97852'],A2:['Copper Lane','a2-copper-lane.png','#C97852'],
   B1:['Lantern Avenue','b1-lantern-avenue.png','#63C6E8'],B2:['Tideway Drive','b2-tideway-drive.png','#63C6E8'],B3:['Beacon Boulevard','b3-beacon-boulevard.png','#63C6E8'],
@@ -216,6 +218,7 @@ function tileDebugOrderFields(module){
   const statuses=['legacy','probing','ready','unanchored','stale','conflict'];
   return{
     moduleRole:['long','corner'].includes(module.moduleRole)?module.moduleRole:'unknown',
+    closedRing:module.closedRing===true,
     orderCapable:module.orderCapable===true,
     orderStatus:statuses.includes(module.orderStatus)?module.orderStatus:'legacy',
     orderChainId:tileDebugSafeIdentifier(module.orderChainId)?module.orderChainId:'',
@@ -241,10 +244,14 @@ function tileDebugOrderLabel(module){
   if(!module||!module.orderCapable)return'未启用 ORDER';
   const labels={probing:'正在识别接线',ready:'接线顺序已确认',unanchored:'等待指定一个格子',stale:'接线信息已过期',conflict:'接线或格子分配冲突',legacy:'尚无接线信息'};
   const index=module.orderIndex===null?'':` · 第 ${module.orderIndex+1} 块`;
-  const chain=module.orderChainId?` · 链 ${module.orderChainId}`:'';
+  const chain=module.orderChainId?` · ${module.closedRing?'32 格闭环':'链'} ${module.orderChainId}`:'';
   const upstream=module.orderUpstreamModuleId?` · 上游 ${module.orderUpstreamModuleId}`:'';
   const role={long:'长边',corner:'角落',unknown:'板型未设置'}[module.moduleRole]||'板型未设置';
-  const conflict=module.orderConflict?` · ${module.orderConflict}`:'';
+  const reasons={unknown_module_role:'请检查长边/角落固件',invalid_corner_count:'角落数量应为 4 个',
+    invalid_corner_spacing:'相邻角落之间应有 7 块长边',incomplete_ring:'环形连接不完整',
+    ring_open:'环形接线已断开',ring_or_tile_conflict:'地图或手动锚点与环形位置冲突',
+    multiple_downstream:'检测到分叉接线',cycle:'环形模块数量与完整棋盘不符'};
+  const conflict=module.orderConflict?` · ${reasons[module.orderConflict]||module.orderConflict}`:'';
   return`${role} · ORDER：${labels[module.orderStatus]||labels.legacy}${index}${chain}${upstream}${conflict}`;
 }
 
@@ -618,6 +625,9 @@ function render(next){
   $('#decision').textContent=identityActive&&!gameResult(next)?`P${next.decisionPlayer}`:'—';
   $('#version').textContent=next.identity?`${next.version} · I${next.identity.revision}`:next.version;
   $('#peers').textContent=next.espnowPeers;
+  const inventory=next.bankInventory;
+  $('#bank-inventory').textContent=inventory&&Number.isInteger(inventory.buildings)&&Number.isInteger(inventory.landmarks)?
+    `银行剩余：建筑 ${inventory.buildings} · 地标 ${inventory.landmarks}`:'银行建筑库存：等待数据';
   if(renderIdentityWorkflow(next)){
     // Identity setup owns the workflow panel until the authority activates the game.
   }else if(gameResult(next)){
@@ -1359,8 +1369,11 @@ async function send(path){
 }
 
 document.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{
-  const argument=button.dataset.action==='bid'?`&arg=${$('#bid').value}`:button.dataset.action==='cardcontinue'&&state.card?`&arg=${state.card.instance}`:'';
-  send(`/api/action?action=${button.dataset.action}&player=${state.decisionPlayer}&asset=${$('#asset').value}&expected=${state.version}${argument}`);
+  const sellGroup=button.dataset.action==='sellgroup';
+  if(sellGroup&&!window.confirm(`确认出售资产 A${$('#asset').value} 所在整个地区组的全部建筑和地标？地产所有权保留，建筑按规则回收。这会一次清空整组建筑。`))return;
+  const action=sellGroup?'sell':button.dataset.action;
+  const argument=sellGroup?'&arg=1':action==='sell'?'&arg=0':action==='bid'?`&arg=${$('#bid').value}`:action==='cardcontinue'&&state.card?`&arg=${state.card.instance}`:'';
+  send(`/api/action?action=${action}&player=${state.decisionPlayer}&asset=${$('#asset').value}&expected=${state.version}${argument}`);
 });
 $('#new').onclick=()=>{
   if(!validateNewGameCounts())return;

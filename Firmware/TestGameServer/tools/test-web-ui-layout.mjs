@@ -194,7 +194,7 @@ assert.equal(tileDebugModel.modules[1].assigned, true,
 assert.deepEqual(tileDebugModel.modules[0], {
   moduleId: 'module-a', deviceId: 'device-a', assigned: true, online: true,
   lastSeenMs: 1_720_000_000_500, leaseRemainingMs: 12_000, source: 'udp',
-  moduleRole:'unknown',orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
+  moduleRole:'unknown',closedRing:false,orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
   orderEpoch: '', orderConflict: '', orderUpstreamModuleId: '', orderAnchorTileId: '',
 }, 'online module leases preserve discovery timing and source metadata');
 assert.equal(tileDebugModel.modules[1].online, false,
@@ -231,6 +231,10 @@ assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(orderView.modules[2]),/
   'an unknown physical index must not be invented');
 assert.equal(orderView.assignments[0].orderOffset,1);
 assert.equal(orderView.modules[2].orderAnchorTileId,'A2','a suspended anchor stays visible without assignment');
+const ringView=tileDebugHelpers.normalizeTileDebugData({modules:[{moduleId:'corner-01',deviceId:'corner-01',
+  moduleRole:'corner',closedRing:true,orderCapable:true,orderStatus:'ready',orderChainId:'corner-01',orderIndex:0}]});
+assert.match(tileDebugHelpers.tileDebugOrderLabel(ringView.modules[0]),/角落.*32 格闭环/);
+assert.match(tileDebugHelpers.tileDebugOrderLabel({...ringView.modules[0],orderConflict:'invalid_corner_spacing'}),/7 块长边/);
 assert.equal(tileDebugHelpers.tileDebugSourceLabel(orderView.modules[2],null),'手动指定（锚点）');
 assert.equal(tileDebugHelpers.tileDebugOrderLabel(tileDebugModel.modules[0]),'未启用 ORDER',
   'legacy registration order is never presented as physical topology');

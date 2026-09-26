@@ -17,6 +17,7 @@ const {chromium}=require('playwright');
       online:true,eligible:true,capabilities:3}));
     let next={schema:2,version:1,roomId:7,network:1,controlVersion:1,tagBindingRevision:1,
       phase:1,round:1,activePlayer:1,decisionPlayer:1,actions:0,espnowPeers:2,
+      bankInventory:{buildings:24,landmarks:9},
       wifi:{connected:true,ip:'10.42.0.1'},board:{id:'grid-city-32-v1',size:32},
       debt:{active:false},auction:{active:false},card:{active:false},forcedRoll:{active:false},
       identity:{phase:1,revision:1,readyMask:12,avatarFinalMask:12,nameFinalMask:12,
@@ -50,6 +51,10 @@ const {chromium}=require('playwright');
         next.tagPairing.readerMapIndex=9;
         return json(route,next.tagPairing);
       }
+      if(url.pathname==='/api/action'){
+        posts.push(url);
+        return json(route,{ok:true,version:next.version});
+      }
       if(url.pathname.startsWith('/assets/tiles/')){
         const file=path.resolve(__dirname,'../../../Assets/GridCity/StreetV3/device',path.basename(url.pathname));
         if(fs.existsSync(file))return route.fulfill({contentType:'image/png',body:fs.readFileSync(file)});
@@ -59,6 +64,7 @@ const {chromium}=require('playwright');
     await page.goto('http://gridopoly.test/');
     await page.waitForFunction(()=>document.querySelector('#newgame-roster').textContent.includes('2 名真人'));
     assert.equal(await page.locator('#new').isEnabled(),true);
+    assert.match(await page.locator('#bank-inventory').innerText(),/建筑 24 · 地标 9/);
     assert.match(await page.locator('#workflow').innerText(),/请把本人的棋子/);
     assert.equal(await page.locator('.pairing-target').count(),1);
     assert.equal(await page.locator('.pairing-target').getAttribute('data-tile-index'),'8');
@@ -94,6 +100,23 @@ const {chromium}=require('playwright');
     assert.equal(await page.locator('#pairing-actions').isVisible(),false);
     assert.equal(await page.locator('.pairing-target').count(),0);
     assert.equal(await page.locator('[data-action="roll"]').isDisabled(),true);
+
+    next.phase=5;next.actions=256;next.bankInventory.buildings=0;
+    await page.evaluate(()=>refresh(true));
+    assert.match(await page.locator('#bank-inventory').innerText(),/建筑 0 · 地标 9/);
+    const priorPosts=posts.length;
+    page.once('dialog',dialog=>dialog.dismiss());
+    await page.locator('[data-action="sellgroup"]').click();
+    assert.equal(posts.length,priorPosts,'cancelled group sale must not send a mutation');
+    page.once('dialog',async dialog=>{
+      assert.match(dialog.message(),/整个地区组的全部建筑和地标/);
+      await dialog.accept();
+    });
+    await page.locator('[data-action="sellgroup"]').click();
+    await page.waitForFunction(()=>!actionInFlight);
+    assert.equal(posts.at(-1).searchParams.get('action'),'sell');
+    assert.equal(posts.at(-1).searchParams.get('arg'),'1');
+    assert.equal(posts.at(-1).searchParams.get('expected'),'1');
 
     devices.push({deviceId:3,online:true,eligible:true},{deviceId:4,online:true,eligible:true},
       {deviceId:5,online:true,eligible:true});
