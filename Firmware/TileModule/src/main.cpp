@@ -20,6 +20,7 @@
 #include "board_config.h"
 #include "display_diff.h"
 #include "order_link_io.h"
+#include "module_profile.h"
 #include "hitag_s_decoder.h"
 #include "hitag_s_protocol.h"
 #include "tag_presence_filter.h"
@@ -211,6 +212,9 @@ std::uint32_t gLastPowerSampleMs = 0;
 std::uint32_t gLastUiRefreshMs = 0;
 std::uint32_t gLastLedFrameMs = 0;
 std::uint32_t gMovementCueStartedMs = 0;
+std::uint32_t gPairingCueStartedMs = 0;
+TagScanEvidence gTagScanEvidence{};
+std::uint32_t gScanPairingRoom = 0, gScanPairingSession = 0;
 std::uint32_t gLastHtrcSafeRewriteMs = 0;
 bool gHtrcTransmitterSafe = false;
 std::uint32_t gLastTagScanMs = 0;
@@ -1009,14 +1013,24 @@ void publishPendingTagObservation() {
   if (gTagNetworkPublishPending &&
       gNetwork.updateTagObservation(networkTagReaderState(gTagStatus),
                                     gTagUids, gConfirmedTagCount,
-                                    gConfirmedTagOverflow)) {
+                                    gConfirmedTagOverflow, gTagScanEvidence)) {
     gTagNetworkPublishPending = false;
   }
+}
+
+void recordTagScan(bool complete) {
+  if (++gTagScanEvidence.sequence == 0) ++gTagScanEvidence.sequence;
+  gTagScanEvidence.completed_ms = millis();
+  gTagScanEvidence.pairing_room_id = gScanPairingRoom;
+  gTagScanEvidence.pairing_session_id = gScanPairingSession;
+  gTagScanEvidence.complete = complete;
+  gTagNetworkPublishPending = true;
 }
 
 void publishTagInventory(TagStatus status, const hitag_s::UidSet *tags,
                          std::uint8_t sampling,
                          std::uint8_t confirmations) {
+  recordTagScan(false);
   // An incomplete collision tree is only an internal sample result. Keep the
   // last stable PRESENT/NO TAG state so the public UI never sticks on
   // UNSTABLE while the next clean scan is already pending.
@@ -1075,6 +1089,11 @@ void publishTagInventory(TagStatus status, const hitag_s::UidSet *tags,
     next_count = effective_tags->count;
     next_overflow = effective_tags->overflow;
   }
+  // A retained UID awaiting removal evidence is display state, not fresh RF evidence.
+  bool exact_inventory = effective_status == status;
+  if (effective_tags != tags) exact_inventory = false;
+  gTagScanEvidence.complete = exact_inventory && !next_overflow &&
+      (status == TagStatus::Present || status == TagStatus::NoTag);
   bool changed = effective_status != gTagStatus ||
                  next_count != gConfirmedTagCount ||
                  next_overflow != gConfirmedTagOverflow;
@@ -1154,6 +1173,10 @@ void publishTagStatus(TagStatus status, const hitag_s::Uid *uid,
 }
 
 void scanHitagTag() {
+  // Latch session at scan start. New HTTP pairing cannot bless an older cache.
+  const bool pairing = pairingVisible(gNetworkSnapshot.pairing, millis());
+  gScanPairingRoom = pairing ? gNetworkSnapshot.pairing.room_id : 0;
+  gScanPairingSession = pairing ? gNetworkSnapshot.pairing.session_id : 0;
   samplePower();
   const PowerReading baseline = gPower;
   if (!verifyHtrcDigitalLink() || !baseline.valid ||
@@ -1207,6 +1230,10 @@ void scanHitagTag() {
           combined.count >= gConfirmedTagCount && !inventory.incomplete) {
         break;
       }
+    }
+    if (combined.count != 0U && saw_incomplete) {
+      publishTagStatus(TagStatus::Unstable, nullptr, value, 0U);
+      return true;
     }
     if (combined.count != 0U) {
       publishTagInventory(TagStatus::Present, &combined, value, 1U);
@@ -1513,6 +1540,19 @@ void initializeLeds() {
 
 void renderLedScene(std::uint32_t now_ms) {
   if (!gLedReady) {
+    return;
+  }
+  if (pairingVisible(gNetworkSnapshot.pairing, now_ms)) {
+    const auto state = gNetworkSnapshot.pairing.state;
+    const bool success = state == TilePairingState::SuccessRemove || state == TilePairingState::Complete;
+    const bool waiting = state == TilePairingState::AwaitingTag || state == TilePairingState::WaitingReader;
+    const Rgb color = success ? Rgb{50, 230, 100} :
+                      waiting ? Rgb{70, 110, 255} : Rgb{255, 110, 35};
+    const auto phase = (now_ms - gPairingCueStartedMs) % 1400U;
+    const std::uint8_t level = success ? 60U : static_cast<std::uint8_t>(
+        phase < 700U ? 20U + phase * 40U / 700U : 60U - (phase - 700U) * 40U / 700U);
+    std::fill(std::begin(gPixels), std::end(gPixels), scaleColor(color, level));
+    showPixels();
     return;
   }
   if (!gNetworkSnapshot.assigned) {
@@ -1891,10 +1931,35 @@ void drawDiagnosticPage() {
   centeredText("TYPE DIAG TO RETURN", 294, 1, kMuted, kBackground);
 }
 
+void drawPairingPage() {
+  gFramePending = true;
+  displaySurface().fillScreen(kBackground);
+  centeredText("TOKEN PAIRING", 28, 2, kText, kBackground);
+  drawPanel(12, 65, 216, 178, kLine);
+  char player[24];
+  std::snprintf(player, sizeof(player), "PLAYER %u", gNetworkSnapshot.pairing.player_id);
+  centeredText(player, 92, 3, kText, kPanel);
+  // The panel font is ASCII. Player number remains authoritative for any name.
+  char name[25]{};
+  for (std::size_t i = 0; i < 24 && gNetworkSnapshot.pairing.player_name[i] != '\0'; ++i) {
+    const unsigned char c = gNetworkSnapshot.pairing.player_name[i];
+    name[i] = c >= 32 && c <= 126 ? static_cast<char>(c) : '?';
+  }
+  centeredText(name, 136, 1, kMuted, kPanel);
+  centeredText(pairingInstruction(gNetworkSnapshot.pairing.state), 188, 1, kText, kPanel);
+  centeredText("FOLLOW YOUR PLAYER SCREEN", 275, 1, kMuted, kBackground);
+  drawPowerFooter();
+}
+
 void renderPage() {
   if (gDiagnosticPage) {
     drawDiagnosticPage();
     Serial.println(F("[DISPLAY] page=DIAGNOSTIC"));
+  } else if (pairingVisible(gNetworkSnapshot.pairing, millis())) {
+    drawPairingPage();
+    Serial.printf("[DISPLAY] page=PAIRING state=%s player=%u\r\n",
+                  tilePairingStateLabel(gNetworkSnapshot.pairing.state),
+                  gNetworkSnapshot.pairing.player_id);
   } else if (gNetworkSnapshot.assigned) {
     drawTilePage();
     Serial.printf("[DISPLAY] page=TILE id=%s revision=%llu\r\n",
@@ -1976,6 +2041,15 @@ void recoverAndRenderPage() {
 }
 
 void printStatus() {
+  Serial.printf("[PAIRING] active=%s state=%s room=%lu session=%lu revision=%lu player=%u scan_seq=%lu fresh=%s\r\n",
+                pairingVisible(gNetworkSnapshot.pairing, millis()) ? "YES" : "NO",
+                tilePairingStateLabel(gNetworkSnapshot.pairing.state),
+                static_cast<unsigned long>(gNetworkSnapshot.pairing.room_id),
+                static_cast<unsigned long>(gNetworkSnapshot.pairing.session_id),
+                static_cast<unsigned long>(gNetworkSnapshot.pairing.revision),
+                gNetworkSnapshot.pairing.player_id,
+                static_cast<unsigned long>(gTagScanEvidence.sequence),
+                tagScanFresh(gTagScanEvidence, millis()) ? "YES" : "NO");
   const OrderLinkObservation order = orderLinkObservation();
   Serial.printf("[ORDER] boot=%016llX tx_seq=%u upstream=%016llX rx_seq=%u valid=%s age_ms=%u input=%s out=%s timer=%s accepted=%u rejected=%u timing_drops=%u\r\n",
                 static_cast<unsigned long long>(order.boot_id), order.tx_sequence,
@@ -1985,7 +2059,7 @@ void printStatus() {
                 order.output_pulled_low ? "LOW" : "RELEASED",
                 order.timer_ready ? "OK" : "FAIL", order.accepted, order.rejected,
                 order.timing_drops);
-  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=V0.32\r\n",
+  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=V0.33\r\n",
                 gDisplayClockHz,
                 spiClockDivToFrequency(gDisplaySpi.getClockDivider()),
                 gDisplayExperimentDurationMs);
@@ -2176,8 +2250,10 @@ void setup() {
   renderLedScene(now);
 
   Serial.println();
-  Serial.println(F("GRIDOPOLY TILE MODULE V0.32 - PHYSICAL ORDER BEACON"));
+  Serial.println(F("GRIDOPOLY TILE MODULE V0.33 - ROLE AND TOKEN PAIRING"));
   Serial.println(F("RS485 disabled; ORDER physical beacon and Wi-Fi/HTTP assignment enabled."));
+  Serial.printf("[PROFILE] role=%s profile=%s firmware=%s\r\n",
+                moduleRoleLabel(kModuleRole), kModuleProfile, kFirmwareVersion);
   printHelp();
   printStatus();
 }
@@ -2185,6 +2261,12 @@ void setup() {
 void loop() {
   const std::uint32_t now = millis();
   pollSerial();
+  if (gNetworkSnapshot.pairing.active && !pairingVisible(gNetworkSnapshot.pairing, now)) {
+    gNetworkSnapshot.pairing = {};
+    gNetworkSnapshot.movement = {};
+    renderPage();
+    renderLedScene(now);
+  }
   if (displayExperimentExpired(millis(), gDisplayExperimentStartedMs,
                                gDisplayExperimentDurationMs)) {
     restoreSafeDisplay();
@@ -2217,6 +2299,7 @@ void loop() {
   TileNetworkSnapshot next_network;
   if (gNetwork.consume(next_network)) {
     const bool page_changed =
+        pairingChanged(next_network.pairing, gNetworkSnapshot.pairing) ||
         next_network.assigned != gNetworkSnapshot.assigned ||
         (next_network.assigned
              ? std::memcmp(&next_network.tile, &gNetworkSnapshot.tile,
@@ -2232,6 +2315,9 @@ void loop() {
             gNetworkSnapshot.movement.player_id ||
         next_network.movement.revision !=
             gNetworkSnapshot.movement.revision;
+    if (pairingChanged(next_network.pairing, gNetworkSnapshot.pairing)) {
+      gPairingCueStartedMs = now;
+    }
     gNetworkSnapshot = next_network;
     if (movement_changed) {
       gMovementCueStartedMs = now;
@@ -2255,7 +2341,8 @@ void loop() {
     gLastUiRefreshMs = now;
     if (gDiagnosticPage) {
       drawDiagnosticPage();
-    } else if (!gNetworkSnapshot.assigned) {
+    } else if (!gNetworkSnapshot.assigned &&
+               !pairingVisible(gNetworkSnapshot.pairing, now)) {
       // The connection page is fully redrawn only when its semantic network
       // state changes. At 8 MHz a full-screen refresh every 500 ms produced a
       // clearly visible top-to-bottom wipe. Animate only the tiny progress

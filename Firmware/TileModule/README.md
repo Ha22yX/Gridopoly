@@ -1,6 +1,6 @@
 # Gridopoly 单格模块正式固件
 
-这是格子模块的正式固件工程。当前源码版本为 V0.32 ORDER物理邻接信标（保留 Tag 发布重试）：模块上电后连接树莓派专用热点，
+这是格子模块的正式固件工程。当前源码候选版本为 V0.33 板型配置、ORDER 直邻信标与权威 RFID 配对（保留 Tag 发布重试）：模块上电后连接树莓派专用热点，
 通过HTTP心跳注册、接收显示状态并上报实际ORDER上游。RS485仍未启用。
 测试程序仍独立保存在 `Firmware/TileModuleTests/`，不得把循环跑灯、纯色屏幕等
 首板测试流程并入本工程。
@@ -164,3 +164,24 @@ python Firmware/TileModule/tools/generate_tile_artwork.py
 
 后续正式接入主控时，将 RS485 解码后的数据写入 `TileState`，显示和 LED 渲染继续
 使用当前状态模型。
+
+
+## V0.33 批量板型和配对候选
+
+`tile_esp32s3` 默认上报 `moduleRole=unknown`；`tile_esp32s3_long` 和 `tile_esp32s3_corner` 分别固定上报 long/corner。GPIO13 为 NC，不读浮空脚猜板型，不烧 eFuse，不从 MAC/OUI 推断角色。板型不是地图位置，服务端根据实际 ORDER 边、四角间距和稳定设备身份决定逻辑角落。unknown 不能用于完整32格闭环自动映射。
+
+两类 profile 使用当前硬件基线相同的 N16R8、GPIO、240×320/rotation0 和10颗LED；订单对应制造revision与实际外接面板需首件核验。显示默认8MHz，忽略文件 `config/display.local.h` 中40MHz覆盖仍严格只对既有已验证MAC生效，不能给全批开启40MHz。
+
+正常候选构建与清单导出（不烧写）:
+
+```powershell
+python -m platformio run -d Firmware/TileModule -e tile_esp32s3_long -e tile_esp32s3_corner -t candidate
+```
+
+每个 build 环境输出 `candidate.json`、`candidate-sources.json`，记录 sourceDigest、gitRevision、真实烧录segments/offset/SHA256/flash参数。未提交源码由独立源清单定位，gitRevision不是“所有源文件都已提交”的声明。清单中的源码只含路径与哈希，不能拷贝凭据；批量烧录交主任务 release 工具按实体确认的 MAC/role 清单执行。不要整片复制某块Flash或擦写eFuse。role选错必须重刷正确profile，当前没有持久化role覆盖来源。
+
+每次 HTTP 心跳上报 moduleRole/firmwareVersion，并扩展 tagScanSeq/tagAgeMs/tagFresh。完整可信stable、无overflow、扫描完成年龄严格小于5000ms才fresh；旧缓存重传不能改年龄，扫描内容相同仍更新scanSeq，tagRevision只在内容变化时递增。未完成碰撞树、保留缺失消抖结果均不能作为新绑定证据。pairingRoomId/pairingSessionId在实际扫描开始锁定，新HTTP会话不能直接盖章旧库存。
+
+服务器的独立 pairing 对象带 active/roomId/sessionId/revision/state/playerId/playerName/leaseMs；模块只消费自己心跳返回的提示。配对时覆盖正常移动灯效与页面：蓝色等待放入，绿色提示配对成功拿回，橙色提示清空、已绑定换Tag、多Tag或读卡异常。旧模块可保留原session的“拿回”提示，同时另一模块接待下一玩家。active=false、网络失败或lease过期立即在下一主循环撤下配对提示；不在模块端自决绑定或到达。
+
+配对页用内置ASCII字体显示玩家编号与可显示的名字（非ASCII名字字符显示问号），不冒称已有中文字库。模块只读RFID UID，不写Tag存储器。32环和配对回归是主机模拟/生产逻辑测试，不替代32实体电气验收、实际拿放与显示目视确认。

@@ -5,6 +5,7 @@
 #include <cstring>
 
 #include "tile_model.h"
+#include "tile_pairing.h"
 
 namespace gridopoly::tile {
 
@@ -36,6 +37,7 @@ inline const char *tileTagReaderStateLabel(TileTagReaderState state) {
 }
 
 struct TileTagObservation {
+  TagScanEvidence scan{};
   std::uint32_t revision = 0;
   TileTagReaderState state = TileTagReaderState::Scanning;
   std::uint8_t count = 0;
@@ -88,6 +90,7 @@ struct TileNetworkSnapshot {
   std::uint64_t server_revision = 0;
   std::uint64_t assignment_revision = 0;
   TileMovementSignal movement{};
+  TilePairingSignal pairing{};
   bool tag_contract_supported = false;
   std::uint32_t lease_ms = 0;
   int http_status = 0;
@@ -107,7 +110,8 @@ class TileNetworkClient {
   bool updateTagObservation(TileTagReaderState state,
                             const char uids[][9],
                             std::uint8_t count,
-                            bool overflow);
+                            bool overflow,
+                            const TagScanEvidence &scan = {});
 
  private:
   static void taskEntry(void *context);

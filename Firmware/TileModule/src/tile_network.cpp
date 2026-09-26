@@ -16,6 +16,8 @@
 
 #include "tile_assignment.h"
 #include "order_link_io.h"
+#include "module_profile.h"
+#include "tile_pairing_json.h"
 
 #if __has_include("config/secrets.local.h")
 #include "config/secrets.local.h"
@@ -147,6 +149,7 @@ bool snapshotChanged(const TileNetworkSnapshot &left,
          left.movement.mode != right.movement.mode ||
          left.movement.player_id != right.movement.player_id ||
          left.movement.revision != right.movement.revision ||
+         pairingChanged(left.pairing, right.pairing) ||
          left.tag_contract_supported != right.tag_contract_supported ||
          left.lease_ms != right.lease_ms || left.http_status != right.http_status ||
          std::strcmp(left.source, right.source) != 0 ||
@@ -299,7 +302,8 @@ bool TileNetworkClient::consume(TileNetworkSnapshot &snapshot) {
 bool TileNetworkClient::updateTagObservation(TileTagReaderState state,
                                              const char uids[][9],
                                              std::uint8_t count,
-                                             bool overflow) {
+                                             bool overflow,
+                                             const TagScanEvidence &scan) {
   if (mutex_ == nullptr) return false;
   const std::uint8_t normalized_count =
       state == TileTagReaderState::Stable
@@ -334,6 +338,9 @@ bool TileNetworkClient::updateTagObservation(TileTagReaderState state,
                sizeof(observed_tags_.uids[index]), uids[index]);
     }
   }
+  observed_tags_.scan = scan;
+  observed_tags_.scan.complete = scan.complete &&
+      state == TileTagReaderState::Stable && !overflow;
   xSemaphoreGive(mutex);
   return true;
 }
@@ -487,6 +494,8 @@ void TileNetworkClient::publishLink(TileNetworkLink link, int http_status) {
   if (shared_.link != link || shared_.http_status != http_status) {
     shared_.link = link;
     shared_.http_status = http_status;
+    shared_.pairing = {};
+    shared_.movement = {};
     ++shared_.sequence;
   }
   xSemaphoreGive(mutex);
@@ -497,7 +506,7 @@ void TileNetworkClient::publish(const TileNetworkSnapshot &snapshot) {
   auto mutex = reinterpret_cast<SemaphoreHandle_t>(mutex_);
   if (xSemaphoreTake(mutex, pdMS_TO_TICKS(20)) != pdTRUE) return;
   bool changed = false;
-  if (snapshotChanged(shared_, snapshot)) {
+  if (snapshotChanged(shared_, snapshot) || snapshot.pairing.active) {
     const std::uint32_t next_sequence = shared_.sequence + 1U;
     shared_ = snapshot;
     shared_.sequence = next_sequence;
@@ -545,6 +554,14 @@ bool TileNetworkClient::heartbeat(TileNetworkSnapshot &snapshot,
   JsonDocument request;
   request["tagReaderState"] = tileTagReaderStateLabel(tags.state);
   request["tagRevision"] = tags.revision;
+  request["moduleRole"] = moduleRoleLabel(kModuleRole);
+  request["firmwareVersion"] = kFirmwareVersion;
+  request["tagScanSeq"] = tags.scan.sequence;
+  request["tagAgeMs"] = static_cast<std::uint32_t>(millis() - tags.scan.completed_ms);
+  request["tagFresh"] = tags.state == TileTagReaderState::Stable &&
+      !tags.overflow && tagScanFresh(tags.scan, millis());
+  request["pairingRoomId"] = tags.scan.pairing_room_id;
+  request["pairingSessionId"] = tags.scan.pairing_session_id;
   JsonArray tag_array = request["tags"].to<JsonArray>();
   for (std::size_t index = 0; index < tags.count; ++index) {
     tag_array.add(tags.uids[index]);
@@ -573,7 +590,7 @@ bool TileNetworkClient::heartbeat(TileNetworkSnapshot &snapshot,
     report["inputState"] = order.stuck_low ? "stuckLow"
                               : order.receiving ? "receiving" : "idle";
   }
-  char request_body[768]{};
+  char request_body[1024]{};
   const std::size_t request_length =
       serializeJson(request, request_body, sizeof(request_body));
   if (request_length == 0U || request_length >= sizeof(request_body)) {
@@ -683,6 +700,9 @@ bool TileNetworkClient::parsePayload(const char *payload,
       return false;
     }
   }
+
+  if (!legacy && !parsePairingJson(root["pairing"], millis(), snapshot.pairing)) return false;
+  if (snapshot.pairing.active) snapshot.movement = {};
 
   if (!assigned) {
     snapshot.link = TileNetworkLink::NoFreeTile;

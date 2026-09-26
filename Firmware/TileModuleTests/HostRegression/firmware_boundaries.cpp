@@ -27,7 +27,8 @@ struct SilentSerial {
   void print(const char*) {}
 } Serial;
 #define F(text) text
-std::uint32_t millis() { return 1000; }
+std::uint32_t testMillis = 1000;
+std::uint32_t millis() { return testMillis; }
 TileNetworkClient gNetwork;
 enum class TagStatus : std::uint8_t;
 TagStatus gTagStatus = static_cast<TagStatus>(0);
@@ -45,6 +46,9 @@ TileNetworkSnapshot gNetworkSnapshot{};
 Rgb gPixels[kWs2812Count]{};
 bool gLedReady = true;
 std::uint32_t gMovementCueStartedMs = 0;
+std::uint32_t gPairingCueStartedMs = 0;
+TagScanEvidence gTagScanEvidence{};
+std::uint32_t gScanPairingRoom = 0, gScanPairingSession = 0;
 unsigned frames = 0;
 std::uint32_t gDisplayExperimentDurationMs = 0;
 std::uint32_t gDisplayClockHz = kDisplaySpiFrequencyHz;
@@ -68,6 +72,9 @@ void setUp() {
   gNetwork = TileNetworkClient{};
   gNetwork.mutex_ = &denyLock;
   denyLock = false;
+  testMillis = 1000;
+  gTagScanEvidence = {};
+  gScanPairingRoom = gScanPairingSession = 0;
   gTagStatus = TagStatus::Scanning;
   gConfirmedTagCount = 0;
   gConfirmedTagOverflow = false;
@@ -233,6 +240,69 @@ void test_display_clock_override_is_bound_to_validated_device() {
   }
 }
 
+void test_freshness_expires_and_incomplete_inventory_cannot_refresh() {
+  const auto tags = playerTags();
+  gScanPairingRoom = 20; gScanPairingSession = 7;
+  publishTagInventory(TagStatus::Present, &tags, 0x2F, 3);
+  publishPendingTagObservation();
+  auto old = gNetwork.observed_tags_;
+  TEST_ASSERT_TRUE(tagScanFresh(old.scan, 5999));
+  TEST_ASSERT_FALSE(tagScanFresh(old.scan, 6000));
+  TEST_ASSERT_EQUAL_UINT32(20, old.scan.pairing_room_id);
+  TEST_ASSERT_EQUAL_UINT32(7, old.scan.pairing_session_id);
+  testMillis = 3000;
+  publishTagInventory(TagStatus::Present, &tags, 0x2F, 3);
+  publishPendingTagObservation();
+  TEST_ASSERT_EQUAL_UINT32(old.revision, gNetwork.observed_tags_.revision);
+  TEST_ASSERT_GREATER_THAN_UINT32(old.scan.sequence, gNetwork.observed_tags_.scan.sequence);
+  TEST_ASSERT_TRUE(tagScanFresh(gNetwork.observed_tags_.scan, 7000));
+  publishTagInventory(TagStatus::Unstable, nullptr, 0x2F, 0);
+  publishPendingTagObservation();
+  TEST_ASSERT_FALSE(tagScanFresh(gNetwork.observed_tags_.scan, 3000));
+  TEST_ASSERT_EQUAL_STRING("8EFA24DF", gNetwork.observed_tags_.uids[0]);
+  // Debounced retained presence must not become a new confirmed inventory.
+  publishTagInventory(TagStatus::NoTag, nullptr, 0x2F, 0);
+  publishPendingTagObservation();
+  TEST_ASSERT_FALSE(tagScanFresh(gNetwork.observed_tags_.scan, 3000));
+}
+void test_pairing_uses_scanned_session_not_current_cached_session() {
+  const auto tags = playerTags();
+  gScanPairingRoom = 20; gScanPairingSession = 7;
+  denyLock = true;
+  publishTagInventory(TagStatus::Present, &tags, 0x2F, 3);
+  gNetworkSnapshot.pairing.room_id = 21;
+  gNetworkSnapshot.pairing.session_id = 8;
+  denyLock = false;
+  publishPendingTagObservation();
+  TEST_ASSERT_EQUAL_UINT32(20, gNetwork.observed_tags_.scan.pairing_room_id);
+  TEST_ASSERT_EQUAL_UINT32(7, gNetwork.observed_tags_.scan.pairing_session_id);
+}
+void test_pairing_priority_clear_and_lease_rollover() {
+  auto &pair = gNetworkSnapshot.pairing;
+  pair.active = true; pair.room_id = 10; pair.session_id = 20;
+  pair.state = TilePairingState::AwaitingTag;
+  pair.received_ms = UINT32_MAX - 100; pair.lease_ms = 200;
+  TEST_ASSERT_TRUE(pairingVisible(pair, 50));
+  TEST_ASSERT_FALSE(pairingVisible(pair, 99));
+  pair.received_ms = 1000; pair.lease_ms = 5000;
+  gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
+  renderLedScene(1000);
+  TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].green, gPixels[0].blue);
+  assertWholeRing();
+  pair.state = TilePairingState::AlreadyBound;
+  renderLedScene(1000);
+  TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].green, gPixels[0].red);
+  pair.active = false;
+  renderLedScene(1000);
+  TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].blue, gPixels[0].green);
+  TEST_ASSERT_EQUAL_STRING("PAIRED! TAKE IT BACK", pairingInstruction(TilePairingState::SuccessRemove));
+  TilePairingState state;
+  TEST_ASSERT_FALSE(parseTilePairingState("unknown", state));
+  TEST_ASSERT_TRUE(parseTilePairingState("already_bound", state));
+  auto next = gNetworkSnapshot; next.pairing.active = true;
+  TEST_ASSERT_TRUE(pageChanged(next));
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_failed_publish_retries_identical_local_inventory);
@@ -243,5 +313,8 @@ int main() {
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
   RUN_TEST(test_safe_display_restores_8mhz_controller_before_normal_page);
   RUN_TEST(test_display_clock_override_is_bound_to_validated_device);
+  RUN_TEST(test_freshness_expires_and_incomplete_inventory_cannot_refresh);
+  RUN_TEST(test_pairing_uses_scanned_session_not_current_cached_session);
+  RUN_TEST(test_pairing_priority_clear_and_lease_rollover);
   return UNITY_END();
 }

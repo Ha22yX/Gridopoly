@@ -1,0 +1,72 @@
+"""PlatformIO `candidate` target: normal firmware and its actual flash segments.
+
+Does not open serial ports. The release owner binds the profile to physical MACs.
+"""
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+
+Import("env")  # noqa: F821 - supplied by PlatformIO/SCons
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def export_candidate(source, target, env):
+    project = Path(env.subst("$PROJECT_DIR")).resolve()
+    build = Path(env.subst("$BUILD_DIR")).resolve()
+    environment = env.subst("$PIOENV")
+    profiles = {"tile_esp32s3_long": "tile-long", "tile_esp32s3_corner": "tile-corner"}
+    if environment not in profiles:
+        raise ValueError("Batch candidate requires an explicit long/corner environment")
+    files = [project / "platformio.ini"]
+    for folder in ("include", "src", "config", "tools"):
+        files += [f for f in (project / folder).rglob("*") if f.is_file()
+                  and "__pycache__" not in f.parts]
+    # Network credentials can be inherited by existing installations. Record a
+    # hash only, never copy secrets into the public manifest or repository.
+    inherited = project.parent / "PlayerConsole/config/secrets.local.h"
+    if inherited.exists():
+        files.append(inherited)
+    sources = {str(f.relative_to(project.parent).as_posix()): digest(f)
+               for f in sorted(files)}
+    source_bytes = json.dumps(sources, sort_keys=True, separators=(",", ":")).encode()
+    (build / "candidate-sources.json").write_bytes(source_bytes)
+    images = list(env.get("FLASH_EXTRA_IMAGES", []))
+    images.append((env.subst("$ESP32_APP_OFFSET"), build / (env.subst("$PROGNAME") + ".bin")))
+    segments = []
+    for offset, filename in images:
+        path = Path(env.subst(str(filename))).resolve()
+        offset = int(str(offset), 0) if not isinstance(offset, int) else offset
+        segments.append({"offset": offset, "path": str(path), "sha256": digest(path),
+                         "size": path.stat().st_size})
+    segments.sort(key=lambda s: s["offset"])
+    for index, segment in enumerate(segments):
+        end = segment["offset"] + segment["size"]
+        if end > 16 * 1024 * 1024 or (index + 1 < len(segments) and
+                                     end > segments[index + 1]["offset"]):
+            raise ValueError("Invalid or overlapping flash segments")
+    repo = project.parents[1]
+    revision = subprocess.check_output(
+        ["git", "-c", "safe.directory=*", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
+    manifest = {
+        "schemaVersion": 1, "profile": profiles[environment], "environment": environment,
+        "firmwareVersion": "V0.33", "hardwareRevision": "unknown", "chip": "esp32s3",
+        "flashSize": env.BoardConfig().get("upload.flash_size"),
+        "flashMode": env.subst("${__get_board_flash_mode(__env__)}"),
+        "flashFrequency": env.subst("${__get_board_f_image(__env__)}"),
+        "gitRevision": revision, "sourceDigest": hashlib.sha256(source_bytes).hexdigest(),
+        "sourceManifest": str(build / "candidate-sources.json"), "segments": segments,
+        "normalFirmware": True, "displayDefaultHz": 8000000,
+        "role": "long" if profiles[environment] == "tile-long" else "corner",
+        "validation": "Candidate only; no device deployment or 32-board acceptance implied",
+    }
+    destination = build / "candidate.json"
+    destination.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    print("Candidate manifest: " + str(destination))
+
+
+env.AddCustomTarget("candidate", "$BUILD_DIR/${PROGNAME}.bin", export_candidate,
+                    title="Export tile candidate", description="Build normal firmware and flash manifest")

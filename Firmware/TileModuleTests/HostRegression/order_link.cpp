@@ -123,6 +123,30 @@ void timestamps_wrap_without_false_loss_or_extra_pulses() {
   TEST_ASSERT_EQUAL_UINT32(0, a.timingDrops());
   TEST_ASSERT_EQUAL_UINT32(0, b.timingDrops());
 }
+void full_ring_reports_direct_neighbors_without_a_head_or_forwarding() {
+  std::array<Link, 32> ring;
+  std::array<bool, 32> wires{};
+  for (unsigned i = 0; i < ring.size(); ++i) ring[i].begin(kA + i, 0, true);
+  for (std::uint32_t now = 1000; now <= 24'000'000; now += 1000) {
+    const auto previous = wires;
+    for (unsigned i = 0; i < ring.size(); ++i)
+      wires[i] = ring[i].tick(now, !previous[(i + 31) % 32]);
+  }
+  for (unsigned i = 0; i < ring.size(); ++i) {
+    TEST_ASSERT_TRUE(ring[i].receiver().valid());
+    TEST_ASSERT_EQUAL_HEX64(kA + (i + 31) % 32, ring[i].receiver().upstream().boot_id);
+    TEST_ASSERT_GREATER_OR_EQUAL_UINT32(4, ring[i].receiver().accepted());
+    TEST_ASSERT_EQUAL_UINT32(0, ring[i].receiver().rejected());
+  }
+  // Breaking one wire must expire just that adjacency, not stop the ring's TX.
+  for (std::uint32_t now = 24'001'000; now <= 42'000'000; now += 1000) {
+    const auto previous = wires;
+    for (unsigned i = 0; i < ring.size(); ++i)
+      wires[i] = ring[i].tick(now, i == 0 || !previous[(i + 31) % 32]);
+  }
+  TEST_ASSERT_FALSE(ring[0].receiver().valid());
+  for (unsigned i = 1; i < ring.size(); ++i) TEST_ASSERT_TRUE(ring[i].receiver().valid());
+}
 }  // namespace
 void setUp() {}
 void tearDown() {}
@@ -136,5 +160,6 @@ int main() {
   RUN_TEST(malformed_pulse_and_crc_do_not_make_an_edge);
   RUN_TEST(late_scheduler_releases_output_and_requires_new_frame);
   RUN_TEST(timestamps_wrap_without_false_loss_or_extra_pulses);
+  RUN_TEST(full_ring_reports_direct_neighbors_without_a_head_or_forwarding);
   return UNITY_END();
 }

@@ -63,7 +63,7 @@ ageMs≥15000不得建边。缺order兼容旧固件，但不能成为物理线�
 ## 服务器防陈旧与分配
 
 服务器用当前在线模块唯一bootId映射把接收者报告转换为“上游→接收者”有向边。
-源boot未知、重复boot、自环、分叉、环等不能被解释为一条确定有效链。
+源boot未知、重复boot、自环、分叉不能被解释为确定有效邻接；完整有向环需由服务端明确按闭环规则验证，不能默默丢弃一条边当链。
 双方模块租约以及物理观测新鲜度共同约束边；接收时减ageMs推算观测时间。
 同接收者boot/上游boot下seq差(mod65536)需位于1..32767，重复seq不延长截止。
 固件valid=false、观测过期或模块失联撤销物理派生，不能覆盖manual。
@@ -73,3 +73,20 @@ ageMs≥15000不得建边。缺order兼容旧固件，但不能成为物理线�
 地图分配由服务器负责：最近上游manual作为每一段锚点；首锚前按负偏移回推；地图下标
 按boardSize取模。所有已manual节点保持原指定值，多锚点不是强行覆盖其他手动配置。
 尚无物理边/锚点的模块应明确显示该状态，不用注册顺序伪装按线自动分配。
+
+
+## V0.33 板型与32格闭环
+
+物理order.version仍为1，boot/seq/CRC及波形均不变。各模块独立发送自身身份，所以32个有向独立链段可成环，不需要共享总线竞争或帧转发。GPIO13在已核验的两种板网表均NC，不具备板型探测功能。
+
+心跳顶层moduleRole为long/corner/unknown，firmwareVersion为诊断字符串。由量产构建profile固定板型，默认unknown；地图位置与角色独立。闭环拓扑规则归服务端：32节点、4 corner与28 long、相邻角落之间7 long、每点唯一上下游且会话/租约新鲜。四个同构角落没有绝对START区别，默认选择稳定module/device身份确定的角落作START，沿OUT为正方向；手动角落锚点可旋转，未知板型或不一致角落分布不能冒称整盘正确。role不能由临时随机boot或注册顺序推断。
+
+## RFID 新鲜扫描与配对提示扩展
+
+请求顶层增加tagScanSeq(u32)、tagAgeMs(u32)、tagFresh(bool)、pairingRoomId(u32)、pairingSessionId(u32)。scanSeq每次完成报告递增且跳过0；tagRevision仍只在内容状态变化时递增。只有完整可信stable且无overflow、age严格小于5000ms，才tagFresh=true。重复心跳不更新扫描完成时刻。不完整碰撞和为视觉稳定保留的缺失消抖库存不能刷新fresh；服务器不得拿它们绑定或确认拿离。
+
+room/session echo必须在实际扫描开始时锁定并随库存保存，未配对用0；新响应不能把新session盖在旧库存上。服务端比较当前room/session/scanSeq与扫描新鲜性，先新空库存清场，再新唯一Tag才绑定。模组不自决归属，不写Tag。
+
+独立响应pairing字段为{active,roomId,sessionId,revision,state,playerId,playerName,leaseMs}，数值均无符号，lease为本地接收后剩余提示时长。state枚举waiting_reader/clear_required/awaiting_tag/success_remove/already_bound/multiple_tags/reader_offline/timed_out/cancelled/complete。缺字段兼容旧服务器但不进入配对模式；未知active状态或非法数值拒绝响应。active=false或断网/租约过期撤销提示。active配对优先于movement；服务器配对消费与正常到达必须隔离。
+
+成功拿回提示可与另一个模块下一位玩家的配对并行，旧模块继续原session直到新的完整空库存；单模块复用必须清空后再下一session。普通用户画面显示配对动作与玩家编号，不显示协议字段；STATUS日志保留会话及新鲜度供联调。
