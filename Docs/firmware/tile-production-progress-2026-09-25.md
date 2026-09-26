@@ -42,3 +42,20 @@ ASCII字体没有中文支持，中文名字显示问号，始终保留可识别
 - tile-corner firmware SHA256 `761bd36ffb4b918d06ebf386a747623fb516cbb8ce68ee2a2d1f46b8e20023ff`；sourceDigest `c064153da8105a4c04d0b93b7128bf89a987739ad9e4b195999d7c00ed150ba5`。
 
 独立重算结果 candidate-validation-v033.json。源码冻结等待主任务审核，未提交Git索引、未部署、没有任何持续运行串口或后台任务。
+
+
+## 2026-09-26 COM6 有界部署与新服务端联调
+
+主任务明确授权后，仅对COM6长边板部署已冻结V0.33，未重建候选。前10秒无复位串口确认旧V0.32/实际LCD40MHz/HTTP200，且已有Tag `8EFA24DF`（count1）；此前主描述“无Tag”不能作为实际线圈无Tag依据。全程未拿放、绑定或写Tag，未新建局、指定锚点或伪造ORDER。
+
+PnP匹配既有COM6，ROM重复读取factory MAC `28:84:85:ba:9f:e8`、ESP32-S3和16MB Flash。备份首次使用esptool5.3.1整段读取报 Packet content transfer stopped；改16KB块/115200后读到0x214000约2.2MB仍中断，失败无完整备份且未烧写。第二次finally复位。随后仅用此前已验证的esptool4.11只读备份，在33.9秒成功读取0至旧应用尾2771136字节并通过工具内置MD5校验，正常硬复位。根因未证实，不归咎于5.3.1 worker漏初始化：主委派独立只读审查确认connect/_post_connect、watchdog及flash参数初始化均已存在。
+
+备份包括boot、分区表、NVS、otadata与原应用，**不是完整16MB备份**。整个读取文件SHA256 `c5c5e2f0122689c21a57334c43b0627296e185d0bf9b12a9ef45f7f41bf18263`；从0x10000提取的2705600字节应用SHA256严格匹配历史V0.32 `176db3cc3ea78c920f235ebcffafeef423dbe07caf6db7bb89a9e4681e502760`，已保存独立rollback文件。两次失败日志保留，不冒称首次成功。
+
+真正烧写仍使用主任务v2批量工具和固定esptool5.3.1，单行COM6清单/--partial。2026-09-26 05:10:21Z preflight_ok，05:10:44Z verified；预检及同一连接内MAC、16MB、分区兼容、四段写入、四段Flash digest校验、再次MAC与复位全部成功。目标普通固件tile-long候选SHA `19edea4ba388588f1ba6548e85043ae91bea70e0527c708d3c9c758212d4ebe4`。只更新boot/table/otadata/app0，未整片擦除或写NVS，未修改布局；未操作COM7/COM8。VERIFY表示对工具指定flash参数处理后的字节校验，未额外复位做整应用原始SHA读回。
+
+随后60.102秒无复位观察正常结束（MONITOR CLOSED COM6）：V0.33、实际LCD40MHz、HTTP200，12次配对状态全部active=NO/room0/session0、fresh=YES，scan_seq50→269；Tag仍count1/8EFA24DF，无overflow。ORDER boot `427BBC5B8B37B1BC`不变，tx_seq2→12、timerOK、timing_drops固定启动时1、accepted/rejected均0，上游为空。HTTP独立显示online=true/moduleRole=long/firmwareVersion=V0.33/reader stable/orderCapable=true、unanchored、assigned=false、closedRing=false，与当前单板未建环相符；没有把未分配页面当作故障或完整32环。未出现panic/reset日志、json_error或heartbeat_failed。tagAgeMs未逐条打印，序号和fresh来自实际串口，HTTP200及严格新字段解析证明正常报文已被新服务端接受；没有主动伪造心跳取样。
+
+部署前本任务已读到room993580107/version12。主明确此前v9→12源于04:59:35Z服务端重启及旧玩家屏重连，不是游戏动作。本窗口与玩家任务固件部署并行，前后/api/state实际diff为：espnowPeers1→0、onlineMask15→14、identity revision7→8、P1 connected true→false、version12→13以及serverEpochMs。其余字段一致，包括room、游戏、资产及Tag绑定；不能写成所有字段完全无变化。玩家连接恢复由玩家/主任务继续，不由格子任务越权操作COM7。
+
+原始证据目录 `C:/Users/kicof/AppData/Local/GridopolyTileTools/com6-v033-deploy-20260926/`：before/after-state.json、before/after-assignments.json、before/after-serial.jsonl、backup.log、backup-chunked.log、backup-v411.log、backup-manifest.json、com6-before-v033-boot-through-app.bin、com6-v032-rollback.bin、com6.csv、flash-events.jsonl、flash.log、deployment-result.json。所有本任务串口与工具进程已结束。当前COM6已实际升级V0.33；COM8没有接入/未升级，32实体与真实逐人配对验收仍未做，交主协调下一步。
