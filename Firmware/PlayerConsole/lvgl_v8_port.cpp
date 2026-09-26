@@ -786,7 +786,7 @@ static lv_indev_t *indev_init(Touch *tp)
     indev_drv_tp.user_data = (void *)tp;
 
     lv_indev_t *input = lv_indev_drv_register(&indev_drv_tp);
-    if (input != nullptr) lv_timer_set_period(input->read_timer, 10);
+    if (input != nullptr) lv_timer_set_period(input->driver->read_timer, 10);
     return input;
 }
 
