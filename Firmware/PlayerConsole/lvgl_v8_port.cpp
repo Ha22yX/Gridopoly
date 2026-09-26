@@ -10,6 +10,8 @@
 #include "esp_lib_utils.h"
 #include "lvgl_v8_port.h"
 #include "frame_presentation_tracker.h"
+#include "touch_input_filter.h"
+#include "ui_handwriting.h"
 
 using namespace esp_panel::drivers;
 
@@ -753,16 +755,21 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 {
     Touch *tp = (Touch *)indev_drv->user_data;
     TouchPoint point;
+    static TouchInputState sample;
 
     /* Read data from touch controller */
     int read_touch_result = tp->readPoints(&point, 1, 0);
-    if (read_touch_result > 0 && point.x < 480 && point.y < 480) {
-        data->point.x = point.x;
-        data->point.y = point.y;
-        data->state = LV_INDEV_STATE_PRESSED;
+    const uint32_t sampledAtMs = static_cast<uint32_t>(esp_timer_get_time() / 1000);
+    if (sample.update(read_touch_result,
+                      read_touch_result > 0 ? point.x : 0,
+                      read_touch_result > 0 ? point.y : 0, sampledAtMs)) {
+        uiHandwritingRecordTouch(sample.pressed, sample.x, sample.y, sampledAtMs);
     } else {
-        data->state = LV_INDEV_STATE_RELEASED;
+        uiHandwritingTouchUnavailable(sampledAtMs);
     }
+    data->point.x = sample.x;
+    data->point.y = sample.y;
+    data->state = sample.pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
 }
 
 static lv_indev_t *indev_init(Touch *tp)
@@ -778,7 +785,9 @@ static lv_indev_t *indev_init(Touch *tp)
     indev_drv_tp.read_cb = touchpad_read;
     indev_drv_tp.user_data = (void *)tp;
 
-    return lv_indev_drv_register(&indev_drv_tp);
+    lv_indev_t *input = lv_indev_drv_register(&indev_drv_tp);
+    if (input != nullptr) lv_timer_set_period(input->read_timer, 10);
+    return input;
 }
 
 #if !LV_TICK_CUSTOM

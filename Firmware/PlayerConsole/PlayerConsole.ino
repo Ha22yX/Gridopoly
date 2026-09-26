@@ -917,11 +917,6 @@ void loop()
     }
 
     if (lvgl_port_lock(-1)) {
-        char recognizedCharacter = '\0';
-        if (uiRendererPollHandwriting(recognizedCharacter, nowMs)) {
-            appIdentityAppendCharacter(app, recognizedCharacter);
-            Serial.printf("GRIDOPOLY_NAME recognized=%c\n", recognizedCharacter);
-        }
         TouchAction action = TouchAction::None;
         while (uiRendererPollTouch(action)) {
             const uint8_t beforeCommands = app.commandCount;
@@ -934,6 +929,9 @@ void loop()
                 app.pendingCommandMask
             );
         }
+        // Controller samples are captured by the LVGL input callback. A loop
+        // timestamp taken before waiting for this lock can shorten letter idle.
+        uiRendererServiceHandwriting(app, millis());
         lvgl_port_unlock();
     }
 

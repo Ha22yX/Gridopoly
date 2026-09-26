@@ -42,6 +42,7 @@ void appUpdateAvatarPreloadProgress(AppState &state, uint8_t readyCount,
                                     uint8_t totalCount, bool complete);
 bool appIdentityAppendCharacter(AppState &state, char character);
 bool appIdentityDeleteCharacter(AppState &state);
+void appIdentityFinishHandwriting(AppState &state);
 void appHandleUiEvent(AppState &state, const UiEvent &event, uint32_t nowMs);
 bool appPollCommand(AppState &state, TransportCommand &command);
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs);

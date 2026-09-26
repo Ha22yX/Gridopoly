@@ -782,6 +782,8 @@ void restoreListAnchor(AppState &state)
 void setFocus(AppState &state, uint8_t focus)
 {
     state.nav.current.focus = focus;
+    // Authority refreshes resume the identity page from this local focus.
+    if (isIdentityPage(state.nav.current.page)) state.identity.focus = focus;
     const uint8_t count = contentCount(state, state.nav.current.page);
     if (state.nav.current.page != ScreenPage::Home && focus < count) {
         listAnchor(state, state.nav.current.page) = focus;
@@ -2090,6 +2092,8 @@ void activate(AppState &state, uint32_t nowMs)
             if (state.identity.phase == IdentityClientPhase::NameSubmitting) return;
             if (focus == 0) {
                 state.identity.phase = IdentityClientPhase::NameHandwriting;
+                state.identity.handwritingDoneRequested = false;
+                state.identity.handwritingDeleteRequested = false;
                 state.identity.focus = 0;
                 showIdentityPage(state, ScreenPage::NameHandwriting, 0);
                 touchRevision(state);
@@ -2121,18 +2125,13 @@ void activate(AppState &state, uint32_t nowMs)
             return;
         case ScreenPage::NameHandwriting:
             if (focus == 0) {
-                const size_t length = strlen(state.identity.draftName);
-                if (length != 0) {
-                    state.identity.draftName[length - 1] = '\0';
-                    state.identity.nameDirty = true;
-                    touchRevision(state);
-                }
+                state.identity.handwritingDeleteRequested = true;
+                state.identity.handwritingDoneRequested = false;
             } else {
-                state.identity.phase = IdentityClientPhase::NameReview;
-                state.identity.focus = 0;
-                showIdentityPage(state, ScreenPage::NameReview, 0);
-                touchRevision(state);
+                // The LVGL owner must finish/cancel the current ink first.
+                state.identity.handwritingDoneRequested = true;
             }
+            touchRevision(state);
             return;
         case ScreenPage::TagPairing:
             appRequestTagPair(state, focus == 0 ? TransportTagPairOperation::Retry
@@ -3340,6 +3339,17 @@ bool appIdentityDeleteCharacter(AppState &state)
     state.identity.nameDirty = true;
     touchRevision(state);
     return true;
+}
+
+void appIdentityFinishHandwriting(AppState &state)
+{
+    if (state.page != ScreenPage::NameHandwriting ||
+        !state.identity.handwritingDoneRequested) return;
+    state.identity.handwritingDoneRequested = false;
+    state.identity.handwritingDeleteRequested = false;
+    state.identity.phase = IdentityClientPhase::NameReview;
+    showIdentityPage(state, ScreenPage::NameReview, 0);
+    touchRevision(state);
 }
 
 uint16_t appEndTurnExitProgressPermille(const AppState &state, uint32_t nowMs)

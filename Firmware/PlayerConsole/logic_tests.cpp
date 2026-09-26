@@ -4346,6 +4346,8 @@ bool runPureLogicTests(Stream &out)
                  "a physical pen lift starts a new stroke even inside 100 ms");
     ok &= expect(out, uiHandwritingSamplesShouldConnect(true, 100, 200),
                  "one physical contact joins samples at the 100 ms boundary");
+    ok &= expect(out, uiHandwritingSamplesShouldConnect(true, 100, 240),
+                 "continuous contact survives a 140 ms controller scheduling gap");
     ok &= expect(out,
                  uiHandwritingSamplesShouldConnect(UINT32_MAX - 49u, 50u),
                  "handwriting stroke timing remains correct across millis wrap");

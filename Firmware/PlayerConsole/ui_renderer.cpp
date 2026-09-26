@@ -80,6 +80,10 @@ lv_obj_t *avatarPortraitSpinner = nullptr;
 lv_obj_t *avatarPortraitStatus = nullptr;
 lv_obj_t *avatarConfirmObject = nullptr;
 lv_obj_t *avatarConfirmLabel = nullptr;
+lv_obj_t *nameDraftLabel = nullptr;
+lv_obj_t *handwritingStatusLabel = nullptr;
+lv_obj_t *toastObject = nullptr;
+lv_obj_t *connectionBadge = nullptr;
 TouchAction touchQueue[kTouchQueueCapacity] = {};
 uint8_t touchHead = 0;
 uint8_t touchTail = 0;
@@ -1221,17 +1225,21 @@ void drawHeader(const char *title, const char *eyebrow = "GRIDOPOLY")
 
 void drawToast(const AppState &state, uint32_t nowMs)
 {
+    if (toastObject != nullptr) { lv_obj_del(toastObject); toastObject = nullptr; }
     if (state.toastUntilMs == 0 ||
         static_cast<int32_t>(nowMs - state.toastUntilMs) >= 0) return;
     lv_obj_t *toast = box(root, 112, 397, 256, 36, 0x172224, kGreen, 6);
+    toastObject = toast;
     label(toast, state.toast, 8, 7, 240, &lv_font_simsun_16_cjk, kText);
 }
 
 void drawConnectionStatus(const AppState &state)
 {
+    if (connectionBadge != nullptr) { lv_obj_del(connectionBadge); connectionBadge = nullptr; }
     if (state.authorityOnline || state.page == ScreenPage::WaitingForGame) return;
 
     lv_obj_t *badge = uiBox(root, kConnectionLostBadge, kBg, kRed, 8);
+    connectionBadge = badge;
     if (badge == nullptr) return;
     lv_obj_set_style_bg_opa(badge, LV_OPA_90, 0);
     lv_obj_set_style_border_width(badge, 2, 0);
@@ -2973,16 +2981,22 @@ void updateAvatarRowValues(const AppState &state)
 
 void updateAvatarSetupRetained(const AppState &state)
 {
-    updateAvatarRowValues(state);
-    updateAvatarPortrait(state);
-    if (avatarConfirmLabel != nullptr) {
+    const bool recipeChanged = memcmp(&state.identity.draftRecipe,
+        &previousRenderedState.identity.draftRecipe, sizeof(TransportAvatarRecipe)) != 0;
+    if (recipeChanged) updateAvatarRowValues(state);
+    if (recipeChanged || artworkInvalidated ||
+        state.identity.phase != previousRenderedState.identity.phase) updateAvatarPortrait(state);
+    if (avatarConfirmLabel != nullptr &&
+        state.identity.phase != previousRenderedState.identity.phase) {
         lv_label_set_text(
             avatarConfirmLabel,
             state.identity.phase == IdentityClientPhase::AvatarSubmitting
                 ? "SAVING..." : "CONFIRM"
         );
     }
-    refreshSamePageFocus(state);
+    if (state.focus != previousFocus ||
+        state.identity.editingValue != previousRenderedState.identity.editingValue)
+        refreshSamePageFocus(state);
 }
 
 void drawNameReview(const AppState &state)
@@ -3018,17 +3032,15 @@ void drawNameReview(const AppState &state)
 void drawNameHandwriting(const AppState &state)
 {
     drawOuterRing(kBlue);
-    uiLabel(root, state.identity.draftName[0] == '\0' ? "_" : state.identity.draftName,
+    nameDraftLabel = uiLabel(root, state.identity.draftName[0] == '\0' ? "_" : state.identity.draftName,
             UiRect{78, 64, 324, 42}, &lv_font_montserrat_24, kText);
     lv_obj_t *canvas = uiHandwritingCreate(root, UiRect{78, 112, 324, 220},
                                            0x0D1518, kBlue, kBlue);
     if (canvas != nullptr) {
         lv_obj_set_style_border_width(canvas, 2, 0);
-        uiLabel(canvas, "DRAW ONE LETTER", UiRect{44, 88, 236, 22},
-                &lv_font_montserrat_12, kMuted);
-        uiLabel(canvas, "HANDWRITING AREA", UiRect{54, 116, 216, 18},
-                &lv_font_montserrat_10, kLine);
     }
+    handwritingStatusLabel = uiLabel(root, uiHandwritingStatusText(),
+        UiRect{78, 334, 324, 14}, &lv_font_montserrat_10, kMuted);
     constexpr UiRect buttons[2] = {UiRect{96, 350, 136, 46}, UiRect{248, 350, 136, 46}};
     constexpr const char *texts[2] = {"DELETE", "DONE"};
     constexpr TouchAction actions[2] = {TouchAction::NameDelete,
@@ -3085,6 +3097,14 @@ void drawGameOutcome(const AppState &state)
             UiRect{90, 289, 300, 62}, &ui_font_16, kMuted);
     uiLabel(root, finished ? "WAITING FOR A NEW GAME" : "NO ACTION REQUIRED",
             UiRect{100, 370, 280, 24}, &lv_font_montserrat_12, kMuted);
+}
+
+const char *handwritingStatusText(const AppState &state)
+{
+    if (uiHandwritingHasInk() &&
+        strlen(state.identity.draftName) >= sizeof(state.identity.draftName) - 1)
+        return "NAME IS FULL - CLEAR INK";
+    return uiHandwritingStatusText();
 }
 
 void drawTagPairing(const AppState &state)
@@ -3322,6 +3342,10 @@ void rebuild(const AppState &state, uint32_t nowMs)
     uiCenterListDestroy(centerList);
     uiModalDestroy(activeModal);
     lv_obj_clean(root);
+    nameDraftLabel = nullptr;
+    handwritingStatusLabel = nullptr;
+    toastObject = nullptr;
+    connectionBadge = nullptr;
     lv_obj_set_style_bg_color(
         root, lv_color_hex((state.page == ScreenPage::AvatarLoading ||
                             state.page == ScreenPage::AvatarSetup)
@@ -3438,12 +3462,38 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
 {
     if (root == nullptr) return;
     prefetchRollTargetArtwork(state);
-    if (artworkInvalidated) {
+    // Network revisions and draft-label updates belong to the same writing
+    // session. Rebuilding this page would delete its canvas and cancel ink.
+    if (hasRenderedState && state.page == ScreenPage::NameHandwriting &&
+        previousPage == ScreenPage::NameHandwriting &&
+        state.authorityRoomId == previousRenderedState.authorityRoomId &&
+        state.selfSeatId == previousRenderedState.selfSeatId) {
+        const char *name = state.identity.draftName[0] == '\0' ? "_" : state.identity.draftName;
+        if (nameDraftLabel != nullptr && strcmp(lv_label_get_text(nameDraftLabel), name) != 0)
+            lv_label_set_text(nameDraftLabel, name);
+        if (handwritingStatusLabel != nullptr &&
+            strcmp(lv_label_get_text(handwritingStatusLabel), handwritingStatusText(state)) != 0)
+            lv_label_set_text(handwritingStatusLabel, handwritingStatusText(state));
+        if (state.focus != previousFocus) refreshSamePageFocus(state);
+        if (state.authorityOnline != previousRenderedState.authorityOnline) drawConnectionStatus(state);
+        if (state.toastUntilMs != previousRenderedState.toastUntilMs ||
+            strcmp(state.toast, previousRenderedState.toast) != 0 ||
+            (toastObject != nullptr && static_cast<int32_t>(nowMs - state.toastUntilMs) >= 0))
+            drawToast(state, nowMs);
+        ++rendererTestStats.incrementalRenders;
         artworkInvalidated = false;
+        renderedRevision = state.revision;
+        previousFocus = state.focus;
+        previousRenderedState = state;
+        lastDynamicDrawMs = nowMs;
+        return;
+    }
+    if (artworkInvalidated) {
         if (hasRenderedState && state.page == ScreenPage::AvatarSetup &&
             previousPage == ScreenPage::AvatarSetup) {
             ++rendererTestStats.incrementalRenders;
             updateAvatarSetupRetained(state);
+            artworkInvalidated = false;
             renderedRevision = state.revision;
             previousFocus = state.focus;
             previousInlineEditField = state.inlineEditField;
@@ -3452,6 +3502,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
             lastDynamicDrawMs = nowMs;
             return;
         }
+        artworkInvalidated = false;
         hasRenderedState = false;
         renderedRevision = state.revision == 0 ? UINT32_MAX : state.revision - 1;
     }
@@ -3549,6 +3600,27 @@ bool uiRendererPollHandwriting(char &character, uint32_t nowMs)
     return uiHandwritingPoll(character, nowMs);
 }
 
+void uiRendererServiceHandwriting(AppState &state, uint32_t nowMs)
+{
+    if (state.page != ScreenPage::NameHandwriting) return;
+    if (state.identity.handwritingDeleteRequested) {
+        state.identity.handwritingDeleteRequested = false;
+        state.identity.handwritingDoneRequested = false;
+        if (!uiHandwritingClearInk()) appIdentityDeleteCharacter(state);
+    }
+    // Leave pending ink visible if it cannot be appended to the draft.
+    if (appTagPairBlocksIdentity(state) || (uiHandwritingHasInk() &&
+        strlen(state.identity.draftName) >= sizeof(state.identity.draftName) - 1)) return;
+    char character = '\0';
+    if (uiHandwritingPoll(character, nowMs, state.identity.handwritingDoneRequested))
+        appIdentityAppendCharacter(state, character);
+    // A rejected letter ends this DONE request. Correction strokes must get
+    // their full idle interval instead of being force-submitted on each lift.
+    if (uiHandwritingNeedsCorrection()) state.identity.handwritingDoneRequested = false;
+    if (state.identity.handwritingDoneRequested && !uiHandwritingHasInk())
+        appIdentityFinishHandwriting(state);
+}
+
 void uiRendererInvalidateArtwork()
 {
     artworkInvalidated = true;
@@ -3562,6 +3634,10 @@ void uiRendererResetForTest()
     if (root != nullptr) lv_obj_clean(root);
     uiHandwritingReset();
     root = nullptr;
+    nameDraftLabel = nullptr;
+    handwritingStatusLabel = nullptr;
+    toastObject = nullptr;
+    connectionBadge = nullptr;
     renderedRevision = 0;
     lastDynamicDrawMs = 0;
     tapBindingCount = 0;

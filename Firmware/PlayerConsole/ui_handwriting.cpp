@@ -27,7 +27,8 @@ uint16_t pointCount = 0;
 uint32_t lastCanvasTouchMs = 0;
 uint32_t inkRgb = 0;
 uint32_t canvasBackgroundRgb = 0;
-bool canvasTouchedLastPoll = false;
+bool canvasContactActive = false;
+bool touchSampleAvailable = true;
 uint16_t drawnPointCount = 0;
 uint32_t lastInkFlushMs = 0;
 uint32_t captureGeneration = 1;
@@ -38,6 +39,9 @@ uint32_t recognitionResultGeneration = 0;
 char recognitionResult = '\0';
 bool recognitionWorkerBusy = false;
 bool recognitionResultReady = false;
+uint32_t attemptedGeneration = 0;
+bool recognitionFailed = false;
+bool captureOverflow = false;
 SemaphoreHandle_t recognitionStateMutex = nullptr;
 SemaphoreHandle_t recognitionModelMutex = nullptr;
 TaskHandle_t recognitionTaskHandle = nullptr;
@@ -105,7 +109,11 @@ void clearCapture()
     drawnPointCount = 0;
     lastCanvasTouchMs = 0;
     lastInkFlushMs = 0;
-    canvasTouchedLastPoll = false;
+    canvasContactActive = false;
+    touchSampleAvailable = true;
+    attemptedGeneration = 0;
+    recognitionFailed = false;
+    captureOverflow = false;
     advanceCaptureGeneration();
 }
 
@@ -273,9 +281,10 @@ void rasterLegacyTemplate(uint8_t glyph,
 }
 
 char recognizeSamplesTemplate(const UiHandwritingSample *samples,
-                              uint16_t sampleCount)
+                              uint16_t sampleCount, uint32_t *matchScore = nullptr,
+                              uint32_t *otherScore = nullptr)
 {
-    if (samples == nullptr || sampleCount < 4) return '\0';
+    if (samples == nullptr || sampleCount < 2) return '\0';
     int16_t minX = INT16_MAX, minY = INT16_MAX, maxX = INT16_MIN, maxY = INT16_MIN;
     for (uint16_t index = 0; index < sampleCount; ++index) {
         minX = min(minX, samples[index].x);
@@ -349,6 +358,12 @@ char recognizeSamplesTemplate(const UiHandwritingSample *samples,
         bestGlyph = directions.diagonal * 2u > directions.horizontal
             ? kGlyphY : kGlyphT;
     }
+    if (matchScore != nullptr) *matchScore = scores[bestGlyph];
+    if (otherScore != nullptr) {
+        *otherScore = UINT32_MAX;
+        for (uint8_t glyph = 0; glyph < 26; ++glyph)
+            if (glyph != bestGlyph) *otherScore = min(*otherScore, scores[glyph]);
+    }
     return static_cast<char>('A' + bestGlyph);
 }
 
@@ -389,7 +404,7 @@ void neuralLine(int x0, int y0, int x1, int y1)
 
 bool rasterNeuralInput(const UiHandwritingSample *samples, uint16_t sampleCount)
 {
-    if (samples == nullptr || sampleCount < 4) return false;
+    if (samples == nullptr || sampleCount < 2) return false;
     int16_t minX = INT16_MAX, minY = INT16_MAX;
     int16_t maxX = INT16_MIN, maxY = INT16_MIN;
     for (uint16_t index = 0; index < sampleCount; ++index) {
@@ -400,6 +415,9 @@ bool rasterNeuralInput(const UiHandwritingSample *samples, uint16_t sampleCount)
     }
     const int width = max(1, maxX - minX);
     const int height = max(1, maxY - minY);
+    // A quick straight stroke can have only two or three real samples.
+    // Reject taps by geometry, not by a sampling-rate dependent point count.
+    if (width < 8 && height < 8) return false;
     constexpr int kUsable = kNeuralRasterWidth - kNeuralRasterInset * 2;
     int scaledWidth = kUsable;
     int scaledHeight = kUsable;
@@ -481,10 +499,19 @@ char recognizeSamples(const UiHandwritingSample *samples, uint16_t sampleCount)
 {
     if (!rasterNeuralInput(samples, sampleCount)) return '\0';
     const NeuralRecognition neural = inferNeuralModel();
+    uint32_t templateScore = UINT32_MAX, alternativeScore = UINT32_MAX;
+    const char templateGlyph = recognizeSamplesTemplate(
+        samples, sampleCount, &templateScore, &alternativeScore);
+    // A logit gap is not calibrated confidence for clean line drawings. Accept
+    // a geometrically unambiguous template: combined mean squared distance
+    // at most four raster pixels squared, with alternatives at least 2x worse.
+    // The rule applies to all letters; ambiguous geometry still uses the model.
+    if (templateScore <= 4u * 256u && alternativeScore >= 2u * templateScore)
+        return templateGlyph;
     if (neural.margin >= kNeuralConfidentMargin) {
         return static_cast<char>('A' + neural.glyph);
     }
-    return recognizeSamplesTemplate(samples, sampleCount);
+    return templateGlyph;
 }
 
 bool pointInsideCanvas(lv_point_t point, int16_t &x, int16_t &y)
@@ -500,7 +527,12 @@ bool pointInsideCanvas(lv_point_t point, int16_t &x, int16_t &y)
 void appendPhysicalSample(int16_t x, int16_t y, uint32_t nowMs,
                           bool continuingPhysicalContact)
 {
-    if (activeCanvas == nullptr || pointCount >= kPointCapacity) return;
+    if (activeCanvas == nullptr) return;
+    if (pointCount >= kPointCapacity) {
+        captureOverflow = true;
+        advanceCaptureGeneration();
+        return;
+    }
     const bool connect = pointCount != 0 &&
                          uiHandwritingSamplesShouldConnect(
                              continuingPhysicalContact,
@@ -615,6 +647,7 @@ bool scheduleRecognition()
     memcpy(recognitionSamples, points,
            static_cast<size_t>(pointCount) * sizeof(UiHandwritingSample));
     recognitionRequestGeneration = captureGeneration;
+    attemptedGeneration = captureGeneration;
     recognitionWorkerBusy = true;
     recognitionResultReady = false;
     xSemaphoreGive(recognitionStateMutex);
@@ -683,44 +716,79 @@ lv_obj_t *uiHandwritingCreate(lv_obj_t *parent, UiRect rect, uint32_t background
     return activeCanvas;
 }
 
-bool uiHandwritingPoll(char &character, uint32_t nowMs)
+void uiHandwritingRecordTouch(bool pressed, int16_t screenX, int16_t screenY,
+                              uint32_t sampledAtMs)
 {
-    const bool touchedPreviousPoll = canvasTouchedLastPoll;
-    bool touchingCanvas = false;
-    for (lv_indev_t *input = lv_indev_get_next(nullptr); input != nullptr;
-         input = lv_indev_get_next(input)) {
-        if (lv_indev_get_type(input) != LV_INDEV_TYPE_POINTER ||
-            input->proc.state != LV_INDEV_STATE_PRESSED) continue;
-        lv_point_t point{};
-        lv_indev_get_point(input, &point);
-        int16_t x = 0;
-        int16_t y = 0;
-        if (!pointInsideCanvas(point, x, y)) continue;
-        touchingCanvas = true;
-        lastCanvasTouchMs = nowMs;
-        appendPhysicalSample(x, y, nowMs, canvasTouchedLastPoll);
+    if (activeCanvas == nullptr) return;
+    touchSampleAvailable = true;
+    int16_t x = 0, y = 0;
+    const bool touchingCanvas = pressed && pointInsideCanvas(lv_point_t{screenX, screenY}, x, y);
+    if (touchingCanvas) {
+        lastCanvasTouchMs = sampledAtMs;
+        appendPhysicalSample(x, y, sampledAtMs, canvasContactActive);
+        recognitionFailed = false;
+    } else if (canvasContactActive) {
+        // The full idle interval starts at the observed lift, not an old poll.
+        lastCanvasTouchMs = sampledAtMs;
     }
-    canvasTouchedLastPoll = touchingCanvas;
-    flushCapturedInk(nowMs, touchedPreviousPoll && !touchingCanvas);
+    canvasContactActive = touchingCanvas;
+    flushCapturedInk(sampledAtMs, !touchingCanvas);
+}
+
+bool uiHandwritingHasInk() { return pointCount != 0; }
+bool uiHandwritingNeedsCorrection() { return recognitionFailed || captureOverflow; }
+
+void uiHandwritingTouchUnavailable(uint32_t nowMs)
+{
+    if (activeCanvas == nullptr) return;
+    canvasContactActive = false;
+    touchSampleAvailable = false;
+    if (pointCount != 0) {
+        lastCanvasTouchMs = nowMs;
+        advanceCaptureGeneration();
+    }
+}
+
+bool uiHandwritingClearInk()
+{
+    const bool hadInk = uiHandwritingHasInk();
+    clearCapture(); // Invalidates a worker result even if it finishes after DELETE.
+    if (activeCanvas != nullptr)
+        lv_canvas_fill_bg(activeCanvas, lv_color_hex(canvasBackgroundRgb), LV_OPA_COVER);
+    return hadInk;
+}
+
+const char *uiHandwritingStatusText()
+{
+    if (!touchSampleAvailable) return "WAITING FOR TOUCH";
+    if (captureOverflow) return "CLEAR AND WRITE AGAIN";
+    if (recognitionFailed) return "ADD MORE INK OR CLEAR";
+    return "PAUSE TO ADD A LETTER";
+}
+
+bool uiHandwritingPoll(char &character, uint32_t nowMs, bool finishLetter)
+{
+    character = '\0';
+    if (activeCanvas == nullptr) return false;
+    flushCapturedInk(nowMs, !canvasContactActive);
+    if (!touchSampleAvailable || canvasContactActive || captureOverflow) return false;
+    if (!finishLetter && !uiHandwritingRecognitionDue(false, pointCount,
+                                                      lastCanvasTouchMs, nowMs)) return false;
 
     if (consumeRecognitionResult(character)) {
-        clearCapture();
-        if (activeCanvas != nullptr) {
-            lv_canvas_fill_bg(activeCanvas, lv_color_hex(canvasBackgroundRgb), LV_OPA_COVER);
-        }
+        if (character == '\0') { recognitionFailed = true; return false; }
+        uiHandwritingClearInk();
         return character != '\0';
     }
-    if (!uiHandwritingRecognitionDue(touchingCanvas, pointCount,
-                                     lastCanvasTouchMs, nowMs)) return false;
+    if (pointCount == 0 || attemptedGeneration == captureGeneration) return false;
     if (scheduleRecognition()) return false;
 
     // Allocation failure fallback preserves input semantics; it is only used
     // when the low-priority worker could not be created.
+    attemptedGeneration = captureGeneration;
     character = uiHandwritingRecognizeSamples(points, pointCount);
-    clearCapture();
-    if (activeCanvas != nullptr) {
-        lv_canvas_fill_bg(activeCanvas, lv_color_hex(canvasBackgroundRgb), LV_OPA_COVER);
-    }
+    if (character == '\0') { recognitionFailed = true; return false; }
+    uiHandwritingClearInk();
     return character != '\0';
 }
 
@@ -734,8 +802,12 @@ bool uiHandwritingSamplesShouldConnect(bool continuingPhysicalContact,
                                        uint32_t previousSampleMs,
                                        uint32_t currentSampleMs)
 {
-    return continuingPhysicalContact &&
-           uiHandwritingSamplesShouldConnect(previousSampleMs, currentSampleMs);
+    // A delayed controller callback is not a pen lift. The capture owner
+    // explicitly breaks contact on valid release, leaving the canvas or an
+    // unavailable controller sample, including all between-poll transitions.
+    (void)previousSampleMs;
+    (void)currentSampleMs;
+    return continuingPhysicalContact;
 }
 
 char uiHandwritingRecognizeSamples(const UiHandwritingSample *samples,
@@ -758,7 +830,8 @@ bool uiHandwritingRecognitionDue(bool touchingCanvas, uint16_t sampledPointCount
                                  uint32_t lastActivityMs, uint32_t nowMs)
 {
     return !touchingCanvas && sampledPointCount != 0 &&
-           nowMs - lastActivityMs >= kHandwritingRecognitionIdleMs;
+           static_cast<int32_t>(nowMs - lastActivityMs) >=
+               static_cast<int32_t>(kHandwritingRecognitionIdleMs);
 }
 
 void uiHandwritingReset()

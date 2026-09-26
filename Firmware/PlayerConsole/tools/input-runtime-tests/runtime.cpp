@@ -1,0 +1,297 @@
+// Include the real implementations to inspect canvas lifetime and retained ink;
+// only hardware allocation/tasks/network assets are stubbed, LVGL is real.
+#include "../../ui_handwriting.cpp"
+#include "../../ui_renderer.cpp"
+#include "../../touch_input_filter.h"
+#include "handwriting-fixtures.h"
+
+void remoteAvatarCacheBegin() {}
+void remoteAvatarCachePreload(const TransportAvatarRecipe &) {}
+RemoteAvatarPreloadProgress remoteAvatarCachePreloadProgress() { return {}; }
+void remoteAvatarCacheReleaseSetup() {}
+void remoteAvatarCacheReleaseFinals() {}
+void remoteAvatarCacheRequestPreview(const TransportAvatarRecipe &) {}
+unsigned previewQueries = 0;
+RemoteAvatarPreviewFrame remoteAvatarPreviewFrame(const TransportAvatarRecipe &) { ++previewQueries; return {}; }
+const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &) { return nullptr; }
+const lv_img_dsc_t *remoteAvatarFinal(uint32_t, uint8_t, uint16_t, uint64_t) { return nullptr; }
+bool remoteAvatarCacheConsumeUpdate() { return false; }
+void remoteTileCacheBegin() {}
+void remoteTileCachePrefetch(GridCityArtwork, const char *) {}
+const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork, const char *) { return nullptr; }
+bool remoteTileCacheConsumeUpdate() { return false; }
+
+int main() {
+    int failed = 0;
+    auto check = [&](bool ok, const char *name) {
+        std::printf("[%s] %s\n", ok ? "PASS" : "FAIL", name);
+        if (!ok) ++failed;
+    };
+    lv_init();
+    static lv_color_t pixels[480 * 20];
+    static lv_disp_draw_buf_t buffer;
+    lv_disp_draw_buf_init(&buffer, pixels, nullptr, 480 * 20);
+    static lv_disp_drv_t display;
+    lv_disp_drv_init(&display); display.hor_res = display.ver_res = 480;
+    display.draw_buf = &buffer;
+    display.flush_cb = [](lv_disp_drv_t *d, const lv_area_t *, lv_color_t *) { lv_disp_flush_ready(d); };
+    lv_disp_drv_register(&display);
+    check(uiRendererBegin(), "production renderer initializes with real LVGL");
+    AppState app{}; appInit(app, 0);
+    app.authorityRoomId = 108; app.selfSeatId = 1; app.hasAuthoritativeState = true;
+    app.authorityOnline = true;
+    app.page = app.nav.current.page = ScreenPage::NameHandwriting;
+    app.focus = app.nav.current.focus = 0;
+    app.identity.phase = IdentityClientPhase::NameHandwriting;
+    app.identity.authorityPhase = TransportIdentityPhase::AwaitName;
+    app.identity.revision = 1;
+    app.identity.tagPairSnapshotValid = true;
+    app.identity.tagPair.flags = kTagPairEnabled | kTagPairSelfBound | kTagPairCanEditIdentity;
+    app.identity.tagPair.selfPlayerId = 1;
+    app.identity.tagPair.revision = 7;
+    uiRendererRender(app, 1); lv_obj_update_layout(lv_scr_act());
+    appendPhysicalSample(20, 20, 10, false);
+    appendPhysicalSample(20, 80, 40, true);
+    const auto generation = captureGeneration;
+    auto *canvas = activeCanvas;
+    TransportEvent heartbeat{};
+    heartbeat.kind = TransportEventKind::TagPairSnapshotReceived;
+    heartbeat.roomId = 108; heartbeat.selfSeatId = 1;
+    auto pair = app.identity.tagPair; heartbeat.tagPair = &pair;
+    appHandleTransportEvent(app, heartbeat, 50);
+    uiRendererRender(app, 50);
+    check(activeCanvas == canvas && pointCount == 2 && captureGeneration == generation,
+          "unchanged production Tag heartbeat preserves canvas, samples and recognition generation");
+    appIdentityAppendCharacter(app, 'A');
+    uiRendererRender(app, 60);
+    check(pointCount == 2 && captureGeneration == generation,
+          "name label update preserves the unfinished next character");
+    TransportEvent lost{}; lost.kind = TransportEventKind::ConnectionLost;
+    appHandleTransportEvent(app, lost, 70); uiRendererRender(app, 70);
+    check(pointCount == 2 && captureGeneration == generation,
+          "offline badge and toast do not erase unfinished handwriting");
+    app.authorityOnline = true;
+    uiHandwritingClearInk();
+    uiHandwritingRecordTouch(true, 100, 140, 100);
+    uiHandwritingRecordTouch(true, 100, 280, 240);
+    check(pointCount == 2 && points[1].connectsPrevious,
+          "continuous contact survives a 140ms controller/LVGL scheduling gap");
+    uiHandwritingRecordTouch(false, 100, 280, 250);
+    uiHandwritingRecordTouch(true, 220, 140, 260);
+    check(pointCount == 3 && !points[2].connectsPrevious,
+          "a real lift breaks the stroke even when the next press follows in 10ms");
+    uiHandwritingClearInk();
+    // Controller samples arrive even when the application does not poll/render.
+    for (uint32_t t = 100; t <= 240; t += 10)
+        uiHandwritingRecordTouch(true, 100, static_cast<int16_t>(140 + (t - 100)), t);
+    check(pointCount == 15 && points[14].connectsPrevious && drawnPointCount >= 14,
+          "10ms controller samples preserve and draw a stroke across a 140ms app stall");
+    uiHandwritingRecordTouch(false, 100, 280, 250);
+    uiHandwritingRecordTouch(true, 220, 140, 260);
+    check(pointCount == 16 && !points[15].connectsPrevious,
+          "physical lift and new press between app polls never join separate strokes");
+    uiHandwritingRecordTouch(false, 220, 140, 270);
+    char letter = '\0';
+    check(!uiHandwritingPoll(letter, 200) && pointCount == 16,
+          "an older caller timestamp cannot force an early recognition");
+    check(!uiHandwritingRecognitionDue(false, 3, 700, 1400) &&
+          !uiHandwritingRecognitionDue(false, 3, 700, 1899) &&
+           uiHandwritingRecognitionDue(false, 3, 700, 1900),
+          "recognition waits the full 1200ms after the last physical contact");
+    check(uiHandwritingRecognitionDue(false, 3, UINT32_MAX - 599, 600),
+          "letter idle deadline survives millis wrap");
+    uiHandwritingClearInk();
+    uint32_t t = 1000;
+    auto stroke = [&](int x1, int y1, int x2, int y2) {
+        for (int i = 0; i <= 10; ++i) {
+            uiHandwritingRecordTouch(true, x1 + (x2 - x1) * i / 10,
+                                     y1 + (y2 - y1) * i / 10, t);
+            t += 10;
+        }
+        uiHandwritingRecordTouch(false, x2, y2, t); t += 40;
+    };
+    stroke(120, 145, 120, 295);
+    stroke(120, 220, 240, 220);
+    check(!uiHandwritingPoll(letter, t + 500), "H stays open for its third stroke during short gaps");
+    stroke(240, 145, 240, 295);
+    check(!uiHandwritingPoll(letter, lastCanvasTouchMs + 1199), "H is not committed before the full lift interval");
+    uint32_t hMatch = 0, hOther = 0;
+    const char hTemplate = recognizeSamplesTemplate(points, pointCount, &hMatch, &hOther);
+    rasterNeuralInput(points, pointCount);
+    const auto hNeural = inferNeuralModel();
+    const bool hRecognized = uiHandwritingPoll(letter, lastCanvasTouchMs + 1200);
+    std::printf("H fixture: result=%c template=%c neural=%c margin=%.3f\n", letter, hTemplate,
+                'A' + hNeural.glyph, hNeural.margin);
+    std::printf("H template distances: best=%lu other=%lu\n", hMatch, hOther);
+    check(hRecognized && letter == 'H' && !uiHandwritingHasInk(),
+          "real local model recognizes a complete three-stroke H once");
+    UiHandwritingSample sparse[] = {{20, 10, 1, false}, {20, 100, 11, true}, {20, 190, 21, true}};
+    check(uiHandwritingRecognizeSamples(sparse, 3) != '\0' &&
+          uiHandwritingRecognizeSamples(sparse, 2) != '\0',
+          "a sparse two/three-point visible line is not silently rejected");
+    unsigned classifierRegressions = 0, beforeCorrect = 0, afterCorrect = 0;
+    for (const auto &fixture : letterFixtures()) {
+        const auto samples = fixtureSamples(fixture);
+        rasterNeuralInput(samples.data(), static_cast<uint16_t>(samples.size()));
+        const auto neural = inferNeuralModel();
+        const char prior = neural.margin >= kNeuralConfidentMargin ? 'A' + neural.glyph :
+            recognizeSamplesTemplate(samples.data(), static_cast<uint16_t>(samples.size()));
+        const char after = uiHandwritingRecognizeSamples(samples.data(), static_cast<uint16_t>(samples.size()));
+        beforeCorrect += prior == fixture.expected; afterCorrect += after == fixture.expected;
+        classifierRegressions += prior == fixture.expected && after != fixture.expected;
+        std::printf("letter %c: previous-rule=%c current=%c\n", fixture.expected, prior, after);
+        if (fixture.expected == 'R' || fixture.expected == 'K' ||
+            fixture.expected == 'T' || fixture.expected == 'Y')
+            check(after == fixture.expected, "existing R/K/T/Y stroke distinction is preserved");
+        if (fixture.expected == 'H') {
+            bool variantsPass = true;
+            for (int width : {50, 80, 100, 120}) for (int middle : {45, 50, 55}) {
+                const auto variant = fixtureSamples(fixture, width, middle);
+                const char result = uiHandwritingRecognizeSamples(variant.data(),
+                    static_cast<uint16_t>(variant.size()));
+                uint32_t match = 0, other = 0;
+                const char shape = recognizeSamplesTemplate(variant.data(),
+                    static_cast<uint16_t>(variant.size()), &match, &other);
+                std::printf("H variant width=%d bar=%d result=%c template=%c distances=%lu/%lu\n",
+                            width, middle, result, shape, match, other);
+                variantsPass &= result == 'H';
+                const auto dense = densify(variant);
+                variantsPass &= uiHandwritingRecognizeSamples(dense.data(),
+                    static_cast<uint16_t>(dense.size())) == result;
+            }
+            check(variantsPass, "three-stroke sparse and dense H agree across twelve width/crossbar variants");
+        }
+    }
+    std::printf("independent A-Z paths: previous=%u/26 current=%u/26 regressions=%u\n",
+                beforeCorrect, afterCorrect, classifierRegressions);
+    check(classifierRegressions == 0 && afterCorrect > beforeCorrect,
+          "geometric certainty gate improves independent A-Z paths without losing a correct baseline letter");
+    unsigned matrixPrior = 0, matrixCurrent = 0, matrixLost = 0;
+    for (const auto &fixture : letterFixtures())
+        for (int width : {50, 80, 100, 120}) for (int middle : {45, 50, 55}) {
+            const auto samples = fixtureSamples(fixture, width, middle);
+            const auto count = static_cast<uint16_t>(samples.size());
+            rasterNeuralInput(samples.data(), count);
+            const auto neural = inferNeuralModel();
+            uint32_t match = 0, other = 0;
+            const char shape = recognizeSamplesTemplate(samples.data(), count, &match, &other);
+            const char prior = neural.margin >= kNeuralConfidentMargin ? 'A' + neural.glyph : shape;
+            const char current = uiHandwritingRecognizeSamples(samples.data(), count);
+            matrixPrior += prior == fixture.expected;
+            matrixCurrent += current == fixture.expected;
+            if (prior == fixture.expected && current != fixture.expected) {
+                ++matrixLost;
+                std::printf("matrix regression %c width=%d bar=%d -> %c\n", fixture.expected, width, middle, current);
+            }
+        }
+    std::printf("312 path variants: prior=%u current=%u regressions=%u\n",
+                matrixPrior, matrixCurrent, matrixLost);
+    check(matrixLost == 0 && matrixCurrent > matrixPrior,
+          "general geometry gate improves 312 A-Z path variants without baseline regressions");
+    uiHandwritingRecordTouch(true, 100, 150, 3000);
+    uiHandwritingRecordTouch(false, 100, 150, 3010);
+    appHandleTouch(app, TouchAction::HandwritingConfirm, 3020);
+    uiRendererServiceHandwriting(app, 3020);
+    check(app.page == ScreenPage::NameHandwriting && uiHandwritingHasInk() && recognitionFailed &&
+          !app.identity.handwritingDoneRequested,
+          "DONE with unrecognizable tap keeps its ink and stays on the writing page");
+    const auto failedGeneration = attemptedGeneration;
+    uiRendererServiceHandwriting(app, 3030);
+    check(attemptedGeneration == failedGeneration && recognitionFailed,
+          "failed unchanged ink is not repeatedly submitted");
+    uiHandwritingRecordTouch(true, 100, 150, 3032);
+    uiHandwritingRecordTouch(true, 100, 200, 3036);
+    uiHandwritingRecordTouch(false, 100, 200, 3038);
+    uiRendererServiceHandwriting(app, 3039);
+    check(app.page == ScreenPage::NameHandwriting && uiHandwritingHasInk() &&
+          !app.identity.handwritingDoneRequested && strcmp(app.identity.draftName, "A") == 0,
+          "correction after failed DONE gets a full idle window and cannot commit at release+1ms");
+    appHandleTouch(app, TouchAction::NameDelete, 3040);
+    uiRendererServiceHandwriting(app, 3040);
+    check(!uiHandwritingHasInk() && strcmp(app.identity.draftName, "A") == 0 &&
+          !app.identity.handwritingDoneRequested,
+          "DELETE clears current ink and cancels DONE before deleting existing draft text");
+    appHandleTouch(app, TouchAction::NameDelete, 3050);
+    uiRendererServiceHandwriting(app, 3050);
+    check(app.identity.draftName[0] == '\0', "DELETE on empty canvas removes the last draft character");
+    // Hold the worker so DONE must wait through several service iterations.
+    recognitionTaskHandle = reinterpret_cast<void *>(1);
+    t = 4000; stroke(120, 145, 120, 295);
+    appHandleTouch(app, TouchAction::HandwritingConfirm, t);
+    uiRendererServiceHandwriting(app, t);
+    check(app.page == ScreenPage::NameHandwriting && recognitionWorkerBusy &&
+          app.identity.handwritingDoneRequested, "touch DONE defers navigation while final ink is recognizing");
+    recognitionWorkerBusy = false; recognitionResultReady = true;
+    recognitionResultGeneration = captureGeneration; recognitionResult = 'I';
+    uiRendererServiceHandwriting(app, t + 10);
+    check(app.page == ScreenPage::NameReview && strcmp(app.identity.draftName, "I") == 0,
+          "deferred DONE appends the last worker result before returning to name review");
+    uiRendererRender(app, t + 10);
+    appHandleTouch(app, TouchAction::NameEdit, t + 20);
+    uiRendererRender(app, t + 20); lv_obj_update_layout(lv_scr_act());
+    uiHandwritingRecordTouch(true, 100, 140, t + 30);
+    uiHandwritingRecordTouch(true, 100, 200, t + 40);
+    appHandleInput(app, InputEvent{InputKind::Rotate, 1, t + 50}, t + 50);
+    appHandleInput(app, InputEvent{InputKind::ButtonDown, 0, t + 60}, t + 60);
+    appHandleInput(app, InputEvent{InputKind::ButtonUp, 0, t + 90}, t + 90);
+    uiRendererServiceHandwriting(app, t + 90);
+    check(app.page == ScreenPage::NameHandwriting && app.identity.handwritingDoneRequested &&
+          !recognitionWorkerBusy, "physical knob DONE waits until the finger actually lifts");
+    uiHandwritingTouchUnavailable(t + 100);
+    uiRendererServiceHandwriting(app, t + 100);
+    check(!recognitionWorkerBusy && uiHandwritingHasInk(),
+          "touch communication failure cannot act as the release for pending DONE");
+    uiHandwritingRecordTouch(false, 100, 200, t + 110);
+    uiRendererServiceHandwriting(app, t + 110);
+    check(recognitionWorkerBusy, "valid release after recovery allows pending DONE to enqueue");
+    const auto oldRequest = recognitionRequestGeneration;
+    appHandleTouch(app, TouchAction::NameDelete, t + 120);
+    uiRendererServiceHandwriting(app, t + 120);
+    recognitionWorkerBusy = false; recognitionResultReady = true;
+    recognitionResultGeneration = oldRequest; recognitionResult = 'X';
+    uiRendererServiceHandwriting(app, t + 2000);
+    check(!uiHandwritingHasInk() && strcmp(app.identity.draftName, "I") == 0,
+          "deleted worker result cannot resurrect a removed letter");
+    recognitionTaskHandle = nullptr;
+    // Capacity failure must not consume or clear pending handwriting.
+    memset(app.identity.draftName, 'A', sizeof(app.identity.draftName) - 1);
+    app.identity.draftName[sizeof(app.identity.draftName) - 1] = '\0';
+    t += 3000; stroke(120, 145, 120, 295);
+    appHandleTouch(app, TouchAction::HandwritingConfirm, t);
+    uiRendererServiceHandwriting(app, t);
+    check(app.page == ScreenPage::NameHandwriting && uiHandwritingHasInk() &&
+          strcmp(handwritingStatusText(app), "NAME IS FULL - CLEAR INK") == 0,
+          "full draft keeps pending ink and explains why DONE cannot append");
+    TouchInputState input;
+    check(input.update(1, 100, 150, 10) && input.pressed &&
+          !input.update(-1, 0, 0, 90) && input.pressed &&
+          !input.update(-1, 0, 0, 110) && !input.pressed,
+          "I2C error is distinct from physical lift and releases UI controls after 100ms");
+    check(input.update(1, 100, 150, 120) && input.update(0, 0, 0, 130) && !input.pressed,
+          "valid zero-touch sample releases immediately");
+    input.update(1, 100, 150, UINT32_MAX - 49);
+    check(!input.update(-1, 0, 0, 50) && !input.pressed,
+          "touch error timeout survives millis wrap");
+    app.page = app.nav.current.page = ScreenPage::AvatarSetup;
+    app.identity.phase = IdentityClientPhase::AvatarEditing;
+    app.identity.editingValue = false; app.focus = app.nav.current.focus = 0;
+    ++app.revision; uiRendererRender(app, ++t);
+    auto *row = avatarRowBindings[0].object;
+    const unsigned previewBefore = previewQueries;
+    const auto rebuildBefore = rendererTestStats.rebuildRenders;
+    app.focus = app.nav.current.focus = 2; ++app.revision;
+    uiRendererRender(app, ++t);
+    check(avatarRowBindings[0].object == row && previewQueries == previewBefore &&
+          rendererTestStats.rebuildRenders == rebuildBefore,
+          "avatar focus change retains real LVGL rows and does not reacquire/redraw portrait");
+    app.identity.editingValue = true; ++app.revision; uiRendererRender(app, ++t);
+    ++app.identity.draftRecipe.facePresetId; ++app.revision; uiRendererRender(app, ++t);
+    check(avatarRowBindings[0].object == row && previewQueries == previewBefore + 1 &&
+          rendererTestStats.rebuildRenders == rebuildBefore,
+          "avatar edit refreshes one retained recipe without a full page rebuild");
+    uiRendererInvalidateArtwork(); uiRendererRender(app, ++t);
+    check(previewQueries == previewBefore + 2 && avatarRowBindings[0].object == row,
+          "newly published portrait is still acquired when artwork invalidation arrives");
+    std::printf("%d failed\n", failed);
+    return failed ? 1 : 0;
+}

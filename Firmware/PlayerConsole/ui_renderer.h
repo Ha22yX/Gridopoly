@@ -9,6 +9,8 @@ void uiRendererRender(const AppState &state, uint32_t nowMs);
 void uiRendererInvalidateArtwork();
 bool uiRendererPollTouch(TouchAction &action);
 bool uiRendererPollHandwriting(char &character, uint32_t nowMs);
+// Run under the LVGL lock with a fresh timestamp after applying touch actions.
+void uiRendererServiceHandwriting(AppState &state, uint32_t nowMs);
 void uiRendererShowFault(const char *code);
 
 struct UiRendererTestStats {

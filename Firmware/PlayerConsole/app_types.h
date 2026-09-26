@@ -357,6 +357,8 @@ struct IdentityState {
     bool draftInitialized = false;
     bool draftDirty = false;
     bool nameDirty = false;
+    bool handwritingDoneRequested = false;
+    bool handwritingDeleteRequested = false;
     bool avatarAssetsReady = false;
     bool avatarEditOverride = false;
     char draftName[17]{};
