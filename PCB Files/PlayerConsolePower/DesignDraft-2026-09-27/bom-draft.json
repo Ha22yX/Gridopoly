@@ -403,13 +403,23 @@
       "smtStockAtSnapshot": 23298171,
       "quantityForTenBoards": 20,
       "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C2856798",
+      "mpn": "FPC-05F-10PH20",
+      "description": "10-pin 0.5mm FPC socket; candidate, mechanical verification pending",
+      "footprint": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
+      "quantityPerBoard": 1,
+      "designators": [
+        "J2"
+      ],
+      "smtStockAtSnapshot": 13038,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true,
+      "mechanicalVerificationPending": true
     }
   ],
   "excluded": [
-    {
-      "ref": "J2",
-      "reason": "Connector footprint held; not procurement-ready"
-    },
     {
       "ref": "J3",
       "reason": "Bare battery wire pads, no header populated"

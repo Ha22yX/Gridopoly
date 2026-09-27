@@ -26,3 +26,5 @@ PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/verification-result.json
 PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/export-scope-audit.json
 PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/submission-notes.md
 PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/release-file-list.txt
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/PCB1-components.source.jsonl
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/pcb-component-import.json

@@ -1,4 +1,4 @@
-﻿"Designators","LCSC","MPN","Description","Footprint","Per board","For 10 boards","SMT stock snapshot","Manufacturing released"
+"Designators","LCSC","MPN","Description","Footprint","Per board","For 10 boards","SMT stock snapshot","Manufacturing released"
 "U1","C54313","BQ24074RGTR","1.5A USB友好型锂离子电池充电器和电源路径管理IC","QFN-16_L3.0-W3.0-P0.50-TL-EP1.7","1","10","816","NO"
 "U2","C919459","TPS61023DRLR","升压型 3A 500mV~5.5V","SOT-563_L1.6-W1.2-P0.50-LS1.6-BR","1","10","37516","NO"
 "U3","C79401","MAX16054AZT+T","带去抖动和±15kV ESD保护的开/关控制器","TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-TL","1","10","1946","NO"
@@ -27,3 +27,4 @@
 "U9","C5190383","SC18IM704PWJ","UART到I²C总线桥接器","TSSOP-16_L5.0-W4.4-P0.65-LS6.4-BL","1","10","25","NO"
 "U10","C2682616","MAX17048G+T10","3uA单节/双节电池电量计，带ModelGauge算法","TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2","1","10","26112","NO"
 "R22, R23","C23162","0603WAF4701T5E","厚膜电阻 4.7kΩ ±1%","R0603","2","20","23298171","NO"
+"J2","C2856798","FPC-05F-10PH20","10-pin 0.5mm FPC socket; candidate, mechanical verification pending","FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20","1","10","13038","NO"

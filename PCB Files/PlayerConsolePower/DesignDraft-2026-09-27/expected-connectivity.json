@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "scope": "Expected pin connectivity; J2 logical interface excluded from PCB pending mechanical verification",
+  "scope": "Expected pin connectivity; all 68 components including candidate J2 included in PCB; mechanical validation remains pending",
   "pages": {
     "P1": {
       "uuid": "443216bbada87fe6",
@@ -618,19 +618,22 @@
           "cid": "C2856798",
           "holdFootprint": true,
           "pins": {
-            "1": "5V_SCREEN",
-            "2": null,
-            "3": "GND",
-            "4": null,
-            "5": null,
-            "6": "SCREEN_RX",
-            "7": "SCREEN_TX",
-            "8": "SCREEN_RST",
-            "9": "SCREEN_DP",
-            "10": "SCREEN_DM",
+            "1": "SCREEN_DM",
+            "2": "SCREEN_DP",
+            "3": "SCREEN_RST",
+            "4": "SCREEN_TX",
+            "5": "SCREEN_RX",
+            "6": null,
+            "7": null,
+            "8": "GND",
+            "9": null,
+            "10": "5V_SCREEN",
             "11": "GND",
             "12": "GND"
-          }
+          },
+          "padMappingBasis": "User requested full reversal of electrical pads 1 through 10 on 2026-09-27; 11/12 retain GND",
+          "includedInPcb": true,
+          "includedInBom": true
         },
         "J3": {
           "x": 150,

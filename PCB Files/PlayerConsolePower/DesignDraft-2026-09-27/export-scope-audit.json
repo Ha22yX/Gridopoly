@@ -1,6 +1,6 @@
 {
   "schema": "gridopoly.player_power_export_scope.v1",
-  "checkedAt": "2026-09-27T08:22:09.094Z",
+  "checkedAt": "2026-09-27T08:50:46.944Z",
   "sources": [
     {
       "name": "P1-power.source.jsonl",
@@ -25,7 +25,7 @@
     },
     {
       "name": "P2-usb-interfaces.source.jsonl",
-      "sha256": "64a28c59ad098411b5df75b2fdaceff230b3f9d4bc7342d5b39b06f0271a27a1",
+      "sha256": "cc6fbfa6b9bb3c9ca7005016d71be9913eedc119da47d6df8457515bdbfbc75e",
       "documentHeaders": [
         {
           "docType": "SCH_PAGE",
@@ -43,9 +43,42 @@
       ],
       "libraryDefinitionRecordsPresent": false,
       "symbolFootprintReferencesRetained": true
+    },
+    {
+      "name": "PCB1-components.source.jsonl",
+      "sha256": "c9ae5dad43cd03cfcdd00a6a5d3892cbedc107d76987e2fc85ca31fdae35b007",
+      "documentHeaders": [
+        {
+          "docType": "PCB",
+          "uuid": "847ec1f4dfc5086a"
+        }
+      ],
+      "recordTypes": [
+        "DOCHEAD",
+        "CANVAS",
+        "LAYER",
+        "LAYER_PHYS",
+        "ACTIVE_LAYER",
+        "NET",
+        "RULE_TEMPLATE",
+        "RULE",
+        "RULE_SELECTOR",
+        "PRIMITIVE",
+        "SILK_OPTS",
+        "PREFERENCE",
+        "PANELIZE",
+        "GROUP",
+        "PAD",
+        "POLY",
+        "COMPONENT",
+        "ATTR",
+        "PAD_NET"
+      ],
+      "libraryDefinitionRecordsPresent": false,
+      "symbolFootprintReferencesRetained": true
     }
   ],
-  "netlistComponentCount": 67,
+  "netlistComponentCount": 68,
   "unrelatedSchematicOrPcbPagesFound": false,
   "credentialScan": {
     "patterns": [

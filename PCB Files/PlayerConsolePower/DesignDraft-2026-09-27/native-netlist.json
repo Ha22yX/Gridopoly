@@ -3483,6 +3483,145 @@
         }
       }
     },
+    "gge59": {
+      "props": {
+        "Unique ID": "gge59",
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "c3895dcae274e1f3",
+        "Designator": "J2",
+        "Device": "c88f492733e1ae39",
+        "LCSC Part Name": "",
+        "Supplier Part": "C2856798",
+        "Manufacturer": "XUNPU(讯普)",
+        "Manufacturer Part": "FPC-05F-10PH20",
+        "Supplier Footprint": "",
+        "JLCPCB Part Class": "",
+        "Datasheet": "",
+        "Supplier": "LCSC",
+        "Footprint": "30ee92e656c169b2",
+        "3D Model": "a807565c6ef340eab9527256784c506d|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
+        "3D Model Transform": "370.078,201.5744,0,0,0,0,0,-44.134,0",
+        "Locking Feature": "",
+        "Contact Type": "",
+        "Number of Contacts": "",
+        "Pitch": "",
+        "Mounting Type": "",
+        "FFC, FCB Thickness": "",
+        "Height Above Board": "",
+        "Contact Material": "",
+        "Contact Plating": "",
+        "Operating Temperature": "",
+        "Rated Voltage (Max)": "",
+        "Current Rating (Max)": "",
+        "Name": "FPC-05F-10PH20 (CANDIDATE)",
+        "Description": "",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$2I33",
+        "DeviceName": "FPC-05F-10PH20",
+        "FootprintName": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "1",
+          "number": "1",
+          "net": "SCREEN_DM",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "2",
+          "number": "2",
+          "net": "SCREEN_DP",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "3",
+          "number": "3",
+          "net": "SCREEN_RST",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "4",
+          "number": "4",
+          "net": "SCREEN_TX",
+          "props": {
+            "Pin Number": "4"
+          }
+        },
+        "5": {
+          "name": "5",
+          "number": "5",
+          "net": "SCREEN_RX",
+          "props": {
+            "Pin Number": "5"
+          }
+        },
+        "6": {
+          "name": "6",
+          "number": "6",
+          "net": "",
+          "props": {
+            "Pin Number": "6"
+          }
+        },
+        "7": {
+          "name": "7",
+          "number": "7",
+          "net": "",
+          "props": {
+            "Pin Number": "7"
+          }
+        },
+        "8": {
+          "name": "8",
+          "number": "8",
+          "net": "GND",
+          "props": {
+            "Pin Number": "8"
+          }
+        },
+        "9": {
+          "name": "9",
+          "number": "9",
+          "net": "",
+          "props": {
+            "Pin Number": "9"
+          }
+        },
+        "10": {
+          "name": "10",
+          "number": "10",
+          "net": "5V_SCREEN",
+          "props": {
+            "Pin Number": "10"
+          }
+        },
+        "11": {
+          "name": "11",
+          "number": "11",
+          "net": "GND",
+          "props": {
+            "Pin Number": "11"
+          }
+        },
+        "12": {
+          "name": "12",
+          "number": "12",
+          "net": "GND",
+          "props": {
+            "Pin Number": "12"
+          }
+        }
+      }
+    },
     "gge60": {
       "props": {
         "Unique ID": "gge60",

@@ -1,85 +1,28 @@
 {
   "schema": "gridopoly.player_power_connectivity_audit.v1",
-  "checkedAt": "2026-09-27T08:01:50.769Z",
+  "checkedAt": "2026-09-27T08:48:24.046Z",
   "status": "pin_connectivity_matches_draft",
   "releaseApproved": false,
   "nativeSymbols": 68,
-  "nativeNetlistComponents": 67,
-  "connectedPinsMatched": 213,
-  "unconnectedPinsMatched": 18,
+  "nativeNetlistComponents": 68,
+  "connectedPinsMatched": 222,
+  "unconnectedPinsMatched": 21,
   "duplicateDesignators": 0,
   "duplicateUniqueIds": 0,
-  "j2ExcludedFromPcbAndBom": true,
+  "j2ExcludedFromPcbAndBom": false,
   "j2SymbolPinsChecked": 12,
   "j2": [
     {
       "pin": "1",
-      "expected": "5V_SCREEN",
+      "expected": "SCREEN_DM",
       "nets": [
-        "5V_SCREEN"
+        "SCREEN_DM"
       ],
       "noConnected": false,
       "pass": true
     },
     {
       "pin": "2",
-      "expected": null,
-      "nets": [],
-      "noConnected": true,
-      "pass": true
-    },
-    {
-      "pin": "3",
-      "expected": "GND",
-      "nets": [
-        "GND"
-      ],
-      "noConnected": false,
-      "pass": true
-    },
-    {
-      "pin": "4",
-      "expected": null,
-      "nets": [],
-      "noConnected": true,
-      "pass": true
-    },
-    {
-      "pin": "5",
-      "expected": null,
-      "nets": [],
-      "noConnected": true,
-      "pass": true
-    },
-    {
-      "pin": "6",
-      "expected": "SCREEN_RX",
-      "nets": [
-        "SCREEN_RX"
-      ],
-      "noConnected": false,
-      "pass": true
-    },
-    {
-      "pin": "7",
-      "expected": "SCREEN_TX",
-      "nets": [
-        "SCREEN_TX"
-      ],
-      "noConnected": false,
-      "pass": true
-    },
-    {
-      "pin": "8",
-      "expected": "SCREEN_RST",
-      "nets": [
-        "SCREEN_RST"
-      ],
-      "noConnected": false,
-      "pass": true
-    },
-    {
-      "pin": "9",
       "expected": "SCREEN_DP",
       "nets": [
         "SCREEN_DP"
@@ -88,10 +31,67 @@
       "pass": true
     },
     {
-      "pin": "10",
-      "expected": "SCREEN_DM",
+      "pin": "3",
+      "expected": "SCREEN_RST",
       "nets": [
-        "SCREEN_DM"
+        "SCREEN_RST"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "4",
+      "expected": "SCREEN_TX",
+      "nets": [
+        "SCREEN_TX"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "5",
+      "expected": "SCREEN_RX",
+      "nets": [
+        "SCREEN_RX"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "6",
+      "expected": null,
+      "nets": [],
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "pin": "7",
+      "expected": null,
+      "nets": [],
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "pin": "8",
+      "expected": "GND",
+      "nets": [
+        "GND"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "9",
+      "expected": null,
+      "nets": [],
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "pin": "10",
+      "expected": "5V_SCREEN",
+      "nets": [
+        "5V_SCREEN"
       ],
       "noConnected": false,
       "pass": true
@@ -124,7 +124,7 @@
   "jlcDrcWarningsClassified": false,
   "limitations": [
     "Connectivity comparison is against the draft manifest, not proof of electrical correctness.",
-    "J2 footprint remains held; cable total thickness, contact current, and physical end-to-end mapping require verification.",
+    "J2 candidate footprint included in PCB/BOM; cable total thickness, contact current and physical mating still require verification.",
     "Native DRC returns only a warning summary on this client; no full ERC clearance.",
     "Battery ratings are not finalized. Per user request, TS has fixed 10k bias and no cell temperature sensing.",
     "Screen firmware UART integration and actual gauge/status operation have not been tested.",
@@ -1407,6 +1407,90 @@
       "pass": true
     },
     {
+      "ref": "J2",
+      "pin": "1",
+      "expected": "SCREEN_DM",
+      "actual": "SCREEN_DM",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "2",
+      "expected": "SCREEN_DP",
+      "actual": "SCREEN_DP",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "3",
+      "expected": "SCREEN_RST",
+      "actual": "SCREEN_RST",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "4",
+      "expected": "SCREEN_TX",
+      "actual": "SCREEN_TX",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "5",
+      "expected": "SCREEN_RX",
+      "actual": "SCREEN_RX",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "6",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "7",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "8",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "9",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "10",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "11",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pin": "12",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
       "ref": "J3",
       "pin": "1",
       "expected": "BAT_PACK",
@@ -1749,5 +1833,6 @@
       "actual": "GND",
       "pass": true
     }
-  ]
+  ],
+  "j2MechanicalVerificationPending": true
 }

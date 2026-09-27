@@ -1,6 +1,6 @@
 # 硬件文档入口
 
-> 2026-09-27：[玩家圆屏 USB-C 电池底板](player-usbc-battery-base-2026-09-27.md)已加入 MAX17048＋SC18IM704。七项功能：充电、电池供电、开关、硬件欠压关机、USB上传/调试、电量、充电状态。两页68个符号，实际网表连接核对通过；已取消外置温度探头。另见[屏幕UART接口](player-battery-telemetry-interface-2026-09-27.md)。FPC机械、电池规格、ERC明细、屏幕固件接入及PCB/实测尚未闭合，未制造放行。
+> 2026-09-27：[玩家圆屏 USB-C 电池底板](player-usbc-battery-base-2026-09-27.md)已加入 MAX17048＋SC18IM704。七项功能：充电、电池供电、开关、硬件欠压关机、USB上传/调试、电量、充电状态。两页68个符号，实际网表连接核对通过，68个器件已纳入PCB，含按用户要求反转1–10脚网络的J2母座；已取消外置温度探头。另见[屏幕UART接口](player-battery-telemetry-interface-2026-09-27.md)和[固件接入进度](../firmware/player-battery-telemetry-progress-2026-09-27.md)。屏幕端源码与主机回归已接入、未部署；FPC机械、电池规格、ERC明细及PCB/实测尚未闭合，未制造放行。
 
 更新：2026-09-22。当前有长边 PCB2_1 与角落 PCB2_5 两种棋盘板。角落采用外接稳压24V，USB-PD→24V及PD配置需求已经取消；旧资料只供追溯。
 

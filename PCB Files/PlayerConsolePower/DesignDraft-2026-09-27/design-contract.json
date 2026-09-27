@@ -191,11 +191,26 @@
       "contact": "bottom",
       "cableThicknessNominal_mm": 0.3,
       "cableThicknessTolerance_mm": 0.03,
-      "status": "hold",
-      "includedInBom": false,
-      "includedInPcb": false
+      "status": "included_candidate_mechanical_verification_pending",
+      "includedInBom": true,
+      "includedInPcb": true
     },
-    "mechanical_drawing_0_35_mm": "contact finger width, not cable total thickness"
+    "mechanical_drawing_0_35_mm": "contact finger width, not cable total thickness",
+    "board_J2_pad_to_net": {
+      "1": "SCREEN_DM",
+      "2": "SCREEN_DP",
+      "3": "SCREEN_RST",
+      "4": "SCREEN_TX",
+      "5": "SCREEN_RX",
+      "6": null,
+      "7": null,
+      "8": "GND",
+      "9": null,
+      "10": "5V_SCREEN",
+      "11": "GND",
+      "12": "GND"
+    },
+    "screenLogicalPinToBoardPad": "J2_pad = 11 - screen_external_logical_pin for pins 1..10, per user reversal request; mechanical tabs 11/12 remain GND"
   },
   "candidate_functions_not_procurement_bom": [
     {
@@ -281,13 +296,14 @@
       }
     ],
     "native_drc_warnings_classified": false,
-    "lastConnectivityCheck": "2026-09-27T08:01:50.769Z"
+    "lastConnectivityCheck": "2026-09-27T08:48:24.077Z",
+    "pcbComponentImportVerified": true
   },
   "native_schematic_complete": false,
   "native_component_count_at_check": 68,
-  "native_netlist_component_count": 67,
-  "native_bom_component_count": 66,
-  "native_bom_sku_count": 28,
+  "native_netlist_component_count": 68,
+  "native_bom_component_count": 67,
+  "native_bom_sku_count": 29,
   "features": [
     "USB-C battery charging",
     "battery-powered 5V screen",
@@ -356,5 +372,6 @@
   "schematicConnectivityMatchesManifest": true,
   "schematicElectricalIdentityReview": "electrical-review.json",
   "firmware_written_to_base": false,
-  "firmware_written_to_screen": false
+  "firmware_written_to_screen": false,
+  "native_pcb_component_count": 68
 }

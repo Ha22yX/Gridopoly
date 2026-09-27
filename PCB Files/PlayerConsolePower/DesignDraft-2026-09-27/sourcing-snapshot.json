@@ -287,7 +287,7 @@
       "retailStock": 12451,
       "smtStock": 13038,
       "smtLabel": "SMT扩展库",
-      "status": "footprint_hold"
+      "status": "included_candidate_mechanical_verification_pending"
     },
     {
       "url": "https://item.szlcsc.com/125650.html",

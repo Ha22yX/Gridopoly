@@ -13,11 +13,22 @@ const parts=Object.fromEntries(allSymbols.map(s=>{const p=nets[s.Designator]?.pr
 const expected=read('expected-connectivity.json');const pin=(r,p)=>nets[r]?.pinInfoMap[p]?.net;
 const failures=[];let connected=0,nc=0;const desiredRefs=[];
 for(const page of Object.values(expected.pages))for(const [ref,e]of Object.entries(page.components)){
- if(ref==='J2')continue;desiredRefs.push(ref);if(!nets[ref]){failures.push({ref,error:'missing component'});continue;}
+ desiredRefs.push(ref);if(!nets[ref]){failures.push({ref,error:'missing component'});continue;}
  for(const [p,wanted]of Object.entries(e.pins)){const actual=pin(ref,p);if(actual!==(wanted===null?'':wanted))failures.push({ref,p,wanted,actual});else if(wanted===null)nc++;else connected++;}
  for(const p of Object.keys(nets[ref].pinInfoMap))if(!(p in e.pins))failures.push({ref,p,error:'unexpected pin'});
 }
 for(const ref of Object.keys(nets))if(!desiredRefs.includes(ref))failures.push({ref,error:'unexpected netlist component'});
+const pcb=read('pcb-component-import.json');
+if(pcb.sourceSha256!==hash('PCB1-components.source.jsonl'))failures.push({error:'PCB capture source hash mismatch'});
+const pcbRefs=Object.fromEntries(pcb.components.map(c=>[c.ref,c]));let pcbPins=0;
+if(Object.keys(pcbRefs).length!==pcb.components.length)failures.push({error:'Duplicate PCB reference'});
+for(const page of Object.values(expected.pages))for(const [ref,e]of Object.entries(page.components)){
+ const c=pcbRefs[ref];if(!c){failures.push({ref,error:'missing PCB component'});continue;}
+ if(c.uniqueId!==nets[ref]?.props['Unique ID'])failures.push({ref,error:'PCB unique ID mismatch'});
+ for(const [pin,wanted]of Object.entries(e.pins)){const pads=c.pads.filter(p=>p.pin===pin);if(!pads.length||pads.some(p=>p.net!==(wanted??'')))failures.push({ref,pin,wanted,error:'PCB pad net mismatch'});else pcbPins++;}
+ for(const pad of c.pads)if(!(pad.pin in e.pins))failures.push({ref,pin:pad.pin,error:'unexpected PCB pad'});
+}
+for(const ref of Object.keys(pcbRefs))if(!desiredRefs.includes(ref))failures.push({ref,error:'unexpected PCB component'});
 const geometry=read('j2-pin-geometry.json');if(geometry.sourceSha256!==hash('P2-usb-interfaces.source.jsonl'))failures.push({error:'J2 geometry is not bound to this source snapshot; recapture through EDA API'});
 const wireIds=new Set(pages[1].filter(r=>r.h.type==='WIRE').map(r=>r.h.id));const lines=pages[1].filter(r=>r.h.type==='LINE'&&wireIds.has(r.v.lineGroup));
 const j2=geometry.pins.map(p=>{const wanted=expected.pages.P2.components.J2.pins[p.pinNumber];const near=(a,b)=>Math.abs(a-b)<1e-6;const ns=[...new Set(lines.filter(r=>near(r.v.startX,p.x)&&near(-r.v.startY,p.y)||near(r.v.endX,p.x)&&near(-r.v.endY,p.y)).map(r=>attrs[1][r.v.lineGroup]?.NET))];const pass=wanted===null?p.noConnected&&ns.length===0:!p.noConnected&&ns.length===1&&ns[0]===wanted;return {pin:p.pinNumber,pass};});
@@ -37,5 +48,5 @@ test('No external NTC; TS has requested fixed 10k',!parts.J4&&pin('U1','1')==='C
 const pre=read('verification-baseline.json');const differences=[];let retained=0;for(const page of Object.values(pre.pages))for(const[ref,e]of Object.entries(page.components)){if(['J2','J4'].includes(ref))continue;for(const[p,net]of Object.entries(e.pins)){if(ref==='U1'&&['1','7','9'].includes(p))continue;const wanted=net==='USB_SW_3V3'?'SCREEN_IO3V3':net===null?'':net;retained++;if(pin(ref,p)!==wanted)differences.push({ref,p,wanted,actual:pin(ref,p)});}}
 test('Existing power / USB / undervoltage connectivity preserved',!differences.length,{retainedPins:retained,differences});
 
-const result={schema:'gridopoly.player_power_offline_verification.v1',scope:'Snapshot connection/identity review; no ERC clearance, physical verification or manufacturing approval.',nativeSymbols:allSymbols.length,nativeNetlistComponents:Object.keys(nets).length,connectedPinsMatched:connected,unconnectedPinsMatched:nc,j2PinsMatched:j2.filter(p=>p.pass).length,electricalChecks:checks.length,electricalChecksPassed:checks.filter(c=>c.pass).length,failures:[...failures,...checks.filter(c=>!c.pass)],sourceHashes:Object.fromEntries(['P1-power.source.jsonl','P2-usb-interfaces.source.jsonl','native-netlist.json','expected-connectivity.json'].map(n=>[n,hash(n)]))};
+const result={schema:'gridopoly.player_power_offline_verification.v1',scope:'Snapshot connection/identity and PCB component/pad import review; no ERC clearance, physical verification or manufacturing approval.',nativeSymbols:allSymbols.length,nativeNetlistComponents:Object.keys(nets).length,connectedPinsMatched:connected,unconnectedPinsMatched:nc,j2PinsMatched:j2.filter(p=>p.pass).length,pcbComponentsMatched:Object.keys(pcbRefs).length,pcbPinsMatched:pcbPins,electricalChecks:checks.length,electricalChecksPassed:checks.filter(c=>c.pass).length,failures:[...failures,...checks.filter(c=>!c.pass)],sourceHashes:Object.fromEntries(['P1-power.source.jsonl','P2-usb-interfaces.source.jsonl','PCB1-components.source.jsonl','native-netlist.json','expected-connectivity.json','pcb-component-import.json'].map(n=>[n,hash(n)]))};
 console.log(JSON.stringify(result,null,2));if(result.failures.length)process.exitCode=1;

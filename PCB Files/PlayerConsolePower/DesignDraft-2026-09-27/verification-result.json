@@ -1,18 +1,22 @@
 {
   "schema": "gridopoly.player_power_offline_verification.v1",
-  "scope": "Snapshot connection/identity review; no ERC clearance, physical verification or manufacturing approval.",
+  "scope": "Snapshot connection/identity and PCB component/pad import review; no ERC clearance, physical verification or manufacturing approval.",
   "nativeSymbols": 68,
-  "nativeNetlistComponents": 67,
-  "connectedPinsMatched": 213,
-  "unconnectedPinsMatched": 18,
+  "nativeNetlistComponents": 68,
+  "connectedPinsMatched": 222,
+  "unconnectedPinsMatched": 21,
   "j2PinsMatched": 12,
+  "pcbComponentsMatched": 68,
+  "pcbPinsMatched": 243,
   "electricalChecks": 79,
   "electricalChecksPassed": 79,
   "failures": [],
   "sourceHashes": {
     "P1-power.source.jsonl": "b653fb9acfa3d8aa9f4244bce03b0ae6812c9991afeb35b85184048683470922",
-    "P2-usb-interfaces.source.jsonl": "64a28c59ad098411b5df75b2fdaceff230b3f9d4bc7342d5b39b06f0271a27a1",
-    "native-netlist.json": "ffa367f47665bce391849228ca1e98ad49d9ccadc7eec3b9caf01253c3bbdd79",
-    "expected-connectivity.json": "9d3dace7c5bc3d7a975a7e6c79ca237a43de6a3684801b503e209ca28c7ac506"
+    "P2-usb-interfaces.source.jsonl": "cc6fbfa6b9bb3c9ca7005016d71be9913eedc119da47d6df8457515bdbfbc75e",
+    "PCB1-components.source.jsonl": "c9ae5dad43cd03cfcdd00a6a5d3892cbedc107d76987e2fc85ca31fdae35b007",
+    "native-netlist.json": "c359b295e69b27f29599308425f9101614fc49ce1be7c2d159cc2d246714337c",
+    "expected-connectivity.json": "8dfd071a0245179859c6ed8d43caeff3acd66fc148031c2d3ace0394d815ff23",
+    "pcb-component-import.json": "edd16ffbe4998611a4b89f7519e56032b570ade15e1fab667cf03b0342d0ba2d"
   }
 }

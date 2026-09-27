@@ -1,7 +1,7 @@
 {
   "schema": "gridopoly.j2_api_geometry.v1",
   "source": "EasyEDA sch_PrimitiveComponent.getAllPinsByPrimitiveId; captured in final export",
-  "sourceSha256": "64a28c59ad098411b5df75b2fdaceff230b3f9d4bc7342d5b39b06f0271a27a1",
+  "sourceSha256": "cc6fbfa6b9bb3c9ca7005016d71be9913eedc119da47d6df8457515bdbfbc75e",
   "pageUuid": "9eb230ca6fd4b303",
   "primitiveId": "ec52088c397184fd",
   "pins": [
@@ -19,7 +19,7 @@
       "x": 435,
       "y": 295,
       "rotation": 180,
-      "noConnected": true
+      "noConnected": false
     },
     {
       "pinNumber": "3",
@@ -35,7 +35,7 @@
       "x": 435,
       "y": 275,
       "rotation": 180,
-      "noConnected": true
+      "noConnected": false
     },
     {
       "pinNumber": "5",
@@ -43,7 +43,7 @@
       "x": 435,
       "y": 265,
       "rotation": 180,
-      "noConnected": true
+      "noConnected": false
     },
     {
       "pinNumber": "6",
@@ -51,7 +51,7 @@
       "x": 435,
       "y": 255,
       "rotation": 180,
-      "noConnected": false
+      "noConnected": true
     },
     {
       "pinNumber": "7",
@@ -59,7 +59,7 @@
       "x": 435,
       "y": 245,
       "rotation": 180,
-      "noConnected": false
+      "noConnected": true
     },
     {
       "pinNumber": "8",
@@ -75,7 +75,7 @@
       "x": 435,
       "y": 225,
       "rotation": 180,
-      "noConnected": false
+      "noConnected": true
     },
     {
       "pinNumber": "10",
