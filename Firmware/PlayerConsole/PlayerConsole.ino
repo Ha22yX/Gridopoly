@@ -12,6 +12,7 @@
 
 #include "app_config.h"
 #include "app_state.h"
+#include "battery_hardware.h"
 #include "demo_transport.h"
 #include "espnow_player_transport.h"
 #include "hardware_input.h"
@@ -21,6 +22,9 @@
 #include "remote_avatar_cache.h"
 #include "remote_tile_cache.h"
 #include "ui_renderer.h"
+#if GRIDOPOLY_BATTERY_ENABLED
+#include "ui_battery.h"
+#endif
 #include "wifi_udp_player_transport.h"
 
 #if GRIDOPOLY_SELF_TEST == 1
@@ -45,6 +49,9 @@ using namespace esp_panel::board;
 namespace {
 
 AppState app;
+#if GRIDOPOLY_BATTERY_ENABLED
+UiBattery batteryUi;
+#endif
 bool inputTraceEnabled = false;
 uint32_t inputTraceDeadlineMs = 0;
 
@@ -124,6 +131,10 @@ void renderAppFrame(uint32_t nowMs)
         }
     }
     uiRendererRender(app, nowMs);
+#if GRIDOPOLY_BATTERY_ENABLED
+    const uint32_t batteryNowMs = millis();
+    uiBatteryRender(batteryUi, batteryHardwareStatus(batteryNowMs), batteryNowMs);
+#endif
     if (!same || ticket == 0) {
         page = app.nav.current.page;
         room = app.authorityRoomId;
@@ -756,6 +767,9 @@ void setup()
     if (!hardwareInputBegin()) { fault("INPUT_INIT"); return; }
 
     const uint32_t startedMs = millis();
+#if GRIDOPOLY_BATTERY_ENABLED
+    batteryHardwareBegin(startedMs);
+#endif
     appInit(app, startedMs, GRIDOPOLY_PLAYER_TRANSPORT != GRIDOPOLY_TRANSPORT_DEMO);
     Serial.printf("GRIDOPOLY_PLAYER_BUILD movement_cue=17 compiled=%s %s\n", __DATE__, __TIME__);
     transport.begin(startedMs);
@@ -886,6 +900,9 @@ void loop()
     TransportEvent transportEvent{};
     bool rotaryStepApplied = false;
     serviceInputTrace(nowMs);
+#if GRIDOPOLY_BATTERY_ENABLED
+    batteryHardwareTick(millis());
+#endif
     while (!rotaryStepApplied && hardwareInputPoll(input)) {
         const uint8_t beforeCommands = app.commandCount;
         const ScreenPage beforePage = app.page;

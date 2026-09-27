@@ -2,7 +2,8 @@
 param(
     [ValidateSet('production','selftest','espnow')][string]$Mode = 'production',
     [string]$ToolRoot = "$env:LOCALAPPDATA\GridopolyPlayerTools-3311",
-    [switch]$ReuseBuildCache
+    [switch]$ReuseBuildCache,
+    [ValidateSet('none','viewe-md80et-v10')][string]$BatteryBoard = 'none'
 )
 $ErrorActionPreference = 'Stop'
 $project = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
@@ -65,6 +66,7 @@ $flags = '-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE -DLV_COLOR_16_SWAP
 $fqbn = 'esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,CDCOnBoot=cdc,DebugLevel=error,UploadMode=default,USBMode=hwcdc'
 if ($Mode -eq 'selftest') { $flags += ' -DGRIDOPOLY_SELF_TEST=1' }
 if ($Mode -eq 'espnow') { $flags += ' -DGRIDOPOLY_USE_ESPNOW=1' }
+if ($BatteryBoard -eq 'viewe-md80et-v10') { $flags += ' -DGRIDOPOLY_BATTERY_BOARD=1' }
 # Arduino's dependency files can retain an older snapshot's lv_conf.h path.
 # Reuse objects only when every sketch/library input and build flag is identical;
 # a changed configuration/header/deleted file must select a different cache.
@@ -100,13 +102,13 @@ $gitRevision = (& git -c safe.directory='*' -C $repo rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0 -or $gitRevision -notmatch '^[0-9a-f]{40}$') { throw 'Cannot identify source Git revision' }
 $sourceManifest = Join-Path $run 'candidate-sources.json'
 @{
-    schemaVersion = 1; gitRevision = $gitRevision; mode = $Mode
+    schemaVersion = 1; gitRevision = $gitRevision; mode = $Mode; batteryBoard = $BatteryBoard
     core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; flags = $flags
     buildInputFingerprint = $fingerprint; files = @($sourceRecords.ToArray())
     note = 'Git revision is the checkout base; file hashes identify the exact possibly uncommitted source snapshot. Local secrets are hashed, never embedded.'
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $sourceManifest -Encoding utf8
 @{
-    mode = $Mode; core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; source = $project; snapshot = $stage
+    mode = $Mode; core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; source = $project; snapshot = $stage; batteryBoard = $BatteryBoard
     sourceProjectLibraries = $sourceLibraries
     projectLibraries = $libraries; externalLibraries = $externalLibraries
     externalVersions = $dependencyVersions; config = $config; flags = $flags
