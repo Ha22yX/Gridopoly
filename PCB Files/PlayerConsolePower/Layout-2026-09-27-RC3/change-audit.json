@@ -1,0 +1,44 @@
+{
+  "scope": "RC2 archive compared with current editor, then audit changes compared with initial current snapshot",
+  "geometryUnchangedDuringThisAudit": {
+    "lines": true,
+    "vias": true,
+    "components": true
+  },
+  "schematicPinsUnchangedFromRc2": true,
+  "normalizedAssemblyFilesByteIdenticalToRc2": {
+    "BOM": true,
+    "CPL": true
+  },
+  "preservedPriorEditorChanges": [
+    "J3 moved to (40,5) mm; BAT+ route extended",
+    "BAT trunk and selected 5V/USB_HOST routes now 0.6 mm",
+    "USB_HOST diagonal segments merged; one GND via removed"
+  ],
+  "thisAuditChanges": [
+    "BAT+ moved to (36,5) mm and BAT- to (44,5) mm beside actual J3",
+    "Version text changed to PLAYER POWER R1 RC3"
+  ],
+  "baselineCounts": {
+    "RC2": {
+      "lines": 533,
+      "vias": 83
+    },
+    "current": {
+      "lines": 536,
+      "vias": 82
+    }
+  },
+  "frozenArchives": [
+    {
+      "directory": "Layout-2026-09-27",
+      "checked": 33,
+      "errors": []
+    },
+    {
+      "directory": "Layout-2026-09-27-RC2",
+      "checked": 38,
+      "errors": []
+    }
+  ]
+}

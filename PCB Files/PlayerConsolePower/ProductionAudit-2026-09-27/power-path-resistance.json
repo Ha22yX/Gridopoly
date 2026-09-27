@@ -1,0 +1,466 @@
+{
+  "inputSha256": "d8aa106136822c0a991adf259dc37bc953581abfe5c4c764730d00c7b617423b",
+  "assumptions": {
+    "copperResistivityOhmMm20C": 1.724e-05,
+    "traceCopperMm": 0.035,
+    "viaBarrelMm": 0.025,
+    "boardMm": 1.6
+  },
+  "limitations": [
+    "A first-order path estimate, not a field/thermal solver. Connections across trace width and pads are idealized to zero transverse resistance; pad/parallel copper, etch tolerance and temperature are not solved.",
+    "Excludes battery wire/protection resistance, connector contacts, ground return, BQ24074 pass FETs and transient inductance.",
+    "Example currents are calculation cases, not proven connector or board load ratings. J2 catalog rating is 0.5 A/contact."
+  ],
+  "routes": [
+    {
+      "net": "BAT_PACK",
+      "from": "J3.1",
+      "to": "U1.3",
+      "pathFound": true,
+      "nominalResistanceOhm20C": 0.06877916105601561,
+      "traceLengthMm": 81.97599940989517,
+      "viaCount": 1,
+      "path": [
+        {
+          "type": "pad-contact",
+          "ref": "J3",
+          "pin": "1"
+        },
+        {
+          "type": "trace",
+          "id": "3b464ebf2193176a",
+          "lengthMm": 5.079999999999999,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "e181f535f9c15397",
+          "lengthMm": 20.25458987845905,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "4de01c2391dbcd32",
+          "lengthMm": 12.573,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "ba0032689b5ccc59",
+          "lengthMm": 0.39999919999999817,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "c64ed3982d0fa986",
+          "lengthMm": 18.44518027999999,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "8315c025407bf6bc",
+          "lengthMm": 10.20074836207387,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "via-pad-contact",
+          "id": "d94aeaafe8a73134"
+        },
+        {
+          "type": "trace",
+          "id": "c2d64d5db7fff104",
+          "lengthMm": 6.799986400000002,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "77fd092f12066ece",
+          "lengthMm": 6.222527229362273,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "3dd425e6ff4b082c",
+          "lengthMm": 1.199997599999989,
+          "widthMm": 0.5999987999999999,
+          "layer": 2
+        },
+        {
+          "type": "via-pad-contact",
+          "id": "16011e4e5f64e315"
+        },
+        {
+          "type": "via",
+          "id": "16011e4e5f64e315",
+          "holeMm": 0.30479999999999996
+        },
+        {
+          "type": "trace",
+          "id": "bedadf9623b71cc3",
+          "lengthMm": 0.7999704599999973,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        }
+      ],
+      "exampleCurrentA": 1.0,
+      "exampleDropMv": 68.77916105601561,
+      "exampleCopperLossW": 0.06877916105601561
+    },
+    {
+      "net": "SYS_RAW",
+      "from": "U1.10",
+      "to": "L1.1",
+      "pathFound": true,
+      "nominalResistanceOhm20C": 0.006142669908835184,
+      "traceLengthMm": 10.819981184337836,
+      "viaCount": 0,
+      "path": [
+        {
+          "type": "trace",
+          "id": "8c3e221ae7b4df09",
+          "lengthMm": 0.8502802409712114,
+          "widthMm": 0.27999944,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "f5fd720f0e7680f0",
+          "lengthMm": 0.8509000000000029,
+          "widthMm": 0.8000009399999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "11fba95e07c7c3ac",
+          "lengthMm": 1.8510605604461257,
+          "widthMm": 0.8000009399999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "5ddfcb9f52d31b5f",
+          "lengthMm": 1.2712360774617073,
+          "widthMm": 1.20000014,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "3cf7d5667aeee492",
+          "lengthMm": 2.501699340000009,
+          "widthMm": 1.20000014,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "71aa02c7c83d5e70",
+          "lengthMm": 3.4948049654587803,
+          "widthMm": 1.20000014,
+          "layer": 1
+        },
+        {
+          "type": "pad-contact",
+          "ref": "L1",
+          "pin": "1"
+        },
+        {
+          "type": "pad-contact",
+          "ref": "L1",
+          "pin": "1"
+        }
+      ],
+      "exampleCurrentA": 1.0,
+      "exampleDropMv": 6.142669908835184,
+      "exampleCopperLossW": 0.006142669908835184
+    },
+    {
+      "net": "5V_SCREEN",
+      "from": "U2.6",
+      "to": "J2.10",
+      "pathFound": true,
+      "nominalResistanceOhm20C": 0.058431676978673075,
+      "traceLengthMm": 70.55151643585334,
+      "viaCount": 2,
+      "path": [
+        {
+          "type": "trace",
+          "id": "b4d518c0f2e1364b",
+          "lengthMm": 0.8992793809182849,
+          "widthMm": 0.29999939999999997,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "527da2a1fe0c0eaa",
+          "lengthMm": 0.7076729191598427,
+          "widthMm": 0.29999939999999997,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "9eb8bd4362f40de9",
+          "lengthMm": 0.8507603002426712,
+          "widthMm": 1.00000054,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "001ab36e052fce2f",
+          "lengthMm": 2.499360000000003,
+          "widthMm": 1.00000054,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "95b8c0d7490b0cb6",
+          "lengthMm": 0.998880400206687,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "448ee75d0f1b7c4e",
+          "lengthMm": 5.65756135627357,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "50455f6cd553bf47",
+          "lengthMm": 9.499998779999999,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "12be3b04804cbc51",
+          "lengthMm": 5.656855508142734,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "a2975263d7bd1069",
+          "lengthMm": 7.000501619999994,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "04eca4595036c94f",
+          "lengthMm": 2.8284250599943888,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "8923e91617f0a2f7",
+          "lengthMm": 20.000000640000003,
+          "widthMm": 0.5999987999999999,
+          "layer": 1
+        },
+        {
+          "type": "via-pad-contact",
+          "id": "e65f8ec2824ad1b0"
+        },
+        {
+          "type": "via",
+          "id": "e65f8ec2824ad1b0",
+          "holeMm": 0.29972
+        },
+        {
+          "type": "trace",
+          "id": "a95e4d5630bb6738",
+          "lengthMm": 7.999999239999999,
+          "widthMm": 1.00000054,
+          "layer": 2
+        },
+        {
+          "type": "via-pad-contact",
+          "id": "880727f145032374"
+        },
+        {
+          "type": "via",
+          "id": "880727f145032374",
+          "holeMm": 0.29972
+        },
+        {
+          "type": "trace",
+          "id": "cef576bdc3d13e9f",
+          "lengthMm": 2.6999996800000012,
+          "widthMm": 1.00000054,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "2b5aa7adb9077278",
+          "lengthMm": 1.050000439999998,
+          "widthMm": 1.00000054,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "bd0ea484ed71607e",
+          "lengthMm": 1.4425069062718685,
+          "widthMm": 0.29999939999999997,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "bd0ea484ed71607e",
+          "lengthMm": 0.7597142046433,
+          "widthMm": 0.29999939999999997,
+          "layer": 1
+        }
+      ],
+      "exampleCurrentA": 0.5,
+      "exampleDropMv": 29.215838489336537,
+      "exampleCopperLossW": 0.014607919244668269
+    },
+    {
+      "net": "USB_VBUS",
+      "from": "J1.A4B9",
+      "to": "U1.13",
+      "pathFound": true,
+      "nominalResistanceOhm20C": 0.025686682646254868,
+      "traceLengthMm": 18.58020922260931,
+      "viaCount": 2,
+      "path": [
+        {
+          "type": "trace",
+          "id": "3dd04136692d5f0f",
+          "lengthMm": 0.07085062869278676,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "7f051707ddcab1f1",
+          "lengthMm": 1.563898320000007,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "via",
+          "id": "471c0351be5f77fa",
+          "holeMm": 0.30479999999999996
+        },
+        {
+          "type": "trace",
+          "id": "fa32cd53d2c87b11",
+          "lengthMm": 0.8485264403675794,
+          "widthMm": 0.39999919999999994,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "c6b4ff3275dc0f3e",
+          "lengthMm": 0.8000009399999968,
+          "widthMm": 0.39999919999999994,
+          "layer": 2
+        },
+        {
+          "type": "trace",
+          "id": "de6d6d8e6e3f76cd",
+          "lengthMm": 1.2340578944290366,
+          "widthMm": 0.39999919999999994,
+          "layer": 2
+        },
+        {
+          "type": "via-pad-contact",
+          "id": "41dee03fe831b1b0"
+        },
+        {
+          "type": "trace",
+          "id": "6083f6b7800ec901",
+          "lengthMm": 1.5999993400000108,
+          "widthMm": 0.39999919999999994,
+          "layer": 2
+        },
+        {
+          "type": "via",
+          "id": "c92497e2f2d064a3",
+          "holeMm": 0.30479999999999996
+        },
+        {
+          "type": "trace",
+          "id": "34300cd26cfec420",
+          "lengthMm": 0.7999983999999927,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "31f00eb4fa05701a",
+          "lengthMm": 0.39999920000001055,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "d9e8731fe03e2827",
+          "lengthMm": 0.5656842935783879,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "2822adf224e5bef2",
+          "lengthMm": 0.39999920000000344,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "185ebb5cea4346df",
+          "lengthMm": 0.19999959999999817,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "5e83ea4a6609fe38",
+          "lengthMm": 4.549990899999997,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "f18de8a34a68d4c5",
+          "lengthMm": 0.6363948302756858,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "trace",
+          "id": "90ff557e655c05dd",
+          "lengthMm": 3.9597900550487153,
+          "widthMm": 0.39999919999999994,
+          "layer": 1
+        },
+        {
+          "type": "pad-contact",
+          "ref": "C1",
+          "pin": "1"
+        },
+        {
+          "type": "trace",
+          "id": "8c65c63d04d7cfa9",
+          "lengthMm": 0.9510191802171013,
+          "widthMm": 0.27999944,
+          "layer": 1
+        }
+      ],
+      "exampleCurrentA": 0.9,
+      "exampleDropMv": 23.11801438162938,
+      "exampleCopperLossW": 0.020806212943466445
+    }
+  ]
+}

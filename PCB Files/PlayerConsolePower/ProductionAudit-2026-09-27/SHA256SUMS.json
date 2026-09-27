@@ -1,0 +1,19 @@
+{
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/.gitattributes": "34be93f68ca67916b72a369fb2796401727d3cdefb22d2c619e9ad4822f123fa",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/before-live-audit.json": "d8aa106136822c0a991adf259dc37bc953581abfe5c4c764730d00c7b617423b",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/before-PCB1.source.jsonl": "b36ea07633aef581b3abb34cd1694ef8b1e01727ab42d246ac1eb289b9398508",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/calculate-power-paths.py": "6b2446c89347385a323c77d84c9b3d890d8a80452bd610c6c01e3270b2b82a5f",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/copper-connectivity-review.json": "00bcc11cd4d8dfd69ac5325d4f47fe32eb7a6602c47cddc223712ede237586c1",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/current-silkscreen-strings.json": "19d018273f3472e030aa8cf47c407f62bbc00cd569b498768f7500dd19c66aa8",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/NativeExports/CurrentAudit-BOM.csv": "302cccd71fe72dab69d05988c0445732b57a45419b43a8fa1b3f61ba7feed3bb",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/NativeExports/CurrentAudit-CPL.csv": "b5501be0c62a3099734b6524fc9c22c0d3210575a640be4591d90d01eabfd37e",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/NativeExports/CurrentAudit-Gerber.zip": "9d77ab61f6f4a46f8d922694960c6ff444b7ab72d7ae6276de64d00c56b083ed",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/P1-current.source.jsonl": "40d6d68e92d52020bc6f4bccfb3f7c9369828f10ea33dd68867cbc61f2152ced",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/P2-current.source.jsonl": "7215d5b129249d9fc35c0358ea70635d144a7ed578a4120620b800e94e9d7a7f",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/PCB1-netlist.json": "ce7143cd5e38705b96ee18699e00fa00f98721c0ffca5111b8472bf93c8abff4",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/power-path-resistance.json": "06cdf79a66d8972990870a5cd06bbdd33c0809c6385ad66725150cb54b100c84",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/README.md": "8acaffba2d68a03e8b58024d1e7aff24a30e98d3a908ca88ebe3ffe0e474e953",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/schematic-netlist.json": "f116316d07ca8296eb6bcd03570efcd827fdce9c7def501d1222c32bba1b22c4",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/silkscreen-fix.json": "d49aecd21a08b30dcbdc4c436cb352d4e1c0f6c81591a0b06051f64b82f69ba8",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-09-27/verify-copper-connectivity.py": "929b9f70d2d70d0abb92ef41e19b0296c1cdc347cc970f1b4ca1f45a7d1ac2f2"
+}

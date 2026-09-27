@@ -1,5 +1,9 @@
 # Gridopoly 当前开发交接
 
+> 2026-09-27 当前硬件候选更新为 [R1-RC3](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC3/README.md)，原理图、PCB及投产审查统一由 PCB 设计任务负责。该任务读取时已有 J3 上移至 (40,5) mm 和走线改宽等现场调整，本轮保留这些改动，仅修正电池极性文字位置及版本丝印。当前为 536 段线、82 过孔、68 件/243 脚；其报告记录 PCB DRC 0 项、34 项布局/网表核对通过，最终 Gerber 的 41 个电气网络未发现短断路。主任务核对本次 48 项交付文件哈希及旧 RC1/RC2 归档一致，负责统一 Git 归档，没有再次改板。详见[当前投产审查](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC3/production-review.md)。
+>
+> RC3 仍未制造放行：J2 供应商额定为 500mA/触点，屏幕峰值负载及排线尾端/针序待核；电池保护与允许电流、41 条原理图警告明细、板厂及首板 USB/热/充电/欠压验收仍未闭合。用户已确定标准型 SMT，保留 U5 当前选型。未下单、未操作 COM7 或修改固件。下文 RC1/RC2 为历史阶段记录，其 USB 线宽与计数不能代替 RC3 当前参数。
+
 > 2026-09-27 USB 后续：玩家电池底板已形成 [R1-RC2 制造候选](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md)，保留 RC1 原始证据。RC2 缩短两处 D− 底层跨线、移除一个多余信号过孔并新增五个地过孔；现为 533 线段、83 过孔，68 件/243 脚及固定机械位置和电源走线保持。主任务副本复验 34 项布局、10 项 USB 路径全部通过，实际 Gerber 铜层复算与交付报告一致，见[本轮复核](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/independent-review.md)。仍存在局部 USB 不成对走线与参考地中断，没有获得控阻或首板电气通过结论；原理图 41 条警告、FPC/电池参数、板厂和首板验收继续待完成。未下单、未操作 COM7 或更改现场固件。
 
 > 2026-09-27 PCB 后续：玩家电池底板已完成用户固定的 80×80 mm、R5 双层全顶面布局和完整布线，68 件/243 脚、532 线段/79 过孔，原生 PCB DRC 0 项；J1/J2、两按键及四孔机械位置保持。主任务副本复验 34/34、独立制造文件复核 18/18 通过，规范 Gerber/BOM/CPL 已形成 [R1-RC1 制造候选](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)。SW1/SW2 正式位号与原理图统一，POWER/RST 功能丝印保留。当前仍未制造放行：原理图 41 条警告明细、FPC/电池规格、USB 布局/叠层及工厂/首板验收未闭合。PCB DRC 不等于这些项目已通过，详见[独立复核范围](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/independent-review.md)。现场 COM7、既有固件和旧 DesignDraft 原始证据未改动。
