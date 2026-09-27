@@ -1,0 +1,218 @@
+{
+  "checkedAt": "2026-09-27T09:17:32.333Z",
+  "source": "https://atta.szlcsc.com/upload/public/pdf/source/20200227/C318890_053E50208A88A7BA1965D8746000774E.pdf",
+  "manufacturer": "XKB TS-1187A-X-X-X series",
+  "part": "TS-1187A-B-A-B",
+  "supplierId": "C318884",
+  "internalCommonPairs": [
+    [
+      "1 (A)",
+      "2 (B)"
+    ],
+    [
+      "3 (C)",
+      "4 (D)"
+    ]
+  ],
+  "regression": [
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "before": {
+        "pairAB": [
+          "POWER_KEY_N",
+          "GND"
+        ],
+        "pairCD": [
+          "POWER_KEY_N",
+          "GND"
+        ],
+        "pass": false
+      },
+      "after": {
+        "pairAB": [
+          "POWER_KEY_N",
+          "POWER_KEY_N"
+        ],
+        "pairCD": [
+          "GND",
+          "GND"
+        ],
+        "pass": true
+      }
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "before": {
+        "pairAB": [
+          "SCREEN_RST",
+          "GND"
+        ],
+        "pairCD": [
+          "SCREEN_RST",
+          "GND"
+        ],
+        "pass": false
+      },
+      "after": {
+        "pairAB": [
+          "SCREEN_RST",
+          "SCREEN_RST"
+        ],
+        "pairCD": [
+          "GND",
+          "GND"
+        ],
+        "pass": true
+      }
+    }
+  ],
+  "pcbPadChanges": [
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "2",
+      "before": "GND",
+      "after": "POWER_KEY_N"
+    },
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "3",
+      "before": "POWER_KEY_N",
+      "after": "GND"
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "2",
+      "before": "GND",
+      "after": "SCREEN_RST"
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "3",
+      "before": "SCREEN_RST",
+      "after": "GND"
+    }
+  ],
+  "placementPreserved": true,
+  "geometry": [
+    {
+      "pcbRef": "POWER",
+      "componentId": "358d584b67b88939",
+      "center": {
+        "x": 2965,
+        "y": -1054.8031484251967
+      },
+      "rotation": 90,
+      "units": "mil; inverse of component rotation; positive local Y top view",
+      "pads": [
+        {
+          "pin": "1",
+          "pinName": "A",
+          "globalX": 2892.2,
+          "globalY": -1172.9,
+          "localX": -118.097,
+          "localY": 72.8
+        },
+        {
+          "pin": "2",
+          "pinName": "B",
+          "globalX": 2892.2,
+          "globalY": -936.7,
+          "localX": 118.103,
+          "localY": 72.8
+        },
+        {
+          "pin": "3",
+          "pinName": "C",
+          "globalX": 3037.8,
+          "globalY": -1172.9,
+          "localX": -118.097,
+          "localY": -72.8
+        },
+        {
+          "pin": "4",
+          "pinName": "D",
+          "globalX": 3037.8,
+          "globalY": -936.7,
+          "localX": 118.103,
+          "localY": -72.8
+        }
+      ],
+      "interpretation": "Unrotated: A1/B2 at local Y +72.8 mil, C3/D4 at local Y -72.8 mil. A/C are left, B/D are right. Pad centres span approximately 6.0 mm horizontally and 3.7 mm vertically, consistent with manufacturer TOP VIEW. The 90-degree placed orientation does not alter common-pair identity."
+    },
+    {
+      "pcbRef": "RST",
+      "componentId": "adcb2853be0b6f8e",
+      "center": {
+        "x": 2964.9999999999995,
+        "y": -2094.803148425197
+      },
+      "rotation": 90,
+      "units": "mil; inverse of component rotation; positive local Y top view",
+      "pads": [
+        {
+          "pin": "1",
+          "pinName": "A",
+          "globalX": 2892.2,
+          "globalY": -2212.9,
+          "localX": -118.097,
+          "localY": 72.8
+        },
+        {
+          "pin": "2",
+          "pinName": "B",
+          "globalX": 2892.2,
+          "globalY": -1976.7,
+          "localX": 118.103,
+          "localY": 72.8
+        },
+        {
+          "pin": "3",
+          "pinName": "C",
+          "globalX": 3037.8,
+          "globalY": -2212.9,
+          "localX": -118.097,
+          "localY": -72.8
+        },
+        {
+          "pin": "4",
+          "pinName": "D",
+          "globalX": 3037.8,
+          "globalY": -1976.7,
+          "localX": 118.103,
+          "localY": -72.8
+        }
+      ],
+      "interpretation": "Unrotated: A1/B2 at local Y +72.8 mil, C3/D4 at local Y -72.8 mil. A/C are left, B/D are right. Pad centres span approximately 6.0 mm horizontally and 3.7 mm vertically, consistent with manufacturer TOP VIEW. The 90-degree placed orientation does not alter common-pair identity."
+    }
+  ],
+  "originalSymbolPinNames": [
+    "A=1",
+    "B=2",
+    "C=3",
+    "D=4"
+  ],
+  "scope": "Negative control detects the old real-world permanent shorts; fixed mapping is checked in schematic netlist and PCB pads.",
+  "offlineVerifierNegativeControl": {
+    "exitCode": 1,
+    "mutatedInput": "Pre-review committed native-netlist.json (old SW1/SW2 mapping)",
+    "contactGroupFailures": [
+      {
+        "name": "SW1 manufacturer internal contact pairs A/B and C/D",
+        "pass": false,
+        "detail": "TS-1187A: 1(A)/2(B) are internally common; 3(C)/4(D) are internally common; released switch must not ground the signal."
+      },
+      {
+        "name": "SW2 manufacturer internal contact pairs A/B and C/D",
+        "pass": false,
+        "detail": "TS-1187A: 1(A)/2(B) are internally common; 3(C)/4(D) are internally common; released switch must not ground the signal."
+      }
+    ],
+    "otherPinMismatches": 4
+  }
+}

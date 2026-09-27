@@ -16,12 +16,14 @@
 node 'PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/verify-schematic.cjs'
 ~~~
 
-只需Node.js标准库，读取本目录快照，不联网、不连接EDA、不触碰硬件，也不写文件。当前输出：68符号、68网表器件、222连接脚、21空网络脚、J2另12脚、PCB 68件/243引脚对应、79项静态电气/身份检查通过。结果及输入SHA-256见 verification-result.json。
+只需Node.js标准库，读取本目录快照，不联网、不连接EDA、不触碰硬件，也不写文件。当前输出：68符号、68网表器件、222连接脚、21空网络脚、J2另12脚、PCB 68件/243引脚对应、81项静态电气/身份检查通过。结果及输入SHA-256见 verification-result.json。
 
-连接比较输入为当前native-netlist与预期清单；J2已加入PCB/BOM并按用户要求反转1–10焊盘网络；使用API采集的pin几何/NC快照，并以P2源码SHA-256绑定。PCB组件/焊盘快照同样绑定PCB1源码SHA-256；候选母座机械条件未验收。verification-baseline.json是遥测修改前的历史连接意图，仅验证旧电源/USB网络保留，里面的J4/NTC及UART NC不代表当前设计。79项检查包括料号、供电和数据手册引脚约束，不是79个硬件测试，也没有清除40条EDA warning。
+连接比较输入为当前native-netlist与预期清单；J2已加入PCB/BOM并按用户要求反转1–10焊盘网络；使用API采集的pin几何/NC快照，并以P2源码SHA-256绑定。PCB组件/焊盘快照同样绑定PCB1源码SHA-256；候选母座机械条件未验收。verification-baseline.json是遥测修改前的历史连接意图，仅验证旧电源/USB网络保留，里面的J4/NTC及UART NC不代表当前设计。81项检查包括料号、供电和数据手册引脚约束，不是81个硬件测试，也没有清除41条EDA warning。
 
 ## 导出范围
 
-export-scope-audit.json记录了两份原理图源码的SCH_PAGE头（P1/P2）、玩家PCB1的PCB头和68器件网表范围。没有包含其他板子的原理图/PCB页面、bridge程序或工具日志。PCB源含器件关联焊盘记录；尚未完成布局布线和制造审查。文本扫描未发现所列凭据/授权头/本机用户路径模式。原生源码保留EDA文档、client、库引用UUID、时间及公共商品链接；这些不是访问令牌。
+export-scope-audit.json记录了两份原理图源码的SCH_PAGE头（P1/P2）、玩家PCB1的PCB头和68器件网表范围。没有包含其他板子的原理图/PCB页面、bridge程序或工具日志。PCB源含器件关联焊盘记录；尚未完成布局布线和制造审查。文本扫描未发现所列凭据/授权头模式；后加入的综合审查JSON含一条本机独立审计证据路径，已在scope审计中明确记录并保留，它不是凭据。原生源码保留EDA文档、client、库引用UUID、时间及公共商品链接；这些不是访问令牌。
 
 原生页面JSONL保留符号/封装引用，不含可独立恢复的完整器件库定义；需要原工程库环境。不能把本目录作为完整可下单工程包。FPC、电池、ERC、固件、PCB和实测限制均保留。
+
+2026-09-27 全面复核补充：旧97afc2d存在SW1/SW2内部常通组接错，原79/79不能证明实物功能。现已改正两只按键的2/3脚，原生网表与PCB均回读；新增81项中的两项常通组检查能在旧网表负向对照中失败。详见 schematic-comprehensive-review.md/json、switch-contact-review.json、all-pin-nc-audit.json。PCB实际位号POWER/RST保留，pcb-component-import.json同时记录原理图ref和实际pcbRef并通过uniqueId对应；制造资料位号统一需在下单前处理。

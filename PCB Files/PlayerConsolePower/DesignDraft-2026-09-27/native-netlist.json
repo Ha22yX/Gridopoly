@@ -1255,7 +1255,7 @@
         "2": {
           "name": "B",
           "number": "2",
-          "net": "GND",
+          "net": "POWER_KEY_N",
           "props": {
             "Pin Number": "2"
           }
@@ -1263,7 +1263,7 @@
         "3": {
           "name": "C",
           "number": "3",
-          "net": "POWER_KEY_N",
+          "net": "GND",
           "props": {
             "Pin Number": "3"
           }
@@ -3460,7 +3460,7 @@
         "2": {
           "name": "B",
           "number": "2",
-          "net": "GND",
+          "net": "SCREEN_RST",
           "props": {
             "Pin Number": "2"
           }
@@ -3468,7 +3468,7 @@
         "3": {
           "name": "C",
           "number": "3",
-          "net": "SCREEN_RST",
+          "net": "GND",
           "props": {
             "Pin Number": "3"
           }

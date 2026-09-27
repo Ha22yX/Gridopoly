@@ -1,11 +1,12 @@
 {
   "schema": "gridopoly.player_power_electrical_review.v1",
-  "checkedAt": "2026-09-27T08:04:26.634Z",
-  "scope": "Schematic netlist, exact library identity and datasheet pin functions. No hardware performance evidence.",
+  "checkedAt": "2026-09-27T09:17:32.333Z",
+  "scope": "Schematic netlist, exact library identity and datasheet pin functions. No hardware performance evidence. Comprehensive manufacturer review and switch correction are documented in schematic-comprehensive-review.md/json.",
   "sources": [
     "https://www.nxp.com/docs/en/data-sheet/SC18IM704.pdf",
     "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17048-MAX17049.pdf",
-    "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+    "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+    "https://atta.szlcsc.com/upload/public/pdf/source/20200227/C318890_053E50208A88A7BA1965D8746000774E.pdf"
   ],
   "checks": [
     {
@@ -612,8 +613,69 @@
       "name": "Existing power / USB / undervoltage connectivity preserved",
       "pass": true,
       "detail": {
-        "retainedPins": 181,
-        "differences": []
+        "retainedPins": 177,
+        "differences": [],
+        "intentionalCorrection": "SW1/SW2 pins 2 and 3 corrected; prior preservation check is not used to preserve the defect"
+      }
+    },
+    {
+      "name": "SW1 manufacturer internal contact pairs A/B and C/D",
+      "pass": true,
+      "detail": {
+        "ref": "SW1",
+        "pcbRef": "POWER",
+        "before": {
+          "pairAB": [
+            "POWER_KEY_N",
+            "GND"
+          ],
+          "pairCD": [
+            "POWER_KEY_N",
+            "GND"
+          ],
+          "pass": false
+        },
+        "after": {
+          "pairAB": [
+            "POWER_KEY_N",
+            "POWER_KEY_N"
+          ],
+          "pairCD": [
+            "GND",
+            "GND"
+          ],
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "SW2 manufacturer internal contact pairs A/B and C/D",
+      "pass": true,
+      "detail": {
+        "ref": "SW2",
+        "pcbRef": "RST",
+        "before": {
+          "pairAB": [
+            "SCREEN_RST",
+            "GND"
+          ],
+          "pairCD": [
+            "SCREEN_RST",
+            "GND"
+          ],
+          "pass": false
+        },
+        "after": {
+          "pairAB": [
+            "SCREEN_RST",
+            "SCREEN_RST"
+          ],
+          "pairCD": [
+            "GND",
+            "GND"
+          ],
+          "pass": true
+        }
       }
     }
   ],

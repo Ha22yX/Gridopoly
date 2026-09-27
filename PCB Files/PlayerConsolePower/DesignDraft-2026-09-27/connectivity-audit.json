@@ -1,6 +1,6 @@
 {
   "schema": "gridopoly.player_power_connectivity_audit.v1",
-  "checkedAt": "2026-09-27T08:48:24.046Z",
+  "checkedAt": "2026-09-27T09:17:32.333Z",
   "status": "pin_connectivity_matches_draft",
   "releaseApproved": false,
   "nativeSymbols": 68,
@@ -118,7 +118,7 @@
   "jlcDrcSummary": [
     {
       "type": "warn",
-      "count": 40
+      "count": 41
     }
   ],
   "jlcDrcWarningsClassified": false,
@@ -130,7 +130,17 @@
     "Screen firmware UART integration and actual gauge/status operation have not been tested.",
     "PCB layout, manufacturing and hardware validation not completed."
   ],
-  "findings": [],
+  "findings": [
+    {
+      "severity": "critical",
+      "status": "fixed",
+      "refs": [
+        "SW1",
+        "SW2"
+      ],
+      "detail": "Manufacturer common contacts A/B=1/2 and C/D=3/4. Changed pins 2 and 3 in schematic and PCB; see switch-contact-review.json."
+    }
+  ],
   "checkedPins": [
     {
       "ref": "U1",
@@ -590,15 +600,15 @@
     {
       "ref": "SW1",
       "pin": "2",
-      "expected": "GND",
-      "actual": "GND",
+      "expected": "POWER_KEY_N",
+      "actual": "POWER_KEY_N",
       "pass": true
     },
     {
       "ref": "SW1",
       "pin": "3",
-      "expected": "POWER_KEY_N",
-      "actual": "POWER_KEY_N",
+      "expected": "GND",
+      "actual": "GND",
       "pass": true
     },
     {
@@ -1388,15 +1398,15 @@
     {
       "ref": "SW2",
       "pin": "2",
-      "expected": "GND",
-      "actual": "GND",
+      "expected": "SCREEN_RST",
+      "actual": "SCREEN_RST",
       "pass": true
     },
     {
       "ref": "SW2",
       "pin": "3",
-      "expected": "SCREEN_RST",
-      "actual": "SCREEN_RST",
+      "expected": "GND",
+      "actual": "GND",
       "pass": true
     },
     {
@@ -1834,5 +1844,13 @@
       "pass": true
     }
   ],
-  "j2MechanicalVerificationPending": true
+  "j2MechanicalVerificationPending": true,
+  "switchContactPairsCorrected": true,
+  "nativeDrc": [
+    {
+      "type": "warn",
+      "count": 41
+    }
+  ],
+  "nativeDrcDetailsAvailable": false
 }

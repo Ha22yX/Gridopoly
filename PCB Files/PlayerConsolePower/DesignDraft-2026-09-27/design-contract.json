@@ -252,7 +252,7 @@
   "remaining_design_gates": [
     "FPC_total_tail_thickness_contact_side_final_footprint_pin_mapping_and_contact_current",
     "cell_charge_discharge_protection_and_temperature_specs",
-    "classify_40_native_DRC_warnings_and_complete_ERC",
+    "classify_41_native_DRC_warnings_and_complete_ERC",
     "legacy_USB_enumeration_and_suspend_policy_or_explicit_product_limitation",
     "PCB_placement_routing_footprints_DRC_and_mechanical_constraints",
     "thermal_transient_undervoltage_charge_USB_and_physical_recovery_tests",
@@ -292,11 +292,11 @@
     "native_drc_summary": [
       {
         "type": "warn",
-        "count": 40
+        "count": 41
       }
     ],
     "native_drc_warnings_classified": false,
-    "lastConnectivityCheck": "2026-09-27T08:48:24.077Z",
+    "lastConnectivityCheck": "2026-09-27T09:22:48.336Z",
     "pcbComponentImportVerified": true
   },
   "native_schematic_complete": false,
@@ -373,5 +373,35 @@
   "schematicElectricalIdentityReview": "electrical-review.json",
   "firmware_written_to_base": false,
   "firmware_written_to_screen": false,
-  "native_pcb_component_count": 68
+  "native_pcb_component_count": 68,
+  "switch_contact_correction": {
+    "date": "2026-09-27",
+    "references": [
+      "SW1",
+      "SW2"
+    ],
+    "pcb_labels": [
+      "POWER",
+      "RST"
+    ],
+    "common_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "signal_pins": [
+      1,
+      2
+    ],
+    "ground_pins": [
+      3,
+      4
+    ],
+    "report": "schematic-comprehensive-review.md"
+  }
 }

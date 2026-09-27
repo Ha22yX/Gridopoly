@@ -1,0 +1,2198 @@
+{
+  "checkedAt": "2026-09-27T09:17:32.333Z",
+  "sourceHashes": {
+    "P1": "e3362c7548665b62bf826f8c7161310efb508c4f131f891c11209332a192da94",
+    "P2": "346d5059620c218b6b91f5752ca67911ba0c475803bc1f632d5254d6669010f4"
+  },
+  "checked": 243,
+  "failures": [],
+  "pins": [
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "1",
+      "pinName": "TS",
+      "net": "CHG_TS_BIAS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "2",
+      "pinName": "BAT",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "3",
+      "pinName": "BAT",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "4",
+      "pinName": "CE#",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "5",
+      "pinName": "EN2",
+      "net": "USB_HIGH_CURRENT",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "6",
+      "pinName": "EN1",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "7",
+      "pinName": "PGOOD#",
+      "net": "PGOOD_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "8",
+      "pinName": "VSS",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "9",
+      "pinName": "CHG#",
+      "net": "CHG_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "10",
+      "pinName": "OUT",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "11",
+      "pinName": "OUT",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "12",
+      "pinName": "ILIM",
+      "net": "CHG_ILIM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "13",
+      "pinName": "IN",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "14",
+      "pinName": "TMR",
+      "net": "CHG_TMR",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "15",
+      "pinName": "ITERM",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "16",
+      "pinName": "ISET",
+      "net": "CHG_ISET",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U1",
+      "pin": "17",
+      "pinName": "EP",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U2",
+      "pin": "1",
+      "pinName": "FB",
+      "net": "BOOST_FB",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U2",
+      "pin": "2",
+      "pinName": "EN",
+      "net": "POWER_EN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U2",
+      "pin": "3",
+      "pinName": "VIN",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U2",
+      "pin": "4",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U2",
+      "pin": "5",
+      "pinName": "SW",
+      "net": "BOOST_SW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U2",
+      "pin": "6",
+      "pinName": "VOUT",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U3",
+      "pin": "1",
+      "pinName": "IN",
+      "net": "POWER_KEY_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U3",
+      "pin": "2",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U3",
+      "pin": "3",
+      "pinName": "CLEAR",
+      "net": "UV_CLEAR",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U3",
+      "pin": "4",
+      "pinName": "#OUT",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U3",
+      "pin": "5",
+      "pinName": "OUT",
+      "net": "POWER_EN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U3",
+      "pin": "6",
+      "pinName": "VCC",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U4",
+      "pin": "1",
+      "pinName": "RESET",
+      "net": "UV_RESET_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U4",
+      "pin": "2",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U4",
+      "pin": "3",
+      "pinName": "MR",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U4",
+      "pin": "4",
+      "pinName": "CT",
+      "net": "UV_DELAY",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U4",
+      "pin": "5",
+      "pinName": "SENSE",
+      "net": "UV_SENSE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "U4",
+      "pin": "6",
+      "pinName": "VDD",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C1",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C1",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C2",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C2",
+      "pin": "1",
+      "pinName": "1",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C3",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C3",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C7",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C7",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C8",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C8",
+      "pin": "1",
+      "pinName": "1",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C9",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C9",
+      "pin": "1",
+      "pinName": "1",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R1",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R1",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CHG_ISET",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R2",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R2",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CHG_ILIM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C4",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C4",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C6",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C6",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C10",
+      "pin": "1",
+      "pinName": "1",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C10",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R3",
+      "pin": "2",
+      "pinName": "2",
+      "net": "UV_SENSE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R3",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R4",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R4",
+      "pin": "1",
+      "pinName": "1",
+      "net": "UV_SENSE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R5",
+      "pin": "2",
+      "pinName": "2",
+      "net": "UV_RESET_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R5",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R6",
+      "pin": "2",
+      "pinName": "2",
+      "net": "UV_DELAY",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R6",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R7",
+      "pin": "2",
+      "pinName": "2",
+      "net": "UV_CLEAR",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R7",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R8",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R8",
+      "pin": "1",
+      "pinName": "1",
+      "net": "POWER_EN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R10",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R10",
+      "pin": "1",
+      "pinName": "1",
+      "net": "BOOST_FB",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C5",
+      "pin": "1",
+      "pinName": "1",
+      "net": "UV_SENSE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "C5",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "Q1",
+      "pin": "3",
+      "pinName": "D",
+      "net": "UV_CLEAR",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "Q1",
+      "pin": "1",
+      "pinName": "G",
+      "net": "UV_RESET_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "Q1",
+      "pin": "2",
+      "pinName": "S",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "SW1",
+      "pin": "2",
+      "pinName": "B",
+      "net": "POWER_KEY_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "SW1",
+      "pin": "1",
+      "pinName": "A",
+      "net": "POWER_KEY_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "SW1",
+      "pin": "4",
+      "pinName": "D",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "SW1",
+      "pin": "3",
+      "pinName": "C",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "L1",
+      "pin": "2",
+      "pinName": "2",
+      "net": "BOOST_SW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "L1",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SYS_RAW",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R9",
+      "pin": "2",
+      "pinName": "2",
+      "net": "BOOST_FB",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R9",
+      "pin": "1",
+      "pinName": "1",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R20",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P1",
+      "ref": "R20",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CHG_TMR",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "1",
+      "pinName": "CC1",
+      "net": "USB_CC1",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "2",
+      "pinName": "CC2",
+      "net": "USB_CC2",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "3",
+      "pinName": "PORT",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "4",
+      "pinName": "VBUS_DET",
+      "net": "CC_VBUS_DET",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "5",
+      "pinName": "ADDR",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "6",
+      "pinName": "INT_N/OUT3",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "7",
+      "pinName": "SDA/OUT1",
+      "net": "CC_OUT1_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "8",
+      "pinName": "SCL/OUT2",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "9",
+      "pinName": "ID",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "10",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "11",
+      "pinName": "EN_N",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U5",
+      "pin": "12",
+      "pinName": "VDD",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "A1B12",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "A4B9",
+      "pinName": "VBUS",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "B8",
+      "pinName": "SBU2",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "A5",
+      "pinName": "CC1",
+      "net": "USB_CC1",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "B7",
+      "pinName": "DN2",
+      "net": "USB_HOST_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "A6",
+      "pinName": "DP1",
+      "net": "USB_HOST_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "A7",
+      "pinName": "DN1",
+      "net": "USB_HOST_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "B6",
+      "pinName": "DP2",
+      "net": "USB_HOST_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "A8",
+      "pinName": "SBU1",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "B5",
+      "pinName": "CC2",
+      "net": "USB_CC2",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "B4A9",
+      "pinName": "VBUS",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "B1A12",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "4",
+      "pinName": "EH",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "3",
+      "pinName": "EH",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "2",
+      "pinName": "EH",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J1",
+      "pin": "1",
+      "pinName": "EH",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U6",
+      "pin": "1",
+      "pinName": "VIN",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U6",
+      "pin": "2",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U6",
+      "pin": "3",
+      "pinName": "EN",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U6",
+      "pin": "4",
+      "pinName": "NC",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U6",
+      "pin": "5",
+      "pinName": "VOUT",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "Q2",
+      "pin": "1",
+      "pinName": "B",
+      "net": "CC_PNP_BASE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "Q2",
+      "pin": "2",
+      "pinName": "E",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "Q2",
+      "pin": "3",
+      "pinName": "C",
+      "net": "USB_HIGH_CURRENT",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "D1",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_HOST_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "D1",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "D1",
+      "pin": "3",
+      "pinName": "3",
+      "net": "USB_HOST_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "D1",
+      "pin": "4",
+      "pinName": "4",
+      "net": "USB_HOST_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "D1",
+      "pin": "5",
+      "pinName": "5",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "D1",
+      "pin": "6",
+      "pinName": "6",
+      "net": "USB_HOST_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "1",
+      "pinName": "1D+",
+      "net": "SCREEN_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "2",
+      "pinName": "1D-",
+      "net": "SCREEN_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "3",
+      "pinName": "2D+",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "4",
+      "pinName": "2D-",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "5",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "6",
+      "pinName": "OE#",
+      "net": "USB_OE_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "7",
+      "pinName": "D-",
+      "net": "USB_HOST_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "8",
+      "pinName": "D+",
+      "net": "USB_HOST_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "9",
+      "pinName": "S",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U7",
+      "pin": "10",
+      "pinName": "VCC",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U8",
+      "pin": "1",
+      "pinName": "VIN",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U8",
+      "pin": "2",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U8",
+      "pin": "3",
+      "pinName": "EN",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U8",
+      "pin": "4",
+      "pinName": "NC",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U8",
+      "pin": "5",
+      "pinName": "VOUT",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "Q3",
+      "pin": "3",
+      "pinName": "D",
+      "net": "USB_OE_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "Q3",
+      "pin": "1",
+      "pinName": "G",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "Q3",
+      "pin": "2",
+      "pinName": "S",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R11",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CC_DET_R1",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R11",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R12",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CC_DET_R2",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R12",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_DET_R1",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R13",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CC_VBUS_DET",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R13",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_DET_R2",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R14",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CC_OUT1_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R14",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R15",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CC_PNP_BASE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R15",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_OUT1_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R16",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CC_PNP_BASE",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R16",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R17",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R17",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_HIGH_CURRENT",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C11",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C11",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C12",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C12",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C13",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CC_3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C13",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C14",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C14",
+      "pin": "1",
+      "pinName": "1",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C15",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C15",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C16",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C16",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R18",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R18",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R19",
+      "pin": "2",
+      "pinName": "2",
+      "net": "USB_OE_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R19",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C17",
+      "pin": "1",
+      "pinName": "1",
+      "net": "USB_VBUS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C17",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "SW2",
+      "pin": "2",
+      "pinName": "B",
+      "net": "SCREEN_RST",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "SW2",
+      "pin": "1",
+      "pinName": "A",
+      "net": "SCREEN_RST",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "SW2",
+      "pin": "4",
+      "pinName": "D",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "SW2",
+      "pin": "3",
+      "pinName": "C",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J3",
+      "pin": "1",
+      "pinName": "1",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J3",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "16",
+      "pinName": "GPIO1",
+      "net": "PGOOD_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "15",
+      "pinName": "VREFP",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "14",
+      "pinName": "GPIO5",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "13",
+      "pinName": "VSS",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "12",
+      "pinName": "VDD",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "11",
+      "pinName": "TX",
+      "net": "SCREEN_RX",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "10",
+      "pinName": "RX",
+      "net": "SCREEN_TX",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "9",
+      "pinName": "GPIO0",
+      "net": "CHG_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "8",
+      "pinName": "GPIO4",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "7",
+      "pinName": "GPIO2",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "6",
+      "pinName": "GPIO3",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "5",
+      "pinName": "GPIO7",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "4",
+      "pinName": "RESET#",
+      "net": "BRIDGE_RST_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "3",
+      "pinName": "GPIO6",
+      "net": "BRIDGE_BOOT_H",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "2",
+      "pinName": "SCL",
+      "net": "BAT_SCL",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U9",
+      "pin": "1",
+      "pinName": "SDA",
+      "net": "BAT_SDA",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "1",
+      "pinName": "CTG",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "2",
+      "pinName": "CELL",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "3",
+      "pinName": "VDD",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "4",
+      "pinName": "GND",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "5",
+      "pinName": "ALRT#",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "6",
+      "pinName": "QSTRT",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "7",
+      "pinName": "SCL",
+      "net": "BAT_SCL",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "8",
+      "pinName": "SDA",
+      "net": "BAT_SDA",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "U10",
+      "pin": "9",
+      "pinName": "EP",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R22",
+      "pin": "2",
+      "pinName": "2",
+      "net": "BAT_SDA",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R22",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R23",
+      "pin": "2",
+      "pinName": "2",
+      "net": "BAT_SCL",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R23",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R21",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R21",
+      "pin": "1",
+      "pinName": "1",
+      "net": "CHG_TS_BIAS",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R24",
+      "pin": "2",
+      "pinName": "2",
+      "net": "BRIDGE_BOOT_H",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R24",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R25",
+      "pin": "2",
+      "pinName": "2",
+      "net": "BRIDGE_RST_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R25",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R26",
+      "pin": "2",
+      "pinName": "2",
+      "net": "PGOOD_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R26",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R27",
+      "pin": "2",
+      "pinName": "2",
+      "net": "CHG_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R27",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R28",
+      "pin": "2",
+      "pinName": "2",
+      "net": "SCREEN_TX",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "R28",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C18",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_IO3V3",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C18",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C19",
+      "pin": "1",
+      "pinName": "1",
+      "net": "BAT_PACK",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C19",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C20",
+      "pin": "1",
+      "pinName": "1",
+      "net": "BRIDGE_RST_N",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "C20",
+      "pin": "2",
+      "pinName": "2",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "1",
+      "pinName": "1",
+      "net": "SCREEN_DM",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "2",
+      "pinName": "2",
+      "net": "SCREEN_DP",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "3",
+      "pinName": "3",
+      "net": "SCREEN_RST",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "4",
+      "pinName": "4",
+      "net": "SCREEN_TX",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "5",
+      "pinName": "5",
+      "net": "SCREEN_RX",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "6",
+      "pinName": "6",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "7",
+      "pinName": "7",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "8",
+      "pinName": "8",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "9",
+      "pinName": "9",
+      "net": "",
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "10",
+      "pinName": "10",
+      "net": "5V_SCREEN",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "11",
+      "pinName": "11",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "page": "P2",
+      "ref": "J2",
+      "pin": "12",
+      "pinName": "12",
+      "net": "GND",
+      "noConnected": false,
+      "pass": true
+    }
+  ]
+}

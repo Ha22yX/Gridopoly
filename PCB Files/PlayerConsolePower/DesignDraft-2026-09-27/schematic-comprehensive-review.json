@@ -1,0 +1,186 @@
+{
+  "schema": "gridopoly.player_power_comprehensive_schematic_review.v1",
+  "checkedAt": "2026-09-27T09:22:48.336Z",
+  "scope": "PlayerConsolePower Schematic2 P1/P2 and PCB component pad networks; no PCB layout, firmware deployment, or manufacturing clearance",
+  "confirmedFatalDefectClasses": 1,
+  "affectedComponents": 2,
+  "fixed": {
+    "refs": [
+      "SW1",
+      "SW2"
+    ],
+    "pcbRefs": [
+      "POWER",
+      "RST"
+    ],
+    "commonPairs": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "pinsChangedPerComponent": [
+      "2",
+      "3"
+    ],
+    "schematicSaved": true,
+    "pcbSaved": true,
+    "pcbPlacementsNamesAnglesLocksPreserved": true
+  },
+  "verification": {
+    "schema": "gridopoly.player_power_offline_verification.v1",
+    "scope": "Snapshot connection/identity and PCB component/pad import review; no ERC clearance, physical verification or manufacturing approval.",
+    "nativeSymbols": 68,
+    "nativeNetlistComponents": 68,
+    "connectedPinsMatched": 222,
+    "unconnectedPinsMatched": 21,
+    "j2PinsMatched": 12,
+    "pcbComponentsMatched": 68,
+    "pcbPinsMatched": 243,
+    "pcbReferenceAliases": [
+      {
+        "schematicRef": "SW1",
+        "pcbRef": "POWER",
+        "uniqueId": "gge19"
+      },
+      {
+        "schematicRef": "SW2",
+        "pcbRef": "RST",
+        "uniqueId": "gge58"
+      }
+    ],
+    "electricalChecks": 81,
+    "electricalChecksPassed": 81,
+    "failures": [],
+    "sourceHashes": {
+      "P1-power.source.jsonl": "e3362c7548665b62bf826f8c7161310efb508c4f131f891c11209332a192da94",
+      "P2-usb-interfaces.source.jsonl": "346d5059620c218b6b91f5752ca67911ba0c475803bc1f632d5254d6669010f4",
+      "PCB1-components.source.jsonl": "e85d6c7f15b09788f3fdd29a08e3444b6d1df90c1a48dcd9e4d9872cef4688ff",
+      "native-netlist.json": "570f8ff405daf2e5e9e720b63b7fa9b0c8aeb9f3f2f55fc38c07108ff27e4619",
+      "expected-connectivity.json": "949ebd1153b311bd33fb78a6392470e28fcf91fb203e74a916950ba9649ccebc",
+      "pcb-component-import.json": "3025767b26846c8a044728ad282ea306a187b7aceb33b1090097399d2573544c"
+    }
+  },
+  "negativeControl": {
+    "exitCode": 1,
+    "mutatedInput": "Pre-review committed native-netlist.json (old SW1/SW2 mapping)",
+    "contactGroupFailures": [
+      {
+        "name": "SW1 manufacturer internal contact pairs A/B and C/D",
+        "pass": false,
+        "detail": "TS-1187A: 1(A)/2(B) are internally common; 3(C)/4(D) are internally common; released switch must not ground the signal."
+      },
+      {
+        "name": "SW2 manufacturer internal contact pairs A/B and C/D",
+        "pass": false,
+        "detail": "TS-1187A: 1(A)/2(B) are internally common; 3(C)/4(D) are internally common; released switch must not ground the signal."
+      }
+    ],
+    "otherPinMismatches": 4
+  },
+  "nativeDrc": [
+    {
+      "type": "warn",
+      "count": 41
+    }
+  ],
+  "nativeDrcDetailsClassified": false,
+  "parameterReview": {
+    "chargeCurrentA": {
+      "typical": 0.5,
+      "estimatedMin": 0.4433196128601624,
+      "estimatedMax": 0.5532856656452162
+    },
+    "highCurrentInputLimitA": {
+      "typical": 0.8944444444444445,
+      "estimatedMin": 0.8250825082508251,
+      "estimatedMax": 0.9652076318742986
+    },
+    "defaultUsbInputLimitA": {
+      "min": 0.09,
+      "typical": 0.095,
+      "max": 0.1
+    },
+    "boostOutputV": 4.992,
+    "undervoltage": {
+      "senseRail": "SYS_RAW",
+      "nominalV": 3.30075,
+      "estimatedMinV": 3.16049,
+      "estimatedMaxV": 3.44449,
+      "assumptions": "TPS3808 reference +/-2%, two independent 1% resistors, +/-25nA input leakage. Battery terminal voltage includes additional path drop.",
+      "releaseDelayTypicalMs": 300,
+      "automaticRestart": false
+    },
+    "safetyTimerFastChargeTypicalHours": 9.066666666666666,
+    "tsFixedBias": {
+      "resistorOhm": 10000,
+      "cellTemperatureSensing": false
+    },
+    "inductor": {
+      "part": "MWSA0402S-1R0MT",
+      "nominalUH": 1,
+      "minSaturationA": 5.6,
+      "maxDcrMilliOhm": 27
+    },
+    "outputCapacitors": {
+      "refs": [
+        "C8",
+        "C9"
+      ],
+      "part": "CL21A106KAYNNNE",
+      "nominalTotalUF": 20,
+      "ratedV": 25,
+      "estimatedTypicalEffectiveAt5V_UF": 11,
+      "boostMinimumEffectiveUF": 4,
+      "note": "Typical graph reading; not guaranteed all temperature/tolerance/aging or transient compliance."
+    }
+  },
+  "remaining": [
+    "41 native DRC warning details unavailable; classification incomplete",
+    "FPC tail thickness/contact arrangement/current and physical continuity",
+    "Battery charge/discharge/protection specifications",
+    "Default USB source is limited to approximately 100mA; battery assistance required for normal screen operation",
+    "USB enumeration/suspend and physical recovery tests",
+    "PCB placement/routing, thermal/transient and hardware acceptance"
+  ],
+  "hardwareTested": false,
+  "manufacturingReleased": false,
+  "firmwareChanged": false,
+  "independentCommanderReview": {
+    "reportedAt": "2026-09-27T09:20:22Z",
+    "evidencePath": "C:/Users/kicof/GridopolyReleases/player-battery-20260927/switch-fix-source-review.json",
+    "scope": "Commander independently reports source-level 68 components/243 pins, four changed switch pin nets, preserved unique IDs and inverse-rotation footprint geometry"
+  },
+  "detailedReport": "schematic-comprehensive-review.md",
+  "drcAccessAttempts": [
+    {
+      "method": "Documented sch_Drc.check(strict=true,userInterface=true,includeVerboseError=true)",
+      "result": "DRC bottom panel requested; returns only [{type:warn,count:41}]. Documentation marks verbose details as added in EDA v4.2; current client 3.2.203."
+    },
+    {
+      "method": "Documented sys_Log.sort()",
+      "result": "Returned application/history logs including previous IDs and board-outline messages; no per-item list attributable to current 41 schematic warnings."
+    },
+    {
+      "method": "Native source/netlist export and skill API reference search",
+      "result": "Connection data and rules are available, but no documented schematic DRC result-file export/list method in this API catalog. No internal store or DOM scraping attempted."
+    },
+    {
+      "method": "Computer Use skill and available tool discovery",
+      "result": "Read installed SKILL.md. Required node_repl session/@oai/sky entry point is not callable in current tool list; no computer-use or browser automation/tool-search tools are exposed. No UI read was possible."
+    },
+    {
+      "method": "Read-only local PCB Files/debug.log keyword search",
+      "result": "2810-byte log has no DRC/drc/warning/警告/未连接 matches; not a usable warning export."
+    },
+    {
+      "method": "User assistance",
+      "result": "Asked for DRC panel warning types/full text; response still pending at review completion."
+    }
+  ],
+  "minimumExternalInputForDrc": "Copy/export the current schematic DRC list, or provide clear screenshots of the expanded warning list. No need to re-run the already verified pin/contact checks."
+}

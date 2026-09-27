@@ -1,372 +1,75 @@
 {
   "schema": "gridopoly.player_power_pcb_component_import.v1",
-  "checkedAt": "2026-09-27T08:48:24.083Z",
+  "checkedAt": "2026-09-27T09:17:32.333Z",
   "scope": "Component inclusion, identity and pad-network comparison only; not placement/routing/physical validation.",
   "manufacturingReleased": false,
   "pcbUuid": "847ec1f4dfc5086a",
-  "sourceSha256": "c9ae5dad43cd03cfcdd00a6a5d3892cbedc107d76987e2fc85ca31fdae35b007",
+  "sourceSha256": "e85d6c7f15b09788f3fdd29a08e3444b6d1df90c1a48dcd9e4d9872cef4688ff",
   "schematicComponentCount": 68,
   "pcbComponentCount": 68,
   "excludedSchematicComponents": [],
   "missingComponents": [],
-  "addedComponents": [
-    "J2"
-  ],
+  "addedComponents": [],
   "j2PadReversalRequestedByUser": true,
-  "existing67PadNetworksAndUniqueIdsPreserved": true,
-  "observedPositionChanges": [
+  "componentIdentityMethod": "uniqueId matched to schematic; ref is schematic ref; pcbRef is actual user-visible PCB designator",
+  "pcbReferenceAliases": [
+    {
+      "schematicRef": "SW1",
+      "pcbRef": "POWER",
+      "uniqueId": "gge19"
+    },
+    {
+      "schematicRef": "SW2",
+      "pcbRef": "RST",
+      "uniqueId": "gge58"
+    }
+  ],
+  "reviewPadChanges": [
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "2",
+      "before": "GND",
+      "after": "POWER_KEY_N"
+    },
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "3",
+      "before": "POWER_KEY_N",
+      "after": "GND"
+    },
     {
       "ref": "SW2",
-      "before": {
-        "x": 4127.230681583131,
-        "y": -5408.705702362202,
-        "rotation": 0,
-        "layer": 1
-      },
-      "after": {
-        "x": 2980,
-        "y": -2065,
-        "rotation": 90,
-        "layer": 1
-      },
-      "note": "Observed during live shared editing; retained. This script does not reposition existing components."
-    }
-  ],
-  "footprintUpdates": [
-    {
-      "ref": "C18",
-      "before": "CAP-TH_BD18.0-P7.50-D0.8-FD",
-      "after": "C0603"
+      "pcbRef": "RST",
+      "pin": "2",
+      "before": "GND",
+      "after": "SCREEN_RST"
     },
     {
-      "ref": "C19",
-      "before": "CAP-TH_BD18.0-P7.50-D0.8-FD",
-      "after": "C0603"
-    },
-    {
-      "ref": "C20",
-      "before": "CAP-TH_BD18.0-P7.50-D0.8-FD",
-      "after": "C0603"
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "3",
+      "before": "SCREEN_RST",
+      "after": "GND"
     }
   ],
+  "userPlacementOrNameChangesByThisReview": [],
+  "footprintUpdates": [],
   "checkedPins": [
     {
-      "ref": "U1",
-      "pin": "1",
-      "expected": "CHG_TS_BIAS",
-      "actual": [
-        "CHG_TS_BIAS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "2",
-      "expected": "BAT_PACK",
-      "actual": [
-        "BAT_PACK"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "3",
-      "expected": "BAT_PACK",
-      "actual": [
-        "BAT_PACK"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "4",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "5",
-      "expected": "USB_HIGH_CURRENT",
-      "actual": [
-        "USB_HIGH_CURRENT"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "6",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "7",
-      "expected": "PGOOD_N",
-      "actual": [
-        "PGOOD_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "8",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "9",
-      "expected": "CHG_N",
-      "actual": [
-        "CHG_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "10",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "11",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "12",
-      "expected": "CHG_ILIM",
-      "actual": [
-        "CHG_ILIM"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "13",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "14",
-      "expected": "CHG_TMR",
-      "actual": [
-        "CHG_TMR"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "15",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "16",
-      "expected": "CHG_ISET",
-      "actual": [
-        "CHG_ISET"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U1",
-      "pin": "17",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U2",
-      "pin": "1",
-      "expected": "BOOST_FB",
-      "actual": [
-        "BOOST_FB"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U2",
-      "pin": "2",
-      "expected": "POWER_EN",
-      "actual": [
-        "POWER_EN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U2",
-      "pin": "3",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U2",
-      "pin": "4",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U2",
-      "pin": "5",
-      "expected": "BOOST_SW",
-      "actual": [
-        "BOOST_SW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U2",
-      "pin": "6",
-      "expected": "5V_SCREEN",
-      "actual": [
-        "5V_SCREEN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U3",
-      "pin": "1",
-      "expected": "POWER_KEY_N",
-      "actual": [
-        "POWER_KEY_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U3",
+      "ref": "C1",
+      "pcbRef": "C1",
       "pin": "2",
       "expected": "GND",
       "actual": [
         "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U3",
-      "pin": "3",
-      "expected": "UV_CLEAR",
-      "actual": [
-        "UV_CLEAR"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U3",
-      "pin": "4",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U3",
-      "pin": "5",
-      "expected": "POWER_EN",
-      "actual": [
-        "POWER_EN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U3",
-      "pin": "6",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U4",
-      "pin": "1",
-      "expected": "UV_RESET_N",
-      "actual": [
-        "UV_RESET_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U4",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U4",
-      "pin": "3",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U4",
-      "pin": "4",
-      "expected": "UV_DELAY",
-      "actual": [
-        "UV_DELAY"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U4",
-      "pin": "5",
-      "expected": "UV_SENSE",
-      "actual": [
-        "UV_SENSE"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U4",
-      "pin": "6",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
       ],
       "pass": true
     },
     {
       "ref": "C1",
+      "pcbRef": "C1",
       "pin": "1",
       "expected": "USB_VBUS",
       "actual": [
@@ -375,7 +78,8 @@
       "pass": true
     },
     {
-      "ref": "C1",
+      "ref": "C2",
+      "pcbRef": "C2",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -385,6 +89,7 @@
     },
     {
       "ref": "C2",
+      "pcbRef": "C2",
       "pin": "1",
       "expected": "BAT_PACK",
       "actual": [
@@ -393,7 +98,8 @@
       "pass": true
     },
     {
-      "ref": "C2",
+      "ref": "C3",
+      "pcbRef": "C3",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -403,60 +109,7 @@
     },
     {
       "ref": "C3",
-      "pin": "1",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C3",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R1",
-      "pin": "1",
-      "expected": "CHG_ISET",
-      "actual": [
-        "CHG_ISET"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R1",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R2",
-      "pin": "1",
-      "expected": "CHG_ILIM",
-      "actual": [
-        "CHG_ILIM"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R2",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C4",
+      "pcbRef": "C3",
       "pin": "1",
       "expected": "SYS_RAW",
       "actual": [
@@ -466,6 +119,7 @@
     },
     {
       "ref": "C4",
+      "pcbRef": "C4",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -474,7 +128,8 @@
       "pass": true
     },
     {
-      "ref": "R3",
+      "ref": "C4",
+      "pcbRef": "C4",
       "pin": "1",
       "expected": "SYS_RAW",
       "actual": [
@@ -483,25 +138,8 @@
       "pass": true
     },
     {
-      "ref": "R3",
-      "pin": "2",
-      "expected": "UV_SENSE",
-      "actual": [
-        "UV_SENSE"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R4",
-      "pin": "1",
-      "expected": "UV_SENSE",
-      "actual": [
-        "UV_SENSE"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R4",
+      "ref": "C5",
+      "pcbRef": "C5",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -511,6 +149,7 @@
     },
     {
       "ref": "C5",
+      "pcbRef": "C5",
       "pin": "1",
       "expected": "UV_SENSE",
       "actual": [
@@ -519,187 +158,18 @@
       "pass": true
     },
     {
-      "ref": "C5",
+      "ref": "C6",
+      "pcbRef": "C6",
       "pin": "2",
       "expected": "GND",
       "actual": [
         "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R5",
-      "pin": "1",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R5",
-      "pin": "2",
-      "expected": "UV_RESET_N",
-      "actual": [
-        "UV_RESET_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R6",
-      "pin": "1",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R6",
-      "pin": "2",
-      "expected": "UV_DELAY",
-      "actual": [
-        "UV_DELAY"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q1",
-      "pin": "1",
-      "expected": "UV_RESET_N",
-      "actual": [
-        "UV_RESET_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q1",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q1",
-      "pin": "3",
-      "expected": "UV_CLEAR",
-      "actual": [
-        "UV_CLEAR"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R7",
-      "pin": "1",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R7",
-      "pin": "2",
-      "expected": "UV_CLEAR",
-      "actual": [
-        "UV_CLEAR"
       ],
       "pass": true
     },
     {
       "ref": "C6",
-      "pin": "1",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C6",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW1",
-      "pin": "1",
-      "expected": "POWER_KEY_N",
-      "actual": [
-        "POWER_KEY_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW1",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW1",
-      "pin": "3",
-      "expected": "POWER_KEY_N",
-      "actual": [
-        "POWER_KEY_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW1",
-      "pin": "4",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R8",
-      "pin": "1",
-      "expected": "POWER_EN",
-      "actual": [
-        "POWER_EN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R8",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "L1",
-      "pin": "1",
-      "expected": "SYS_RAW",
-      "actual": [
-        "SYS_RAW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "L1",
-      "pin": "2",
-      "expected": "BOOST_SW",
-      "actual": [
-        "BOOST_SW"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C7",
+      "pcbRef": "C6",
       "pin": "1",
       "expected": "SYS_RAW",
       "actual": [
@@ -709,6 +179,27 @@
     },
     {
       "ref": "C7",
+      "pcbRef": "C7",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C7",
+      "pcbRef": "C7",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C8",
+      "pcbRef": "C8",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -718,24 +209,7 @@
     },
     {
       "ref": "C8",
-      "pin": "1",
-      "expected": "5V_SCREEN",
-      "actual": [
-        "5V_SCREEN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C8",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C9",
+      "pcbRef": "C8",
       "pin": "1",
       "expected": "5V_SCREEN",
       "actual": [
@@ -745,6 +219,7 @@
     },
     {
       "ref": "C9",
+      "pcbRef": "C9",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -753,7 +228,8 @@
       "pass": true
     },
     {
-      "ref": "C10",
+      "ref": "C9",
+      "pcbRef": "C9",
       "pin": "1",
       "expected": "5V_SCREEN",
       "actual": [
@@ -763,6 +239,7 @@
     },
     {
       "ref": "C10",
+      "pcbRef": "C10",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -771,7 +248,8 @@
       "pass": true
     },
     {
-      "ref": "R9",
+      "ref": "C10",
+      "pcbRef": "C10",
       "pin": "1",
       "expected": "5V_SCREEN",
       "actual": [
@@ -780,98 +258,19 @@
       "pass": true
     },
     {
-      "ref": "R9",
+      "ref": "C11",
+      "pcbRef": "C11",
       "pin": "2",
-      "expected": "BOOST_FB",
+      "expected": "GND",
       "actual": [
-        "BOOST_FB"
+        "GND"
       ],
       "pass": true
     },
     {
-      "ref": "R10",
+      "ref": "C11",
+      "pcbRef": "C11",
       "pin": "1",
-      "expected": "BOOST_FB",
-      "actual": [
-        "BOOST_FB"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R10",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R20",
-      "pin": "1",
-      "expected": "CHG_TMR",
-      "actual": [
-        "CHG_TMR"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R20",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J1",
-      "pin": "1",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J1",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J1",
-      "pin": "3",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J1",
-      "pin": "4",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J1",
-      "pin": "A1B12",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J1",
-      "pin": "A4B9",
       "expected": "USB_VBUS",
       "actual": [
         "USB_VBUS"
@@ -879,9 +278,190 @@
       "pass": true
     },
     {
+      "ref": "C12",
+      "pcbRef": "C12",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C12",
+      "pcbRef": "C12",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": [
+        "CC_3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C13",
+      "pcbRef": "C13",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C13",
+      "pcbRef": "C13",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": [
+        "CC_3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C14",
+      "pcbRef": "C14",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C14",
+      "pcbRef": "C14",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": [
+        "5V_SCREEN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C15",
+      "pcbRef": "C15",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C15",
+      "pcbRef": "C15",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C16",
+      "pcbRef": "C16",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C16",
+      "pcbRef": "C16",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C17",
+      "pcbRef": "C17",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "C17",
+      "pcbRef": "C17",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pcbRef": "D1",
+      "pin": "1",
+      "expected": "USB_HOST_DP",
+      "actual": [
+        "USB_HOST_DP"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pcbRef": "D1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pcbRef": "D1",
+      "pin": "3",
+      "expected": "USB_HOST_DM",
+      "actual": [
+        "USB_HOST_DM"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pcbRef": "D1",
+      "pin": "4",
+      "expected": "USB_HOST_DM",
+      "actual": [
+        "USB_HOST_DM"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pcbRef": "D1",
+      "pin": "5",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pcbRef": "D1",
+      "pin": "6",
+      "expected": "USB_HOST_DP",
+      "actual": [
+        "USB_HOST_DP"
+      ],
+      "pass": true
+    },
+    {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "B8",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -889,6 +469,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "A5",
       "expected": "USB_CC1",
       "actual": [
@@ -898,6 +479,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "B7",
       "expected": "USB_HOST_DM",
       "actual": [
@@ -907,6 +489,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "A6",
       "expected": "USB_HOST_DP",
       "actual": [
@@ -916,6 +499,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "A7",
       "expected": "USB_HOST_DM",
       "actual": [
@@ -925,6 +509,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "B6",
       "expected": "USB_HOST_DP",
       "actual": [
@@ -934,8 +519,9 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "A8",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -943,6 +529,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "pin": "B5",
       "expected": "USB_CC2",
       "actual": [
@@ -952,6 +539,27 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
+      "pin": "A1B12",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pcbRef": "J1",
+      "pin": "B1A12",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pcbRef": "J1",
       "pin": "B4A9",
       "expected": "USB_VBUS",
       "actual": [
@@ -961,7 +569,1188 @@
     },
     {
       "ref": "J1",
-      "pin": "B1A12",
+      "pcbRef": "J1",
+      "pin": "A4B9",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pcbRef": "J1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pcbRef": "J1",
+      "pin": "1",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pcbRef": "J1",
+      "pin": "4",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pcbRef": "J1",
+      "pin": "3",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J3",
+      "pcbRef": "J3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J3",
+      "pcbRef": "J3",
+      "pin": "1",
+      "expected": "BAT_PACK",
+      "actual": [
+        "BAT_PACK"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "L1",
+      "pcbRef": "L1",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "L1",
+      "pcbRef": "L1",
+      "pin": "2",
+      "expected": "BOOST_SW",
+      "actual": [
+        "BOOST_SW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q1",
+      "pcbRef": "Q1",
+      "pin": "1",
+      "expected": "UV_RESET_N",
+      "actual": [
+        "UV_RESET_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q1",
+      "pcbRef": "Q1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q1",
+      "pcbRef": "Q1",
+      "pin": "3",
+      "expected": "UV_CLEAR",
+      "actual": [
+        "UV_CLEAR"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q2",
+      "pcbRef": "Q2",
+      "pin": "1",
+      "expected": "CC_PNP_BASE",
+      "actual": [
+        "CC_PNP_BASE"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q2",
+      "pcbRef": "Q2",
+      "pin": "2",
+      "expected": "CC_3V3",
+      "actual": [
+        "CC_3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q2",
+      "pcbRef": "Q2",
+      "pin": "3",
+      "expected": "USB_HIGH_CURRENT",
+      "actual": [
+        "USB_HIGH_CURRENT"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q3",
+      "pcbRef": "Q3",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q3",
+      "pcbRef": "Q3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "Q3",
+      "pcbRef": "Q3",
+      "pin": "3",
+      "expected": "USB_OE_N",
+      "actual": [
+        "USB_OE_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R1",
+      "pcbRef": "R1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R1",
+      "pcbRef": "R1",
+      "pin": "1",
+      "expected": "CHG_ISET",
+      "actual": [
+        "CHG_ISET"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R2",
+      "pcbRef": "R2",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R2",
+      "pcbRef": "R2",
+      "pin": "1",
+      "expected": "CHG_ILIM",
+      "actual": [
+        "CHG_ILIM"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R3",
+      "pcbRef": "R3",
+      "pin": "2",
+      "expected": "UV_SENSE",
+      "actual": [
+        "UV_SENSE"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R3",
+      "pcbRef": "R3",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R4",
+      "pcbRef": "R4",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R4",
+      "pcbRef": "R4",
+      "pin": "1",
+      "expected": "UV_SENSE",
+      "actual": [
+        "UV_SENSE"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R5",
+      "pcbRef": "R5",
+      "pin": "2",
+      "expected": "UV_RESET_N",
+      "actual": [
+        "UV_RESET_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R5",
+      "pcbRef": "R5",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R6",
+      "pcbRef": "R6",
+      "pin": "2",
+      "expected": "UV_DELAY",
+      "actual": [
+        "UV_DELAY"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R6",
+      "pcbRef": "R6",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R7",
+      "pcbRef": "R7",
+      "pin": "2",
+      "expected": "UV_CLEAR",
+      "actual": [
+        "UV_CLEAR"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R7",
+      "pcbRef": "R7",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R8",
+      "pcbRef": "R8",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R8",
+      "pcbRef": "R8",
+      "pin": "1",
+      "expected": "POWER_EN",
+      "actual": [
+        "POWER_EN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R9",
+      "pcbRef": "R9",
+      "pin": "2",
+      "expected": "BOOST_FB",
+      "actual": [
+        "BOOST_FB"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R9",
+      "pcbRef": "R9",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": [
+        "5V_SCREEN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R10",
+      "pcbRef": "R10",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R10",
+      "pcbRef": "R10",
+      "pin": "1",
+      "expected": "BOOST_FB",
+      "actual": [
+        "BOOST_FB"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R11",
+      "pcbRef": "R11",
+      "pin": "2",
+      "expected": "CC_DET_R1",
+      "actual": [
+        "CC_DET_R1"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R11",
+      "pcbRef": "R11",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R12",
+      "pcbRef": "R12",
+      "pin": "2",
+      "expected": "CC_DET_R2",
+      "actual": [
+        "CC_DET_R2"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R12",
+      "pcbRef": "R12",
+      "pin": "1",
+      "expected": "CC_DET_R1",
+      "actual": [
+        "CC_DET_R1"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R13",
+      "pcbRef": "R13",
+      "pin": "2",
+      "expected": "CC_VBUS_DET",
+      "actual": [
+        "CC_VBUS_DET"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R13",
+      "pcbRef": "R13",
+      "pin": "1",
+      "expected": "CC_DET_R2",
+      "actual": [
+        "CC_DET_R2"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R14",
+      "pcbRef": "R14",
+      "pin": "2",
+      "expected": "CC_OUT1_N",
+      "actual": [
+        "CC_OUT1_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R14",
+      "pcbRef": "R14",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": [
+        "CC_3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R15",
+      "pcbRef": "R15",
+      "pin": "2",
+      "expected": "CC_PNP_BASE",
+      "actual": [
+        "CC_PNP_BASE"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R15",
+      "pcbRef": "R15",
+      "pin": "1",
+      "expected": "CC_OUT1_N",
+      "actual": [
+        "CC_OUT1_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R16",
+      "pcbRef": "R16",
+      "pin": "2",
+      "expected": "CC_PNP_BASE",
+      "actual": [
+        "CC_PNP_BASE"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R16",
+      "pcbRef": "R16",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": [
+        "CC_3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R17",
+      "pcbRef": "R17",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R17",
+      "pcbRef": "R17",
+      "pin": "1",
+      "expected": "USB_HIGH_CURRENT",
+      "actual": [
+        "USB_HIGH_CURRENT"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R18",
+      "pcbRef": "R18",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R18",
+      "pcbRef": "R18",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R19",
+      "pcbRef": "R19",
+      "pin": "2",
+      "expected": "USB_OE_N",
+      "actual": [
+        "USB_OE_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R19",
+      "pcbRef": "R19",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R20",
+      "pcbRef": "R20",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R20",
+      "pcbRef": "R20",
+      "pin": "1",
+      "expected": "CHG_TMR",
+      "actual": [
+        "CHG_TMR"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R21",
+      "pcbRef": "R21",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R21",
+      "pcbRef": "R21",
+      "pin": "1",
+      "expected": "CHG_TS_BIAS",
+      "actual": [
+        "CHG_TS_BIAS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R22",
+      "pcbRef": "R22",
+      "pin": "2",
+      "expected": "BAT_SDA",
+      "actual": [
+        "BAT_SDA"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R22",
+      "pcbRef": "R22",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R23",
+      "pcbRef": "R23",
+      "pin": "2",
+      "expected": "BAT_SCL",
+      "actual": [
+        "BAT_SCL"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R23",
+      "pcbRef": "R23",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R24",
+      "pcbRef": "R24",
+      "pin": "2",
+      "expected": "BRIDGE_BOOT_H",
+      "actual": [
+        "BRIDGE_BOOT_H"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R24",
+      "pcbRef": "R24",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R25",
+      "pcbRef": "R25",
+      "pin": "2",
+      "expected": "BRIDGE_RST_N",
+      "actual": [
+        "BRIDGE_RST_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R25",
+      "pcbRef": "R25",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R26",
+      "pcbRef": "R26",
+      "pin": "2",
+      "expected": "PGOOD_N",
+      "actual": [
+        "PGOOD_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R26",
+      "pcbRef": "R26",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R27",
+      "pcbRef": "R27",
+      "pin": "2",
+      "expected": "CHG_N",
+      "actual": [
+        "CHG_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R27",
+      "pcbRef": "R27",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R28",
+      "pcbRef": "R28",
+      "pin": "2",
+      "expected": "SCREEN_TX",
+      "actual": [
+        "SCREEN_TX"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "R28",
+      "pcbRef": "R28",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "1",
+      "expected": "POWER_KEY_N",
+      "actual": [
+        "POWER_KEY_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "2",
+      "expected": "POWER_KEY_N",
+      "actual": [
+        "POWER_KEY_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "3",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pcbRef": "POWER",
+      "pin": "4",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "1",
+      "expected": "SCREEN_RST",
+      "actual": [
+        "SCREEN_RST"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "2",
+      "expected": "SCREEN_RST",
+      "actual": [
+        "SCREEN_RST"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "3",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pcbRef": "RST",
+      "pin": "4",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "1",
+      "expected": "CHG_TS_BIAS",
+      "actual": [
+        "CHG_TS_BIAS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "2",
+      "expected": "BAT_PACK",
+      "actual": [
+        "BAT_PACK"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "3",
+      "expected": "BAT_PACK",
+      "actual": [
+        "BAT_PACK"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "4",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "5",
+      "expected": "USB_HIGH_CURRENT",
+      "actual": [
+        "USB_HIGH_CURRENT"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "6",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "7",
+      "expected": "PGOOD_N",
+      "actual": [
+        "PGOOD_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "8",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "9",
+      "expected": "CHG_N",
+      "actual": [
+        "CHG_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "10",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "11",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "12",
+      "expected": "CHG_ILIM",
+      "actual": [
+        "CHG_ILIM"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "13",
+      "expected": "USB_VBUS",
+      "actual": [
+        "USB_VBUS"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "14",
+      "expected": "CHG_TMR",
+      "actual": [
+        "CHG_TMR"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "15",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "16",
+      "expected": "CHG_ISET",
+      "actual": [
+        "CHG_ISET"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pcbRef": "U1",
+      "pin": "17",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pcbRef": "U2",
+      "pin": "5",
+      "expected": "BOOST_SW",
+      "actual": [
+        "BOOST_SW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pcbRef": "U2",
+      "pin": "2",
+      "expected": "POWER_EN",
+      "actual": [
+        "POWER_EN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pcbRef": "U2",
+      "pin": "3",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pcbRef": "U2",
+      "pin": "1",
+      "expected": "BOOST_FB",
+      "actual": [
+        "BOOST_FB"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pcbRef": "U2",
+      "pin": "4",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pcbRef": "U2",
+      "pin": "6",
+      "expected": "5V_SCREEN",
+      "actual": [
+        "5V_SCREEN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pcbRef": "U3",
+      "pin": "6",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pcbRef": "U3",
+      "pin": "4",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pcbRef": "U3",
+      "pin": "3",
+      "expected": "UV_CLEAR",
+      "actual": [
+        "UV_CLEAR"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pcbRef": "U3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pcbRef": "U3",
+      "pin": "1",
+      "expected": "POWER_KEY_N",
+      "actual": [
+        "POWER_KEY_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pcbRef": "U3",
+      "pin": "5",
+      "expected": "POWER_EN",
+      "actual": [
+        "POWER_EN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pcbRef": "U4",
+      "pin": "3",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pcbRef": "U4",
+      "pin": "2",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pcbRef": "U4",
+      "pin": "1",
+      "expected": "UV_RESET_N",
+      "actual": [
+        "UV_RESET_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pcbRef": "U4",
+      "pin": "6",
+      "expected": "SYS_RAW",
+      "actual": [
+        "SYS_RAW"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pcbRef": "U4",
+      "pin": "5",
+      "expected": "UV_SENSE",
+      "actual": [
+        "UV_SENSE"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pcbRef": "U4",
+      "pin": "4",
+      "expected": "UV_DELAY",
+      "actual": [
+        "UV_DELAY"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "12",
+      "expected": "CC_3V3",
+      "actual": [
+        "CC_3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "11",
       "expected": "GND",
       "actual": [
         "GND"
@@ -970,15 +1759,87 @@
     },
     {
       "ref": "U5",
-      "pin": "1",
-      "expected": "USB_CC1",
+      "pcbRef": "U5",
+      "pin": "10",
+      "expected": "GND",
       "actual": [
-        "USB_CC1"
+        "GND"
       ],
       "pass": true
     },
     {
       "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "9",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "8",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "7",
+      "expected": "CC_OUT1_N",
+      "actual": [
+        "CC_OUT1_N"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "6",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "5",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "4",
+      "expected": "CC_VBUS_DET",
+      "actual": [
+        "CC_VBUS_DET"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
+      "pin": "3",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pcbRef": "U5",
       "pin": "2",
       "expected": "USB_CC2",
       "actual": [
@@ -988,88 +1849,28 @@
     },
     {
       "ref": "U5",
-      "pin": "3",
-      "expected": "GND",
+      "pcbRef": "U5",
+      "pin": "1",
+      "expected": "USB_CC1",
       "actual": [
-        "GND"
+        "USB_CC1"
       ],
       "pass": true
     },
     {
-      "ref": "U5",
+      "ref": "U6",
+      "pcbRef": "U6",
       "pin": "4",
-      "expected": "CC_VBUS_DET",
+      "expected": "",
       "actual": [
-        "CC_VBUS_DET"
+        ""
       ],
       "pass": true
     },
     {
-      "ref": "U5",
+      "ref": "U6",
+      "pcbRef": "U6",
       "pin": "5",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "6",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "7",
-      "expected": "CC_OUT1_N",
-      "actual": [
-        "CC_OUT1_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "8",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "9",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "10",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "11",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U5",
-      "pin": "12",
       "expected": "CC_3V3",
       "actual": [
         "CC_3V3"
@@ -1078,6 +1879,7 @@
     },
     {
       "ref": "U6",
+      "pcbRef": "U6",
       "pin": "1",
       "expected": "USB_VBUS",
       "actual": [
@@ -1087,6 +1889,7 @@
     },
     {
       "ref": "U6",
+      "pcbRef": "U6",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -1096,114 +1899,17 @@
     },
     {
       "ref": "U6",
+      "pcbRef": "U6",
       "pin": "3",
       "expected": "USB_VBUS",
       "actual": [
         "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U6",
-      "pin": "4",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U6",
-      "pin": "5",
-      "expected": "CC_3V3",
-      "actual": [
-        "CC_3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q2",
-      "pin": "1",
-      "expected": "CC_PNP_BASE",
-      "actual": [
-        "CC_PNP_BASE"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q2",
-      "pin": "2",
-      "expected": "CC_3V3",
-      "actual": [
-        "CC_3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q2",
-      "pin": "3",
-      "expected": "USB_HIGH_CURRENT",
-      "actual": [
-        "USB_HIGH_CURRENT"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "D1",
-      "pin": "1",
-      "expected": "USB_HOST_DP",
-      "actual": [
-        "USB_HOST_DP"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "D1",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "D1",
-      "pin": "3",
-      "expected": "USB_HOST_DM",
-      "actual": [
-        "USB_HOST_DM"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "D1",
-      "pin": "4",
-      "expected": "USB_HOST_DM",
-      "actual": [
-        "USB_HOST_DM"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "D1",
-      "pin": "5",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "D1",
-      "pin": "6",
-      "expected": "USB_HOST_DP",
-      "actual": [
-        "USB_HOST_DP"
       ],
       "pass": true
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "1",
       "expected": "SCREEN_DP",
       "actual": [
@@ -1213,6 +1919,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "2",
       "expected": "SCREEN_DM",
       "actual": [
@@ -1222,8 +1929,9 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "3",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1231,8 +1939,9 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "4",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1240,6 +1949,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "5",
       "expected": "GND",
       "actual": [
@@ -1249,6 +1959,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "6",
       "expected": "USB_OE_N",
       "actual": [
@@ -1258,6 +1969,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "7",
       "expected": "USB_HOST_DM",
       "actual": [
@@ -1267,6 +1979,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "8",
       "expected": "USB_HOST_DP",
       "actual": [
@@ -1276,6 +1989,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "9",
       "expected": "GND",
       "actual": [
@@ -1285,6 +1999,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "pin": "10",
       "expected": "SCREEN_IO3V3",
       "actual": [
@@ -1294,35 +2009,9 @@
     },
     {
       "ref": "U8",
-      "pin": "1",
-      "expected": "5V_SCREEN",
-      "actual": [
-        "5V_SCREEN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U8",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U8",
-      "pin": "3",
-      "expected": "5V_SCREEN",
-      "actual": [
-        "5V_SCREEN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U8",
+      "pcbRef": "U8",
       "pin": "4",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1330,6 +2019,7 @@
     },
     {
       "ref": "U8",
+      "pcbRef": "U8",
       "pin": "5",
       "expected": "SCREEN_IO3V3",
       "actual": [
@@ -1338,214 +2028,8 @@
       "pass": true
     },
     {
-      "ref": "Q3",
-      "pin": "1",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q3",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "Q3",
-      "pin": "3",
-      "expected": "USB_OE_N",
-      "actual": [
-        "USB_OE_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R11",
-      "pin": "1",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R11",
-      "pin": "2",
-      "expected": "CC_DET_R1",
-      "actual": [
-        "CC_DET_R1"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R12",
-      "pin": "1",
-      "expected": "CC_DET_R1",
-      "actual": [
-        "CC_DET_R1"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R12",
-      "pin": "2",
-      "expected": "CC_DET_R2",
-      "actual": [
-        "CC_DET_R2"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R13",
-      "pin": "1",
-      "expected": "CC_DET_R2",
-      "actual": [
-        "CC_DET_R2"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R13",
-      "pin": "2",
-      "expected": "CC_VBUS_DET",
-      "actual": [
-        "CC_VBUS_DET"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R14",
-      "pin": "1",
-      "expected": "CC_3V3",
-      "actual": [
-        "CC_3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R14",
-      "pin": "2",
-      "expected": "CC_OUT1_N",
-      "actual": [
-        "CC_OUT1_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R15",
-      "pin": "1",
-      "expected": "CC_OUT1_N",
-      "actual": [
-        "CC_OUT1_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R15",
-      "pin": "2",
-      "expected": "CC_PNP_BASE",
-      "actual": [
-        "CC_PNP_BASE"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R16",
-      "pin": "1",
-      "expected": "CC_3V3",
-      "actual": [
-        "CC_3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R16",
-      "pin": "2",
-      "expected": "CC_PNP_BASE",
-      "actual": [
-        "CC_PNP_BASE"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R17",
-      "pin": "1",
-      "expected": "USB_HIGH_CURRENT",
-      "actual": [
-        "USB_HIGH_CURRENT"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R17",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C11",
-      "pin": "1",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C11",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C12",
-      "pin": "1",
-      "expected": "CC_3V3",
-      "actual": [
-        "CC_3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C12",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C13",
-      "pin": "1",
-      "expected": "CC_3V3",
-      "actual": [
-        "CC_3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C13",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C14",
+      "ref": "U8",
+      "pcbRef": "U8",
       "pin": "1",
       "expected": "5V_SCREEN",
       "actual": [
@@ -1554,7 +2038,8 @@
       "pass": true
     },
     {
-      "ref": "C14",
+      "ref": "U8",
+      "pcbRef": "U8",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -1563,259 +2048,18 @@
       "pass": true
     },
     {
-      "ref": "C15",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C15",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C16",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C16",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R18",
-      "pin": "1",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R18",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R19",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R19",
-      "pin": "2",
-      "expected": "USB_OE_N",
-      "actual": [
-        "USB_OE_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C17",
-      "pin": "1",
-      "expected": "USB_VBUS",
-      "actual": [
-        "USB_VBUS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "C17",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW2",
-      "pin": "1",
-      "expected": "SCREEN_RST",
-      "actual": [
-        "SCREEN_RST"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW2",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW2",
+      "ref": "U8",
+      "pcbRef": "U8",
       "pin": "3",
-      "expected": "SCREEN_RST",
-      "actual": [
-        "SCREEN_RST"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "SW2",
-      "pin": "4",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "1",
-      "expected": "SCREEN_DM",
-      "actual": [
-        "SCREEN_DM"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "2",
-      "expected": "SCREEN_DP",
-      "actual": [
-        "SCREEN_DP"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "3",
-      "expected": "SCREEN_RST",
-      "actual": [
-        "SCREEN_RST"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "4",
-      "expected": "SCREEN_TX",
-      "actual": [
-        "SCREEN_TX"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "5",
-      "expected": "SCREEN_RX",
-      "actual": [
-        "SCREEN_RX"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "6",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "7",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "8",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "9",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "10",
       "expected": "5V_SCREEN",
       "actual": [
         "5V_SCREEN"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "11",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J2",
-      "pin": "12",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J3",
-      "pin": "1",
-      "expected": "BAT_PACK",
-      "actual": [
-        "BAT_PACK"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "J3",
-      "pin": "2",
-      "expected": "GND",
-      "actual": [
-        "GND"
       ],
       "pass": true
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "1",
       "expected": "BAT_SDA",
       "actual": [
@@ -1825,6 +2069,7 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "2",
       "expected": "BAT_SCL",
       "actual": [
@@ -1834,6 +2079,7 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "3",
       "expected": "BRIDGE_BOOT_H",
       "actual": [
@@ -1843,6 +2089,7 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "4",
       "expected": "BRIDGE_RST_N",
       "actual": [
@@ -1852,8 +2099,9 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "5",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1861,8 +2109,9 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "6",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1870,8 +2119,9 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "7",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1879,8 +2129,9 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "pin": "8",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -1888,60 +2139,17 @@
     },
     {
       "ref": "U9",
-      "pin": "9",
-      "expected": "CHG_N",
+      "pcbRef": "U9",
+      "pin": "16",
+      "expected": "PGOOD_N",
       "actual": [
-        "CHG_N"
+        "PGOOD_N"
       ],
       "pass": true
     },
     {
       "ref": "U9",
-      "pin": "10",
-      "expected": "SCREEN_TX",
-      "actual": [
-        "SCREEN_TX"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U9",
-      "pin": "11",
-      "expected": "SCREEN_RX",
-      "actual": [
-        "SCREEN_RX"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U9",
-      "pin": "12",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U9",
-      "pin": "13",
-      "expected": "GND",
-      "actual": [
-        "GND"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U9",
-      "pin": "14",
-      "expected": null,
-      "actual": [
-        ""
-      ],
-      "pass": true
-    },
-    {
-      "ref": "U9",
+      "pcbRef": "U9",
       "pin": "15",
       "expected": "SCREEN_IO3V3",
       "actual": [
@@ -1951,15 +2159,67 @@
     },
     {
       "ref": "U9",
-      "pin": "16",
-      "expected": "PGOOD_N",
+      "pcbRef": "U9",
+      "pin": "14",
+      "expected": "",
       "actual": [
-        "PGOOD_N"
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pcbRef": "U9",
+      "pin": "13",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pcbRef": "U9",
+      "pin": "12",
+      "expected": "SCREEN_IO3V3",
+      "actual": [
+        "SCREEN_IO3V3"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pcbRef": "U9",
+      "pin": "11",
+      "expected": "SCREEN_RX",
+      "actual": [
+        "SCREEN_RX"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pcbRef": "U9",
+      "pin": "10",
+      "expected": "SCREEN_TX",
+      "actual": [
+        "SCREEN_TX"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pcbRef": "U9",
+      "pin": "9",
+      "expected": "CHG_N",
+      "actual": [
+        "CHG_N"
       ],
       "pass": true
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "1",
       "expected": "GND",
       "actual": [
@@ -1969,6 +2229,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "2",
       "expected": "BAT_PACK",
       "actual": [
@@ -1978,6 +2239,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "3",
       "expected": "BAT_PACK",
       "actual": [
@@ -1987,6 +2249,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "4",
       "expected": "GND",
       "actual": [
@@ -1996,8 +2259,9 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "5",
-      "expected": null,
+      "expected": "",
       "actual": [
         ""
       ],
@@ -2005,6 +2269,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "6",
       "expected": "GND",
       "actual": [
@@ -2014,6 +2279,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "7",
       "expected": "BAT_SCL",
       "actual": [
@@ -2023,6 +2289,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "8",
       "expected": "BAT_SDA",
       "actual": [
@@ -2032,6 +2299,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "pin": "9",
       "expected": "GND",
       "actual": [
@@ -2040,16 +2308,8 @@
       "pass": true
     },
     {
-      "ref": "R21",
-      "pin": "1",
-      "expected": "CHG_TS_BIAS",
-      "actual": [
-        "CHG_TS_BIAS"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R21",
+      "ref": "C18",
+      "pcbRef": "C18",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -2058,133 +2318,8 @@
       "pass": true
     },
     {
-      "ref": "R22",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R22",
-      "pin": "2",
-      "expected": "BAT_SDA",
-      "actual": [
-        "BAT_SDA"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R23",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R23",
-      "pin": "2",
-      "expected": "BAT_SCL",
-      "actual": [
-        "BAT_SCL"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R24",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R24",
-      "pin": "2",
-      "expected": "BRIDGE_BOOT_H",
-      "actual": [
-        "BRIDGE_BOOT_H"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R25",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R25",
-      "pin": "2",
-      "expected": "BRIDGE_RST_N",
-      "actual": [
-        "BRIDGE_RST_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R26",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R26",
-      "pin": "2",
-      "expected": "PGOOD_N",
-      "actual": [
-        "PGOOD_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R27",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R27",
-      "pin": "2",
-      "expected": "CHG_N",
-      "actual": [
-        "CHG_N"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R28",
-      "pin": "1",
-      "expected": "SCREEN_IO3V3",
-      "actual": [
-        "SCREEN_IO3V3"
-      ],
-      "pass": true
-    },
-    {
-      "ref": "R28",
-      "pin": "2",
-      "expected": "SCREEN_TX",
-      "actual": [
-        "SCREEN_TX"
-      ],
-      "pass": true
-    },
-    {
       "ref": "C18",
+      "pcbRef": "C18",
       "pin": "1",
       "expected": "SCREEN_IO3V3",
       "actual": [
@@ -2193,7 +2328,8 @@
       "pass": true
     },
     {
-      "ref": "C18",
+      "ref": "C19",
+      "pcbRef": "C19",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -2203,6 +2339,7 @@
     },
     {
       "ref": "C19",
+      "pcbRef": "C19",
       "pin": "1",
       "expected": "BAT_PACK",
       "actual": [
@@ -2211,7 +2348,8 @@
       "pass": true
     },
     {
-      "ref": "C19",
+      "ref": "C20",
+      "pcbRef": "C20",
       "pin": "2",
       "expected": "GND",
       "actual": [
@@ -2221,6 +2359,7 @@
     },
     {
       "ref": "C20",
+      "pcbRef": "C20",
       "pin": "1",
       "expected": "BRIDGE_RST_N",
       "actual": [
@@ -2229,8 +2368,119 @@
       "pass": true
     },
     {
-      "ref": "C20",
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "1",
+      "expected": "SCREEN_DM",
+      "actual": [
+        "SCREEN_DM"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
       "pin": "2",
+      "expected": "SCREEN_DP",
+      "actual": [
+        "SCREEN_DP"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "3",
+      "expected": "SCREEN_RST",
+      "actual": [
+        "SCREEN_RST"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "4",
+      "expected": "SCREEN_TX",
+      "actual": [
+        "SCREEN_TX"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "5",
+      "expected": "SCREEN_RX",
+      "actual": [
+        "SCREEN_RX"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "6",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "7",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "8",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "9",
+      "expected": "",
+      "actual": [
+        ""
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "10",
+      "expected": "5V_SCREEN",
+      "actual": [
+        "5V_SCREEN"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "12",
+      "expected": "GND",
+      "actual": [
+        "GND"
+      ],
+      "pass": true
+    },
+    {
+      "ref": "J2",
+      "pcbRef": "J2",
+      "pin": "11",
       "expected": "GND",
       "actual": [
         "GND"
@@ -2241,6 +2491,7 @@
   "components": [
     {
       "ref": "C1",
+      "pcbRef": "C1",
       "id": "6f08f093cc5a751d",
       "uniqueId": "gge5",
       "footprint": "C0603",
@@ -2248,6 +2499,7 @@
       "y": -4435.93820236221,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2261,6 +2513,7 @@
     },
     {
       "ref": "C2",
+      "pcbRef": "C2",
       "id": "ef9064bb0151e728",
       "uniqueId": "gge6",
       "footprint": "C0805",
@@ -2268,6 +2521,7 @@
       "y": -4435.938202362209,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2281,6 +2535,7 @@
     },
     {
       "ref": "C3",
+      "pcbRef": "C3",
       "id": "e7963abcfa1b05d6",
       "uniqueId": "gge7",
       "footprint": "C0805",
@@ -2288,6 +2543,7 @@
       "y": -4435.938202362207,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2301,6 +2557,7 @@
     },
     {
       "ref": "C4",
+      "pcbRef": "C4",
       "id": "ba01ecd025cd26d1",
       "uniqueId": "gge10",
       "footprint": "C0603",
@@ -2308,6 +2565,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2321,6 +2579,7 @@
     },
     {
       "ref": "C5",
+      "pcbRef": "C5",
       "id": "d3f14daceb37b160",
       "uniqueId": "gge13",
       "footprint": "C0603",
@@ -2328,6 +2587,7 @@
       "y": -4903.792202362212,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2341,6 +2601,7 @@
     },
     {
       "ref": "C6",
+      "pcbRef": "C6",
       "id": "b4ad03f471ecd1ab",
       "uniqueId": "gge18",
       "footprint": "C0603",
@@ -2348,6 +2609,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2361,6 +2623,7 @@
     },
     {
       "ref": "C7",
+      "pcbRef": "C7",
       "id": "80fea8537691a856",
       "uniqueId": "gge22",
       "footprint": "C0805",
@@ -2368,6 +2631,7 @@
       "y": -4523.206202362212,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2381,6 +2645,7 @@
     },
     {
       "ref": "C8",
+      "pcbRef": "C8",
       "id": "380d83012eee814f",
       "uniqueId": "gge23",
       "footprint": "C0805",
@@ -2388,6 +2653,7 @@
       "y": -4523.206202362213,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2401,6 +2667,7 @@
     },
     {
       "ref": "C9",
+      "pcbRef": "C9",
       "id": "b67577b519957b0a",
       "uniqueId": "gge24",
       "footprint": "C0805",
@@ -2408,6 +2675,7 @@
       "y": -4523.206202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2421,6 +2689,7 @@
     },
     {
       "ref": "C10",
+      "pcbRef": "C10",
       "id": "7a5c8246f8b92929",
       "uniqueId": "gge25",
       "footprint": "C0603",
@@ -2428,6 +2697,7 @@
       "y": -4523.206202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2441,6 +2711,7 @@
     },
     {
       "ref": "C11",
+      "pcbRef": "C11",
       "id": "2fa561090eb06604",
       "uniqueId": "gge49",
       "footprint": "C0603",
@@ -2448,6 +2719,7 @@
       "y": -4629.256702362207,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2461,6 +2733,7 @@
     },
     {
       "ref": "C12",
+      "pcbRef": "C12",
       "id": "7992a4d2a43cbe71",
       "uniqueId": "gge50",
       "footprint": "C0603",
@@ -2468,6 +2741,7 @@
       "y": -4629.256702362206,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2481,6 +2755,7 @@
     },
     {
       "ref": "C13",
+      "pcbRef": "C13",
       "id": "9d8c1cf6f39ecf6f",
       "uniqueId": "gge51",
       "footprint": "C0603",
@@ -2488,6 +2763,7 @@
       "y": -4397.801702362204,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2501,6 +2777,7 @@
     },
     {
       "ref": "C14",
+      "pcbRef": "C14",
       "id": "968decc31ca5c635",
       "uniqueId": "gge52",
       "footprint": "C0603",
@@ -2508,6 +2785,7 @@
       "y": -5124.011202362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2521,6 +2799,7 @@
     },
     {
       "ref": "C15",
+      "pcbRef": "C15",
       "id": "32798451844d6375",
       "uniqueId": "gge53",
       "footprint": "C0603",
@@ -2528,6 +2807,7 @@
       "y": -5124.011202362204,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2541,6 +2821,7 @@
     },
     {
       "ref": "C16",
+      "pcbRef": "C16",
       "id": "61719cccad3eadf1",
       "uniqueId": "gge54",
       "footprint": "C0603",
@@ -2548,6 +2829,7 @@
       "y": -4899.244702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2561,6 +2843,7 @@
     },
     {
       "ref": "C17",
+      "pcbRef": "C17",
       "id": "bab4e5335a883f9e",
       "uniqueId": "gge57",
       "footprint": "C0603",
@@ -2568,6 +2851,7 @@
       "y": -5124.011202362202,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2581,6 +2865,7 @@
     },
     {
       "ref": "D1",
+      "pcbRef": "D1",
       "id": "db683e73b9a165e6",
       "uniqueId": "gge35",
       "footprint": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
@@ -2588,6 +2873,7 @@
       "y": -5018.226202362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -2617,6 +2903,7 @@
     },
     {
       "ref": "J1",
+      "pcbRef": "J1",
       "id": "af2a07e8bb96cc26",
       "uniqueId": "gge29",
       "footprint": "USB-C_SMD-TYPE-C-31-M-12_1",
@@ -2624,6 +2911,7 @@
       "y": -2970,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": true,
       "pads": [
         {
           "pin": "B8",
@@ -2693,6 +2981,7 @@
     },
     {
       "ref": "J3",
+      "pcbRef": "J3",
       "id": "96b3cd5f0f35b571",
       "uniqueId": "gge60",
       "footprint": "HDR-TH_2P-P2.54-V-M-1",
@@ -2700,6 +2989,7 @@
       "y": -5408.705702362202,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2713,6 +3003,7 @@
     },
     {
       "ref": "L1",
+      "pcbRef": "L1",
       "id": "964d9e7aa6caca55",
       "uniqueId": "gge21",
       "footprint": "IND-SMD_L4.4-W4.2",
@@ -2720,6 +3011,7 @@
       "y": -4348.6702023622065,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -2733,6 +3025,7 @@
     },
     {
       "ref": "Q1",
+      "pcbRef": "Q1",
       "id": "56626633c292de06",
       "uniqueId": "gge16",
       "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
@@ -2740,6 +3033,7 @@
       "y": -4637.91920236221,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -2757,6 +3051,7 @@
     },
     {
       "ref": "Q2",
+      "pcbRef": "Q2",
       "id": "07a8bf5906091afc",
       "uniqueId": "gge33",
       "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
@@ -2764,6 +3059,7 @@
       "y": -4513.527702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -2781,6 +3077,7 @@
     },
     {
       "ref": "Q3",
+      "pcbRef": "Q3",
       "id": "1c0be35e8d64aae2",
       "uniqueId": "gge41",
       "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
@@ -2788,6 +3085,7 @@
       "y": -5018.226202362202,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -2805,6 +3103,7 @@
     },
     {
       "ref": "R1",
+      "pcbRef": "R1",
       "id": "b31a1f9299f62a04",
       "uniqueId": "gge8",
       "footprint": "R0603",
@@ -2812,6 +3111,7 @@
       "y": -4435.938202362209,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2825,6 +3125,7 @@
     },
     {
       "ref": "R2",
+      "pcbRef": "R2",
       "id": "008dfca80d07a258",
       "uniqueId": "gge9",
       "footprint": "R0603",
@@ -2832,6 +3133,7 @@
       "y": -4435.938202362209,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2845,6 +3147,7 @@
     },
     {
       "ref": "R3",
+      "pcbRef": "R3",
       "id": "e7f0f7f23f972c06",
       "uniqueId": "gge11",
       "footprint": "R0603",
@@ -2852,6 +3155,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2865,6 +3169,7 @@
     },
     {
       "ref": "R4",
+      "pcbRef": "R4",
       "id": "0b66ac332e4828b5",
       "uniqueId": "gge12",
       "footprint": "R0603",
@@ -2872,6 +3177,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2885,6 +3191,7 @@
     },
     {
       "ref": "R5",
+      "pcbRef": "R5",
       "id": "69f7de1f1f658ba3",
       "uniqueId": "gge14",
       "footprint": "R0603",
@@ -2892,6 +3199,7 @@
       "y": -4749.699202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2905,6 +3213,7 @@
     },
     {
       "ref": "R6",
+      "pcbRef": "R6",
       "id": "4eec3da334f2e71a",
       "uniqueId": "gge15",
       "footprint": "R0603",
@@ -2912,6 +3221,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2925,6 +3235,7 @@
     },
     {
       "ref": "R7",
+      "pcbRef": "R7",
       "id": "cf807c79b13749e9",
       "uniqueId": "gge17",
       "footprint": "R0603",
@@ -2932,6 +3243,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2945,6 +3257,7 @@
     },
     {
       "ref": "R8",
+      "pcbRef": "R8",
       "id": "b81089801d0796ca",
       "uniqueId": "gge20",
       "footprint": "R0603",
@@ -2952,6 +3265,7 @@
       "y": -4903.792202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2965,6 +3279,7 @@
     },
     {
       "ref": "R9",
+      "pcbRef": "R9",
       "id": "7c118d2e6a2b236b",
       "uniqueId": "gge26",
       "footprint": "R0603",
@@ -2972,6 +3287,7 @@
       "y": -4348.670202362207,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -2985,6 +3301,7 @@
     },
     {
       "ref": "R10",
+      "pcbRef": "R10",
       "id": "daf76dca64623e8e",
       "uniqueId": "gge27",
       "footprint": "R0603",
@@ -2992,6 +3309,7 @@
       "y": -4348.670202362207,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3005,6 +3323,7 @@
     },
     {
       "ref": "R11",
+      "pcbRef": "R11",
       "id": "03de6016be5648b9",
       "uniqueId": "gge42",
       "footprint": "R0603",
@@ -3012,6 +3331,7 @@
       "y": -4652.049702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3025,6 +3345,7 @@
     },
     {
       "ref": "R12",
+      "pcbRef": "R12",
       "id": "405f887e60b2599a",
       "uniqueId": "gge43",
       "footprint": "R0603",
@@ -3032,6 +3353,7 @@
       "y": -4652.049702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3045,6 +3367,7 @@
     },
     {
       "ref": "R13",
+      "pcbRef": "R13",
       "id": "f855e904efed4707",
       "uniqueId": "gge44",
       "footprint": "R0603",
@@ -3052,6 +3375,7 @@
       "y": -4652.049702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3065,6 +3389,7 @@
     },
     {
       "ref": "R14",
+      "pcbRef": "R14",
       "id": "f74f45bf532fb46f",
       "uniqueId": "gge45",
       "footprint": "R0603",
@@ -3072,6 +3397,7 @@
       "y": -4652.049702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3085,6 +3411,7 @@
     },
     {
       "ref": "R15",
+      "pcbRef": "R15",
       "id": "8d4194203bf4e95a",
       "uniqueId": "gge46",
       "footprint": "R0603",
@@ -3092,6 +3419,7 @@
       "y": -4652.049702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3105,6 +3433,7 @@
     },
     {
       "ref": "R16",
+      "pcbRef": "R16",
       "id": "fe9b9a0198a1e948",
       "uniqueId": "gge47",
       "footprint": "R0603",
@@ -3112,6 +3441,7 @@
       "y": -4652.049702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3125,6 +3455,7 @@
     },
     {
       "ref": "R17",
+      "pcbRef": "R17",
       "id": "bd8dc66923b3e005",
       "uniqueId": "gge48",
       "footprint": "R0603",
@@ -3132,6 +3463,7 @@
       "y": -4226.009702362206,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3145,6 +3477,7 @@
     },
     {
       "ref": "R18",
+      "pcbRef": "R18",
       "id": "129c857c366a1880",
       "uniqueId": "gge55",
       "footprint": "R0603",
@@ -3152,6 +3485,7 @@
       "y": -5124.011202362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3165,6 +3499,7 @@
     },
     {
       "ref": "R19",
+      "pcbRef": "R19",
       "id": "8a2717aa1a7439f6",
       "uniqueId": "gge56",
       "footprint": "R0603",
@@ -3172,6 +3507,7 @@
       "y": -5124.011202362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3185,6 +3521,7 @@
     },
     {
       "ref": "R20",
+      "pcbRef": "R20",
       "id": "55c8c29d1bf4e489",
       "uniqueId": "gge62",
       "footprint": "R0603",
@@ -3192,6 +3529,7 @@
       "y": -4523.206202362212,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3205,6 +3543,7 @@
     },
     {
       "ref": "R21",
+      "pcbRef": "R21",
       "id": "665fcae8e887fe2f",
       "uniqueId": "player_power_R21_20260927",
       "footprint": "R0603",
@@ -3212,6 +3551,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3225,6 +3565,7 @@
     },
     {
       "ref": "R22",
+      "pcbRef": "R22",
       "id": "06e78a8568d0d7f7",
       "uniqueId": "player_power_R22_20260927",
       "footprint": "R0603",
@@ -3232,6 +3573,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3245,6 +3587,7 @@
     },
     {
       "ref": "R23",
+      "pcbRef": "R23",
       "id": "718582cfdd0fc6b6",
       "uniqueId": "player_power_R23_20260927",
       "footprint": "R0603",
@@ -3252,6 +3595,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3265,6 +3609,7 @@
     },
     {
       "ref": "R24",
+      "pcbRef": "R24",
       "id": "e0e7e87c06ec0b09",
       "uniqueId": "player_power_R24_20260927",
       "footprint": "R0603",
@@ -3272,6 +3617,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3285,6 +3631,7 @@
     },
     {
       "ref": "R25",
+      "pcbRef": "R25",
       "id": "9989a22cb77a5fd8",
       "uniqueId": "player_power_R25_20260927",
       "footprint": "R0603",
@@ -3292,6 +3639,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3305,6 +3653,7 @@
     },
     {
       "ref": "R26",
+      "pcbRef": "R26",
       "id": "60268b91a4521b06",
       "uniqueId": "player_power_R26_20260927",
       "footprint": "R0603",
@@ -3312,6 +3661,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3325,6 +3675,7 @@
     },
     {
       "ref": "R27",
+      "pcbRef": "R27",
       "id": "d9cc9b8e62e00bd8",
       "uniqueId": "player_power_R27_20260927",
       "footprint": "R0603",
@@ -3332,6 +3683,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3345,6 +3697,7 @@
     },
     {
       "ref": "R28",
+      "pcbRef": "R28",
       "id": "61b8269f51c88548",
       "uniqueId": "player_power_R28_20260927",
       "footprint": "R0603",
@@ -3352,6 +3705,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3365,13 +3719,15 @@
     },
     {
       "ref": "SW1",
+      "pcbRef": "POWER",
       "id": "358d584b67b88939",
       "uniqueId": "gge19",
       "footprint": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
-      "x": 2970,
-      "y": -1510,
+      "x": 2965,
+      "y": -1054.8031484251967,
       "rotation": 90,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -3379,11 +3735,11 @@
         },
         {
           "pin": "2",
-          "net": "GND"
+          "net": "POWER_KEY_N"
         },
         {
           "pin": "3",
-          "net": "POWER_KEY_N"
+          "net": "GND"
         },
         {
           "pin": "4",
@@ -3393,13 +3749,15 @@
     },
     {
       "ref": "SW2",
+      "pcbRef": "RST",
       "id": "adcb2853be0b6f8e",
       "uniqueId": "gge58",
       "footprint": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
-      "x": 2980,
-      "y": -2065,
+      "x": 2964.9999999999995,
+      "y": -2094.803148425197,
       "rotation": 90,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -3407,11 +3765,11 @@
         },
         {
           "pin": "2",
-          "net": "GND"
+          "net": "SCREEN_RST"
         },
         {
           "pin": "3",
-          "net": "SCREEN_RST"
+          "net": "GND"
         },
         {
           "pin": "4",
@@ -3421,6 +3779,7 @@
     },
     {
       "ref": "U1",
+      "pcbRef": "U1",
       "id": "1bdbba0521548cbc",
       "uniqueId": "gge1",
       "footprint": "QFN-16_L3.0-W3.0-P0.50-TL-EP1.7",
@@ -3428,6 +3787,7 @@
       "y": -4164.422202362208,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -3501,6 +3861,7 @@
     },
     {
       "ref": "U2",
+      "pcbRef": "U2",
       "id": "ed5e6e36c34004a1",
       "uniqueId": "gge2",
       "footprint": "SOT-563_L1.6-W1.2-P0.50-LS1.6-BR",
@@ -3508,6 +3869,7 @@
       "y": -4064.422202362206,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "5",
@@ -3537,6 +3899,7 @@
     },
     {
       "ref": "U3",
+      "pcbRef": "U3",
       "id": "462ea197fb39e6ff",
       "uniqueId": "gge3",
       "footprint": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-TL",
@@ -3544,6 +3907,7 @@
       "y": -4637.91920236221,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "6",
@@ -3573,6 +3937,7 @@
     },
     {
       "ref": "U4",
+      "pcbRef": "U4",
       "id": "d1810cd6d3497cb5",
       "uniqueId": "gge4",
       "footprint": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
@@ -3580,6 +3945,7 @@
       "y": -4637.919202362211,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "3",
@@ -3609,6 +3975,7 @@
     },
     {
       "ref": "U5",
+      "pcbRef": "U5",
       "id": "31363e6c9874ecd8",
       "uniqueId": "gge28",
       "footprint": "X2QFN-12_L1.6-W1.6-P0.40-TL",
@@ -3616,6 +3983,7 @@
       "y": -4397.801702362204,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "12",
@@ -3669,6 +4037,7 @@
     },
     {
       "ref": "U6",
+      "pcbRef": "U6",
       "id": "5436b36fcf06a7b0",
       "uniqueId": "gge30",
       "footprint": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
@@ -3676,6 +4045,7 @@
       "y": -4104.386702362204,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "4",
@@ -3701,6 +4071,7 @@
     },
     {
       "ref": "U7",
+      "pcbRef": "U7",
       "id": "c54aae13ec203447",
       "uniqueId": "gge37",
       "footprint": "UQFN-10_L2.0-W1.5-P0.50-BL",
@@ -3708,6 +4079,7 @@
       "y": -5018.226202362202,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -3753,6 +4125,7 @@
     },
     {
       "ref": "U8",
+      "pcbRef": "U8",
       "id": "e2a3c54f14a44862",
       "uniqueId": "gge39",
       "footprint": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
@@ -3760,6 +4133,7 @@
       "y": -4773.672702362202,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "4",
@@ -3785,6 +4159,7 @@
     },
     {
       "ref": "U9",
+      "pcbRef": "U9",
       "id": "68db19f68cf8cad2",
       "uniqueId": "player_power_U9_20260927",
       "footprint": "TSSOP-16_L5.0-W4.4-P0.65-LS6.4-BL",
@@ -3792,6 +4167,7 @@
       "y": -5319.613702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -3861,6 +4237,7 @@
     },
     {
       "ref": "U10",
+      "pcbRef": "U10",
       "id": "56f1b215e08d047e",
       "uniqueId": "player_power_U10_20260927",
       "footprint": "TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2",
@@ -3868,6 +4245,7 @@
       "y": -5219.613702362203,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "1",
@@ -3909,6 +4287,7 @@
     },
     {
       "ref": "C18",
+      "pcbRef": "C18",
       "id": "859641ba28f75212",
       "uniqueId": "player_power_C18_20260927",
       "footprint": "C0603",
@@ -3916,6 +4295,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3929,6 +4309,7 @@
     },
     {
       "ref": "C19",
+      "pcbRef": "C19",
       "id": "6cc3118c8ead9ef0",
       "uniqueId": "player_power_C19_20260927",
       "footprint": "C0603",
@@ -3936,6 +4317,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3949,6 +4331,7 @@
     },
     {
       "ref": "C20",
+      "pcbRef": "C20",
       "id": "c4e3a0649cfbe956",
       "uniqueId": "player_power_C20_20260927",
       "footprint": "C0603",
@@ -3956,6 +4339,7 @@
       "y": -5842.720702362201,
       "rotation": 0,
       "layer": 1,
+      "primitiveLock": false,
       "pads": [
         {
           "pin": "2",
@@ -3969,6 +4353,7 @@
     },
     {
       "ref": "J2",
+      "pcbRef": "J2",
       "id": "431431048e7e93b0",
       "uniqueId": "gge59",
       "footprint": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
@@ -3976,6 +4361,7 @@
       "y": -2315,
       "rotation": 270,
       "layer": 1,
+      "primitiveLock": true,
       "pads": [
         {
           "pin": "1",
@@ -4027,6 +4413,5 @@
         }
       ]
     }
-  ],
-  "j2MechanicalVerificationPending": true
+  ]
 }

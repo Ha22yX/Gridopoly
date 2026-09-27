@@ -1,10 +1,10 @@
 {
   "schema": "gridopoly.player_power_export_scope.v1",
-  "checkedAt": "2026-09-27T08:50:46.944Z",
+  "checkedAt": "2026-09-27T09:17:32.333Z",
   "sources": [
     {
       "name": "P1-power.source.jsonl",
-      "sha256": "b653fb9acfa3d8aa9f4244bce03b0ae6812c9991afeb35b85184048683470922",
+      "sha256": "e3362c7548665b62bf826f8c7161310efb508c4f131f891c11209332a192da94",
       "documentHeaders": [
         {
           "docType": "SCH_PAGE",
@@ -25,7 +25,7 @@
     },
     {
       "name": "P2-usb-interfaces.source.jsonl",
-      "sha256": "cc6fbfa6b9bb3c9ca7005016d71be9913eedc119da47d6df8457515bdbfbc75e",
+      "sha256": "346d5059620c218b6b91f5752ca67911ba0c475803bc1f632d5254d6669010f4",
       "documentHeaders": [
         {
           "docType": "SCH_PAGE",
@@ -46,7 +46,7 @@
     },
     {
       "name": "PCB1-components.source.jsonl",
-      "sha256": "c9ae5dad43cd03cfcdd00a6a5d3892cbedc107d76987e2fc85ca31fdae35b007",
+      "sha256": "e85d6c7f15b09788f3fdd29a08e3444b6d1df90c1a48dcd9e4d9872cef4688ff",
       "documentHeaders": [
         {
           "docType": "PCB",
@@ -89,13 +89,21 @@
       "local_user_path",
       "credential_url"
     ],
-    "findings": [],
+    "findings": [
+      {
+        "file": "schematic-comprehensive-review.json",
+        "field": "independentCommanderReview.evidencePath",
+        "pattern": "local_user_path",
+        "disposition": "Intentionally retained local audit evidence location, not a credential; identified in the commander's final review after the initial scan."
+      }
+    ],
     "scope": "Candidate text exports/docs and offline verification files; binary PNGs are locally rendered diagrams."
   },
   "retainedMetadata": [
     "EDA document UUID/client identifier and timestamps",
     "Component/library/symbol/footprint/3D model UUID references",
-    "Manufacturer and public supplier/datasheet URLs"
+    "Manufacturer and public supplier/datasheet URLs",
+    "Local path to the commander's independent audit evidence in the comprehensive review report"
   ],
   "excludedFromSubmission": [
     "Gridopoly.eprj2 and other project-wide EDA files",

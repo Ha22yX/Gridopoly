@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "scope": "Expected pin connectivity; all 68 components including candidate J2 included in PCB; mechanical validation remains pending",
+  "scope": "Expected pin connectivity; all 68 components including candidate J2 included in PCB; mechanical validation remains pending; 2026-09-27 switch contact pairs corrected from manufacturer A/B and C/D truth table",
   "pages": {
     "P1": {
       "uuid": "443216bbada87fe6",
@@ -216,8 +216,8 @@
           "rotation": 0,
           "pins": {
             "1": "POWER_KEY_N",
-            "2": "GND",
-            "3": "POWER_KEY_N",
+            "2": "POWER_KEY_N",
+            "3": "GND",
             "4": "GND"
           }
         },
@@ -607,8 +607,8 @@
           "rotation": 0,
           "pins": {
             "1": "SCREEN_RST",
-            "2": "GND",
-            "3": "SCREEN_RST",
+            "2": "SCREEN_RST",
+            "3": "GND",
             "4": "GND"
           }
         },

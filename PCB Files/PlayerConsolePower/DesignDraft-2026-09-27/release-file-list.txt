@@ -28,3 +28,7 @@ PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/submission-notes.md
 PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/release-file-list.txt
 PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/PCB1-components.source.jsonl
 PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/pcb-component-import.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/switch-contact-review.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/all-pin-nc-audit.json
