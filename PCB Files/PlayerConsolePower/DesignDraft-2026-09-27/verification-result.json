@@ -1,0 +1,18 @@
+{
+  "schema": "gridopoly.player_power_offline_verification.v1",
+  "scope": "Snapshot connection/identity review; no ERC clearance, physical verification or manufacturing approval.",
+  "nativeSymbols": 68,
+  "nativeNetlistComponents": 67,
+  "connectedPinsMatched": 213,
+  "unconnectedPinsMatched": 18,
+  "j2PinsMatched": 12,
+  "electricalChecks": 79,
+  "electricalChecksPassed": 79,
+  "failures": [],
+  "sourceHashes": {
+    "P1-power.source.jsonl": "b653fb9acfa3d8aa9f4244bce03b0ae6812c9991afeb35b85184048683470922",
+    "P2-usb-interfaces.source.jsonl": "64a28c59ad098411b5df75b2fdaceff230b3f9d4bc7342d5b39b06f0271a27a1",
+    "native-netlist.json": "ffa367f47665bce391849228ca1e98ad49d9ccadc7eec3b9caf01253c3bbdd79",
+    "expected-connectivity.json": "9d3dace7c5bc3d7a975a7e6c79ca237a43de6a3684801b503e209ca28c7ac506"
+  }
+}

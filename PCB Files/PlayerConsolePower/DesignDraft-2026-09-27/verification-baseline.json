@@ -1,0 +1,652 @@
+{
+  "schema_version": 1,
+  "scope": "Pre-telemetry intended connectivity, used only to check retained power/USB paths. Historical J4/NTC and NC UART are superseded; not a current design.",
+  "pages": {
+    "P1": {
+      "uuid": "443216bbada87fe6",
+      "components": {
+        "U1": {
+          "x": 400,
+          "y": 960,
+          "pins": {
+            "1": "BAT_NTC",
+            "2": "BAT_PACK",
+            "3": "BAT_PACK",
+            "4": "GND",
+            "5": "USB_HIGH_CURRENT",
+            "6": "GND",
+            "7": null,
+            "8": "GND",
+            "9": null,
+            "10": "SYS_RAW",
+            "11": "SYS_RAW",
+            "12": "CHG_ILIM",
+            "13": "USB_VBUS",
+            "14": "CHG_TMR",
+            "15": null,
+            "16": "CHG_ISET",
+            "17": "GND"
+          }
+        },
+        "U2": {
+          "x": 1150,
+          "y": 970,
+          "pins": {
+            "1": "BOOST_FB",
+            "2": "POWER_EN",
+            "3": "SYS_RAW",
+            "4": "GND",
+            "5": "BOOST_SW",
+            "6": "5V_SCREEN"
+          }
+        },
+        "U3": {
+          "x": 1100,
+          "y": 450,
+          "pins": {
+            "1": "POWER_KEY_N",
+            "2": "GND",
+            "3": "UV_CLEAR",
+            "4": null,
+            "5": "POWER_EN",
+            "6": "SYS_RAW"
+          }
+        },
+        "U4": {
+          "x": 350,
+          "y": 450,
+          "pins": {
+            "1": "UV_RESET_N",
+            "2": "GND",
+            "3": "SYS_RAW",
+            "4": "UV_DELAY",
+            "5": "UV_SENSE",
+            "6": "SYS_RAW"
+          }
+        },
+        "C1": {
+          "cid": "C15849",
+          "x": 140,
+          "y": 790,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "GND"
+          }
+        },
+        "C2": {
+          "cid": "C15850",
+          "x": 270,
+          "y": 790,
+          "rotation": 90,
+          "pins": {
+            "1": "BAT_PACK",
+            "2": "GND"
+          }
+        },
+        "C3": {
+          "cid": "C15850",
+          "x": 400,
+          "y": 790,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "GND"
+          }
+        },
+        "R1": {
+          "cid": "C22849",
+          "x": 530,
+          "y": 790,
+          "rotation": 90,
+          "pins": {
+            "1": "CHG_ISET",
+            "2": "GND"
+          }
+        },
+        "R2": {
+          "cid": "C4177",
+          "x": 660,
+          "y": 790,
+          "rotation": 90,
+          "pins": {
+            "1": "CHG_ILIM",
+            "2": "GND"
+          }
+        },
+        "C4": {
+          "cid": "C1591",
+          "x": 140,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "GND"
+          }
+        },
+        "R3": {
+          "cid": "C23237",
+          "x": 270,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "UV_SENSE"
+          }
+        },
+        "R4": {
+          "cid": "C25803",
+          "x": 400,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "UV_SENSE",
+            "2": "GND"
+          }
+        },
+        "C5": {
+          "cid": "C1589",
+          "x": 530,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "UV_SENSE",
+            "2": "GND"
+          }
+        },
+        "R5": {
+          "cid": "C25803",
+          "x": 600,
+          "y": 440,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "UV_RESET_N"
+          }
+        },
+        "R6": {
+          "cid": "C25803",
+          "x": 660,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "UV_DELAY"
+          }
+        },
+        "Q1": {
+          "cid": "C8545",
+          "x": 800,
+          "y": 450,
+          "rotation": 0,
+          "pins": {
+            "1": "UV_RESET_N",
+            "2": "GND",
+            "3": "UV_CLEAR"
+          }
+        },
+        "R7": {
+          "cid": "C25803",
+          "x": 800,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "UV_CLEAR"
+          }
+        },
+        "C6": {
+          "cid": "C1591",
+          "x": 1280,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "GND"
+          }
+        },
+        "SW1": {
+          "cid": "C318884",
+          "x": 1060,
+          "y": 260,
+          "rotation": 0,
+          "pins": {
+            "1": "POWER_KEY_N",
+            "2": "GND",
+            "3": "POWER_KEY_N",
+            "4": "GND"
+          }
+        },
+        "R8": {
+          "cid": "C25803",
+          "x": 1420,
+          "y": 260,
+          "rotation": 90,
+          "pins": {
+            "1": "POWER_EN",
+            "2": "GND"
+          }
+        },
+        "L1": {
+          "cid": "C408332",
+          "x": 1030,
+          "y": 810,
+          "rotation": 0,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "BOOST_SW"
+          }
+        },
+        "C7": {
+          "cid": "C15850",
+          "x": 920,
+          "y": 660,
+          "rotation": 90,
+          "pins": {
+            "1": "SYS_RAW",
+            "2": "GND"
+          }
+        },
+        "C8": {
+          "cid": "C15850",
+          "x": 1100,
+          "y": 660,
+          "rotation": 90,
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": "GND"
+          }
+        },
+        "C9": {
+          "cid": "C15850",
+          "x": 1280,
+          "y": 660,
+          "rotation": 90,
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": "GND"
+          }
+        },
+        "C10": {
+          "cid": "C1591",
+          "x": 1460,
+          "y": 660,
+          "rotation": 90,
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": "GND"
+          }
+        },
+        "R9": {
+          "cid": "C23239",
+          "x": 1260,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": "BOOST_FB"
+          }
+        },
+        "R10": {
+          "cid": "C25803",
+          "x": 1460,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "BOOST_FB",
+            "2": "GND"
+          }
+        },
+        "R20": {
+          "cid": "C23231",
+          "x": 530,
+          "y": 660,
+          "rotation": 90,
+          "pins": {
+            "1": "CHG_TMR",
+            "2": "GND"
+          }
+        }
+      }
+    },
+    "P2": {
+      "uuid": "9eb230ca6fd4b303",
+      "components": {
+        "J1": {
+          "pins": {
+            "1": "GND",
+            "2": "GND",
+            "3": "GND",
+            "4": "GND",
+            "A1B12": "GND",
+            "A4B9": "USB_VBUS",
+            "B8": null,
+            "A5": "USB_CC1",
+            "B7": "USB_HOST_DM",
+            "A6": "USB_HOST_DP",
+            "A7": "USB_HOST_DM",
+            "B6": "USB_HOST_DP",
+            "A8": null,
+            "B5": "USB_CC2",
+            "B4A9": "USB_VBUS",
+            "B1A12": "GND"
+          },
+          "cid": "C165948",
+          "x": 230,
+          "y": 950,
+          "rotation": 0
+        },
+        "U5": {
+          "pins": {
+            "1": "USB_CC1",
+            "2": "USB_CC2",
+            "3": "GND",
+            "4": "CC_VBUS_DET",
+            "5": null,
+            "6": null,
+            "7": "CC_OUT1_N",
+            "8": null,
+            "9": null,
+            "10": "GND",
+            "11": "GND",
+            "12": "CC_3V3"
+          },
+          "cid": "C132554",
+          "x": 610,
+          "y": 950,
+          "rotation": 0
+        },
+        "U6": {
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "GND",
+            "3": "USB_VBUS",
+            "4": null,
+            "5": "CC_3V3"
+          },
+          "cid": "C51118",
+          "x": 1040,
+          "y": 990,
+          "rotation": 0
+        },
+        "Q2": {
+          "pins": {
+            "1": "CC_PNP_BASE",
+            "2": "CC_3V3",
+            "3": "USB_HIGH_CURRENT"
+          },
+          "cid": "C2143",
+          "x": 1370,
+          "y": 940,
+          "rotation": 0
+        },
+        "D1": {
+          "pins": {
+            "1": "USB_HOST_DP",
+            "2": "GND",
+            "3": "USB_HOST_DM",
+            "4": "USB_HOST_DM",
+            "5": "USB_VBUS",
+            "6": "USB_HOST_DP"
+          },
+          "cid": "C7519",
+          "x": 230,
+          "y": 620,
+          "rotation": 0
+        },
+        "U7": {
+          "pins": {
+            "1": "SCREEN_DP",
+            "2": "SCREEN_DM",
+            "3": null,
+            "4": null,
+            "5": "GND",
+            "6": "USB_OE_N",
+            "7": "USB_HOST_DM",
+            "8": "USB_HOST_DP",
+            "9": "GND",
+            "10": "USB_SW_3V3"
+          },
+          "cid": "C128396",
+          "x": 610,
+          "y": 620,
+          "rotation": 0
+        },
+        "U8": {
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": "GND",
+            "3": "5V_SCREEN",
+            "4": null,
+            "5": "USB_SW_3V3"
+          },
+          "cid": "C51118",
+          "x": 1040,
+          "y": 650,
+          "rotation": 0
+        },
+        "Q3": {
+          "cid": "C8545",
+          "x": 1370,
+          "y": 620,
+          "rotation": 0,
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "GND",
+            "3": "USB_OE_N"
+          }
+        },
+        "R11": {
+          "cid": "C23024",
+          "x": 450,
+          "y": 810,
+          "rotation": 0,
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "CC_DET_R1"
+          }
+        },
+        "R12": {
+          "cid": "C23024",
+          "x": 610,
+          "y": 810,
+          "rotation": 0,
+          "pins": {
+            "1": "CC_DET_R1",
+            "2": "CC_DET_R2"
+          }
+        },
+        "R13": {
+          "cid": "C23024",
+          "x": 770,
+          "y": 810,
+          "rotation": 0,
+          "pins": {
+            "1": "CC_DET_R2",
+            "2": "CC_VBUS_DET"
+          }
+        },
+        "R14": {
+          "cid": "C25804",
+          "x": 1230,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "CC_3V3",
+            "2": "CC_OUT1_N"
+          }
+        },
+        "R15": {
+          "cid": "C25804",
+          "x": 1370,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "CC_OUT1_N",
+            "2": "CC_PNP_BASE"
+          }
+        },
+        "R16": {
+          "cid": "C25803",
+          "x": 1510,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "CC_3V3",
+            "2": "CC_PNP_BASE"
+          }
+        },
+        "R17": {
+          "cid": "C25803",
+          "x": 1520,
+          "y": 970,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_HIGH_CURRENT",
+            "2": "GND"
+          }
+        },
+        "C11": {
+          "cid": "C15849",
+          "x": 920,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "GND"
+          }
+        },
+        "C12": {
+          "cid": "C15849",
+          "x": 1070,
+          "y": 810,
+          "rotation": 90,
+          "pins": {
+            "1": "CC_3V3",
+            "2": "GND"
+          }
+        },
+        "C13": {
+          "cid": "C1591",
+          "x": 800,
+          "y": 950,
+          "rotation": 90,
+          "pins": {
+            "1": "CC_3V3",
+            "2": "GND"
+          }
+        },
+        "C14": {
+          "cid": "C15849",
+          "x": 920,
+          "y": 480,
+          "rotation": 90,
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": "GND"
+          }
+        },
+        "C15": {
+          "cid": "C15849",
+          "x": 1070,
+          "y": 480,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_SW_3V3",
+            "2": "GND"
+          }
+        },
+        "C16": {
+          "cid": "C1591",
+          "x": 800,
+          "y": 630,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_SW_3V3",
+            "2": "GND"
+          }
+        },
+        "R18": {
+          "cid": "C25803",
+          "x": 1230,
+          "y": 480,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "GND"
+          }
+        },
+        "R19": {
+          "cid": "C25803",
+          "x": 1510,
+          "y": 480,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_SW_3V3",
+            "2": "USB_OE_N"
+          }
+        },
+        "C17": {
+          "cid": "C1591",
+          "x": 150,
+          "y": 480,
+          "rotation": 90,
+          "pins": {
+            "1": "USB_VBUS",
+            "2": "GND"
+          }
+        },
+        "SW2": {
+          "cid": "C318884",
+          "x": 780,
+          "y": 260,
+          "rotation": 0,
+          "pins": {
+            "1": "SCREEN_RST",
+            "2": "GND",
+            "3": "SCREEN_RST",
+            "4": "GND"
+          }
+        },
+        "J2": {
+          "x": 450,
+          "y": 260,
+          "cid": "C2856798",
+          "holdFootprint": true,
+          "pins": {
+            "1": "5V_SCREEN",
+            "2": null,
+            "3": "GND",
+            "4": null,
+            "5": null,
+            "6": null,
+            "7": null,
+            "8": "SCREEN_RST",
+            "9": "SCREEN_DP",
+            "10": "SCREEN_DM",
+            "11": "GND",
+            "12": "GND"
+          }
+        },
+        "J3": {
+          "x": 150,
+          "y": 260,
+          "padsOnly": true,
+          "pins": {
+            "1": "BAT_PACK",
+            "2": "GND"
+          }
+        },
+        "J4": {
+          "x": 150,
+          "y": 130,
+          "padsOnly": true,
+          "pins": {
+            "1": "BAT_NTC",
+            "2": "GND"
+          }
+        }
+      }
+    }
+  }
+}

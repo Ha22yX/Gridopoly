@@ -1,0 +1,422 @@
+{
+  "schema": "gridopoly.player_power_bom_draft.v1",
+  "manufacturingReleased": false,
+  "parts": [
+    {
+      "cid": "C54313",
+      "mpn": "BQ24074RGTR",
+      "description": "1.5A USB友好型锂离子电池充电器和电源路径管理IC",
+      "footprint": "QFN-16_L3.0-W3.0-P0.50-TL-EP1.7",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U1"
+      ],
+      "smtStockAtSnapshot": 816,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C919459",
+      "mpn": "TPS61023DRLR",
+      "description": "升压型 3A 500mV~5.5V",
+      "footprint": "SOT-563_L1.6-W1.2-P0.50-LS1.6-BR",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U2"
+      ],
+      "smtStockAtSnapshot": 37516,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C79401",
+      "mpn": "MAX16054AZT+T",
+      "description": "带去抖动和±15kV ESD保护的开/关控制器",
+      "footprint": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-TL",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U3"
+      ],
+      "smtStockAtSnapshot": 1946,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C19653",
+      "mpn": "TPS3808G01DBVR",
+      "description": "低静态电流、可编程延迟监控电路",
+      "footprint": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U4"
+      ],
+      "smtStockAtSnapshot": 18221,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C15849",
+      "mpn": "CL10A105KB8NNNC",
+      "description": "1uF ±10% 50V",
+      "footprint": "C0603",
+      "quantityPerBoard": 5,
+      "designators": [
+        "C1",
+        "C11",
+        "C12",
+        "C14",
+        "C15"
+      ],
+      "smtStockAtSnapshot": 6786794,
+      "quantityForTenBoards": 50,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C15850",
+      "mpn": "CL21A106KAYNNNE",
+      "description": "10uF ±10% 25V",
+      "footprint": "C0805",
+      "quantityPerBoard": 5,
+      "designators": [
+        "C2",
+        "C3",
+        "C7",
+        "C8",
+        "C9"
+      ],
+      "smtStockAtSnapshot": 5536601,
+      "quantityForTenBoards": 50,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C22849",
+      "mpn": "0603WAF1781T5E",
+      "description": "厚膜电阻 1.78kΩ ±1%",
+      "footprint": "R0603",
+      "quantityPerBoard": 1,
+      "designators": [
+        "R1"
+      ],
+      "smtStockAtSnapshot": 18748,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C4177",
+      "mpn": "0603WAF1801T5E",
+      "description": "厚膜电阻 1.8kΩ ±1%",
+      "footprint": "R0603",
+      "quantityPerBoard": 1,
+      "designators": [
+        "R2"
+      ],
+      "smtStockAtSnapshot": 418914,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C1591",
+      "mpn": "CL10B104KB8NNNC",
+      "description": "100nF ±10% 50V",
+      "footprint": "C0603",
+      "quantityPerBoard": 9,
+      "designators": [
+        "C4",
+        "C6",
+        "C10",
+        "C13",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20"
+      ],
+      "smtStockAtSnapshot": 1866601,
+      "quantityForTenBoards": 90,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C23237",
+      "mpn": "0603WAF7153T5E",
+      "description": "715kΩ ±1% 100mW 厚膜电阻",
+      "footprint": "R0603",
+      "quantityPerBoard": 1,
+      "designators": [
+        "R3"
+      ],
+      "smtStockAtSnapshot": 3532,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C25803",
+      "mpn": "0603WAF1003T5E",
+      "description": "厚膜电阻 100kΩ ±1%",
+      "footprint": "R0603",
+      "quantityPerBoard": 10,
+      "designators": [
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R10",
+        "R16",
+        "R17",
+        "R18",
+        "R19"
+      ],
+      "smtStockAtSnapshot": 22815271,
+      "quantityForTenBoards": 100,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C1589",
+      "mpn": "CL10B103KB8NNNC",
+      "description": "10nF ±10% 50V",
+      "footprint": "C0603",
+      "quantityPerBoard": 1,
+      "designators": [
+        "C5"
+      ],
+      "smtStockAtSnapshot": 2120989,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C8545",
+      "mpn": "2N7002",
+      "description": "1个N沟道 耐压:60V 电流:115mA",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "quantityPerBoard": 2,
+      "designators": [
+        "Q1",
+        "Q3"
+      ],
+      "smtStockAtSnapshot": 1750780,
+      "quantityForTenBoards": 20,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C318884",
+      "mpn": "TS-1187A-B-A-B",
+      "description": "5.1*5.1*1.5mm 立贴 轻触开关",
+      "footprint": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+      "quantityPerBoard": 2,
+      "designators": [
+        "SW1",
+        "SW2"
+      ],
+      "smtStockAtSnapshot": 576056,
+      "quantityForTenBoards": 20,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C408332",
+      "mpn": "MWSA0402S-1R0MT",
+      "description": "1uH ±20% 7A",
+      "footprint": "IND-SMD_L4.4-W4.2",
+      "quantityPerBoard": 1,
+      "designators": [
+        "L1"
+      ],
+      "smtStockAtSnapshot": 20229,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C23239",
+      "mpn": "0603WAF7323T5E",
+      "description": "厚膜电阻 732kΩ ±1%",
+      "footprint": "R0603",
+      "quantityPerBoard": 1,
+      "designators": [
+        "R9"
+      ],
+      "smtStockAtSnapshot": 21650,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C23231",
+      "mpn": "0603WAF6802T5E",
+      "description": "68kΩ ±1% 100mW 厚膜电阻",
+      "footprint": "R0603",
+      "quantityPerBoard": 1,
+      "designators": [
+        "R20"
+      ],
+      "smtStockAtSnapshot": 1068940,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C132554",
+      "mpn": "TUSB320LAIRWBR",
+      "description": "USB Type-C 配置通道逻辑和端口控制器",
+      "footprint": "X2QFN-12_L1.6-W1.6-P0.40-TL",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U5"
+      ],
+      "smtStockAtSnapshot": 3783,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C165948",
+      "mpn": "TYPE-C-31-M-12",
+      "description": "Type-C 母 卧贴",
+      "footprint": "USB-C_SMD-TYPE-C-31-M-12_1",
+      "quantityPerBoard": 1,
+      "designators": [
+        "J1"
+      ],
+      "smtStockAtSnapshot": 449835,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C51118",
+      "mpn": "AP2112K-3.3TRG1",
+      "description": "3.3V 600mA 6V",
+      "footprint": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+      "quantityPerBoard": 2,
+      "designators": [
+        "U6",
+        "U8"
+      ],
+      "smtStockAtSnapshot": 42274,
+      "quantityForTenBoards": 20,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C2143",
+      "mpn": "MMBT3906 2A(RANGE:100-300)",
+      "description": "hfe=100~300 PNP 电流:0.2A 电压:40V",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "quantityPerBoard": 1,
+      "designators": [
+        "Q2"
+      ],
+      "smtStockAtSnapshot": 261180,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C7519",
+      "mpn": "USBLC6-2SC6",
+      "description": "单向ESD 5.25V截止 峰值脉冲电流：5A",
+      "footprint": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+      "quantityPerBoard": 1,
+      "designators": [
+        "D1"
+      ],
+      "smtStockAtSnapshot": 44267,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C128396",
+      "mpn": "TS3USB221ARSER",
+      "description": "TS3USB221A ESD保护、高速USB2.0 (480-Mbps) 1:2多路复用器和解复用器开关，带单使能",
+      "footprint": "UQFN-10_L2.0-W1.5-P0.50-BL",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U7"
+      ],
+      "smtStockAtSnapshot": 92234,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C23024",
+      "mpn": "0603WAF3003T5E",
+      "description": "300kΩ ±1% 100mW 厚膜电阻",
+      "footprint": "R0603",
+      "quantityPerBoard": 3,
+      "designators": [
+        "R11",
+        "R12",
+        "R13"
+      ],
+      "smtStockAtSnapshot": 597968,
+      "quantityForTenBoards": 30,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C25804",
+      "mpn": "0603WAF1002T5E",
+      "description": "厚膜电阻 10kΩ ±1% 100mW",
+      "footprint": "R0603",
+      "quantityPerBoard": 8,
+      "designators": [
+        "R14",
+        "R15",
+        "R21",
+        "R24",
+        "R25",
+        "R26",
+        "R27",
+        "R28"
+      ],
+      "smtStockAtSnapshot": 22870241,
+      "quantityForTenBoards": 80,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C5190383",
+      "mpn": "SC18IM704PWJ",
+      "description": "UART到I²C总线桥接器",
+      "footprint": "TSSOP-16_L5.0-W4.4-P0.65-LS6.4-BL",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U9"
+      ],
+      "smtStockAtSnapshot": 25,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C2682616",
+      "mpn": "MAX17048G+T10",
+      "description": "3uA单节/双节电池电量计，带ModelGauge算法",
+      "footprint": "TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2",
+      "quantityPerBoard": 1,
+      "designators": [
+        "U10"
+      ],
+      "smtStockAtSnapshot": 26112,
+      "quantityForTenBoards": 10,
+      "stockCoversTenBoardsBeforeAttrition": true
+    },
+    {
+      "cid": "C23162",
+      "mpn": "0603WAF4701T5E",
+      "description": "厚膜电阻 4.7kΩ ±1%",
+      "footprint": "R0603",
+      "quantityPerBoard": 2,
+      "designators": [
+        "R22",
+        "R23"
+      ],
+      "smtStockAtSnapshot": 23298171,
+      "quantityForTenBoards": 20,
+      "stockCoversTenBoardsBeforeAttrition": true
+    }
+  ],
+  "excluded": [
+    {
+      "ref": "J2",
+      "reason": "Connector footprint held; not procurement-ready"
+    },
+    {
+      "ref": "J3",
+      "reason": "Bare battery wire pads, no header populated"
+    }
+  ],
+  "externalPartsPending": [
+    "Protected 1S 4.2V battery with verified cell ratings",
+    "FPC tail thickness and final mating connector confirmation"
+  ]
+}

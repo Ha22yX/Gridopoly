@@ -1,0 +1,623 @@
+{
+  "schema": "gridopoly.player_power_electrical_review.v1",
+  "checkedAt": "2026-09-27T08:04:26.634Z",
+  "scope": "Schematic netlist, exact library identity and datasheet pin functions. No hardware performance evidence.",
+  "sources": [
+    "https://www.nxp.com/docs/en/data-sheet/SC18IM704.pdf",
+    "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17048-MAX17049.pdf",
+    "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+  ],
+  "checks": [
+    {
+      "name": "U1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C54313",
+        "actual": "C54313"
+      }
+    },
+    {
+      "name": "U2 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C919459",
+        "actual": "C919459"
+      }
+    },
+    {
+      "name": "U3 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C79401",
+        "actual": "C79401"
+      }
+    },
+    {
+      "name": "U4 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C19653",
+        "actual": "C19653"
+      }
+    },
+    {
+      "name": "U5 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C132554",
+        "actual": "C132554"
+      }
+    },
+    {
+      "name": "U6 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C51118",
+        "actual": "C51118"
+      }
+    },
+    {
+      "name": "U7 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C128396",
+        "actual": "C128396"
+      }
+    },
+    {
+      "name": "U8 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C51118",
+        "actual": "C51118"
+      }
+    },
+    {
+      "name": "U9 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C5190383",
+        "actual": "C5190383"
+      }
+    },
+    {
+      "name": "U10 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C2682616",
+        "actual": "C2682616"
+      }
+    },
+    {
+      "name": "R21 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R22 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23162",
+        "actual": "C23162"
+      }
+    },
+    {
+      "name": "R23 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23162",
+        "actual": "C23162"
+      }
+    },
+    {
+      "name": "R24 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R25 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R26 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R27 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R28 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "C18 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "C19 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "C20 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "C1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15849",
+        "actual": "C15849"
+      }
+    },
+    {
+      "name": "C2 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15850",
+        "actual": "C15850"
+      }
+    },
+    {
+      "name": "C3 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15850",
+        "actual": "C15850"
+      }
+    },
+    {
+      "name": "R1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C22849",
+        "actual": "C22849"
+      }
+    },
+    {
+      "name": "R2 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C4177",
+        "actual": "C4177"
+      }
+    },
+    {
+      "name": "C4 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "R3 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23237",
+        "actual": "C23237"
+      }
+    },
+    {
+      "name": "R4 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "C5 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1589",
+        "actual": "C1589"
+      }
+    },
+    {
+      "name": "R5 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "R6 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "Q1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C8545",
+        "actual": "C8545"
+      }
+    },
+    {
+      "name": "R7 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "C6 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "SW1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C318884",
+        "actual": "C318884"
+      }
+    },
+    {
+      "name": "R8 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "L1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C408332",
+        "actual": "C408332"
+      }
+    },
+    {
+      "name": "C7 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15850",
+        "actual": "C15850"
+      }
+    },
+    {
+      "name": "C8 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15850",
+        "actual": "C15850"
+      }
+    },
+    {
+      "name": "C9 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15850",
+        "actual": "C15850"
+      }
+    },
+    {
+      "name": "C10 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "R9 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23239",
+        "actual": "C23239"
+      }
+    },
+    {
+      "name": "R10 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "R20 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23231",
+        "actual": "C23231"
+      }
+    },
+    {
+      "name": "J1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C165948",
+        "actual": "C165948"
+      }
+    },
+    {
+      "name": "Q2 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C2143",
+        "actual": "C2143"
+      }
+    },
+    {
+      "name": "D1 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C7519",
+        "actual": "C7519"
+      }
+    },
+    {
+      "name": "Q3 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C8545",
+        "actual": "C8545"
+      }
+    },
+    {
+      "name": "R11 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23024",
+        "actual": "C23024"
+      }
+    },
+    {
+      "name": "R12 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23024",
+        "actual": "C23024"
+      }
+    },
+    {
+      "name": "R13 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C23024",
+        "actual": "C23024"
+      }
+    },
+    {
+      "name": "R14 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R15 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25804",
+        "actual": "C25804"
+      }
+    },
+    {
+      "name": "R16 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "R17 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "C11 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15849",
+        "actual": "C15849"
+      }
+    },
+    {
+      "name": "C12 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15849",
+        "actual": "C15849"
+      }
+    },
+    {
+      "name": "C13 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "C14 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15849",
+        "actual": "C15849"
+      }
+    },
+    {
+      "name": "C15 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C15849",
+        "actual": "C15849"
+      }
+    },
+    {
+      "name": "C16 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "R18 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "R19 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C25803",
+        "actual": "C25803"
+      }
+    },
+    {
+      "name": "C17 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C1591",
+        "actual": "C1591"
+      }
+    },
+    {
+      "name": "SW2 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C318884",
+        "actual": "C318884"
+      }
+    },
+    {
+      "name": "J2 exact supplier identity",
+      "pass": true,
+      "detail": {
+        "expected": "C2856798",
+        "actual": "C2856798"
+      }
+    },
+    {
+      "name": "C18 decoupling/timing capacitor",
+      "pass": true,
+      "detail": {
+        "value": "100nF",
+        "footprint": "C0603"
+      }
+    },
+    {
+      "name": "C19 decoupling/timing capacitor",
+      "pass": true,
+      "detail": {
+        "value": "100nF",
+        "footprint": "C0603"
+      }
+    },
+    {
+      "name": "C20 decoupling/timing capacitor",
+      "pass": true,
+      "detail": {
+        "value": "100nF",
+        "footprint": "C0603"
+      }
+    },
+    {
+      "name": "U9 VDD and VREFP use screen-switched 3.3V",
+      "pass": true,
+      "detail": "Reuse U8; no VBAT/5V on bridge supply."
+    },
+    {
+      "name": "U9 GPIO6 boot strap has external 10k pullup",
+      "pass": true,
+      "detail": "GPIO6 must stay high during power-on/reset."
+    },
+    {
+      "name": "U9 UART crosses screen TX/RX",
+      "pass": true,
+      "detail": "FPC7 screen TX -> U9 RX; U9 TX -> FPC6 screen RX; separately verified J2 physical symbol endpoints."
+    },
+    {
+      "name": "Charger status goes to input GPIO0/GPIO1",
+      "pass": true,
+      "detail": "Open-drain CHG and PGOOD pulled up to switched rail; GPIO input firmware contract required."
+    },
+    {
+      "name": "U10 senses BAT_PACK and is always powered while battery is present",
+      "pass": true,
+      "detail": "Not SYS_RAW or boost voltage."
+    },
+    {
+      "name": "U10 ground/strap pins and EP connected",
+      "pass": true,
+      "detail": "CTG/GND/QSTRT/EP grounded; ALRT unused polling."
+    },
+    {
+      "name": "I2C data/clock use correct pins and switched pullups",
+      "pass": true,
+      "detail": "4.7k pullups to 3.3V. At screen off no active pullup; keep MAX17048 EnSleep disabled."
+    },
+    {
+      "name": "No external NTC; TS has requested fixed 10k",
+      "pass": true,
+      "detail": "User explicitly removed external temperature sensing. No claim of cell temperature protection."
+    },
+    {
+      "name": "Existing power / USB / undervoltage connectivity preserved",
+      "pass": true,
+      "detail": {
+        "retainedPins": 181,
+        "differences": []
+      }
+    }
+  ],
+  "hardwareTested": false,
+  "fullErcCleared": false,
+  "manufacturingReleased": false
+}

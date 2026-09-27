@@ -1,0 +1,339 @@
+{
+  "schema": "gridopoly.player_power_sourcing.v1",
+  "batchBoardsMin": 5,
+  "batchBoardsMax": 10,
+  "checkedDate": "2026-09-27",
+  "stockSource": "szlcsc domestic public product page NEXT_DATA webData",
+  "smtField": "smtStockNumber",
+  "retailField": "productRecord.stockNumber",
+  "reserved": false,
+  "completeBom": false,
+  "selectionRule": "Prefer common parts and generous SMT stock; final required quantity includes usage per board and assembly attrition. Recheck at order time.",
+  "excluded": [
+    "C6290353",
+    "C2871627",
+    "C23259"
+  ],
+  "parts": [
+    {
+      "url": "https://item.szlcsc.com/55331.html",
+      "checkedAt": "2026-09-27T02:12:15.0273047-04:00",
+      "mpn": "BQ24074RGTR",
+      "cid": "C54313",
+      "retailStock": 580,
+      "smtStock": 816,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/997354.html",
+      "checkedAt": "2026-09-27T02:12:15.5068494-04:00",
+      "mpn": "TPS61023DRLR",
+      "cid": "C919459",
+      "retailStock": 36333,
+      "smtStock": 37516,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/80541.html",
+      "checkedAt": "2026-09-27T02:12:16.0597166-04:00",
+      "mpn": "MAX16054AZT+T",
+      "cid": "C79401",
+      "retailStock": 1946,
+      "smtStock": 1946,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/143853.html",
+      "checkedAt": "2026-09-27T02:12:16.6165919-04:00",
+      "mpn": "TUSB320LAIRWBR",
+      "cid": "C132554",
+      "retailStock": 3783,
+      "smtStock": 3783,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/20362.html",
+      "checkedAt": "2026-09-27T02:16:34.3596465-04:00",
+      "mpn": "TPS3808G01DBVR",
+      "cid": "C19653",
+      "retailStock": 17727,
+      "smtStock": 18221,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/139681.html",
+      "checkedAt": "2026-09-27T02:17:53.4828042-04:00",
+      "mpn": "TS3USB221ARSER",
+      "cid": "C128396",
+      "retailStock": 91364,
+      "smtStock": 92234,
+      "smtLabel": "SMT扩展库",
+      "footprint": "UQFN-10(1.5x2)"
+    },
+    {
+      "url": "https://item.szlcsc.com/52131.html",
+      "checkedAt": "2026-09-27T02:17:54.5569703-04:00",
+      "mpn": "AP2112K-3.3TRG1",
+      "cid": "C51118",
+      "retailStock": 42274,
+      "smtStock": 42274,
+      "smtLabel": "SMT扩展库",
+      "footprint": "SOT-25-5"
+    },
+    {
+      "url": "https://item.szlcsc.com/177331.html",
+      "checkedAt": "2026-09-27T02:17:55.8042475-04:00",
+      "mpn": "TYPE-C-31-M-12",
+      "cid": "C165948",
+      "retailStock": 433051,
+      "smtStock": 449835,
+      "smtLabel": "SMT扩展库",
+      "footprint": "SMD"
+    },
+    {
+      "url": "https://item.szlcsc.com/7996.html",
+      "checkedAt": "2026-09-27T02:17:56.9284528-04:00",
+      "mpn": "USBLC6-2SC6",
+      "cid": "C7519",
+      "retailStock": 42361,
+      "smtStock": 44267,
+      "smtLabel": "SMT扩展库",
+      "footprint": "SOT-23-6L"
+    },
+    {
+      "url": "https://item.szlcsc.com/1943.html",
+      "checkedAt": "2026-09-27T02:17:57.6579571-04:00",
+      "mpn": "CL10B104KB8NNNC",
+      "cid": "C1591",
+      "retailStock": 1558166,
+      "smtStock": 1866601,
+      "smtLabel": "SMT扩展库",
+      "footprint": "0603"
+    },
+    {
+      "url": "https://item.szlcsc.com/16531.html",
+      "checkedAt": "2026-09-27T02:17:58.6079422-04:00",
+      "mpn": "CL10A105KB8NNNC",
+      "cid": "C15849",
+      "retailStock": 1160,
+      "smtStock": 6786794,
+      "smtLabel": "SMT基础库",
+      "footprint": "0603"
+    },
+    {
+      "url": "https://item.szlcsc.com/16532.html",
+      "checkedAt": "2026-09-27T02:17:59.4133665-04:00",
+      "mpn": "CL21A106KAYNNNE",
+      "cid": "C15850",
+      "retailStock": 1333917,
+      "smtStock": 5536601,
+      "smtLabel": "SMT基础库",
+      "footprint": "0805"
+    },
+    {
+      "url": "https://item.szlcsc.com/7237234.html",
+      "checkedAt": "2026-09-27T02:11:45.7034809-04:00",
+      "mpn": "TPS3840PL33DBVR",
+      "cid": "C6290353",
+      "retailStock": 49,
+      "retailValidStock": 49,
+      "smtStock": 49,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/3076304.html",
+      "checkedAt": "2026-09-27T02:11:46.3990615-04:00",
+      "mpn": "TPS3840PL34DBVR",
+      "cid": "C2871627",
+      "retailStock": 149,
+      "retailValidStock": 149,
+      "smtStock": 149,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "url": "https://item.szlcsc.com/494296.html",
+      "checkedAt": "2026-09-27T02:11:46.9878926-04:00",
+      "mpn": "TPS3839G33DBZR",
+      "cid": "C485802",
+      "retailStock": 3416,
+      "retailValidStock": 3416,
+      "smtStock": 3416,
+      "smtLabel": "SMT扩展库"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:34.1634348-04:00",
+      "smtLabel": "SMT扩展库",
+      "mpn": "0603WAF1781T5E",
+      "url": "https://item.szlcsc.com/23576.html",
+      "retailStock": 18748,
+      "smtStock": 18748,
+      "cid": "C22849"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:34.9260326-04:00",
+      "smtLabel": "SMT扩展库",
+      "mpn": "0603WAF7153T5E",
+      "url": "https://item.szlcsc.com/23964.html",
+      "retailStock": 3532,
+      "smtStock": 3532,
+      "cid": "C23237"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:35.940899-04:00",
+      "smtLabel": "SMT扩展库",
+      "mpn": "0603WAF7323T5E",
+      "url": "https://item.szlcsc.com/23966.html",
+      "retailStock": 21650,
+      "smtStock": 21650,
+      "cid": "C23239"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:36.9716629-04:00",
+      "smtLabel": "SMT基础库",
+      "mpn": "0603WAF1801T5E",
+      "url": "https://item.szlcsc.com/4584.html",
+      "retailStock": 242296,
+      "smtStock": 418914,
+      "cid": "C4177"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:38.5138012-04:00",
+      "smtLabel": "SMT扩展库",
+      "mpn": "CL10B103KB8NNNC",
+      "url": "https://item.szlcsc.com/1941.html",
+      "retailStock": 1970335,
+      "smtStock": 2120989,
+      "cid": "C1589"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:40.2363764-04:00",
+      "smtLabel": "SMT基础库",
+      "mpn": "2N7002",
+      "url": "https://item.szlcsc.com/9040.html",
+      "retailStock": 1387213,
+      "smtStock": 1750780,
+      "cid": "C8545"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:42.0458058-04:00",
+      "smtLabel": "SMT基础库",
+      "mpn": "TS-1187A-B-A-B",
+      "url": "https://item.szlcsc.com/299976.html",
+      "retailStock": 401027,
+      "smtStock": 576056,
+      "cid": "C318884"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:43.6760683-04:00",
+      "smtLabel": "SMT基础库",
+      "mpn": "0603WAF1003T5E",
+      "url": "https://item.szlcsc.com/26546.html",
+      "retailStock": 16850970,
+      "smtStock": 22815271,
+      "cid": "C25803"
+    },
+    {
+      "checkedAt": "2026-09-27T02:29:44.755915-04:00",
+      "smtLabel": "SMT基础库",
+      "mpn": "0603WAF1002T5E",
+      "url": "https://item.szlcsc.com/26547.html",
+      "retailStock": 0,
+      "smtStock": 22870241,
+      "cid": "C25804"
+    },
+    {
+      "smtStock": 20229,
+      "mpn": "MWSA0402S-1R0MT",
+      "checkedAt": "2026-09-27T02:41:51.5843525-04:00",
+      "cid": "C408332",
+      "url": "https://item.szlcsc.com/397734.html",
+      "retailStock": 19224
+    },
+    {
+      "url": "https://item.szlcsc.com/2500.html",
+      "checkedAt": "2026-09-27T02:50:24-04:00",
+      "mpn": "MMBT3906 2A(RANGE:100-300)",
+      "cid": "C2143",
+      "retailStock": 256936,
+      "smtStock": 261180,
+      "smtLabel": "SMT扩展库",
+      "status": "selected"
+    },
+    {
+      "url": "https://item.szlcsc.com/23751.html",
+      "checkedAt": "2026-09-27T02:51:55-04:00",
+      "mpn": "0603WAF3003T5E",
+      "cid": "C23024",
+      "retailStock": 336092,
+      "smtStock": 597968,
+      "smtLabel": "SMT基础库",
+      "status": "selected"
+    },
+    {
+      "url": "https://item.szlcsc.com/23958.html",
+      "checkedAt": "2026-09-27T03:02:44-04:00",
+      "mpn": "0603WAF6802T5E",
+      "cid": "C23231",
+      "retailStock": 818390,
+      "smtStock": 1068940,
+      "smtLabel": "SMT基础库",
+      "status": "selected"
+    },
+    {
+      "url": "https://item.szlcsc.com/3056896.html",
+      "checkedAt": "2026-09-27T02:56:26-04:00",
+      "mpn": "FPC-05F-10PH20",
+      "cid": "C2856798",
+      "retailStock": 12451,
+      "smtStock": 13038,
+      "smtLabel": "SMT扩展库",
+      "status": "footprint_hold"
+    },
+    {
+      "url": "https://item.szlcsc.com/125650.html",
+      "checkedAt": "2026-09-27T02:56:27-04:00",
+      "mpn": "B-2100S02P-A110",
+      "cid": "C124375",
+      "retailStock": 86996,
+      "smtStock": 121184,
+      "smtLabel": "SMT扩展库",
+      "status": "footprint_only_do_not_populate"
+    },
+    {
+      "url": "https://item.szlcsc.com/2777647.html",
+      "checkedAt": "2026-09-27T07:46:00Z",
+      "mpn": "MAX17048G+T10",
+      "cid": "C2682616",
+      "retailStock": 25557,
+      "smtStock": 26112,
+      "smtLabel": "SMT扩展库",
+      "status": "selected",
+      "stockRisk": null
+    },
+    {
+      "url": "https://item.szlcsc.com/5871017.html",
+      "checkedAt": "2026-09-27T07:46:00Z",
+      "mpn": "SC18IM704PWJ",
+      "cid": "C5190383",
+      "retailStock": 10,
+      "smtStock": 25,
+      "smtLabel": "SMT扩展库",
+      "status": "selected",
+      "stockRisk": "25 SMT pieces only; covers 10 boards, recheck before order"
+    },
+    {
+      "url": "https://item.szlcsc.com/23889.html",
+      "checkedAt": "2026-09-27T07:46:00Z",
+      "mpn": "0603WAF4701T5E",
+      "cid": "C23162",
+      "retailStock": 14959788,
+      "smtStock": 23298171,
+      "smtLabel": "SMT基础库",
+      "status": "selected",
+      "stockRisk": null
+    }
+  ],
+  "exclusionReasons": {
+    "C23259": "887k candidate had zero available stock; replaced by three 300k series resistors."
+  }
+}

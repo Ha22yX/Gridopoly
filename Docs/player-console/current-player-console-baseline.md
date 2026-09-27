@@ -26,6 +26,8 @@ Action17目标灯/自动到达、旋钮每格一步已有用户实机确认；UD
 
 ## 2. 当前硬件
 
+2026-09-27 另行设计[玩家屏 USB-C 电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)：40×40 mm优先、外接两线电池、原软排线连接，具备充电/供电、开关、硬件欠压关断和原生USB通路。原理图加入MAX17048与SC18IM704，FPC6 RX←桥接TX、FPC7 TX→桥接RX，GPIO0/1查询CHG/PGOOD，底板无需另烧程序；[UART固件接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)已记录，当前玩家固件尚未接入。两页68个符号，导出连接比较通过；已取消外置温度探头，FPC机械、电池规格、ERC明细和实测仍待闭合。本板未制造放行，不替代下列现有实机配置。
+
 - 模组：VIEWESMART/Viewe `UEDX48480021-MD80ET`。
 - 主控：ESP32-S3-WROOM-1-N16R8，16MB Flash、8MB Octal PSRAM。
 - 显示：2.1 英寸 480×480 圆形 LCD。

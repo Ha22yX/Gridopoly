@@ -1,0 +1,1753 @@
+{
+  "schema": "gridopoly.player_power_connectivity_audit.v1",
+  "checkedAt": "2026-09-27T08:01:50.769Z",
+  "status": "pin_connectivity_matches_draft",
+  "releaseApproved": false,
+  "nativeSymbols": 68,
+  "nativeNetlistComponents": 67,
+  "connectedPinsMatched": 213,
+  "unconnectedPinsMatched": 18,
+  "duplicateDesignators": 0,
+  "duplicateUniqueIds": 0,
+  "j2ExcludedFromPcbAndBom": true,
+  "j2SymbolPinsChecked": 12,
+  "j2": [
+    {
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "nets": [
+        "5V_SCREEN"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "2",
+      "expected": null,
+      "nets": [],
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "pin": "3",
+      "expected": "GND",
+      "nets": [
+        "GND"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "4",
+      "expected": null,
+      "nets": [],
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "pin": "5",
+      "expected": null,
+      "nets": [],
+      "noConnected": true,
+      "pass": true
+    },
+    {
+      "pin": "6",
+      "expected": "SCREEN_RX",
+      "nets": [
+        "SCREEN_RX"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "7",
+      "expected": "SCREEN_TX",
+      "nets": [
+        "SCREEN_TX"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "8",
+      "expected": "SCREEN_RST",
+      "nets": [
+        "SCREEN_RST"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "9",
+      "expected": "SCREEN_DP",
+      "nets": [
+        "SCREEN_DP"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "10",
+      "expected": "SCREEN_DM",
+      "nets": [
+        "SCREEN_DM"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "11",
+      "expected": "GND",
+      "nets": [
+        "GND"
+      ],
+      "noConnected": false,
+      "pass": true
+    },
+    {
+      "pin": "12",
+      "expected": "GND",
+      "nets": [
+        "GND"
+      ],
+      "noConnected": false,
+      "pass": true
+    }
+  ],
+  "jlcDrcSummary": [
+    {
+      "type": "warn",
+      "count": 40
+    }
+  ],
+  "jlcDrcWarningsClassified": false,
+  "limitations": [
+    "Connectivity comparison is against the draft manifest, not proof of electrical correctness.",
+    "J2 footprint remains held; cable total thickness, contact current, and physical end-to-end mapping require verification.",
+    "Native DRC returns only a warning summary on this client; no full ERC clearance.",
+    "Battery ratings are not finalized. Per user request, TS has fixed 10k bias and no cell temperature sensing.",
+    "Screen firmware UART integration and actual gauge/status operation have not been tested.",
+    "PCB layout, manufacturing and hardware validation not completed."
+  ],
+  "findings": [],
+  "checkedPins": [
+    {
+      "ref": "U1",
+      "pin": "1",
+      "expected": "CHG_TS_BIAS",
+      "actual": "CHG_TS_BIAS",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "2",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "3",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "4",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "5",
+      "expected": "USB_HIGH_CURRENT",
+      "actual": "USB_HIGH_CURRENT",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "6",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "7",
+      "expected": "PGOOD_N",
+      "actual": "PGOOD_N",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "8",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "9",
+      "expected": "CHG_N",
+      "actual": "CHG_N",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "10",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "11",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "12",
+      "expected": "CHG_ILIM",
+      "actual": "CHG_ILIM",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "13",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "14",
+      "expected": "CHG_TMR",
+      "actual": "CHG_TMR",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "15",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "16",
+      "expected": "CHG_ISET",
+      "actual": "CHG_ISET",
+      "pass": true
+    },
+    {
+      "ref": "U1",
+      "pin": "17",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pin": "1",
+      "expected": "BOOST_FB",
+      "actual": "BOOST_FB",
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pin": "2",
+      "expected": "POWER_EN",
+      "actual": "POWER_EN",
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pin": "3",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pin": "4",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pin": "5",
+      "expected": "BOOST_SW",
+      "actual": "BOOST_SW",
+      "pass": true
+    },
+    {
+      "ref": "U2",
+      "pin": "6",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pin": "1",
+      "expected": "POWER_KEY_N",
+      "actual": "POWER_KEY_N",
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pin": "3",
+      "expected": "UV_CLEAR",
+      "actual": "UV_CLEAR",
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pin": "4",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pin": "5",
+      "expected": "POWER_EN",
+      "actual": "POWER_EN",
+      "pass": true
+    },
+    {
+      "ref": "U3",
+      "pin": "6",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pin": "1",
+      "expected": "UV_RESET_N",
+      "actual": "UV_RESET_N",
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pin": "3",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pin": "4",
+      "expected": "UV_DELAY",
+      "actual": "UV_DELAY",
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pin": "5",
+      "expected": "UV_SENSE",
+      "actual": "UV_SENSE",
+      "pass": true
+    },
+    {
+      "ref": "U4",
+      "pin": "6",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "C1",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "C1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C2",
+      "pin": "1",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "C2",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C3",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "C3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R1",
+      "pin": "1",
+      "expected": "CHG_ISET",
+      "actual": "CHG_ISET",
+      "pass": true
+    },
+    {
+      "ref": "R1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R2",
+      "pin": "1",
+      "expected": "CHG_ILIM",
+      "actual": "CHG_ILIM",
+      "pass": true
+    },
+    {
+      "ref": "R2",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C4",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "C4",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R3",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "R3",
+      "pin": "2",
+      "expected": "UV_SENSE",
+      "actual": "UV_SENSE",
+      "pass": true
+    },
+    {
+      "ref": "R4",
+      "pin": "1",
+      "expected": "UV_SENSE",
+      "actual": "UV_SENSE",
+      "pass": true
+    },
+    {
+      "ref": "R4",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C5",
+      "pin": "1",
+      "expected": "UV_SENSE",
+      "actual": "UV_SENSE",
+      "pass": true
+    },
+    {
+      "ref": "C5",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R5",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "R5",
+      "pin": "2",
+      "expected": "UV_RESET_N",
+      "actual": "UV_RESET_N",
+      "pass": true
+    },
+    {
+      "ref": "R6",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "R6",
+      "pin": "2",
+      "expected": "UV_DELAY",
+      "actual": "UV_DELAY",
+      "pass": true
+    },
+    {
+      "ref": "Q1",
+      "pin": "1",
+      "expected": "UV_RESET_N",
+      "actual": "UV_RESET_N",
+      "pass": true
+    },
+    {
+      "ref": "Q1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "Q1",
+      "pin": "3",
+      "expected": "UV_CLEAR",
+      "actual": "UV_CLEAR",
+      "pass": true
+    },
+    {
+      "ref": "R7",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "R7",
+      "pin": "2",
+      "expected": "UV_CLEAR",
+      "actual": "UV_CLEAR",
+      "pass": true
+    },
+    {
+      "ref": "C6",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "C6",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pin": "1",
+      "expected": "POWER_KEY_N",
+      "actual": "POWER_KEY_N",
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pin": "3",
+      "expected": "POWER_KEY_N",
+      "actual": "POWER_KEY_N",
+      "pass": true
+    },
+    {
+      "ref": "SW1",
+      "pin": "4",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R8",
+      "pin": "1",
+      "expected": "POWER_EN",
+      "actual": "POWER_EN",
+      "pass": true
+    },
+    {
+      "ref": "R8",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "L1",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "L1",
+      "pin": "2",
+      "expected": "BOOST_SW",
+      "actual": "BOOST_SW",
+      "pass": true
+    },
+    {
+      "ref": "C7",
+      "pin": "1",
+      "expected": "SYS_RAW",
+      "actual": "SYS_RAW",
+      "pass": true
+    },
+    {
+      "ref": "C7",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C8",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "C8",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C9",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "C9",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C10",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "C10",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R9",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "R9",
+      "pin": "2",
+      "expected": "BOOST_FB",
+      "actual": "BOOST_FB",
+      "pass": true
+    },
+    {
+      "ref": "R10",
+      "pin": "1",
+      "expected": "BOOST_FB",
+      "actual": "BOOST_FB",
+      "pass": true
+    },
+    {
+      "ref": "R10",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R20",
+      "pin": "1",
+      "expected": "CHG_TMR",
+      "actual": "CHG_TMR",
+      "pass": true
+    },
+    {
+      "ref": "R20",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "1",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "3",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "4",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "A1B12",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "A4B9",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "B8",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "A5",
+      "expected": "USB_CC1",
+      "actual": "USB_CC1",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "B7",
+      "expected": "USB_HOST_DM",
+      "actual": "USB_HOST_DM",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "A6",
+      "expected": "USB_HOST_DP",
+      "actual": "USB_HOST_DP",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "A7",
+      "expected": "USB_HOST_DM",
+      "actual": "USB_HOST_DM",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "B6",
+      "expected": "USB_HOST_DP",
+      "actual": "USB_HOST_DP",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "A8",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "B5",
+      "expected": "USB_CC2",
+      "actual": "USB_CC2",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "B4A9",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "J1",
+      "pin": "B1A12",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "1",
+      "expected": "USB_CC1",
+      "actual": "USB_CC1",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "2",
+      "expected": "USB_CC2",
+      "actual": "USB_CC2",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "3",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "4",
+      "expected": "CC_VBUS_DET",
+      "actual": "CC_VBUS_DET",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "5",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "6",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "7",
+      "expected": "CC_OUT1_N",
+      "actual": "CC_OUT1_N",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "8",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "9",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "10",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "11",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U5",
+      "pin": "12",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "U6",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "U6",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U6",
+      "pin": "3",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "U6",
+      "pin": "4",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U6",
+      "pin": "5",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "Q2",
+      "pin": "1",
+      "expected": "CC_PNP_BASE",
+      "actual": "CC_PNP_BASE",
+      "pass": true
+    },
+    {
+      "ref": "Q2",
+      "pin": "2",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "Q2",
+      "pin": "3",
+      "expected": "USB_HIGH_CURRENT",
+      "actual": "USB_HIGH_CURRENT",
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pin": "1",
+      "expected": "USB_HOST_DP",
+      "actual": "USB_HOST_DP",
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pin": "3",
+      "expected": "USB_HOST_DM",
+      "actual": "USB_HOST_DM",
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pin": "4",
+      "expected": "USB_HOST_DM",
+      "actual": "USB_HOST_DM",
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pin": "5",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "D1",
+      "pin": "6",
+      "expected": "USB_HOST_DP",
+      "actual": "USB_HOST_DP",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "1",
+      "expected": "SCREEN_DP",
+      "actual": "SCREEN_DP",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "2",
+      "expected": "SCREEN_DM",
+      "actual": "SCREEN_DM",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "3",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "4",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "5",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "6",
+      "expected": "USB_OE_N",
+      "actual": "USB_OE_N",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "7",
+      "expected": "USB_HOST_DM",
+      "actual": "USB_HOST_DM",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "8",
+      "expected": "USB_HOST_DP",
+      "actual": "USB_HOST_DP",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "9",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U7",
+      "pin": "10",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "U8",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "U8",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U8",
+      "pin": "3",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "U8",
+      "pin": "4",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U8",
+      "pin": "5",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "Q3",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "Q3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "Q3",
+      "pin": "3",
+      "expected": "USB_OE_N",
+      "actual": "USB_OE_N",
+      "pass": true
+    },
+    {
+      "ref": "R11",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "R11",
+      "pin": "2",
+      "expected": "CC_DET_R1",
+      "actual": "CC_DET_R1",
+      "pass": true
+    },
+    {
+      "ref": "R12",
+      "pin": "1",
+      "expected": "CC_DET_R1",
+      "actual": "CC_DET_R1",
+      "pass": true
+    },
+    {
+      "ref": "R12",
+      "pin": "2",
+      "expected": "CC_DET_R2",
+      "actual": "CC_DET_R2",
+      "pass": true
+    },
+    {
+      "ref": "R13",
+      "pin": "1",
+      "expected": "CC_DET_R2",
+      "actual": "CC_DET_R2",
+      "pass": true
+    },
+    {
+      "ref": "R13",
+      "pin": "2",
+      "expected": "CC_VBUS_DET",
+      "actual": "CC_VBUS_DET",
+      "pass": true
+    },
+    {
+      "ref": "R14",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "R14",
+      "pin": "2",
+      "expected": "CC_OUT1_N",
+      "actual": "CC_OUT1_N",
+      "pass": true
+    },
+    {
+      "ref": "R15",
+      "pin": "1",
+      "expected": "CC_OUT1_N",
+      "actual": "CC_OUT1_N",
+      "pass": true
+    },
+    {
+      "ref": "R15",
+      "pin": "2",
+      "expected": "CC_PNP_BASE",
+      "actual": "CC_PNP_BASE",
+      "pass": true
+    },
+    {
+      "ref": "R16",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "R16",
+      "pin": "2",
+      "expected": "CC_PNP_BASE",
+      "actual": "CC_PNP_BASE",
+      "pass": true
+    },
+    {
+      "ref": "R17",
+      "pin": "1",
+      "expected": "USB_HIGH_CURRENT",
+      "actual": "USB_HIGH_CURRENT",
+      "pass": true
+    },
+    {
+      "ref": "R17",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C11",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "C11",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C12",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "C12",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C13",
+      "pin": "1",
+      "expected": "CC_3V3",
+      "actual": "CC_3V3",
+      "pass": true
+    },
+    {
+      "ref": "C13",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C14",
+      "pin": "1",
+      "expected": "5V_SCREEN",
+      "actual": "5V_SCREEN",
+      "pass": true
+    },
+    {
+      "ref": "C14",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C15",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "C15",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C16",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "C16",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R18",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "R18",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R19",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R19",
+      "pin": "2",
+      "expected": "USB_OE_N",
+      "actual": "USB_OE_N",
+      "pass": true
+    },
+    {
+      "ref": "C17",
+      "pin": "1",
+      "expected": "USB_VBUS",
+      "actual": "USB_VBUS",
+      "pass": true
+    },
+    {
+      "ref": "C17",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pin": "1",
+      "expected": "SCREEN_RST",
+      "actual": "SCREEN_RST",
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pin": "3",
+      "expected": "SCREEN_RST",
+      "actual": "SCREEN_RST",
+      "pass": true
+    },
+    {
+      "ref": "SW2",
+      "pin": "4",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "J3",
+      "pin": "1",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "J3",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "1",
+      "expected": "BAT_SDA",
+      "actual": "BAT_SDA",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "2",
+      "expected": "BAT_SCL",
+      "actual": "BAT_SCL",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "3",
+      "expected": "BRIDGE_BOOT_H",
+      "actual": "BRIDGE_BOOT_H",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "4",
+      "expected": "BRIDGE_RST_N",
+      "actual": "BRIDGE_RST_N",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "5",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "6",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "7",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "8",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "9",
+      "expected": "CHG_N",
+      "actual": "CHG_N",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "10",
+      "expected": "SCREEN_TX",
+      "actual": "SCREEN_TX",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "11",
+      "expected": "SCREEN_RX",
+      "actual": "SCREEN_RX",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "12",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "13",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "14",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "15",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "U9",
+      "pin": "16",
+      "expected": "PGOOD_N",
+      "actual": "PGOOD_N",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "1",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "2",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "3",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "4",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "5",
+      "expected": null,
+      "actual": "",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "6",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "7",
+      "expected": "BAT_SCL",
+      "actual": "BAT_SCL",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "8",
+      "expected": "BAT_SDA",
+      "actual": "BAT_SDA",
+      "pass": true
+    },
+    {
+      "ref": "U10",
+      "pin": "9",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R21",
+      "pin": "1",
+      "expected": "CHG_TS_BIAS",
+      "actual": "CHG_TS_BIAS",
+      "pass": true
+    },
+    {
+      "ref": "R21",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "R22",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R22",
+      "pin": "2",
+      "expected": "BAT_SDA",
+      "actual": "BAT_SDA",
+      "pass": true
+    },
+    {
+      "ref": "R23",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R23",
+      "pin": "2",
+      "expected": "BAT_SCL",
+      "actual": "BAT_SCL",
+      "pass": true
+    },
+    {
+      "ref": "R24",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R24",
+      "pin": "2",
+      "expected": "BRIDGE_BOOT_H",
+      "actual": "BRIDGE_BOOT_H",
+      "pass": true
+    },
+    {
+      "ref": "R25",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R25",
+      "pin": "2",
+      "expected": "BRIDGE_RST_N",
+      "actual": "BRIDGE_RST_N",
+      "pass": true
+    },
+    {
+      "ref": "R26",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R26",
+      "pin": "2",
+      "expected": "PGOOD_N",
+      "actual": "PGOOD_N",
+      "pass": true
+    },
+    {
+      "ref": "R27",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R27",
+      "pin": "2",
+      "expected": "CHG_N",
+      "actual": "CHG_N",
+      "pass": true
+    },
+    {
+      "ref": "R28",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "R28",
+      "pin": "2",
+      "expected": "SCREEN_TX",
+      "actual": "SCREEN_TX",
+      "pass": true
+    },
+    {
+      "ref": "C18",
+      "pin": "1",
+      "expected": "SCREEN_IO3V3",
+      "actual": "SCREEN_IO3V3",
+      "pass": true
+    },
+    {
+      "ref": "C18",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C19",
+      "pin": "1",
+      "expected": "BAT_PACK",
+      "actual": "BAT_PACK",
+      "pass": true
+    },
+    {
+      "ref": "C19",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    },
+    {
+      "ref": "C20",
+      "pin": "1",
+      "expected": "BRIDGE_RST_N",
+      "actual": "BRIDGE_RST_N",
+      "pass": true
+    },
+    {
+      "ref": "C20",
+      "pin": "2",
+      "expected": "GND",
+      "actual": "GND",
+      "pass": true
+    }
+  ]
+}

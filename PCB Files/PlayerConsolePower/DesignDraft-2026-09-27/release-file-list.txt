@@ -1,0 +1,28 @@
+Docs/README.md
+Docs/hardware/README.md
+Docs/player-console/current-player-console-baseline.md
+Docs/hardware/player-usbc-battery-base-2026-09-27.md
+Docs/hardware/player-battery-telemetry-interface-2026-09-27.md
+Docs/hardware/player-screen-uart-gpio-evidence-2026-09-27.md
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/README.md
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/bom-draft.csv
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/bom-draft.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/connectivity-audit.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/design-contract.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/design-overview.png
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/design-overview.svg
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/electrical-review.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/expected-connectivity.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/fpc-orientation.png
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/fpc-orientation.svg
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/native-netlist.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/P1-power.source.jsonl
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/P2-usb-interfaces.source.jsonl
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/sourcing-snapshot.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/verify-schematic.cjs
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/verification-baseline.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/j2-pin-geometry.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/verification-result.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/export-scope-audit.json
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/submission-notes.md
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/release-file-list.txt

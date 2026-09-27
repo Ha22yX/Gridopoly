@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="850" viewBox="0 0 1360 850">
+<title>Gridopoly 玩家底板七项功能电路框图</title><desc>已接入原理图的供电、USB和UART遥测关系；不是PCB布局或制造图。</desc>
+<defs><style>text{font-family:'Microsoft YaHei',sans-serif;fill:#17304b}.h{font-size:22px;font-weight:700}.p{font-size:17px}.s{font-size:15px}.box{fill:white;stroke:#a7bacd;stroke-width:2}.power{stroke:#cf7433;stroke-width:4;fill:none}.data{stroke:#277db8;stroke-width:3;fill:none}.ctl{stroke:#8268ad;stroke-width:3;fill:none;stroke-dasharray:7 5}</style><marker id="p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#cf7433"/></marker><marker id="d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#277db8"/></marker></defs>
+<rect width="1360" height="850" fill="#f3f7fb"/>
+<text x="35" y="50" font-size="30" font-weight="700">玩家屏幕底板：充电、供电与电量查询</text>
+<text x="35" y="88" class="p">充电 · 电池供电 · 开关 · 欠压关机 · USB 烧录调试 · 电池电量 · 充电状态</text>
+<text x="35" y="120" class="s">同一块PCB，两页原理图｜底板无需独立固件｜2026-09-27 原理图草稿，未制造放行</text>
+<rect x="35" y="165" width="225" height="110" rx="12" class="box"/><text x="60" y="202" class="h">USB-C</text><text x="60" y="235" class="p">5V 输入 / 数据共口</text><text x="60" y="258" class="s">下边居中，开口朝外</text>
+<rect x="340" y="165" width="270" height="110" rx="12" class="box"/><text x="365" y="202" class="h">BQ24074 充电管理</text><text x="365" y="235" class="p">电源路径 / 输入限流</text><text x="365" y="258" class="s">500mA 充电目标，受来源限制</text>
+<rect x="690" y="165" width="220" height="110" rx="12" class="box"/><text x="714" y="202" class="h">TPS61023 升压</text><text x="714" y="235" class="p">受控 5V_SCREEN</text><text x="714" y="258" class="s">关屏时关闭输出</text>
+<rect x="1000" y="165" width="315" height="110" rx="12" class="box"/><text x="1025" y="202" class="h">软排线 → 玩家屏幕</text><text x="1025" y="235" class="p">VCC / GND / USB / UART</text><text x="1025" y="258" class="s">屏幕固件负责电量查询与显示</text>
+<path d="M260 210H338M610 210H688M910 210H998" class="power" marker-end="url(#p)"/><text x="617" y="194" class="s">SYS_RAW</text>
+<rect x="340" y="350" width="270" height="110" rx="12" class="box"/><text x="365" y="389" class="h">外接两线锂电池</text><text x="365" y="421" class="p">1S / 3.7V / 充满4.2V</text><text x="365" y="445" class="s">B+ / B−，电池包带保护</text><path d="M475 348V277" class="power" marker-start="url(#p)" marker-end="url(#p)"/>
+<rect x="690" y="350" width="220" height="110" rx="12" fill="#eee7f6" stroke="#b39dce"/><text x="711" y="389" class="h">按键＋欠压锁存</text><text x="711" y="421" class="p">约3.3V硬件关屏</text><text x="711" y="445" class="s">回升后仍需按键开机</text><path d="M800 350V275" class="ctl"/><text x="815" y="319" class="s">升压 EN</text>
+<path d="M145 275V500H463Q475 480 487 500H1110V276" class="data" marker-end="url(#d)"/><text x="700" y="490" class="p">USB → ESD / 数据隔离 → 排线9/10</text>
+<rect x="340" y="570" width="270" height="110" rx="12" class="box"/><text x="365" y="608" class="h">MAX17048 电量计</text><text x="365" y="638" class="p">电池电压＋SOC估算</text><text x="365" y="662" class="s">BAT_PACK 常供电，关屏仍跟踪</text><path d="M475 460V568" class="power" marker-end="url(#p)"/>
+<rect x="690" y="570" width="220" height="110" rx="12" class="box"/><text x="713" y="608" class="h">SC18IM704</text><text x="713" y="638" class="p">UART ↔ I²C / GPIO</text><text x="713" y="662" class="s">复用U8，随屏幕断电</text>
+<path d="M612 625H688" class="data" marker-start="url(#d)" marker-end="url(#d)"/><path d="M912 625H1250V277" class="data" marker-start="url(#d)" marker-end="url(#d)"/><text x="633" y="609" class="s">I²C</text><text x="952" y="607" class="p">FPC6 RX / FPC7 TX</text>
+<path d="M610 253H645V544H800V570" class="ctl"/><text x="680" y="539" class="s">CHG / PGOOD → GPIO0 / GPIO1</text>
+<rect x="35" y="730" width="1280" height="88" rx="10" fill="#e5edf5"/><text x="55" y="758" class="p">已接线并核对网表；电量显示仍待屏幕固件接入。没有外置温度探头，也不测电芯温度。</text><text x="55" y="788" class="p">FPC尾端厚度、ERC明细、PCB及实板验证待完成。上传需先开屏，CHG高不等同于“充满”。</text>
+</svg>

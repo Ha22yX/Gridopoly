@@ -1,0 +1,360 @@
+{
+  "schema": "gridopoly.player_power_design_draft.v1",
+  "date": "2026-09-27",
+  "status": "native_schematic_wired_draft_pending_release_gates",
+  "manufacturing_released": false,
+  "native_schematic_created": true,
+  "pcb_routed": false,
+  "target_module": "VIEWESMART UEDX48480021-MD80ET",
+  "mechanical": {
+    "location": "independent_base",
+    "shape": "square",
+    "preferred_size_mm": [
+      40,
+      40
+    ],
+    "maximum_approximate_size_mm": [
+      50,
+      50
+    ],
+    "usb_c": {
+      "edge": "bottom",
+      "centered": true,
+      "opening": "outward"
+    },
+    "battery_mounted_on_pcb": false,
+    "battery_connection": "two_wires_positive_negative",
+    "mounting_holes_confirmed": false,
+    "thickness_confirmed": false,
+    "layer_count_confirmed": false
+  },
+  "battery": {
+    "chemistry_target": "protected_1S_LiIon_4.2V_charge_termination",
+    "nominal_voltage_V": 3.7,
+    "capacity_candidate_mAh": 2000,
+    "sku_candidate": "103450",
+    "seller_dimensions_mm_unverified": [
+      52,
+      34,
+      10
+    ],
+    "battery_datasheet_verified": false,
+    "protection_verified": false,
+    "continuous_discharge_requirement_A": 2,
+    "charge_current_target_A": 0.5,
+    "charge_current_approved_for_cell": false,
+    "cell_temperature_sensor_provided_by_two_wires": false,
+    "temperature_probe": {
+      "installed": false,
+      "requestedByUser": false,
+      "tsImplementation": "R21 10k from BQ24074 TS to GND",
+      "externalProbeConnectorRemoved": "J4",
+      "cellTemperatureSensing": false
+    }
+  },
+  "power": {
+    "screen_voltage_target_V": 5,
+    "converter_output_capacity_target_A": 1,
+    "fpc_current_rating_verified": false,
+    "charge_while_screen_off": true,
+    "load_sharing": true,
+    "boost_output_may_connect_to_usb_vbus": false,
+    "low_voltage_monitor_node": "SYS_RAW_before_boost",
+    "cutoff_target_V": 3.3,
+    "rearm_target_V": null,
+    "thresholds_finalized": false,
+    "off_is_latched": true,
+    "recovery_action": "restore_voltage_then_press_power_button",
+    "usb_insertion_auto_turns_screen_on": false,
+    "firmware_required_for_low_voltage_cutoff": false,
+    "rearm_policy": "TPS3808 hysteresis and release delay, followed by manual button press; not a separate 3.5V threshold",
+    "charger_timer": {
+      "resistor": "R20",
+      "resistance_ohm": 68000,
+      "nominal_fast_charge_timeout_hours": 9.07
+    },
+    "cutoff_divider": {
+      "top_ohm": 715000,
+      "bottom_ohm": 100000,
+      "nominal_reference_V": 0.405,
+      "nominal_trip_V": 3.30075
+    }
+  },
+  "usb": {
+    "role": "USB_2_device_Type_C_sink",
+    "native_esp32_s3_usb": true,
+    "extra_usb_uart_required": false,
+    "charging_and_data_same_connector": true,
+    "data_enabled_only_when": [
+      "screen_power_on",
+      "usb_vbus_present"
+    ],
+    "input_current_policy_finalized": false,
+    "legacy_host_batteryless_startup_guaranteed": false,
+    "pd_required": false,
+    "input_current_policy": {
+      "defaultSource_mA": 100,
+      "minimumAdvertisedCurrentForHighMode_A": 1.5,
+      "highModeNominal_A": 0.9,
+      "bq24074_ilim_ohm": 1800,
+      "high_permission_default": "disabled_when_CC_unpowered_or_HiZ",
+      "legacy_enumeration_suspend_policy_implemented": false,
+      "full_usb_power_compliance_verified": false
+    }
+  },
+  "fpc": {
+    "external_document_pin_count": 10,
+    "external_document_pitch_mm": 0.5,
+    "contact_side_confirmed": true,
+    "cable_thickness_confirmed": false,
+    "physical_pad_mapping_verified": false,
+    "reference": "manufacturer_MD80ET_V1.1_SPEC_pages_6_8",
+    "external_logical_pins": [
+      {
+        "pin": 1,
+        "name": "VCC",
+        "net": "5V_SCREEN"
+      },
+      {
+        "pin": 2,
+        "name": "ADC_GPIO3_or_GPIO4_unresolved",
+        "net": null,
+        "direct_battery_connection_allowed": false
+      },
+      {
+        "pin": 3,
+        "name": "GND",
+        "net": "GND"
+      },
+      {
+        "pin": 4,
+        "name": "NC",
+        "net": null
+      },
+      {
+        "pin": 5,
+        "name": "NC",
+        "net": null
+      },
+      {
+        "pin": 6,
+        "name": "RX",
+        "net": "SCREEN_RX"
+      },
+      {
+        "pin": 7,
+        "name": "TX",
+        "net": "SCREEN_TX"
+      },
+      {
+        "pin": 8,
+        "name": "RST",
+        "net": "SCREEN_RST"
+      },
+      {
+        "pin": 9,
+        "name": "D+",
+        "net": "SCREEN_DP"
+      },
+      {
+        "pin": 10,
+        "name": "D-",
+        "net": "SCREEN_DM"
+      }
+    ],
+    "user_confirmed_pin_count_and_pitch": true,
+    "user_observation": {
+      "confirmed": true,
+      "date": "2026-09-27",
+      "view": "Metal contact face toward observer, cable runs bottom to top",
+      "leftToRight": [
+        "5V",
+        "ADC",
+        "GND",
+        "NC",
+        "NC",
+        "RX",
+        "TX",
+        "RST",
+        "D+",
+        "D-"
+      ],
+      "directly_identified_by_user": {
+        "leftmost": "5V",
+        "third_from_left": "GND"
+      }
+    },
+    "contact_side_confirmation_scope": "Observation of exposed contacts only; final top/bottom-contact connector orientation not released",
+    "footprint_candidate": {
+      "cid": "C2856798",
+      "mpn": "FPC-05F-10PH20",
+      "contact": "bottom",
+      "cableThicknessNominal_mm": 0.3,
+      "cableThicknessTolerance_mm": 0.03,
+      "status": "hold",
+      "includedInBom": false,
+      "includedInPcb": false
+    },
+    "mechanical_drawing_0_35_mm": "contact finger width, not cable total thickness"
+  },
+  "candidate_functions_not_procurement_bom": [
+    {
+      "function": "charger_power_path",
+      "candidate": "BQ24074"
+    },
+    {
+      "function": "boost_5V",
+      "candidate": "TPS61023"
+    },
+    {
+      "function": "pushbutton_toggle_clear_latch",
+      "candidate": "MAX16054AZT+T"
+    },
+    {
+      "function": "adjustable_low_voltage_supervisor_with_output_inversion",
+      "candidate": "TPS3808G01DBVR",
+      "cid": "C19653"
+    },
+    {
+      "function": "usb_c_current_detection",
+      "candidate": "TUSB320LAI"
+    },
+    {
+      "function": "usb_data_isolation",
+      "candidate": "TS3USB221A"
+    },
+    {
+      "function": "battery_fuel_gauge",
+      "candidate": "MAX17048G+T10",
+      "cid": "C2682616"
+    },
+    {
+      "function": "uart_i2c_bridge",
+      "candidate": "SC18IM704PWJ",
+      "cid": "C5190383"
+    }
+  ],
+  "remaining_design_gates": [
+    "FPC_total_tail_thickness_contact_side_final_footprint_pin_mapping_and_contact_current",
+    "cell_charge_discharge_protection_and_temperature_specs",
+    "classify_40_native_DRC_warnings_and_complete_ERC",
+    "legacy_USB_enumeration_and_suspend_policy_or_explicit_product_limitation",
+    "PCB_placement_routing_footprints_DRC_and_mechanical_constraints",
+    "thermal_transient_undervoltage_charge_USB_and_physical_recovery_tests",
+    "screen_firmware_UART_driver_and_charge_status_semantics",
+    "SC18IM704_low_stock_recheck_at_order",
+    "native_preview_stale_text_cache_requires_editor_review"
+  ],
+  "tooling": {
+    "eda_connected": true,
+    "bridge_start_attempt_result": "started_after_explicit_user_request",
+    "bridge_port": 49620,
+    "bridge_pid_at_check": 83548,
+    "bridge_health_at_check": "ok",
+    "eda_window_count_at_check": 1,
+    "existing_Gridopoly_project_modified_this_stage": true,
+    "eda_mode_at_check": "half_offline",
+    "native_page_uuid": "443216bbada87fe6",
+    "preview_verified": false,
+    "netlist_export_verified": true,
+    "native_pages": [
+      {
+        "name": "P1",
+        "uuid": "443216bbada87fe6",
+        "function": "charger_boost_undervoltage_power_button",
+        "symbols": 28
+      },
+      {
+        "name": "P2",
+        "uuid": "9eb230ca6fd4b303",
+        "function": "usb_cc_data_isolation_fpc_battery_telemetry",
+        "symbols": 40
+      }
+    ],
+    "native_pcb_uuid": "847ec1f4dfc5086a",
+    "native_svg_export_available": true,
+    "preview_note": "Native SVG exporter retained deleted text in render cache; source and netlist snapshots are authoritative for connectivity. Layout visual QA not cleared.",
+    "native_drc_summary": [
+      {
+        "type": "warn",
+        "count": 40
+      }
+    ],
+    "native_drc_warnings_classified": false,
+    "lastConnectivityCheck": "2026-09-27T08:01:50.769Z"
+  },
+  "native_schematic_complete": false,
+  "native_component_count_at_check": 68,
+  "native_netlist_component_count": 67,
+  "native_bom_component_count": 66,
+  "native_bom_sku_count": 28,
+  "features": [
+    "USB-C battery charging",
+    "battery-powered 5V screen",
+    "pushbutton on/off",
+    "latched hardware undervoltage shutdown",
+    "native USB flashing/debugging",
+    "MAX17048 battery voltage/SOC queries",
+    "BQ24074 status queries through SC18IM704 GPIO"
+  ],
+  "telemetry": {
+    "bridge": {
+      "ref": "U9",
+      "mpn": "SC18IM704PWJ",
+      "cid": "C5190383",
+      "supply": "SCREEN_IO3V3 from existing U8; follows 5V_SCREEN",
+      "vrefp": "tied to VDD",
+      "reset": "R25 10k pullup + C20 100nF to GND",
+      "gpio6": "R24 10k boot pullup; never pull low at reset",
+      "uart": {
+        "baud": 9600,
+        "dataBits": 8,
+        "parity": "none",
+        "stopBits": 1,
+        "screenTxFpcPin": 7,
+        "screenRxFpcPin": 6,
+        "bridgeRxPin": 10,
+        "bridgeTxPin": 11,
+        "documentedTouchBoardPins": {
+          "screenTxGpio": 43,
+          "screenRxGpio": 44,
+          "actualBoardContinuityVerified": false,
+          "evidence": "Docs/hardware/player-screen-uart-gpio-evidence-2026-09-27.md"
+        }
+      },
+      "gpio0": "CHG_N; active low, input only",
+      "gpio1": "PGOOD_N; active low, input only",
+      "programmingRequired": false,
+      "i2cTimeout": {
+        "register": "0x09",
+        "writeValue": "0x67",
+        "readBackRequired": true,
+        "resetDefault": "0x66 leaves TE disabled"
+      }
+    },
+    "gauge": {
+      "ref": "U10",
+      "mpn": "MAX17048G+T10",
+      "cid": "C2682616",
+      "vddAndCell": "BAT_PACK",
+      "gndCtgQstrtEp": "GND",
+      "decoupling": "C19 100nF",
+      "i2cAddress7bit": "0x36",
+      "alrt": "NC; polled",
+      "voltageConversion": "big-endian raw16 * 78.125 microvolts",
+      "socConversion": "big-endian raw16 / 256 percent",
+      "sleepPolicy": "Keep MODE.EnSleep=0 and CONFIG.SLEEP=0; retain normal hibernate so off-screen charging is tracked",
+      "estimateNotGuaranteedCapacity": true,
+      "initialization": "MODE=0x0000; CONFIG read-modify-write clearing only 0x0080; preserve RCOMP; no POR/Quick-Start"
+    },
+    "pullups": "R22/R23 4.7k I2C, R26/R27 10k status, R28 10k bridge RX; all to SCREEN_IO3V3",
+    "noIndependentMcu": true,
+    "screenFirmwareIntegrationImplemented": false,
+    "chargeStatusLimit": "CHG high does not uniquely mean full; later recharge stays high, thermal suspension may keep CHG low; timer fault may blink at 2Hz",
+    "currentMeasurementImplemented": false
+  },
+  "schematicConnectivityMatchesManifest": true,
+  "schematicElectricalIdentityReview": "electrical-review.json",
+  "firmware_written_to_base": false,
+  "firmware_written_to_screen": false
+}

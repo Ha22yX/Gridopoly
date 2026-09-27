@@ -1,5 +1,7 @@
 # Gridopoly 文档中心
 
+> 2026-09-27 玩家终端：[USB-C 电池底板](hardware/player-usbc-battery-base-2026-09-27.md)两页原理图已接线、核对网表；新增 MAX17048＋SC18IM704，经排线RX/TX查询电量和充电状态，底板无需程序。保留充电、供电、开关、欠压关断及USB上传/调试，外置温度探头已取消。[UART接口约定](hardware/player-battery-telemetry-interface-2026-09-27.md)已记录；FPC、ERC、屏幕固件与PCB/实板验证尚未完成。
+
 > 2026-09-22硬件同步：见[完整硬件开发汇报](hardware/development-handoff-2026-09-22.md)，PD方案已取消，当前证据与限制以该汇报及所链接的直接24V审查为准。
 
 > 2026-09-21 最新变更：用户已取消角落 PD→24V，改为 5.5×2.1mm 中心正极的直接24V输入；见[当前直流入口设计](hardware/corner-dc24-input-2026-09-21.md)。当前角落为PCB2_5；原理图与PCB器件/网络已更新，入口布局布线和整盘验收待完成。

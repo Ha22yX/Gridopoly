@@ -1,0 +1,106 @@
+{
+  "schema": "gridopoly.j2_api_geometry.v1",
+  "source": "EasyEDA sch_PrimitiveComponent.getAllPinsByPrimitiveId; captured in final export",
+  "sourceSha256": "64a28c59ad098411b5df75b2fdaceff230b3f9d4bc7342d5b39b06f0271a27a1",
+  "pageUuid": "9eb230ca6fd4b303",
+  "primitiveId": "ec52088c397184fd",
+  "pins": [
+    {
+      "pinNumber": "1",
+      "pinName": "1",
+      "x": 435,
+      "y": 305,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "2",
+      "pinName": "2",
+      "x": 435,
+      "y": 295,
+      "rotation": 180,
+      "noConnected": true
+    },
+    {
+      "pinNumber": "3",
+      "pinName": "3",
+      "x": 435,
+      "y": 285,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "4",
+      "pinName": "4",
+      "x": 435,
+      "y": 275,
+      "rotation": 180,
+      "noConnected": true
+    },
+    {
+      "pinNumber": "5",
+      "pinName": "5",
+      "x": 435,
+      "y": 265,
+      "rotation": 180,
+      "noConnected": true
+    },
+    {
+      "pinNumber": "6",
+      "pinName": "6",
+      "x": 435,
+      "y": 255,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "7",
+      "pinName": "7",
+      "x": 435,
+      "y": 245,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "8",
+      "pinName": "8",
+      "x": 435,
+      "y": 235,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "9",
+      "pinName": "9",
+      "x": 435,
+      "y": 225,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "10",
+      "pinName": "10",
+      "x": 435,
+      "y": 215,
+      "rotation": 180,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "11",
+      "pinName": "11",
+      "x": 465,
+      "y": 195,
+      "rotation": 270,
+      "noConnected": false
+    },
+    {
+      "pinNumber": "12",
+      "pinName": "12",
+      "x": 465,
+      "y": 330,
+      "rotation": 90,
+      "noConnected": false
+    }
+  ],
+  "scope": "Logical symbol pin endpoints and NC flags, not physical connector continuity or footprint release"
+}
