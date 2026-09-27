@@ -26,7 +26,7 @@ Action17目标灯/自动到达、旋钮每格一步已有用户实机确认；UD
 
 ## 2. 当前硬件
 
-2026-09-27 另行设计[玩家屏 USB-C 电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)：按用户最新分配固定80×80 mm板框、外接两线电池、原软排线连接，具备充电/供电、开关、硬件欠压关断和原生USB通路。原理图加入MAX17048与SC18IM704，FPC6 RX←桥接TX、FPC7 TX→桥接RX，GPIO0/1查询CHG/PGOOD，底板无需另烧程序；[UART固件接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)和[玩家端实现与验证](../firmware/player-battery-telemetry-progress-2026-09-27.md)已记录。电池功能默认关闭，源码及主机回归已接入，本轮未更新COM7。两页68个符号，导出连接比较通过，68个器件已纳入PCB，含按用户要求反转1–10脚网络的J2母座；已取消外置温度探头，FPC机械、电池规格、ERC明细和实测仍待闭合。后续[PCB布局制造候选](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)已完成双层、全顶面布局及全部布线，PCB原生DRC 0项、Gerber/BOM/CPL已导出。本板仍未制造放行，不替代下列现有实机配置。 [本轮按键致命接线修复](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)已同步原理图与PCB，81/81静态检查通过，原生41条警告明细仍待分类。
+2026-09-27 另行设计[玩家屏 USB-C 电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)：按用户最新分配固定80×80 mm板框、外接两线电池、原软排线连接，具备充电/供电、开关、硬件欠压关断和原生USB通路。原理图加入MAX17048与SC18IM704，FPC6 RX←桥接TX、FPC7 TX→桥接RX，GPIO0/1查询CHG/PGOOD，底板无需另烧程序；[UART固件接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)和[玩家端实现与验证](../firmware/player-battery-telemetry-progress-2026-09-27.md)已记录。电池功能默认关闭，源码及主机回归已接入，本轮未更新COM7。两页68个符号，导出连接比较通过，68个器件已纳入PCB，含按用户要求反转1–10脚网络的J2母座；已取消外置温度探头，FPC机械、电池规格、ERC明细和实测仍待闭合。后续[PCB布局制造候选RC2](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md)已完成双层、全顶面布局及全部布线，PCB原生DRC 0项、Gerber/BOM/CPL已导出。本板仍未制造放行，不替代下列现有实机配置。 [本轮按键致命接线修复](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)已同步原理图与PCB，81/81静态检查通过，原生41条警告明细仍待分类。
 
 - 模组：VIEWESMART/Viewe `UEDX48480021-MD80ET`。
 - 主控：ESP32-S3-WROOM-1-N16R8，16MB Flash、8MB Octal PSRAM。

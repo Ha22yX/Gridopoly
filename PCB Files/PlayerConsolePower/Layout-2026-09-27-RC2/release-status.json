@@ -1,0 +1,87 @@
+{
+  "schema": "gridopoly.player_power_layout_release.v1",
+  "date": "2026-09-27",
+  "version": "R1-RC2",
+  "pcb": "847ec1f4dfc5086a",
+  "status": "routed-manufacturing-candidate-not-released",
+  "layoutComplete": true,
+  "routingComplete": true,
+  "pcbNativeDrcErrors": 0,
+  "schematicNativeWarnings": 41,
+  "offlineChecks": {
+    "passed": 34,
+    "failed": 0
+  },
+  "board": {
+    "widthMm": 80,
+    "heightMm": 80,
+    "thicknessMm": 1.6,
+    "copperLayers": 2,
+    "allComponentsTop": true
+  },
+  "parts": {
+    "native": 68,
+    "assembly": 67,
+    "uniqueBomItems": 29,
+    "pads": 243
+  },
+  "preserved": [
+    "board outline",
+    "four mounting holes",
+    "J1 USB-C position/rotation",
+    "J2 FPC position/rotation",
+    "SW1 POWER position/rotation",
+    "SW2 RST position/rotation",
+    "J2 reversed physical pin mapping"
+  ],
+  "outstanding": [
+    {
+      "id": "fpc",
+      "requirement": "Verify actual reinforced cable thickness, connector contact side/current, insertion and end-to-end pin mapping",
+      "state": "external-specification-and-physical-verification-pending"
+    },
+    {
+      "id": "battery",
+      "requirement": "Protected 1S/4.2V pack, permitted charge/discharge currents and environment",
+      "state": "external-specification-pending"
+    },
+    {
+      "id": "schematic-warnings",
+      "requirement": "Classify 41 warnings using native DRC panel details; current API returns only count",
+      "state": "details-unavailable-user-request-pending"
+    },
+    {
+      "id": "factory-review",
+      "requirement": "USB stackup/impedance, QFN thermal/paste/via process and part rotation/DFM",
+      "state": "not-submitted"
+    },
+    {
+      "id": "first-article",
+      "requirement": "Power/load/thermal/undervoltage/USB/programming/UART-gauge/status testing",
+      "state": "not-performed"
+    },
+    {
+      "id": "usb-electrical",
+      "requirement": "Resolve or validate local pair asymmetry, layer changes and reference-plane interruptions using actual stackup and first-article USB tests",
+      "state": "not-validated"
+    }
+  ],
+  "orderSubmitted": false,
+  "firmwareChanged": false,
+  "gitIndexChanged": false,
+  "usbReviewChecks": {
+    "passed": 10,
+    "failed": 0
+  },
+  "routing": {
+    "traces": 533,
+    "vias": 83
+  },
+  "referenceCopperReview": {
+    "method": "2D exported Gerber topology, not SI or impedance",
+    "addedGroundViasConnectedBothLayers": 5,
+    "verifiedShortGroundBridges": 2,
+    "continuousOppositeReferencePlane": false
+  },
+  "rc1ArchiveUnmodified": true
+}

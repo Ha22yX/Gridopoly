@@ -1,0 +1,46 @@
+Docs/CURRENT-DEVELOPMENT-HANDOFF.md
+Docs/hardware/player-battery-telemetry-interface-2026-09-27.md
+Docs/hardware/player-usbc-battery-base-2026-09-27.md
+Docs/hardware/README.md
+Docs/player-console/current-player-console-baseline.md
+Docs/README.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/.gitattributes
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/before-usb-review.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/before-usb-review.source.jsonl
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/bringup-checklist.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/final-live-audit.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/fixed-constraints.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/gerber-parse-review.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/independent-manufacturing-audit.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/independent-review.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/layout-verification.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/manufacturing-export-audit.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/manufacturing-notes.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/Manufacturing-RC2/PlayerPower-R1-RC2-BOM.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/Manufacturing-RC2/PlayerPower-R1-RC2-CPL.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/Manufacturing-RC2/PlayerPower-R1-RC2-Gerber.zip
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/native-layout-geometry.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/NativeExports/PlayerPower-R1-RC2-BOM.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/NativeExports/PlayerPower-R1-RC2-CPL.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/NativeExports/PlayerPower-R1-RC2-Gerber.zip
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-bottom-fabrication-preview.png
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-bottom-fabrication-preview.svg
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-top-fabrication-preview.png
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-top-fabrication-preview.svg
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/PCB1-netlist.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/PCB1-routed.source.jsonl
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/placement-plan.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/release-file-list.txt
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/release-status.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/schematic-netlist.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/SHA256SUMS.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-change-live.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-change-plan.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-layout-review.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-reference-copper-review.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-refinement-drc.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-routing-review.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/verify-layout.cjs
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/verify-reference-copper.py
+PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/verify-usb-routing.cjs

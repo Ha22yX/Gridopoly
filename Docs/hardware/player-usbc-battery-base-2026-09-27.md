@@ -1,10 +1,10 @@
 # 玩家圆屏 USB-C 电池底板
 
-更新：2026-09-27。状态：**两页原理图已接线，玩家底板已完成80×80 mm双层、全顶面布局和全部网络布线；PCB原生DRC为0项，68件/243脚与原理图一致，制造候选RC1已导出。原理图41条警告明细、FPC/电池规格及实板验收仍未闭合，未制造放行**。屏幕端源码及主机回归已接入，构建状态另见[固件接入记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)，本轮未部署。
+更新：2026-09-27。状态：**两页原理图已接线，玩家底板已完成80×80 mm双层、全顶面布局和全部网络布线；PCB原生DRC为0项，68件/243脚与原理图一致，制造候选RC2已导出。原理图41条警告明细、FPC/电池规格及实板验收仍未闭合，未制造放行**。屏幕端源码及主机回归已接入，构建状态另见[固件接入记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)，本轮未部署。
 
 这是一块新增的玩家终端底板，不属于长边或角落棋盘模块，不接 24V 总线。现有屏幕内部已有 ESP32-S3，底板通过屏幕伸出的软排线连接。
 
-当前PCB产物：[布局布线与制造候选RC1](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)、[布局验证报告](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/layout-review.md)、[制造说明](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/manufacturing-notes.md)。原理图沿革：[连接与约束数据](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/design-contract.json)、[实际网表与连接核对](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/connectivity-audit.json)、[原理图审查产物](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/README.md)。旧功能分区图不再代表当前PCB几何；制造候选并未获得量产放行。
+当前PCB产物：[布局布线与制造候选RC2](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md)、[USB布局复核报告](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-layout-review.md)、[制造说明](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/manufacturing-notes.md)。原理图沿革：[连接与约束数据](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/design-contract.json)、[实际网表与连接核对](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/connectivity-audit.json)、[原理图审查产物](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/README.md)。旧功能分区图不再代表当前PCB几何；制造候选并未获得量产放行。
 
 本轮[全面原理图审查与修复](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)发现SW1/SW2四脚按键内部常通组接错，已修为1/2接控制信号、3/4接地，并同步PCB焊盘。旧版会把电源键/复位信号持续拉地；旧79/79未覆盖机械内部短接。现81/81静态检查通过。PCB后续将位号统一为SW1/SW2，POWER/RST作为原位置功能丝印保留，按键位置未变，仍未完成实板验收。
 
@@ -159,9 +159,9 @@ USB 数据隔离拟采用：开关的局部 3.3V 由 5V_SCREEN 产生；无 VBUS
 
 ## 7. 当前80×80 mm布局与布线
 
-用户固定的下边中心为USB-C、左边为J2、右边为POWER/RST。USB与ESD沿左下区域连接J2；充电/升压位于右下，电池焊线孔和MAX17048在其上方；桥接和屏幕局部稳压靠近J2；欠压与锁存在POWER附近。全部68个封装位于顶层，独立包络检查无相互重叠。详细位置、布局前备份和固定几何证据见[PCB交付目录](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)。
+用户固定的下边中心为USB-C、左边为J2、右边为POWER/RST。USB与ESD沿左下区域连接J2；充电/升压位于右下，电池焊线孔和MAX17048在其上方；桥接和屏幕局部稳压靠近J2；欠压与锁存在POWER附近。全部68个封装位于顶层，独立包络检查无相互重叠。详细位置、布局前备份和固定几何证据见[PCB交付目录](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md)。
 
-现有532段走线、79过孔、上下GND铺铜；电源与USB关键走线手工规划，其余完成连接并修复DRC冲突。USB主线约1.15 mm/0.20 mm间距，短扇出与D−局部跨线另处理；尚无板厂90Ω控阻确认或实板USB信号验证，不把DRC空数组当作信号完整性证明。电源热回路、电容与反馈按厂家布局建议布置；U1设四个EP散热孔。安装孔位置已固定，外壳开口、FPC插拔和弯折空间仍需实物验证。
+现有533段走线、83过孔、上下GND铺铜；电源与USB关键走线手工规划，其余完成连接并修复DRC冲突。USB主线约1.15 mm/0.20 mm间距，短扇出与D−局部跨线另处理；尚无板厂90Ω控阻确认或实板USB信号验证，不把DRC空数组当作信号完整性证明。电源热回路、电容与反馈按厂家布局建议布置；U1设四个EP散热孔。安装孔位置已固定，外壳开口、FPC插拔和弯折空间仍需实物验证。RC2另缩短两处USB D−底层跨线、移除1个信号过孔并增加5个地过孔；10/10变更/路径检查通过，导出铜层确认新增地过孔两面接地及两处短回流连接。USB仍有局部不成对走线与参考地中断，未完成控阻或实测验证；详见USB布局复核报告。RC1已单独留档，未覆盖。
 
 ## 8. 固件后续与验收
 

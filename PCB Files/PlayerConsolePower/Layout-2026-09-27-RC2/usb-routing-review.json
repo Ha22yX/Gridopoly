@@ -1,0 +1,215 @@
+{
+  "scope": "Native geometry comparison and centerline graph. 1.6 mm per via is geometric approximation, not propagation delay, impedance or eye-diagram evidence.",
+  "before": {
+    "USB_HOST_DP": {
+      "vias": 0,
+      "totalCopperMm": 24.01335191968443,
+      "bottomCopperMm": 0
+    },
+    "USB_HOST_DM": {
+      "vias": 3,
+      "totalCopperMm": 25.25295841362476,
+      "bottomCopperMm": 4.188563707223538
+    },
+    "SCREEN_DP": {
+      "vias": 0,
+      "totalCopperMm": 22.968224170061866,
+      "bottomCopperMm": 0
+    },
+    "SCREEN_DM": {
+      "vias": 2,
+      "totalCopperMm": 25.009543822890603,
+      "bottomCopperMm": 2.7763455967290662
+    }
+  },
+  "after": {
+    "USB_HOST_DP": {
+      "vias": 0,
+      "totalCopperMm": 24.01335191968443,
+      "bottomCopperMm": 0
+    },
+    "USB_HOST_DM": {
+      "vias": 2,
+      "totalCopperMm": 23.817034981470847,
+      "bottomCopperMm": 0.9982200000000045
+    },
+    "SCREEN_DP": {
+      "vias": 0,
+      "totalCopperMm": 22.968224170061866,
+      "bottomCopperMm": 0
+    },
+    "SCREEN_DM": {
+      "vias": 2,
+      "totalCopperMm": 25.046553618194615,
+      "bottomCopperMm": 1.549999999999994
+    }
+  },
+  "beforePaths": {
+    "J1_A6_to_U7_8": {
+      "planarMm": 22.026672114913243,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 22.026672114913243
+    },
+    "J1_B6_to_U7_8": {
+      "planarMm": 21.861483746366822,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 21.861483746366822
+    },
+    "J1_A7_to_U7_7": {
+      "planarMm": 23.816998413485486,
+      "viaTransitions": 2,
+      "geometricMmIncludingNominalVias": 27.016998413485485
+    },
+    "J1_B7_to_U7_7": {
+      "planarMm": 22.818798413067643,
+      "viaTransitions": 2,
+      "geometricMmIncludingNominalVias": 26.018798413067643
+    },
+    "U7_1_to_J2_2": {
+      "planarMm": 22.968224170061873,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 22.968224170061873
+    },
+    "U7_2_to_J2_1": {
+      "planarMm": 25.009543822890606,
+      "viaTransitions": 2,
+      "geometricMmIncludingNominalVias": 28.209543822890605
+    }
+  },
+  "afterPaths": {
+    "J1_A6_to_U7_8": {
+      "planarMm": 22.026672114913243,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 22.026672114913243
+    },
+    "J1_B6_to_U7_8": {
+      "planarMm": 21.861483746366822,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 21.861483746366822
+    },
+    "J1_A7_to_U7_7": {
+      "planarMm": 23.81703498147086,
+      "viaTransitions": 2,
+      "geometricMmIncludingNominalVias": 27.01703498147086
+    },
+    "J1_B7_to_U7_7": {
+      "planarMm": 19.94689498147084,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 19.94689498147084
+    },
+    "U7_1_to_J2_2": {
+      "planarMm": 22.968224170061873,
+      "viaTransitions": 0,
+      "geometricMmIncludingNominalVias": 22.968224170061873
+    },
+    "U7_2_to_J2_1": {
+      "planarMm": 25.046553618194615,
+      "viaTransitions": 2,
+      "geometricMmIncludingNominalVias": 28.246553618194614
+    }
+  },
+  "changes": {
+    "removedLines": [
+      "2847bbcd4f0a49b0",
+      "b9dede792000836a",
+      "1b556373658e6f83",
+      "a99d6b60efe80e43",
+      "cc78df583f6e02ae",
+      "42a4180df93c4ea0",
+      "8dad143d8ebb229d",
+      "4711e1d1badff0cd",
+      "7a168f1974bfaa67",
+      "9d59840c1c6dc07b",
+      "f922cf5d942fb6f7"
+    ],
+    "addedLines": [
+      "2f30e5856132e255",
+      "e2a2e8218acef705",
+      "be05c946a6d426c2",
+      "a97da80f89f6b3b8",
+      "1fba8d8380d80ef5",
+      "c71963a044147366",
+      "3c20cd5c4ad9bb35",
+      "c6ad2854386a2e96",
+      "c8becb650e621c36",
+      "79cf66ceb09bf0fe",
+      "42fa2473097da9be",
+      "cd75a3340578c6e4"
+    ],
+    "addedGroundVias": [
+      {
+        "id": "7a629e64a785d145",
+        "xMm": 11.05,
+        "yDownMm": 57.8
+      },
+      {
+        "id": "025f361387be76a8",
+        "xMm": 13,
+        "yDownMm": 56.14999999999999
+      },
+      {
+        "id": "bf76cb6dc0cb34a4",
+        "xMm": 14.900000000000002,
+        "yDownMm": 59.00000000000001
+      },
+      {
+        "id": "56695bd9d31470a8",
+        "xMm": 14.900000000000002,
+        "yDownMm": 60.96
+      },
+      {
+        "id": "1aeb5db8d1ee30f1",
+        "xMm": 27.35,
+        "yDownMm": 62.74999999999999
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "Only D-minus traces changed",
+      "passed": true
+    },
+    {
+      "name": "All 68 component placements and pad networks unchanged",
+      "passed": true
+    },
+    {
+      "name": "All original GND and non-USB vias retained unchanged",
+      "passed": true
+    },
+    {
+      "name": "Five additional GND stitching vias",
+      "passed": true
+    },
+    {
+      "name": "No D-plus vias added",
+      "passed": true
+    },
+    {
+      "name": "Two host and two screen D-minus vias",
+      "passed": true
+    },
+    {
+      "name": "Native strict DRC is empty",
+      "passed": true
+    },
+    {
+      "name": "Host bottom crossing reduced below 1.01 mm",
+      "passed": true
+    },
+    {
+      "name": "Screen bottom crossing reduced below 1.56 mm",
+      "passed": true
+    },
+    {
+      "name": "B7 path no longer changes layer",
+      "passed": true
+    }
+  ],
+  "passed": 10,
+  "failed": 0,
+  "inputSha256": {
+    "rc1": "7bc497d2f6ed62cd0d62da049739f51b05641abd1e862c1b867642502c7de4cb",
+    "rc2": "e6daa52dc129668807b61c842e7b4186ef12b5ba5bc142aca4907c0206298fe2"
+  }
+}

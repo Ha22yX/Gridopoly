@@ -1,0 +1,20 @@
+{
+  "nativePlacementRows": 68,
+  "assembledRows": 67,
+  "bareWireTerminalExcluded": "J3",
+  "bomQuantity": 67,
+  "duplicateViaDrillHitsOmitted": 83,
+  "totalPlatedDrillObjects": 93,
+  "fabricationFiles": [
+    "Gerber_TopLayer.GTL",
+    "Gerber_BottomLayer.GBL",
+    "Gerber_TopSilkscreenLayer.GTO",
+    "Gerber_BottomSilkscreenLayer.GBO",
+    "Gerber_TopSolderMaskLayer.GTS",
+    "Gerber_BottomSolderMaskLayer.GBS",
+    "Gerber_TopPasteMaskLayer.GTP",
+    "Gerber_BoardOutlineLayer.GKO",
+    "Drill_PTH_Through.DRL",
+    "Drill_NPTH_Through.DRL"
+  ]
+}

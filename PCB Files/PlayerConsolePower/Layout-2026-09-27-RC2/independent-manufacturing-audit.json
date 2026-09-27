@@ -1,0 +1,713 @@
+{
+  "auditVersion": "RC2 independent original-file audit",
+  "auditedAtUtc": "2026-09-27T11:13:06.013763+00:00",
+  "sourceDirectory": "Z:\\Files\\我的项目\\Gridopoly\\PCB Files\\PlayerConsolePower\\Layout-2026-09-27-RC2",
+  "script": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-player-pcb-rc2-manufacturing-audit-20260927\\audit.py",
+  "rc1Commit": "9fb6a7ceeb8163f74b4cd1afc2d8ed7989f17783",
+  "rc1ManifestResults": {
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/.gitattributes": {
+      "expected": "34be93f68ca67916b72a369fb2796401727d3cdefb22d2c619e9ad4822f123fa",
+      "actual": "34be93f68ca67916b72a369fb2796401727d3cdefb22d2c619e9ad4822f123fa"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/before-layout-components.json": {
+      "expected": "ef88ed7a259984f89615df26666a836a189bf5de51cb5f590cbd1a04bf97acdc",
+      "actual": "ef88ed7a259984f89615df26666a836a189bf5de51cb5f590cbd1a04bf97acdc"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/before-layout-pad-geometry.json": {
+      "expected": "794846e183ed583abd7c7db032a118e83afb30416c1542266794d17362051aeb",
+      "actual": "794846e183ed583abd7c7db032a118e83afb30416c1542266794d17362051aeb"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/before-layout-PCB.source.jsonl": {
+      "expected": "58ed93b49f6359902d2d76c2f1d5f3ab9786d2a516219ac9fd7e8fbd2c098be3",
+      "actual": "58ed93b49f6359902d2d76c2f1d5f3ab9786d2a516219ac9fd7e8fbd2c098be3"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/bringup-checklist.md": {
+      "expected": "b9133052d782b58d311bc3d3e0a769e94d7dca5d0a380261b569af3b44aadd67",
+      "actual": "b9133052d782b58d311bc3d3e0a769e94d7dca5d0a380261b569af3b44aadd67"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/final-live-audit.json": {
+      "expected": "7bc497d2f6ed62cd0d62da049739f51b05641abd1e862c1b867642502c7de4cb",
+      "actual": "7bc497d2f6ed62cd0d62da049739f51b05641abd1e862c1b867642502c7de4cb"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/fixed-constraints.json": {
+      "expected": "e73978c2a3bb79aee5369a224fddf4eb941b2f0b765e7c064f73191ebd686ad7",
+      "actual": "e73978c2a3bb79aee5369a224fddf4eb941b2f0b765e7c064f73191ebd686ad7"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/gerber-parse-review.json": {
+      "expected": "7368c6dae6cbf09eab5b263c216c6bdbdce3a75573346d6b5168aa87e4e6500e",
+      "actual": "7368c6dae6cbf09eab5b263c216c6bdbdce3a75573346d6b5168aa87e4e6500e"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/independent-manufacturing-audit.json": {
+      "expected": "f1275e3d70f81d4c49a0a83bf2f72834e6317d5ae5426328e397055bd82a519c",
+      "actual": "f1275e3d70f81d4c49a0a83bf2f72834e6317d5ae5426328e397055bd82a519c"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/independent-review.md": {
+      "expected": "65f3a8c6859171b11128a54e82f6ba0c309ef9c90cb7d38119e0d2dd59110776",
+      "actual": "65f3a8c6859171b11128a54e82f6ba0c309ef9c90cb7d38119e0d2dd59110776"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/layout-review.md": {
+      "expected": "a6a792eafa292f6da71ed2baabe48cdb1baf9a0b6f866f14bab9704a53571d50",
+      "actual": "a6a792eafa292f6da71ed2baabe48cdb1baf9a0b6f866f14bab9704a53571d50"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/layout-verification.json": {
+      "expected": "9978cbc6f6cd6a7c0048fea853b30a01e649093ffea6c84654f12c735515d1e5",
+      "actual": "9978cbc6f6cd6a7c0048fea853b30a01e649093ffea6c84654f12c735515d1e5"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/manufacturing-export-audit.json": {
+      "expected": "b7b54f817f2d8bc5f47804670e7333291a1d2c83ea3578d1fcaf2c833d2309d9",
+      "actual": "b7b54f817f2d8bc5f47804670e7333291a1d2c83ea3578d1fcaf2c833d2309d9"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/manufacturing-notes.md": {
+      "expected": "e4e394b33042e58066865ef3a5096e3c54ec0a0f1f18cef54e214b0b4704a3bd",
+      "actual": "e4e394b33042e58066865ef3a5096e3c54ec0a0f1f18cef54e214b0b4704a3bd"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/Manufacturing-RC1/PlayerPower-R1-BOM.csv": {
+      "expected": "625fe818dda1c1f99cb2174d6a0959960e04e9556a54918422ba399c46fb94fd",
+      "actual": "625fe818dda1c1f99cb2174d6a0959960e04e9556a54918422ba399c46fb94fd"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/Manufacturing-RC1/PlayerPower-R1-CPL.csv": {
+      "expected": "bcad6cf8456bd64f1e23adbef856019dc6200c7a34640645d10778d216f6880f",
+      "actual": "bcad6cf8456bd64f1e23adbef856019dc6200c7a34640645d10778d216f6880f"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/Manufacturing-RC1/PlayerPower-R1-Gerber.zip": {
+      "expected": "30097f7203ec9797fbc0af7a7c23d434c28580d82941cc2406633578b08f2b59",
+      "actual": "30097f7203ec9797fbc0af7a7c23d434c28580d82941cc2406633578b08f2b59"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/native-layout-geometry.json": {
+      "expected": "f66e26d93aeeac2caec4fa4b08223b96e467eab9bc43365f490ae4d815c37f9f",
+      "actual": "f66e26d93aeeac2caec4fa4b08223b96e467eab9bc43365f490ae4d815c37f9f"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/NativeExports/PlayerPower-R1-BOM.csv": {
+      "expected": "302cccd71fe72dab69d05988c0445732b57a45419b43a8fa1b3f61ba7feed3bb",
+      "actual": "302cccd71fe72dab69d05988c0445732b57a45419b43a8fa1b3f61ba7feed3bb"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/NativeExports/PlayerPower-R1-CPL.csv": {
+      "expected": "c72432c91d83356e9a0d41ef349aab75bf9bfb01b5f5b77d1d151aaf807e26f1",
+      "actual": "c72432c91d83356e9a0d41ef349aab75bf9bfb01b5f5b77d1d151aaf807e26f1"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/NativeExports/PlayerPower-R1-Gerber.zip": {
+      "expected": "74da0b398bd926f8d87f833729287fd058d5cf231e845a71737217a033a22653",
+      "actual": "74da0b398bd926f8d87f833729287fd058d5cf231e845a71737217a033a22653"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-bottom-fabrication-preview.png": {
+      "expected": "925821ec140a22a57881567de7c6955926baf3cd2aa2e39dcd3da63a97ac05f2",
+      "actual": "925821ec140a22a57881567de7c6955926baf3cd2aa2e39dcd3da63a97ac05f2"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-bottom-fabrication-preview.svg": {
+      "expected": "f3bede7df156d5cb797a7ca7cedc0016c15c21e60c303262baed8c1b98854157",
+      "actual": "f3bede7df156d5cb797a7ca7cedc0016c15c21e60c303262baed8c1b98854157"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-top-fabrication-preview.png": {
+      "expected": "9a11a9e3d787fa629dd3a240b2a7dca5917ae1ea7b7bd659525c98975635a5ea",
+      "actual": "9a11a9e3d787fa629dd3a240b2a7dca5917ae1ea7b7bd659525c98975635a5ea"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-top-fabrication-preview.svg": {
+      "expected": "5f64af7fd367b9713d6a1f7b9082a94468c91cf298ca9c227cc04b65015d445f",
+      "actual": "5f64af7fd367b9713d6a1f7b9082a94468c91cf298ca9c227cc04b65015d445f"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/PCB1-netlist.json": {
+      "expected": "26ab2904d8c87fb088fde251b577dc2d480f158c239bc1f9fe09e288c83cd530",
+      "actual": "26ab2904d8c87fb088fde251b577dc2d480f158c239bc1f9fe09e288c83cd530"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/PCB1-routed.source.jsonl": {
+      "expected": "1be9e37047f702041b5d00e0fa3f5d316c8e7c3a84398e555305d9b13904d3e2",
+      "actual": "1be9e37047f702041b5d00e0fa3f5d316c8e7c3a84398e555305d9b13904d3e2"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/placement-plan.json": {
+      "expected": "44312574b8adac0021dd13f57c7b035a68fdcdc5dc9e8ef75b3333a4b3225d0e",
+      "actual": "44312574b8adac0021dd13f57c7b035a68fdcdc5dc9e8ef75b3333a4b3225d0e"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/README.md": {
+      "expected": "144299d5b57b2dc670ee49c702b8ca25e123c51c71a509ae97652e19ee40078b",
+      "actual": "144299d5b57b2dc670ee49c702b8ca25e123c51c71a509ae97652e19ee40078b"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/release-status.json": {
+      "expected": "fc3bb368769d5262e0b42b5ce4620ec2faa659d93ce93d764d042f781f59ef0d",
+      "actual": "fc3bb368769d5262e0b42b5ce4620ec2faa659d93ce93d764d042f781f59ef0d"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/schematic-drc-final.json": {
+      "expected": "1562a6b01bb05d83840333cdc54c0893b5ef3aa4884979ffc6077f728fa7138f",
+      "actual": "1562a6b01bb05d83840333cdc54c0893b5ef3aa4884979ffc6077f728fa7138f"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/schematic-netlist.json": {
+      "expected": "0fdb25c177bd756d433f7e95868091fd8dd11987018d7f6e00be07642e244794",
+      "actual": "0fdb25c177bd756d433f7e95868091fd8dd11987018d7f6e00be07642e244794"
+    },
+    "PCB Files/PlayerConsolePower/Layout-2026-09-27/verify-layout.cjs": {
+      "expected": "45cfe6dfb099c81dbac4a283ad8fc12e29f6841160780e36bdd0855c8fec7666",
+      "actual": "45cfe6dfb099c81dbac4a283ad8fc12e29f6841160780e36bdd0855c8fec7666"
+    }
+  },
+  "checks": [
+    {
+      "name": "Source has 68 distinct components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "BOM and CPL contain exactly 67 unique matching assembled refs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "BOM line quantities equal expanded refs and total67",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Every BOM MPN/LCSC/footprint matches captured PCB netlist",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "CPL side/rotation/coordinates match raw PCB source",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "max_mm_error": 1.2600000047768845e-06
+      }
+    },
+    {
+      "name": "CPL is exact native placements minus J3, with Top normalized from T",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J1/J2/POWER->SW1/RST->SW2 fixed transforms identical to before and constraints",
+      "passed": true,
+      "detail": [
+        {
+          "original": "J1",
+          "current": "J1",
+          "x_mm": 39.99999874,
+          "y_mm": -75.438,
+          "angle": 0
+        },
+        {
+          "original": "POWER",
+          "current": "SW1",
+          "x_mm": 75.31099999999999,
+          "y_mm": -26.79199874,
+          "angle": 90
+        },
+        {
+          "original": "RST",
+          "current": "SW2",
+          "x_mm": 75.31099999999999,
+          "y_mm": -53.20799874,
+          "angle": 90
+        },
+        {
+          "original": "J2",
+          "current": "J2",
+          "x_mm": 3.81,
+          "y_mm": -58.800999999999995,
+          "angle": 270
+        }
+      ]
+    },
+    {
+      "name": "Four mounting holes and eight board-outline primitives identical to before/fixed",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "RC2 ZIP CRC/integrity, exactly ten uniquely named fabrication files",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Native ZIP CRC/integrity and unique entry names",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Every retained RC2 fabrication file byte-identical to native export",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Gerber layers have metric absolute format and EOF",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Separate 83-via drill is an exact subset of retained PTH: omission removes only duplicate hits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Retained drill has 93 PTH objects and 2 NPTH objects, no duplicate hits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "All source vias independently match retained drill diameter and coordinates",
+      "passed": true,
+      "detail": {
+        "unmatched": [],
+        "remaining": []
+      }
+    },
+    {
+      "name": "Remaining PTH = four USB slots + two wire-terminal holes + four3.4mm mounting holes",
+      "passed": true,
+      "detail": {
+        "slots": [
+          [
+            0.799998,
+            44.32496,
+            -77.612265,
+            44.32496,
+            -78.212264
+          ],
+          [
+            0.799998,
+            44.32496,
+            -73.332353,
+            44.32496,
+            -74.132326
+          ],
+          [
+            0.799998,
+            35.67504,
+            -73.332353,
+            35.67504,
+            -74.132376
+          ],
+          [
+            0.799998,
+            35.67504,
+            -77.612265,
+            35.67504,
+            -78.212264
+          ]
+        ],
+        "terminals": [
+          [
+            1.100023,
+            61.27,
+            -43.0
+          ],
+          [
+            1.100023,
+            58.73,
+            -43.0
+          ]
+        ],
+        "mounts": [
+          [
+            3.400001,
+            5.0,
+            -5.0
+          ],
+          [
+            3.400001,
+            75.0,
+            -5.0
+          ],
+          [
+            3.400001,
+            75.0,
+            -75.0
+          ],
+          [
+            3.400001,
+            5.0,
+            -75.0
+          ]
+        ],
+        "npth": [
+          [
+            0.750011,
+            37.100082,
+            -74.232389
+          ],
+          [
+            0.750011,
+            42.899918,
+            -74.232389
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Mounting drill centers exactly 5/75mm from unchanged board origin",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Gerber outline is one closed 8-segment 80x80mm contour with fourR5 corners",
+      "passed": true,
+      "detail": {
+        "segments": [
+          [
+            [
+              5.0,
+              0.0
+            ],
+            [
+              0.0,
+              -5.0
+            ],
+            "3",
+            [
+              0.0,
+              -5.0
+            ]
+          ],
+          [
+            [
+              80.0,
+              -5.0
+            ],
+            [
+              75.0,
+              0.0
+            ],
+            "3",
+            [
+              -5.0,
+              0.0
+            ]
+          ],
+          [
+            [
+              75.0,
+              -80.0
+            ],
+            [
+              80.0,
+              -75.0
+            ],
+            "3",
+            [
+              0.0,
+              5.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              -75.0
+            ],
+            [
+              5.0,
+              -80.0
+            ],
+            "3",
+            [
+              5.0,
+              0.0
+            ]
+          ],
+          [
+            [
+              5.0,
+              0.0
+            ],
+            [
+              75.0,
+              0.0
+            ],
+            "1",
+            null
+          ],
+          [
+            [
+              80.0,
+              -5.0
+            ],
+            [
+              80.0,
+              -75.0
+            ],
+            "1",
+            null
+          ],
+          [
+            [
+              75.0,
+              -80.0
+            ],
+            [
+              5.0,
+              -80.0
+            ],
+            "1",
+            null
+          ],
+          [
+            [
+              0.0,
+              -75.0
+            ],
+            [
+              0.0,
+              -5.0
+            ],
+            "1",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Actual saved PCB audit contains empty native DRC array, not schematic result",
+      "passed": true,
+      "detail": {
+        "capturedAt": "2026-09-27T10:55:53.727Z",
+        "saved": true,
+        "schematicWarnings": [
+          {
+            "type": "warn",
+            "count": 41
+          }
+        ]
+      }
+    },
+    {
+      "name": "RC1 original 33 manifest entries still match committed 9fb6a7c hashes",
+      "passed": true,
+      "detail": {
+        "count": 33,
+        "errors": []
+      }
+    },
+    {
+      "name": "Every RC1 committed file is byte-identical to 9fb6a7c, including manifest and file list",
+      "passed": true,
+      "detail": {
+        "count": 35,
+        "errors": []
+      }
+    },
+    {
+      "name": "All native and manufacturing BOM/CPL bytes unchanged from committed RC1",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "All non-via plated holes/slots and both NPTH holes unchanged from committed RC1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "All active board-outline commands and used aperture definitions identical to committed RC1",
+      "passed": true,
+      "detail": {
+        "byteIdentical": false,
+        "nonManufacturingDifferences": [
+          "Export timestamp 06:19:20 -> 06:55:54",
+          "Unused D11 aperture 0.3526 -> 0.9713; only D10 is selected"
+        ]
+      }
+    },
+    {
+      "name": "Final raw source has exactly 83 vias, all represented by the same drill count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "PCB and schematic netlists byte-identical to committed RC1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "RC2 current hash manifest matches every referenced file",
+      "passed": true,
+      "detail": {
+        "count": 37,
+        "errors": [],
+        "previouslyParsedSourceChanges": [],
+        "rc1Original33Changes": [],
+        "manifestStableDuringRead": true
+      }
+    }
+  ],
+  "passed": 27,
+  "failed": 0,
+  "drcScope": {
+    "trackMinMm": 0.14999969999999999,
+    "trackTrackClearanceMm": 0.10199878,
+    "deviceClearanceMm": 0,
+    "powerMinMm": 0.14999969999999999,
+    "powerDefaultMm": 0.39999919999999994,
+    "viaHoleMinMm": 0.29999939999999997
+  },
+  "sourceHashes": {
+    "PCB1-routed.source.jsonl": "2c98c9ab1d3b3859edd188f4afe950eac69117cfe5f1ae4fdc9f785dc8b4aa39",
+    "final-live-audit.json": "e6daa52dc129668807b61c842e7b4186ef12b5ba5bc142aca4907c0206298fe2",
+    "fixed-constraints.json": "e73978c2a3bb79aee5369a224fddf4eb941b2f0b765e7c064f73191ebd686ad7",
+    "Manufacturing-RC2/PlayerPower-R1-RC2-Gerber.zip": "3f8fbb8eb05bb759171d6a29c19a696e8cca6cf559806575292384708b886c88",
+    "Manufacturing-RC2/PlayerPower-R1-RC2-BOM.csv": "625fe818dda1c1f99cb2174d6a0959960e04e9556a54918422ba399c46fb94fd",
+    "Manufacturing-RC2/PlayerPower-R1-RC2-CPL.csv": "bcad6cf8456bd64f1e23adbef856019dc6200c7a34640645d10778d216f6880f"
+  },
+  "limits": [
+    "No EDA invocation or manufacturing order; captured native DRC only.",
+    "No physical package pin1/placement machine convention verification.",
+    "Schematic retains41warnings; PCB empty DRC does not clear them."
+  ],
+  "finalHashVerification": {
+    "verifiedAtUtc": "2026-09-27T11:15:36.773162+00:00",
+    "script": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-player-pcb-rc2-manufacturing-audit-20260927\\final-hash-check.py",
+    "manifestSha256": "9dfba16626b2fdfbb265139a5211a36d02168dfa10396f3e7e9178a3d3472539",
+    "entries": {
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/.gitattributes": {
+        "expected": "34be93f68ca67916b72a369fb2796401727d3cdefb22d2c619e9ad4822f123fa",
+        "actual": "34be93f68ca67916b72a369fb2796401727d3cdefb22d2c619e9ad4822f123fa"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/before-usb-review.json": {
+        "expected": "5a79f85e482a308f2078385953242ce0e266208c1be4d63151af87d4f9e6c060",
+        "actual": "5a79f85e482a308f2078385953242ce0e266208c1be4d63151af87d4f9e6c060"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/before-usb-review.source.jsonl": {
+        "expected": "013c370226f8067bbbee651c1a8ba2e50c18c3141296477825823d95c1dff52f",
+        "actual": "013c370226f8067bbbee651c1a8ba2e50c18c3141296477825823d95c1dff52f"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/bringup-checklist.md": {
+        "expected": "b9133052d782b58d311bc3d3e0a769e94d7dca5d0a380261b569af3b44aadd67",
+        "actual": "b9133052d782b58d311bc3d3e0a769e94d7dca5d0a380261b569af3b44aadd67"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/final-live-audit.json": {
+        "expected": "e6daa52dc129668807b61c842e7b4186ef12b5ba5bc142aca4907c0206298fe2",
+        "actual": "e6daa52dc129668807b61c842e7b4186ef12b5ba5bc142aca4907c0206298fe2"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/fixed-constraints.json": {
+        "expected": "e73978c2a3bb79aee5369a224fddf4eb941b2f0b765e7c064f73191ebd686ad7",
+        "actual": "e73978c2a3bb79aee5369a224fddf4eb941b2f0b765e7c064f73191ebd686ad7"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/gerber-parse-review.json": {
+        "expected": "3fa73a170ac3ee117a626b7bf9834afa3ed41494f38896c5acfc171c77a19dcb",
+        "actual": "3fa73a170ac3ee117a626b7bf9834afa3ed41494f38896c5acfc171c77a19dcb"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/independent-review.md": {
+        "expected": "50e08127955b3d4481186a37f85c3fe52cfc4907a06c59b91f6b8b866fb36b5f",
+        "actual": "50e08127955b3d4481186a37f85c3fe52cfc4907a06c59b91f6b8b866fb36b5f"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/layout-verification.json": {
+        "expected": "a6974e94356569d18021abc9fc1067191c21cbcf75925b3a7ed459deb10e35a6",
+        "actual": "a6974e94356569d18021abc9fc1067191c21cbcf75925b3a7ed459deb10e35a6"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/manufacturing-export-audit.json": {
+        "expected": "726ca5be969fb59427a174f753ef19ea222b16235a4cc819e747bdbbd858d5a2",
+        "actual": "726ca5be969fb59427a174f753ef19ea222b16235a4cc819e747bdbbd858d5a2"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/manufacturing-notes.md": {
+        "expected": "3e719816da1425327a415e708800743b44f4b794aff32d49a653aca7270c9b1f",
+        "actual": "3e719816da1425327a415e708800743b44f4b794aff32d49a653aca7270c9b1f"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/Manufacturing-RC2/PlayerPower-R1-RC2-BOM.csv": {
+        "expected": "625fe818dda1c1f99cb2174d6a0959960e04e9556a54918422ba399c46fb94fd",
+        "actual": "625fe818dda1c1f99cb2174d6a0959960e04e9556a54918422ba399c46fb94fd"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/Manufacturing-RC2/PlayerPower-R1-RC2-CPL.csv": {
+        "expected": "bcad6cf8456bd64f1e23adbef856019dc6200c7a34640645d10778d216f6880f",
+        "actual": "bcad6cf8456bd64f1e23adbef856019dc6200c7a34640645d10778d216f6880f"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/Manufacturing-RC2/PlayerPower-R1-RC2-Gerber.zip": {
+        "expected": "3f8fbb8eb05bb759171d6a29c19a696e8cca6cf559806575292384708b886c88",
+        "actual": "3f8fbb8eb05bb759171d6a29c19a696e8cca6cf559806575292384708b886c88"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/native-layout-geometry.json": {
+        "expected": "f66e26d93aeeac2caec4fa4b08223b96e467eab9bc43365f490ae4d815c37f9f",
+        "actual": "f66e26d93aeeac2caec4fa4b08223b96e467eab9bc43365f490ae4d815c37f9f"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/NativeExports/PlayerPower-R1-RC2-BOM.csv": {
+        "expected": "302cccd71fe72dab69d05988c0445732b57a45419b43a8fa1b3f61ba7feed3bb",
+        "actual": "302cccd71fe72dab69d05988c0445732b57a45419b43a8fa1b3f61ba7feed3bb"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/NativeExports/PlayerPower-R1-RC2-CPL.csv": {
+        "expected": "c72432c91d83356e9a0d41ef349aab75bf9bfb01b5f5b77d1d151aaf807e26f1",
+        "actual": "c72432c91d83356e9a0d41ef349aab75bf9bfb01b5f5b77d1d151aaf807e26f1"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/NativeExports/PlayerPower-R1-RC2-Gerber.zip": {
+        "expected": "b2cc23ca7681edab622d85696607173e0917f6092db5e093370c57c1f301b108",
+        "actual": "b2cc23ca7681edab622d85696607173e0917f6092db5e093370c57c1f301b108"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-bottom-fabrication-preview.png": {
+        "expected": "61fd1bf8e9f336e544ff170a618e64f0cc28628a1527599a4b1231bc0ee18fca",
+        "actual": "61fd1bf8e9f336e544ff170a618e64f0cc28628a1527599a4b1231bc0ee18fca"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-bottom-fabrication-preview.svg": {
+        "expected": "35cdda90c8ee52b4d968a87c7af68d569b9a11fb85c480096d1091c302a1f728",
+        "actual": "35cdda90c8ee52b4d968a87c7af68d569b9a11fb85c480096d1091c302a1f728"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-top-fabrication-preview.png": {
+        "expected": "f3720e98822f44ead4f5641d335c4f7a20f6fe5b328e9b3f4155f3eb4fbc82c7",
+        "actual": "f3720e98822f44ead4f5641d335c4f7a20f6fe5b328e9b3f4155f3eb4fbc82c7"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/pcb-top-fabrication-preview.svg": {
+        "expected": "e86f998e9f7832bf190e8aec61a2fa42bce93c6bde9aff9da8dcc1bd91bc8bfe",
+        "actual": "e86f998e9f7832bf190e8aec61a2fa42bce93c6bde9aff9da8dcc1bd91bc8bfe"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/PCB1-netlist.json": {
+        "expected": "26ab2904d8c87fb088fde251b577dc2d480f158c239bc1f9fe09e288c83cd530",
+        "actual": "26ab2904d8c87fb088fde251b577dc2d480f158c239bc1f9fe09e288c83cd530"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/PCB1-routed.source.jsonl": {
+        "expected": "2c98c9ab1d3b3859edd188f4afe950eac69117cfe5f1ae4fdc9f785dc8b4aa39",
+        "actual": "2c98c9ab1d3b3859edd188f4afe950eac69117cfe5f1ae4fdc9f785dc8b4aa39"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/placement-plan.json": {
+        "expected": "44312574b8adac0021dd13f57c7b035a68fdcdc5dc9e8ef75b3333a4b3225d0e",
+        "actual": "44312574b8adac0021dd13f57c7b035a68fdcdc5dc9e8ef75b3333a4b3225d0e"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md": {
+        "expected": "ec46b0f47a80fb1e441faccd4d19f4f53ea3cf59bc9622f07ab7f3afcb49b375",
+        "actual": "ec46b0f47a80fb1e441faccd4d19f4f53ea3cf59bc9622f07ab7f3afcb49b375"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/release-status.json": {
+        "expected": "5ed48e2986f773386e35925d18b603be2925dfae12e13bd8f8d39ecb3ffb7a3e",
+        "actual": "5ed48e2986f773386e35925d18b603be2925dfae12e13bd8f8d39ecb3ffb7a3e"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/schematic-netlist.json": {
+        "expected": "0fdb25c177bd756d433f7e95868091fd8dd11987018d7f6e00be07642e244794",
+        "actual": "0fdb25c177bd756d433f7e95868091fd8dd11987018d7f6e00be07642e244794"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-change-live.json": {
+        "expected": "4a2439ad6983664ada9e2a3d958c4ad67012aed26732364f30c6fdbac3adba5d",
+        "actual": "4a2439ad6983664ada9e2a3d958c4ad67012aed26732364f30c6fdbac3adba5d"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-change-plan.json": {
+        "expected": "5d3afbfa6a7da06b1c4de1ef0791374bd212a36d92c853ca7921ace7dffd859a",
+        "actual": "5d3afbfa6a7da06b1c4de1ef0791374bd212a36d92c853ca7921ace7dffd859a"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-layout-review.md": {
+        "expected": "d999d6d61944cc8dd6423ed4c3c5a1c6a94c9b6a6e7cafaebc820703bbe764ef",
+        "actual": "d999d6d61944cc8dd6423ed4c3c5a1c6a94c9b6a6e7cafaebc820703bbe764ef"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-reference-copper-review.json": {
+        "expected": "387817b4a03709af43dc2de046bb445473325ab45ee47f620d6622229076e129",
+        "actual": "387817b4a03709af43dc2de046bb445473325ab45ee47f620d6622229076e129"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-refinement-drc.json": {
+        "expected": "84c547b689d918677c3921830a3b873862a378afb3838c3cc39e2db4018ac936",
+        "actual": "84c547b689d918677c3921830a3b873862a378afb3838c3cc39e2db4018ac936"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/usb-routing-review.json": {
+        "expected": "7e3b034eae09c066415026fa31c83bcb6cb97d83e789d622f71b68849f3b6b2d",
+        "actual": "7e3b034eae09c066415026fa31c83bcb6cb97d83e789d622f71b68849f3b6b2d"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/verify-layout.cjs": {
+        "expected": "812ef2ce54ce03735c83a70894c0d00bebf48de1df787d5a8f93d67a8e67fc9c",
+        "actual": "812ef2ce54ce03735c83a70894c0d00bebf48de1df787d5a8f93d67a8e67fc9c"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/verify-reference-copper.py": {
+        "expected": "6cd56a384b7b2761cb7dd46515a721bf642b4c804988888611aaa6e7f0904606",
+        "actual": "6cd56a384b7b2761cb7dd46515a721bf642b4c804988888611aaa6e7f0904606"
+      },
+      "PCB Files/PlayerConsolePower/Layout-2026-09-27-RC2/verify-usb-routing.cjs": {
+        "expected": "a68321c3a23037bde1381c0dbade2f5095dc72d93b926865d7cd8c48dc5e23b6",
+        "actual": "a68321c3a23037bde1381c0dbade2f5095dc72d93b926865d7cd8c48dc5e23b6"
+      }
+    },
+    "scope": "Only final manifest hash check repeated; 26 original manufacturing/archive checks retained, with six parsed key input hashes and all 33 committed RC1 hashes rechecked unchanged. This report is not a hash input to itself."
+  },
+  "intermediateRecord": {
+    "result": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-player-pcb-rc2-manufacturing-audit-20260927\\result-before-document-freeze.json",
+    "log": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-player-pcb-rc2-manufacturing-audit-20260927\\audit-before-document-freeze.log",
+    "explanation": "26 manufacturing/archive checks passed. README changed while the parent was adding the review entry, so the then-old release hash list temporarily mismatched README; this was not a manufacturing geometry or data defect. Final frozen 37-entry manifest was checked separately."
+  },
+  "auditScriptSha256": "2586eb2affa0f3c904b2ab1793977838563f7080ff45ed81c76b156d2729fe44"
+}

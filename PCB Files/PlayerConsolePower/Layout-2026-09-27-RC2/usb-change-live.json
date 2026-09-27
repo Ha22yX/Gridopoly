@@ -1,0 +1,334 @@
+{
+  "removed": [
+    "2847bbcd4f0a49b0",
+    "b9dede792000836a",
+    "1b556373658e6f83",
+    "a99d6b60efe80e43",
+    "cc78df583f6e02ae",
+    "42a4180df93c4ea0",
+    "8dad143d8ebb229d",
+    "4711e1d1badff0cd",
+    "7a168f1974bfaa67",
+    "9d59840c1c6dc07b",
+    "f922cf5d942fb6f7"
+  ],
+  "madeLines": [
+    "b1666d070d579143",
+    "98dbad2da05f5713",
+    "2f30e5856132e255",
+    "e2a2e8218acef705",
+    "be05c946a6d426c2",
+    "a97da80f89f6b3b8",
+    "1fba8d8380d80ef5",
+    "c71963a044147366",
+    "3c20cd5c4ad9bb35",
+    "c6ad2854386a2e96"
+  ],
+  "madeVias": [
+    {
+      "id": "71850b9cab5d9257",
+      "net": "USB_HOST_DM",
+      "x": 40.24884,
+      "y": 74.1
+    },
+    {
+      "id": "1d537e30877cccbc",
+      "net": "USB_HOST_DM",
+      "x": 39.25062,
+      "y": 74.1
+    },
+    {
+      "id": "7c5ed34621940602",
+      "net": "SCREEN_DM",
+      "x": 12,
+      "y": 57.8
+    },
+    {
+      "id": "e22604395d16363f",
+      "net": "SCREEN_DM",
+      "x": 12,
+      "y": 56.35
+    },
+    {
+      "id": "7a629e64a785d145",
+      "net": "GND",
+      "x": 11.05,
+      "y": 57.8
+    },
+    {
+      "id": "025f361387be76a8",
+      "net": "GND",
+      "x": 13,
+      "y": 56.15
+    },
+    {
+      "id": "bf76cb6dc0cb34a4",
+      "net": "GND",
+      "x": 15.2,
+      "y": 59
+    },
+    {
+      "id": "56695bd9d31470a8",
+      "net": "GND",
+      "x": 15.2,
+      "y": 60.98
+    },
+    {
+      "id": "1aeb5db8d1ee30f1",
+      "net": "GND",
+      "x": 27.35,
+      "y": 62.75
+    }
+  ],
+  "drc": [
+    {
+      "name": "Clearance Error",
+      "list": [
+        {
+          "name": "Track to Via",
+          "list": [
+            {
+              "visible": true,
+              "errorType": "Clearance Error",
+              "errorObjType": "Track to Via",
+              "ruleName": "copperThickness1oz",
+              "ruleTypeName": "Safe Spacing",
+              "obj1": {
+                "typeName": "Track",
+                "suffix": "(USB_CC1): e389"
+              },
+              "obj2": {
+                "typeName": "Via",
+                "suffix": "(USB_HOST_DM): e101"
+              },
+              "layer": "Top Layer",
+              "explanation": {
+                "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}",
+                "param": {
+                  "minDistance": "0.111mm",
+                  "shouldBe": ">= 0.152mm",
+                  "obj1": "Object 1",
+                  "obj2": "object 2",
+                  "type": "ClearanceError"
+                },
+                "errData": {
+                  "globalIndex": "err1591",
+                  "position": {
+                    "x": 152.95477,
+                    "y": -291.73228
+                  },
+                  "name": "copperThickness1oz",
+                  "obj1": "5277b350afd803cf",
+                  "obj1Type": "Track",
+                  "obj2": "1d537e30877cccbc",
+                  "obj2Type": "Via",
+                  "minDistance": 0.43612999999999597,
+                  "clearance": 0.59843,
+                  "errorType": "Safe Spacing",
+                  "layerIds": [
+                    1
+                  ],
+                  "obj1Suffix": "(USB_CC1): e389",
+                  "obj2Suffix": "(USB_HOST_DM): e101"
+                }
+              },
+              "objs": [
+                "5277b350afd803cf",
+                "1d537e30877cccbc"
+              ],
+              "globalIndex": "err1591",
+              "pos": {
+                "x": 152.95477,
+                "y": -291.73228
+              },
+              "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Track to Via"
+            },
+            {
+              "visible": true,
+              "errorType": "Clearance Error",
+              "errorObjType": "Track to Via",
+              "ruleName": "copperThickness1oz",
+              "ruleTypeName": "Safe Spacing",
+              "obj1": {
+                "typeName": "Track",
+                "suffix": "(USB_CC1): e390"
+              },
+              "obj2": {
+                "typeName": "Via",
+                "suffix": "(USB_HOST_DM): e101"
+              },
+              "layer": "Top Layer",
+              "explanation": {
+                "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}",
+                "param": {
+                  "minDistance": "0.111mm",
+                  "shouldBe": ">= 0.152mm",
+                  "obj1": "Object 1",
+                  "obj2": "object 2",
+                  "type": "ClearanceError"
+                },
+                "errData": {
+                  "globalIndex": "err1592",
+                  "position": {
+                    "x": 152.9547883944008,
+                    "y": -291.7447188683775
+                  },
+                  "name": "copperThickness1oz",
+                  "obj1": "af95561f6bb26985",
+                  "obj1Type": "Track",
+                  "obj2": "1d537e30877cccbc",
+                  "obj2Type": "Via",
+                  "minDistance": 0.4361914348491767,
+                  "clearance": 0.59843,
+                  "errorType": "Safe Spacing",
+                  "layerIds": [
+                    1
+                  ],
+                  "obj1Suffix": "(USB_CC1): e390",
+                  "obj2Suffix": "(USB_HOST_DM): e101"
+                }
+              },
+              "objs": [
+                "af95561f6bb26985",
+                "1d537e30877cccbc"
+              ],
+              "globalIndex": "err1592",
+              "pos": {
+                "x": 152.9547883944008,
+                "y": -291.7447188683775
+              },
+              "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Track to Via"
+            },
+            {
+              "visible": true,
+              "errorType": "Clearance Error",
+              "errorObjType": "Track to Via",
+              "ruleName": "copperThickness1oz",
+              "ruleTypeName": "Safe Spacing",
+              "obj1": {
+                "typeName": "Track",
+                "suffix": "(SCREEN_DP): e248"
+              },
+              "obj2": {
+                "typeName": "Via",
+                "suffix": "(SCREEN_DM): e102"
+              },
+              "layer": "Top Layer",
+              "explanation": {
+                "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}",
+                "param": {
+                  "minDistance": "0.141mm",
+                  "shouldBe": ">= 0.152mm",
+                  "obj1": "Object 1",
+                  "obj2": "object 2",
+                  "type": "ClearanceError"
+                },
+                "errData": {
+                  "globalIndex": "err1593",
+                  "position": {
+                    "x": 48.448688693225535,
+                    "y": -226.35446453054004
+                  },
+                  "name": "copperThickness1oz",
+                  "obj1": "151ffb0ccb197128",
+                  "obj1Type": "Track",
+                  "obj2": "7c5ed34621940602",
+                  "obj2Type": "Via",
+                  "minDistance": 0.5549900592629606,
+                  "clearance": 0.59843,
+                  "errorType": "Safe Spacing",
+                  "layerIds": [
+                    1
+                  ],
+                  "obj1Suffix": "(SCREEN_DP): e248",
+                  "obj2Suffix": "(SCREEN_DM): e102"
+                }
+              },
+              "objs": [
+                "151ffb0ccb197128",
+                "7c5ed34621940602"
+              ],
+              "globalIndex": "err1593",
+              "pos": {
+                "x": 48.448688693225535,
+                "y": -226.35446453054004
+              },
+              "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Track to Via"
+            },
+            {
+              "visible": true,
+              "errorType": "Clearance Error",
+              "errorObjType": "Track to Via",
+              "ruleName": "copperThickness1oz",
+              "ruleTypeName": "Safe Spacing",
+              "obj1": {
+                "typeName": "Track",
+                "suffix": "(SCREEN_DP): e245"
+              },
+              "obj2": {
+                "typeName": "Via",
+                "suffix": "(GND): e107"
+              },
+              "layer": "Top Layer",
+              "explanation": {
+                "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}",
+                "param": {
+                  "minDistance": "0.146mm",
+                  "shouldBe": ">= 0.152mm",
+                  "obj1": "Object 1",
+                  "obj2": "object 2",
+                  "type": "ClearanceError"
+                },
+                "errData": {
+                  "globalIndex": "err1594",
+                  "position": {
+                    "x": 59.84252,
+                    "y": -242.67878000000002
+                  },
+                  "name": "copperThickness1oz",
+                  "obj1": "f43bcc1c8d34a22a",
+                  "obj1Type": "Track",
+                  "obj2": "56695bd9d31470a8",
+                  "obj2Type": "Via",
+                  "minDistance": 0.5762999999999723,
+                  "clearance": 0.59843,
+                  "errorType": "Safe Spacing",
+                  "layerIds": [
+                    1
+                  ],
+                  "obj1Suffix": "(SCREEN_DP): e245",
+                  "obj2Suffix": "(GND): e107"
+                }
+              },
+              "objs": [
+                "f43bcc1c8d34a22a",
+                "56695bd9d31470a8"
+              ],
+              "globalIndex": "err1594",
+              "pos": {
+                "x": 59.84252,
+                "y": -242.67878000000002
+              },
+              "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Track to Via"
+            }
+          ],
+          "count": 4,
+          "title": [
+            "Track",
+            "to",
+            "Via",
+            "(4)"
+          ],
+          "visible": true
+        }
+      ],
+      "visible": true,
+      "count": 4,
+      "title": [
+        "Clearance Error",
+        "(4)"
+      ]
+    }
+  ],
+  "saved": true
+}

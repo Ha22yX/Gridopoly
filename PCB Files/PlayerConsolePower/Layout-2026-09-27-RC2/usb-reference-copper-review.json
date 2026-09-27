@@ -1,0 +1,146 @@
+{
+  "scope": "2D exported-copper topology, arcs approximated to 1 um; not impedance/field/USB waveform validation",
+  "results": {
+    "RC1": {
+      "layers": {
+        "1": {
+          "copperPolygons": 105,
+          "gndPolygons": 10,
+          "knownNonGroundPadInGround": []
+        },
+        "2": {
+          "copperPolygons": 29,
+          "gndPolygons": 1,
+          "knownNonGroundPadInGround": []
+        }
+      },
+      "usbReferenceProjection": {
+        "USB_HOST_DP": {
+          "traceSumMm": 24.013351919684432,
+          "bottomTraceMm": 0,
+          "oppositeGroundCenterlineMm": 22.214578062501378,
+          "oppositeNonGroundCenterlineMm": 1.798773857183054
+        },
+        "USB_HOST_DM": {
+          "traceSumMm": 25.252958413624775,
+          "bottomTraceMm": 4.1885637072235475,
+          "oppositeGroundCenterlineMm": 16.688598711618813,
+          "oppositeNonGroundCenterlineMm": 8.564359702005962
+        },
+        "SCREEN_DP": {
+          "traceSumMm": 22.96822417006187,
+          "bottomTraceMm": 0,
+          "oppositeGroundCenterlineMm": 17.73897821206232,
+          "oppositeNonGroundCenterlineMm": 5.229245957999549
+        },
+        "SCREEN_DM": {
+          "traceSumMm": 25.009543822890603,
+          "bottomTraceMm": 2.7763455967290693,
+          "oppositeGroundCenterlineMm": 17.861647735130468,
+          "oppositeNonGroundCenterlineMm": 7.1478960877601345
+        }
+      },
+      "returnBridges": {}
+    },
+    "RC2": {
+      "layers": {
+        "1": {
+          "copperPolygons": 104,
+          "gndPolygons": 10,
+          "knownNonGroundPadInGround": []
+        },
+        "2": {
+          "copperPolygons": 29,
+          "gndPolygons": 1,
+          "knownNonGroundPadInGround": []
+        }
+      },
+      "usbReferenceProjection": {
+        "USB_HOST_DP": {
+          "traceSumMm": 24.013351919684432,
+          "bottomTraceMm": 0,
+          "oppositeGroundCenterlineMm": 22.214578062501378,
+          "oppositeNonGroundCenterlineMm": 1.798773857183054
+        },
+        "USB_HOST_DM": {
+          "traceSumMm": 23.81703498147086,
+          "bottomTraceMm": 0.9982200000000034,
+          "oppositeGroundCenterlineMm": 18.739686680974017,
+          "oppositeNonGroundCenterlineMm": 5.077348300496844
+        },
+        "SCREEN_DP": {
+          "traceSumMm": 22.96822417006187,
+          "bottomTraceMm": 0,
+          "oppositeGroundCenterlineMm": 17.76092903373108,
+          "oppositeNonGroundCenterlineMm": 5.207295136330789
+        },
+        "SCREEN_DM": {
+          "traceSumMm": 25.04655361819462,
+          "bottomTraceMm": 1.54999999999999,
+          "oppositeGroundCenterlineMm": 18.34410706904461,
+          "oppositeNonGroundCenterlineMm": 6.702446549150007
+        }
+      },
+      "returnBridges": {
+        "screen_power_slot": {
+          "topGroundStraightBridge": true,
+          "lengthMm": 1.9600000000000009,
+          "uncoveredMm": 0
+        },
+        "host_logic_slot": {
+          "topGroundStraightBridge": true,
+          "lengthMm": 1.6765219590059415,
+          "uncoveredMm": 0
+        },
+        "newGroundVias": [
+          {
+            "xyMm": [
+              11.05,
+              -57.8
+            ],
+            "topGroundConnected": true,
+            "bottomGroundConnected": true
+          },
+          {
+            "xyMm": [
+              13,
+              -56.15
+            ],
+            "topGroundConnected": true,
+            "bottomGroundConnected": true
+          },
+          {
+            "xyMm": [
+              14.9,
+              -59
+            ],
+            "topGroundConnected": true,
+            "bottomGroundConnected": true
+          },
+          {
+            "xyMm": [
+              14.9,
+              -60.96
+            ],
+            "topGroundConnected": true,
+            "bottomGroundConnected": true
+          },
+          {
+            "xyMm": [
+              27.35,
+              -62.75
+            ],
+            "topGroundConnected": true,
+            "bottomGroundConnected": true
+          }
+        ]
+      }
+    }
+  },
+  "inputs": {
+    "RC1/Gerber_TopLayer.GTL": "531dd91def46cdc4620f174d36423f9ba9eb04c77f947abc61a9ac334fd63850",
+    "RC1/Gerber_BottomLayer.GBL": "a8ebfc6db7b1025d1c2e0cd86e2d924ea5319b28789b4d68b3c507b373dfe24b",
+    "RC2/Gerber_TopLayer.GTL": "3b08b5987f3979a842afbf34e92895c23a8693bac09efff0c47851a2f643755e",
+    "RC2/Gerber_BottomLayer.GBL": "11b926fe1579530fbf0da050592f97fd150ebdc7c5e2b081c0c8ef8b70804ea9"
+  }
+}

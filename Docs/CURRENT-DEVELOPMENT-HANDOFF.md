@@ -1,5 +1,7 @@
 # Gridopoly 当前开发交接
 
+> 2026-09-27 USB 后续：玩家电池底板已形成 [R1-RC2 制造候选](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/README.md)，保留 RC1 原始证据。RC2 缩短两处 D− 底层跨线、移除一个多余信号过孔并新增五个地过孔；现为 533 线段、83 过孔，68 件/243 脚及固定机械位置和电源走线保持。主任务副本复验 34 项布局、10 项 USB 路径全部通过，实际 Gerber 铜层复算与交付报告一致，见[本轮复核](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC2/independent-review.md)。仍存在局部 USB 不成对走线与参考地中断，没有获得控阻或首板电气通过结论；原理图 41 条警告、FPC/电池参数、板厂和首板验收继续待完成。未下单、未操作 COM7 或更改现场固件。
+
 > 2026-09-27 PCB 后续：玩家电池底板已完成用户固定的 80×80 mm、R5 双层全顶面布局和完整布线，68 件/243 脚、532 线段/79 过孔，原生 PCB DRC 0 项；J1/J2、两按键及四孔机械位置保持。主任务副本复验 34/34、独立制造文件复核 18/18 通过，规范 Gerber/BOM/CPL 已形成 [R1-RC1 制造候选](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)。SW1/SW2 正式位号与原理图统一，POWER/RST 功能丝印保留。当前仍未制造放行：原理图 41 条警告明细、FPC/电池规格、USB 布局/叠层及工厂/首板验收未闭合。PCB DRC 不等于这些项目已通过，详见[独立复核范围](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/independent-review.md)。现场 COM7、既有固件和旧 DesignDraft 原始证据未改动。
 
 > 2026-09-27 后续原理图审查：新增电池底板的TS-1187A四脚按键接线已修正。原厂A/B（1/2）内部常通、C/D（3/4）内部常通，而97afc2d中的SW1/SW2把1/3接控制、2/4接GND，会持续拉低电源键/复位信号。当前原理图及PCB已改为1/2接控制、3/4接GND，保留POWER/RST名称和位置；主任务独立复核68件/243脚、仅四处按键网络更改、厂家接点模型及焊盘几何通过，新81项静态检查通过且能检出旧错误。详见[综合审查与证据](../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)。此前79项未建模内部常通关系，旧97afc2d不得作为制造版本。当前实体玩家屏未连接这块新增底板，此问题与已部署屏幕的旋钮回跳诊断分开。
