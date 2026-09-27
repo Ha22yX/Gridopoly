@@ -18,7 +18,7 @@
 | U9 启动 | GPIO6 经 R24=10kΩ 拉高；RESET 经 R25=10kΩ 拉高、C20=100nF 对地 |
 | U10 电源 | VDD/CELL 接 BAT_PACK；CTG/GND/QSTRT/EP 接地；C19=100nF 去耦 |
 
-底板J2的1–10焊盘已按用户要求反转；屏幕厂家的逻辑针号不变。底板J2.10=5V、J2.8=GND、J2.1=D−、J2.2=D+，GPIO43/44和UART协议不变。
+底板J2的1–10焊盘已按用户要求反转；屏幕厂家的逻辑针号不变。2026-09-27后续[PCB制造候选](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)已完整布线并核对这些网络，PCB原生DRC为0项；UART协议与GPIO定义未改变，实板通信仍待测。底板J2.10=5V、J2.8=GND、J2.1=D−、J2.2=D+，GPIO43/44和UART协议不变。
 
 I²C 上拉为 R22/R23=4.7kΩ；CHG/PGOOD 上拉为 R27/R26=10kΩ；均连接 SCREEN_IO3V3。R28=10kΩ 保持桥接 RX 空闲为高。U9 随屏幕关闭而断电，U10 保留电池侧供电。电池应接保护板输出端，底板不跨接保护板。
 

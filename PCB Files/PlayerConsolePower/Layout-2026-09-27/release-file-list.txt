@@ -1,0 +1,42 @@
+Docs/CURRENT-DEVELOPMENT-HANDOFF.md
+Docs/hardware/player-battery-telemetry-interface-2026-09-27.md
+Docs/hardware/player-usbc-battery-base-2026-09-27.md
+Docs/hardware/README.md
+Docs/player-console/current-player-console-baseline.md
+Docs/README.md
+PCB Files/PlayerConsolePower/DesignDraft-2026-09-27/README.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27/.gitattributes
+PCB Files/PlayerConsolePower/Layout-2026-09-27/before-layout-components.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/before-layout-pad-geometry.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/before-layout-PCB.source.jsonl
+PCB Files/PlayerConsolePower/Layout-2026-09-27/bringup-checklist.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27/final-live-audit.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/fixed-constraints.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/gerber-parse-review.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/independent-manufacturing-audit.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/independent-review.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27/layout-review.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27/layout-verification.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/manufacturing-export-audit.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/manufacturing-notes.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27/Manufacturing-RC1/PlayerPower-R1-BOM.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27/Manufacturing-RC1/PlayerPower-R1-CPL.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27/Manufacturing-RC1/PlayerPower-R1-Gerber.zip
+PCB Files/PlayerConsolePower/Layout-2026-09-27/native-layout-geometry.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/NativeExports/PlayerPower-R1-BOM.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27/NativeExports/PlayerPower-R1-CPL.csv
+PCB Files/PlayerConsolePower/Layout-2026-09-27/NativeExports/PlayerPower-R1-Gerber.zip
+PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-bottom-fabrication-preview.png
+PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-bottom-fabrication-preview.svg
+PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-top-fabrication-preview.png
+PCB Files/PlayerConsolePower/Layout-2026-09-27/pcb-top-fabrication-preview.svg
+PCB Files/PlayerConsolePower/Layout-2026-09-27/PCB1-netlist.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/PCB1-routed.source.jsonl
+PCB Files/PlayerConsolePower/Layout-2026-09-27/placement-plan.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/README.md
+PCB Files/PlayerConsolePower/Layout-2026-09-27/release-file-list.txt
+PCB Files/PlayerConsolePower/Layout-2026-09-27/release-status.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/schematic-drc-final.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/schematic-netlist.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/SHA256SUMS.json
+PCB Files/PlayerConsolePower/Layout-2026-09-27/verify-layout.cjs

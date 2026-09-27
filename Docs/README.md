@@ -1,6 +1,6 @@
 # Gridopoly 文档中心
 
-> 2026-09-27 玩家终端：[USB-C 电池底板](hardware/player-usbc-battery-base-2026-09-27.md)两页原理图已接线、核对网表，68个器件已纳入PCB，含按用户要求反转1–10脚网络的J2母座；新增 MAX17048＋SC18IM704，经排线RX/TX查询电量和充电状态，底板无需程序。保留充电、供电、开关、欠压关断及USB上传/调试，外置温度探头已取消。[UART接口约定](hardware/player-battery-telemetry-interface-2026-09-27.md)及[玩家固件源码、回归与构建进度](firmware/player-battery-telemetry-progress-2026-09-27.md)已记录，未部署电池功能； [本轮按键致命接线修复](../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)已同步原理图与PCB，81/81静态检查通过，原生41条警告明细仍待分类。FPC、ERC与PCB/实板验证尚未完成。
+> 2026-09-27 玩家终端：[USB-C 电池底板](hardware/player-usbc-battery-base-2026-09-27.md)两页原理图已接线、核对网表，68个器件已纳入PCB，含按用户要求反转1–10脚网络的J2母座；新增 MAX17048＋SC18IM704，经排线RX/TX查询电量和充电状态，底板无需程序。保留充电、供电、开关、欠压关断及USB上传/调试，外置温度探头已取消。[UART接口约定](hardware/player-battery-telemetry-interface-2026-09-27.md)及[玩家固件源码、回归与构建进度](firmware/player-battery-telemetry-progress-2026-09-27.md)已记录，未部署电池功能； [本轮按键致命接线修复](../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)已同步原理图与PCB，81/81静态检查通过，原生41条警告明细仍待分类。后续[PCB布局与制造候选](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27/README.md)已完成80×80 mm双层、全部顶面布局与完整布线，PCB原生DRC 0项，Gerber/BOM/CPL已导出；FPC/电池、原理图警告明细及制造/实板验收未闭合，未量产放行。
 
 > 2026-09-22硬件同步：见[完整硬件开发汇报](hardware/development-handoff-2026-09-22.md)，PD方案已取消，当前证据与限制以该汇报及所链接的直接24V审查为准。
 

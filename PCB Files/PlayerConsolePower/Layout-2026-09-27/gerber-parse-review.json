@@ -1,0 +1,155 @@
+{
+  "parser": "Gerbonara",
+  "scope": "Independent fabrication-file parse; not electrical compliance or factory DFM approval",
+  "layers": {
+    "Gerber_BoardOutlineLayer.GKO": {
+      "objects": 8,
+      "bboxMm": [
+        [
+          -0.127,
+          -80.127
+        ],
+        [
+          80.127,
+          0.127
+        ]
+      ]
+    },
+    "Gerber_BottomLayer.GBL": {
+      "objects": 463,
+      "bboxMm": [
+        [
+          0.508,
+          -79.50200000000001
+        ],
+        [
+          79.50200000000001,
+          -0.508
+        ]
+      ]
+    },
+    "Gerber_BottomSilkscreenLayer.GBO": {
+      "objects": 0,
+      "bboxMm": null
+    },
+    "Gerber_BottomSolderMaskLayer.GBS": {
+      "objects": 10,
+      "bboxMm": [
+        [
+          2.4492,
+          -78.862885
+        ],
+        [
+          77.5508,
+          -2.4492
+        ]
+      ]
+    },
+    "Gerber_TopLayer.GTL": {
+      "objects": 2222,
+      "bboxMm": [
+        [
+          0.508,
+          -79.50200000000001
+        ],
+        [
+          79.50200000000001,
+          -0.508
+        ]
+      ]
+    },
+    "Gerber_TopPasteMaskLayer.GTP": {
+      "objects": 242,
+      "bboxMm": [
+        [
+          1.2724764999999998,
+          -78.811984
+        ],
+        [
+          77.5358875,
+          -23.2918
+        ]
+      ]
+    },
+    "Gerber_TopSilkscreenLayer.GTO": {
+      "objects": 3091,
+      "bboxMm": [
+        [
+          -0.381,
+          -80.65909699999999
+        ],
+        [
+          77.98816,
+          -12.080300000000001
+        ]
+      ]
+    },
+    "Gerber_TopSolderMaskLayer.GTS": {
+      "objects": 247,
+      "bboxMm": [
+        [
+          1.2224644999999998,
+          -78.862885
+        ],
+        [
+          77.586688,
+          -2.4492
+        ]
+      ]
+    }
+  },
+  "drills": {
+    "Drill_NPTH_Through.DRL": {
+      "objects": 2,
+      "toolDiametersMm": {
+        "0.75001": 2
+      },
+      "bboxMm": [
+        [
+          36.7250765,
+          -74.6073945
+        ],
+        [
+          43.2749235,
+          -73.8573835
+        ]
+      ]
+    },
+    "Drill_PTH_Through.DRL": {
+      "objects": 89,
+      "toolDiametersMm": {
+        "0.29972": 23,
+        "0.3048": 56,
+        "0.8": 4,
+        "1.10002": 2,
+        "3.4": 4
+      },
+      "bboxMm": [
+        [
+          3.2999995,
+          -78.612263
+        ],
+        [
+          76.7000005,
+          -3.2999995
+        ]
+      ]
+    }
+  },
+  "zipFiles": [
+    "Drill_NPTH_Through.DRL",
+    "Drill_PTH_Through.DRL",
+    "Gerber_BoardOutlineLayer.GKO",
+    "Gerber_BottomLayer.GBL",
+    "Gerber_BottomSilkscreenLayer.GBO",
+    "Gerber_BottomSolderMaskLayer.GBS",
+    "Gerber_TopLayer.GTL",
+    "Gerber_TopPasteMaskLayer.GTP",
+    "Gerber_TopSilkscreenLayer.GTO",
+    "Gerber_TopSolderMaskLayer.GTS"
+  ],
+  "duplicateViaFileAbsent": true,
+  "zipMatchesParsedLayers": true,
+  "sourceZipSha256": "74da0b398bd926f8d87f833729287fd058d5cf231e845a71737217a033a22653",
+  "normalizedZipSha256": "30097f7203ec9797fbc0af7a7c23d434c28580d82941cc2406633578b08f2b59"
+}

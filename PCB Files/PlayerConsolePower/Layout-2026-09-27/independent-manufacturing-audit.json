@@ -1,0 +1,349 @@
+{
+  "checks": [
+    {
+      "name": "Source has 68 distinct components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "BOM and CPL contain exactly 67 unique matching assembled refs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "BOM line quantities equal expanded refs and total67",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Every BOM MPN/LCSC/footprint matches captured PCB netlist",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "CPL side/rotation/coordinates match raw PCB source",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "max_mm_error": 1.2600000047768845e-06
+      }
+    },
+    {
+      "name": "CPL is exact native placements minus J3, with Top normalized from T",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J1/J2/POWER->SW1/RST->SW2 fixed transforms identical to before and constraints",
+      "passed": true,
+      "detail": [
+        {
+          "original": "J1",
+          "current": "J1",
+          "x_mm": 39.99999874,
+          "y_mm": -75.438,
+          "angle": 0
+        },
+        {
+          "original": "POWER",
+          "current": "SW1",
+          "x_mm": 75.31099999999999,
+          "y_mm": -26.79199874,
+          "angle": 90
+        },
+        {
+          "original": "RST",
+          "current": "SW2",
+          "x_mm": 75.31099999999999,
+          "y_mm": -53.20799874,
+          "angle": 90
+        },
+        {
+          "original": "J2",
+          "current": "J2",
+          "x_mm": 3.81,
+          "y_mm": -58.800999999999995,
+          "angle": 270
+        }
+      ]
+    },
+    {
+      "name": "Four mounting holes and eight board-outline primitives identical to before/fixed",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "RC1 ZIP CRC/integrity, exactly ten uniquely named fabrication files",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Every retained RC1 fabrication file byte-identical to native export",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Gerber layers have metric absolute format and EOF",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Separate 79-via drill is an exact subset of retained PTH: omission removes only duplicate hits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Retained drill has 89 PTH objects and 2 NPTH objects, no duplicate hits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "All source vias independently match retained drill diameter and coordinates",
+      "passed": true,
+      "detail": {
+        "unmatched": [],
+        "remaining": []
+      }
+    },
+    {
+      "name": "Remaining PTH = four USB slots + two wire-terminal holes + four3.4mm mounting holes",
+      "passed": true,
+      "detail": {
+        "slots": [
+          [
+            0.799998,
+            44.32496,
+            -77.612265,
+            44.32496,
+            -78.212264
+          ],
+          [
+            0.799998,
+            44.32496,
+            -73.332353,
+            44.32496,
+            -74.132326
+          ],
+          [
+            0.799998,
+            35.67504,
+            -73.332353,
+            35.67504,
+            -74.132376
+          ],
+          [
+            0.799998,
+            35.67504,
+            -77.612265,
+            35.67504,
+            -78.212264
+          ]
+        ],
+        "terminals": [
+          [
+            1.100023,
+            61.27,
+            -43.0
+          ],
+          [
+            1.100023,
+            58.73,
+            -43.0
+          ]
+        ],
+        "mounts": [
+          [
+            3.400001,
+            5.0,
+            -5.0
+          ],
+          [
+            3.400001,
+            75.0,
+            -5.0
+          ],
+          [
+            3.400001,
+            75.0,
+            -75.0
+          ],
+          [
+            3.400001,
+            5.0,
+            -75.0
+          ]
+        ],
+        "npth": [
+          [
+            0.750011,
+            37.100082,
+            -74.232389
+          ],
+          [
+            0.750011,
+            42.899918,
+            -74.232389
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Mounting drill centers exactly 5/75mm from unchanged board origin",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Gerber outline is one closed 8-segment 80x80mm contour with fourR5 corners",
+      "passed": true,
+      "detail": {
+        "segments": [
+          [
+            [
+              5.0,
+              0.0
+            ],
+            [
+              0.0,
+              -5.0
+            ],
+            "3",
+            [
+              0.0,
+              -5.0
+            ]
+          ],
+          [
+            [
+              80.0,
+              -5.0
+            ],
+            [
+              75.0,
+              0.0
+            ],
+            "3",
+            [
+              -5.0,
+              0.0
+            ]
+          ],
+          [
+            [
+              75.0,
+              -80.0
+            ],
+            [
+              80.0,
+              -75.0
+            ],
+            "3",
+            [
+              0.0,
+              5.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              -75.0
+            ],
+            [
+              5.0,
+              -80.0
+            ],
+            "3",
+            [
+              5.0,
+              0.0
+            ]
+          ],
+          [
+            [
+              5.0,
+              0.0
+            ],
+            [
+              75.0,
+              0.0
+            ],
+            "1",
+            null
+          ],
+          [
+            [
+              80.0,
+              -5.0
+            ],
+            [
+              80.0,
+              -75.0
+            ],
+            "1",
+            null
+          ],
+          [
+            [
+              75.0,
+              -80.0
+            ],
+            [
+              5.0,
+              -80.0
+            ],
+            "1",
+            null
+          ],
+          [
+            [
+              0.0,
+              -75.0
+            ],
+            [
+              0.0,
+              -5.0
+            ],
+            "1",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Actual saved PCB audit contains empty native DRC array, not schematic result",
+      "passed": true,
+      "detail": {
+        "capturedAt": "2026-09-27T10:19:09.776Z",
+        "saved": true,
+        "schematicWarnings": [
+          {
+            "type": "warn",
+            "count": 41
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 18,
+  "failed": 0,
+  "drcScope": {
+    "trackMinMm": 0.14999969999999999,
+    "trackTrackClearanceMm": 0.10199878,
+    "deviceClearanceMm": 0,
+    "powerMinMm": 0.14999969999999999,
+    "powerDefaultMm": 0.39999919999999994,
+    "viaHoleMinMm": 0.29999939999999997
+  },
+  "sourceHashes": {
+    "PCB1-routed.source.jsonl": "1be9e37047f702041b5d00e0fa3f5d316c8e7c3a84398e555305d9b13904d3e2",
+    "final-live-audit.json": "7bc497d2f6ed62cd0d62da049739f51b05641abd1e862c1b867642502c7de4cb",
+    "fixed-constraints.json": "e73978c2a3bb79aee5369a224fddf4eb941b2f0b765e7c064f73191ebd686ad7",
+    "Manufacturing-RC1/PlayerPower-R1-Gerber.zip": "30097f7203ec9797fbc0af7a7c23d434c28580d82941cc2406633578b08f2b59",
+    "Manufacturing-RC1/PlayerPower-R1-BOM.csv": "625fe818dda1c1f99cb2174d6a0959960e04e9556a54918422ba399c46fb94fd",
+    "Manufacturing-RC1/PlayerPower-R1-CPL.csv": "bcad6cf8456bd64f1e23adbef856019dc6200c7a34640645d10778d216f6880f"
+  },
+  "limits": [
+    "No EDA invocation or manufacturing order; captured native DRC only.",
+    "No physical package pin1/placement machine convention verification.",
+    "Schematic retains41warnings; PCB empty DRC does not clear them."
+  ]
+}

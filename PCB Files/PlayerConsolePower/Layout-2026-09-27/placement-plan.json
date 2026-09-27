@@ -1,0 +1,550 @@
+{
+  "unit": "mm",
+  "coordinates": "x right, y down from original board datum; rotations are native API degrees",
+  "components": [
+    {
+      "ref": "C1",
+      "uniqueId": "gge5",
+      "xMm": 51.25,
+      "yMm": 67.5,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C2",
+      "uniqueId": "gge6",
+      "xMm": 56.00000000000001,
+      "yMm": 62.50000000000001,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "C3",
+      "uniqueId": "gge7",
+      "xMm": 47.4,
+      "yMm": 63.9,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C4",
+      "uniqueId": "gge10",
+      "xMm": 56.49999999999999,
+      "yMm": 36,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "C5",
+      "uniqueId": "gge13",
+      "xMm": 54,
+      "yMm": 39.5,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C6",
+      "uniqueId": "gge18",
+      "xMm": 63.5,
+      "yMm": 29,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "C7",
+      "uniqueId": "gge22",
+      "xMm": 48.5,
+      "yMm": 53.49999999999999,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "C8",
+      "uniqueId": "gge23",
+      "xMm": 55,
+      "yMm": 52.99999999999999,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C9",
+      "uniqueId": "gge24",
+      "xMm": 57.5,
+      "yMm": 52.99999999999999,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C10",
+      "uniqueId": "gge25",
+      "xMm": 59.8,
+      "yMm": 52.99999999999999,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C11",
+      "uniqueId": "gge49",
+      "xMm": 68.5,
+      "yMm": 74.3,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "C12",
+      "uniqueId": "gge50",
+      "xMm": 60.5,
+      "yMm": 73.00000000000001,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "C13",
+      "uniqueId": "gge51",
+      "xMm": 57,
+      "yMm": 68.3,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "C14",
+      "uniqueId": "gge52",
+      "xMm": 25.999999999999993,
+      "yMm": 40.5,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "C15",
+      "uniqueId": "gge53",
+      "xMm": 24.95,
+      "yMm": 47.8,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "C16",
+      "uniqueId": "gge54",
+      "xMm": 24.800000000000004,
+      "yMm": 61.5,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "C17",
+      "uniqueId": "gge57",
+      "xMm": 42.99999999999999,
+      "yMm": 68,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "D1",
+      "uniqueId": "gge35",
+      "xMm": 39.5,
+      "yMm": 69.5,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "J1",
+      "uniqueId": "gge29",
+      "xMm": 39.99999997000001,
+      "yMm": 75.438,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "J3",
+      "uniqueId": "gge60",
+      "xMm": 59.99999999999999,
+      "yMm": 42.99999999999999,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "L1",
+      "uniqueId": "gge21",
+      "xMm": 51,
+      "yMm": 57,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "Q1",
+      "uniqueId": "gge16",
+      "xMm": 67,
+      "yMm": 35,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "Q2",
+      "uniqueId": "gge33",
+      "xMm": 62.99999999999999,
+      "yMm": 66.5,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "Q3",
+      "uniqueId": "gge41",
+      "xMm": 29,
+      "yMm": 73.00000000000001,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R1",
+      "uniqueId": "gge8",
+      "xMm": 54.4,
+      "yMm": 68.19999999999999,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R2",
+      "uniqueId": "gge9",
+      "xMm": 44.5,
+      "yMm": 64.75,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R3",
+      "uniqueId": "gge11",
+      "xMm": 54,
+      "yMm": 32.5,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R4",
+      "uniqueId": "gge12",
+      "xMm": 54,
+      "yMm": 36,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "R5",
+      "uniqueId": "gge14",
+      "xMm": 64,
+      "yMm": 36,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R6",
+      "uniqueId": "gge15",
+      "xMm": 58,
+      "yMm": 31.000000000000007,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "R7",
+      "uniqueId": "gge17",
+      "xMm": 68,
+      "yMm": 39.000000000000014,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "R8",
+      "uniqueId": "gge20",
+      "xMm": 46.29999999999999,
+      "yMm": 56.499999999999986,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R9",
+      "uniqueId": "gge26",
+      "xMm": 52.79999999999999,
+      "yMm": 50,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R10",
+      "uniqueId": "gge27",
+      "xMm": 49.599999999999994,
+      "yMm": 50,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R11",
+      "uniqueId": "gge42",
+      "xMm": 48,
+      "yMm": 76,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R12",
+      "uniqueId": "gge43",
+      "xMm": 51.5,
+      "yMm": 76,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R13",
+      "uniqueId": "gge44",
+      "xMm": 52.99999999999999,
+      "yMm": 73.50000000000001,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R14",
+      "uniqueId": "gge45",
+      "xMm": 59.49999999999999,
+      "yMm": 68.5,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R15",
+      "uniqueId": "gge46",
+      "xMm": 62.99999999999999,
+      "yMm": 69.5,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R16",
+      "uniqueId": "gge47",
+      "xMm": 66.5,
+      "yMm": 67,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R17",
+      "uniqueId": "gge48",
+      "xMm": 66.5,
+      "yMm": 63.5,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "R18",
+      "uniqueId": "gge55",
+      "xMm": 36,
+      "yMm": 69.19999999999999,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R19",
+      "uniqueId": "gge56",
+      "xMm": 28.99999999999999,
+      "yMm": 70,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R20",
+      "uniqueId": "gge62",
+      "xMm": 48,
+      "yMm": 67.5,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R21",
+      "uniqueId": "player_power_R21_20260927",
+      "xMm": 57,
+      "yMm": 65.7,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "R22",
+      "uniqueId": "player_power_R22_20260927",
+      "xMm": 29.999999999999993,
+      "yMm": 56.49999999999999,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R23",
+      "uniqueId": "player_power_R23_20260927",
+      "xMm": 29.999999999999993,
+      "yMm": 53.999999999999986,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R24",
+      "uniqueId": "player_power_R24_20260927",
+      "xMm": 27.499999999999996,
+      "yMm": 51,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R25",
+      "uniqueId": "player_power_R25_20260927",
+      "xMm": 30.499999999999993,
+      "yMm": 51,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "R26",
+      "uniqueId": "player_power_R26_20260927",
+      "xMm": 14.999999999999996,
+      "yMm": 57,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "R27",
+      "uniqueId": "player_power_R27_20260927",
+      "xMm": 14.999999999999996,
+      "yMm": 49,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "R28",
+      "uniqueId": "player_power_R28_20260927",
+      "xMm": 11.499999999999998,
+      "yMm": 51.5,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "SW1",
+      "uniqueId": "gge19",
+      "xMm": 75.31099999999999,
+      "yMm": 26.791999969999996,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "SW2",
+      "uniqueId": "gge58",
+      "xMm": 75.31099999999998,
+      "yMm": 53.20799997,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "U1",
+      "uniqueId": "gge1",
+      "xMm": 52,
+      "yMm": 64,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "U2",
+      "uniqueId": "gge2",
+      "xMm": 52,
+      "yMm": 52.99999999999999,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "U3",
+      "uniqueId": "gge3",
+      "xMm": 67,
+      "yMm": 27.999999999999996,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "U4",
+      "uniqueId": "gge4",
+      "xMm": 59.99999999999999,
+      "yMm": 35,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "U5",
+      "uniqueId": "gge28",
+      "xMm": 57,
+      "yMm": 71,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "U6",
+      "uniqueId": "gge30",
+      "xMm": 65,
+      "yMm": 73.00000000000001,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "U7",
+      "uniqueId": "gge37",
+      "xMm": 25.000000000000004,
+      "yMm": 64,
+      "rotation": 270,
+      "layer": 1
+    },
+    {
+      "ref": "U8",
+      "uniqueId": "gge39",
+      "xMm": 24,
+      "yMm": 44,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "U9",
+      "uniqueId": "player_power_U9_20260927",
+      "xMm": 21.000000000000004,
+      "yMm": 52.999999999999986,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "U10",
+      "uniqueId": "player_power_U10_20260927",
+      "xMm": 59.00000000000001,
+      "yMm": 46.99999999999999,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "C18",
+      "uniqueId": "player_power_C18_20260927",
+      "xMm": 14.999999999999996,
+      "yMm": 52.7,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "C19",
+      "uniqueId": "player_power_C19_20260927",
+      "xMm": 59.00000000000001,
+      "yMm": 49.50000000000001,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "C20",
+      "uniqueId": "player_power_C20_20260927",
+      "xMm": 28.000000000000014,
+      "yMm": 58.800000000000004,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "ref": "J2",
+      "uniqueId": "gge59",
+      "xMm": 3.81,
+      "yMm": 58.800999999999995,
+      "rotation": 270,
+      "layer": 1
+    }
+  ]
+}

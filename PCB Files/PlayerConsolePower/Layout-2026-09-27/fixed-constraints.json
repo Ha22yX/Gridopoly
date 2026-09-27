@@ -1,0 +1,445 @@
+{
+  "capturedAt": "2026-09-27T09:28:18.178Z",
+  "projectUuid": "1fc1efa1719a2154f39db7d1a5835fe565bdaec67db7edd30a98f9f669aa8060",
+  "pcbUuid": "847ec1f4dfc5086a",
+  "boardWidthMm": 80,
+  "boardHeightMm": 80,
+  "nominalThicknessMm": 1.6,
+  "copperLayers": 2,
+  "preferredComponentSide": "TOP",
+  "frozenComponents": [
+    {
+      "ref": "J1",
+      "id": "af2a07e8bb96cc26",
+      "uid": "gge29",
+      "x": 1574.8031484251974,
+      "y": -2970,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "ref": "POWER",
+      "id": "358d584b67b88939",
+      "uid": "gge19",
+      "x": 2965,
+      "y": -1054.8031484251967,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "RST",
+      "id": "adcb2853be0b6f8e",
+      "uid": "gge58",
+      "x": 2964.9999999999995,
+      "y": -2094.803148425197,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "ref": "J2",
+      "id": "431431048e7e93b0",
+      "uid": "gge59",
+      "x": 150,
+      "y": -2315,
+      "rotation": 270,
+      "layer": 1
+    }
+  ],
+  "frozenMountingPads": [
+    {
+      "h": {
+        "type": "PAD",
+        "ticket": 216,
+        "id": "f9a94b3034632f7c"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 12,
+        "num": "1",
+        "centerX": 196.8504,
+        "centerY": -196.8504,
+        "padAngle": 0,
+        "hole": {
+          "holeType": "ROUND",
+          "width": 133.8583,
+          "height": 133.8583
+        },
+        "defaultPad": {
+          "padType": "ELLIPSE",
+          "width": 196.8504,
+          "height": 196.8504
+        },
+        "specialPad": [],
+        "padOffsetX": 0,
+        "padOffsetY": 0,
+        "relativeAngle": 0,
+        "plated": true,
+        "padType": "NORMAL",
+        "topSolderExpansion": null,
+        "bottomSolderExpansion": null,
+        "topPasteExpansion": null,
+        "bottomPasteExpansion": null,
+        "locked": true,
+        "zIndex": -1,
+        "connectMode": null,
+        "spokeSpace": null,
+        "spokeWidth": null,
+        "spokeAngle": null,
+        "unusedInnerLayers": [],
+        "padLen": 0,
+        "attrsMap": {}
+      }
+    },
+    {
+      "h": {
+        "type": "PAD",
+        "ticket": 217,
+        "id": "00d9744dbffe73b2"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 12,
+        "num": "1",
+        "centerX": 2952.7559,
+        "centerY": -196.8504,
+        "padAngle": 0,
+        "hole": {
+          "holeType": "ROUND",
+          "width": 133.8583,
+          "height": 133.8583
+        },
+        "defaultPad": {
+          "padType": "ELLIPSE",
+          "width": 196.8504,
+          "height": 196.8504
+        },
+        "specialPad": [],
+        "padOffsetX": 0,
+        "padOffsetY": 0,
+        "relativeAngle": 0,
+        "plated": true,
+        "padType": "NORMAL",
+        "topSolderExpansion": null,
+        "bottomSolderExpansion": null,
+        "topPasteExpansion": null,
+        "bottomPasteExpansion": null,
+        "locked": true,
+        "zIndex": -1,
+        "connectMode": null,
+        "spokeSpace": null,
+        "spokeWidth": null,
+        "spokeAngle": null,
+        "unusedInnerLayers": [],
+        "padLen": 0,
+        "attrsMap": {}
+      }
+    },
+    {
+      "h": {
+        "type": "PAD",
+        "ticket": 218,
+        "id": "f56972f555b0bb84"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 12,
+        "num": "1",
+        "centerX": 2952.7559,
+        "centerY": -2952.7559,
+        "padAngle": 0,
+        "hole": {
+          "holeType": "ROUND",
+          "width": 133.8583,
+          "height": 133.8583
+        },
+        "defaultPad": {
+          "padType": "ELLIPSE",
+          "width": 196.8504,
+          "height": 196.8504
+        },
+        "specialPad": [],
+        "padOffsetX": 0,
+        "padOffsetY": 0,
+        "relativeAngle": 0,
+        "plated": true,
+        "padType": "NORMAL",
+        "topSolderExpansion": null,
+        "bottomSolderExpansion": null,
+        "topPasteExpansion": null,
+        "bottomPasteExpansion": null,
+        "locked": true,
+        "zIndex": -1,
+        "connectMode": null,
+        "spokeSpace": null,
+        "spokeWidth": null,
+        "spokeAngle": null,
+        "unusedInnerLayers": [],
+        "padLen": 0,
+        "attrsMap": {}
+      }
+    },
+    {
+      "h": {
+        "type": "PAD",
+        "ticket": 219,
+        "id": "4b7161c5a64c12ac"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 12,
+        "num": "1",
+        "centerX": 196.8504,
+        "centerY": -2952.7559,
+        "padAngle": 0,
+        "hole": {
+          "holeType": "ROUND",
+          "width": 133.8583,
+          "height": 133.8583
+        },
+        "defaultPad": {
+          "padType": "ELLIPSE",
+          "width": 196.8504,
+          "height": 196.8504
+        },
+        "specialPad": [],
+        "padOffsetX": 0,
+        "padOffsetY": 0,
+        "relativeAngle": 0,
+        "plated": true,
+        "padType": "NORMAL",
+        "topSolderExpansion": null,
+        "bottomSolderExpansion": null,
+        "topPasteExpansion": null,
+        "bottomPasteExpansion": null,
+        "locked": true,
+        "zIndex": -1,
+        "connectMode": null,
+        "spokeSpace": null,
+        "spokeWidth": null,
+        "spokeAngle": null,
+        "unusedInnerLayers": [],
+        "padLen": 0,
+        "attrsMap": {}
+      }
+    }
+  ],
+  "frozenBoardOutline": [
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 220,
+        "id": "b8208d3ea2dd2f19"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          196.8504,
+          0,
+          "CARC",
+          90,
+          0,
+          -196.8504
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 221,
+        "id": "ae163ec3a455a225"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          3149.6063,
+          -196.8504,
+          "CARC",
+          90,
+          2952.7559,
+          0
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 222,
+        "id": "bec5c689d3f50120"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          2952.7559,
+          -3149.6063,
+          "CARC",
+          90,
+          3149.6063,
+          -2952.7559
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 223,
+        "id": "749dbf306485a018"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          0,
+          -2952.7559,
+          "CARC",
+          90,
+          196.8504,
+          -3149.6063
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 224,
+        "id": "1f9462dff4361149"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          196.8504,
+          0,
+          "L",
+          2952.7559,
+          0
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 225,
+        "id": "3cd9a7b6b1ee6257"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          3149.6063,
+          -196.8504,
+          "L",
+          3149.6063,
+          -2952.7559
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 226,
+        "id": "965b2b65a3f524b7"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          2952.7559,
+          -3149.6063,
+          "L",
+          196.8504,
+          -3149.6063
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    },
+    {
+      "h": {
+        "type": "POLY",
+        "ticket": 227,
+        "id": "c6d1124ab05ecb2a"
+      },
+      "v": {
+        "partitionId": "",
+        "groupId": "1",
+        "netName": "",
+        "layerId": 11,
+        "width": 10,
+        "path": [
+          0,
+          -2952.7559,
+          "L",
+          0,
+          -196.8504
+        ],
+        "locked": true,
+        "zIndex": -1,
+        "polyType": "NORMAL"
+      }
+    }
+  ],
+  "screwKeepoutRadiusMm": 4,
+  "synchronization": {
+    "schematicParts": 68,
+    "pcbParts": 68,
+    "pads": 243,
+    "networkDifferences": []
+  },
+  "productionGates": [
+    "FPC cable thickness/contact/current and physical continuity",
+    "Battery protected pack specifications",
+    "Native schematic DRC warnings classification",
+    "Complete routing/DRC/fabrication/assembly review"
+  ]
+}
