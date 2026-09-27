@@ -1,0 +1,3 @@
+# Preserve frozen export bytes: verification metadata binds files by SHA-256.
+# Windows core.autocrlf must not rewrite the evidence on checkout.
+* -text
