@@ -1,0 +1,186 @@
+{
+  "checkedAt": "2026-09-27T23:59:44.511Z",
+  "snapshotAt": "2026-09-27T23:59:20.275Z",
+  "scope": "Captured design and fabrication files; no physical measurements",
+  "counts": {
+    "parts": 68,
+    "pads": 243,
+    "traces": 536,
+    "vias": 82
+  },
+  "passed": 34,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Native PCB DRC reports zero entries",
+      "passed": true
+    },
+    {
+      "name": "Native document saved",
+      "passed": true
+    },
+    {
+      "name": "68 components, all top side",
+      "passed": true
+    },
+    {
+      "name": "243 component pads",
+      "passed": true
+    },
+    {
+      "name": "Every schematic pin equals exported PCB and live pad net by unique ID",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Schematic and PCB component identities match",
+      "passed": true
+    },
+    {
+      "name": "Frozen J1 placement",
+      "passed": true
+    },
+    {
+      "name": "Frozen POWER placement",
+      "passed": true
+    },
+    {
+      "name": "Frozen RST placement",
+      "passed": true
+    },
+    {
+      "name": "Frozen J2 placement",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive f9a94b3034632f7c",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive 00d9744dbffe73b2",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive f56972f555b0bb84",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive 4b7161c5a64c12ac",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive b8208d3ea2dd2f19",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive ae163ec3a455a225",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive bec5c689d3f50120",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive 749dbf306485a018",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive 1f9462dff4361149",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive 3cd9a7b6b1ee6257",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive 965b2b65a3f524b7",
+      "passed": true
+    },
+    {
+      "name": "Frozen mechanical primitive c6d1124ab05ecb2a",
+      "passed": true
+    },
+    {
+      "name": "Two active copper layers",
+      "passed": true
+    },
+    {
+      "name": "Every routed trace and via has a net",
+      "passed": true
+    },
+    {
+      "name": "Minimum trace width at least 0.15 mm (rounding tolerance 0.001 mm)",
+      "passed": true
+    },
+    {
+      "name": "Via holes nominal 0.30 mm or larger",
+      "passed": true
+    },
+    {
+      "name": "Every via requests both-side tenting",
+      "passed": true
+    },
+    {
+      "name": "J2 physical pad reversal preserved",
+      "passed": true
+    },
+    {
+      "name": "SW1 internally common groups are not shorted signal-to-ground",
+      "passed": true
+    },
+    {
+      "name": "SW2 internally common groups are not shorted signal-to-ground",
+      "passed": true
+    },
+    {
+      "name": "Native footprint bounding envelopes do not overlap",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "BOM contains exactly the 68 assembled references",
+      "passed": true
+    },
+    {
+      "name": "CPL contains exactly the same 68 references, all Top",
+      "passed": true
+    },
+    {
+      "name": "Placement file coordinates/rotations equal final native component data",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "usbCopperTotals": [
+    {
+      "net": "USB_HOST_DP",
+      "totalTraceLengthMm": 24.0134,
+      "viaCount": 0
+    },
+    {
+      "net": "USB_HOST_DM",
+      "totalTraceLengthMm": 23.817,
+      "viaCount": 2
+    },
+    {
+      "net": "SCREEN_DP",
+      "totalTraceLengthMm": 22.9682,
+      "viaCount": 0
+    },
+    {
+      "net": "SCREEN_DM",
+      "totalTraceLengthMm": 25.0466,
+      "viaCount": 2
+    }
+  ],
+  "usbMeasurementLimit": "Total trace length includes branches. Not an end-to-end delay or impedance certification; vias and packages are not included.",
+  "hashes": {
+    "PCB1-routed.source.jsonl": "15e92f67a1410e57898fc41d24943b0d53aba05c1ff76d6c6085419587bcdf59",
+    "PCB1-netlist.json": "d393f32a01d5ea29dea37a10ffbd56fc9d88009bc5d1d1361aeb253ea0ff9e40",
+    "schematic-netlist.json": "95c393883aa592f33ef3ecdf3d9565d406a5f0014f31dd95b90c970920556833",
+    "final-live-audit.json": "bd44c5cfbb3a93356df3611854f100d5625ceb4213a17e02b1348e5bbc297322",
+    "Manufacturing-RC4/PlayerPower-R1-RC4-Gerber.zip": "f81f4933ba1597e8116ec7c3a772b5753b1cd593d3e59448447734f97d19a5e0",
+    "Manufacturing-RC4/PlayerPower-R1-RC4-BOM.csv": "739ebd8bb34148ee6526dfd339c88d5ef93bf87027fd5fd04c3c7223f067d568",
+    "Manufacturing-RC4/PlayerPower-R1-RC4-CPL.csv": "98cda7c904238e9b77d0a9f66144ee0eab127d52f9310ffdd501d79f1ba4a31b"
+  }
+}

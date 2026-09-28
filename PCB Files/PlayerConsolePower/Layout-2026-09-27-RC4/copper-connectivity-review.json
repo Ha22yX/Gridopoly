@@ -1,0 +1,30 @@
+{
+  "snapshotAt": "2026-09-27T23:59:20.275Z",
+  "method": "Exported Gerber polarity booleans, arcs approximated to 1 um; connectivity only through actual copper and captured plated vias/component holes. Point lookup tolerance 3 um; no tolerance joining separate polygons.",
+  "limitations": [
+    "Assumes all captured through vias/PTH component pads are manufactured and plated correctly.",
+    "Does not validate impedance, signal integrity, thermal performance or real connector contact wiring.",
+    "Only declared component pads, vias and routed traces are assigned electrical nets; anonymous copper islands are not functional nets."
+  ],
+  "counts": {
+    "componentPads": 243,
+    "vias": 82,
+    "traces": 536,
+    "electricalNets": 41,
+    "copperPolygons": 133
+  },
+  "shorts": [],
+  "opens": [],
+  "unexpectedNcConnections": [],
+  "mixedNetPolygons": [],
+  "missingTerminalCopper": [],
+  "ambiguousTerminalCopper": [],
+  "traceCopperFailures": [],
+  "passed": true,
+  "sha256": {
+    "Gerber_TopLayer.GTL": "1b827dbf50ab32305e1c2b26ac4ea3952e1b4d6576320b97fef09077381bc489",
+    "Gerber_BottomLayer.GBL": "86c35a5e68318ebec332d52f66d7ac4deb58a45289baf27f5bf6259f5d060adb",
+    "Manufacturing-RC4/PlayerPower-R1-RC4-Gerber.zip": "f81f4933ba1597e8116ec7c3a772b5753b1cd593d3e59448447734f97d19a5e0",
+    "final-live-audit.json": "bd44c5cfbb3a93356df3611854f100d5625ceb4213a17e02b1348e5bbc297322"
+  }
+}

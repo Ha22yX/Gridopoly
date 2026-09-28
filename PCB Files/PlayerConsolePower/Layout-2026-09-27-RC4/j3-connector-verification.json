@@ -1,0 +1,77 @@
+{
+  "checkedAt": "2026-09-27T23:59:20.275Z",
+  "passed": 9,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "J3 supplier and MPN synchronized",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J3 pin1 BAT+, pin2 GND",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J3 pitch 2.0 mm within coordinate rounding",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J3 stays at (40,5) mm; positive left on top view",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Other 67 component placements unchanged",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "All electrical pin networks unchanged from RC3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Actual manufacturing drills at both J3 pads are 0.80 mm",
+      "passed": true,
+      "detail": [
+        {
+          "pin": "2",
+          "matches": 1,
+          "diametersMm": [
+            0.8
+          ]
+        },
+        {
+          "pin": "1",
+          "matches": 1,
+          "diametersMm": [
+            0.8
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Only two BAT_PACK tail traces changed",
+      "passed": true,
+      "detail": [
+        "3b464ebf2193176a",
+        "e9ee3e10640f104e"
+      ]
+    },
+    {
+      "name": "All 82 vias unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "source": "Actual saved netlists, pad coordinates and exported Excellon; not a physical mating test",
+  "sha256": {
+    "final-live-audit.json": "bd44c5cfbb3a93356df3611854f100d5625ceb4213a17e02b1348e5bbc297322",
+    "schematic-netlist.json": "95c393883aa592f33ef3ecdf3d9565d406a5f0014f31dd95b90c970920556833",
+    "PCB1-netlist.json": "d393f32a01d5ea29dea37a10ffbd56fc9d88009bc5d1d1361aeb253ea0ff9e40",
+    "Manufacturing-RC4/PlayerPower-R1-RC4-Gerber.zip": "f81f4933ba1597e8116ec7c3a772b5753b1cd593d3e59448447734f97d19a5e0"
+  }
+}

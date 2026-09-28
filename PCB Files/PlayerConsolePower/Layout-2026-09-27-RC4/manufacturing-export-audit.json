@@ -1,0 +1,33 @@
+{
+  "nativePlacementRows": 68,
+  "assembledRows": 68,
+  "throughHoleConnectorIncluded": "J3",
+  "bomQuantity": 68,
+  "duplicateViaDrillHitsOmitted": 82,
+  "totalPlatedDrillObjects": 92,
+  "totalNonPlatedDrillObjects": 2,
+  "matchedVias": 82,
+  "missingOrDuplicateVias": [],
+  "fabricationFiles": [
+    "Gerber_TopLayer.GTL",
+    "Gerber_BottomLayer.GBL",
+    "Gerber_TopSilkscreenLayer.GTO",
+    "Gerber_BottomSilkscreenLayer.GBO",
+    "Gerber_TopSolderMaskLayer.GTS",
+    "Gerber_BottomSolderMaskLayer.GBS",
+    "Gerber_TopPasteMaskLayer.GTP",
+    "Gerber_BoardOutlineLayer.GKO",
+    "Drill_PTH_Through.DRL",
+    "Drill_NPTH_Through.DRL"
+  ],
+  "gerberObjectCounts": {
+    "Gerber_TopLayer.GTL": 2230,
+    "Gerber_BottomLayer.GBL": 465,
+    "Gerber_TopSilkscreenLayer.GTO": 3135,
+    "Gerber_BottomSilkscreenLayer.GBO": 0,
+    "Gerber_TopSolderMaskLayer.GTS": 247,
+    "Gerber_BottomSolderMaskLayer.GBS": 10,
+    "Gerber_TopPasteMaskLayer.GTP": 242,
+    "Gerber_BoardOutlineLayer.GKO": 8
+  }
+}
