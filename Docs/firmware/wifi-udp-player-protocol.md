@@ -3,7 +3,7 @@
 状态：A 级当前规范
 协议：Gridopoly Frame v1 + UDP Envelope v1
 服务端固定地址：`10.42.0.1:4242`
-最后更新：2026-08-07
+最后更新：2026-09-27；Frame/Envelope版本不变，新增配对消息见[跨端契约](ring-onboarding-contract-2026-09-26.md)。
 
 ## 1. 目标与边界
 
@@ -13,8 +13,9 @@ UDP 只替代 ESP‑NOW 的链路层，不改变游戏规则或 UI reducer。
 
 - 一个 UDP datagram 必须只包含一个完整 Gridopoly Frame。
 - 最大 inner frame 为 250 B；UDP envelope 为 48 B；最大 datagram 为 298 B。
-- 常规状态仍由 `StateSnapshot + AuthoritySnapshot + RosterSnapshot + GameEvent` 组成。
-- 动作与查询分别维护独立 pending；玩家详情不加入常规广播。
+- 新认证会话首帧/全量恢复先发`TagPairSnapshot`，再发 `Identity + State + Authority + Roster + Trade resync + Event`，
+  私有待揭示卡片位于 Identity 与 State 之间。
+- 动作、玩家详情、交易和身份请求分别维护独立 pending；按需数据不加入常规快照。
 - UDP 丢包、重复、乱序不允许造成动作重复执行或状态倒退。
 
 ## 2. UDP Envelope v1
@@ -104,7 +105,8 @@ PairAccept payload schema v2 为 17 B：
 decoder 继续接受 ESP‑NOW v1 的 13 B PairAccept，并令 sessionId=0；encoder 只发 v2。
 
 通过 session HMAC 和 replay 校验后，来源 IP/UDP 端口允许变化，服务端更新 endpoint，席位不变。
-树莓派或 AP 重启会使 room/session 失效；圆屏回到发现状态，以 deviceId 自动恢复原席位。
+15 秒无合法帧后 peer 超时，服务端保留 session/seat 恢复信息 2 分钟。树莓派或 AP 重启会使
+room/session 失效；圆屏回到发现状态，以 deviceId 自动恢复原席位。
 
 ## 5. 心跳、同步与重发
 
@@ -129,6 +131,12 @@ decoder 继续接受 ESP‑NOW v1 的 13 B PairAccept，并令 sessionId=0；enc
 
 ActionRequest 保持一个动作在途。重发必须使用相同 inner frame sequence 与相同请求内容，但使用新的
 UDP packetSequence。服务端按 inner sequence 回放缓存 ActionResult，不再次执行动作。
+
+骰子移动另有一个不改变游戏状态的展示闸门：`ActionCode::MovementCueReady=17`。圆屏只有在骰子
+动画和结果保持结束、MoveGuide 首帧已经呈现后才发送；`assetIndex=0xFF`，`argument` 为当前
+`pendingMoveTarget`，`expectedStateVersion` 必须为当前精确非零版本。成功的 ActionResult 版本不变。
+服务端在此之前向所有格子返回 `movementCue=none`，并禁止 RFID 自动到达；成功后才开放出发格橙色
+呼吸、目标格绿色双闪和目标 Tag 自动确认。该后台回执不得阻塞稍后的手动 ConfirmPosition。
 
 PlayerDetailRequest 使用独立 requestId 缓存，700 ms 可重发，建议最多 4 次、4 s 失败；同 requestId
 内容发生变化视为碰撞并拒绝。该查询不阻塞 Heartbeat 或 ActionRequest。
@@ -341,3 +349,12 @@ GET /assets/avatars/<roomId>/p<playerId>-a<avatarRevision>-<hash16>.png
 以下任一情况必须静默丢弃或返回协议错误，不能执行动作：HMAC 错误、reserved 非零、未知 session、
 senderDeviceId 不匹配、room 不匹配、replay、seat/player 不匹配、旧 stateVersion、未知动作、
 同 requestId 内容碰撞。日志只允许输出计数、room、sessionId、deviceId 标签和版本，不输出密钥。
+
+
+## 2026-09-26自动席位与棋子配对扩展
+
+新屏使用完整六字节MAC派生稳定deviceId和`GP-<12HEX>`发现名，capability0x01为Wi-Fi UDP、0x02为Tag配对。服务端冻结1～4台合格在线设备并补机器人至4席，掉线/重连不替换真人。
+
+新增TagPairRequest=0x2B（20字节）和TagPairSnapshot=0x2C（88字节），schema1、小端；身份席位TagPairing=7。字段布局、会话fence、revision、Retry/Cancel权限及持久化以[完整契约](ring-onboarding-contract-2026-09-26.md)为准，避免复制多个偏移表造成漂移。自动新局先绑定Tag再允许外貌姓名；单reader/开放链也可用。
+
+配对revision独立于游戏stateVersion，新认证session重置边界可接受首次可信resync重建，不能仅凭普通包Resync位接受旧revision。原Identity消息长度与Frame/Envelope均保持兼容。

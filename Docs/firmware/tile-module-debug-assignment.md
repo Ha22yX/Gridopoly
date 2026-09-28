@@ -1,5 +1,7 @@
 # 格子模块临时分配调试契约
 
+> 2026-09-27当前范围：V0.33角色、32 ORDER环、逐人Tag配对以[跨端契约](ring-onboarding-contract-2026-09-26.md)为准。本文保留旧模块自动认领兼容接口；带ORDER能力的当前模块不能按注册顺序占格。自动建局的Tag绑定必须经配对流程，旧手工set/clear接口不能绕过门槛。
+
 更新日期：2026-08-28
 
 ## 1. 用途与边界
@@ -61,11 +63,11 @@ Content-Type: application/json
 ```
 
 - 格子固件每 2 秒发送一次；服务端返回的 `leaseMs` 固定为 15000。
-- 首次成功注册会原子认领当前地图最低空闲 `mapIndex`；没有空闲格时返回
+- 仅缺少ORDER能力的旧模块首次注册会原子认领当前地图最低空闲 `mapIndex`；当前V0.33使用手动锚点/ORDER投影，无锚开链可保持未分配。旧兼容路径没有空闲格时返回
   `assigned=false`、`source="none"`，模块仍保持在线。
 - 后续 Heartbeat 会续租、刷新权威 owner 投影并返回当前冻结 DTO；绑定和 owner 投影均未变化
   的单纯续租不会推进 `serverRevision`。
-- 模块当前未分配时，Heartbeat 会再次尝试最低空闲格，因此 DELETE 清除后无需额外注册。
+- 无ORDER能力的旧模块未分配时，Heartbeat仍尝试最低空闲格；当前模块清除manual后恢复合法ORDER派生或等待锚点，不按注册顺序补格。
 - 相同 `moduleId` 不能换绑另一个 `deviceId`，相同 `deviceId` 也不能换绑另一个
   `moduleId`；冲突返回 409。
 - JSON body 可省略以兼容旧固件。V0.27 起每次 Heartbeat 发送完整 RFID 状态：

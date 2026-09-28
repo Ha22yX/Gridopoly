@@ -58,22 +58,17 @@ The goal is not to copy the brand, map, art, cards, or product appearance of any
 
 ## Current Status
 
-Gridopoly has moved beyond an early single-tile concept. Most major software and interaction subsystems are now implemented or integrated in the repository:
+Updated September 27, 2026. Gridopoly is an integrated prototype with working software candidates; full-board hardware acceptance and manufacturing approval remain open.
 
-- Raspberry Pi 5 authority server linked to the shared C++ game core and protocol stack.
-- Web board/testing UI with map assets, owner badges, robot players, game creation, and forced-roll debugging.
-- Authenticated Wi-Fi/UDP player-console protocol with HMAC sessions, replay protection, heartbeat, resync, and player detail queries.
-- Player console UI specification for a 2.1 inch 480x480 round screen, including dice, assets, players, trades, payments, auctions, cards, debt, and reconnect flows.
-- Bidirectional trade protocol with request/response flows, revisions, idempotency, counter-offers, robot responses, and atomic settlement.
-- Persistent game state, room identity, device-to-seat binding, avatar setup, name setup, countdown, and final avatar publishing.
-- Hardware baseline for smart tiles: ESP32-S3, ST7789, WS2812, HTRC110 RFID, RS485, ORDER chain, INA226 current sensing, 24 V bus, USB-C debug power, and 6-layer PCB design.
-- Mechanical player-console stand assets and verification scripts.
+- The Raspberry Pi authority and web UI implement authenticated player sessions, rules, persistence, trades, auctions, debt, building inventory, bankruptcy and game-over reporting.
+- Starting a game discovers 1–4 eligible player screens, freezes their seats and fills the remaining seats with bots, for four players total. Guided RFID pairing precedes each human player's avatar/name setup; a single unassigned tile or open chain is supported. Maps of 16/24/32/40 spaces can use this flow.
+- Tile V0.33 provides explicit long/corner profiles, fresh RFID scans and pairing display/LED feedback. ORDER V1 supplies independent physical-neighbor beacons; the server maps a complete 32-tile ring with 28 long tiles and four corners at positions 0/8/16/24. Other complete ring sizes are not implemented. RS485 remains reserved and disabled.
+- The latest frozen local batch candidate is v4, with long/corner/player firmware and a 36-device inventory template. Last verified deployments are Pi `2bc084d7…`, COM6 V0.33 `19edea4b…`, and COM7 normal core1 `9c4e1825…`; COM8 has not been upgraded from its recorded V0.32. These are deployment records, not live status.
+- Handwriting received user confirmation after the September 26 fixes. The later rotary decoder repair is deployed but awaits physical feedback. Retarget timing and the original flicker/shift scenario remain open; withdrawn core0 performance results do not certify the current build.
+- Board variants remain the six-layer long PCB2_1 and corner PCB2_5, using direct regulated 24 V input. USB-PD/NVM development was cancelled. The 60 W board-wide target and roughly 1 W per-tile budget still require measurement.
+- The separate player battery board has a two-layer 80×80 mm R1-RC4 manufacturing candidate (`ad77384`), with USB-C, charging, hardware cutoff, MAX17048/SC18IM704 telemetry and a PH2.0 battery connector. It is not manufacturing-approved. Telemetry firmware is implemented and built, disabled by default, and has not been deployed or added to v4.
 
-Tile V0.32 uses Wi-Fi/HTTP and physical ORDER beacons. Two-board order discovery, reassignment from either manual anchor, and preserving additional manual assignments have been verified on hardware. RS485 is reserved hardware and has not been enabled. The repository includes 36 web tile images, 36 player-screen RGB565 tile images, and 30 avatar components.
-
-As of September 22, 2026, the board variants are the long PCB2_1 and corner PCB2_5. The corner uses direct regulated 24 V input with a center-positive 5.5 x 2.1 mm connector; a 24 V / 5 A adapter is recommended. USB-PD and its NVM configuration have been cancelled. Both boards retain TPS26621 branch protection and LMR16030SDDAR conversion. The 60 W board-wide target and roughly 1 W per-module budget require physical verification; the adapter's 120 W rating is not a PCB rating.
-
-Remaining work includes final PCB routing and DRC, mechanical fit and ORDER/A/B data-chain endpoints, multi-board power and thermal validation, and full playtesting. Player-screen flicker/shift validation remains open, and the current core1 build's Retarget timing still exceeds its acceptance limit. See the [current handoff](Docs/CURRENT-DEVELOPMENT-HANDOFF.md) and [hardware report](Docs/hardware/development-handoff-2026-09-22.md) for evidence and scope.
+Single-reader pairing has worked on the physical setup. Full 32-tile/four-screen gameplay, 36-client networking, mechanical fit, power/thermal behavior and the player battery first board remain unverified. See the [current handoff](Docs/CURRENT-DEVELOPMENT-HANDOFF.md), [device/deployment registry](Docs/firmware/current-device-connections.md) and [release record](Docs/firmware/batch32-game-release-2026-09-26.md).
 
 ## System Architecture
 
@@ -117,7 +112,7 @@ flowchart TB
 | Authority server | Raspberry Pi 5, C++17, systemd | Rules, persistence, HTTP board UI, UDP player sessions, and deployment. |
 | Game core | C++ libraries | Board catalog, game engine, protocol codec, state machine, trades, auctions, cards, and bots. |
 | Assets/contracts | JSON schemas, generated docs, PNG/RGB565/GAVC assets | Stable game content, tile art, avatars, and protocol contracts. |
-| Hardware design | EasyEDA project snapshots, 6-layer PCB baseline | Smart tile PCB design, BOM, power, bus, and connector documentation. |
+| Hardware design | EasyEDA snapshots; 6-layer tiles, 2-layer player battery board | Smart tile PCB design, BOM, power, bus, and connector documentation. |
 
 ## Quickstart
 
@@ -144,6 +139,8 @@ sudoedit /etc/gridopoly/server.env
 sudoedit /etc/gridopoly/ap.env
 sudo systemctl enable --now gridopoly-ap gridopoly-dnsmasq gridopoly-ap-watchdog gridopoly
 ```
+
+The last recorded management-network address is `http://10.0.0.124/`; it may change with the network. The AP endpoints below are a separate device network. Optional external-AP migration is documented [here](Docs/firmware/external-ap-deployment-2026-09-26.md) and has not been applied on site.
 
 Player network endpoints after deployment:
 

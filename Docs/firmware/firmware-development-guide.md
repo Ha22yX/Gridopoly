@@ -1,6 +1,6 @@
 # Gridopoly ESP32-S3 固件开发指南
 
-更新日期：2026-09-21
+更新日期：2026-09-27
 
 本文给出单格模块固件的开发基线。GPIO 的最终定义来自
 [ESP32-S3 引脚与接口定义](../hardware/esp32-s3-pin-map.md)，通信和物理顺序来自
@@ -22,7 +22,7 @@ pio test -e native
 
 板级定义位于 `include/board_config.h`，实现位于 `src/`，本机配置在 `config/`，禁止提交网络凭据。共享业务模型与协议位于 Firmware/libraries。
 
-当前V0.32支持显示、LED、INA226、RFID、HTTP心跳和ORDER物理信标，未启用RS485。长边/角落显式板型和功耗管理尚待实现，见[直接24V板固件要求](module-power-firmware.md)。保留旧板构建，不复制整套业务工程；当前两板均不需要PD驱动，GPIO13为NC。
+当前V0.33支持显示、LED、INA226、RFID、HTTP心跳、ORDER物理信标和配对提示，未启用RS485。`tile_esp32s3_long`/`tile_esp32s3_corner`显式上报板型，默认`tile_esp32s3`为unknown；没有硬件自动角色识别。批量用两类普通profile及[发布工具](../../Tools/release/README.md)，不是将默认unknown刷遍32板。功耗策略仍待开发/验证，见[直接24V板固件要求](module-power-firmware.md)。GPIO13 NC，PD驱动取消。
 
 ## 3. 板级 GPIO
 
@@ -159,7 +159,7 @@ Power_LSB = 25 × Current_LSB = 2.5mW/bit
 
 当前为每板独立物理信标，不是ENUM_NEXT/PASS_TOKEN。GPIO10低释放、高拉低下游；1ms任务按6秒周期发送bootId/seq/CRC，通过HTTP报告接收到的实际上游。
 
-准确脉宽、序号、TTL、卡低和调度异常规则以[ORDER V1](tile-order-protocol.md)为准；服务器当前拒绝闭环，完整环形产品需要先定义断点或新增协议。
+准确脉宽、序号、TTL、卡低和调度异常规则以[ORDER V1](tile-order-protocol.md)为准；服务端已支持32节点/4角/28长边的完整环并保留开链锚点，物理波形仍V1；32实体环尚待验收，其他尺寸地图不能等同其他尺寸环已支持。
 
 ### 6.6 HTRC110 与 HITAG S256
 
@@ -223,7 +223,7 @@ Tag 与玩家的一对一绑定、跨模块全局汇总和自动到达均属于�
 
 ## 9. 历史提案：RS485 协议 V0（未部署）
 
-以下帧格式仅保留设计背景，不是当前Tile V0.32的通信契约。当前使用HTTP与ORDER V1；将来启用RS485须重新审查并版本化。
+以下帧格式仅保留设计背景，不是当前Tile V0.33的通信契约。当前使用HTTP与ORDER V1；将来启用RS485须重新审查并版本化。
 
 当前建议冻结为下列二进制帧，所有多字节整数使用小端：
 

@@ -1,5 +1,7 @@
 # 32 格子 / 4 玩家屏批量烧录
 
+> 2026-09-27：最新已冻结本地候选为`C:/Users/kicof/GridopolyReleases/batch32-2026-09-26-v4/`。player为普通9c4e，long/corner为V0.33；9月27日电池遥测源码尚未加入此包或部署。此为候选，不表示36台均已刷写。具体哈希、设备与验收见[设备台账](../../Docs/firmware/current-device-connections.md)及[发布记录](../../Docs/firmware/batch32-game-release-2026-09-26.md)。
+
 仅支持当前 ESP32-S3、16 MB Flash 的 `tile-long`、`tile-corner` 和 `player` 三种普通固件。
 长边与角落使用不同构建 profile；当前两种 PCB 没有已确认的角色识别引脚，清单中的板型须与实物对应。不能根据 COM 编号推断板型。
 

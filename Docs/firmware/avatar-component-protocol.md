@@ -1,6 +1,7 @@
 # Avatar Component Streaming Protocol v1
 
-Status: canonical and frozen on 2026-08-07.
+Status: canonical and frozen; reviewed against the deployed Raspberry Pi and PlayerConsole
+implementations on 2026-08-24.
 
 This contract lets a player console fetch only the structural avatar layer that changed. Hair color and skin tone are applied locally without a network request. The Raspberry Pi final-avatar compositor uses the same neutral component bytes, palettes, fixed-point tint rules, and source-over blend rules, so preview and final output have one pixel source of truth.
 
@@ -153,7 +154,11 @@ Implementations must reproduce these exact byte results:
 - Recipe `h7/c18/f4/s6/o9` produces legacy-preview FNV-1a-64 `2db09660e5c5fdfa` and SHA-256 `589778abed7e24b09ac8515ce6f51027fe64c6d13cb052197e7a15c4479de34f`.
 - The same recipe's final 128x128 RGBA content has FNV-1a-64 `6895eae94a41c35f`.
 
-The generated manifest `Assets/GridCity/Avatars/V1/runtime/avatar-components-v1.json` has SHA-256 `4154dca49550fd5fcf71b54077f741d63af4fb935b84ba62eeba314f4cc3f153`. It records the SHA-256 of every GAVC file and every decoded RGBA rectangle.
+The generated manifest `Assets/GridCity/Avatars/V1/runtime/avatar-components-v1.json` currently has
+SHA-256 `5bcb9b6e35b512d1bab2b6e3e1a1c87140116a8c2b72870683c5ac328d59a8af`. It records the
+SHA-256 of every GAVC file and every decoded RGBA rectangle. Release tooling must recompute and
+verify this value; clients should key immutable files by their own manifest entries rather than
+hard-code the repository-level manifest hash.
 
 ## Preview and final geometry
 
@@ -168,14 +173,12 @@ The final compositor places the same transparent 220x300 composite into a transp
 - After that preload, Hair/Face/Outfit preset changes are cache-only for the rest of identity setup.
 - HairColor and SkinTone changes make no HTTP request and immediately rerun local tint/composition.
 - A late response may populate cache but may publish only if its kind/preset still matches the current recipe generation.
-- The 30 compressed component files total 1,921,970 bytes. Together with one 132,000-byte RGB565
-  preview they occupy 2,053,970 bytes, below the setup-only 2 MiB PSRAM cap. Decoding remains
-  streaming; no transparent full-canvas scratch is retained.
+- The 30 compressed component files total 1,921,970 bytes. Two 132,000-byte RGB565 preview buffers retain the last complete displayed composition while the other is written. Their combined 2,185,970 bytes fit the setup-only 2304 KiB cap (`remote_tile_cache_policy.h`); decoding remains streaming. The earlier single-preview 2 MiB description is superseded.
 - The setup pool remains resident through Avatar Setup, Name Setup, Player Ready, and Countdown so
   a deliberate Back action never returns to a blank editor. Entering Active gameplay releases all
-  30 components and the preview in one lifecycle transition.
+  30 components and both previews in one lifecycle transition.
 - Six final RGB565 avatars use 196,608 bytes, fitting the separately frozen 384 KiB gameplay avatar
-  cache. The setup-only 2 MiB pool is not charged to the strict 1 MiB gameplay artwork budget.
+  cache. The setup-only 2304 KiB pool is not charged to the strict 1 MiB gameplay artwork budget.
 
 ## Compatibility and versioning
 

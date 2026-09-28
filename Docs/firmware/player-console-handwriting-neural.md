@@ -3,15 +3,14 @@
 The player console recognizes uppercase `A-Z` locally. It does not send handwriting,
 stroke coordinates, or player names to the Raspberry Pi for recognition.
 
-## Runtime pipeline
+## Runtime pipeline (updated September 27, 2026)
 
-1. Preserve physical pen lifts as separate strokes.
-2. Wait until the handwriting area has received no touch for 1.2 seconds.
-3. Find the stroke bounding box and scale it proportionally into a centered `28 x 28`
-   binary raster. Stroke samples are connected only according to the capture state machine.
-4. Evaluate a quantized `784 -> 128 ReLU -> 26` multilayer perceptron.
-5. Use the neural result when its top-logit margin is at least `0.45`; otherwise use the
-   existing stroke-aware template and direction classifier as a fallback.
+1. Capture physical touch samples and contact boundaries in the input driver. A slow UI loop does not split a continuous stroke merely because samples are processed more than 100 ms apart; actual release, leaving the canvas or unavailable samples break contact.
+2. Retain the canvas through same-page Tag/Identity updates. Use real sampling/release timestamps and require 1.2 seconds of inactivity before automatic submission; failed touch reads cannot trigger submission.
+3. Recognize clear general geometric/stroke matches first. Otherwise evaluate the existing quantized `784 -> 128 ReLU -> 26` network on a centered 28×28 raster, using the existing 0.45 logit-margin gate and stroke-aware template fallback. Model weights did not change in this repair.
+4. Recognition runs in the existing background worker with generation checks. Rejected strokes remain for correction. DELETE cancels current ink/results before deleting an existing character; DONE waits for the last ink result before returning to Name Review.
+
+The user confirmed handwriting after deployment. Rotary and LCD visual acceptance are separate; see the [input repair record](player-input-handwriting-fix-2026-09-26.md). Historical EMNIST accuracy below is a dataset result, not measured on-device user accuracy after this repair.
 
 The network contains 103,680 int8 weights plus 308 float scales and biases. The
 generated model header adds about 105 KiB of flash-resident model data and uses a

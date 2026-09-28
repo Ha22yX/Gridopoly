@@ -1,12 +1,12 @@
 # Gridopoly 玩家开局头像创建规格
 
-状态：当前实现规范；协议与素材已冻结，等待 ARM64 部署和 COM4 实机发布验收
+状态：当前源码/候选交互规范；部署与实物验收分开记录，见[设备台账](../firmware/current-device-connections.md)
 
-更新日期：2026-08-06
+更新日期：2026-09-27
 
 ## 1. 目标
 
-每次建立新对局并完成座位认领后，所有真人玩家先在自己的 2.1 英寸圆屏上创建头像。
+自动新局冻结1～4真人并补足4席后，先逐人配对棋子Tag；每名真人绑定成功即可在自己的2.1英寸圆屏创建头像，其他玩家可同时继续配对。单块未分配格子与非环形测试同样适用。
 玩家可以组合发型、发色、面部、肤色和服装；机器人由权威服务端自动生成组合。只有本局
 所有必需玩家都确认后，服务端才允许进入正式游戏。
 
@@ -60,9 +60,12 @@ stateDiagram-v2
    30 个 Hair/Face/Outfit 组件；机器人立即生成并确认配方。
 3. 真人在本机编辑草稿；编辑过程只需本地预览，不把每一次旋钮变化发送给服务端。
 4. 玩家按下 `CONFIRM` 后，终端提交完整配方和幂等请求 ID。
-5. 服务端校验目录版本和全部预设 ID，记录配方并设置该席位的 confirmed bit。
-6. 全部必需席位确认后，服务端锁定头像并进入游戏初始化。
-7. 对局开始后，任何终端都不能再修改本局配方。
+5. 服务端校验目录版本和全部预设 ID，记录配方并异步生成最终头像；只有原子发布成功后才
+   设置该席位的 `avatarFinal` 并允许进入 Name Setup。
+6. 真人确认姓名后，服务端同时设置 `nameFinal` 与 `ready`，并立即更新 Roster。
+7. 所有必需真人都满足 `avatarFinal + nameFinal + ready` 后，服务端只创建一次统一 5 秒
+   countdown deadline；断线不暂停或重置。
+8. deadline 到达后进入 Active。对局开始后，任何终端都不能再修改本局配方或姓名。
 
 每次新建对局都重新进入头像创建。未来可以增加“使用上次外观”快捷项，但不能绕过本局确认。
 
@@ -389,56 +392,55 @@ O01-O10 的领口、颈部和肩点。运行时仍可独立组合全部 10×10×
 
 ## 9. 素材分发与缓存
 
-头像素材沿用树莓派 Wi-Fi 按需资源服务，但与地产图片使用不同的 manifest 类型。建议目录：
+头像素材由树莓派 Wi-Fi 资源服务提供，组件格式、路由、CRC、着色、合成算法和 golden
+以[头像组件协议](../firmware/avatar-component-protocol.md)及其引用的 manifest 为单一来源。公开组合预览只作
+兼容，正式圆屏编辑器使用中性 GAVC 组件。
 
-```text
-Assets/GridCity/Avatars/
-  manifest.json
-  source/
-  device/
-    hair/
-    face/
-    skin/
-    outfit/
-```
+当前实现：
 
-未来实现应满足：
-
-- manifest 包含 `avatarVersion`、稳定 ID、图层、尺寸、色深、长度和内容哈希。
-- 编辑页打开前显示独立进度页，先下载当前配方三层，再下载全部 30 个 GAVC 组件；全部组件
-  和当前预览就绪后才进入 Focus Stack。
-- 30 个组件与一张 220×300 预览使用独立、严格的 2 MiB 临时 PSRAM 池，贯穿外貌、姓名、
-  准备和倒计时页面；进入正式游戏后统一释放。
-- 棋盘和最终头像仍共享严格 1 MiB 游戏期预算：棋盘 LRU 640 KiB，最多六张最终头像 384 KiB。
-- 当前预览及准备阶段组件不可被 LRU 淘汰；下载失败保持进度页并按有界退避重试。
-- 下载失败保留加载状态并允许重试；不得用其他玩家或错误预设代替。
-- 确认按钮只有在当前配方全部必要图层成功加载后才可用。
+- 组件路由固定为 `/assets/avatar-components/v1/hair/h1.gavc`、`face/f1.gavc` 和
+  `outfit/o1.gavc` 形式，ID 为 1..10 且禁止前导零。
+- 编辑页打开前显示独立 `PREPARING AVATAR` 进度页；当前配方三层优先，4 个低优先级
+  HTTP worker 下载并校验全部 30 个唯一组件。
+- 30个组件和两张220×300 RGB565预览使用独立2304KiB临时PSRAM池。组件
+  文件总计 1,921,970B，身份阶段不做 LRU 淘汰。
+- 达到 30/30 后必须自动进入 Focus Stack，并立即合成初始配方；不得要求玩家先旋转一次
+  preset 才能结束 `LOADING PREVIEW`。
+- 外貌、姓名、准备和倒计时共用该临时池；进入 Active 后统一释放。
+- 游戏期素材使用严格 1 MiB：棋盘图片 640 KiB、最多六张最终头像 384 KiB。
+- Hair Color 与 Skin Tone 使用 canonical 整数算法本地换色，不产生 HTTP 请求。
+- 当前配方未就绪时只显示 spinner；不得显示其他预设、旧头像或无关占位图。
+- 下载失败保持有界重试和进度状态；不得因后台无关资源完成触发当前页面整屏重绘。
 
 ## 10. 权威服务端语义
 
 ### 10.1 状态
 
-服务端至少持有：
+服务端以 Identity 状态而不是本地页面作为权威，至少持有：
 
 ```text
-avatarPhase
-avatarCatalogVersion
-avatarRequiredMask
-avatarConfirmedMask
-playerAvatarRecipes[]
+roomPhase / identityRevision / stateVersion
+requiredMask / avatarFinalMask / nameFinalMask / readyMask / onlineMask
+seatRevision / avatarRevision / final recipe / final avatar URL
+selfStage / countdown deadline
 ```
 
-bit n 对应 playerId `n + 1`，与现有玩家位图约定保持一致。机器人和网页控制器是否进入 required mask
-由房间配置决定；首版建议机器人自动确认，真人圆屏必须主动确认。
+bit n 对应 playerId `n + 1`。机器人在建局时生成确定性随机配方与名字并自动完成；真人必须
+依次完成外貌、名字和 Ready。`AvatarSetup`/`Countdown` 阶段 Heartbeat 的 applied-state version
+表示已经完整应用 IdentitySnapshot，而不是普通 State/Auth/Roster。
 
 ### 10.2 幂等和版本
 
-- `AvatarConfirm` 必须带非零 request ID、房间 ID、席位绑定和期望状态版本。
-- 相同 request ID 与相同 payload 重发返回第一次结果，不重复推进版本。
-- 相同 request ID 携带不同配方必须拒绝。
-- `AvatarUnlock` 只在游戏锁定前有效，并清除自己的 confirmed bit。
-- 普通 Heartbeat、State/Auth/Roster 重同步不得清除已经确认的配方。
-- 新房间必须清除上一局草稿、确认位和头像锁定状态。
+- 身份修改使用 `IdentityRequest`，必须带非零 request ID、房间、席位、当前非零 stateVersion
+  和 seatRevision；字段及偏移只以共享 `Protocol.h/.cpp` 为准。
+- 相同 request ID 与完全相同 payload 重发必须返回第一次结果，不重复推进版本；同 ID 不同
+  payload 必须拒绝。
+- `ConfirmAvatar` 的立即结果可进入 `AvatarGenerating`。生成完成通过同房间更高版本、
+  requestId=0 的 `IdentitySnapshot` 发布；本席 `avatarFinal` 后客户端必须清除 SAVING/pending
+  并进入 Name Setup，不能继续等待组件。
+- `ConfirmName` 只有在最终头像可用时合法；成功后同一事务写入公开玩家名并同时成为 Ready。
+- 普通 Heartbeat、State/Auth/Roster 重同步不得清除最终配方、名字或 Ready。
+- 新 room/session 必须清除上一局草稿、请求 pending、倒计时和页面生命周期。
 
 ### 10.3 机器人
 
@@ -447,29 +449,26 @@ bit n 对应 playerId `n + 1`，与现有玩家位图约定保持一致。机器
 
 ### 10.4 断线恢复
 
-- 未确认玩家断线：服务端保留席位；重连后恢复本地草稿或服务端默认配方，仍需确认。
-- 已确认玩家断线：保留已确认配方和 confirmed bit；重连后直接恢复等待页。
+- `avatarFinal` 或 `nameFinal` 尚未完成的真人断线：服务端保留席位；重连后按
+  `IdentitySnapshot.selfStage` 恢复外貌、姓名或生成中页面，仍需完成剩余步骤。
+- `nameFinal + ready` 已完成的真人断线：保留最终配方、最终头像、名字和 Ready；重连后直接恢复等待页。
 - 全员确认后的锁定阶段断线：游戏不回退到编辑页。
 - 目录版本不匹配：显示升级页，禁止提交未知配方。
 
-## 11. 协议规划边界
+## 11. 已实现协议边界
 
-未来协议可以采用以下语义消息名，但本文不分配 `MessageType` 或 `ActionCode` 数字：
-
-- `AvatarCatalogInfo`
-- `AvatarConfirmRequest` / `AvatarConfirmResult`
-- `AvatarUnlockRequest` / `AvatarUnlockResult`
-- `AvatarSetupSnapshot`
-- `AvatarSetupCompleted`
-
-开始实现时必须：
-
-1. 在 `GridopolyProtocol` 单一来源中冻结字段和编号。
-2. 保证 Wi-Fi/UDP HMAC、packet sequence、重放窗口和请求幂等语义不变。
-3. 不把头像图层数据放进二进制状态帧，只传配方。
-4. 为旧固件定义明确的不兼容提示，不能把未知头像字段当成零值继续游戏。
-5. 增加 Raspberry Pi 双客户端真实 UDP 集成测试后再部署。
-
+- `IdentityRequest` 为消息 `0x29`，`IdentitySnapshot` 为消息 `0x2A`；固定布局由
+  `Firmware/libraries/GridopolyProtocol/src/gridopoly/protocol/Protocol.h/.cpp` 定义。
+- 新认证UDP会话的Pair/full resync先发送TagPairSnapshot，再发送IdentitySnapshot，随后仍按协议发送pending Card、State、
+  Authority、Roster、Trade 和事件历史。
+- AvatarSetup/Countdown 阶段，只有 IdentitySnapshot 可以完成该版本的身份投影；进入 Active
+  后恢复普通三投影、交易和事件游标完整性。
+- 二进制投影只传配方、版本、mask、名字和最终头像定位信息，不传 GAVC 或头像位图。
+- 组件及最终头像通过 HTTP immutable 路由分发，完整 URL、room、player、revision 和 hash
+  共同构成缓存键。
+- 倒计时按快照中的 `serverEpochMs` 与 `countdownDeadlineEpochMs` 换算为本机 monotonic
+  deadline；幂等重放不得把五秒倒计时重新开始。
+- Wi-Fi/UDP HMAC、packet sequence、重放窗口、请求重发和新房间恢复语义保持不变。
 ## 12. 页面与全局行为
 
 - `AvatarSetup` 是开局顶层阶段，普通首页、资产、玩家、交易和活动入口不可进入。
@@ -490,22 +489,22 @@ bit n 对应 playerId `n + 1`，与现有玩家位图约定保持一致。机器
 | AVATAR-04 | 实时预览 | 缓存命中时参数变化到预览更新不超过 100 ms，无旧图闪现 |
 | AVATAR-05 | 图层遮挡 | 固定 `face -> outfit -> hair`；全部组合无头发穿帮、颈部遮挡或领口错位 |
 | AVATAR-06 | 确认屏障 | 少一名真人未确认时不开始；最后一名确认只启动一次 |
-| AVATAR-07 | 撤销确认 | 锁定前 EDIT 清自己的 confirmed bit；锁定后不可编辑 |
+| AVATAR-07 | 阶段返回 | 外貌未提交时可继续编辑；Name Review 可按产品流程返回外貌阶段；Countdown/Active 后不可编辑 |
 | AVATAR-08 | 机器人外观 | 同一 room/seat 重启后配方不变，不阻塞真人确认 |
 | AVATAR-09 | 断线恢复 | 未确认恢复编辑；已确认恢复等待；不重复锁定动画 |
 | AVATAR-10 | 幂等重发 | 丢首个结果后重发同 request ID，只确认一次、版本只推进一次 |
 | AVATAR-11 | 新房间 | 清除旧配方生命周期，重新要求本局确认 |
 | AVATAR-12 | 目录不兼容 | 显示升级页，不提交或错误渲染未知 ID |
 | AVATAR-13 | 素材失败 | 显示加载环并禁用确认；恢复后原地显示正确预览 |
-| AVATAR-14 | 缓存压力 | 达到预算后只淘汰未引用 LRU 图层，当前头像不闪烁 |
+| AVATAR-14 | 缓存压力 | 2304KiB身份临时池容纳30个GAVC和两张预览，身份阶段不淘汰；进入 Active 后一次性释放且当前头像不闪烁 |
 | AVATAR-15 | 全局一致 | 圆屏、网页、交易、付款、拍卖和玩家详情显示同一配方 |
 | AVATAR-16 | 文化与可访问性 | 预设可自由组合，无刻板标签；黑白检查仍能区分玩家轮廓 |
 | AVATAR-17 | 独立对位 | 每个 preset 保存自己的 X/Y；切换正确恢复，导出后与 manifest 一致且不重复应用 |
 | AVATAR-18 | 程序化换色 | 发色/肤色不改变几何，不污染眼睛、线稿、头发以外区域或服装 |
 
-## 14. 分阶段实施建议
+## 14. 当前实现与维护基线
 
-### 当前玩家端实现基线（2026-08-07）
+### 当前玩家端实现基线（2026-08-24）
 
 - 圆屏已实现 `AvatarSetup -> NameReview/NameHandwriting -> PlayerReady -> Countdown`
   顶层生命周期，开局阶段不能进入游戏首页。
@@ -519,56 +518,61 @@ bit n 对应 playerId `n + 1`，与现有玩家位图约定保持一致。机器
   与页面背景一致。当前配方未完整加载时只显示转圈加载，不显示旧配方或占位头像。
 - Ready 页面只在 `AvatarFinal` 后请求带 room、player、revision 和 hash 的
   `128x128 RGB565 LE` 最终头像。服务端只在玩家确认外貌时生成一次最终公共头像。
-- 名字草稿只保存在圆屏本地。手写页采集多笔画，在 650 ms 停顿后使用本地轻量
-  A-Z 识别器追加字符；删除只删最后一个字符，手写 DONE 返回 Name Review，只有
-  Name Review 的确认才发送 `ConfirmName`。
+- 名字草稿在圆屏本地；真实触摸驱动保留接触边界，同一笔不因UI采样处理延迟超过100ms断开，不同接触不串笔。真实抬笔及最后书写后完整1200ms静默才提交；读失败不得伪装可靠抬笔。同页周期快照保留画布和识别代次。通用几何匹配、int8 EMNIST与模板共同识别；拒识保留墨迹。DELETE优先清当前墨迹/撤销旧结果，空画布才删末字；DONE先等待墨迹提交成功再回Name Review，拒识时留在画板。只有Name Review确认发送`ConfirmName`。
 - 倒计时不使用本机 wall clock。接收 IdentitySnapshot 时按
   `remaining=max(0, deadlineEpoch-serverEpoch)` 换算为本机 monotonic deadline；同请求
   幂等重放刷新 serverEpoch 但不刷新权威 deadline，因此不会重新开始 5 秒。
 - 游戏期棋盘与最终头像共享严格 1 MiB PSRAM 上限：棋盘 640 KiB，最终头像 384 KiB。
-  Identity Setup 另有严格 2 MiB 临时池，保存 30 个 GAVC 文件（1,921,970B）和一个
-  `220x300 RGB565` 预览（132,000B）；进入 Active 后立即统一释放。
+  Identity Setup临时池上限2304KiB，保存30个GAVC（1,921,970B）及两张`220x300 RGB565`预览（每张132,000B），合成时保留上一完整预览；进入Active后统一释放。
 - `ConfirmAvatar` 的立即响应允许停在 `AvatarGenerating/SAVING`；随后同 room 的更高版本、
   request-id-zero IdentitySnapshot 只要证明本席 `avatarFinal`，就必须清除 transport 与 UI
   pending 并进入 Name Setup。AvatarSetup/Countdown 阶段只有 IdentitySnapshot 可以推进
   applied-state version，State/Auth/Roster 不能提前确认这次身份转换。
 
-### 阶段 A：目录和视觉样片
+### 历史实施阶段 A：目录和视觉样片（已完成）
 
 - 先制作 3 个发型、3 个发色、3 个面部、4 个肤色和 3 个服装的垂直样片。
 - 在 480×480 实机上验证图层、肤色着色、96 px 圆形裁切和 40/60 布局。
 - 冻结 manifest 和配方版本策略。
 
-### 阶段 B：本地编辑器
+### 历史实施阶段 B：本地编辑器（已完成）
 
 - 只实现本地草稿、旋钮/触摸、静态预览、加载和缓存。
 - 用 Demo Lab 覆盖所有组合和素材失败，不接权威开局屏障。
 
-### 阶段 C：协议与树莓派权威状态
+### 历史实施阶段 C：协议与树莓派权威状态（已完成）
 
 - 冻结消息编号和 payload。
 - 实现确认、撤销、机器人配方、持久化、重连和全量同步。
 - 完成主机测试与双客户端真实 UDP 集成测试。
 
-### 阶段 D：全局头像替换
+### 历史实施阶段 D：全局头像替换（已完成）
 
 - 将玩家列表、付款、交易、活动、拍卖和网页中的固定头像替换为配方渲染。
 - 保留当前五名固定角色作为兼容默认预设或旧存档回退，不同时维护两套身份规则。
 
-### 阶段 E：实机发布
+### 历史实施阶段 E：实机发布（已完成）
 
 - 执行本文件 AVATAR 验收矩阵、性能测试、断线恢复和多屏同步。
-- 通过后把当前“等待实机发布验收”状态提升为已发布 A/B 级规范。
+- 持续执行本文件验收矩阵，并在协议、资源或硬件方向变化时同步更新当前基线。
 
 ## 15. 已冻结决策与后续扩展
 
 - 预设范围固定为 Hair 10、Hair Color 20、Face 10、Skin Tone 8、Outfit 10。
 - 头像图层使用中性 straight-alpha RGBA8888 GAVC，玩家端与服务端共用定点着色和
   source-over 算法；不得退回服务端预生成每一种颜色组合。
-- 头像和棋盘缓存已统一在 1 MiB 总预算内，后续不得另建无上限的图片缓存。
-- 已确认玩家断线时是否允许房主强制移除席位。
+- 身份设置期使用2304KiB临时组件及双预览池；进入 Active 后释放它，再使用游戏期严格 1 MiB
+  棋盘/最终头像 LRU。后续不得另建无上限图片缓存。
+- `nameFinal + ready` 玩家断线时是否允许房主强制移除席位。
 - 是否允许玩家在等待阶段一键使用上一局配方。
 - 网页房主是否可以为无屏幕真人代选头像。
 
 后续扩展不得由客户端单方面猜测；任何目录、状态或缓存语义变化都需要同时更新游戏状态机、
 Wi-Fi/UDP 协议、素材清单、圆屏 UI 规范和验收测试。
+
+
+## 2026-09-27 配对与输入验收补充
+
+[配对契约](../firmware/ring-onboarding-contract-2026-09-26.md)定义TagPairing席位阶段7、room/session/revision与CanEditIdentity；旧调试局可不启用该门禁，不能把旧行为当自动新局默认。全部必需真人绑定并完成头像/姓名/ready后才统一倒计时。
+
+Avatar编辑行/编辑态在周期身份快照中保持本地焦点；快照不得把用户刚选的行拉回旧identity.focus。旋钮双相非法跳变恢复保持可信定位点，不改机械方向或加入反转冷却。实现、主机测试和部署已有证据，但9c4e实际慢/快切行仍待用户复验；手写已获用户确认。[修复记录](../firmware/player-input-handwriting-fix-2026-09-26.md)

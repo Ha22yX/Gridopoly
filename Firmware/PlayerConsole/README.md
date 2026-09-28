@@ -300,8 +300,8 @@ only an animated loading ring in the artwork frame; it never substitutes unrelat
 The low-priority loader requests `/assets/tiles/<key>.rgb565`; completed images trigger an
 automatic visible-page rebuild. Board tiles use 640 KiB of the strict 1 MiB gameplay artwork
 budget and retain up to 20 images with LRU eviction. Final player portraits use the remaining
-384 KiB. Identity setup additionally opens one bounded 2 MiB transient pool: it downloads all
-30 neutral Hair, Face, and Outfit GAVC components plus the current 220 x 300 RGB565 composition,
+384 KiB. Identity setup additionally opens a bounded 2304 KiB transient pool: it downloads all
+30 neutral Hair, Face, and Outfit GAVC components and uses two 220 x 300 RGB565 preview buffers,
 retains them through Avatar Setup, Name Setup, and Player Ready, then releases the entire pool
 when gameplay starts. Displayed pixels are pinned, evicted artwork is downloaded again on demand,
 and generated firmware pixel arrays remain zero.
@@ -325,14 +325,12 @@ both transport and UI pending state and advances to Name Setup. State/Authority/
 cannot acknowledge that Identity transition or leave the editor stuck on `SAVING`.
 The name editor captures one or more touch strokes, groups strokes separated by less than
 1.2 seconds, recognizes an uppercase block letter locally, and appends it to the private draft.
-Pressing, moving, or releasing anywhere during handwriting restarts the complete 1.2-second
-idle window; captured strokes remain visible until that uninterrupted idle window expires.
+Real touch-driver samples preserve contact boundaries and restart the 1.2-second idle window for writing. Same-page identity/pairing updates retain the canvas; slow UI processing does not split a stroke at 100 ms. Failed reads cannot masquerade as reliable release or trigger recognition. DELETE clears pending ink before removing an existing character; DONE waits for the final ink result, and rejected ink stays available for correction.
 Recognition uses a real quantized neural network trained on the NIST EMNIST Letters split:
 the captured strokes are aspect-preserving rasterized to `28 x 28`, then evaluated by a
 `784 -> 128 ReLU -> 26` MLP entirely on the ESP32-S3. Its roughly 104 KiB of int8 weights stay
 in flash; only the 128-neuron workspace is live in RAM. The exported model reaches 87.04%
-accuracy over all 20,800 official test samples. Stroke-aware templates remain only as a
-low-confidence fallback for ambiguous logits, including the common `R/K` and `Y/T` pairs.
+accuracy over all 20,800 official test samples. Clear general geometric/stroke matches are now considered before the neural result; ambiguous logits still use the template fallback. The network weights and 0.45 gate are unchanged. Dataset accuracy is not measured user handwriting accuracy.
 The official dataset fetch, deterministic trainer, quantization, model hash, and regeneration
 commands are documented in `Docs/firmware/player-console-handwriting-neural.md`.
 Only `ConfirmName` publishes the final name to the room.
@@ -343,3 +341,10 @@ Regenerate and verify the server-delivered assets with:
 python .\tools\generate-tile-assets.py
 python .\tools\verify-tile-assets.py
 ```
+
+
+## September 27 deployment and battery extension
+
+The last verified COM7 deployment is normal core1 `9c4e1825…`, including the September 26 trusted-detent rotary recovery. Handwriting received user confirmation; the latest rotary physical feedback, original flicker/shift scenario and Retarget timing remain open. See the [device registry](../../Docs/firmware/current-device-connections.md).
+
+Optional SC18IM704/MAX17048 telemetry is implemented in `battery_telemetry.*`, `battery_hardware.*` and `ui_battery.*`. `tools/compile-isolated.ps1 -Mode production -BatteryBoard none` is the default; `-BatteryBoard viewe-md80et-v10` explicitly enables UART1 TX43/RX44 for the documented board. Both normal builds and driver/UI regressions passed, but neither changes the deployed COM7 firmware or frozen v4 package. Hardware verification and RC4 first-board acceptance are pending. [Battery firmware evidence](../../Docs/firmware/player-battery-telemetry-progress-2026-09-27.md)
