@@ -1,20 +1,21 @@
 # 硬件文档入口
 
-更新：2026-09-27。项目包含两种棋盘PCB，以及独立玩家圆屏和新增玩家电池底板。硬件审查统一由PCB任务负责；本次仅同步文档，没有修改在线工程或实物。
+更新：2026-09-27。项目包含两种棋盘PCB，以及独立玩家圆屏和新增玩家电池底板。硬件审查统一由PCB任务负责；本页汇总PCB任务已交付的设计证据，主任务文档整合未操作在线工程或实物。
 
-## 玩家电池底板：当前RC4
+## 玩家电池底板：当前RC5
 
-当前归档 **R1-RC4 / ad77384**：80×80mm/R5、双层、1.6mm/1oz、器件顶面；68件/243脚、536线段/82过孔。J2焊盘1–10反转对应厂家排线逻辑针序；J3改PH2.0-2P，JST B2B-PH-K-S(LF)(SN)/C131337，1脚BAT+、2脚GND，匹配PHR-2线端。
+当前候选 **R1-RC5**：80×80mm/R5、双层、1.6mm/1oz、器件顶面；68件/243脚、536线段/82过孔。J2焊盘1–10反转对应厂家排线逻辑针序；J3沿用PH2.0-2P并翻转极性，JST B2B-PH-K-S(LF)(SN)/C131337，1脚GND/BAT−、2脚BAT_PACK/BAT+，匹配PHR-2线端。
 
-用户已选择标准型SMT，保留U5 TUSB320LAIRWBR；67件SMT＋1件插件、30料号，J3需插件焊接或后焊。PCB DRC 0、34项布局检查、9项J3检查及41网铜层连通审查通过，36份交付哈希核验通过；这些结论只覆盖归档文件，不代表实物装配已成功。
+用户已选择标准型SMT，保留U5 TUSB320LAIRWBR；67件SMT＋1件插件、30料号，J3需插件焊接或后焊。PCB DRC 0、34项布局检查、11项J3检查及41网铜层连通审查通过，37份交付哈希核验通过；这些结论只覆盖归档文件，不代表实物装配已成功。
 
 **仍未制造放行**：41条原理图警告明细待分类；J2供应商500mA/触点与屏幕实际峰值、排线0.30±0.03mm尾端/接触面/通断、1S电池保护与电流、USB/充电/热/欠压首板验收待完成。电池遥测固件已构建，默认关闭，尚未部署或连接底板。
 
 - [电路、接线与采购说明](player-usbc-battery-base-2026-09-27.md)
-- [RC4制造归档](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC4/README.md) / [投产复核](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC4/production-review.md) / [首板清单](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC4/bringup-checklist.md)
+- [J3规格、观察方向与黑1红2接线速查](player-usbc-battery-base-2026-09-27.md#j3-battery-connector)
+- [RC5制造归档](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/README.md) / [投产复核](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/production-review.md) / [首板清单](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/bringup-checklist.md)
 - [UART协议](player-battery-telemetry-interface-2026-09-27.md) / [厂家GPIO证据](player-screen-uart-gpio-evidence-2026-09-27.md) / [固件接入](../firmware/player-battery-telemetry-progress-2026-09-27.md)
 
-旧DesignDraft及RC1～RC3原始文件/哈希保留追溯。按键内部常通组错误已修复为1/2接控制、3/4接GND；旧97afc2d不作为制造版本，81项修复检查不等于41条原生警告已分类。
+旧DesignDraft及RC1～RC4原始文件/哈希保留追溯。RC4的J3极性与RC5相反，当前所选电池使用RC5同版资料。按键内部常通组错误已修复为1/2接控制、3/4接GND；旧97afc2d不作为制造版本，81项修复检查不等于41条原生警告已分类。
 
 ## 棋盘长边与角落
 

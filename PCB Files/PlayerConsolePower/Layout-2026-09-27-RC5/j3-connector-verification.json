@@ -1,0 +1,215 @@
+{
+  "checkedAt": "2026-09-28T00:57:26.580Z",
+  "passed": 11,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "J3 supplier and MPN synchronized",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J3 pin1 GND/black, pin2 BAT_PACK/red",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J3 pitch 2.0 mm within coordinate rounding",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "J3 at (40,5) mm; negative left, positive right on top view",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "All 68 component placements unchanged from RC4",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "Only J3 pin networks swapped; every SCH/PCB pin matches",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Actual manufacturing holes at J3 are both 0.80 mm",
+      "passed": true,
+      "detail": [
+        {
+          "pin": "2",
+          "matches": 1,
+          "diametersMm": [
+            0.8
+          ]
+        },
+        {
+          "pin": "1",
+          "matches": 1,
+          "diametersMm": [
+            0.8
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Only three BAT_PACK tail traces replaced",
+      "passed": true,
+      "detail": {
+        "removed": [
+          {
+            "async": true,
+            "primitiveType": "Line",
+            "net": "BAT_PACK",
+            "layer": 2,
+            "startX": 2088.864482409874,
+            "startY": -968.8644824098743,
+            "endX": 1525,
+            "endY": -405,
+            "lineWidth": 23.622,
+            "primitiveLock": false,
+            "primitiveId": "e181f535f9c15397"
+          },
+          {
+            "async": true,
+            "primitiveType": "Line",
+            "net": "BAT_PACK",
+            "layer": 2,
+            "startX": 1525,
+            "startY": -405,
+            "endX": 1525,
+            "endY": -207.3,
+            "lineWidth": 23.622,
+            "primitiveLock": false,
+            "primitiveId": "3b464ebf2193176a"
+          },
+          {
+            "async": true,
+            "primitiveType": "Line",
+            "net": "BAT_PACK",
+            "layer": 2,
+            "startX": 1525,
+            "startY": -207.3,
+            "endX": 1535.4,
+            "endY": -196.9,
+            "lineWidth": 23.622,
+            "primitiveLock": false,
+            "primitiveId": "e9ee3e10640f104e"
+          }
+        ],
+        "added": [
+          {
+            "async": true,
+            "primitiveType": "Line",
+            "net": "BAT_PACK",
+            "layer": 2,
+            "startX": 2088.864482409874,
+            "startY": -968.8644824098743,
+            "endX": 1620,
+            "endY": -500,
+            "lineWidth": 23.622,
+            "primitiveLock": false,
+            "primitiveId": "941f7f18f607cc68"
+          },
+          {
+            "async": true,
+            "primitiveType": "Line",
+            "net": "BAT_PACK",
+            "layer": 2,
+            "startX": 1620,
+            "startY": -500,
+            "endX": 1620,
+            "endY": -202.70005590549968,
+            "lineWidth": 23.622,
+            "primitiveLock": false,
+            "primitiveId": "9c3ebc511d3ec5a3"
+          },
+          {
+            "async": true,
+            "primitiveType": "Line",
+            "net": "BAT_PACK",
+            "layer": 2,
+            "startX": 1620,
+            "startY": -202.70005590549968,
+            "endX": 1614.1999503937004,
+            "endY": -196.90000629920004,
+            "lineWidth": 23.622,
+            "primitiveLock": false,
+            "primitiveId": "7c626b8fed188332"
+          }
+        ],
+        "modifiedIds": []
+      }
+    },
+    {
+      "name": "All 82 vias unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Description no longer states previous polarity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Silkscreen polarity is left minus and right plus",
+      "passed": true,
+      "detail": {
+        "minus": [
+          {
+            "partitionId": "",
+            "groupId": 0,
+            "layerId": 3,
+            "x": 1395,
+            "y": -200,
+            "text": "BAT-",
+            "fontFamily": "default",
+            "fontSize": 39.3701,
+            "strokeWidth": 5.9055,
+            "bold": 0,
+            "italic": 0,
+            "origin": "CENTER_MIDDLE",
+            "angle": 0,
+            "reverse": false,
+            "expansion": 0,
+            "mirror": false,
+            "locked": false,
+            "zIndex": -1,
+            "specialColor": "#000000"
+          }
+        ],
+        "plus": [
+          {
+            "partitionId": "",
+            "groupId": 0,
+            "layerId": 3,
+            "x": 1755,
+            "y": -200,
+            "text": "BAT+",
+            "fontFamily": "default",
+            "fontSize": 39.3701,
+            "strokeWidth": 5.9055,
+            "bold": 0,
+            "italic": 0,
+            "origin": "CENTER_MIDDLE",
+            "angle": 0,
+            "reverse": false,
+            "expansion": 0,
+            "mirror": false,
+            "locked": false,
+            "zIndex": -1,
+            "specialColor": "#000000"
+          }
+        ]
+      }
+    }
+  ],
+  "source": "Actual saved netlists, pad coordinates and exported Excellon; not a physical mating test",
+  "sha256": {
+    "final-live-audit.json": "931837598abbeeef31b11934bd7a48a7589d8d9b1b02e529f9c6c178b4db318d",
+    "schematic-netlist.json": "182331472d2ee9def5cf13bcb43560e5c5526d9955cd2d9d5ed89b5a3fc4df9c",
+    "PCB1-netlist.json": "7fee63bcac5412992a08d29fca70b60ab0c1b5f33aa76a67780f44741f8a7125",
+    "Manufacturing-RC5/PlayerPower-R1-RC5-Gerber.zip": "acae884077b3f34878ac58575af3361735e6c0bb0380a6c93d1a22d504addfe1"
+  }
+}

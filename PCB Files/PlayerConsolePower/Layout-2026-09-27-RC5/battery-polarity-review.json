@@ -1,0 +1,37 @@
+{
+  "reviewedAt": "2026-09-28T00:57:26.580Z",
+  "board": "847ec1f4dfc5086a",
+  "part": "C131337",
+  "mpn": "B2B-PH-K-S(LF)(SN)",
+  "mate": "PHR-2",
+  "batteryModel": "EEMB LP103454",
+  "amazonASIN": "B08HQWXQ6Y",
+  "sourcePhoto": "User attachment codex-clipboard-1cda049c-d924-4859-af58-dfadc1916e1f.png",
+  "sourcePhotoView": {
+    "terminalRetentionWindows": "toward viewer",
+    "wires": "left",
+    "matingEnd": "right",
+    "redWire": "above black"
+  },
+  "datasheetHousingView": {
+    "wires": "up",
+    "matingEnd": "down",
+    "retentionWindows": "toward viewer",
+    "circuit1": "left"
+  },
+  "inferredBatteryPin1": "black/negative",
+  "inferredBatteryPin2": "red/positive",
+  "liveBoardPin1": "GND",
+  "liveBoardPin2": "BAT_PACK",
+  "matchByDrawingAndPhoto": true,
+  "verifiedPhysicalMating": false,
+  "verifiedActualBatteryPolarity": false,
+  "initialPcbClearanceErrors": 6,
+  "action": "Rebuilt copper, preserved user routes, updated SCH/PCB description and notes, re-exported RC5",
+  "finalPcbDrcErrors": 0,
+  "sources": [
+    "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf",
+    "https://www.amazon.com/dp/B08HQWXQ6Y"
+  ],
+  "limitations": "Product illustration does not prove delivered cable polarity; board has no reverse battery protection."
+}

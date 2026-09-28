@@ -1,0 +1,127 @@
+{
+  "schema": "gridopoly.player_power_layout_release.v1",
+  "date": "2026-09-27",
+  "version": "R1-RC5",
+  "pcb": "847ec1f4dfc5086a",
+  "status": "routed-manufacturing-candidate-not-released",
+  "layoutComplete": true,
+  "routingComplete": true,
+  "pcbNativeDrcErrors": 0,
+  "schematicNativeWarnings": 41,
+  "offlineChecks": {
+    "passed": 34,
+    "failed": 0
+  },
+  "board": {
+    "widthMm": 80,
+    "heightMm": 80,
+    "thicknessMm": 1.6,
+    "copperLayers": 2,
+    "allComponentsTop": true
+  },
+  "parts": {
+    "native": 68,
+    "assembly": 68,
+    "uniqueBomItems": 30,
+    "pads": 243,
+    "smt": 67,
+    "throughHole": 1
+  },
+  "preserved": [
+    "board outline",
+    "four mounting holes",
+    "J1 USB-C position/rotation",
+    "J2 FPC position/rotation",
+    "SW1 POWER position/rotation",
+    "SW2 RST position/rotation",
+    "J2 reversed physical pin mapping"
+  ],
+  "outstanding": [
+    {
+      "id": "fpc",
+      "requirement": "Verify 0.30±0.03mm tail thickness and contact/orientation/end-to-end pin mapping; prove actual sustained/max load compatible with 0.5A/contact catalog rating",
+      "state": "external-specification-and-physical-verification-pending"
+    },
+    {
+      "id": "battery",
+      "requirement": "Protected 1S/4.2V pack, permitted charge/discharge currents and environment",
+      "state": "external-specification-pending"
+    },
+    {
+      "id": "schematic-warnings",
+      "requirement": "Classify 41 warnings using native DRC panel details; current API returns only count",
+      "state": "details-unavailable-user-request-pending"
+    },
+    {
+      "id": "factory-review",
+      "requirement": "USB stackup/impedance, QFN thermal/paste/via process and part rotation/DFM",
+      "state": "not-submitted"
+    },
+    {
+      "id": "first-article",
+      "requirement": "Power/load/thermal/undervoltage/USB/programming/UART-gauge/status testing",
+      "state": "not-performed"
+    },
+    {
+      "id": "usb-electrical",
+      "requirement": "Resolve or validate local pair asymmetry, layer changes and reference-plane interruptions using actual stackup and first-article USB tests",
+      "state": "not-validated"
+    }
+  ],
+  "orderSubmitted": false,
+  "firmwareChanged": false,
+  "gitIndexChanged": false,
+  "routing": {
+    "traces": 536,
+    "vias": 82
+  },
+  "rc1ArchiveUnmodified": true,
+  "actualCopperConnectivity": {
+    "nets": 41,
+    "componentPads": 243,
+    "vias": 82,
+    "shorts": 0,
+    "opens": 0,
+    "unexpectedNcConnections": 0,
+    "limitations": "2D exported copper topology, not SI, thermal or physical mating"
+  },
+  "rc2ArchiveUnmodified": true,
+  "pcbCaptureAt": "2026-09-28T00:57:26.580Z",
+  "assemblyMode": "standard-SMT plus J3 through-hole assembly",
+  "localChangesBeforeReviewPreserved": true,
+  "batteryTerminalMm": {
+    "center": [
+      40,
+      5
+    ],
+    "positive": "right",
+    "negative": "left"
+  },
+  "rc3ArchiveUnmodified": true,
+  "j3Connector": {
+    "supplierId": "C131337",
+    "mpn": "B2B-PH-K-S(LF)(SN)",
+    "matingHousing": "PHR-2",
+    "pin1": "GND",
+    "pin2": "BAT_PACK",
+    "pitchMm": 2,
+    "finishedHoleNominalMm": 0.8,
+    "supplyLeadPolarityVerifiedPhysically": false
+  },
+  "j3Checks": {
+    "passed": 11,
+    "failed": 0
+  },
+  "rc4ArchiveUnmodified": true,
+  "changeFromRC4": {
+    "onlyPinNetworksChanged": [
+      "J3.1",
+      "J3.2"
+    ],
+    "replacedBatteryTailTraces": 3,
+    "componentPlacementsChanged": 0,
+    "viasChanged": 0,
+    "copperRepoured": true,
+    "initialCopperClearanceErrors": 6
+  }
+}

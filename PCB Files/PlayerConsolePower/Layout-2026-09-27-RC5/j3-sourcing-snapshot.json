@@ -1,0 +1,18 @@
+{
+  "checkedAtUtc": "2026-09-28T00:04:20.575220+00:00",
+  "part": "C131337",
+  "manufacturer": "JST",
+  "mpn": "B2B-PH-K-S(LF)(SN)",
+  "source": "https://www.lcsc.com/product-detail/C131337.html",
+  "observedLcscInventory": 76900,
+  "reserved": false,
+  "assemblySource": "https://jlcpcb.com/partdetail/JST-B2B_PH_K_S_LF_SN/C131337",
+  "assemblyType": "Wave Soldering",
+  "pitchMm": 2,
+  "positions": 2,
+  "entry": "vertical/top",
+  "mate": "PHR-2",
+  "currentRating": "2A with AWG24 per JST PH datasheet",
+  "primaryDatasheet": "https://www.jst.co.uk/downloads/series/TSSC017.01(PH).pdf",
+  "screenshotConnectorFamilyUnverified": true
+}
