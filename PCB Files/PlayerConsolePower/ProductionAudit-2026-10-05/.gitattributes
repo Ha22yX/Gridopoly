@@ -1,0 +1,2 @@
+# Preserve captured export bytes without disabling whitespace review.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

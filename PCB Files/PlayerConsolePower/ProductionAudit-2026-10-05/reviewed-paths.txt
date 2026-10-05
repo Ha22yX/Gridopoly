@@ -1,0 +1,24 @@
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/.gitattributes
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/P1.source.jsonl
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/P2.source.jsonl
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/PCB1-netlist.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/PCB1.source.jsonl
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/README.md
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/SHA256SUMS.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/arrival-tests.md
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/audit-status.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/copper-connectivity-review.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/current-snapshot.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/current-vs-rc5.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/frozen-rc5-integrity.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/j3-connector-verification.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/layout-verification.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/native-layout-geometry.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/reviewed-paths.txt
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/schematic-drc.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/schematic-netlist.json
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/verify-copper-connectivity.py
+PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/verify-current-vs-rc5.cjs
+Docs/CURRENT-DEVELOPMENT-HANDOFF.md
+Docs/hardware/README.md
+Docs/hardware/player-usbc-battery-base-2026-09-27.md

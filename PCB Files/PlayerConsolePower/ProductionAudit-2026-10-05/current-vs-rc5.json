@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-05T05:28:25.920Z",
+  "passed": true,
+  "changes": {
+    "components": {
+      "current": 68,
+      "frozen": 68,
+      "equal": true,
+      "added": [],
+      "removed": []
+    },
+    "lines": {
+      "current": 536,
+      "frozen": 536,
+      "equal": true,
+      "added": [],
+      "removed": []
+    },
+    "vias": {
+      "current": 82,
+      "frozen": 82,
+      "equal": true,
+      "added": [],
+      "removed": []
+    },
+    "PCB1-netlist.json": {
+      "equal": true
+    },
+    "schematic-netlist.json": {
+      "equal": true
+    },
+    "native-layout-geometry.json": {
+      "bytesEqual": true
+    },
+    "PCB1.source.jsonl": {
+      "bytesEqual": false,
+      "samePrimitivesIgnoringDocheadAndTicket": true
+    },
+    "P1.source.jsonl": {
+      "bytesEqual": false,
+      "samePrimitivesIgnoringDocheadAndTicket": true
+    },
+    "P2.source.jsonl": {
+      "bytesEqual": false,
+      "samePrimitivesIgnoringDocheadAndTicket": true
+    },
+    "pours": {
+      "current": 2,
+      "note": "Older snapshot has no pours field. Both pours are included in the identical PCB source primitive comparison above."
+    }
+  },
+  "schPcbPadDifferences": []
+}

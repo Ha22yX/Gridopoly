@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-05",
+  "timezone": "America/New_York",
+  "orderStatus": "User reports ordered, not received",
+  "orderFilesVerified": false,
+  "liveMatchesRc5": true,
+  "pcbDrcEntries": 0,
+  "schematicWarningCount": 41,
+  "schematicWarningsClassified": false,
+  "physicalTestsPerformed": false,
+  "designMutated": false,
+  "frozenRc5HashesChecked": 37,
+  "frozenRc5Changed": [],
+  "localLinksChecked": 67,
+  "missingLinks": [],
+  "blockers": [
+    "Battery-pack charge-voltage tolerance compatibility",
+    "Order package identity",
+    "Schematic DRC warning classification",
+    "FPC physical mapping and load",
+    "Bench functional and thermal tests"
+  ]
+}

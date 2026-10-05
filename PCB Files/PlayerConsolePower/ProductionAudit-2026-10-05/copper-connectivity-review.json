@@ -1,0 +1,30 @@
+{
+  "snapshotAt": "2026-10-05T05:09:40.343Z",
+  "method": "Exported Gerber polarity booleans, arcs approximated to 1 um; connectivity only through actual copper and captured plated vias/component holes. Point lookup tolerance 3 um; no tolerance joining separate polygons.",
+  "limitations": [
+    "Assumes all captured through vias/PTH component pads are manufactured and plated correctly.",
+    "Does not validate impedance, signal integrity, thermal performance or real connector contact wiring.",
+    "Only declared component pads, vias and routed traces are assigned electrical nets; anonymous copper islands are not functional nets."
+  ],
+  "counts": {
+    "componentPads": 243,
+    "vias": 82,
+    "traces": 536,
+    "electricalNets": 41,
+    "copperPolygons": 133
+  },
+  "shorts": [],
+  "opens": [],
+  "unexpectedNcConnections": [],
+  "mixedNetPolygons": [],
+  "missingTerminalCopper": [],
+  "ambiguousTerminalCopper": [],
+  "traceCopperFailures": [],
+  "passed": true,
+  "sha256": {
+    "Gerber_TopLayer.GTL": "e3440b49c5a1a233e3e9fd4cefb83ec4600a7b3fd27d1ec7f4828f26373c473b",
+    "Gerber_BottomLayer.GBL": "421e5dc86b6f9e37d741728af5e13d8ff385c660ac6e4019ce0b5d207b06af7f",
+    "../Layout-2026-09-27-RC5/Manufacturing-RC5/PlayerPower-R1-RC5-Gerber.zip": "acae884077b3f34878ac58575af3361735e6c0bb0380a6c93d1a22d504addfe1",
+    "current-snapshot.json": "93a0fffb634d27500ce711056071d01fd43acb211032e4a230ed6b2a93ec98d8"
+  }
+}

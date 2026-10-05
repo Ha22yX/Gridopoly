@@ -1,0 +1,21 @@
+{
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/.gitattributes": "f080c9a5a5f9de8ebd678a8c6a5dd2df797779f223c37771edfd82189eebc306",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/arrival-tests.md": "2a28c965a43578c4ec52c90575c6c414379f426820109f3a22b4b40c1105a1a3",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/audit-status.json": "bb9c96288ed755e6e3ab8f780e46fc262cf0b6fce312084f6839e12a1d43f707",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/copper-connectivity-review.json": "1035df35ab0c090a2b29b025ab3051413229b0942966c1270fba75f8a2500a36",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/current-snapshot.json": "93a0fffb634d27500ce711056071d01fd43acb211032e4a230ed6b2a93ec98d8",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/current-vs-rc5.json": "e2f16b06ec279e48896edfa50b589597280c5806e405a071866fb5431acc69bd",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/frozen-rc5-integrity.json": "df74153dc5ed445bf953577e611f9303168e8e6581f73b2c759f0addab1f0171",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/j3-connector-verification.json": "77182b02ba2bc13c0a41c41d1c512c95b1dcb44e4826931cc2d7b17cdc84e278",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/layout-verification.json": "ebe2e7ef6c3c71bb77362324e80daf664c0a2f656b392899d71c10c6363487f1",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/native-layout-geometry.json": "b3219c2417b7e621d91005fec8776ba0f17dddefbc165a7d9bb8e74c3533cc1c",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/P1.source.jsonl": "bc903b965372d3e392da396948a5b41d213501100ffbf53f874cee285dbf16b2",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/P2.source.jsonl": "64a4b04f1d2a988869012be95093b511bcd618c90b4d070254db6302eade52c5",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/PCB1-netlist.json": "7fee63bcac5412992a08d29fca70b60ab0c1b5f33aa76a67780f44741f8a7125",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/PCB1.source.jsonl": "718f9b876af17ef237606974c0f84d65f659926f226816670950e9db91e374c8",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/README.md": "74c6767bba9a1d344aa5147224aa257f5a5dffef411037e46c2b9a955463d91d",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/schematic-drc.json": "4fd7f640376eea77de167ca76fa90a46c52ea1a9a154419722d086e42767aacc",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/schematic-netlist.json": "182331472d2ee9def5cf13bcb43560e5c5526d9955cd2d9d5ed89b5a3fc4df9c",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/verify-copper-connectivity.py": "ad20fb753ff4f22dec4a898ca12b1e7e29ec481c82bccb5159b15eab0ea5061d",
+  "PCB Files/PlayerConsolePower/ProductionAudit-2026-10-05/verify-current-vs-rc5.cjs": "6556463fbcd03a1878979dd9998c2c4c4cfc681d76491e0752a0bcea2f8e2f01"
+}
