@@ -103,3 +103,115 @@ V0.33在扫描前和开启场期间均检查供电，低于4.65V会拒绝扫描�
 用户随后明确本窗口没有接24V总线，仅这四块通过电脑USB供电。该现场条件与低压记录一并保留；主任务协调接入已选24V电源或先继续其他批次，不在未重新测量时宣布RFID恢复。本任务没有新增采集或降低阈值。
 
 已对主任务新增Tools/release的`--after`路径完成只读评审：默认hard-reset不变；显式watchdog限定非secure S3 USB-Serial/JTAG，同连接开始和最终复位前检查live GPIO0 HIGH，清RTC_FORCE_DOWNLOAD后读回确认，再调用固定5.3.1公共reset_chip。mode从CLI到worker/result/日志闭合，失败不报VERIFIED。本机S3 SDK确认GPIO_STRAP为0x60004038、GPIO_IN为0x6000403C；固定esptool的API和目标类属性与实现吻合，未发现阻塞问题。主任务报告41项工具回归全过；本任务未重复执行其测试、未改工具或重刷四板。本批独立WDT恢复时forceDownload已为false，不能充当新版清位分支的实机验收。
+
+## 第二批4板写验及实际启动（累计8/16）
+
+用户更换3块新长边后，首次COM16只读连接在ROM同步期间遇到Windows USB I/O错误31，尚未取得MAC，也未打开COM17/18；随后日志输出遇到GBK编码错误。原始失败保留于`batch02-COM16-rom-identify.log`及`batch02-first-identity-attempt.json`，未复位、加载stub或写Flash。主任务重新确认三口齐全后，授权两次稳定PnP取样和各一次有界重试；明确设置UTF-8输出，三口no-reset/no-stub识别均成功。失败不能省略为首次即成功。
+
+用户再拔下首批角落COM15、换入新角落并进入下载模式，主任务据实物操作确定COM19为corner。COM19有界no-reset/no-stub识别通过。四板完整MAC均与PnP父ID相符，彼此唯一且不重复首批；均为ESP32-S3 rev0.2、16MB Flash、封装8MB PSRAM、非secure USB-Serial/JTAG，实时GPIO0为HIGH。
+
+本批仅使用最终冻结`C:/Users/kicof/GridopolyReleases/trial16-2026-10-15-v1/`，release.json SHA256为`96be3b531563cee87c2ccd53ed8c41d064d1c822d2a128e1a3850348be7b890c`。实际重新核对全部profile源码清单/烧录段哈希及分区布局，四行`batch02-inventory.csv`的dry-run通过；没有使用旧staging，也没有烧录player。
+
+固定Python312/esptool5.3.1执行`--partial --execute --after watchdog-reset`。四板全部先通过硬件身份和已有分区预检，再逐板同连接完成写入、Flash校验、MAC复核和watchdog复位。最终工具已明确`--after`只影响写验后复位：本批4条preflight实际为hard-reset，4条verified实际为watchdog-reset，日志分别记录requestedAfter/resetMode。主进程exit0，无写入重试、erase-all、NVS写入或分区迁移，也没有追加独立恢复复位。
+
+| 标签 / 串口 | 完整MAC | 普通固件角色 / 应用SHA前缀 | VERIFIED时间（EDT） |
+| --- | --- | --- | --- |
+| tile-long-04 / COM16 | `a4:cb:8f:c2:99:08` | long / 19edea4b… | 2026-10-15 00:44:02.129 −04:00 |
+| tile-long-05 / COM17 | `a4:cb:8f:c2:98:b8` | long / 19edea4b… | 2026-10-15 00:44:23.402 −04:00 |
+| tile-long-06 / COM18 | `a4:cb:8f:c2:98:fc` | long / 19edea4b… | 2026-10-15 00:44:44.399 −04:00 |
+| tile-corner-02 / COM19 | `a4:cb:8f:c6:26:24` | corner / 761bd36f… | 2026-10-15 00:45:05.568 −04:00 |
+
+四口同时进行一次45秒观察，STATUS每5秒、DTR/RTS均false，主机记录窗口2026-10-15 04:45:24.632–04:46:10.199 UTC。全部exit0、MONITOR CLOSED，随后已向主任务报告串口释放和可换下一批；没有再打开这四口。各口92条记录，9次HTTP200，固件V0.33、实际LCD8MHz、boot不变。观察内无panic/reset/json_error/heartbeat_failed，ORDER rejected均0、timing_drops均固定1。
+
+实际ORDER开链为COM16/9908 → COM17/98b8 → COM18/98fc → COM19/2624，最终accepted分别0/16/12/9；各后继upstream boot与前一板boot相同。HTTP确认3long＋1corner online、orderIndex0/1/2/3、无conflict，全部unanchored/assigned=false/closedRing=false。主任务另存`batch02-root-http.json`独立核对。旧COM6也在线，但不计入本批，且本任务没有操作它。
+
+本批RFID仍未验收：每板9次Fault/freshNO，均count0、TXDIS=1/OFF，无实体Tag拿放。USB供电下的INA遥测如下；不是校准电气测量，也不能据此把所有Fault归因于同一分支。
+
+| 模块 | 电压范围 | 电流范围 |
+| --- | --- | --- |
+| COM16 / long | 4.275–4.294V | 123.8–140.8mA |
+| COM17 / long | 4.240–4.261V | 120.8–134.5mA |
+| COM18 / long | 4.235–4.255V | 110.8–126.0mA |
+| COM19 / corner | 4.105–4.131V | 591.3–609.0mA |
+
+全部观测电压低于4.65V扫描门槛，角落遥测电流也高于350mA保护门槛。角落与长边的电流差异已同时交主任务及PCB任务，原因与量程/外围实物仍待核查；不据此宣布角落损坏或仅缺24V。遵守用户无24V仍继续刷写的最新安排，没有降低保护阈值或要求重复供电确认。
+
+本批before/after `/api/state`仅`identity.serverEpochMs`变化，room993580110/version11与其余业务完全一致；当前32格房间保留，未创建16格新局、设置锚点或修改Tag/分配。四节点开链验证不等于16闭环或完整试玩通过。
+
+新增证据均在`C:/Users/kicof/AppData/Local/GridopolyTileTools/trial-16-20261015/`：`batch02-long-pnp-retry1/2.json`、各long重试ROM日志和`batch02-long-identities-retry.json`、`batch02-corner-identity.json`及COM19日志、`batch02-before-flash-pnp.json`、inventory/dry-run/flash/events、四份`batch02-COMxx-serial.jsonl`、observation-results、before/after HTTP和`batch02-result.json`。本批未改生产固件、发布工具或Git索引。
+
+累计唯一新板已完成6long＋2corner的普通V0.33写验和实际启动，共8/16。余下6long＋2corner由主任务协调用户换线并给出下一批身份；格子任务在明确串口窗口继续。RFID、显示目视、完整16环、供电及实体对局仍分别保留待验，角落电流核查归PCB任务。
+
+### 第二块角落纯白高亮反馈，第三批暂停
+
+随后用户明确报告当前角落整圈LED特别亮且纯白。主任务优先排查COM19/`a4:cb:8f:c6:26:24`并暂停第三批，未假设设备发热或损坏。PnP仍确认相同身份/OK。五份涉及灯光的当前源码哈希与冻结corner源码清单一致，首批与本批角落应用SHA同为761bd36f…；没有不同版本角落固件的证据。
+
+V0.33的long/corner仅角色宏不同，均GPIO21、10颗、GRB24bit。当前未分配且不在配对流程，`renderLedScene`应按RGB(82,220,183)、level12..36输出青绿低亮呼吸，即通道R3..11/G10..31/B8..25，每50ms更新。初始化先送全黑；RFID Fault只影响LCD错误显示，不映射灯环纯白。未发现当前状态的正常全白高亮路径。`BRIGHTNESS`仅控制GPIO16的LCD背光，没有灯环OFF/低亮命令，因此未用该命令代替灯环诊断。
+
+主任务授权COM19一次不超过30秒的只读窗口；实际只采25秒、每5秒STATUS，无复位/写入/灯控，2026-10-15 04:49:46.282–04:50:11.702 UTC，exit0且MONITOR CLOSED，已释放端口。6条状态均HTTP200、assignedNO、pairing inactive、cue none，仍Fault/TXDIS1/OFF；INA电压4.054–4.080V，电流596.8–612.3mA。HTTP仍确认online/corner/V0.33、unanchored/index3。原始证据为`batch02-COM19-white-led-status.jsonl`、`batch02-COM19-white-led-capture.json`及`batch02-white-led-assignments.json`。
+
+现有STATUS不报告RMT初始化结果、像素或数据线电平；`showPixels`未记录RMT发送返回值，框架封装也没有透传底层`rmt_write_items`错误。源码期望tick125ns、0高375ns/低875ns、1高750ns/低500ns、空闲低、帧后80us；这些不是实测波形。只能确认实物显示与软件预期不符，不能仅凭USB低压、电流或源码判定具体故障层。主任务继续协调现场操作，PCB任务核查实际灯型号/电平/首灯DIN及串接；未经新授权不重刷或进行高亮测试。此反馈重新打开该角落灯光验收，不撤销已完成的身份/Flash/启动证据，也不把8板启动等同8板完整功能通过。
+
+## V0.34精确V6时序修正与普通候选
+
+用户按主任务安排断开COM19的USB及两侧连接10秒，再单独USB直连观察15秒，报告仍持续纯白，随后已拔USB；故障角落保持隔离。PCB设计归档LED为WS2812B-B-V6/C52941391，归档电路的数据经5V供电74HCT125D通道3及330Ω送首灯，并非GPIO3.3V直接驱动。设计型号与电路不等于已核实COM19实装BOM；实装器件、电平与异常电流仍归PCB实物核查。
+
+已下载并目视核对[Worldsemi原始型号数据表第4页](https://atta.szlcsc.com/upload/public/pdf/source/20251224/2F6ED8FFFF9D3044AED3CCAA3E4BF0D9.pdf)，本机`WS2812B-B-V6-lcsc-20251224.pdf` SHA256为`a3fd8855415d1f94e099c18d8b781ead6c1e3bf5a3b146895f91a77eb63ec14e`，原页渲染另存`WS2812B-B-V6-page4.png`。T0H为220–380ns，T1H/T0L/T1L为580–1000ns，复位低电平大于280µs，周期至少1250ns。V0.33的T1L=500ns确定不符合要求，T0H=375ns仅余5ns上限余量；这是已确认的软件问题，尚不是本次全白实物根因的直接测量证据。常规50ms idleLOW本已足够复位，不声称每帧都因原显式80µs而失败。
+
+经主任务审核与授权，修正为V0.34正常固件：62.5ns计数tick，0码5H/15L=312.5/937.5ns，1码10H/10L=625/625ns，周期1250ns，最小脉宽余量45ns；初始化和发送完成后显式保持低电平350µs。`ws2812_led.h`隔离实际编码、维护状态及发送控制，`ws2812_esp32.cpp`使用SDK原生RMT接口和相同4块内存容量，核对实际16MHz计数时钟，保留初始化/写入/20ms完成等待/停止的返回错误，任何发送失败后停止自动续发。没有修改SDK依赖或游戏/ORDER/显示协议。
+
+`STATUS`新增WS2812-STATUS：意图RGB、维护模式/剩余时间、实际计数时钟、attempted/completed/failed及错误阶段；`optical_verified=NO`明确软件完成不证明实物颜色。新增显式`LED STATUS`、`LED AUTO`、`LED OFF|RED|GREEN|BLUE seconds`（1–30秒）；仅0或固定单通道8/255，无白色/高亮模式，不持久化、不改业务。到期永久清除维护窗口，时钟再回绕也不复活；AUTO立即恢复当前游戏灯效。超长串口命令整行丢弃至CR/LF，未知/溢出/尾随垃圾参数不操作。LCD BRIGHTNESS语义不变。
+
+HostRegression 10套78例全部通过：原有66例保留，新增11例覆盖全部字节V6时序、10像素GRB/MSB、容量边界、单色限制、非法输入、到期及回绕、超长行、实际计数时钟、驱动写入/完成/停止错误及不自动续发；另1例使用真实render例程验证维护到期恢复当前Destination且不改网络快照。MSVC仍有既有ArduinoJson C4180警告，无测试失败。原生ESP32首次构建发现SDK配置宏int到gpio_num_t转换失败，改为结构零初始化及显式枚举转换后long/corner均构建成功；首次失败日志保留。
+
+候选位于`C:/Users/kicof/AppData/Local/GridopolyTileTools/build-v034/`，两profile均normalFirmware/V0.34，RAM70244、Flash2713809、app bin2714176字节。共同sourceDigest为`68309d74d19bba3660d0ede90f1a082146b9008d8b3febd082d1111bf8c3abf1`，74源逐一复算无漂移，全部4个烧录段尺寸/SHA及分区布局通过；构建时Git HEAD为a0435d1，修改由主任务统一审查提交，实际候选来源以源码清单为准。
+
+| Profile | candidate.json | 应用SHA256 |
+| --- | --- | --- |
+| long | `build-v034/tile_esp32s3_long/candidate.json` | `c08a4508086e8a574a5de066f46abdfbc6a60380de8d5775ed23f1a176584d8b` |
+| corner | `build-v034/tile_esp32s3_corner/candidate.json` | `7153f74ff89f9be9207b9a6896e8ce0c6fcf0ecc9efe49dde0253598a0eeabd5` |
+
+构建/测试/验证证据在trial目录：`v034-host-build.log`、`v034-host-tests.log`、`v034-build.log`（首次失败）、`v034-build-final.log`及`v034-candidate-validation.json`。没有覆盖冻结trial16-v1，没有修改Git索引。此时仅源码、Host回归和普通候选完成，尚未部署V0.34或验证实物灯色。
+
+用户另换一块备用角落并授权重写，主任务明确它不属于原计划余下两块。COM10完整MAC为`a4:cb:8f:c1:e1:34`；一次no-reset/no-stub ROM识别确认S3 rev0.2、16MB/8MB、GPIO0 HIGH、非secure USB-JTAG，2026-10-15 04:55:06.230–04:55:06.760 UTC结束并释放，未复位/写入。证据为`replacement-COM10-rom-identify.log`和`replacement-COM10-identity.json`。COM19故障板不计可用；只有COM10后续受审V0.34写验和实际运行成功后，目标盘进度才恢复6long＋2corner=8/16，历史唯一烧录板数届时为9。主任务负责v2组合、候选哈希复核及COM10单板窗口；其余串口不动。
+
+### COM10备用角落已部署V0.34，随后获目视确认
+
+主任务独立复核候选/74源无漂移/78例日志，源码提交59efe7a，保留候选a0435d1构建基线及实际源码清单。新冻结包`C:/Users/kicof/GridopolyReleases/trial16-2026-10-15-v2/`的release.json SHA为`81a1708b21df573143a93676ca8dbfd86a3df67b3dc821ecb0fca816101fab06`。在用户重写授权和主任务单板窗口下，仅再次核对COM10 PnP/ROM完整MAC、16MB、liveGPIO0 HIGH，验证新包及dry-run后执行固定5.3.1写验；四段/MAC/分区通过，实际watchdog-reset后VERIFIED于2026-10-15 01:06:49.300 −04:00，进程exit0。没有erase-all、NVS/游戏修改，未操作其他端口或隔离COM19。
+
+一次45秒STATUS窗口为2026-10-15 05:07:11.131–05:07:56.469 UTC，101条记录，exit0/MONITOR CLOSED并已释放。9条LED状态全部readyYES/scene、clock_hz16000000、reset_us350，attempted与completed同步从423增加到1243，failed/driver_error/stop_error均0；requested_rgb随呼吸变化，例如4,12,10至11,31,25。9次HTTP200，LCD实际8MHz、V0.34、boot保持D5E3A2BE3F247B35；ORDER timerOK、accepted3→9、rejected0、timing_drops固定1。HTTP确认corner online，前驱为COM18/98fc、index3，无conflict，仍未分配且非闭环。
+
+INA遥测4.616–4.639V、180.5–193.0mA（峰值224.0mA），9次RFID Fault/freshNO、count0、TXDIS1/OFF；当前仍USB供电，读卡未验收。无panic/reset/json_error/heartbeat_failed或WS2812 ERROR。before/after游戏状态仅serverEpochMs变化。此次只发STATUS，没有LED OFF或色彩命令。采集开始后已提前通知主任务实际驱动及联网正常，由其向用户询问灯色；日志不能替代目视结果。
+
+证据使用`replacement-v034-`前缀：pnp、COM10 ROM、inventory、dry-run、flash/events、COM10-serial、observation、before/after HTTP及`replacement-v034-result.json`。v1及其历史日志保留。当前计划盘8/16已写验并实际启动（6long＋2corner），仅备用COM10为V0.34，另外7块仍为V0.33；余下6long＋2corner尚未写入。历史唯一烧录新板为9，包含已隔离故障COM19。替换板和固件同时变化，不能把新板电流降低或驱动成功视为原板故障已关闭。
+
+用户随后明确目视确认COM10为低亮青绿色呼吸，没有持续纯白；此项替换板灯效验收通过。原始result JSON保留采集结束时pending状态，目视证据来源为后续用户回复。原COM19仍隔离、根因未闭合；此次目视不替代RFID、供电、16环或整盘游戏验收。主任务接续授权仅当前COM16/17/18三块长边升级同一冻结v2的V0.34；COM10不再操作。
+
+
+### 第二批三块长边升级V0.34（计划盘8/16，当前4块V0.34）
+
+主任务在COM10灯色获用户确认后，授权仅COM16/17/18三块已部署长边升级。重新核对当前PnP完整父身份、冻结v2 release.json及各profile段哈希/布局，三行inventory的dry-run通过。沿用上述v2普通long候选，应用SHA256为`c08a4508086e8a574a5de066f46abdfbc6a60380de8d5775ed23f1a176584d8b`，没有重编或重打包。
+
+固定esptool5.3.1通过正常USB自动下载路径完成全部三板预检后，再逐板同连接写验；没有要求用户手动进入下载模式。各板完整MAC、16MB Flash、既有分区和liveGPIO0 HIGH均通过；preflight实际hard-reset，写验后实际watchdog-reset，主进程exit0。未erase-all、未写NVS或迁移布局，未追加恢复复位。本轮没有打开COM10、旧COM6或隔离COM19。
+
+| 串口 | 完整MAC | VERIFIED时间（EDT） | LED completed首末值 | ORDER accepted首末值 |
+| --- | --- | --- | --- | --- |
+| COM16 | `a4:cb:8f:c2:99:08` | 2026-10-15 01:12:24.685 −04:00 | 1556→2377 | 0→0（链头） |
+| COM17 | `a4:cb:8f:c2:98:b8` | 2026-10-15 01:12:48.492 −04:00 | 1086→1906 | 8→15 |
+| COM18 | `a4:cb:8f:c2:98:fc` | 2026-10-15 01:13:11.696 −04:00 | 620→1440 | 4→11 |
+
+三口随后各一次45秒并行STATUS观察，DTR/RTS均false、STATUS每5秒，2026-10-15 05:13:43.150–05:14:28.612 UTC。各101条记录、9次HTTP200、9条LED状态，全部V0.34、LCD实际8MHz；采集进程均exit0/MONITOR CLOSED，已释放串口并通知主任务可换线。LED全部readyYES/scene、16MHz、reset_us350，attempted与completed相等且持续推进，failed/driver_error/stop_error均0，意图RGB随低亮青绿色呼吸变化。三块长边的实际灯色尚未得到用户目视确认，日志中的optical_verified仍为NO；仅COM10的目视确认已通过。本窗口只发STATUS，没有发送LED颜色或游戏命令。
+
+三板boot分别保持`051052E7D06686EA`、`1C69E300D5F214AF`、`6DBF3AB8C5FDFE7A`；ORDER timerOK、rejected0、timing_drops固定1，后继串口的upstream boot与实际前驱一致。HTTP独立确认COM16/9908 → COM17/98b8 → COM18/98fc → COM10/e134，orderIndex0/1/2/3，四块均V0.34/online、3long＋1corner、无conflict，仍unanchored/assigned=false/closedRing=false。COM10本轮仅通过HTTP观察，未控制其串口。此证据仍限于四节点开链，不能扩写为16闭环或完整游戏验收。
+
+| 长边模块 | USB供电下INA电压范围 | 电流范围 |
+| --- | --- | --- |
+| COM16 | 4.604–4.625V | 118.5–134.5mA |
+| COM17 | 4.571–4.582V | 117.3–132.3mA |
+| COM18 | 4.540–4.576V | 117.3–133.0mA |
+
+每板均9次RFID Fault/freshNO、count0、TXDIS1/OFF，RFID仍未验收；保持原保护阈值。采集中无panic/reset/json_error/heartbeat_failed或WS2812 ERROR。before/after `/api/state`唯一差异为`identity.serverEpochMs`（1792041096342→1792041268733），其余游戏业务完全一致。
+
+本次证据前缀为`upgrade-batch02-v034-`，均位于trial目录：`pnp.json`、`inventory.csv`、`dry-run.log`、`flash.log`、`flash-events.jsonl`、三份`COMxx-serial.jsonl`、`observations.json`、before/after state及assignments；汇总为`upgrade-batch02-v034-result.json`。主任务已独立核对verified事件及result，并另存计划板台账。
+
+当前计划盘仍为8/16已写验并实际启动（6long＋2corner）：本次COM16/17/18和替换COM10共4块V0.34，首批COM12/13/14/15共4块仍V0.33，需后续授权窗口升级。历史唯一烧录新板仍为9，包含已隔离、根因未闭合的COM19；余下6long＋2corner尚未写入，备用COM10不占用这两块未刷角落。下一步由主任务协调用户更换下一批未刷3long并下发明确身份/串口窗口，格子任务据此继续。三块长边目视、RFID、16环及实体整局分别保留待验。本轮仅更新本报告，不新增测试、串口操作、构建或冻结包修改；共享Git索引与提交继续由主任务持有。
