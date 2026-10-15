@@ -360,6 +360,61 @@ int main() {
     serviceQueuedActions();
     check(!uiHandwritingHasInk() && strcmp(app.identity.draftName, "AB") == 0,
           "physical pending DELETE clears ink before the following touch DELETE removes a draft letter");
+    // Unadmitted real devices receive Connecting / WaitingForNewGame on every
+    // discovery retry. Exercise the production reducer and actual LVGL objects.
+    AppState waitingState{};
+    appInit(waitingState, 20000, true);
+    waitingState.revision = app.revision + 1;
+    uiRendererRender(waitingState, 20000);
+    const auto connectingRebuilds = uiRendererGetTestStats().rebuildRenders;
+    TransportEvent joinStatus{};
+    joinStatus.kind = TransportEventKind::JoinStatusChanged;
+    joinStatus.joinStatus = TransportJoinStatus::WaitingForNewGame;
+    appHandleTransportEvent(waitingState, joinStatus, 20001);
+    uiRendererRender(waitingState, 20001);
+    check(uiRendererGetTestStats().rebuildRenders == connectingRebuilds + 1,
+          "first admission refusal redraws Connecting as Waiting For New Game");
+    lv_refr_now(lv_disp_get_default());
+    uiRendererResetTestStats();
+    for (uint32_t retry = 0; retry < 60; ++retry) {
+        const uint32_t now = 21000 + retry * 1000;
+        joinStatus.joinStatus = TransportJoinStatus::Connecting;
+        appHandleTransportEvent(waitingState, joinStatus, now);
+        uiRendererRender(waitingState, now);
+        joinStatus.joinStatus = TransportJoinStatus::WaitingForNewGame;
+        appHandleTransportEvent(waitingState, joinStatus, now + 1);
+        uiRendererRender(waitingState, now + 1);
+    }
+    const auto retryStats = uiRendererGetTestStats();
+    std::printf("waiting retries: rebuilds=%lu invalid_areas=%u\n",
+        static_cast<unsigned long>(retryStats.rebuildRenders),
+        static_cast<unsigned>(lv_disp_get_default()->inv_p));
+    check(retryStats.rebuildRenders == 0 && lv_disp_get_default()->inv_p == 0,
+          "60 ordinary admission retries leave the visible waiting page and LCD dirty areas unchanged");
+    check(waitingState.joinStatus == TransportJoinStatus::WaitingForNewGame &&
+          waitingState.page == ScreenPage::WaitingForGame && !waitingState.hasAuthoritativeState,
+          "retaining the waiting page preserves the actionable admission refusal");
+    TransportEvent wifiLost{};
+    wifiLost.kind = TransportEventKind::ConnectionLost;
+    appHandleTransportEvent(waitingState, wifiLost, 82000);
+    uiRendererRender(waitingState, 82000);
+    check(uiRendererGetTestStats().rebuildRenders == retryStats.rebuildRenders + 1 &&
+          waitingState.joinStatus == TransportJoinStatus::Connecting,
+          "real connection loss redraws the waiting screen as Connecting");
+    lv_refr_now(lv_disp_get_default());
+    uiRendererResetTestStats();
+    joinStatus.joinStatus = TransportJoinStatus::Syncing;
+    appHandleTransportEvent(waitingState, joinStatus, 83000);
+    uiRendererRender(waitingState, 83000);
+    check(uiRendererGetTestStats().rebuildRenders == 1 &&
+          waitingState.joinStatus == TransportJoinStatus::Syncing,
+          "actual admission redraws Connecting as Joining Game");
+    lv_refr_now(lv_disp_get_default());
+    uiRendererResetTestStats();
+    appHandleTransportEvent(waitingState, joinStatus, 83001);
+    uiRendererRender(waitingState, 83001);
+    check(uiRendererGetTestStats().rebuildRenders == 0 && lv_disp_get_default()->inv_p == 0,
+          "repeated unchanged Syncing status also leaves the waiting screen clean");
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;
 }

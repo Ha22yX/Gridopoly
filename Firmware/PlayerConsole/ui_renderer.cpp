@@ -3519,6 +3519,19 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
             samePageVisibleStateUnchanged(state, previousRenderedState);
         const bool boundaryPulseChanged =
             state.boundaryPulseRevision != previousBoundaryPulseRevision;
+        // Admission retries publish Connecting / WaitingForNewGame even when
+        // the reducer keeps the same waiting message. Retain this static page
+        // instead of rebuilding and invalidating the entire RGB framebuffer.
+        // Actual status changes, overlays and leaving the page still redraw.
+        if (hasRenderedState && state.page == ScreenPage::WaitingForGame &&
+            previousPage == ScreenPage::WaitingForGame && visibleStateUnchanged &&
+            inlineEditUnchanged && state.focus == previousFocus && !boundaryPulseChanged) {
+            ++rendererTestStats.incrementalRenders;
+            renderedRevision = state.revision;
+            previousRenderedState = state;
+            lastDynamicDrawMs = nowMs;
+            return;
+        }
         if (hasRenderedState && state.page == ScreenPage::AvatarSetup &&
             previousPage == ScreenPage::AvatarSetup && homeActionsUnchanged &&
             inlineEditUnchanged && visibleStateUnchanged) {
