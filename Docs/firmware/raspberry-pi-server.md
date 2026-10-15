@@ -6,6 +6,10 @@ Pi 已部署源码检查点 `0fed0ce` 的 binary `ea6e1f517c597cc69f6f0724af0d50
 
 主任务 2026-10-15 09:39 UTC 只读确认 room `993580113` / version 11：四屏 online/eligible，但当前冻结三真人加一机器人，COM29 为 seat0 等待下一新局。不能将发现列表四屏写成四真人已入局。设备版本及后续动态以[设备台账](current-device-connections.md)和[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)为准。
 
+用户随后已接 24V 给 16 格整盘供电；11:21:45–11:25:03 UTC 的[AP 容量调查](ap-capacity-investigation-2026-10-15.md)确认四次 Wi-Fi 关联表均为 7 台（3 屏＋4 格），四格 HTTP 在线、没有服务拒绝或 DHCP 耗尽。该窗口 room `993580113` / version 12，COM28 offline；早前四屏在线记录保留原时刻。当前无线关联瓶颈阻塞 16 格同时在线、16 格＋4 屏＝20 台及未来 32 格＋4 屏＝36 台验收，不能继续把“尚未接 24V”作为本轮联网阻塞原因；供电、RFID与实体闭环仍需各自验证。
+
+用户已购买 ALFA AWUS036ACM（MT7612U）作为便携 USB-A 热点，尚未报告到货；[采购依据](portable-wifi-selection-2026-10-15.md)区分驱动支持与36台实测。服务器正准备独立USB预检与迁移配置，当前现场未切换。旧eth0外置AP工具回归不代表USB已验收。
+
 网页主入口`POST /api/new?size=32&autoPlayers=1`，也接受16/24/40；冻结1～4台合格在线屏并补机器人至4席。`GET /api/player-devices`负责发现，`GET /api/tag-pairing`及版本化Retry/Cancel负责逐人配对。单块未分配reader/开放链可配对，不要求完整环；自动地图映射则要求全部当前在线模块恰好属于同一个匹配地图格数的环，4 个 corner 与实际地图四角一致，其余为 long。
 
 TagPairing在Identity准备期进行，绑定成功即可并行外貌姓名，全部ready后五秒倒计时；成功拿回限制与冻结席位持久化，重启生成新的扫描session。元数据保留旧前缀并追加ONB1/PND1，旧存档兼容；完整字段与二进制布局只在[跨端契约](ring-onboarding-contract-2026-09-26.md)维护。
@@ -157,17 +161,15 @@ sudo systemctl enable --now \
 
 ### 5.2 AP 与 DHCP
 
-下列 fallback/模板值须和实际运行配置分开。工作区 AP 脚本/env 的待验证修改尚未提交部署；本轮游戏服务器更新没有修改 AP。此前只读核对 watchdog 实际 20/45/2 秒，不能据模板宣称 hostapd 新配置、主动 ARP 提案或重连延迟修复已上线。详见[外置 AP 与当前边界](external-ap-deployment-2026-09-26.md)。
+下列 fallback/模板值须和实际运行配置分开。2026-10-15 容量调查已核对：现场 `gridopoly-ap` 是历史硬编码 10/0 的脚本，真实 hostapd 配置为 `ap_max_inactivity=10`、`disassoc_low_ack=0`；watchdog 运行环境为 20/45/2 秒。工作区的参数化/校验及模板修改仍未提交部署，不能把“参数化修改未部署”说成“现场未使用 10/0”。本日游戏服务器两次部署未修改 AP。脚本哈希、文件来源及容量证据见[调查报告](ap-capacity-investigation-2026-10-15.md)，替代网络方案见[外置 AP 文档](external-ap-deployment-2026-09-26.md)。
 
 - `ap0`：`10.42.0.1/24`
 - DHCP：`10.42.0.20`～`10.42.0.200`，租约 12 小时
 - 本地域名：`gridopoly.local`
 - Wi-Fi：2.4 GHz、WPA2-PSK、CCMP、802.11n/WMM
-- hostapd 兼容回退为 inactivity 15 秒、low-ACK 断站开启；未部署的工作区模板提出 inactivity 10 秒、
-  `disassoc_low_ack=0`。实体 RST/断电可能不发送 deauth；该提案旨在缩短残留 station 的寿命，
-  并减少驱动 low-ACK 触发的断站，实际重连延迟和弱信号表现仍需现场验证。
-- watchdog 兼容回退为失败邻居 6 秒、RX 停滞 10 秒、2 秒轮询；未部署的工作区模板提出
-  20 秒、45 秒、2 秒，目的是降低短时通信停滞引起误回收的风险，不代表重连问题已解决。
+- hostapd 当前硬编码运行 10/0。尚未部署的工作区参数化脚本在缺参数时兼容回退到 15/1，模板设置 10/0；这两项新环境变量不能当成现场旧脚本已读取的配置。
+- watchdog 当前运行失败邻居 20 秒、RX 停滞 45 秒、2 秒轮询；脚本缺参数 fallback 仍为 6/10/2，工作区模板为 20/45/2。现有设置不代表重连或容量问题已解决，主动 ARP 提案尚未实现部署。
+- 当前配置未设置 `max_num_sta`。调查中的七台均有持续 RX，不是七个僵尸 station；没有依据通过提高 hostapd 人数配置解除本次瓶颈，也不能用 DHCP 池大小证明 AP 容量。
 
 玩家网不转发外部 DNS，也不是面向互联网的通用热点。SSID、AP 密码、家庭 Wi-Fi 凭据和
 UDP PSK 只写入树莓派本地配置，禁止提交 Git 或输出到日志。
@@ -216,7 +218,7 @@ UDP PSK 只写入树莓派本地配置，禁止提交 Git 或输出到日志。
 环境变量中的 Bot 间隔只是新安装/缺省值；网页保存后的实际值写入 `authority.meta`，之后重启
 继续采用持久化值。
 
-安装器会保留已存在的 `/etc/gridopoly/ap.env`；升级旧机器时必须显式合并新增 AP 参数。
+上述 AP 新变量描述工作区参数化方案；现场旧脚本硬编码 10/0，不读取这两个新变量。安装器会保留已存在的 `/etc/gridopoly/ap.env`；后续若部署已审阅的参数化脚本，需同时按选定方案合并参数，不能只替换脚本而意外退回 15/1。
 运行验收只能筛选 `/run/gridopoly/hostapd.conf` 的 inactivity/low-ACK 行，禁止输出含 WPA
 口令的完整文件。
 
@@ -505,7 +507,7 @@ UDP：
    `rx-stalled`、failed-neighbor eviction 或密集 associated/disassociated，应判为无线
    station 数据面抖动，不要重启健康的 `gridopoly.service`。
 2. 实体 RST/断电不保证发送 deauth，旧 station 可导致客户端 `AUTH_FAIL reason202`；
-   软件 RESTART 的优雅 deauth 正常不能代替这条硬复位门禁。10/0/20/45/2 是待验证模板方案，不能直接作为已完成修复。只有独立审核并授权 AP 变更后，才在维护窗口调整并重启 `gridopoly-ap.service`、`gridopoly-dnsmasq.service` 和
+   软件 RESTART 的优雅 deauth 正常不能代替这条硬复位门禁。现场已运行硬编码 10/0 和 watchdog 20/45/2，参数化修改仍待部署；现有值不能作为重连或容量问题已修复的证据。只有独立审核并授权 AP 变更后，才在维护窗口调整并重启 `gridopoly-ap.service`、`gridopoly-dnsmasq.service` 和
    `gridopoly-ap-watchdog.service`。
 3. 只用下列命令确认运行配置，避免泄露 WPA 口令：
 

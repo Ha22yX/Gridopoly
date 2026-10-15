@@ -2,20 +2,22 @@
 
 状态：A 级当前实现规范
 
-更新日期：2026-10-15（文档与源码、归档部署证据核对；本次整合未重新构建或操作设备）。
+更新日期：2026-10-15（含当日后续COM29显示诊断与独立12MHz配置；各版本部署、目视与性能结果分别记录）。
 
-当前冻结包为 `trial16-2026-10-15-v4`。2026-10-15 09:39:03 UTC（05:39:03 EDT）服务器记录四屏均 online/eligible；当时 room993580113/version11 仍为三真人加一机器人，COM29 等待下一次新局，不能据此认定四真人同局通过。
+冻结组合包仍为 `trial16-2026-10-15-v4`；COM29随后单独部署12MHz构建，未写回该包。2026-10-15 09:39:03 UTC（05:39:03 EDT）服务器曾记录四屏均online/eligible，当时room993580113/version11仍为三真人加一机器人、COM29等待下一次新局；这不代表四真人同局通过或现在仍有四屏在线。
 
-| 设备 | 完整 MAC | 普通应用 SHA-256 前缀 | 当时席位 | 已有目视证据 |
+| 设备 | 完整 MAC | 当前应用 SHA-256 前缀 | 09:39席位 | 已有目视证据 |
 | --- | --- | --- | --- | --- |
 | COM7 | `dc:b4:d9:02:d1:dc` | `22ca08e6…` | 2 | 配对页稳定 |
 | COM27 | `dc:b4:d9:02:bf:88` | `dfc4b7e5…` | 3 | 等待新游戏页正常 |
 | COM28 | `dc:b4:d9:07:81:b0` | `dfc4b7e5…` | 1 | 等待新游戏页正常 |
-| COM29 | `20:6e:f1:ba:c9:04` | `dfc4b7e5…` | 0 | 尚待反馈 |
+| COM29 | `20:6e:f1:ba:c9:04` | `716ff623…`，12MHz正常游戏诊断构建 | 0 | 用户确认静止等待页正常、频闪和错位消失；动态页面另待验 |
 
-`2ea95b4` 的输入批处理和头像焦点局部刷新已进入上述四台；`e6d6563` 的等待页重复重绘修复进入 dfc4。精确物理卡点、Avatar/游戏页、完整实体对局和性能门槛仍待验收；历史 core0 方案因频闪/错位撤回，core1 的 Retarget max57ms 仍超过 42ms。9 月手写及网络恢复确认只对应各自版本和场景。
+COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建、未部署。AP现场曾见7台关联（3屏＋4格，COM28由用户关闭），排查期间暂缓COM29重启/刷写，避免释放的关联位置被其它格子占用，待主会话安排。COM7/27/28固件不变；旧dfc4/16MHz在COM29的失败保留在[显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
 
-四台普通固件及本次 v4 均为 `BatteryBoard=none`，表示软件遥测关闭，不表示未装电池。`8ee546b` 已实现遥测且两种构建历史通过，启用功能尚未部署验收。完整哈希、来源和各次验证见[输入报告](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页报告](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台烧录](../firmware/player-fourth-screen-flash-2026-10-15.md)、[试玩包记录](../firmware/trial16-release-2026-10-15.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
+`2ea95b4` 的输入批处理和头像焦点局部刷新已进入上述四台；`e6d6563` 的等待页重复重绘修复进入dfc4及继承它的716ff623。精确物理卡点、Avatar/游戏页、完整实体对局和性能门槛仍待验收；历史core0方案因频闪/错位撤回，core1的Retarget max57ms仍超过42ms。9月手写及网络恢复确认只对应各自版本和场景。
+
+四台在用固件及本次 v4 均为 `BatteryBoard=none`，表示软件遥测关闭，不表示未装电池。`8ee546b` 已实现遥测且两种构建历史通过，启用功能尚未部署验收。完整哈希、来源和各次验证见[输入报告](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页报告](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台烧录](../firmware/player-fourth-screen-flash-2026-10-15.md)、[试玩包记录](../firmware/trial16-release-2026-10-15.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
 
 ## 1. 适用范围
 
@@ -35,7 +37,7 @@
 
 ## 2. 当前硬件
 
-供电底板设计、返修和制造状态由 PCB 会话维护，见[硬件入口](../hardware/README.md)及[玩家屏 USB-C 电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)。本页不复制旧 RC5 审查结论。按当前交接，COM7/27/28 所用底板已获用户返修确认并带电池完成 USB 升级，COM29 底板状态尚无独立确认；这些运行反馈不能替代充电、欠压和温升验收。软件接口与启用边界见[UART 接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)及[遥测实现记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)。
+供电底板设计、返修和制造状态由PCB会话维护，见[硬件入口](../hardware/README.md)及[玩家屏USB-C电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)。本页不复制旧RC5审查结论。COM7/27/28所用底板已获用户返修确认并带电池完成USB升级；COM29也获用户返修、接电池确认，其静止等待页在12MHz后获正常反馈。这些反馈不能替代充电、欠压和温升验收。软件接口与启用边界见[UART接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)及[遥测实现记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)。
 
 - 模组：VIEWESMART/Viewe `UEDX48480021-MD80ET`。
 - 主控：ESP32-S3-WROOM-1-N16R8，16MB Flash、8MB Octal PSRAM。
@@ -108,7 +110,7 @@
 - 重复 Connecting/Waiting 事件仍应用到状态机；`WaitingForGame` 可见内容相同时保留控件，不重复整屏重建。首次进入、真实断线/同步、遮罩或素材变化仍需更新。
 - Avatar 只移动焦点时更新旧/新行，以及进入或离开确认按钮时的样式，不重新获取或重绘头像。
 
-上述帧率和延迟是验收门槛，不是当前全部通过的实测值。COM27/28 仅等待新局页获目视确认；COM7 配对页稳定，COM29 目视待反馈。core1 历史 Retarget max57ms 尚未关闭，core0 历史性能 PASS 已随显示异常方案撤回。
+上述帧率和延迟是验收门槛，不是当前全部通过的实测值。COM27/28仅dfc4等待新局页获目视确认，COM7配对页稳定；COM29旧dfc4/16MHz失败，716ff623/12MHz静止等待页目视通过。COM29动态页面、24FPS及42ms门槛仍待测；core1历史Retarget max57ms尚未关闭，core0历史性能PASS已随显示异常方案撤回。
 
 抗频闪不能只靠一次照片验收。发布前必须覆盖长时间静置、连续动画、Wi-Fi 下载、PSRAM
 解码和弹窗长按等组合负载，并确认左侧圆弧没有闪烁短线、点阵或残影。
@@ -200,6 +202,14 @@ Avatar Setup 使用 B. Focus Stack：左侧 5 个贴合圆弧的固定槽位和�
 powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode selftest -BatteryBoard none
 powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard none
 ```
+
+COM29已通过静止等待页目视的12MHz配置需显式选择，后续普通升级使用：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard none -DisplayClock pclk12 -DisplayDiagnostic none
+```
+
+默认 `DisplayClock=vendor` 仍是板型16MHz；`pclk12` 目前只验过COM29静止等待页，不代表所有页面或性能已通过。`DisplayDiagnostic=counters` 只用于120秒有界采样，其候选会被普通批量发布工具拒绝。旧冻结v4仍为16MHz，不能当作包含本次COM29时钟调整的包；精确候选及部署见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
 
 上述命令要求已配置的本机 ToolRoot，默认使用 esp32:esp32 3.3.11。脚本为每次构建冻结源码和依赖，输出独立候选及校验信息；构建完成不表示已经部署。正式 FQBN 使用 16MB Flash、`app3M_fat9M_16MB`、Octal PSRAM、CDC on boot 和 HWCDC。
 

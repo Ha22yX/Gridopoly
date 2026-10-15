@@ -32,6 +32,8 @@ remain spectators until that terminal result arrives. A new room clears both sta
 The renderer remains on Arduino core 1 with the existing RGB/bounce configuration.
 
 For an isolated normal candidate, run `tools/compile-isolated.ps1 -Mode production`.
+
+COM29 uses the explicit `-DisplayClock pclk12 -DisplayDiagnostic none -BatteryBoard none` profile after its 12 MHz waiting-page visual check. The default `vendor` clock remains 16 MHz for the existing builds. `-DisplayDiagnostic counters` adds bounded logging and marks a candidate as diagnostic-only, which ordinary release packaging rejects. See the [COM29 display record](../../Docs/firmware/player-com29-display-progress-2026-10-15.md) for exact firmware and validation limits; the frozen v4 package still uses 16 MHz.
 This freezes sketch, project libraries and the five board/IO libraries, verifies linked
 HWCDC, and exports `candidate.json` plus `candidate-sources.json` in the printed local run
 directory. The manifest identifies all four actual flash segments, source hashes and the
