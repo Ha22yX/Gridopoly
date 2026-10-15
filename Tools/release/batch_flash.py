@@ -171,23 +171,24 @@ def flash_batch(release: dict, devices: list[dict], python: str, log: Path,
     def event(device, status, **details):
         with log.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps({"at": datetime.now(timezone.utc).isoformat(),
-                                     **device, "status": status, "resetMode": after, **details}) + "\n")
+                                     **device, "status": status, "requestedAfter": after, **details}) + "\n")
 
     def operate(device, operation):
         report = runner(python, {"operation": operation, "device": device,
                                 "after": after,
                                 "profile": release["profiles"][device["profile"]]})
         status = "verified" if operation == "flash" else "preflight_ok"
+        reset_mode = after if operation == "flash" else "hard-reset"
         if (report.get("status") != status or report.get("mac") != device["mac"] or
                 report.get("profile") != device["profile"] or
-                report.get("esptoolVersion") != "5.3.1" or report.get("resetMode") != after):
+                report.get("esptoolVersion") != "5.3.1" or report.get("resetMode") != reset_mode):
             raise ValueError("flash worker result identity/status mismatch")
         return report
 
     for device in devices:
         try:
             report = operate(device, "preflight")
-            event(device, "preflight_ok", output=report.get("output", ""))
+            event(device, "preflight_ok", resetMode=report["resetMode"], output=report.get("output", ""))
         except Exception as error:
             event(device, "preflight_failed", error=str(error))
             raise
@@ -198,7 +199,8 @@ def flash_batch(release: dict, devices: list[dict], python: str, log: Path,
             event(device, "verified", gitRevision=profile["gitRevision"],
                   sourceDigest=profile["sourceDigest"],
                   segments=[{k: s[k] for k in ("offset", "sha256")} for s in profile["segments"]],
-                  esptoolVersion=report["esptoolVersion"], output=report.get("output", ""))
+                  esptoolVersion=report["esptoolVersion"], resetMode=report["resetMode"],
+                  output=report.get("output", ""))
             print(f"VERIFIED {device['label']} {device['mac']} {device['profile']}")
         except Exception as error:
             event(device, "failed", error=str(error))

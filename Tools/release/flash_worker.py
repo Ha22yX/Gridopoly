@@ -33,6 +33,9 @@ def process_job(job, api=None):
         raise ValueError("unsupported post-flash reset mode")
     if operation not in {"preflight", "flash"} or device["profile"] != profile["profile"]:
         raise ValueError("invalid worker operation or profile")
+    # --after applies to the completed write. A blank board may not yet have
+    # any bootable image during preflight; retain its existing reset behavior.
+    reset_mode = after if operation == "flash" else "hard-reset"
     expected = mac_address(device["mac"])
     # Read and hash exactly the immutable bytes passed to both write and verify.
     images = load_profile_images(profile)
@@ -86,16 +89,16 @@ def process_job(job, api=None):
             identify(esp)
         # No reset or close occurs between identification, write and verify.
         check_watchdog_target(esp)
-        if after == "watchdog-reset":
+        if reset_mode == "watchdog-reset":
             # Match S3 hard_reset's force-download cleanup. The public watchdog
             # reset alone does not clear this bit; do not silently ignore failure.
             esp.write_reg(esp.RTC_CNTL_OPTION1_REG, 0, esp.RTC_CNTL_FORCE_DOWNLOAD_BOOT_MASK)
             if esp.read_reg(esp.RTC_CNTL_OPTION1_REG) & esp.RTC_CNTL_FORCE_DOWNLOAD_BOOT_MASK:
                 raise RuntimeError("force-download mode did not clear before watchdog reset")
-        api.reset_chip(esp, after)
+        api.reset_chip(esp, reset_mode)
     return {"status": "verified" if operation == "flash" else "preflight_ok",
             "mac": expected, "profile": device["profile"], "esptoolVersion": api.version,
-            "resetMode": after}
+            "resetMode": reset_mode}
 
 
 def main():

@@ -584,8 +584,19 @@ class ReleaseTests(unittest.TestCase):
                           after='watchdog-reset')
         self.assertEqual(operations, [('preflight', 'watchdog-reset')] * 2 +
                          [('flash', 'watchdog-reset')] * 2)
-        self.assertTrue(all(json.loads(line)['resetMode'] == 'watchdog-reset'
-                            for line in log.read_text().splitlines()))
+        events = [json.loads(line) for line in log.read_text().splitlines()]
+        self.assertEqual([event['resetMode'] for event in events],
+                         ['hard-reset'] * 2 + ['watchdog-reset'] * 2)
+        self.assertTrue(all(event['requestedAfter'] == 'watchdog-reset' for event in events))
+
+    def test_watchdog_option_does_not_attempt_to_boot_a_blank_preflight_board(self):
+        api = FakeApi(old=b'\xff' * 4096)
+        job = self.job(); job['operation'] = 'preflight'; job['after'] = 'watchdog-reset'
+        result = process_job(job, api)
+        self.assertEqual(result['status'], 'preflight_ok')
+        self.assertEqual(result['resetMode'], 'hard-reset')
+        self.assertEqual(api.reset_modes, ['hard-reset'])
+        self.assertFalse(any(name in ('write', 'clear_force_download') for name, _ in api.calls))
 
     def test_invalid_reset_mode_rejected_without_serial_or_runner(self):
         api = FakeApi(); job = self.job(); job['after'] = 'no-reset'

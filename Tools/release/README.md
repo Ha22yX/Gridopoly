@@ -66,6 +66,8 @@ python batch_flash.py release.json batch.csv --partial --execute --after watchdo
 
 此模式仅接受非 Secure Download 的 ESP32-S3 USB-Serial/JTAG，读实时 GPIO0 为高后才继续；BOOT 按住或跳线短接时会拒绝。复位前再次检查 GPIO0，清除并读回 force-download 位，再调用固定 esptool 的看门狗复位。采用该芯片 SDK 的 `GPIO_IN_REG = GPIO_STRAP_REG + 4`，读当前输入，不把锁存启动位当作按键现在状态。清位是易失寄存器操作，不写 eFuse 或配置分区。清位/复位失败不记录 VERIFIED；日志明确记录 resetMode。UART 或 USB-OTG 保留默认模式。
 
+`--after` 只改变完成写验后的启动方式，预检阶段仍保留原 hard-reset 流程，不先对尚未写入有效程序的空板执行看门狗启动。日志分别记录 requestedAfter 和每次实际 resetMode。
+
 默认仅 dry-run。实际执行分两步：
 
 1. 全批先逐板核对完整 MAC、16 MB Flash 与已有分区布局；全部通过后才开始写入。这一步会复位设备，但不写 Flash。
