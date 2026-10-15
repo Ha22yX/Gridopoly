@@ -282,3 +282,54 @@ INA遥测4.616–4.639V、180.5–193.0mA（峰值224.0mA），9次RFID Fault/fr
 独立证据均为trial目录的`batch04-`前缀：long-pnp/long-identities及3份ROM日志，corner-identity/COM11-ROM、before-flash-pnp、release-validation、inventory、dry-run、flash/events/process、4份COMxx-serial、observations、before/after HTTP及`batch04-result.json`。没有覆盖此前批次、重开串口或新增测试/构建；本轮仓库只更新本报告，Git统一提交归主任务。
 
 计划盘16/16已完成首次普通固件写验并实际启动，12long＋4corner身份齐全；其中12块V0.34，首批COM12/13/14/15四块仍V0.33，需下一接线窗口升级。历史唯一烧录新板共17，含隔离COM19；替换COM10属于计划盘有效角落，不额外占格。16首次启动不等于16板同时联网、同版本、闭环或完整游戏通过。主任务接续负责本批目视确认、首批四板接线/升级窗口及整盘联调；格子任务在新窗口内继续，不自行打开首批端口。RFID、供电、全部显示/灯色、16闭环、配对拿放及完整实体一局仍分别保留待验，COM19根因仍未关闭。
+
+
+用户随后明确确认第四批COM24/25/26/11四块均正常低亮呼吸，本批四板目视灯效验收通过。证据来自采集结束后的用户回复；原始STATUS中的optical_verified=NO及batch04-result.json采集时的pending描述保留，后续确认另存batch04-optical-user-confirmation.json。RFID仍未验收，COM19继续隔离；此目视结果不替代供电、显示、16闭环或实体对局验收。主任务正协调首批四块接回USB，后续按新鲜PnP完整MAC确认身份并授权升级窗口，不依据旧COM号自行操作。本次仅补记录，未打开串口、发送命令或修改冻结包。
+
+
+## 首批四板升级V0.34：COM12应用写入中断，恢复待验
+
+用户将首批四块正常接回USB，主任务新鲜PnP确认COM12/e4、COM13/f8、COM14/ac为long，COM15/e188为corner，并授权正常USB自动下载升级冻结v2。格子任务再次核对完整PnP MAC/状态、manifest SHA81a1708b…、全部profile源码清单与烧录段哈希/布局及四行inventory；dry-run通过，before HTTP已保存，没有重构建或改候选。
+
+2026-10-15 05:47:22.962–05:47:30.965 UTC（EDT01:47:22.962–01:47:30.965），固定esptool5.3.1先完成全部四板硬件预检，MAC/16MB/分区/liveGPIO0均通过，4条preflight_ok的实际复位为hard-reset。随后仅COM12进入正式写入：0x0000 bootloader、0x8000 partitions、0xE000 boot_app0三段均写入并Hash verified；进入0x10000应用段时出现Windows PermissionError(13)/设备没有发挥作用/I/O31，工具exit1并按首个失败停止。应用段没有完成校验，不能保证旧应用仍完整，也不能标作V0.34部署成功；写验后的watchdog-reset尚未完成。
+
+COM13/14/15没有进入正式写入，保留V0.33镜像，但前述preflight已对它们执行hard-reset，不能说本轮完全未操作。没有自动重试、追加复位、erase-all或NVS写入，没有启动45秒观察。所有串口进程已退出，故障日志完整保留。失败后的首次只读PnP查询未见四个目标串口（空管道输出文件保留）；随后05:48:45.032 UTC结构化快照已出现COM12/e4/OK，COM13/14/15仍未出现。设备枚举发生变化，不能仅凭I/O31判定单板、固件或USB供电根因。未据此再次打开串口。
+
+证据使用独立`upgrade-batch01-v034-`前缀：pnp、release-validation、inventory、dry-run、before HTTP、flash/events/process、failure-pnp及failure-pnp-snapshot、`failure-result.json`。首次发给主任务的第二次PnP描述误沿用空列表，随后立即更正为仅COM12恢复出现；以带时间的原始结构化快照为准。
+
+当前计划板固件状态应写为12块已验证V0.34、3块未改V0.33、COM12一块应用恢复待验，不能继续写成四块完整V0.33或16块当前都可运行。历史16块首次写验/启动证据仍保留，唯一新板写入历史仍17（含隔离COM19）；完整16环/RFID/实体对局仍未完成。已将具体失败、部分写入及端口变化交主任务协调连接/COM12下载模式和明确恢复窗口；没有盲重试或自行操作其余端口。本节完成失败阶段交接，不是升级目标完成。
+
+
+## 首批recovery1完整恢复与升级成功（计划16块均V0.34）
+
+用户随后明确说明“我重新插上了，刚刚我拔掉了”。主任务两次间隔1秒的新鲜PnP均恢复四板完整身份，随后用户进一步确认“四块都进入DFU了”，主任务提示松BOOT并保持USB连接。此前I/O31和端口消失应结合这次主动拔线事实解释，不能再仅据该错误推断hub、固件或供电故障；原单独请求COM12手动DFU的安排由四板已恢复接入及新的明确授权替代。首次失败、部分写入和当时未知应用状态的证据全部保留，不改成一次成功。
+
+按新授权执行一次有依据的恢复，独立前缀`upgrade-batch01-v034-recovery1`。重新确认四口当前PnP/MAC，固定esptool5.3.1，冻结v2 manifest SHA81a1708b…、long应用c08a4508…、corner应用7153f74f…及全部profile清单/段哈希和布局均通过，dry-run成功。全批硬件预检之后，优先对COM12从bootloader、partition、boot_app0到app全部四段完整重写/校验，不假定旧app完整；COM12成功后依次续COM13/14/15。每板同连接MAC/16MB/分区/liveGPIO0通过，4条preflight实际hard-reset、4条verified实际watchdog-reset，进程exit0。没有erase-all/NVS写入或追加盲目重试，没有触碰玩家端、隔离COM19或其他串口；候选与构建基线保持冻结。
+
+| 标签 / 串口 | 完整MAC | 普通profile | VERIFIED时间（EDT） |
+| --- | --- | --- | --- |
+| tile-long-01 / COM12 | `a4:cb:8f:c2:98:e4` | tile-long | 2026-10-15T01:52:06.112-04:00 |
+| tile-long-02 / COM13 | `a4:cb:8f:c2:98:f8` | tile-long | 2026-10-15T01:52:29.581-04:00 |
+| tile-long-03 / COM14 | `a4:cb:8f:c2:98:ac` | tile-long | 2026-10-15T01:52:53.120-04:00 |
+| tile-corner-01 / COM15 | `a4:cb:8f:c1:e1:88` | tile-corner | 2026-10-15T01:53:16.881-04:00 |
+
+一次四口并行45秒STATUS观察于2026-10-15 05:53:38.194–05:54:23.657 UTC，每5秒请求、DTR/RTS均false。全部exit0/MONITOR CLOSED，已释放并告知主任务；COM12应用恢复后实际运行V0.34，四板均LCD8MHz/V0.34，最后HTTP独立确认为online。COM12/13/15各101条记录、9条LED状态及9次HTTP200；COM14因网络状态变化额外输出，共128条记录、11条LED状态，HTTP200记录10条、http=-5记录2条（一次失败事件和一次状态记录，不是两次独立失败）。
+
+LED全部readyYES/scene、16MHz/reset_us350，attempted=completed持续推进，failed/driver_error/stop_error均0。COM14于05:54:14.525 UTC出现一次heartbeat_failed count1/http=-5，保留Wi-Fi并重试，05:54:15.567恢复HTTP200，间隔约1.042秒；期间意图RGB为19,9,8网络错误色，恢复后为6,17,14青绿。该异常没有重启或RMT错误，不能写成整个窗口无网络失败或始终青绿色。其他三板没有网络失败记录，四板均未见panic/reset/json_error或WS2812 ERROR。
+
+| 串口 | LED completed首末值 | ORDER accepted首末值 | INA电压 | INA电流 |
+| --- | --- | --- | --- | --- |
+| COM12 | 1648→2466 | 0→0 | 4.576–4.605V | 118.8–134.5mA |
+| COM13 | 942→1733 | 11→18 | 4.637–4.655V | 118.0–135.5mA |
+| COM14 | 637→1436 | 7→14 | 4.635–4.662V | 117.0–139.0mA |
+| COM15 | 413→1230 | 3→10 | 4.610–4.628V | 185.0–197.3mA |
+
+四板boot依次保持`37C42E0DF06BF183`、`71DC95F7F117117F`、`9F8344360C8DC7DB`、`61D47111E4F64238`；ORDER timerOK、rejected0、timing_drops固定1。后继串口upstream boot严格匹配前驱，HTTP确认COM12/e4 → COM13/f8 → COM14/ac → COM15/e188，index0/1/2/3，3long＋1corner、无conflict，仍unanchored/assigned=false/closedRing=false。USB供电下COM12/13/15各9条、COM14共11条RFID Fault/freshNO，全部count0、TXDIS1/OFF；角落峰值遥测238.5mA。RFID仍未验收，保护阈值未改。
+
+本次before/after `/api/state`有两个差异：identity.serverEpochMs（1792043475945→1792043663822）和tagPairing.readerTagRevision（1→27）。前后配对均room993580111/session3202819504/revision13/state timed_out，选中的reader仍COM14，boundMask0/tagUid0；after模块记录tagRevision也为27。其他状态字段完全一致。不能写成只有时间戳变化；本任务只做GET与串口STATUS，没有发起配对、Tag绑定、分配、锚点或对局操作。
+
+用户随后明确确认本批COM12/13/14/15四块均正常低亮呼吸，四板目视灯效验收通过。原始串口optical_verified=NO及result采集时pending描述保留，后续用户确认另存`upgrade-batch01-v034-recovery1-optical-user-confirmation.json`；目视不替代RFID、供电或整盘验收。首次失败与本次恢复成功分开保留。
+
+本次独立证据包括user-context、user-dfu-followup、pnp、release-validation、inventory、dry-run、flash/events/process、四口serial、observations、before/after HTTP、`upgrade-batch01-v034-recovery1-result.json`及analysis-notes/optical-user-confirmation，全部在trial目录。只更新报告和本机证据，没有新构建/测试/源码或冻结包修改，Git统一提交归主任务。
+
+至此计划内16块（12long＋4corner）均完成普通V0.34写验并实际运行过，COM12恢复待验状态已解除；历史唯一新板仍17，包含持续隔离的COM19。该结论来自分批部署，不等于16块同时在线、闭环、RFID或完整实体对局通过。主任务接续更新完整MAC/profile/app台账并统筹后续整盘窗口；当前24V未到，RFID/供电/16闭环/实体整局仍待验，玩家屏依用户要求稍后更新。本任务串口已全部释放，不自行开启新采集或操作玩家端。
