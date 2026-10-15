@@ -47,6 +47,10 @@
 
 05:25:24.416～05:26:09.895 UTC各45秒STATUS观察全部exit0并释放，四块V0.34/LCD8 MHz/各9次HTTP200，LED readyYES/16 MHz/reset350 µs、发送错误0。实际ORDER为COM20→COM21→COM22→COM23，index0/1/2/3、无冲突，仍为未锚定四节点开链。用户随后确认四块都正常低亮呼吸。INA四板4.489～4.584 V、115.5～205.0 mA（各板分项见格子报告），RFID仍Fault，未做Tag操作；游戏状态仅serverEpochMs变化。证据为`batch03-*`，主会话已独立核对4条verified的MAC/profile/app和结果。当前计划盘12/16启动，8块V0.34、首批4块V0.33；历史13个唯一新MAC包含隔离COM19。
 
+## 第四批3块长边仅完成身份核实
+
+2026-10-15 05:30:44.096～05:30:45.653 UTC核实COM24 `a4:cb:8f:c2:99:6c`、COM25 `a4:cb:8f:c2:98:a0`、COM26 `a4:cb:8f:c2:99:50`。用户确认均为最后未刷long，DFU/松BOOT；PnP与ROM一致，均S3 v0.2/16 MB/liveGPIO0 HIGH，互不重复且不在历史13个MAC中。no-reset/no-stub各一次后释放，没有写入，不计已部署。当前请求为保留3long，将已刷COM23换接最后未刷corner并进入DFU；随后统一v2写验，再升级首批四板。证据为`batch04-long-identities.json`及对应ROM日志。
+
 ## 本轮服务端与组合包
 
 Pi `10.0.0.124` 已于04:28:56.747～04:28:58.793 UTC一次停启部署16/32环服务端，实际 `/proc/10677/exe` SHA为 `ae01f6e5032d66c2e24aa47ba8b4d2e6a344b2c282575e4f0b11c3e1f2723af0`。room993580110保留并按恢复机制由v10到v11，其余业务核对不变。部署后当时仅旧COM6与首批角落在线，玩家屏离线；不是全盘在线结果。
