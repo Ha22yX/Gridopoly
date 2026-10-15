@@ -50,7 +50,7 @@ pieces.append("void consumeMovement(TileNetworkSnapshot next_network, uint32_t n
               + main[start:end] + "\n}")
 output.write_text("\n\n".join(pieces), encoding="utf-8")
 
-if len(sys.argv) == 4:
+if len(sys.argv) >= 4:
     # Exercise the real server projection/serializer against the real device
     # parser. Only the private projectTile qualifier is removed for this fixture.
     repo = root.parents[1]
@@ -75,3 +75,37 @@ if len(sys.argv) == 4:
         wire.append(routine(network, signature))
     wire.append("}")
     Path(sys.argv[3]).write_text("\n\n".join(wire), encoding="utf-8")
+
+if len(sys.argv) >= 5:
+    # Exercise the production preparation gates, not a copied safety model.
+    import re
+    rfid = [match.group() for match in re.finditer(
+        r'^constexpr[^\n]+\bk(?:Htrc|Hitag|TagMinimum|TagMaximumTotal|TagMaximumCurrent|TagMaximumField)[^\n]+;',
+        main, re.M)]
+    rfid += [routine(main, "struct PowerReading") + ";",
+             "PowerReading gPower;",
+             routine(main, "bool tagPowerSafe("),
+             routine(main, "rfid_diagnostics::Record rfidPowerRecord("),
+             routine(main, "bool prepareHitagReader(")]
+    Path(sys.argv[4]).write_text("\n\n".join(rfid), encoding="utf-8")
+
+if len(sys.argv) >= 6:
+    probe = routine(main, "void runRfidProbeOnce(")
+    # This is a local read diagnostic. Fail generation if it gains a production
+    # publication path or writes any cached/pairing observation state.
+    for forbidden in ("publishTag", "publishPending", "recordTagScan", "gNetwork",
+                      "gTagPreferredSampling", "gConfirmedTag", "gTagScanEvidence"):
+        if forbidden in probe:
+            raise ValueError("Probe touched production observation state: " + forbidden)
+    capture = routine(main, "TagAttempt captureHitagAttempt(")
+    if "rfid_diagnostics::captureAccepted(" not in capture:
+        raise ValueError("Production capture no longer uses tested gate policy")
+    Path(sys.argv[5]).write_text("\n\n".join([
+        routine(main, "struct PowerReading") + ";",
+        routine(main, "struct TagAttempt") + ";",
+        "PowerReading gPower;",
+        routine(main, "bool tagPowerSafe("),
+        routine(main, "rfid_diagnostics::Record rfidPowerRecord("),
+        "bool prepareHitagReader(const PowerReading&, std::uint8_t&, rfid_diagnostics::AntennaPolicy, std::uint32_t*);",
+        "TagAttempt captureHitagAttempt(const PowerReading&, std::uint8_t, rfid_diagnostics::AntennaPolicy);",
+        probe]), encoding="utf-8")

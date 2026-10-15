@@ -31,6 +31,7 @@
 #include "ws2812_led.h"
 #include "ws2812_esp32.h"
 #include "serial_command_line.h"
+#include "rfid_diagnostics.h"
 
 namespace {
 
@@ -120,6 +121,7 @@ struct TagAttempt {
   std::uint16_t edge_count = 0;
   std::uint16_t pulse_count = 0;
   std::uint32_t first_edge_us = 0;
+  std::uint32_t field_duration_ms = 0;
 };
 
 struct TagResponseCapture {
@@ -229,7 +231,8 @@ std::uint8_t gTagPreferredSampling = 0;
 bool gTagPreferredSamplingValid = false;
 bool gTagUiDirty = false;
 bool gTagNetworkPublishPending = false;
-bool gRfidDebug = false;
+rfid_diagnostics::Trace gRfidDiagnostics;
+rfid_diagnostics::ProbeBudget gRfidProbeBudget;
 SerialCommandLine<64> gSerialLine;
 DRAM_ATTR volatile TagEdge gTagEdges[kTagMaximumEdges]{};
 DRAM_ATTR volatile std::uint16_t gTagEdgeCount = 0;
@@ -654,11 +657,80 @@ bool tagPowerSafe(const PowerReading &reading, float baseline_current_ma) {
              kTagMaximumCurrentIncreaseMa;
 }
 
-bool prepareHitagReader(const PowerReading &baseline, std::uint8_t &sampling) {
+rfid_diagnostics::Record rfidPowerRecord(const char *stage,
+                                        const PowerReading &power,
+                                        float baseline) {
+  rfid_diagnostics::Record record;
+  record.stage = stage;
+  record.power_valid = power.valid;
+  record.ina_configured = power.configured;
+  record.voltage = power.bus_voltage_v;
+  record.current = power.current_ma;
+  record.baseline = baseline;
+  return record;
+}
+
+// All diagnostic records, including inventory raw captures, are buffered until
+// the scan has returned through its existing transmitter-off path. Never print
+// during an RF field window, since serial backpressure would change its length.
+struct RfidTraceScope {
+  explicit RfidTraceScope(bool one_shot = false) {
+    gRfidDiagnostics.begin(millis(), one_shot);
+  }
+  ~RfidTraceScope() {
+    if (!gRfidDiagnostics.capturing()) return;
+    Serial.printf("[RFID-DIAG] schema=1 trace=%lu rows=%u dropped=%u final_off=%d unknown=-1\r\n",
+                  static_cast<unsigned long>(gRfidDiagnostics.sequence()),
+                  static_cast<unsigned>(gRfidDiagnostics.size()),
+                  static_cast<unsigned>(gRfidDiagnostics.dropped()),
+                  gHtrcTransmitterSafe);
+    for (std::size_t index = 0; index < gRfidDiagnostics.size(); ++index) {
+      const auto &r = gRfidDiagnostics.at(index);
+      Serial.printf("[RFID-DIAG] row=%u stage=%s digital=%d config=%d sampling_ok=%d antenna=%d off=%d overflow=%d safe=%d sample=%d field_ms=%d\r\n",
+                    static_cast<unsigned>(index), r.stage, r.digital, r.config,
+                    r.sampling_ok, r.antenna, r.field_off, r.overflow, r.safe,
+                    r.sampling, r.field_ms);
+      if (r.page_mask != 0)
+        Serial.printf("[RFID-DIAG] row=%u page_mask=%02X pages=%02X,%02X,%02X,%02X\r\n",
+                      static_cast<unsigned>(index), r.page_mask,
+                      r.pages[0], r.pages[1], r.pages[2], r.pages[3]);
+      if (r.power_valid != -1)
+        Serial.printf("[RFID-DIAG] row=%u ina_configured=%d ina_valid=%d voltage=%.3f current=%.1f baseline=%.1f delta=%.1f\r\n",
+                      static_cast<unsigned>(index), r.ina_configured, r.power_valid,
+                      r.voltage, r.current, r.baseline, r.current - r.baseline);
+      if (r.decode != -1 || r.overflow != -1)
+        Serial.printf("[RFID-DIAG] row=%u edges=%u pulses=%u first_us=%lu decode=%d bits=%u collision=%u uid=%s\r\n",
+                      static_cast<unsigned>(index), r.edges, r.pulses,
+                      static_cast<unsigned long>(r.first_edge_us),
+                      r.decode, r.bits, r.collision, r.uid);
+    }
+    gRfidDiagnostics.finish();
+  }
+};
+
+void recordRfidRaw(const char *stage, std::uint8_t sampling,
+                   const TagResponseCapture &capture) {
+  rfid_diagnostics::Record record;
+  record.stage = stage;
+  record.sampling = sampling;
+  record.overflow = capture.overflow;
+  record.edges = capture.edge_count;
+  record.pulses = capture.pulse_count;
+  record.first_edge_us = capture.first_edge_us;
+  record.decode = static_cast<int>(capture.decoded.status);
+  record.bits = capture.decoded.decoded_bits;
+  record.collision = capture.decoded.collision_bit;
+  gRfidDiagnostics.add(record);
+}
+
+bool prepareHitagReader(const PowerReading &baseline, std::uint8_t &sampling,
+                       rfid_diagnostics::AntennaPolicy policy = rfid_diagnostics::AntennaPolicy::Strict,
+                       std::uint32_t *probe_field_ms = nullptr) {
   htrcSetConfig(3, kHtrcClockPage3);
   htrcSetConfig(0, kHtrcReceiverPage0);
   htrcSetConfig(2, 0x00U);
   htrcSetConfig(1, kHtrcFieldOnPage1);
+  const std::uint32_t diagnostic_field_started = millis();
   gHtrcTransmitterSafe = false;
   delayMicroseconds(200);
 
@@ -671,10 +743,25 @@ bool prepareHitagReader(const PowerReading &baseline, std::uint8_t &sampling) {
                          (page2 & 0x0FU) == 0x00U &&
                          (page3 & 0x0FU) == kHtrcClockPage3;
   const bool antenna_ok = ((page2 | page3) & kHtrcAntFailMask) == 0U;
-  if (!config_ok || !antenna_ok) {
+  rfid_diagnostics::Record config_record;
+  config_record.stage = "prepare_config";
+  config_record.config = config_ok;
+  config_record.antenna = antenna_ok;
+  config_record.page_mask = 0x0FU;
+  config_record.pages[0] = page0;
+  config_record.pages[1] = page1;
+  config_record.pages[2] = page2;
+  config_record.pages[3] = page3;
+  if (!config_ok || !rfid_diagnostics::antennaAccepted(antenna_ok, policy)) {
     gHtrcTransmitterSafe = forceHtrcTransmitterOff();
+    config_record.field_off = gHtrcTransmitterSafe;
+    config_record.field_ms = millis() - diagnostic_field_started;
+    if (probe_field_ms != nullptr) *probe_field_ms = config_record.field_ms;
+    config_record.safe = false;
+    gRfidDiagnostics.add(config_record);
     return false;
   }
+  gRfidDiagnostics.add(config_record);
 
   std::uint16_t phase_sum = 0;
   constexpr std::uint8_t kPhaseSamples = 8;
@@ -693,20 +780,44 @@ bool prepareHitagReader(const PowerReading &baseline, std::uint8_t &sampling) {
   htrcSetConfig(2, 0x08U);
   delay(1);
   htrcSetConfig(2, 0x00U);
+  // INA226 0x0527: nominal 35.2ms averaged conversion. Only the explicit
+  // probe adds settling time; normal scan timing remains unchanged.
+  if (policy == rfid_diagnostics::AntennaPolicy::ProbeOnce) delay(80);
   const std::uint8_t settled_page2 = htrcGetConfig(2);
   samplePower();
   const PowerReading field_power = gPower;
   const bool settled_ok = sampling_ok &&
-                          (settled_page2 & kHtrcAntFailMask) == 0U &&
+                          rfid_diagnostics::antennaAccepted(
+                              (settled_page2 & kHtrcAntFailMask) == 0U, policy) &&
                           (settled_page2 & 0x0FU) == 0x00U;
   gHtrcTransmitterSafe = forceHtrcTransmitterOff();
+  auto settled_record = rfidPowerRecord("prepare_settled", field_power,
+                                       baseline.current_ma);
+  settled_record.sampling = sampling;
+  settled_record.sampling_ok = sampling_ok;
+  settled_record.page_mask = 0x04U;
+  settled_record.pages[2] = settled_page2;
+  settled_record.config = (settled_page2 & 0x0FU) == 0U;
+  settled_record.antenna = (settled_page2 & kHtrcAntFailMask) == 0U;
+  settled_record.field_off = gHtrcTransmitterSafe;
+  settled_record.field_ms = millis() - diagnostic_field_started;
+  if (probe_field_ms != nullptr) *probe_field_ms = settled_record.field_ms;
+  const bool probe_time_ok = policy == rfid_diagnostics::AntennaPolicy::Strict ||
+                            settled_record.field_ms <= static_cast<int>(kTagMaximumFieldMs);
+  settled_record.safe = settled_ok && tagPowerSafe(field_power, baseline.current_ma) &&
+                        gHtrcTransmitterSafe && probe_time_ok;
+  gRfidDiagnostics.add(settled_record);
   if (!settled_ok || !tagPowerSafe(field_power, baseline.current_ma) ||
-      !gHtrcTransmitterSafe) {
+      !gHtrcTransmitterSafe || !probe_time_ok) {
     return false;
   }
 
   const bool pulse_width_ok =
       htrcProgramWritePulseWidth(kHitagWritePulseCycles);
+  rfid_diagnostics::Record pulse_record;
+  pulse_record.stage = "prepare_pulse";
+  pulse_record.config = pulse_width_ok;
+  gRfidDiagnostics.add(pulse_record);
   delay(kHitagFieldResetMs);
   return pulse_width_ok;
 }
@@ -767,12 +878,20 @@ TagResponseCapture captureHitagResponse(std::uint8_t expected_bits) {
 }
 
 TagAttempt captureHitagAttempt(const PowerReading &baseline,
-                               std::uint8_t sampling) {
+                               std::uint8_t sampling,
+                               rfid_diagnostics::AntennaPolicy policy = rfid_diagnostics::AntennaPolicy::Strict) {
   TagAttempt attempt;
   htrcSetSampling(sampling);
-  if ((htrcGetSampling() & 0x3FU) != sampling) {
+  const std::uint8_t actual_sampling = htrcGetSampling();
+  if ((actual_sampling & 0x3FU) != sampling) {
     attempt.field_off_ok = forceHtrcTransmitterOff();
     gHtrcTransmitterSafe = attempt.field_off_ok;
+    rfid_diagnostics::Record record;
+    record.stage = "capture_sampling";
+    record.sampling = actual_sampling;
+    record.sampling_ok = false;
+    record.field_off = attempt.field_off_ok;
+    gRfidDiagnostics.add(record);
     return attempt;
   }
 
@@ -780,9 +899,19 @@ TagAttempt captureHitagAttempt(const PowerReading &baseline,
   gHtrcTransmitterSafe = false;
   const std::uint32_t field_started_us = micros();
   const std::uint32_t field_started_ms = millis();
-  if ((htrcGetConfig(1) & 0x0FU) != kHtrcFieldOnPage1) {
+  const std::uint8_t field_page1 = htrcGetConfig(1);
+  if ((field_page1 & 0x0FU) != kHtrcFieldOnPage1) {
     attempt.field_off_ok = forceHtrcTransmitterOff();
     gHtrcTransmitterSafe = attempt.field_off_ok;
+    rfid_diagnostics::Record record;
+    record.stage = "capture_field";
+    record.config = false;
+    record.page_mask = 0x02U;
+    record.pages[1] = field_page1;
+    record.field_off = attempt.field_off_ok;
+    record.field_ms = millis() - field_started_ms;
+    attempt.field_duration_ms = record.field_ms;
+    gRfidDiagnostics.add(record);
     return attempt;
   }
 
@@ -802,6 +931,10 @@ TagAttempt captureHitagAttempt(const PowerReading &baseline,
   htrcFastExitMode();
 
   attempt.overflow = gTagCaptureOverflow;
+  if (policy == rfid_diagnostics::AntennaPolicy::ProbeOnce && !attempt.overflow) {
+    const auto elapsed = static_cast<std::uint32_t>(millis() - field_started_ms);
+    if (elapsed < 80U) delay(80U - elapsed);
+  }
   samplePower();
   const PowerReading field_power = gPower;
   const std::uint8_t final_page2 = htrcGetConfig(2);
@@ -810,6 +943,7 @@ TagAttempt captureHitagAttempt(const PowerReading &baseline,
   attempt.field_off_ok = forceHtrcTransmitterOff();
   gHtrcTransmitterSafe = attempt.field_off_ok;
   const std::uint32_t field_duration_ms = millis() - field_started_ms;
+  attempt.field_duration_ms = field_duration_ms;
 
   static hitag_s::Pulse pulses[kTagMaximumEdges]{};
   std::size_t pulse_count = 0;
@@ -837,24 +971,133 @@ TagAttempt captureHitagAttempt(const PowerReading &baseline,
     }
   }
 
-  attempt.safety_ok = !attempt.overflow && antenna_ok &&
-                      attempt.field_off_ok &&
-                      field_duration_ms <= kTagMaximumFieldMs &&
-                      tagPowerSafe(field_power, baseline.current_ma);
+  attempt.safety_ok = rfid_diagnostics::captureAccepted(
+      (final_page2 & 0x0FU) == 0U, antenna_ok,
+      tagPowerSafe(field_power, baseline.current_ma), attempt.overflow,
+      attempt.field_off_ok, field_duration_ms, policy);
   if (attempt.safety_ok) {
     attempt.pulse_count = static_cast<std::uint16_t>(pulse_count);
     attempt.decoded = hitag_s::decodeAdvancedUid(pulses, pulse_count);
   }
+  auto record = rfidPowerRecord("capture_result", field_power, baseline.current_ma);
+  record.sampling = sampling;
+  record.sampling_ok = true;
+  record.page_mask = 0x06U;
+  record.pages[1] = field_page1;
+  record.pages[2] = final_page2;
+  record.config = (final_page2 & 0x0FU) == 0U;
+  record.antenna = (final_page2 & kHtrcAntFailMask) == 0U;
+  record.field_off = attempt.field_off_ok;
+  record.field_ms = field_duration_ms;
+  record.overflow = attempt.overflow;
+  record.safe = attempt.safety_ok;
+  record.edges = edge_count;
+  record.pulses = static_cast<std::uint16_t>(pulse_count);
+  record.first_edge_us = attempt.first_edge_us;
+  // Unsafe captures are never decoded; -1 distinguishes that from NoResponse.
+  record.decode = attempt.safety_ok ? static_cast<int>(attempt.decoded.status) : -1;
+  record.bits = attempt.decoded.decoded_bits;
+  record.collision = attempt.decoded.collision_bit;
+  if (attempt.safety_ok && attempt.decoded.status == hitag_s::DecodeStatus::Present)
+    hitag_s::formatUid(attempt.decoded.uid, record.uid);
+  gRfidDiagnostics.add(record);
   return attempt;
+}
+
+void runRfidProbeOnce() {
+  using rfid_diagnostics::AntennaPolicy;
+  const std::uint32_t started = millis();
+  if (!gRfidProbeBudget.claim(started)) {
+    Serial.println(F("[RFID-PROBE] rejected=COOLDOWN cooldown_ms=60000 normal_mode=STRICT"));
+    return;
+  }
+  const RfidTraceScope diagnostic_scope(true);
+  hitag_s::Uid candidate{};
+  unsigned confirmations = 0;
+  bool confirmed = false;
+  std::uint32_t previous_field_ms = 0;
+  const auto perform = [&]() -> const char * {
+    gHtrcTransmitterSafe = forceHtrcTransmitterOff();
+    if (!gHtrcTransmitterSafe) return "INITIAL_OFF_FAILED";
+    delay(80);  // Probe-only settled off baseline for the averaged INA reading.
+    samplePower();
+    const PowerReading baseline = gPower;
+    const bool digital_ok = verifyHtrcDigitalLink();
+    auto entry = rfidPowerRecord("probe_entry", baseline, baseline.current_ma);
+    entry.digital = digital_ok;
+    entry.safe = digital_ok && tagPowerSafe(baseline, baseline.current_ma);
+    gRfidDiagnostics.add(entry);
+    if (!entry.safe) return "ENTRY_UNSAFE";
+    std::uint8_t sampling = 0;
+    if (!prepareHitagReader(baseline, sampling, AntennaPolicy::ProbeOnce,
+                            &previous_field_ms)) return "PREPARE_UNSAFE";
+    const std::uint8_t samples[] = {
+        sampling, static_cast<std::uint8_t>((sampling + 8U) & 0x3FU),
+        static_cast<std::uint8_t>((sampling - 8U) & 0x3FU)};
+    std::uint8_t selected_sampling = sampling;
+    for (unsigned index = 0; index < rfid_diagnostics::ProbeBudget::kMaximumAttempts; ++index) {
+      const auto rest = rfid_diagnostics::ProbeBudget::restMs(previous_field_ms);
+      if (!gRfidProbeBudget.hasTime(millis(), rest + kTagMaximumFieldMs)) return "TIME_BUDGET";
+      delay(rest);
+      // Refresh baseline only while off and after the conservative rest period.
+      samplePower();
+      const PowerReading current_baseline = gPower;
+      if (!tagPowerSafe(current_baseline, current_baseline.current_ma)) {
+        auto record = rfidPowerRecord("probe_baseline_unsafe", current_baseline,
+                                      current_baseline.current_ma);
+        record.safe = false;
+        gRfidDiagnostics.add(record);
+        return "BASELINE_UNSAFE";
+      }
+      if (confirmations == 0) selected_sampling = samples[index % 3U];
+      if (!gRfidProbeBudget.next(millis())) return "TIME_BUDGET";
+      const TagAttempt attempt = captureHitagAttempt(
+          current_baseline, selected_sampling, AntennaPolicy::ProbeOnce);
+      previous_field_ms = attempt.field_duration_ms;
+      if (!attempt.safety_ok || !gHtrcTransmitterSafe) return "CAPTURE_UNSAFE";
+      if (attempt.decoded.status == hitag_s::DecodeStatus::Present &&
+          hitag_s::hasHitagSProductIdentifier(attempt.decoded.uid)) {
+        if (confirmations != 0 && !hitag_s::equalUid(candidate, attempt.decoded.uid))
+          return "UID_MISMATCH";
+        candidate = attempt.decoded.uid;
+        if (++confirmations == 3) { confirmed = true; return "UID_CONFIRMED"; }
+      }
+    }
+    return "ATTEMPT_LIMIT";
+  };
+  const char *reason = perform();
+  // No publication or cached Tag/sampling updates anywhere in this path.
+  // Every lambda return reaches this cleanup, including all safety failures.
+  gHtrcTransmitterSafe = forceHtrcTransmitterOff();
+  if (!gHtrcTransmitterSafe) { confirmed = false; reason = "FINAL_OFF_FAILED"; }
+  // Include a final off interval before the normal scan can run again. The
+  // 6s work budget excludes this off-only cooldown (150..1400ms for fields
+  // within the 350ms guard; preserve fourfold rest even on an overrun).
+  delay(rfid_diagnostics::ProbeBudget::restMs(previous_field_ms));
+  gRfidProbeBudget.finish();
+  char uid[9] = "--------";
+  if (confirmed) hitag_s::formatUid(candidate, uid);
+  Serial.printf("[RFID-PROBE] complete reason=%s attempts=%u confirmed=%d confirmations=%u uid=%s off=%d elapsed_ms=%lu published=NO normal_mode=STRICT\r\n",
+                reason, gRfidProbeBudget.attempts(), confirmed, confirmations,
+                uid, gHtrcTransmitterSafe,
+                static_cast<unsigned long>(millis() - started));
+  Serial.println(F("[RFID-PROBE] work_budget_ms=6000 baseline_off_wait_ms=80 prepare_extra_wait_ms=80 capture_field_min_ms=80 INA_average_nominal_ms=35.2 coil_peak=UNMEASURED"));
 }
 
 TagInventoryAttempt enumerateHitagTags(const PowerReading &baseline,
                                        std::uint8_t sampling) {
   TagInventoryAttempt attempt;
   htrcSetSampling(sampling);
-  if ((htrcGetSampling() & 0x3FU) != sampling) {
+  const std::uint8_t actual_sampling = htrcGetSampling();
+  if ((actual_sampling & 0x3FU) != sampling) {
     attempt.field_off_ok = forceHtrcTransmitterOff();
     gHtrcTransmitterSafe = attempt.field_off_ok;
+    rfid_diagnostics::Record record;
+    record.stage = "inventory_sampling";
+    record.sampling = actual_sampling;
+    record.sampling_ok = false;
+    record.field_off = attempt.field_off_ok;
+    gRfidDiagnostics.add(record);
     return attempt;
   }
 
@@ -862,9 +1105,18 @@ TagInventoryAttempt enumerateHitagTags(const PowerReading &baseline,
   gHtrcTransmitterSafe = false;
   const std::uint32_t field_started_us = micros();
   const std::uint32_t field_started_ms = millis();
-  if ((htrcGetConfig(1) & 0x0FU) != kHtrcFieldOnPage1) {
+  const std::uint8_t field_page1 = htrcGetConfig(1);
+  if ((field_page1 & 0x0FU) != kHtrcFieldOnPage1) {
     attempt.field_off_ok = forceHtrcTransmitterOff();
     gHtrcTransmitterSafe = attempt.field_off_ok;
+    rfid_diagnostics::Record record;
+    record.stage = "inventory_field";
+    record.config = false;
+    record.page_mask = 0x02U;
+    record.pages[1] = field_page1;
+    record.field_off = attempt.field_off_ok;
+    record.field_ms = millis() - field_started_ms;
+    gRfidDiagnostics.add(record);
     return attempt;
   }
 
@@ -903,17 +1155,7 @@ TagInventoryAttempt enumerateHitagTags(const PowerReading &baseline,
   } else {
     ++attempt.commands;
     const TagResponseCapture root = captureHitagResponse(32U);
-    if (gRfidDebug) {
-      Serial.printf("[RFID-RAW] kind=ROOT sample=0x%02X edges=%u pulses=%u first=%luus decode=%u start=%u bits=%u collision=%u quarter=%uus\r\n",
-                    sampling, static_cast<unsigned>(root.edge_count),
-                    static_cast<unsigned>(root.pulse_count),
-                    static_cast<unsigned long>(root.first_edge_us),
-                    static_cast<unsigned>(root.decoded.status),
-                    static_cast<unsigned>(root.decoded.start_pulse),
-                    static_cast<unsigned>(root.decoded.decoded_bits),
-                    static_cast<unsigned>(root.decoded.collision_bit),
-                    static_cast<unsigned>(root.decoded.quarter_us));
-    }
+    recordRfidRaw("inventory_root", sampling, root);
     attempt.overflow = root.overflow;
     const hitag_s::UidPrefix empty_prefix{};
     if (root.decoded.status == hitag_s::DecodeStatus::Present) {
@@ -948,19 +1190,7 @@ TagInventoryAttempt enumerateHitagTags(const PowerReading &baseline,
         static_cast<std::uint8_t>(32U - prefix.bit_count);
     const TagResponseCapture response =
         captureHitagResponse(remaining_bits);
-    if (gRfidDebug) {
-      Serial.printf("[RFID-RAW] kind=AC prefix=%u remain=%u sample=0x%02X edges=%u pulses=%u first=%luus decode=%u start=%u bits=%u collision=%u quarter=%uus\r\n",
-                    static_cast<unsigned>(prefix.bit_count),
-                    static_cast<unsigned>(remaining_bits), sampling,
-                    static_cast<unsigned>(response.edge_count),
-                    static_cast<unsigned>(response.pulse_count),
-                    static_cast<unsigned long>(response.first_edge_us),
-                    static_cast<unsigned>(response.decoded.status),
-                    static_cast<unsigned>(response.decoded.start_pulse),
-                    static_cast<unsigned>(response.decoded.decoded_bits),
-                    static_cast<unsigned>(response.decoded.collision_bit),
-                    static_cast<unsigned>(response.decoded.quarter_us));
-    }
+    recordRfidRaw("inventory_ac", sampling, response);
     attempt.overflow = attempt.overflow || response.overflow;
     if (response.decoded.status == hitag_s::DecodeStatus::Present) {
       add_full_uid(hitag_s::combinePrefixAndSuffix(
@@ -992,6 +1222,19 @@ TagInventoryAttempt enumerateHitagTags(const PowerReading &baseline,
                       attempt.field_off_ok &&
                       field_duration_ms <= kTagMaximumFieldMs &&
                       tagPowerSafe(field_power, baseline.current_ma);
+  auto record = rfidPowerRecord("inventory_result", field_power, baseline.current_ma);
+  record.sampling = sampling;
+  record.sampling_ok = true;
+  record.page_mask = 0x06U;
+  record.pages[1] = field_page1;
+  record.pages[2] = final_page2;
+  record.config = (final_page2 & 0x0FU) == 0U;
+  record.antenna = (final_page2 & kHtrcAntFailMask) == 0U;
+  record.field_off = attempt.field_off_ok;
+  record.field_ms = field_duration_ms;
+  record.overflow = attempt.overflow;
+  record.safe = attempt.safety_ok;
+  gRfidDiagnostics.add(record);
   return attempt;
 }
 
@@ -1173,13 +1416,21 @@ void publishTagStatus(TagStatus status, const hitag_s::Uid *uid,
 }
 
 void scanHitagTag() {
+  const RfidTraceScope diagnostic_scope;
   // Latch session at scan start. New HTTP pairing cannot bless an older cache.
   const bool pairing = pairingVisible(gNetworkSnapshot.pairing, millis());
   gScanPairingRoom = pairing ? gNetworkSnapshot.pairing.room_id : 0;
   gScanPairingSession = pairing ? gNetworkSnapshot.pairing.session_id : 0;
   samplePower();
   const PowerReading baseline = gPower;
-  if (!verifyHtrcDigitalLink() || !baseline.valid ||
+  const bool digital_ok = verifyHtrcDigitalLink();
+  auto entry_record = rfidPowerRecord("entry", baseline, baseline.current_ma);
+  entry_record.digital = digital_ok;
+  entry_record.safe = digital_ok && baseline.valid &&
+                      baseline.bus_voltage_v >= kTagMinimumBusVoltageV &&
+                      baseline.current_ma <= kTagMaximumTotalCurrentMa;
+  gRfidDiagnostics.add(entry_record);
+  if (!digital_ok || !baseline.valid ||
       baseline.bus_voltage_v < kTagMinimumBusVoltageV ||
       baseline.current_ma > kTagMaximumTotalCurrentMa) {
     gHtrcTransmitterSafe = forceHtrcTransmitterOff();
@@ -1312,18 +1563,6 @@ void scanHitagTag() {
       delay(kHitagFieldResetMs);
       const TagAttempt presence =
           captureHitagAttempt(baseline, presence_sampling);
-      if (gRfidDebug) {
-        Serial.printf("[RFID-RAW] kind=PRESENCE sample=0x%02X edges=%u pulses=%u first=%luus decode=%u start=%u bits=%u collision=%u quarter=%uus\r\n",
-                      presence_sampling,
-                      static_cast<unsigned>(presence.edge_count),
-                      static_cast<unsigned>(presence.pulse_count),
-                      static_cast<unsigned long>(presence.first_edge_us),
-                      static_cast<unsigned>(presence.decoded.status),
-                      static_cast<unsigned>(presence.decoded.start_pulse),
-                      static_cast<unsigned>(presence.decoded.decoded_bits),
-                      static_cast<unsigned>(presence.decoded.collision_bit),
-                      static_cast<unsigned>(presence.decoded.quarter_us));
-      }
       if (!presence.safety_ok || !gHtrcTransmitterSafe) {
         samplePower();
         publishTagStatus(TagStatus::Fault, nullptr, presence_sampling, 0U);
@@ -1409,18 +1648,6 @@ void scanHitagTag() {
     delay(kHitagFieldResetMs);
     const TagAttempt attempt =
         captureHitagAttempt(baseline, candidate_sampling);
-    if (gRfidDebug) {
-      Serial.printf("[RFID-RAW] kind=SEARCH sample=0x%02X edges=%u pulses=%u first=%luus decode=%u start=%u bits=%u collision=%u quarter=%uus\r\n",
-                    candidate_sampling,
-                    static_cast<unsigned>(attempt.edge_count),
-                    static_cast<unsigned>(attempt.pulse_count),
-                    static_cast<unsigned long>(attempt.first_edge_us),
-                    static_cast<unsigned>(attempt.decoded.status),
-                    static_cast<unsigned>(attempt.decoded.start_pulse),
-                    static_cast<unsigned>(attempt.decoded.decoded_bits),
-                    static_cast<unsigned>(attempt.decoded.collision_bit),
-                    static_cast<unsigned>(attempt.decoded.quarter_us));
-    }
     ++attempt_count;
     if (!attempt.safety_ok) {
       all_safe = false;
@@ -1453,18 +1680,6 @@ void scanHitagTag() {
     delay(kHitagFieldResetMs);
     const TagAttempt attempt =
         captureHitagAttempt(baseline, selected_sampling);
-    if (gRfidDebug) {
-      Serial.printf("[RFID-RAW] kind=CONFIRM sample=0x%02X edges=%u pulses=%u first=%luus decode=%u start=%u bits=%u collision=%u quarter=%uus\r\n",
-                    selected_sampling,
-                    static_cast<unsigned>(attempt.edge_count),
-                    static_cast<unsigned>(attempt.pulse_count),
-                    static_cast<unsigned long>(attempt.first_edge_us),
-                    static_cast<unsigned>(attempt.decoded.status),
-                    static_cast<unsigned>(attempt.decoded.start_pulse),
-                    static_cast<unsigned>(attempt.decoded.decoded_bits),
-                    static_cast<unsigned>(attempt.decoded.collision_bit),
-                    static_cast<unsigned>(attempt.decoded.quarter_us));
-    }
     ++attempt_count;
     if (!attempt.safety_ok) {
       all_safe = false;
@@ -2052,6 +2267,7 @@ void printLedStatus() {
 }
 
 void printStatus() {
+  Serial.println(F("[RFID-DIAG] build=stage2 strict=YES probe=EXPLICIT_ONCE"));
   printLedStatus();
   Serial.printf("[PAIRING] active=%s state=%s room=%lu session=%lu revision=%lu player=%u scan_seq=%lu fresh=%s\r\n",
                 pairingVisible(gNetworkSnapshot.pairing, millis()) ? "YES" : "NO",
@@ -2138,7 +2354,8 @@ void printHelp() {
   Serial.println(F("  LED OFF|RED|GREEN|BLUE seconds  local override, 1..30 s, level 8"));
   Serial.println(F("  LED AUTO          restore normal game lighting immediately"));
   Serial.println(F("  STATUS            print current state and power"));
-  Serial.println(F("  RFID DEBUG ON|OFF toggle raw RFID capture diagnostics"));
+  Serial.println(F("  RFID DEBUG ON|OFF 30s bounded RFID stage diagnostics"));
+  Serial.println(F("  RFID PROBE ONCE   local read-only ANTFAIL probe; 60s cooldown"));
   Serial.println(F("  HELP              print this list"));
 }
 
@@ -2204,11 +2421,13 @@ void processCommand(char *command) {
   } else if (std::strcmp(command, "STATUS") == 0) {
     printStatus();
   } else if (std::strcmp(command, "RFID DEBUG ON") == 0) {
-    gRfidDebug = true;
-    Serial.println(F("[RFID] raw diagnostics=ON"));
+    gRfidDiagnostics.enable(millis());
+    Serial.println(F("[RFID] diagnostics=ON schema=1 duration_ms=30000 interval_ms=1000 strict=YES"));
   } else if (std::strcmp(command, "RFID DEBUG OFF") == 0) {
-    gRfidDebug = false;
-    Serial.println(F("[RFID] raw diagnostics=OFF"));
+    gRfidDiagnostics.disable();
+    Serial.println(F("[RFID] diagnostics=OFF"));
+  } else if (std::strcmp(command, "RFID PROBE ONCE") == 0) {
+    runRfidProbeOnce();
   } else if (std::strcmp(command, "HELP") == 0 || std::strcmp(command, "?") == 0) {
     printHelp();
   } else if (*command != '\0') {

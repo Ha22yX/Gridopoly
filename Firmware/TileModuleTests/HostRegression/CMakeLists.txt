@@ -22,17 +22,29 @@ endforeach()
 # boundaries. This leaves production wiring and LED behavior untouched.
 set(FIXTURE "${CMAKE_CURRENT_BINARY_DIR}/firmware_fixture.inc")
 set(NETWORK_FIXTURE "${CMAKE_CURRENT_BINARY_DIR}/network_fixture.inc")
+set(RFID_FIXTURE "${CMAKE_CURRENT_BINARY_DIR}/rfid_fixture.inc")
+set(PROBE_FIXTURE "${CMAKE_CURRENT_BINARY_DIR}/probe_fixture.inc")
 get_filename_component(REPO_ROOT "${TILE_ROOT}/../.." ABSOLUTE)
 set(CORE_ROOT "${REPO_ROOT}/Firmware/libraries/GridopolyCore/src")
 set(PI_ROOT "${REPO_ROOT}/Server/RaspberryPi/src")
-add_custom_command(OUTPUT "${FIXTURE}" "${NETWORK_FIXTURE}"
+add_custom_command(OUTPUT "${FIXTURE}" "${NETWORK_FIXTURE}" "${RFID_FIXTURE}" "${PROBE_FIXTURE}"
   COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_LIST_DIR}/extract_fixture.py"
-          "${TILE_ROOT}" "${FIXTURE}" "${NETWORK_FIXTURE}"
+          "${TILE_ROOT}" "${FIXTURE}" "${NETWORK_FIXTURE}" "${RFID_FIXTURE}" "${PROBE_FIXTURE}"
   DEPENDS "${TILE_ROOT}/src/main.cpp" "${TILE_ROOT}/src/tile_network.cpp"
           "${CMAKE_CURRENT_LIST_DIR}/extract_fixture.py"
           "${PI_ROOT}/TileDebugAssignments.cpp" "${PI_ROOT}/HttpServer.cpp"
   VERBATIM)
-add_custom_target(generate_tile_fixtures DEPENDS "${FIXTURE}" "${NETWORK_FIXTURE}")
+add_custom_target(generate_tile_fixtures DEPENDS "${FIXTURE}" "${NETWORK_FIXTURE}" "${RFID_FIXTURE}" "${PROBE_FIXTURE}")
+add_executable(test_rfid_probe rfid_probe.cpp)
+add_dependencies(test_rfid_probe generate_tile_fixtures)
+target_include_directories(test_rfid_probe PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_link_libraries(test_rfid_probe PRIVATE tile_model unity)
+add_test(NAME rfid_probe COMMAND test_rfid_probe)
+add_executable(test_rfid_diagnostics rfid_diagnostics.cpp)
+add_dependencies(test_rfid_diagnostics generate_tile_fixtures)
+target_include_directories(test_rfid_diagnostics PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_link_libraries(test_rfid_diagnostics PRIVATE tile_model unity)
+add_test(NAME rfid_diagnostics COMMAND test_rfid_diagnostics)
 add_executable(test_firmware_boundaries firmware_boundaries.cpp)
 add_dependencies(test_firmware_boundaries generate_tile_fixtures)
 target_include_directories(test_firmware_boundaries PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
