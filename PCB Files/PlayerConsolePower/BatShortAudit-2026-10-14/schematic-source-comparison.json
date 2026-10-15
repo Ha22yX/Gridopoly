@@ -1,0 +1,139 @@
+{
+  "P1.source.jsonl": {
+    "counts": {
+      "TEXT": 2
+    },
+    "changes": [
+      [
+        [
+          "TEXT",
+          "c2b0877f995c8201"
+        ],
+        {
+          "x": 70,
+          "y": 45,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 16,
+          "fontWeight": true,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "PLAYER POWER — DRAFT / NOT FOR FABRICATION",
+          "fillColor": null
+        },
+        null
+      ],
+      [
+        [
+          "TEXT",
+          "e5253bf5c7bc60fc"
+        ],
+        {
+          "x": 70,
+          "y": -150,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 11,
+          "fontWeight": false,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "1S 4.2V protected battery required. ICHG approx. 500mA; TMR approx. 9h nominal.\nUV cutoff SYS_RAW approx. 3.30V; voltage recovery does not re-latch ON.\nNTC/cell charging limits and transient/thermal validation remain open.",
+          "fillColor": null
+        },
+        {
+          "x": 70,
+          "y": -150,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 11,
+          "fontWeight": false,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "1S 4.2V protected battery required. ICHG approx. 500mA; TMR approx. 9h nominal.\nUV cutoff SYS_RAW approx. 3.30V; voltage recovery does not re-latch ON.\nTS: fixed 10k on P2 (no cell temperature sensing). CHG/PGOOD -> U9 GPIO.\nCell ratings, PCB layout and hardware validation remain pending.",
+          "fillColor": null
+        }
+      ]
+    ]
+  },
+  "P2.source.jsonl": {
+    "counts": {
+      "TEXT": 2
+    },
+    "changes": [
+      [
+        [
+          "TEXT",
+          "4573e26419f9a21e"
+        ],
+        {
+          "x": 800,
+          "y": -200,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 11,
+          "fontWeight": false,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "J2 excluded from PCB/BOM until FPC verified.\nJ3/J4 are wire pads, not populated headers.\nJ4 probe pending: an open TS input inhibits charging.\nStandard USB source: battery may supplement load.",
+          "fillColor": null
+        },
+        {
+          "x": 800,
+          "y": -200,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 11,
+          "fontWeight": false,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "J2 populated; verify actual FPC fit and current.\nJ3: PH2.0-2P battery connector, pin1 GND/BAT-, pin2 BAT+.\nTS fixed 10k; no external temperature probe.\nStandard USB source: battery may supplement load.",
+          "fillColor": null
+        }
+      ],
+      [
+        [
+          "TEXT",
+          "490b99d202b01938"
+        ],
+        {
+          "x": 60,
+          "y": -75,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 8,
+          "fontWeight": false,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "FPC: contact face toward viewer, cable upward; left=pin1 5V, third=GND. Tail thickness HOLD.\nPin6 RX <- bridge TX; pin7 TX -> bridge RX. ADC pin2 NC. J3: battery wire pads only.\nTS uses fixed 10k; no external temperature probe. PGOOD/CHG are active-low status, not a current measurement.\nNo base firmware. U9 follows screen power; U10 stays on battery. MODE.EnSleep must remain 0 for off-state charging.",
+          "fillColor": null
+        },
+        {
+          "x": 60,
+          "y": -75,
+          "rotation": 0,
+          "color": null,
+          "fontFamily": null,
+          "fontSize": 8,
+          "fontWeight": false,
+          "italic": null,
+          "underline": null,
+          "align": "LEFT_BOTTOM",
+          "value": "FPC: contact face toward viewer, cable upward; left=pin1 5V, third=GND. Tail thickness HOLD.\nPin6 RX <- bridge TX; pin7 TX -> bridge RX. ADC pin2 NC. J3: PH2.0-2P, 1=GND/BAT-, 2=BAT+.\nTS uses fixed 10k; no external temperature probe. PGOOD/CHG are active-low status, not current.\nNo base firmware. U9 follows screen power; U10 stays on battery. MODE.EnSleep must remain 0 for off-state charging.",
+          "fillColor": null
+        }
+      ]
+    ]
+  }
+}

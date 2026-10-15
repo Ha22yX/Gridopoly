@@ -1,0 +1,23 @@
+{
+  "bat-short-locations.png": "ed72a9984fbe37a0446652da1d99c6c77747371fde93a843223546df33bf5b9b",
+  "capture-time.json": "132f13b483f29e8865d90d8a8978f9ce87917e195d00046601b8da9febea073e",
+  "copper-connectivity-review.json": "03602b5a933769c0a71678f3f39b88dea6668cdfc19d3176ef8ba1eaccaf4b71",
+  "current-Gerber.zip": "0f3121149e670829da35bbba8a518a19a279ca464df0a01f242c5e31792dfc3a",
+  "current-snapshot.json": "7fafe50a6124b09efbef0a6f0387614059f0da08b53cc8044b39a67200c52efc",
+  "inspect-manufacturing.py": "107c9a9edfab0421e679bb481d7ad243fa08f0efb7fb6202952c41767da8a41b",
+  "manufacturing-detail-review.json": "fd184dcf7a3a3f05eaf42450fb0dba92c17d06b4681ff553892abde9fb554fad",
+  "netlist-consistency.json": "0ed3414eead144b5ed05f201b164381b38e81e645455d5c5016fa048ab24f895",
+  "P1.source.jsonl": "31b04c2c6c307072131edc55d27435b9404876bc086aa5172dd75f1043b35d23",
+  "P2.source.jsonl": "78b988d10a94565b7ae168eac96d86c146f665d4b49db43810488d78ea1d4591",
+  "pcb-drc-current.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "PCB1-before.source.jsonl": "8dc65502f753fc1b05a88c730647ffc63cd8ca881eff0221261a1a63e6a0c944",
+  "PCB1-netlist.json": "7fee63bcac5412992a08d29fca70b60ab0c1b5f33aa76a67780f44741f8a7125",
+  "physical-findings.json": "3df538951b6785d7865809039fe0a16f8d60e381192bb7222af125fd03ca9270",
+  "README.md": "dec3cbdfc2ee0b341f0b09c0d61e25185f4275e619b7b9e4cc7efcd1d23d33a5",
+  "rules-and-drc.json": "221c5528d553774a7cd4a39d2084afa58b81cf5bdeab08a2ad48e87b91472f21",
+  "rules-before.json": "d80d9dff004dfd79a965f3cc8a3d6a107d5b03c7d4f891585db33c19a21ff32f",
+  "schematic-netlist.json": "d9e4665240d30dd23e839e6bb02fd68e9e5dcf05a7ec9245d7a2b428de0e7098",
+  "schematic-source-comparison.json": "a8c09146a32a0b1dba3d0d52e0521d5f344b88bed72173d1734e0345ef0f168d",
+  "verify-current-copper.py": "4d499e92512e2028d267bd71f2ca69417b1cfa4b05a5cf9b2c1a6c3019c5e531",
+  ".gitattributes": "a74bad1da9464bc9b371bc2733cd8f9f95b51e657861a56676cb21ca6dd3e1ce"
+}

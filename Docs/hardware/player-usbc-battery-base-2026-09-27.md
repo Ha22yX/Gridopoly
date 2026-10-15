@@ -1,6 +1,8 @@
 # 玩家圆屏 USB-C 电池底板
 
-更新：2026-10-05。用户确认**已下单，尚未收到**；现场电路与RC5一致，订单实际提交文件仍待对应。两页原理图、80×80mm双层全顶面布局和全部布线已完成。本轮重新读取68件/243脚、536线段/82过孔，严格PCB DRC为0，41网制造铜层无几何短断路。**新增电池充电电压容差待核验：BQ24074上限4.23V，EEMB公开电芯规格上限4.22V；另有普通USB口100mA限制、41条原理图警告及FPC/实板验收未闭合。下单不等于功能验收通过。**详见[10月5日复核](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/README.md)和[到货验证表](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/arrival-tests.md)。屏幕端源码及主机回归见[固件接入记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)，本轮未部署。
+更新：2026-10-14。**用户确认到货板全部 BAT+／BAT− 持续约 0.2Ω，C3 SYS_RAW 对地约 18.92kΩ，5V_SCREEN 对地几 MΩ。实物故障未定位、未修复，保持电池、USB、屏幕断开。** 当前重点是 BAT 直接支路 J3/C2/C19/U1/U10；当前工程 DRC 0 及新 Gerber 铜层无短路不能代替订单文件和实板检查。历史 J3 翻转的旧地铜短路已于 RC5 修复，但订单是否使用修复前中间状态仍待核。当前原理图 API 返回 43 条警告计数。[10月14日故障调查](../../PCB%20Files/PlayerConsolePower/BatShortAudit-2026-10-14/README.md)。
+
+以下为 2026-10-05 历史检查，当时用户确认已下单、未收到：现场电路与RC5一致，订单实际提交文件仍待对应。两页原理图、80×80mm双层全顶面布局和全部布线已完成。本轮重新读取68件/243脚、536线段/82过孔，严格PCB DRC为0，41网制造铜层无几何短断路。**新增电池充电电压容差待核验：BQ24074上限4.23V，EEMB公开电芯规格上限4.22V；另有普通USB口100mA限制、41条原理图警告及FPC/实板验收未闭合。下单不等于功能验收通过。**详见[10月5日复核](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/README.md)和[到货验证表](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/arrival-tests.md)。屏幕端源码及主机回归见[固件接入记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)，本轮未部署。
 
 这是一块新增的玩家终端底板，不属于长边或角落棋盘模块，不接 24V 总线。现有屏幕内部已有 ESP32-S3，底板通过屏幕伸出的软排线连接。
 

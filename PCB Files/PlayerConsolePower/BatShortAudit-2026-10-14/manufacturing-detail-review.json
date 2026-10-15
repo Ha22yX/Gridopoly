@@ -1,0 +1,81 @@
+{
+  "copperBatGndClearanceMm": {
+    "1": {
+      "distance": 0.16010349999999818,
+      "points": [
+        [
+          53.499992,
+          -63.5501725
+        ],
+        [
+          53.499992,
+          -63.390069000000004
+        ]
+      ]
+    },
+    "2": {
+      "distance": 0.20026349999999837,
+      "points": [
+        [
+          57.9999825,
+          -54.8
+        ],
+        [
+          57.799719,
+          -54.8
+        ]
+      ]
+    }
+  },
+  "pasteBridgeCandidates": [],
+  "parts": {
+    "U1": {
+      "centerTopViewMm": [
+        52.00000014,
+        63.999998999999995
+      ],
+      "pasteAreaWithin4p2mmSquare": 5.732375070679998,
+      "maskAreaWithin4p2mmSquare": 8.412308791541223
+    },
+    "U10": {
+      "centerTopViewMm": [
+        58.99999884,
+        46.99999998
+      ],
+      "pasteAreaWithin4p2mmSquare": 1.992012487448091,
+      "maskAreaWithin4p2mmSquare": 2.94022831828139
+    },
+    "C2": {
+      "centerTopViewMm": [
+        55.99999976,
+        62.49999946
+      ],
+      "pasteAreaWithin4p2mmSquare": 3.0476608572382413,
+      "maskAreaWithin4p2mmSquare": 4.431349085864836
+    },
+    "C19": {
+      "centerTopViewMm": [
+        58.99999884,
+        49.50000006
+      ],
+      "pasteAreaWithin4p2mmSquare": 2.3081656010853147,
+      "maskAreaWithin4p2mmSquare": 3.132424800035076
+    },
+    "J3": {
+      "centerTopViewMm": [
+        39.99999874,
+        5.00000016
+      ],
+      "pasteAreaWithin4p2mmSquare": 0.0,
+      "maskAreaWithin4p2mmSquare": 4.546363966161612
+    }
+  },
+  "limitations": [
+    "Digital current export only; physical solder and actual order package are not inspected.",
+    "Mask openings can be merged by fab process; this does not assert solder quality."
+  ],
+  "u1CentralPasteAreaMm2": {
+    "current": 2.1938826873400004,
+    "frozenRc5": 2.1938826873400004
+  }
+}

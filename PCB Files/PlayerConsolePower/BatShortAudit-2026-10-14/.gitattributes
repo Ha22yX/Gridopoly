@@ -1,0 +1,2 @@
+# Preserve exact diagnostic evidence bytes across Windows and Unix checkouts.
+* -text

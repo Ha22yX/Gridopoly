@@ -1,0 +1,33 @@
+{
+  "localDate": "2026-10-14",
+  "timezone": "America/New_York",
+  "source": "User-reported multimeter measurements; not independently measured by the agent",
+  "assembly": "JLCPCB assembled; all boards reportedly affected",
+  "readings": [
+    {
+      "points": "J3 BAT+ to BAT-",
+      "resistanceOhmsApprox": 0.2,
+      "description": "Persistent; all boards a few tenths of an ohm"
+    },
+    {
+      "points": "5V_SCREEN to GND",
+      "description": "Several megaohms"
+    },
+    {
+      "points": "C3 SYS_RAW to GND",
+      "resistanceOhmsApprox": 18920,
+      "description": "Answer to instruction to disconnect battery, USB and screen"
+    }
+  ],
+  "interpretation": "Prioritize BAT_PACK copper and direct loads J3/C2/C19/U1/U10. SYS_RAW and 5V_SCREEN did not show a hard short under these measurement conditions; this does not prove either rail operates.",
+  "unknown": [
+    "Exact order Gerber/BOM/CPL and factory assembly preview",
+    "Board photographs and component orientation",
+    "Whether boards were powered before discovering the fault",
+    "Probe lead resistance and reversed-probe reading",
+    "Exact short location and root cause"
+  ],
+  "status": "HOLD: physical battery-input near-short reported; do not connect battery or USB pending fault isolation",
+  "hardwareModified": false,
+  "physicalFaultFixed": false
+}
