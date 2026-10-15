@@ -1,0 +1,219 @@
+{
+  "analysis": "VIRTUAL_GEOMETRY_ONLY_NOT_VALIDATED_PHYSICAL_REWORK",
+  "sourceZipSha256": "2344f34c45307a879c9a3274bddd53681152dcf42d9fb47637cb690d554405b6",
+  "coordinates": "mm; top/component view; original Gerber X/Y; negative Y is down from board top",
+  "cuts": {
+    "upper": {
+      "center": [
+        41.00068,
+        -4.07416
+      ],
+      "size": [
+        0.4,
+        0.1
+      ],
+      "boundsMm": [
+        40.80068,
+        -4.12416,
+        41.200680000000006,
+        -4.02416
+      ],
+      "removedTopCopperMm2": 0.025400000000000398,
+      "clearanceFromPadOuterCircleMm": 0.07700000000000029,
+      "clearanceFromDrillOuterCircleMm": 0.4771000000000003,
+      "bottomCopperOverlapMm2": 0.0
+    },
+    "lower": {
+      "center": [
+        41.00068,
+        -5.92836
+      ],
+      "size": [
+        0.4,
+        0.1
+      ],
+      "boundsMm": [
+        40.80068,
+        -5.9783599999999995,
+        41.200680000000006,
+        -5.87836
+      ],
+      "removedTopCopperMm2": 0.025400000000000398,
+      "clearanceFromPadOuterCircleMm": 0.07699999999999951,
+      "clearanceFromDrillOuterCircleMm": 0.4770999999999995,
+      "bottomCopperOverlapMm2": 0.03526799999999982
+    },
+    "right": {
+      "center": [
+        41.92778,
+        -5.00126
+      ],
+      "size": [
+        0.1,
+        0.4
+      ],
+      "boundsMm": [
+        41.87778,
+        -5.20126,
+        41.977779999999996,
+        -4.80126
+      ],
+      "removedTopCopperMm2": 0.02539999999999851,
+      "clearanceFromPadOuterCircleMm": 0.07699999999999874,
+      "clearanceFromDrillOuterCircleMm": 0.47709999999999875,
+      "bottomCopperOverlapMm2": 0.0
+    }
+  },
+  "checks": {
+    "C2_1": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        55.99999976,
+        -63.49999745999999
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "C2_2": {
+      "net": "GND",
+      "pointMm": [
+        55.99999976,
+        -61.50000146
+      ],
+      "roots": [
+        56
+      ]
+    },
+    "C3_1": {
+      "net": "SYS_RAW",
+      "pointMm": [
+        47.399999179999995,
+        -62.9000012
+      ],
+      "roots": [
+        91
+      ]
+    },
+    "C19_1": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        58.299974840000004,
+        -49.50000006
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "J3_1": {
+      "net": "GND",
+      "pointMm": [
+        38.99916,
+        -5.00126
+      ],
+      "roots": [
+        56
+      ]
+    },
+    "J3_2": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        41.00068,
+        -5.00126
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "U1_2": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        53.499997140000005,
+        -64.250062
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "U1_3": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        53.499997140000005,
+        -63.750189999999996
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "U1_4": {
+      "net": "GND",
+      "pointMm": [
+        53.499997140000005,
+        -63.250063999999995
+      ],
+      "roots": [
+        56
+      ]
+    },
+    "U10_1": {
+      "net": "GND",
+      "pointMm": [
+        58.24993684,
+        -47.93751398
+      ],
+      "roots": [
+        56
+      ]
+    },
+    "U10_2": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        58.75006284,
+        -47.93751398
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "U10_3": {
+      "net": "BAT_PACK",
+      "pointMm": [
+        59.249934839999995,
+        -47.93751398
+      ],
+      "roots": [
+        1
+      ]
+    },
+    "U10_4": {
+      "net": "GND",
+      "pointMm": [
+        59.750060839999996,
+        -47.93751398
+      ],
+      "roots": [
+        56
+      ]
+    }
+  },
+  "targetChecks": {
+    "batteryGroundSeparated": true,
+    "batteryBranchRetained": true,
+    "groundBranchRetained": true,
+    "padAnnulusUncut": true,
+    "bottomLayerUnchanged": true
+  },
+  "allNamedFlyingProbeNetChecks": {
+    "nets": 62,
+    "shorts": [],
+    "opens": [],
+    "missingNamedPins": []
+  },
+  "limitations": [
+    "Only virtual top copper is removed; no physical removal, EDA edit, or manufacturing Gerber generated.",
+    "A cut into the opposite/bottom layer would be invalid; clearance through FR4 thickness and tooling control are not modeled.",
+    "Requires clear photos of actual J3 and possibly removing J3 for access.",
+    "Component functionality and absence of prior electrical damage cannot be guaranteed after this rework.",
+    "No immediate power-on instruction; verify resistance, isolation and remaining connections on real hardware first."
+  ]
+}

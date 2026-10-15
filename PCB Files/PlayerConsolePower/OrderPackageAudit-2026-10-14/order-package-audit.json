@@ -1,0 +1,230 @@
+{
+  "method": "Copper boolean geometry from each ZIP; connectivity joined only at that ZIP actual plated drills; expected nets and coordinates from that ZIP FlyingProbeTesting.json. 1um arc approximation, 3um point identification; no geometric gap healing.",
+  "limitations": [
+    "File evidence only, does not inspect physical assembly or prove there are no other electrical/thermal issues.",
+    "FlyingProbeTesting.json presence does not prove the factory performed a fly-probe test.",
+    "Photos of the actual board still required before defining manual rework."
+  ],
+  "order": {
+    "zip": "Gridopoly_PCB1_20260927_204456.zip",
+    "zipSha256": "2344f34c45307a879c9a3274bddd53681152dcf42d9fb47637cb690d554405b6",
+    "uniqueComponentPins": 243,
+    "platedDrills": 92,
+    "rawNetNames": 62,
+    "humanReadableNetNames": 31,
+    "automaticNetNames": 31,
+    "shorts": [
+      {
+        "nets": [
+          "BAT_PACK",
+          "GND"
+        ],
+        "pins": [
+          "C1_2",
+          "C2_1",
+          "C2_2",
+          "C3_2",
+          "C4_2",
+          "C5_2",
+          "C6_2",
+          "C7_2",
+          "C8_2",
+          "C9_2",
+          "C10_2",
+          "C11_2",
+          "C12_2",
+          "C13_2",
+          "C14_2",
+          "C15_2",
+          "C16_2",
+          "C17_2",
+          "C18_2",
+          "C19_1",
+          "C19_2",
+          "C20_2",
+          "D1_2",
+          "J1_1",
+          "J1_2",
+          "J1_3",
+          "J1_4",
+          "J1_A1B12",
+          "J1_B1A12",
+          "J2_8",
+          "J2_11",
+          "J2_12",
+          "J3_1",
+          "J3_2",
+          "Q1_2",
+          "Q3_2",
+          "R1_2",
+          "R2_2",
+          "R4_2",
+          "R8_2",
+          "R10_2",
+          "R17_2",
+          "R18_2",
+          "R20_2",
+          "R21_2",
+          "SW1_3",
+          "SW1_4",
+          "SW2_3",
+          "SW2_4",
+          "U1_2",
+          "U1_3",
+          "U1_4",
+          "U1_6",
+          "U1_8",
+          "U1_17",
+          "U2_4",
+          "U3_2",
+          "U4_2",
+          "U5_3",
+          "U5_10",
+          "U5_11",
+          "U6_2",
+          "U7_5",
+          "U7_9",
+          "U8_2",
+          "U9_13",
+          "U10_1",
+          "U10_2",
+          "U10_3",
+          "U10_4",
+          "U10_6",
+          "U10_9"
+        ]
+      }
+    ],
+    "opens": [],
+    "ncConnections": [],
+    "missingPins": [],
+    "j3": [
+      {
+        "name": "J3_1",
+        "net": "GND",
+        "nodes": [
+          55,
+          104
+        ],
+        "xyMm": [
+          38.99916,
+          -5.00126
+        ],
+        "sameLayerNets": {
+          "T": [
+            "GND"
+          ],
+          "B": [
+            "GND"
+          ]
+        }
+      },
+      {
+        "name": "J3_2",
+        "net": "BAT_PACK",
+        "nodes": [
+          0,
+          122
+        ],
+        "xyMm": [
+          41.00068,
+          -5.00126
+        ],
+        "sameLayerNets": {
+          "T": [
+            "BAT_PACK",
+            "GND"
+          ],
+          "B": [
+            "BAT_PACK"
+          ]
+        }
+      }
+    ],
+    "passed": false
+  },
+  "rc5": {
+    "zip": "PlayerPower-R1-RC5-Gerber.zip",
+    "zipSha256": "ae829f1ffa076724b20b88b92aa8a2b4be26da7b6951afd53b6837398322e996",
+    "uniqueComponentPins": 243,
+    "platedDrills": 92,
+    "rawNetNames": 62,
+    "humanReadableNetNames": 31,
+    "automaticNetNames": 31,
+    "shorts": [],
+    "opens": [],
+    "ncConnections": [],
+    "missingPins": [],
+    "j3": [
+      {
+        "name": "J3_1",
+        "net": "GND",
+        "nodes": [
+          0,
+          104
+        ],
+        "xyMm": [
+          38.99916,
+          -5.00126
+        ],
+        "sameLayerNets": {
+          "T": [
+            "GND"
+          ],
+          "B": [
+            "GND"
+          ]
+        }
+      },
+      {
+        "name": "J3_2",
+        "net": "BAT_PACK",
+        "nodes": [
+          55,
+          122
+        ],
+        "xyMm": [
+          41.00068,
+          -5.00126
+        ],
+        "sameLayerNets": {
+          "T": [
+            "BAT_PACK"
+          ],
+          "B": [
+            "BAT_PACK"
+          ]
+        }
+      }
+    ],
+    "passed": true
+  },
+  "geometryDifference": {
+    "T": {
+      "orderOnlyAreaMm2": 0.19976800863471394,
+      "rc5OnlyAreaMm2": 0.1990184350404256,
+      "orderOnlyBounds": [
+        [
+          39.909904036897494,
+          -6.057785089634878,
+          42.057319013236125,
+          -3.944735115556962
+        ]
+      ],
+      "rc5OnlyBounds": [
+        [
+          37.85037749752888,
+          -6.057784856212055,
+          39.89748694095452,
+          -3.944737462530175
+        ]
+      ]
+    },
+    "B": {
+      "orderOnlyAreaMm2": 0.0014952568238430358,
+      "rc5OnlyAreaMm2": 0.0014438038671990595,
+      "orderOnlyBounds": [],
+      "rc5OnlyBounds": []
+    }
+  }
+}

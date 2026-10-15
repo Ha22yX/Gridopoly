@@ -1,0 +1,204 @@
+{
+  "order": {
+    "layerPieces": {
+      "TopLayer.GTL": 104,
+      "BottomLayer.GBL": 29
+    },
+    "drillCrossLayerPoints": 170,
+    "points": {
+      "J3.1_GND": {
+        "TopLayer.GTL": [
+          55
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL",
+          "BottomLayer.GBL"
+        ]
+      },
+      "J3.2_BAT": {
+        "TopLayer.GTL": [
+          0
+        ],
+        "BottomLayer.GBL": [
+          122
+        ],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL",
+          "BottomLayer.GBL"
+        ]
+      },
+      "C2.1_BAT": {
+        "TopLayer.GTL": [
+          73
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      },
+      "C2.2_GND": {
+        "TopLayer.GTL": [
+          0
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      },
+      "U1.4_GND": {
+        "TopLayer.GTL": [
+          0
+        ],
+        "BottomLayer.GBL": [],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      },
+      "C3.1_SYS_RAW": {
+        "TopLayer.GTL": [
+          61
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          90
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      }
+    },
+    "vertical_spoke": {
+      "lineFullyCovered": true,
+      "uncoveredLength": 0.0
+    },
+    "horizontal_spoke": {
+      "lineFullyCovered": false,
+      "uncoveredLength": 0.40058000000000504
+    }
+  },
+  "rc5": {
+    "layerPieces": {
+      "TopLayer.GTL": 104,
+      "BottomLayer.GBL": 29
+    },
+    "drillCrossLayerPoints": 170,
+    "points": {
+      "J3.1_GND": {
+        "TopLayer.GTL": [
+          0
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          15
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL",
+          "BottomLayer.GBL"
+        ]
+      },
+      "J3.2_BAT": {
+        "TopLayer.GTL": [
+          55
+        ],
+        "BottomLayer.GBL": [
+          122
+        ],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL",
+          "BottomLayer.GBL"
+        ]
+      },
+      "C2.1_BAT": {
+        "TopLayer.GTL": [
+          73
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          55
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      },
+      "C2.2_GND": {
+        "TopLayer.GTL": [
+          0
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          15
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      },
+      "U1.4_GND": {
+        "TopLayer.GTL": [
+          0
+        ],
+        "BottomLayer.GBL": [],
+        "connectedRoots": [
+          15
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      },
+      "C3.1_SYS_RAW": {
+        "TopLayer.GTL": [
+          61
+        ],
+        "BottomLayer.GBL": [
+          104
+        ],
+        "connectedRoots": [
+          90
+        ],
+        "electricalPadLayers": [
+          "TopLayer.GTL"
+        ]
+      }
+    },
+    "vertical_spoke": {
+      "lineFullyCovered": false,
+      "uncoveredLength": 0.5131394132564715
+    },
+    "horizontal_spoke": {
+      "lineFullyCovered": false,
+      "uncoveredLength": 0.6571190000000016
+    }
+  }
+}

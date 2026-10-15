@@ -1,0 +1,19 @@
+{
+  "audit-order-package.py": "77c9b711f1044dd488f16853bdc6283d99a9bc8981d02b287991836d0d45ec5a",
+  "difference.py": "c090abcdd2838766c0b6072e2b3bc9092472e0480658df10a76623caa05e3feb",
+  "full-independent.py": "8f3aec4eb33da213a9247ea117b871fa5ce92e774590f5a14c492a4e10a26a64",
+  "geometry-difference.json": "45d0544233bac7a7950f2e21566739f369b4269803d3409371babc5adad63964",
+  "Gridopoly_PCB1_20260927_204456.zip": "2344f34c45307a879c9a3274bddd53681152dcf42d9fb47637cb690d554405b6",
+  "independent-connectivity.json": "54fa9b8dadb4f8e3eb87534d50c099b3cbe2ba16374c5d33eefe54c0366e9fd1",
+  "independent-j3-comparison.png": "73c58b89af59a2813c1098ddcea5a7f55abe7945e4bd52348801b33ae595a38f",
+  "independent-report.md": "9bbc20989dcb8d753178f0e9cd1f16a1c1f6104fdaf665d514b1f3a79e068db4",
+  "input-manifest.json": "bd572e128171fac13309653004af0aa9afce4a86c6b41147c4d174c876d96a1f",
+  "order-package-audit.json": "f31cbc345b45dbe69217e2b6198e0ece8d081b3c0fe077203c8e74e31fd32df3",
+  "order-vs-rc5-j3.png": "4f621315d4a207d94955deb38e3475cbf18f7f42ea7651117437c3e17f2b9048",
+  "rawcheck.py": "ea5d1a1b17cad64cc4c46da9a4b4300b9369c3e04d9ac48557afb691b4a9de81",
+  "README.md": "d95e3d01756d9ea6fc88262b3609b47056decb18b9c560d9dd0d431f274aea38",
+  "virtual-rework-feasibility.md": "1384e250b5ee48c36b733abf2d4e361d172b2b8a13542a54993594bae2557c4a",
+  "virtual-rework-results.json": "5d076051a7b1771eaaf18384f01906a71be9401d457126176cb392de3a607bf9",
+  "virtual-rework.py": "de387a7b68e6645d26fd31ba20f3a17a3a7e13fc7968dade4424c1dd67915d00",
+  ".gitattributes": "a74bad1da9464bc9b371bc2733cd8f9f95b51e657861a56676cb21ca6dd3e1ce"
+}

@@ -1,0 +1,202 @@
+{
+  "sourceProvidedByUser": "C:/Users/kicof/Downloads/Gridopoly_PCB1_20260927_204456.zip",
+  "zipSha256": "2344f34c45307a879c9a3274bddd53681152dcf42d9fb47637cb690d554405b6",
+  "zipBytes": 150656,
+  "files": [
+    {
+      "name": "Gerber_TopLayer.GTL",
+      "bytes": 159863,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "a63eb40eaf9fa119afaee6733ce12b455b65244ed30684cbc5e6b9ea40e7e099"
+    },
+    {
+      "name": "Gerber_BottomLayer.GBL",
+      "bytes": 56376,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "84e8e7d29f23c76496d1d480896cdea1175ce24a63124539064638e9144ac5e2"
+    },
+    {
+      "name": "Gerber_TopSilkscreenLayer.GTO",
+      "bytes": 103098,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "00bbfe8b5ae634d52e4f2cd150193ec39271bb32ad3a074f07d9d87e401997d9"
+    },
+    {
+      "name": "Gerber_BottomSilkscreenLayer.GBO",
+      "bytes": 631,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "572d7b592639533202e199940115d45fb61655103342bff9fc70c0e52be3a067"
+    },
+    {
+      "name": "Gerber_TopSolderMaskLayer.GTS",
+      "bytes": 10337,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "40a781312b6ec2b368996a28efce4e14f071ed8737b70e268caf27f8a04a1b82"
+    },
+    {
+      "name": "Gerber_BottomSolderMaskLayer.GBS",
+      "bytes": 1002,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "c81990a7313f393323c50876698603e9fa939ee44027d557fbbb4d564b97331e"
+    },
+    {
+      "name": "Gerber_TopPasteMaskLayer.GTP",
+      "bytes": 89318,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "6b0c1b153d3b6c4f98912da93ed3119206b2d5f4bbf72e02ab2e8a9ce5581dcf"
+    },
+    {
+      "name": "Gerber_BoardOutlineLayer.GKO",
+      "bytes": 1030,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "15a0d7eb3f8f34d09476e5be0a930d88201ccd2d5b33a39614f0ceca037be49d"
+    },
+    {
+      "name": "Gerber_DocumentLayer.GDL",
+      "bytes": 3004,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "a06f6f44b36876ad19714df283a0d92698603c1f507f9b1c5a1262afd59904c2"
+    },
+    {
+      "name": "Gerber_DrillDrawingLayer.GDD",
+      "bytes": 148647,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "4033f50164465cffacfedac270b335da7d7bf317f609c9f4fb00f095387a62bb"
+    },
+    {
+      "name": "Drill_PTH_Through.DRL",
+      "bytes": 2033,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "ed858761b0f232328940c1f1a796164287099f8a7269c171bce6134a97c9cb93"
+    },
+    {
+      "name": "Drill_NPTH_Through.DRL",
+      "bytes": 242,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "6052281ace7ef9871231118519b2c11ad8686c3d15d92d8aec8f860cc4f32021"
+    },
+    {
+      "name": "Drill_PTH_Through_Via.DRL",
+      "bytes": 1649,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "54076edc89a1399b680c26ba617893fb0b07beeb5aa9809cd0f2c2e850ef0454"
+    },
+    {
+      "name": "FlyingProbeTesting.json",
+      "bytes": 61504,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "628f6bba83afc06e8fa66a29f7d10f43745c9a083f0aefc91b2e8ff1ceb62bdb"
+    },
+    {
+      "name": "PCB下单必读.txt",
+      "bytes": 94,
+      "zipTimestamp": [
+        2026,
+        9,
+        27,
+        20,
+        44,
+        56
+      ],
+      "sha256": "dcb3ee1c645c17a009d70726ad9ab708b68a074556fabcf75a4a059d3b43ec59"
+    }
+  ]
+}
