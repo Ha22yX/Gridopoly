@@ -179,7 +179,8 @@ class TileOrderTopology {
       }
       bool closedRing = false;
       if (head.empty() && status == "ready") {
-        if (component.size() != 32) { status = "conflict"; reason = "cycle"; }
+        const int spacing = tileOrderRingCornerSpacing(component.size());
+        if (spacing == 0) { status = "conflict"; reason = "cycle"; }
         else {
           unsigned corners = 0;
           for (const auto& id : component) {
@@ -191,9 +192,9 @@ class TileOrderTopology {
           if (status == "ready") {
             std::string cursor = head;
             std::set<std::string> walked;
-            for (unsigned i = 0; i < 32; ++i) {
+            for (std::size_t i = 0; i < component.size(); ++i) {
               if (cursor.empty() || !walked.insert(cursor).second || children[cursor].size() != 1 ||
-                  (byId[cursor].moduleRole == "corner") != (i % 8 == 0)) {
+                  (byId[cursor].moduleRole == "corner") != (i % static_cast<std::size_t>(spacing) == 0)) {
                 status = "conflict"; reason = "invalid_corner_spacing"; break;
               }
               cursor = *children[cursor].begin();

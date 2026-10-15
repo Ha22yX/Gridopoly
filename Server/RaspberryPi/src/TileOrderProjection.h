@@ -1,11 +1,19 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
 namespace gridopoly::pi {
+
+// Only these physical ring layouts have a supported four-corner contract.
+// Other board sizes may still use independently anchored open chains.
+inline int tileOrderRingCornerSpacing(std::size_t nodeCount) {
+  return nodeCount == 16 || nodeCount == 32 ? static_cast<int>(nodeCount / 4) : 0;
+}
 
 // A chain is ordered from ORDER IN towards ORDER OUT. Only validated physical
 // evidence may construct chains; registration order is never evidence.
@@ -31,13 +39,16 @@ struct TileOrderPlacement {
 inline bool tileOrderRingPhase(const TileOrderChain& chain,
     const std::map<std::string, int>& anchors, int boardSize, int& phase) {
   phase = 0;
-  if (!chain.closedRing || boardSize != 32 || chain.moduleIds.size() != 32) return false;
+  const int spacing = tileOrderRingCornerSpacing(chain.moduleIds.size());
+  if (!chain.closedRing || spacing == 0 ||
+      boardSize != static_cast<int>(chain.moduleIds.size())) return false;
   bool anchored = false;
   for (std::size_t i = 0; i < chain.moduleIds.size(); ++i) {
     const auto a = anchors.find(chain.moduleIds[i]);
     if (a == anchors.end()) continue;
-    const int candidate = ((a->second - static_cast<int>(i)) % 32 + 32) % 32;
-    if (a->second < 0 || a->second >= 32 || candidate % 8 || (anchored && phase != candidate)) return false;
+    if (a->second < 0 || a->second >= boardSize) return false;
+    const int candidate = (a->second - static_cast<int>(i) + boardSize) % boardSize;
+    if (candidate % spacing || (anchored && phase != candidate)) return false;
     phase = candidate; anchored = true;
   }
   return true;
@@ -52,9 +63,11 @@ inline std::vector<TileOrderPlacement> projectTileOrder(
     const std::map<std::string, int>& anchors,
     const std::map<std::string, int>& externalAssignments, int boardSize) {
   std::vector<TileOrderPlacement> output;
+  std::set<std::string> ringIds;
   if (boardSize <= 0) return output;
   for (const auto& chain : chains) {
     if (chain.closedRing) {
+      ringIds.insert(chain.chainId);
       int phase = 0;
       const bool valid = tileOrderRingPhase(chain, anchors, boardSize, phase);
       std::size_t anchor = 0;
@@ -64,7 +77,7 @@ inline std::vector<TileOrderPlacement> projectTileOrder(
         p.moduleId = chain.moduleIds[i]; p.chainId = chain.chainId; p.index = i;
         p.anchorModuleId = chain.moduleIds[anchor]; p.offset = static_cast<int>(i) - static_cast<int>(anchor);
         p.manual = anchors.count(p.moduleId) != 0; p.conflict = !valid;
-        p.mapIndex = valid ? (static_cast<int>(i) + phase) % 32 : -1;
+        p.mapIndex = valid ? (static_cast<int>(i) + phase) % boardSize : -1;
         output.push_back(std::move(p));
       }
       continue;
@@ -98,7 +111,9 @@ inline std::vector<TileOrderPlacement> projectTileOrder(
     if (output[i].mapIndex >= 0) contenders[output[i].mapIndex].push_back(i);
   }
   for (auto& p : output) {
-    if (p.manual || p.mapIndex < 0) continue;
+    // Open chains retain manual priority. A ring requires every position,
+    // including manual anchors, to be free of external/other-chain conflicts.
+    if (p.mapIndex < 0 || (p.manual && !ringIds.count(p.chainId))) continue;
     bool occupied = contenders[p.mapIndex].size() > 1;
     for (const auto& external : externalAssignments) {
       if (external.first != p.moduleId && external.second == p.mapIndex) occupied = true;

@@ -764,10 +764,16 @@ void singleUnassignedReaderAcrossSupportedBoards() {
   }
 }
 
-void ringHeartbeatWire() {
-  Fixture fixture("ring-wire");
+void ringHeartbeatWire(unsigned size) {
+  Fixture fixture(size == 16 ? "ring-wire-16" : "ring-wire-32");
+  Client player(fixture, 0x51);
+  assert(player.pair(fixture).accepted == 1);
+  newAutomaticGame(fixture, 1, static_cast<std::uint8_t>(size));
+  assert(player.pair(fixture).accepted == 1 && player.seat == 1);
   const auto room = fixture.authority->roomId();
   const auto version = fixture.authority->stateVersion();
+  const auto gameBefore = fixture.authority->stateCopy();
+  const unsigned spacing = size / 4;
   auto module = [](unsigned i) {
     std::ostringstream out; out << "ring-" << std::setw(2) << std::setfill('0') << i;
     return out.str();
@@ -777,40 +783,95 @@ void ringHeartbeatWire() {
     out << std::hex << std::uppercase << std::setw(16) << std::setfill('0') << (0xABCD0000u + i + 1);
     return out.str();
   };
-  auto report = [&](unsigned i, bool wrongRole, unsigned sequence) {
+  std::array<unsigned, 32> sequences{};
+  std::array<std::string, 32> bootIds{};
+  for (unsigned i = 0; i < size; ++i) bootIds[i] = boot(i);
+  auto report = [&](unsigned i, bool wrongRole = false, bool connected = true) {
+    const auto sequence = ++sequences[i];
     std::ostringstream body;
-    const auto role = !wrongRole && i % 8 == 0 ? "corner" : "long";
+    const auto role = !wrongRole && i % spacing == 0 ? "corner" : "long";
     body << "{\"moduleRole\":\"" << role << "\",\"firmwareVersion\":\"V033-test\","
         "\"tagReaderState\":\"stable\",\"tagRevision\":0,\"tags\":[],\"overflow\":false,"
         "\"tagScanSeq\":" << sequence << ",\"tagAgeMs\":0,\"tagFresh\":true,"
         "\"pairingRoomId\":0,\"pairingSessionId\":0,\"order\":{\"version\":1,\"bootId\":\""
-        << boot(i) << "\",\"txSeq\":" << sequence << ",\"upstreamBootId\":\""
-        << boot((i + 31) % 32) << "\",\"upstreamSeq\":" << sequence
-        << ",\"ageMs\":0,\"inputState\":\"idle\",\"valid\":true}}";
+        << bootIds[i] << "\",\"txSeq\":" << sequence << ",\"upstreamBootId\":"
+        << (connected ? '"' + bootIds[(i + size - 1) % size] + '"' : "null") << ",\"upstreamSeq\":"
+        << (connected ? sequence : 0)
+        << ",\"ageMs\":0,\"inputState\":\"idle\",\"valid\":"
+        << (connected ? "true" : "false") << "}}";
     return fixture.post("/api/tile-modules/heartbeat?moduleId=" + module(i) +
         "&deviceId=device-" + module(i), body.str());
   };
   // Deliberately register in reverse order; map order comes from OUT direction.
-  for (unsigned i = 32; i > 0; --i) assert(report(i - 1, false, 1).status == 200);
+  for (unsigned i = size; i > 0; --i) assert(report(i - 1).status == 200);
   const auto assignments = fixture.get("/api/tile-debug/assignments");
   assert(assignments.status == 200);
-  assert(occurrences(assignments.body, "\"assigned\":true") == 32);
-  assert(occurrences(assignments.body, "\"closedRing\":true") == 33); // 32 nodes plus one chain.
+  assert(occurrences(assignments.body, "\"assigned\":true") == size);
+  assert(occurrences(assignments.body, "\"closedRing\":true") == size + 1); // Nodes plus one chain.
   assert(occurrences(assignments.body, "\"moduleRole\":\"corner\"") == 4);
-  assert(occurrences(assignments.body, "\"moduleRole\":\"long\"") == 28);
-  for (unsigned i = 0; i < 32; ++i) {
-    const auto heartbeat = report(i, false, 2);
-    assert(heartbeat.status == 200 && heartbeat.body.find("\"assigned\":true") != std::string::npos);
-    assert(number(heartbeat.body, "mapIndex") == i);
-    assert(heartbeat.body.find("\"source\":\"order\"") != std::string::npos);
-  }
-  assert(report(8, true, 3).status == 200);
+  assert(occurrences(assignments.body, "\"moduleRole\":\"long\"") == size - 4);
+  auto assertMapping = [&](unsigned phase, bool manual) {
+    for (unsigned i = 0; i < size; ++i) {
+      const auto heartbeat = report(i);
+      assert(heartbeat.status == 200 && heartbeat.body.find("\"assigned\":true") != std::string::npos);
+      const auto index = (i + phase) % size;
+      assert(number(heartbeat.body, "mapIndex") == index);
+      assert(stringValue(heartbeat.body, "tile_id") == gameBefore.board->tiles[index].id);
+      assert(heartbeat.body.find(manual && i == 0 ? "\"source\":\"manual\"" :
+          "\"source\":\"order\"") != std::string::npos);
+    }
+  };
+  assertMapping(0, false);
+  assert(report(spacing, true).status == 200);
   const auto invalid = fixture.get("/api/tile-debug/assignments");
   assert(occurrences(invalid.body, "\"assigned\":true") == 0);
   assert(invalid.body.find("\"assignments\":[]") != std::string::npos);
-  assert(report(8, false, 4).status == 200);
-  assert(occurrences(fixture.get("/api/tile-debug/assignments").body, "\"assigned\":true") == 32);
+  assert(report(spacing).status == 200);
+  assert(occurrences(fixture.get("/api/tile-debug/assignments").body, "\"assigned\":true") == size);
+
+  auto anchor = [&](unsigned i, unsigned mapIndex) {
+    return fixture.post("/api/tile-debug/assignment?moduleId=" + module(i) +
+        "&deviceId=device-" + module(i) + "&tileId=" + gameBefore.board->tiles[mapIndex].id);
+  };
+  assert(anchor(0, spacing).status == 200);
+  assertMapping(spacing, true);
+  assert(anchor(0, 2 * spacing).status == 200);
+  assertMapping(2 * spacing, true);
+  const auto revision = number(fixture.get("/api/tile-debug/assignments").body, "revision");
+  assert(anchor(spacing, spacing).status == 409);
+  assert(number(fixture.get("/api/tile-debug/assignments").body, "revision") == revision);
+  assertMapping(2 * spacing, true);
+
+  assert(report(0, false, false).status == 200);
+  const auto broken = fixture.get("/api/tile-debug/assignments");
+  assert(occurrences(broken.body, "\"assigned\":true") == 1); // Explicit intent only.
+  assert(broken.body.find("\"ring_open\"") != std::string::npos);
+  assert(broken.body.find("\"source\":\"order\"") == std::string::npos);
+  assert(report(0).status == 200);
+  assertMapping(2 * spacing, true);
+  bootIds[1] = "FFFF000000000001";
+  assert(report(1).status == 200);
+  assert(occurrences(fixture.get("/api/tile-debug/assignments").body, "\"assigned\":true") == 1);
+  assert(report(2).status == 200);
+  assertMapping(2 * spacing, true);
   assert(fixture.authority->roomId() == room && fixture.authority->stateVersion() == version);
+  assertOnboardingGameplayUnchanged(gameBefore, fixture.authority->stateCopy());
+
+  // HTTP new-game keeps fresh physical evidence, clears manual intent, and
+  // withholds all ring assignments when map size and physical size differ.
+  const auto otherSize = static_cast<std::uint8_t>(size == 16 ? 32 : 16);
+  newAutomaticGame(fixture, 1, otherSize);
+  assert(player.pair(fixture).accepted == 1 && player.seat == 1);
+  const auto mismatch = fixture.get("/api/tile-debug/assignments");
+  assert(mismatch.body.find("\"assignments\":[]") != std::string::npos);
+  assert(mismatch.body.find("\"ring_or_tile_conflict\"") != std::string::npos);
+  assert(occurrences(mismatch.body, "\"orderAnchorTileId\":\"\"") == size);
+  const auto mismatchedHeartbeat = report(1);
+  assert(mismatchedHeartbeat.status == 200 &&
+      mismatchedHeartbeat.body.find("\"assigned\":false") != std::string::npos);
+  newAutomaticGame(fixture, 1, static_cast<std::uint8_t>(size));
+  assert(player.pair(fixture).accepted == 1 && player.seat == 1);
+  assertMapping(0, false);
 }
 
 }  // namespace
@@ -819,6 +880,7 @@ int main() {
   discoveryAndFrozenSeats();
   tagOnboardingAcrossTransports();
   singleUnassignedReaderAcrossSupportedBoards();
-  ringHeartbeatWire();
+  ringHeartbeatWire(16);
+  ringHeartbeatWire(32);
   std::cout << "onboarding HTTP/UDP network tests passed\n";
 }
