@@ -28,7 +28,7 @@
 
 玩家：[当前实现](../player-console/current-player-console-baseline.md)、[头像/姓名](../player-console/player-avatar-setup-spec.md)、[UI](../player-console/player-console-ui-spec.md)、[验收](../player-console/player-console-acceptance-tests.md)、[手写](player-console-handwriting-neural.md)、[电池固件](player-battery-telemetry-progress-2026-09-27.md)。
 
-网络：[外置AP方案](external-ap-deployment-2026-09-26.md)未迁移现场；AP认证恢复提案和未提交脚本不能写成生产部署，DHCP地址池大小不证明无线容量。
+网络：[已购USB网卡方案](portable-wifi-selection-2026-10-15.md)、[USB只读预检与配置准备](usb-ap-deployment-2026-10-15.md)、[旧以太网外置AP方案](external-ap-deployment-2026-09-26.md)。新USB尚未到货确认，未迁移现场；AP认证恢复提案和未提交脚本不能写成生产部署，DHCP地址池大小不证明无线容量。
 
 ## 历史与协作
 

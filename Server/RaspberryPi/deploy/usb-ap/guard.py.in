@@ -1,0 +1,56 @@
+#!/usr/bin/python3
+"""Generated candidate runtime guard. Not invoked by the preparation tool.
+
+check is read-only; cleanup can only delete 10.42.0.1/24 from the matched USB.
+It does not delete interfaces, touch wlan0, or remove any other address.
+"""
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+MAC = "@MAC@"
+IFACE = "gpusb0"
+
+
+def run(*args):
+    return subprocess.check_output(args, text=True, timeout=10)
+
+
+def main(action):
+    path = Path("/sys/class/net") / IFACE
+    if action == "cleanup" and not path.exists():
+        return  # USB removed: its interface/address are already gone.
+    permanent = run("/usr/sbin/ethtool", "-P", IFACE).strip().lower()
+    if permanent != "permanent address: " + MAC or (path / "address").read_text().strip().lower() != MAC:
+        raise RuntimeError("USB identity mismatch")
+    if (path / "device/driver").resolve().name != "mt76x2u":
+        raise RuntimeError("USB driver mismatch")
+    data = json.loads(run("/usr/sbin/ip", "-j", "address", "show"))
+    own = [a for d in data if d["ifname"] == IFACE for a in d.get("addr_info", [])
+           if a.get("family") == "inet" and a.get("local") == "10.42.0.1" and a.get("prefixlen") == 24]
+    if action == "cleanup":
+        if own:
+            run("/usr/sbin/ip", "address", "del", "10.42.0.1/24", "dev", IFACE)
+        return
+    import ipaddress
+    network = ipaddress.ip_network("10.42.0.0/24")
+    for device in data:
+        for address in device.get("addr_info", []):
+            if address.get("family") != "inet":
+                continue
+            subnet = ipaddress.ip_interface(str(address["local"]) + "/" + str(address["prefixlen"])).network
+            if subnet.overlaps(network) and device["ifname"] != IFACE:
+                raise RuntimeError("Game subnet still present on another interface")
+            if device["ifname"] == IFACE and address.get("scope") == "global" and address not in own:
+                raise RuntimeError("USB already has another global address")
+
+
+if __name__ == "__main__":
+    try:
+        if sys.argv[1:] not in (["check"], ["cleanup"]):
+            raise RuntimeError("Expected check or cleanup")
+        main(sys.argv[1])
+    except Exception:
+        print("USB AP guard refused: inspect hardware identity and address ownership", file=sys.stderr)
+        sys.exit(1)
