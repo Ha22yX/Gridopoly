@@ -21,13 +21,20 @@ endforeach()
 # Compile the actual firmware routines with deterministic serial/RTOS/RMT
 # boundaries. This leaves production wiring and LED behavior untouched.
 set(FIXTURE "${CMAKE_CURRENT_BINARY_DIR}/firmware_fixture.inc")
-add_custom_command(OUTPUT "${FIXTURE}"
+set(NETWORK_FIXTURE "${CMAKE_CURRENT_BINARY_DIR}/network_fixture.inc")
+get_filename_component(REPO_ROOT "${TILE_ROOT}/../.." ABSOLUTE)
+set(CORE_ROOT "${REPO_ROOT}/Firmware/libraries/GridopolyCore/src")
+set(PI_ROOT "${REPO_ROOT}/Server/RaspberryPi/src")
+add_custom_command(OUTPUT "${FIXTURE}" "${NETWORK_FIXTURE}"
   COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_LIST_DIR}/extract_fixture.py"
-          "${TILE_ROOT}" "${FIXTURE}"
+          "${TILE_ROOT}" "${FIXTURE}" "${NETWORK_FIXTURE}"
   DEPENDS "${TILE_ROOT}/src/main.cpp" "${TILE_ROOT}/src/tile_network.cpp"
           "${CMAKE_CURRENT_LIST_DIR}/extract_fixture.py"
+          "${PI_ROOT}/TileDebugAssignments.cpp" "${PI_ROOT}/HttpServer.cpp"
   VERBATIM)
-add_executable(test_firmware_boundaries firmware_boundaries.cpp "${FIXTURE}")
+add_custom_target(generate_tile_fixtures DEPENDS "${FIXTURE}" "${NETWORK_FIXTURE}")
+add_executable(test_firmware_boundaries firmware_boundaries.cpp)
+add_dependencies(test_firmware_boundaries generate_tile_fixtures)
 target_include_directories(test_firmware_boundaries PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 target_link_libraries(test_firmware_boundaries PRIVATE tile_model unity)
 add_test(NAME firmware_boundaries COMMAND test_firmware_boundaries)
@@ -42,6 +49,18 @@ target_link_libraries(test_pairing_json PRIVATE tile_model unity)
 target_include_directories(test_pairing_json PRIVATE "${TILE_ROOT}/.pio/libdeps/tile_esp32s3/ArduinoJson/src")
 target_compile_definitions(test_pairing_json PRIVATE _CRT_SECURE_NO_WARNINGS)
 add_test(NAME pairing_json COMMAND test_pairing_json)
+add_executable(test_network_contract network_contract.cpp
+  "${CORE_ROOT}/gridopoly/core/BoardCatalog.cpp"
+  "${REPO_ROOT}/Firmware/PlayerConsole/grid_city_visual_catalog.cpp")
+add_dependencies(test_network_contract generate_tile_fixtures)
+target_link_libraries(test_network_contract PRIVATE tile_model unity)
+target_include_directories(test_network_contract PRIVATE
+  "${CMAKE_CURRENT_BINARY_DIR}" "${CORE_ROOT}" "${PI_ROOT}"
+  "${REPO_ROOT}/Firmware/libraries/GridopolyProtocol/src"
+  "${REPO_ROOT}/Firmware/PlayerConsole"
+  "${TILE_ROOT}/.pio/libdeps/tile_esp32s3/ArduinoJson/src")
+target_compile_definitions(test_network_contract PRIVATE _CRT_SECURE_NO_WARNINGS)
+add_test(NAME network_contract COMMAND test_network_contract)
 if(MSVC)
   target_compile_definitions(tile_model PRIVATE _CRT_SECURE_NO_WARNINGS)
   target_compile_definitions(test_firmware_boundaries PRIVATE _CRT_SECURE_NO_WARNINGS)

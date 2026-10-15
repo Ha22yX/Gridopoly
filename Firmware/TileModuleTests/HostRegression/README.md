@@ -18,6 +18,22 @@ the first two cases. LED cases cover all ten pixels, channel limits, green
 double flashes, orange breathing, unchanged movement through a resync, and
 return to the normal tile color.
 
+The ORDER suite drives the production V1 transmitter/receiver at 1 ms intervals
+with both 16 and 32 independent links. It checks direct neighbors, one broken
+wire expiring without stopping other transmitters, reconnection with a newer
+frame, and one restarted node changing only its successor's upstream identity.
+This is a timing/state-machine simulation, not an electrical ring test.
+
+The network-contract suite also extracts the production server tile projection,
+HTTP assignment/heartbeat serialization, and device `parsePayload`. It links
+the actual BoardCatalog and Grid City visual catalog, covering all 16 tiles
+(including corners 0/4/8/12), artwork/prices, a changed manual anchor,
+assignment revocation/recovery, and all active pairing states on an unassigned
+reader suppressing movement. Only clock/RSSI/Serial boundaries are stubbed;
+the private `projectTile` qualifier is removed to call its unchanged body.
+The server topology solver, live HTTP, physical Tag operations, and display
+appearance are outside this suite. No online heartbeats are fabricated.
+
 Use a dedicated output directory. Unity defaults to the dependency installed
 by `pio test -d Firmware/TileModule -e native`; use `-DUNITY_ROOT=...` if needed.
 

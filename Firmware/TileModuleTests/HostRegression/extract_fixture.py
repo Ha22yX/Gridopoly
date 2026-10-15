@@ -17,7 +17,7 @@ def routine(text: str, signature: str) -> str:
     return text[start:end]
 
 
-root, output = map(Path, sys.argv[1:])
+root, output = map(Path, sys.argv[1:3])
 main = (root / "src/main.cpp").read_text(encoding="utf-8")
 network = (root / "src/tile_network.cpp").read_text(encoding="utf-8")
 pieces = ["namespace gridopoly::tile {", routine(network, "void copyText("),
@@ -49,3 +49,29 @@ end = main.index("    if (page_changed && !gDiagnosticPage)", start)
 pieces.append("void consumeMovement(TileNetworkSnapshot next_network, uint32_t now) {\n"
               + main[start:end] + "\n}")
 output.write_text("\n\n".join(pieces), encoding="utf-8")
+
+if len(sys.argv) == 4:
+    # Exercise the real server projection/serializer against the real device
+    # parser. Only the private projectTile qualifier is removed for this fixture.
+    repo = root.parents[1]
+    server = (repo / "Server/RaspberryPi/src/TileDebugAssignments.cpp").read_text(encoding="utf-8")
+    http = (repo / "Server/RaspberryPi/src/HttpServer.cpp").read_text(encoding="utf-8")
+    wire = ["namespace gridopoly::pi {", "using namespace gridopoly::core;",
+            "using gridopoly::protocol::TagPairState;",
+            "using gridopoly::protocol::TagPairSnapshot;"]
+    for signature in ("const char* tileKindName(", "const char* artworkKey(",
+                      "const char* tileDebugAssignmentSourceName(",
+                      "const char* tileMovementCueModeName("):
+        wire.append(routine(server, signature))
+    wire.append(routine(server, "TileDebugTile TileDebugAssignments::projectTile(")
+                .replace("TileDebugAssignments::projectTile(", "projectTile(", 1))
+    for signature in ("std::string jsonEscape(", "void appendTileDebugAssignmentJson(",
+                      "std::string tileModuleHeartbeatJson("):
+        wire.append(routine(http, signature))
+    wire += ["}", "namespace gridopoly::tile {"]
+    for signature in ("void copyText(", "bool equalsIgnoreCase(",
+                      "JsonVariantConst findLegacyAssignment(",
+                      "bool TileNetworkClient::parsePayload("):
+        wire.append(routine(network, signature))
+    wire.append("}")
+    Path(sys.argv[3]).write_text("\n\n".join(wire), encoding="utf-8")

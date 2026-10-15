@@ -123,18 +123,19 @@ void timestamps_wrap_without_false_loss_or_extra_pulses() {
   TEST_ASSERT_EQUAL_UINT32(0, a.timingDrops());
   TEST_ASSERT_EQUAL_UINT32(0, b.timingDrops());
 }
-void full_ring_reports_direct_neighbors_without_a_head_or_forwarding() {
-  std::array<Link, 32> ring;
-  std::array<bool, 32> wires{};
+template <std::size_t Count>
+void check_ring_break_reconnect_and_reboot() {
+  std::array<Link, Count> ring;
+  std::array<bool, Count> wires{};
   for (unsigned i = 0; i < ring.size(); ++i) ring[i].begin(kA + i, 0, true);
   for (std::uint32_t now = 1000; now <= 24'000'000; now += 1000) {
     const auto previous = wires;
     for (unsigned i = 0; i < ring.size(); ++i)
-      wires[i] = ring[i].tick(now, !previous[(i + 31) % 32]);
+      wires[i] = ring[i].tick(now, !previous[(i + Count - 1) % Count]);
   }
   for (unsigned i = 0; i < ring.size(); ++i) {
     TEST_ASSERT_TRUE(ring[i].receiver().valid());
-    TEST_ASSERT_EQUAL_HEX64(kA + (i + 31) % 32, ring[i].receiver().upstream().boot_id);
+    TEST_ASSERT_EQUAL_HEX64(kA + (i + Count - 1) % Count, ring[i].receiver().upstream().boot_id);
     TEST_ASSERT_GREATER_OR_EQUAL_UINT32(4, ring[i].receiver().accepted());
     TEST_ASSERT_EQUAL_UINT32(0, ring[i].receiver().rejected());
   }
@@ -142,10 +143,41 @@ void full_ring_reports_direct_neighbors_without_a_head_or_forwarding() {
   for (std::uint32_t now = 24'001'000; now <= 42'000'000; now += 1000) {
     const auto previous = wires;
     for (unsigned i = 0; i < ring.size(); ++i)
-      wires[i] = ring[i].tick(now, i == 0 || !previous[(i + 31) % 32]);
+      wires[i] = ring[i].tick(now, i == 0 || !previous[(i + Count - 1) % Count]);
   }
   TEST_ASSERT_FALSE(ring[0].receiver().valid());
   for (unsigned i = 1; i < ring.size(); ++i) TEST_ASSERT_TRUE(ring[i].receiver().valid());
+  // Reconnect a real signal stream: only a newly decoded frame restores it.
+  const auto before = ring[0].receiver().upstream().sequence;
+  for (std::uint32_t now = 42'001'000; now <= 54'000'000; now += 1000) {
+    const auto previous = wires;
+    for (unsigned i = 0; i < ring.size(); ++i)
+      wires[i] = ring[i].tick(now, !previous[(i + Count - 1) % Count]);
+  }
+  TEST_ASSERT_TRUE(ring[0].receiver().valid());
+  TEST_ASSERT_TRUE(newerSequence(ring[0].receiver().upstream().sequence, before));
+  // A node restarting changes only the identity seen by its direct successor.
+  constexpr unsigned restarted = 3;
+  ring[restarted].begin(kB, 54'000'000, !wires[restarted - 1]);
+  wires[restarted] = false;
+  for (std::uint32_t now = 54'001'000; now <= 66'000'000; now += 1000) {
+    const auto previous = wires;
+    for (unsigned i = 0; i < ring.size(); ++i)
+      wires[i] = ring[i].tick(now, !previous[(i + Count - 1) % Count]);
+  }
+  for (unsigned i = 0; i < ring.size(); ++i) {
+    const auto upstream = (i + Count - 1) % Count;
+    TEST_ASSERT_TRUE(ring[i].receiver().valid());
+    TEST_ASSERT_EQUAL_HEX64(upstream == restarted ? kB : kA + upstream,
+                           ring[i].receiver().upstream().boot_id);
+    TEST_ASSERT_EQUAL_UINT32(0, ring[i].timingDrops());
+  }
+}
+void full_ring_reports_direct_neighbors_without_a_head_or_forwarding() {
+  check_ring_break_reconnect_and_reboot<32>();
+}
+void sixteen_ring_recovers_after_break_and_node_reboot() {
+  check_ring_break_reconnect_and_reboot<16>();
 }
 }  // namespace
 void setUp() {}
@@ -161,5 +193,6 @@ int main() {
   RUN_TEST(late_scheduler_releases_output_and_requires_new_frame);
   RUN_TEST(timestamps_wrap_without_false_loss_or_extra_pulses);
   RUN_TEST(full_ring_reports_direct_neighbors_without_a_head_or_forwarding);
+  RUN_TEST(sixteen_ring_recovers_after_break_and_node_reboot);
   return UNITY_END();
 }
