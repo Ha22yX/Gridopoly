@@ -7,11 +7,13 @@ import json
 from pathlib import Path
 import shutil
 
-from batch_flash import FULL_SET, PROFILES, load_release
+from batch_flash import BOARD_SIZES, PROFILES, inventory_counts, load_release
 from flash_layout import validate_images
 
 
-def prepare(candidates: list[Path], destination: Path) -> Path:
+def prepare(candidates: list[Path], destination: Path, *,
+            board_size: int = 32, player_count: int = 4) -> Path:
+    counts = inventory_counts(board_size, player_count)
     profiles = {}
     buffers = {}
     for candidate in candidates:
@@ -54,13 +56,14 @@ def prepare(candidates: list[Path], destination: Path) -> Path:
             (destination / relative).write_bytes(images[segment["offset"]])
             segment["path"] = relative.as_posix()
     manifest = destination / "release.json"
-    manifest.write_text(json.dumps({"schemaVersion": 1, "profiles": profiles}, indent=2) + "\n",
+    manifest.write_text(json.dumps({"schemaVersion": 1, "boardSize": board_size,
+                                   "playerCount": player_count, "profiles": profiles}, indent=2) + "\n",
                         encoding="utf-8")
     load_release(manifest)
     with (destination / "inventory-template.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
         writer.writerow(["label", "port", "mac", "profile"])
-        for name, count in FULL_SET.items():
+        for name, count in counts.items():
             for number in range(1, count + 1):
                 writer.writerow([f"{name}-{number:02}", "", "", name])
     for filename in ("batch_flash.py", "flash_worker.py", "flash_layout.py", "README.md"):
@@ -72,9 +75,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidate", action="append", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--board-size", type=int, choices=BOARD_SIZES, default=32)
+    parser.add_argument("--players", type=int, choices=range(1, 5), default=4,
+                        help="player screens in the full inventory, not game seats (default: 4)")
     args = parser.parse_args()
     try:
-        print(prepare(args.candidate, args.output))
+        print(prepare(args.candidate, args.output,
+                      board_size=args.board_size, player_count=args.players))
     except (OSError, ValueError, KeyError, TypeError) as error:
         parser.exit(1, f"ERROR: {error}\n")
 

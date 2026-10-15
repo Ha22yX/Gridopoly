@@ -194,7 +194,7 @@ assert.equal(tileDebugModel.modules[1].assigned, true,
 assert.deepEqual(tileDebugModel.modules[0], {
   moduleId: 'module-a', deviceId: 'device-a', assigned: true, online: true,
   lastSeenMs: 1_720_000_000_500, leaseRemainingMs: 12_000, source: 'udp',
-  moduleRole:'unknown',closedRing:false,orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
+  moduleRole:'unknown',closedRing:false,orderRingSize:0,orderCapable: false, orderStatus: 'legacy', orderChainId: '', orderIndex: null,
   orderEpoch: '', orderConflict: '', orderUpstreamModuleId: '', orderAnchorTileId: '',
 }, 'online module leases preserve discovery timing and source metadata');
 assert.equal(tileDebugModel.modules[1].online, false,
@@ -233,8 +233,24 @@ assert.equal(orderView.assignments[0].orderOffset,1);
 assert.equal(orderView.modules[2].orderAnchorTileId,'A2','a suspended anchor stays visible without assignment');
 const ringView=tileDebugHelpers.normalizeTileDebugData({modules:[{moduleId:'corner-01',deviceId:'corner-01',
   moduleRole:'corner',closedRing:true,orderCapable:true,orderStatus:'ready',orderChainId:'corner-01',orderIndex:0}]});
-assert.match(tileDebugHelpers.tileDebugOrderLabel(ringView.modules[0]),/角落.*32 格闭环/);
-assert.match(tileDebugHelpers.tileDebugOrderLabel({...ringView.modules[0],orderConflict:'invalid_corner_spacing'}),/7 块长边/);
+assert.match(tileDebugHelpers.tileDebugOrderLabel(ringView.modules[0]),/角落.*闭环/);
+assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(ringView.modules[0]),/\d+ 格闭环/,
+  'a legacy snapshot without physical chain evidence must not invent a ring size');
+assert.match(tileDebugHelpers.tileDebugOrderLabel({...ringView.modules[0],orderConflict:'invalid_corner_spacing'}),/16 格应有 3 块长边.*32 格应有 7 块长边/);
+for(const size of [16,32]){
+  const moduleIds=['corner-01',...Array.from({length:size-1},(_,i)=>`ring-${i+1}`)];
+  const chain={chainId:'corner-01',closedRing:true,moduleIds};
+  const view=tileDebugHelpers.normalizeTileDebugData({boardSize:size===16?32:16,
+    modules:ringView.modules,order:{chains:[chain]}});
+  assert.match(tileDebugHelpers.tileDebugOrderLabel(view.modules[0]),new RegExp(`${size} 格闭环`),
+    'physical ring size must remain correct even when the selected map does not match');
+  for(const chains of [[{...chain,closedRing:false}], [{...chain,moduleIds:moduleIds.map(()=> 'corner-01')}],
+    [{...chain,moduleIds:moduleIds.map(id=>id==='corner-01'?'missing-corner':id)}], [chain,chain]]){
+    const invalid=tileDebugHelpers.normalizeTileDebugData({boardSize:size,modules:ringView.modules,order:{chains}});
+    assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(invalid.modules[0]),/\d+ 格闭环/,
+      'incomplete or ambiguous physical chain evidence must not claim a ring size');
+  }
+}
 assert.equal(tileDebugHelpers.tileDebugSourceLabel(orderView.modules[2],null),'手动指定（锚点）');
 assert.equal(tileDebugHelpers.tileDebugOrderLabel(tileDebugModel.modules[0]),'未启用 ORDER',
   'legacy registration order is never presented as physical topology');

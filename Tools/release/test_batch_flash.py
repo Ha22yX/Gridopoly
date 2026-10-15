@@ -177,6 +177,76 @@ class ReleaseTests(unittest.TestCase):
             batch.load_inventory(inventory)
         self.assertEqual(len(batch.load_inventory(inventory, partial=True)), 2)
 
+    def complete_inventory(self, board_size=16, player_count=4):
+        devices = []
+        for profile, count in batch.inventory_counts(board_size, player_count).items():
+            for number in range(count):
+                index = len(devices) + 1
+                devices.append({'label': f'{profile}-{number + 1}', 'port': f'COM{index + 20}',
+                                'mac': f'02:00:00:00:00:{index:02x}', 'profile': profile})
+        return devices
+
+    def test_16_tile_release_drives_portable_full_inventory_validation(self):
+        manifest = prepare(self.candidates, self.root / 'release16', board_size=16)
+        release = batch.load_release(manifest)
+        self.assertEqual((release['boardSize'], release['playerCount']), (16, 4))
+        with manifest.with_name('inventory-template.csv').open(newline='') as handle:
+            counts = batch.Counter(row['profile'] for row in csv.DictReader(handle))
+        self.assertEqual(counts, {'tile-long': 12, 'tile-corner': 4, 'player': 4})
+        inventory = self.inventory(self.complete_inventory())
+        result = subprocess.run([sys.executable, '-B', str(manifest.with_name('batch_flash.py')),
+                                 str(manifest), str(inventory)], cwd=self.root,
+                                capture_output=True, text=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('DRY RUN', result.stdout)
+        self.assertEqual(result.stdout.count('PLAN '), 20)
+        inventory = self.inventory(self.complete_inventory(board_size=32))
+        result = subprocess.run([sys.executable, '-B', str(manifest.with_name('batch_flash.py')),
+                                 str(manifest), str(inventory), '--partial'], cwd=self.root,
+                                capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('exceeds the release set', result.stderr)
+        self.assertNotIn('PLAN ', result.stdout)
+
+    def test_one_screen_inventory_and_partial_limits(self):
+        manifest = prepare(self.candidates, self.root / 'release16-one', board_size=16, player_count=1)
+        self.assertEqual(batch.load_release(manifest)['playerCount'], 1)
+        devices = self.complete_inventory(player_count=1)
+        self.assertEqual(len(batch.load_inventory(self.inventory(devices),
+                                                 board_size=16, player_count=1)), 17)
+        with self.assertRaisesRegex(ValueError, 'full inventory'):
+            batch.load_inventory(self.inventory(devices[:-1]), board_size=16, player_count=1)
+        self.assertEqual(len(batch.load_inventory(self.inventory(devices[:-1]), partial=True,
+                                                 board_size=16, player_count=1)), 16)
+        with self.assertRaisesRegex(ValueError, 'exceeds'):
+            batch.load_inventory(self.inventory(self.complete_inventory(player_count=2)),
+                                 partial=True, board_size=16, player_count=1)
+
+    def test_legacy_release_keeps_32_tile_inventory(self):
+        self.changed_manifest(lambda d: (d.pop('boardSize'), d.pop('playerCount')))
+        release = batch.load_release(self.manifest)
+        self.assertEqual(batch.inventory_counts(release.get('boardSize', 32),
+                                                release.get('playerCount', 4)), batch.FULL_SET)
+        self.assertEqual(len(batch.load_inventory(self.inventory(self.complete_inventory(32)))), 36)
+        with self.assertRaisesRegex(ValueError, 'full inventory'):
+            batch.load_inventory(self.inventory(self.complete_inventory(16)))
+
+    def test_invalid_board_or_screen_count_rejected_before_packaging(self):
+        for field, values in [('boardSize', [True, None, '16', 15, 24, 40]),
+                              ('playerCount', [True, None, '1', 0, 5])]:
+            for value in values:
+                with self.subTest(field=field, value=value):
+                    destination = self.root / 'invalid-layout'
+                    kwargs = {'board_size': value} if field == 'boardSize' else {'player_count': value}
+                    with self.assertRaisesRegex(ValueError, field):
+                        prepare(self.candidates, destination, **kwargs)
+                    self.assertFalse(destination.exists())
+                    original = self.manifest.read_bytes()
+                    self.changed_manifest(lambda d: d.update({field: value}))
+                    with self.assertRaisesRegex(ValueError, field):
+                        batch.load_release(self.manifest)
+                    self.manifest.write_bytes(original)
+
     def test_portable_scripts_run_outside_repository_without_serial(self):
         inventory = self.inventory(self.devices)
         result = subprocess.run([sys.executable, '-B', str(self.manifest.with_name('batch_flash.py')),

@@ -22,8 +22,18 @@ from flash_layout import FLASH_BYTES, validate_images
 
 PROFILES = {"tile-long", "tile-corner", "player"}
 FULL_SET = Counter({"tile-long": 28, "tile-corner": 4, "player": 4})
+BOARD_SIZES = (16, 32)
 WORKER_TIMEOUT = 240
 RESULT_PREFIX = "GRIDOPOLY_RESULT "
+
+
+def inventory_counts(board_size: int = 32, player_count: int = 4) -> Counter:
+    """The release fixes the physical board size; old releases retain 32 + 4."""
+    if type(board_size) is not int or board_size not in BOARD_SIZES:
+        raise ValueError("boardSize must be 16 or 32")
+    if type(player_count) is not int or not 1 <= player_count <= 4:
+        raise ValueError("playerCount must be an integer from 1 to 4")
+    return Counter({"tile-long": board_size - 4, "tile-corner": 4, "player": player_count})
 
 
 def mac_address(value: str) -> str:
@@ -54,6 +64,7 @@ def load_release(manifest: Path) -> dict:
     data = json.loads(manifest.read_text(encoding="utf-8"))
     if data.get("schemaVersion") != 1 or not isinstance(data.get("profiles"), dict):
         raise ValueError("unsupported release manifest")
+    inventory_counts(data.get("boardSize", 32), data.get("playerCount", 4))
     if set(data["profiles"]) != PROFILES:
         raise ValueError("release must include tile-long, tile-corner and player profiles")
     for name, profile in data["profiles"].items():
@@ -103,7 +114,9 @@ def load_release(manifest: Path) -> dict:
     return data
 
 
-def load_inventory(path: Path, *, partial: bool = False) -> list[dict]:
+def load_inventory(path: Path, *, partial: bool = False,
+                   board_size: int = 32, player_count: int = 4) -> list[dict]:
+    expected = inventory_counts(board_size, player_count)
     with path.open(encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
         if not {"label", "port", "mac", "profile"}.issubset(reader.fieldnames or []):
@@ -122,10 +135,11 @@ def load_inventory(path: Path, *, partial: bool = False) -> list[dict]:
         macs.add(device["mac"])
         labels.add(label)
     counts = Counter(device["profile"] for device in devices)
-    if not devices or any(counts[p] > FULL_SET[p] for p in counts):
-        raise ValueError("inventory is empty or exceeds the 28 + 4 + 4 set")
-    if not partial and counts != FULL_SET:
-        raise ValueError("full inventory must be 28 long + 4 corner + 4 player; use --partial for a batch")
+    description = f"{expected['tile-long']} long + 4 corner + {player_count} player"
+    if not devices or any(counts[p] > expected[p] for p in counts):
+        raise ValueError(f"inventory is empty or exceeds the release set ({description})")
+    if not partial and counts != expected:
+        raise ValueError(f"full inventory must be {description}; use --partial for a batch")
     return devices
 
 
@@ -198,7 +212,9 @@ def main() -> int:
     args = parser.parse_args()
     try:
         release = load_release(args.manifest)
-        devices = load_inventory(args.inventory, partial=args.partial)
+        devices = load_inventory(args.inventory, partial=args.partial,
+                                 board_size=release.get("boardSize", 32),
+                                 player_count=release.get("playerCount", 4))
         for device in devices:
             print(f"PLAN {device['label']} {device['port']} {device['mac']} {device['profile']}")
         if not args.execute:

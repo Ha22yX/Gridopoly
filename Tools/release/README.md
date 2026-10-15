@@ -1,4 +1,6 @@
-# 32 格子 / 4 玩家屏批量烧录
+# 16 / 32 格子及 1～4 玩家屏批量烧录
+
+2026-10-15：工具支持 16 格试玩盘（12 长边 + 4 角落）和原 32 格盘（28 长边 + 4 角落），可按实际玩家屏数量生成清单。包中的 `boardSize`、`playerCount` 决定完整清单数量；旧包未含这两个字段时仍按 32 格 + 4 屏处理。数量校验不代替实机闭环、联网或游戏验收。
 
 > 2026-09-27：最新已冻结本地候选为`C:/Users/kicof/GridopolyReleases/batch32-2026-09-26-v4/`。player为普通9c4e，long/corner为V0.33；9月27日电池遥测源码尚未加入此包或部署。此为候选，不表示36台均已刷写。具体哈希、设备与验收见[设备台账](../../Docs/firmware/current-device-connections.md)及[发布记录](../../Docs/firmware/batch32-game-release-2026-09-26.md)。
 
@@ -14,6 +16,14 @@
 ```powershell
 python Tools/release/prepare_release.py --candidate C:/build/tile-long/candidate.json --candidate C:/build/tile-corner/candidate.json --candidate C:/build/player/candidate.json --output C:/GridopolyRelease/32-board-candidate
 ```
+
+16 格试玩盘使用 `--board-size 16`，如实际只有一块玩家屏，再加 `--players 1`：
+
+```powershell
+python Tools/release/prepare_release.py --candidate C:/build/tile-long/candidate.json --candidate C:/build/tile-corner/candidate.json --candidate C:/build/player/candidate.json --board-size 16 --players 1 --output C:/GridopolyRelease/16-board-candidate
+```
+
+`--players` 只表示需要刷写的实体屏数量，不改变游戏默认四个席位或自动补机器人规则。默认值仍是 32 格、4 屏。此工具只打包 ESP32 固件，树莓派服务端需另行构建和部署；闭环 16 格功能必须配套支持该尺寸的服务端。
 
 输出目录必须不存在，工具不会覆盖旧发布包。二进制和源码清单先读入内存校验，再将这份数据写入包内。所有运行脚本随包复制；二进制、源码清单路径均改为相对路径。
 固件可能含本地 Wi-Fi 配置，发布包和设备清单存本地，不加入 Git。
@@ -31,7 +41,7 @@ C:/GridopolyRelease/venv/Scripts/python.exe -m pip install esptool==5.3.1
 
 ## 实物清单与执行
 
-复制包中的 `inventory-template.csv`，填写 `label,port,mac,profile`。模板含 28 长边、4 角落和4玩家屏，MAC/端口留空，必须填写真实完整出厂 MAC。
+复制包中的 `inventory-template.csv`，填写 `label,port,mac,profile`。模板按发布包的棋盘格数和玩家屏数量生成，MAC/端口留空，必须填写真实完整出厂 MAC。
 可使用设备标签、已知 USB 序列或有界读 MAC 操作；读 MAC 本身可能复位设备。MAC 校验不能辨认实物形状，板型填反需要修正清单重新烧录。
 
 先检查而不打开串口，无需安装 esptool：
@@ -46,6 +56,8 @@ python batch_flash.py release.json inventory.csv
 python batch_flash.py release.json batch.csv --partial --execute --python C:/GridopolyRelease/venv/Scripts/python.exe --log C:/GridopolyRelease/flash-log.jsonl
 ```
 
+只有四条数据线时，每批连接四块并填写本批端口、MAC 和板型；本批校验结束后再换下一批。换线后端口可能变化，每批重新核对，不复用上一批设备身份。`--partial` 允许少于整套数量，但任何板型都不能超过发布包的数量。
+
 默认仅 dry-run。实际执行分两步：
 
 1. 全批先逐板核对完整 MAC、16 MB Flash 与已有分区布局；全部通过后才开始写入。这一步会复位设备，但不写 Flash。
@@ -54,7 +66,7 @@ python batch_flash.py release.json batch.csv --partial --execute --python C:/Gri
 esptool 5.3.1 内部的自动断线重连已禁用（单次 WRITE_FLASH_ATTEMPTS），拔线导致本次失败，不会重新打开可能已绑定到其他板的 COM 口。
 每个操作由独立 worker 进程执行，最多 240 秒；超时会终止该进程并停止整批后续操作。错误 MAC、版本、分区、写入、校验、复位或返回结果异常均不记录 VERIFIED。
 
-失败或断电可能使当前板停在下载模式或只写入部分固件；工具不会自动重试，也不声称能回滚固件。检查设备后可重新执行明确清单。JSONL 日志记录每次操作的设备、profile、源码与二进制校验值；不能仅累计 VERIFIED 行数推断36块不同设备全部完成。
+失败或断电可能使当前板停在下载模式或只写入部分固件；工具不会自动重试，也不声称能回滚固件。检查设备后可重新执行明确清单。JSONL 日志记录每次操作的设备、profile、源码与二进制校验值；应按唯一 MAC 核对整套清单，不能仅累计 VERIFIED 行数推断所有不同设备均已完成。
 
 ## 配置分区保护
 
