@@ -24,6 +24,16 @@ using namespace esp_panel::drivers;
 // covers the final bounce-buffer rows still being physically scanned.
 static portMUX_TYPE frame_ticket_mux = portMUX_INITIALIZER_UNLOCKED;
 static FramePresentationTracker frame_tickets;
+#if defined(GRIDOPOLY_DISPLAY_DIAGNOSTIC) && GRIDOPOLY_DISPLAY_DIAGNOSTIC == 1
+static LvglDisplayDiagnostics display_diagnostics;
+LvglDisplayDiagnostics lvgl_port_display_diagnostics(void)
+{
+    portENTER_CRITICAL(&frame_ticket_mux);
+    const LvglDisplayDiagnostics snapshot = display_diagnostics;
+    portEXIT_CRITICAL(&frame_ticket_mux);
+    return snapshot;
+}
+#endif
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
 extern "C" {
 GridopolyDrawProfile gridopoly_draw_profile{};
@@ -469,6 +479,12 @@ static void flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
         const int64_t submit_started = esp_timer_get_time();
 #endif
         const bool switch_accepted = lcd->switchFrameBufferTo(color_map);
+#if defined(GRIDOPOLY_DISPLAY_DIAGNOSTIC) && GRIDOPOLY_DISPLAY_DIAGNOSTIC == 1
+        portENTER_CRITICAL(&frame_ticket_mux);
+        ++display_diagnostics.flushes;
+        if (!switch_accepted) ++display_diagnostics.switchFailures;
+        portEXIT_CRITICAL(&frame_ticket_mux);
+#endif
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
         const int64_t wait_started = esp_timer_get_time();
         frame_submit_us = static_cast<uint32_t>(wait_started - submit_started);
@@ -556,6 +572,9 @@ IRAM_ATTR bool onLcdVsyncCallback(void *user_data)
     BaseType_t need_yield = pdFALSE;
     portENTER_CRITICAL_ISR(&frame_ticket_mux);
     frame_tickets.hardwareFrameBoundary();
+#if defined(GRIDOPOLY_DISPLAY_DIAGNOSTIC) && GRIDOPOLY_DISPLAY_DIAGNOSTIC == 1
+    ++display_diagnostics.frameCompletions;
+#endif
     portEXIT_CRITICAL_ISR(&frame_ticket_mux);
 #if LVGL_PORT_FULL_REFRESH && (LVGL_PORT_DISP_BUFFER_NUM == 3) && (LVGL_PORT_ROTATION_DEGREE == 0)
     if (lvgl_port_lcd_next_buf != lvgl_port_lcd_last_buf) {

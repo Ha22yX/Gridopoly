@@ -30,10 +30,12 @@ if ($segments.Count -ne 4 -or @($segments | Where-Object { $_.offset -eq 65536 }
     throw 'Expected exactly bootloader, partition table, boot_app0 and application segments'
 }
 $candidatePath = Join-Path $RunDir 'candidate.json'
+$displayDiagnostic = if ($inputs.displayDiagnostic) { [string]$inputs.displayDiagnostic } else { 'none' }
 @{
     schemaVersion = 1; profile = 'player'; normalFirmware = $true; chip = 'esp32s3'
     flashMode = $flashMode; flashFrequency = $flashFrequency; flashSize = $flashSize
     gitRevision = $inputs.gitRevision; sourceManifest = $inputs.sourceManifest
+    displayDiagnostic = $displayDiagnostic; diagnosticOnly = ($displayDiagnostic -ne 'none')
     sourceDigest = (Get-FileHash -LiteralPath $inputs.sourceManifest).Hash.ToLowerInvariant()
     segments = $segments
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $candidatePath -Encoding utf8

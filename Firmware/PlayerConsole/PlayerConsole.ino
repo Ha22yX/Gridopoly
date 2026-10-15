@@ -3,7 +3,8 @@
 #include <esp_attr.h>
 #include <esp_rom_sys.h>
 #include <esp_system.h>
-#if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
+#include "display_diagnostic.h"
+#if (defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1) || GRIDOPOLY_DISPLAY_DIAGNOSTIC
 #include <esp_heap_caps.h>
 #endif
 #include <lvgl.h>
@@ -55,6 +56,37 @@ UiBattery batteryUi;
 #endif
 bool inputTraceEnabled = false;
 uint32_t inputTraceDeadlineMs = 0;
+
+#if GRIDOPOLY_DISPLAY_DIAGNOSTIC
+void serviceDisplayDiagnostic(uint32_t nowMs)
+{
+    static DisplayDiagnosticWindow window;
+    if (!window.sampleDue(nowMs)) return;
+    // Snapshot only; never force a refresh, request a frame ticket or alter UI.
+    if (!lvgl_port_lock(0)) return;
+    const UiRendererTestStats renderer = uiRendererGetTestStats();
+    const LvglDisplayDiagnostics display = lvgl_port_display_diagnostics();
+    const unsigned page = static_cast<unsigned>(app.page);
+    lvgl_port_unlock();
+    char line[300];
+    const int length = snprintf(line, sizeof(line),
+        "GRIDOPOLY_DISPLAY_DIAG ms=%lu done=%u pclk_requested=%lu sdk=%s page=%u rebuild=%lu incremental=%lu flush=%lu switch_fail=%lu frame_complete=%lu internal=%u largest=%u\n",
+        static_cast<unsigned long>(nowMs), window.finished ? 1u : 0u,
+        static_cast<unsigned long>(kDisplayDiagnosticPclkHz), esp_get_idf_version(), page,
+        static_cast<unsigned long>(renderer.rebuildRenders),
+        static_cast<unsigned long>(renderer.incrementalRenders),
+        static_cast<unsigned long>(display.flushes),
+        static_cast<unsigned long>(display.switchFailures),
+        static_cast<unsigned long>(display.frameCompletions),
+        static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+        static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)));
+    // Never wait on an absent/slow USB host. Missing samples are not zero counts.
+    if (length > 0 && length < static_cast<int>(sizeof(line)) &&
+        Serial.availableForWrite() >= length) {
+        Serial.write(reinterpret_cast<const uint8_t *>(line), length);
+    }
+}
+#endif
 
 void serviceInputTrace(uint32_t nowMs)
 {
@@ -752,8 +784,13 @@ void setup()
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB && CONFIG_IDF_TARGET_ESP32S3
     auto lcdBus = lcd->getBus();
     if (lcdBus->getBasicAttributes().type == ESP_PANEL_BUS_TYPE_RGB) {
+#if GRIDOPOLY_DISPLAY_DIAGNOSTIC
+        if (!static_cast<BusRGB *>(lcdBus)->configRGB_FreqHz(kDisplayDiagnosticPclkHz)) {
+            fault("RGB_DIAGNOSTIC_CLOCK"); return;
+        }
+#endif
         // The board default is ten rows. Keep forty rows in internal SRAM so
-        // sustained Wi-Fi/PSRAM traffic cannot starve the RGB scan pipeline.
+        // reduces RGB scan starvation risk during sustained Wi-Fi/PSRAM traffic.
         static_cast<BusRGB *>(lcdBus)->configRGB_BounceBufferSize(
             lcd->getFrameWidth() * kRgbBounceBufferRows
         );
@@ -1006,5 +1043,8 @@ void loop()
 #endif
         lvgl_port_unlock();
     }
+#if GRIDOPOLY_DISPLAY_DIAGNOSTIC
+    serviceDisplayDiagnostic(millis());
+#endif
     delay(2);
 }

@@ -174,6 +174,15 @@ bool lvgl_port_unlock(void);
 // currently supported for the production direct-mode, two-buffer, 0-degree port.
 uint32_t lvgl_port_request_frame_ticket(void);
 bool lvgl_port_frame_ticket_presented(uint32_t ticket);
+#if defined(GRIDOPOLY_DISPLAY_DIAGNOSTIC) && GRIDOPOLY_DISPLAY_DIAGNOSTIC == 1
+// Hardware completion counts are not LCD-visible frames or an underflow counter.
+struct LvglDisplayDiagnostics {
+    uint32_t flushes = 0;
+    uint32_t switchFailures = 0;
+    uint32_t frameCompletions = 0;
+};
+LvglDisplayDiagnostics lvgl_port_display_diagnostics(void);
+#endif
 #if defined(GRIDOPOLY_SELF_TEST) && GRIDOPOLY_SELF_TEST == 1
 // Accumulated between completed last-flush boundaries, not an exact
 // decomposition of the LVGL monitor duration on the same diagnostic line.

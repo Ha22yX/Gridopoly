@@ -3,9 +3,13 @@ param(
     [ValidateSet('production','selftest','espnow')][string]$Mode = 'production',
     [string]$ToolRoot = "$env:LOCALAPPDATA\GridopolyPlayerTools-3311",
     [switch]$ReuseBuildCache,
-    [ValidateSet('none','viewe-md80et-v10')][string]$BatteryBoard = 'none'
+    [ValidateSet('none','viewe-md80et-v10')][string]$BatteryBoard = 'none',
+    [ValidateSet('none','pclk12')][string]$DisplayDiagnostic = 'none'
 )
 $ErrorActionPreference = 'Stop'
+if ($DisplayDiagnostic -ne 'none' -and ($Mode -ne 'production' -or $BatteryBoard -ne 'none')) {
+    throw 'Display diagnosis requires normal Wi-Fi firmware with battery telemetry disabled'
+}
 $project = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $repo = (Resolve-Path (Join-Path $project '..\..')).Path
 $ToolRoot = (Resolve-Path -LiteralPath $ToolRoot).Path
@@ -67,6 +71,7 @@ $fqbn = 'esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRA
 if ($Mode -eq 'selftest') { $flags += ' -DGRIDOPOLY_SELF_TEST=1' }
 if ($Mode -eq 'espnow') { $flags += ' -DGRIDOPOLY_USE_ESPNOW=1' }
 if ($BatteryBoard -eq 'viewe-md80et-v10') { $flags += ' -DGRIDOPOLY_BATTERY_BOARD=1' }
+if ($DisplayDiagnostic -eq 'pclk12') { $flags += ' -DGRIDOPOLY_DISPLAY_DIAGNOSTIC=1' }
 # Arduino's dependency files can retain an older snapshot's lv_conf.h path.
 # Reuse objects only when every sketch/library input and build flag is identical;
 # a changed configuration/header/deleted file must select a different cache.
@@ -102,13 +107,13 @@ $gitRevision = (& git -c safe.directory='*' -C $repo rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0 -or $gitRevision -notmatch '^[0-9a-f]{40}$') { throw 'Cannot identify source Git revision' }
 $sourceManifest = Join-Path $run 'candidate-sources.json'
 @{
-    schemaVersion = 1; gitRevision = $gitRevision; mode = $Mode; batteryBoard = $BatteryBoard
+    schemaVersion = 1; gitRevision = $gitRevision; mode = $Mode; batteryBoard = $BatteryBoard; displayDiagnostic = $DisplayDiagnostic
     core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; flags = $flags
     buildInputFingerprint = $fingerprint; files = @($sourceRecords.ToArray())
     note = 'Git revision is the checkout base; file hashes identify the exact possibly uncommitted source snapshot. Local secrets are hashed, never embedded.'
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $sourceManifest -Encoding utf8
 @{
-    mode = $Mode; core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; source = $project; snapshot = $stage; batteryBoard = $BatteryBoard
+    mode = $Mode; core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; source = $project; snapshot = $stage; batteryBoard = $BatteryBoard; displayDiagnostic = $DisplayDiagnostic
     sourceProjectLibraries = $sourceLibraries
     projectLibraries = $libraries; externalLibraries = $externalLibraries
     externalVersions = $dependencyVersions; config = $config; flags = $flags
