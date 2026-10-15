@@ -29,6 +29,11 @@ def partition_table(app_size=0x640000, nvs_offset=0x9000):
 
 
 class FakeEsp:
+    GPIO_STRAP_REG = 0x60004038
+    RTC_CNTL_OPTION1_REG = 0x60008000
+    RTC_CNTL_FORCE_DOWNLOAD_BOOT_MASK = 1 << 5
+    secure_download_mode = False
+
     def __init__(self, api, handle=None):
         self.api = api
         self._port = object() if handle is None else handle
@@ -55,6 +60,23 @@ class FakeEsp:
         assert baud == 460800
         self.api.calls.append(('baud', self._port))
 
+    def uses_usb_jtag_serial(self):
+        return self.api.usb_jtag
+
+    def read_reg(self, address):
+        self.api.calls.append(('read_reg', self._port))
+        if address == self.GPIO_STRAP_REG + 4:
+            return 1 if self.api.gpio0_high else 0
+        assert address == self.RTC_CNTL_OPTION1_REG
+        return self.RTC_CNTL_FORCE_DOWNLOAD_BOOT_MASK if self.api.force_download else 0
+
+    def write_reg(self, address, value, mask):
+        assert address == self.RTC_CNTL_OPTION1_REG and value == 0
+        assert mask == self.RTC_CNTL_FORCE_DOWNLOAD_BOOT_MASK
+        self.api.calls.append(('clear_force_download', self._port))
+        if not self.api.fail_clear_force:
+            self.api.force_download = False
+
 
 class FakeApi:
     version = '5.3.1'
@@ -70,6 +92,11 @@ class FakeApi:
         self.fail_reset = False
         self.capacity = '16MB'
         self.written = None
+        self.usb_jtag = True
+        self.gpio0_high = True
+        self.force_download = True
+        self.fail_clear_force = False
+        self.reset_modes = []
 
     def loader(self, port, baud):
         self.rom = FakeEsp(self)
@@ -108,6 +135,7 @@ class FakeApi:
 
     def reset_chip(self, esp, mode):
         self.calls.append(('reset', esp._port))
+        self.reset_modes.append(mode)
         if self.fail_reset:
             raise RuntimeError('reset failed after verification')
 
@@ -515,6 +543,69 @@ class ReleaseTests(unittest.TestCase):
                                                 flash_size='16MB')
         inspect.signature(api.read_flash).bind(None, 0x8000, 4096, no_progress=True)
         inspect.signature(api.reset_chip).bind(None, 'hard-reset')
+
+    def test_explicit_watchdog_reset_keeps_identity_handle_and_clears_force_download(self):
+        api = FakeApi()
+        job = self.job(); job['after'] = 'watchdog-reset'
+        result = process_job(job, api)
+        self.assertEqual(result['resetMode'], 'watchdog-reset')
+        self.assertEqual(api.reset_modes, ['watchdog-reset'])
+        self.assertFalse(api.force_download)
+        names = [name for name, _ in api.calls]
+        self.assertLess(names.index('verify'), names.index('clear_force_download'))
+        self.assertLess(names.index('clear_force_download'), names.index('reset'))
+        self.assertEqual(len({id(handle) for _, handle in api.calls}), 1)
+
+    def test_watchdog_rejects_held_boot_or_non_usb_before_flash(self):
+        for field in ('gpio0_high', 'usb_jtag'):
+            with self.subTest(field=field):
+                api = FakeApi(); setattr(api, field, False)
+                job = self.job(); job['after'] = 'watchdog-reset'
+                with self.assertRaises(ValueError):
+                    process_job(job, api)
+                self.assertFalse(any(name in ('write', 'reset') for name, _ in api.calls))
+                self.assertTrue(api.rom.closed)
+
+    def test_failed_force_download_cleanup_does_not_reset_or_report_verified(self):
+        api = FakeApi(); api.fail_clear_force = True
+        job = self.job(); job['after'] = 'watchdog-reset'
+        with self.assertRaisesRegex(RuntimeError, 'did not clear'):
+            process_job(job, api)
+        self.assertEqual(api.reset_modes, [])
+        self.assertTrue(api.rom.closed)
+
+    def test_watchdog_batch_records_mode_and_propagates_to_preflight_and_write(self):
+        operations = []
+        def runner(python, job):
+            operations.append((job['operation'], job['after']))
+            return process_job(job, FakeApi(mac=job['device']['mac']))
+        log = self.root / 'watchdog.jsonl'
+        batch.flash_batch(self.release, self.devices, sys.executable, log, runner,
+                          after='watchdog-reset')
+        self.assertEqual(operations, [('preflight', 'watchdog-reset')] * 2 +
+                         [('flash', 'watchdog-reset')] * 2)
+        self.assertTrue(all(json.loads(line)['resetMode'] == 'watchdog-reset'
+                            for line in log.read_text().splitlines()))
+
+    def test_invalid_reset_mode_rejected_without_serial_or_runner(self):
+        api = FakeApi(); job = self.job(); job['after'] = 'no-reset'
+        with self.assertRaises(ValueError):
+            process_job(job, api)
+        self.assertFalse(api.calls)
+        with self.assertRaises(ValueError):
+            batch.flash_batch(self.release, self.devices, sys.executable,
+                              self.root / 'invalid.jsonl', after='no-reset')
+
+    def test_worker_must_confirm_requested_reset_mode(self):
+        def runner(python, job):
+            result = process_job(job, FakeApi(mac=job['device']['mac']))
+            result['resetMode'] = 'hard-reset'
+            return result
+        log = self.root / 'mismatch.jsonl'
+        with self.assertRaisesRegex(ValueError, 'identity/status'):
+            batch.flash_batch(self.release, self.devices, sys.executable, log, runner,
+                              after='watchdog-reset')
+        self.assertNotIn('verified', [json.loads(line)['status'] for line in log.read_text().splitlines()])
 
 
 if __name__ == '__main__':

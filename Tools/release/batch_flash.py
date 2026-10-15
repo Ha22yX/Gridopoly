@@ -23,6 +23,7 @@ from flash_layout import FLASH_BYTES, validate_images
 PROFILES = {"tile-long", "tile-corner", "player"}
 FULL_SET = Counter({"tile-long": 28, "tile-corner": 4, "player": 4})
 BOARD_SIZES = (16, 32)
+RESET_MODES = ("hard-reset", "watchdog-reset")
 WORKER_TIMEOUT = 240
 RESULT_PREFIX = "GRIDOPOLY_RESULT "
 
@@ -161,22 +162,25 @@ def run_worker(python: str, job: dict, *, timeout: int = WORKER_TIMEOUT) -> dict
 
 
 def flash_batch(release: dict, devices: list[dict], python: str, log: Path,
-                runner=run_worker) -> None:
+                runner=run_worker, *, after: str = "hard-reset") -> None:
     """Fail the whole preflight before any write; stop on first write failure."""
+    if after not in RESET_MODES:
+        raise ValueError("unsupported post-flash reset mode")
     log.parent.mkdir(parents=True, exist_ok=True)
 
     def event(device, status, **details):
         with log.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps({"at": datetime.now(timezone.utc).isoformat(),
-                                     **device, "status": status, **details}) + "\n")
+                                     **device, "status": status, "resetMode": after, **details}) + "\n")
 
     def operate(device, operation):
         report = runner(python, {"operation": operation, "device": device,
+                                "after": after,
                                 "profile": release["profiles"][device["profile"]]})
         status = "verified" if operation == "flash" else "preflight_ok"
         if (report.get("status") != status or report.get("mac") != device["mac"] or
                 report.get("profile") != device["profile"] or
-                report.get("esptoolVersion") != "5.3.1"):
+                report.get("esptoolVersion") != "5.3.1" or report.get("resetMode") != after):
             raise ValueError("flash worker result identity/status mismatch")
         return report
 
@@ -209,6 +213,8 @@ def main() -> int:
     parser.add_argument("--execute", action="store_true", help="actually identify/write/verify hardware")
     parser.add_argument("--python", default=sys.executable, help="Python with esptool==5.3.1 installed")
     parser.add_argument("--log", type=Path)
+    parser.add_argument("--after", choices=RESET_MODES, default="hard-reset",
+                        help="watchdog-reset: S3 USB-Serial/JTAG boards with BOOT released")
     args = parser.parse_args()
     try:
         release = load_release(args.manifest)
@@ -216,13 +222,13 @@ def main() -> int:
                                  board_size=release.get("boardSize", 32),
                                  player_count=release.get("playerCount", 4))
         for device in devices:
-            print(f"PLAN {device['label']} {device['port']} {device['mac']} {device['profile']}")
+            print(f"PLAN {device['label']} {device['port']} {device['mac']} {device['profile']} after={args.after}")
         if not args.execute:
             print("DRY RUN: hashes and inventory checked; no serial port opened.")
             return 0
         if args.log is None:
             raise ValueError("--log is required for execution")
-        flash_batch(release, devices, args.python, args.log)
+        flash_batch(release, devices, args.python, args.log, after=args.after)
         return 0
     except (ValueError, OSError, KeyError, TypeError, RuntimeError, subprocess.TimeoutExpired) as error:
         print(f"ERROR: {error}", file=sys.stderr)

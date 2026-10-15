@@ -58,6 +58,14 @@ python batch_flash.py release.json batch.csv --partial --execute --python C:/Gri
 
 只有四条数据线时，每批连接四块并填写本批端口、MAC 和板型；本批校验结束后再换下一批。换线后端口可能变化，每批重新核对，不复用上一批设备身份。`--partial` 允许少于整套数量，但任何板型都不能超过发布包的数量。
 
+2026-10-15 首批四块 ESP32-S3 USB-Serial/JTAG 在手动进入下载模式后，普通 RTS hard-reset 返回成功但仍停在 ROM；松开 BOOT 后，一次看门狗复位使四块均正常启动。对此类连接可显式追加 `--after watchdog-reset`，默认仍为 `hard-reset`：
+
+```powershell
+python batch_flash.py release.json batch.csv --partial --execute --after watchdog-reset --python C:/GridopolyRelease/venv/Scripts/python.exe --log C:/GridopolyRelease/flash-log.jsonl
+```
+
+此模式仅接受非 Secure Download 的 ESP32-S3 USB-Serial/JTAG，读实时 GPIO0 为高后才继续；BOOT 按住或跳线短接时会拒绝。复位前再次检查 GPIO0，清除并读回 force-download 位，再调用固定 esptool 的看门狗复位。采用该芯片 SDK 的 `GPIO_IN_REG = GPIO_STRAP_REG + 4`，读当前输入，不把锁存启动位当作按键现在状态。清位是易失寄存器操作，不写 eFuse 或配置分区。清位/复位失败不记录 VERIFIED；日志明确记录 resetMode。UART 或 USB-OTG 保留默认模式。
+
 默认仅 dry-run。实际执行分两步：
 
 1. 全批先逐板核对完整 MAC、16 MB Flash 与已有分区布局；全部通过后才开始写入。这一步会复位设备，但不写 Flash。
@@ -76,7 +84,7 @@ bootloader、表、otadata 和 app 都必须在各自边界内；NVS、文件系
 首次使用的分区表区域必须全为 FF，或已有分区布局与候选完全一致。旧布局损坏、无法读取或与候选不同会在写入前拒绝，交给单独的备份/迁移流程；普通批量工具不迁移配置。长边与角落布局相同可互换对应固件，玩家屏与格子布局不同不能直接互刷。
 `otadata` 是显式更新段，因此会重新选择包中的 app0，不承诺保留旧 OTA 启动选择。
 
-VERIFIED 只表示身份核对、写入、Flash 校验及复位命令成功，不证明普通固件已联网启动、整盘游戏、功耗或屏幕视觉验收通过。烧录后仍需在树莓派面板核对模块角色、在线屏数、闭环顺序，并进行真实 Tag → 外貌 → 姓名 → 对局验收。
+VERIFIED 只表示身份核对、写入、Flash 校验及所选复位命令成功，不证明普通固件已联网启动、整盘游戏、功耗或屏幕视觉验收通过。烧录后仍需在树莓派面板核对模块角色、在线屏数、闭环顺序，并进行真实 Tag → 外貌 → 姓名 → 对局验收。
 
 ## 工具回归
 
