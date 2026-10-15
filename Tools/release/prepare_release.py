@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import shutil
 
-from batch_flash import BOARD_SIZES, PROFILES, inventory_counts, load_release
+from batch_flash import BOARD_SIZES, PROFILES, inventory_counts, load_release, reject_diagnostic
 from flash_layout import validate_images
 
 
@@ -23,13 +23,15 @@ def prepare(candidates: list[Path], destination: Path, *,
             raise ValueError("provide exactly one schemaVersion 1 manifest for each profile")
         if value.get("normalFirmware") is not True:
             raise ValueError(f"{name}: an explicitly marked normal firmware is required")
+        reject_diagnostic(value, name)
         source_manifest = Path(value["sourceManifest"])
         if not source_manifest.is_absolute():
             source_manifest = candidate.resolve().parent / source_manifest
         source_bytes = source_manifest.read_bytes()
         if hashlib.sha256(source_bytes).hexdigest() != value["sourceDigest"].lower():
             raise ValueError(f"{name}: source manifest SHA mismatch")
-        json.loads(source_bytes)  # Copy the hash manifest, never its referenced source files.
+        # Check the hashed source metadata too, before creating any package files.
+        reject_diagnostic(json.loads(source_bytes), name)
         images = []
         for segment in value["segments"]:
             source = Path(segment["path"])

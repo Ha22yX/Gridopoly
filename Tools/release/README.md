@@ -10,6 +10,7 @@
 ## 准备候选发布包
 
 三个候选 manifest 必须包含 schemaVersion、profile、chip、flashSize、flashMode、flashFrequency、完整 gitRevision、sourceDigest、sourceManifest 和 segments（offset/path/sha256），并明确标记 `normalFirmware: true`；拒绝诊断或未标明类型的候选。
+即使保留完整游戏功能，带 `diagnosticOnly: true` 或 `displayDiagnostic` 非 `none` 的候选仍不允许进入批量包；打包和加载包时同时核对外层与经哈希验证的源码清单。旧清单缺省这两个字段仍兼容。单台受控诊断另行执行，不修改冻结发布包。
 `sourceManifest` 是文件名与 SHA 的源码清单；打包校验 sourceDigest，并复制为各 profile 下的 `source-manifest.json`。只复制清单，不读取或复制清单所指向的源码、Wi-Fi/SSH 凭据文件。
 含未提交修改的构建仍是候选；Git HEAD 不能替代实际源码清单，也不能据此标记为已提交的正式发布。
 

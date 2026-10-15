@@ -60,6 +60,15 @@ def load_profile_images(profile: dict) -> list[tuple[int, bytes]]:
     return images
 
 
+def reject_diagnostic(metadata: dict, name: str) -> None:
+    """Old manifests omit these fields; explicit diagnostics never enter a batch."""
+    if not isinstance(metadata, dict):
+        raise ValueError(f"{name}: firmware metadata must be a JSON object")
+    if (metadata.get("diagnosticOnly", False) is not False or
+            metadata.get("displayDiagnostic", "none") != "none"):
+        raise ValueError(f"{name}: diagnostic firmware cannot be packaged or batch flashed")
+
+
 def load_release(manifest: Path) -> dict:
     root = manifest.resolve().parent
     data = json.loads(manifest.read_text(encoding="utf-8"))
@@ -73,6 +82,7 @@ def load_release(manifest: Path) -> dict:
             raise ValueError(f"{name}: inconsistent profile or unsupported chip")
         if profile.get("normalFirmware") is not True:
             raise ValueError(f"{name}: an explicitly marked normal firmware is required")
+        reject_diagnostic(profile, name)
         if profile.get("flashSize") != "16MB":
             raise ValueError(f"{name}: expected the validated 16MB flash configuration")
         if profile.get("flashMode") not in {"dio", "dout", "qio", "qout", "keep"}:
@@ -89,6 +99,7 @@ def load_release(manifest: Path) -> dict:
             raise ValueError(f"{name}: source manifest escapes the release directory")
         if sha256(source_manifest) != profile["sourceDigest"].lower():
             raise ValueError(f"{name}: source manifest SHA-256 mismatch")
+        reject_diagnostic(json.loads(source_manifest.read_text(encoding="utf-8-sig")), name)
         segments = profile.get("segments")
         if not isinstance(segments, list) or not segments:
             raise ValueError(f"{name}: missing flash segments")

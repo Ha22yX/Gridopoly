@@ -205,6 +205,53 @@ class ReleaseTests(unittest.TestCase):
             batch.load_inventory(inventory)
         self.assertEqual(len(batch.load_inventory(inventory, partial=True)), 2)
 
+    def test_diagnostic_candidate_and_release_rejected(self):
+        candidate = self.root / 'player.json'
+        original = candidate.read_bytes()
+        release_original = self.manifest.read_bytes()
+        for marker in ({'diagnosticOnly': True}, {'displayDiagnostic': 'pclk12'},
+                       {'diagnosticOnly': 'false'}, {'displayDiagnostic': None}):
+            with self.subTest(marker=marker):
+                value = json.loads(original)
+                value.update(marker)
+                candidate.write_text(json.dumps(value), encoding='utf-8')
+                destination = self.root / 'diagnostic-release'
+                with self.assertRaisesRegex(ValueError, 'diagnostic firmware'):
+                    prepare(self.candidates, destination)
+                self.assertFalse(destination.exists())
+                self.changed_manifest(lambda d: d['profiles']['player'].update(marker))
+                with self.assertRaisesRegex(ValueError, 'diagnostic firmware'):
+                    batch.load_release(self.manifest)
+                self.manifest.write_bytes(release_original)
+        candidate.write_bytes(original)
+
+    def test_diagnostic_source_rejected_when_outer_marker_is_removed(self):
+        candidate = self.root / 'player.json'
+        value = json.loads(candidate.read_text(encoding='utf-8'))
+        source = Path(value['sourceManifest'])
+        source.write_text(json.dumps({'displayDiagnostic': 'pclk12'}), encoding='utf-8')
+        value['sourceDigest'] = batch.sha256(source)
+        candidate.write_text(json.dumps(value), encoding='utf-8')
+        destination = self.root / 'diagnostic-source-release'
+        with self.assertRaisesRegex(ValueError, 'diagnostic firmware'):
+            prepare(self.candidates, destination)
+        self.assertFalse(destination.exists())
+        profile = self.release['profiles']['player']
+        packaged_source = self.manifest.parent / profile['sourceManifest']
+        packaged_source.write_bytes(source.read_bytes())
+        self.changed_manifest(lambda d: d['profiles']['player'].update(
+            sourceDigest=batch.sha256(packaged_source)))
+        with self.assertRaisesRegex(ValueError, 'diagnostic firmware'):
+            batch.load_release(self.manifest)
+
+    def test_explicit_non_diagnostic_candidate_remains_portable(self):
+        candidate = self.root / 'player.json'
+        value = json.loads(candidate.read_text(encoding='utf-8'))
+        value.update(diagnosticOnly=False, displayDiagnostic='none')
+        candidate.write_text(json.dumps(value), encoding='utf-8')
+        manifest = prepare(self.candidates, self.root / 'ordinary-release')
+        self.assertFalse(batch.load_release(manifest)['profiles']['player']['diagnosticOnly'])
+
     def complete_inventory(self, board_size=16, player_count=4):
         devices = []
         for profile, count in batch.inventory_counts(board_size, player_count).items():
