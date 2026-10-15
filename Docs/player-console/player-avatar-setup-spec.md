@@ -569,4 +569,8 @@ Wi-Fi/UDP 协议、素材清单、圆屏 UI 规范和验收测试。
 
 [配对契约](../firmware/ring-onboarding-contract-2026-09-26.md)定义TagPairing席位阶段7、room/session/revision与CanEditIdentity；旧调试局可不启用该门禁，不能把旧行为当自动新局默认。全部必需真人绑定并完成头像/姓名/ready后才统一倒计时。
 
-Avatar 编辑行/编辑态在周期身份快照中保持本地焦点；旋钮双相非法跳变恢复保持可信定位点，不增加反转冷却。COM7 的 22ca 与 COM27/28/29 的 dfc4 已包含每轮最多 16 事件、积压长按保护和焦点局部刷新。粗略四组共 24 解码步与消费对应不证明精确物理卡点；Avatar 慢/快正反手感仍待复验。9 月手写有用户确认，本次四屏仍需对应版本验证。当前四屏在线但房间为三真人加一机器人，COM29 等待下次新局，不能标作四真人配对/身份全流程通过。见[当前基线](current-player-console-baseline.md)、[本次输入记录](../firmware/player-16-trial-progress-2026-10-15.md)和[历史手写记录](../firmware/player-input-handwriting-fix-2026-09-26.md)。
+Avatar编辑行/编辑态在周期身份快照中保持本地焦点；旋钮双相非法跳变恢复保持可信定位点，不增加反转冷却。当前COM7为 `22ca08e6…`、COM27/28为 `dfc4b7e5…`（16MHz），COM29为 `716ff623…`（12MHz正常游戏诊断构建，120秒日志已结束），均包含每轮最多16事件、积压长按保护和焦点局部刷新。普通12MHz `3da4c493…` 已构建核验、未部署。粗略四组共24个解码步与消费对应不证明精确物理卡点；Avatar慢/快正反手感仍待复验。9月手写有用户确认，本次四台仍需对应版本验证。COM29静止等待页正常反馈不替代Avatar、姓名、动态页面或24FPS/42ms性能验收，core1历史Retarget max57ms仍未关闭。见[当前基线](current-player-console-baseline.md)、[本次输入记录](../firmware/player-16-trial-progress-2026-10-15.md)、[COM29记录](../firmware/player-com29-display-progress-2026-10-15.md)和[历史手写记录](../firmware/player-input-handwriting-fix-2026-09-26.md)。
+
+USB热点已在22:07:58及22:18:49 UTC实证16格＋4屏/20台接入，旧7关联限制解除。18:47 EDT（22:47 UTC）最新room993580116/version9中COM28/29/27为席1/2/3，三真人Tag配对complete、boundMask7、AvatarSetup；COM7此前由用户关机。09:39旧房间中COM29等待新局属于历史，不能继续写成当前阻塞。唯一16节点环及reader stable已有证据，但配对complete不证明每屏拿回提示、旋钮编辑、姓名、ready、四真人倒计时或实体对局全部通过。见[设备台账](../firmware/current-device-connections.md)及[USB部署](../firmware/usb-ap-deployment-2026-10-15.md)。
+
+四台在用固件及普通3da4候选均 `BatteryBoard=none`，只表示软件遥测关闭；实际接电池反馈不构成电量/充电/温升实测通过。身份流程不得显示假电量，启用遥测后还需单独验证其更新不抢焦点、不破坏手写画布。

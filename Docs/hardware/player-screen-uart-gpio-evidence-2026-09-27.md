@@ -1,5 +1,7 @@
 # 玩家触摸屏 UART GPIO 的厂家证据
 
+> 2026-10-15现行效力：下文保留9/27厂家图纸与固定提交的证据。TX43/RX44现已在[板型配置](../../Firmware/PlayerConsole/battery_board_config.h)显式实现，[UART适配](../../Firmware/PlayerConsole/battery_hardware.cpp)在启用板型时将UART1映射到RX44/TX43、9600 8N1；USB仍承担日志/烧录。默认构建及当前四台玩家屏仍为`BatteryBoard=none`，表示遥测关闭，不表示没有物理电池。UART端到端、桥接查询、电压/SOC与充电状态仍未完成实物验收；后续须基于最新输入/显示修复构建启用候选，不直接部署旧启用版。见[遥测开发记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
+
 核对日期：2026-09-27。适用资料：VIEWESMART **UEDX48480021-MD80ET** 触摸版，V1.1规格书与V1.0原理图。结论是该资料对应的板型使用 **屏幕TX=GPIO43、屏幕RX=GPIO44**。这是厂家图纸与乐鑫模块引脚表的交叉核对，尚不等于用户实物已测通。
 
 ## 证据链

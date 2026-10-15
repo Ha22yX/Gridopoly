@@ -1,5 +1,7 @@
 # 16格试玩：格子端兼容、候选与首批身份记录
 
+> 晚间状态导航：16板normal V0.34已同时在线，线圈抬高后用户确认读Tag、服务器16 reader stable，真实唯一ORDER环及四角0/4/8/12已验；USB20台与软件重启恢复通过。下文保留各阶段当时的部署/失败/未验收事实，当前版本与待办见[设备台账](current-device-connections.md)及[路线图](development-roadmap-2026-09-21.md)。
+
 本轮范围为4角落＋12长边的格子固件。主任务统筹服务器/玩家屏/批量包与实物窗口并统一Git索引；本任务只修改TileModuleTests及本报告。已读AGENTS、开发协调记录和当前交接。未修改生产固件、EDA、共享协议或Git索引，未创建后台/定时任务。
 
 ## 软件结论
@@ -332,4 +334,4 @@ LED全部readyYES/scene、16MHz/reset_us350，attempted=completed持续推进，
 
 本次独立证据包括user-context、user-dfu-followup、pnp、release-validation、inventory、dry-run、flash/events/process、四口serial、observations、before/after HTTP、`upgrade-batch01-v034-recovery1-result.json`及analysis-notes/optical-user-confirmation，全部在trial目录。只更新报告和本机证据，没有新构建/测试/源码或冻结包修改，Git统一提交归主任务。
 
-至此计划内16块（12long＋4corner）均完成普通V0.34写验并实际运行过，COM12恢复待验状态已解除；历史唯一新板仍17，包含持续隔离的COM19。该结论来自分批部署，不等于16块同时在线、闭环、RFID或完整实体对局通过。主任务接续更新完整MAC/profile/app台账并统筹后续整盘窗口；当前24V未到，RFID/供电/16闭环/实体整局仍待验，玩家屏依用户要求稍后更新。本任务串口已全部释放，不自行开启新采集或操作玩家端。
+至此计划内16块（12long＋4corner）均完成普通V0.34写验并实际运行过，COM12恢复待验状态已解除；历史唯一新板仍17，包含持续隔离的COM19。该结论来自分批部署，不等于16块同时在线、闭环、RFID或完整实体对局通过。主任务接续更新完整MAC/profile/app台账并统筹后续整盘窗口；当时24V未到，RFID/供电/16闭环/实体整局仍待验，玩家屏依用户要求稍后更新；该句是分批烧录结束时的历史状态。晚间24V供电、16板基本读卡与真实闭环已通过，最新剩余以页首链接为准。本任务串口已全部释放，不自行开启新采集或操作玩家端。

@@ -6,7 +6,7 @@
 
 12MHz诊断候选已于11:06 UTC完成COM29写验。用户随后明确反馈 `Waiting for new game` 页“画面正常，频闪和错位都消失”，本轮该设备静止等待页目视为 **PASS**；旧16MHz失败记录保留。它支持降低请求PCLK可消除本次症状，但没有证明RGB underflow的唯一根因，也没有证明动画性能或其它设备场景全部通过。135秒有界观察已结束并释放串口。
 
-当前COM29运行普通功能的12MHz诊断应用 `716ff623...`，临时日志窗口已自动结束。同样12MHz、无临时诊断日志的普通候选 `3da4c493...` 已构建并核验通过，尚未部署，等待主会话安排与AP现场排查错开的写验窗口。保持UI、porch、core1、mode3双帧缓冲、40行bounce、BatteryBoard=none和既有性能叠层。COM27/28及旧冻结v4保持16MHz。本轮不把12MHz设为全部屏幕的生产默认。
+当前COM29运行普通功能的12MHz诊断应用 `716ff623...`，临时日志窗口已自动结束。同样12MHz、无临时诊断日志的普通候选 `3da4c493...` 已构建并核验通过，尚未部署，等待主会话安排单独写验和目视窗口；USB热点已部署、原7台容量阻塞解除。保持UI、porch、core1、mode3双帧缓冲、40行bounce、BatteryBoard=none和既有性能叠层。COM27/28及旧冻结v4保持16MHz。本轮不把12MHz设为全部屏幕的生产默认。
 
 ## 身份和被动日志
 
@@ -81,3 +81,7 @@
 下一步由主会话在网络方案明确后安排COM29单台同布局四段写验，再立即60秒被动启动观察及用户正常版本目视；当前串口已释放，不占用AP诊断窗口。原51项业务回归及15项窗口检查未因仅配置分离而重复，未追加诊断reset或其它串口测试，也不为维持活跃增加采集。
 
 本机证据：`C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/com29-display-20261015/`；包含 `pnp-before.json`、`COM29-passive-before.bin/.log/.chunks.jsonl` 与 summary。主HTTP证据为同工具根下 `root-com29-display-20261015/before-http.json`。原始Flash、HTTP现场快照与本机构建不提交Git。历史对照见[前两屏修复](player-new-screen-display-progress-2026-10-15.md)及[COM29首次迁移](player-fourth-screen-flash-2026-10-15.md)。
+
+## 晚间网络恢复后的当前状态
+
+USB热点已完成迁移，16格＋4屏20台同时接入及自启动恢复已有证据。上述7台限制/避免释放名额是11点时的历史维护决定，不再是当前阻塞；本次文档更新未刷COM29。设备仍运行716ff623/12MHz诊断，普通3da4尚未部署，下一窗口须记录普通版本启动与用户目视，不复用旧16MHz或只凭日志标正常。[最新部署](usb-ap-deployment-2026-10-15.md)。

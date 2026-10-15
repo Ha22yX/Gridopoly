@@ -6,6 +6,10 @@
 
 当前正式圆屏使用 Pi 权威 Wi-Fi/UDP，自动新局冻结 1～4 台合格屏并补足四席。部署和验收见[当前基线](current-player-console-baseline.md)及[验收矩阵](player-console-acceptance-tests.md)。本文保留早期 Demo 设计供追溯；五人虚拟数据、1×/2×自动播放、完整场景选择和两小时循环不能仅凭此文认定已实现或已通过。
 
+2026-10-15实际固件：COM7 `22ca08e6…`、COM27/28 `dfc4b7e5…`（16MHz）；COM29 `716ff623…` 为12MHz正常游戏诊断构建，120秒日志已结束，静止等待页目视通过。它继续运行正常游戏功能，不是SelfTest或Demo；普通12MHz `3da4c493…` 已构建核验、未部署。四台在用固件均 `BatteryBoard=none`，软件遥测关闭，不由本目录推定电池功能已验收。
+
+USB热点已实证16格＋4屏共20台接入，旧7关联限制解除；最新22:47 UTC三真人Tag配对complete/AvatarSetup，COM7由用户关机。16环、reader stable和配对状态来自真实系统，不能替代本目录场景、四真人身份全流程或实体整局验收。见[USB部署](../firmware/usb-ap-deployment-2026-10-15.md)和[设备台账](../firmware/current-device-connections.md)。
+
 ## 1. 目的
 
 早期圆屏以可交互 UI 测试 Demo 起步；当前普通固件已接正式权威后端，仍不在 ESP32-S3 本地实现完整游戏规则。隔离 Demo 场景
@@ -148,6 +152,8 @@
 - 分别标记短按、800ms 返回、1.2 秒确认和 3 秒首页手势。
 
 ### 11.4 性能
+
+下列是场景工具目标，不代表已具备完整两小时自动循环或已通过。当前动画验收仍要求目标30FPS、持续≥24FPS和最大42ms；core1历史Retarget max57ms未通过，core0性能PASS因频闪/错位撤回。现有等待页目视、主机回归和诊断窗口不能替代精确旋钮、Avatar/动态页面及持续压力验收。LVGL刷新定时器30ms、性能叠层显示值和硬件frame-complete回调计数须与实际有效动画帧分开记录。
 
 - 显示 FPS、帧耗时、空闲堆、PSRAM、最大连续块和网络往返时间。
 - 支持两小时自动循环全部场景。

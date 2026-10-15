@@ -1,14 +1,60 @@
 # 最后已知设备连接记录
 
-2026-10-15最新网络记录：ALFA AWUS036ACM已部署为USB独立2.4GHz热点，US／信道6／HT20；SSID仍为`gridopoly`，密码与`10.42.0.1`保持。已实证16格＋4屏共20台同时关联并注册；用户随后关闭COM7，最终重启后的观察为16格＋指定3屏。16格唯一ORDER环ready、0～15自动分配及四角0/4/8/12已通过。设备事件自动恢复已验证，四服务enabled，22:19 UTC实际Pi软件重启后自动启动并恢复原房间。未来36台、无家庭网络的整机冷上电及完整实体对局仍单独待验。 USB永久MAC为`00:c0:ca:be:2a:df`，固定接口`gpusb0`、驱动`mt76x2u`；Pi家网管理地址最后仍为`10.0.0.124`。详见[USB部署验收](usb-ap-deployment-2026-10-15.md)。
+更新：2026-10-15 18:47 EDT（22:47 UTC）只读HTTP快照。端口、IP、席位会变化；写入前重新核对完整芯片MAC与板型。本页上半部是当前台账，下半部保留原始分批记录，不用旧阶段的“当前”覆盖本表。
 
-COM8于2026-10-15单板仅USB接入，完整MAC仍为`68:ee:8f:54:11:a4`，由实际V0.32升级至V0.34基础stage2诊断`4fe2e35a…`，unknown角色、LCD8MHz。仅本地试读越过ANTFAIL时，关闭背光或全亮255都读到UID `7EF9FD7E`；亮度150的1kHz PWM两次对照均无完整UID。该调试窗口结束时恢复150、Strict门控，DEBUG关闭/串口释放，正常扫描仍Fault。此设备不属于本轮16块计划棋盘，不可标作corner；见[围屏RFID调查](tile-rfid-screen-coupling-2026-10-15.md)。
+## 处理中心与网络
 
-COM29 当前运行12MHz诊断候选 `716ff623…`，用户确认静止 Waiting for new game 页频闪、错位消失；120秒诊断日志已自动结束，游戏功能继续可用。普通12MHz候选 `3da4c493…` 已构建和独立核验，尚未部署；原热点容量限制已解决，普通候选与页面验收另排。动态页面与原24FPS/42ms门槛仍待验；冻结v4保持16MHz历史基线。 见[显示记录](player-com29-display-progress-2026-10-15.md)。
+Pi游戏程序为`ea6e1f51…`，最近实读PID721；管理地址`10.0.0.124`（wlan0），游戏AP固定地址`10.42.0.1`（gpusb0）、HTTP80/UDP4242。ALFA AWUS036ACM永久MAC `00:c0:ca:be:2a:df`，驱动mt76x2u，US/2.4GHz/信道6/HT20，SSID为gridopoly。密码沿用原值、只保留本地凭据。
 
-用户已给16格接上24V电源。2026-10-15 11:21～11:23 UTC只读检查持续7台活跃关联（3玩家屏＋4格子；COM28由用户关闭），DHCP未耗尽，HTTP拒绝数为0。证据强烈指向内置Wi-Fi接入容量，但未读得芯片maxassoc或抓到明确拒绝码；不能写成硬上限已证明。16格＋4屏需20台、未来32格＋4屏需36台，另留调试终端余量。用户已购买ALFA AWUS036ACM（MT7612U）作为便携USB-A热点，尚未报告到货；配置准备中，未迁移或通过整盘容量验收。 见[热点调查](ap-capacity-investigation-2026-10-15.md)、[便携USB选型](portable-wifi-selection-2026-10-15.md)。
+20台（16格＋4屏）同时无线关联/注册已实证；用户后来关闭COM7。USB事件恢复、四服务开机自启、18:19 EDT整机软件重启通过，未来36台与无家庭网冷上电未验。详情见[USB部署](usb-ap-deployment-2026-10-15.md)。旧7台关联瓶颈已解除，不再作为COM29普通候选待部署的原因。
 
-更新：2026-10-15。计划16板（12长边/4角落）均已分批完成V0.34写验、启动及联网；COM12拔线中断后已恢复。13板灯效获用户确认，COM16/17/18待单独确认；COM19隔离，不计入16板。玩家屏随后经用户修好的底板接电池，通过COM7完成22ca08e6升级、启动联网；粗略旋转解码与消费一致、当前配对页稳定，精确卡点/其他页面与电池功能仍分项待验。24V现已接入，完整16环/RFID/实体游戏待解除热点容量阻塞及现场联调。下方早期批次条目按当时时点保留，最终16-MAC台账见试玩记录。操作前重新识别MAC、端口、运行版本。完整本轮进展见[16格试玩记录](trial16-release-2026-10-15.md)。
+## 玩家屏当前台账
+
+18:47快照room993580116/version9、16格，3真人＋1机器人。COM28/29/27均online/eligible，Tag配对complete、boundMask7，身份仍AvatarSetup；这些字段不等于四真人操作和整局全部完成。
+
+| 历史串口 | 完整MAC | deviceId | 实际应用 | 此快照席位/状态 | 已有目视证据 |
+| --- | --- | --- | --- | --- | --- |
+| COM7 | dc:b4:d9:02:d1:dc | 2057322951 | 22ca08e6… | 不在在线列表；用户此前关机 | 配对页稳定；粗略四组旋转已做，非精确卡点真值 |
+| COM27 | dc:b4:d9:02:bf:88 | 4054086021 | dfc4b7e5… /16MHz | 席3、在线 | 静止等待页正常 |
+| COM28 | dc:b4:d9:07:81:b0 | 1159859616 | dfc4b7e5… /16MHz | 席1、在线 | 静止等待页正常 |
+| COM29 | 20:6e:f1:ba:c9:04 | 1347248425 | 716ff623… /12MHz诊断 | 席2、在线 | 静止等待页频闪/错位消失 |
+
+四块在用底板均有用户返修且接电池反馈；BatteryBoard=none表示遥测关闭。COM29的120秒诊断日志已自动结束，普通12MHz `3da4c493…` 已构建/核验、未部署；v4仍是16MHz。动态视觉、精确旋钮、性能及电气分别待验。[COM29记录](player-com29-display-progress-2026-10-15.md)。
+
+## 计划16格与真实ORDER映射
+
+全部普通V0.34，12long应用`c08a4508…`、4corner应用`7153f74f…`、LCD默认8MHz。18:47快照16块均在线、已分配、reader stable；以下沿OUT物理顺序，不是注册或烧录顺序。用户24V已供电、线圈略抬LCD后确认16块均能读Tag；完整热/电气/多Tag/相邻干扰仍待验。
+
+| mapIndex | 模块完整MAC | 历史COM | profile | 当前格子 |
+| --- | --- | --- | --- | --- |
+| 0 | a4:cb:8f:c1:e1:34 | COM10 | corner | CORNER-START / Grid Central |
+| 1 | a4:cb:8f:c2:99:60 | COM20 | long | A1 / Rivet Row |
+| 2 | a4:cb:8f:c2:98:bc | COM21 | long | CARD-CF-1 / Community Chest |
+| 3 | a4:cb:8f:c2:99:48 | COM22 | long | A2 / Copper Lane |
+| 4 | a4:cb:8f:c1:eb:3c | COM23 | corner | CORNER-HOLD / Holding Area |
+| 5 | a4:cb:8f:c2:99:6c | COM24 | long | B1 / Lantern Avenue |
+| 6 | a4:cb:8f:c2:98:a0 | COM25 | long | T-WEST / Westline Terminal |
+| 7 | a4:cb:8f:c2:99:50 | COM26 | long | B2 / Tideway Drive |
+| 8 | a4:cb:8f:c6:25:e0 | COM11 | corner | CORNER-REST / Open Plaza |
+| 9 | a4:cb:8f:c2:98:e4 | COM12 | long | B3 / Beacon Boulevard |
+| 10 | a4:cb:8f:c2:98:f8 | COM13 | long | U-ENERGY / Metro Grid |
+| 11 | a4:cb:8f:c2:98:ac | COM14 | long | CARD-CE-1 / Chance |
+| 12 | a4:cb:8f:c1:e1:88 | COM15 | corner | CORNER-GOTO / Go To Hold |
+| 13 | a4:cb:8f:c2:99:08 | COM16 | long | C1 / Canvas Street |
+| 14 | a4:cb:8f:c2:98:b8 | COM17 | long | FEE-CITY / Income Tax |
+| 15 | a4:cb:8f:c2:98:fc | COM18 | long | C2 / Bloom Terrace |
+
+13板灯效已有明确用户反馈；COM16/17/18三块驱动和运行通过但缺独立灯效确认。18:29～18:34 EDT重开16格局观察中，150组均完整同映射、230次实际回包全assigned；用户确认正常，首次等待页异常根因未定，未改固件。[重开局记录](newgame16-assignment-observation-2026-10-15.md)。
+
+## 不计入计划16格的设备
+
+- COM19 `a4:cb:8f:c6:26:24`：原角落持续全白，已断电隔离，被COM10替换；原板尚未证明修复。不能按历史烧录17个身份计算可用17板。
+- COM8 `68:ee:8f:54:11:a4` / tile-68ee8f5411a4：额外单板RFID测试，unknown/8MHz；最后V0.34基础stage2诊断`4fe2e35a…`。窗口结束恢复亮度150、Strict门控，彼时正常扫描仍Fault。16板装配改善不推定COM8也调整过；[原同平面围屏调查](tile-rfid-screen-coupling-2026-10-15.md)。
+- 旧COM6 `28:84:85:ba:9f:e8`：早期开发板，非计划16块；历史40MHz及ORDER测试保留，不当作本批默认配置。
+
+## 历史部署记录说明
+
+以下按各自时间保留完整分批、失败、恢复和旧房间事实；“当时仅USB”“旧端口/席位”“等待新局”不代表上方最新快照。普通固件完整SHA及冻结包见[试玩记录](trial16-release-2026-10-15.md)。
 
 ## 第四台玩家屏（2026-10-15）
 

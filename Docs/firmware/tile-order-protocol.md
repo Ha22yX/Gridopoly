@@ -3,6 +3,8 @@
 固件/本协议文档 owner：格子任务。服务器 owner：HTTP解析、boot会话/租约、拓扑图及锚点分配。
 当前复用Tile已有HTTP心跳，不把Wi-Fi注册次序当作物理顺序，不启用RS485。
 
+2026-10-15现役Pi `ea6e1f51…`＋格子V0.34已完成16实体环与四角自动映射验证；网络改为AWUS036ACM USB独立热点，物理ORDER波形和固件未因迁移改变。20台关联/注册、设备事件恢复与Pi软件重启证据见[USB部署](usb-ap-deployment-2026-10-15.md)。24/32/40实体环、36台容量、实体断环/重接及完整对局仍待验。
+
 ## 电气与信标
 
 上游GPIO10经Q1 2N7002开漏驱动：GPIO HIGH表示下游ORDER_IN被拉LOW，GPIO LOW释放。
@@ -83,7 +85,9 @@ ageMs≥15000不得建边。缺order兼容旧固件，但不能成为物理线�
 
 心跳顶层moduleRole为long/corner/unknown，firmwareVersion为诊断字符串。由普通固件构建profile固定板型，默认unknown；地图位置与角色独立。闭环拓扑规则归服务端：16/24/32/40节点均须4个corner，相邻角落之间分别3/5/7/9个long；同时核对实际地图角落类型。当前地图须与物理环格数相同，全部在线模块必须恰好属于该环，每点唯一上下游且会话/租约新鲜。额外在线旧模块、孤岛、另一个环或未知板型不能忽略；离线历史记录不计数。四个同构角落没有绝对START区别，默认选择稳定 moduleId 字典序最小的角落作 START，沿 OUT 为正方向；一致手动锚点可旋转全环。role不能由临时随机boot或注册顺序推断。开放链仍保留分段锚点调试规则，已验证闭环断开后撤回派生分配。完整条件见[闭环契约](ring-onboarding-contract-2026-09-26.md)；开发、部署与实体证据分别记录，协议兼容不等于24/40实物已验收。
 
-V0.34每次成功HTTP回包消费完整assignment，实际格子/assigned变化后刷新屏幕与灯效；收到assigned=false会清除旧格子。它不单独解析orderEpoch，因此服务器仍须维护完整assignment与revision语义。HTTP/Wi-Fi完全断开时，现有固件保留上次格子并显示网络异常，不能把服务端租约撤销描述为离线客户端也已即时清图。
+V0.34每次成功HTTP回包消费完整assignment，实际格子/assigned变化后刷新屏幕与灯效；收到assigned=false会清除旧格子，下一次true会重新发布并绘制。它不按assignment revision大小拒收，也不单独消费全局roomId/stateVersion/orderEpoch；配对room/session仍按下节契约独立校验。服务器须维护完整assignment与revision语义。HTTP/Wi-Fi完全断开时，现有固件保留上次格子并显示网络异常，不能把服务端租约撤销描述为离线客户端也已即时清图。
+
+新room保留尚新鲜的物理邻接、清manual锚点并重算；服务进程重启则依靠模块重新注册和新物理证据建环。2026-10-15实际Pi软件重启后的16环映射恢复不表示锚点或旧boot图被持久化。随后同尺寸16格新局的150组观察、230次真实心跳及用户画面确认均正常；首次等待页原因未定，未以新固件修复。服务器上下文交错另列未复现风险，详见[观察记录](newgame16-assignment-observation-2026-10-15.md)。
 
 ## RFID 新鲜扫描与配对提示扩展
 

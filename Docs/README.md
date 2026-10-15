@@ -1,6 +1,6 @@
 # Gridopoly 文档中心
 
-更新：2026-10-15。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)了解已有实现、最后部署和未完成验收，再按下表进入规范。当前12长边＋4角落已完成V0.34分批写验，4台玩家屏在线已有证据，最新包为trial16-2026-10-15-v4；线圈抬高后16板读卡获用户确认；服务器整盘联网、自动到达和实体游戏分别验收。
+更新：2026-10-15晚间。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)：16板normal V0.34、24V供电及线圈抬高后的读卡、真实16闭环/四角自动分配已有证据；USB热点20台及开机/重启恢复已验。COM29仍12MHz诊断、普通候选未部署；完整四真人实体游戏、动态显示/性能、电气和新机械实装待验。最新批量包仍trial16-2026-10-15-v4，冻结包与后续单台/网络部署有差异。
 
 ## 当前状态入口
 
@@ -17,7 +17,9 @@
 | 新屏显示与第四屏 | [等待页修复](firmware/player-new-screen-display-progress-2026-10-15.md)、[COM29首次部署](firmware/player-fourth-screen-flash-2026-10-15.md)、[12MHz显示结果](firmware/player-com29-display-progress-2026-10-15.md) |
 | 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；[USB已部署及重启自启验收](firmware/usb-ap-deployment-2026-10-15.md)，20台同时接入已实证、36台待验 |
 | 线圈包围屏幕时的RFID故障 | [COM8单板实机调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)；区分供电、芯片告警与实际UID读取 |
-| 3D与机械 | [模型、首件及待办](mechanical/README.md) |
+| 3D与机械 | [Full16 R1、玩家R3、实物边界及装配PDF](mechanical/README.md)；R3仅更换02支架，其余四件保持R2 |
+| 重开局分配异常 | [150组状态/230实际心跳及用户恢复确认](firmware/newgame16-assignment-observation-2026-10-15.md)，首次原因未定、未部署修复 |
+| 本轮会话与变更汇总 | [晚间全面整合](documentation-refresh-2026-10-15-evening.md) |
 | 接下来做什么 | [实施与验收路线图](firmware/development-roadmap-2026-09-21.md) |
 
 棋盘为长边PCB2_1与角落PCB2_5，直接24V供电；另有独立玩家屏和RC6-TP电池底板候选。玩家Wi-Fi/UDP、格子Wi-Fi/HTTP＋ORDER，RS485未启用。全在线ORDER自动闭环现支持目录16/24/32/40节点及实际四角校验，已部署Pi；16实体环ready及四角0/4/8/12自动分配已验，锚点改派/物理断环另验。单模块配对不要求闭环。玩家底板旧订单实物短路与最新制造候选的区别见当前交接。
@@ -54,4 +56,4 @@
 
 构建、测试、部署、功能、性能、视觉和电气分别记录；DRC或串口正常不代替实物验收。供应库存注明查询日期，下单前重查。凭据、固件私有配置和本地备份不提交。当前无自动续派定时任务。
 
-本轮整理范围及证据见[2026-10-15更新记录](documentation-refresh-2026-10-15.md)；[9月整合](documentation-refresh-2026-09-27.md)保留历史。
+本轮范围及核对见[2026-10-15晚间整合](documentation-refresh-2026-10-15-evening.md)；[同日早期整合](documentation-refresh-2026-10-15.md)、[9月整合](documentation-refresh-2026-09-27.md)保留对应时点。

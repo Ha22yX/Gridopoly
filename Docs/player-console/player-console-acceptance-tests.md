@@ -1,6 +1,6 @@
 # Gridopoly 玩家圆屏验收测试
 
-> 2026-10-15 状态澄清：本页是验收要求，当前结果见末尾状态表及[当前基线](current-player-console-baseline.md)。四屏在线不等于四真人同局通过，COM27/28 等待页正常不等于所有页面通过。core0 七场景性能 PASS 因频闪/错位撤回；core1 历史 Retarget max57ms 与游戏页目视门槛仍未关闭。完整版本边界见[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
+> 2026-10-15 状态澄清：本页是验收要求，当前结果见末尾状态表及[当前基线](current-player-console-baseline.md)。USB热点20台接入、16格闭环和三真人Tag配对已获证据，不等于四真人完整流程通过；COM27/28及COM29的静止等待页正常不等于所有页面通过。core0七场景性能PASS因频闪/错位撤回；core1历史Retarget max57ms与游戏页目视门槛仍未关闭。完整版本边界见[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
 
 状态：当前发布验收基线 2.0
 
@@ -17,7 +17,7 @@ Wi-Fi/UDP 权威服务端联调。圆屏不运行完整规则引擎，但必须�
 
 - 圆屏模块硬件版本、完整 MAC、设备 ID 和端口
 - 实际底板/转接方式及返修状态
-- ESP32-S3 固件 Git 提交、应用 SHA-256、sourceDigest 和构建板型开关
+- ESP32-S3固件Git提交、应用SHA-256、sourceDigest、板型及 `BatteryBoard`、`DisplayClock`、`DisplayDiagnostic`；区分当前部署与待部署候选
 - 资源包与协议版本
 - 树莓派或协议模拟器版本
 - 供电方式
@@ -316,24 +316,28 @@ Wi-Fi/UDP 权威服务端联调。圆屏不运行完整规则引擎，但必须�
 
 [当前台账](../firmware/current-device-connections.md)记录部署身份。旧TIME-01收租窗口属于早期产品设想，服务端未实现前不作为当前版本功能PASS；付款测试须区分圆屏本地倒计时提交PayDebt与尚未实现的服务端独立期限扣款；保留作需求追溯，不靠修改游戏规则制造验收。
 
-COM29当前为 `716ff623…`、12MHz正常游戏诊断构建；120秒有界日志已停止，135秒采集结束并释放串口。关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建、未部署。AP现场曾见7台关联（3屏＋4格，COM28由用户关闭），排查期间暂缓COM29重启/刷写，避免释放的关联位置被其它格子占用；COM7/27/28固件及冻结v4不变。用户目视通过仅覆盖COM29静止等待页，正常候选最终写验、动态页面和24FPS/42ms仍待验，详见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+COM7当前为 `22ca08e6…`、COM27/28为 `dfc4b7e5…`（均16MHz）；COM29为 `716ff623…`、12MHz正常游戏诊断构建，120秒日志已停止，135秒采集结束并释放串口。普通12MHz候选 `3da4c493…` 已构建核验、未部署，仍待主会话安排写验和目视。USB热点已实证20台同时接入，旧7关联限制不再阻塞部署，COM7/27/28固件及冻结v4保持不变。COM29用户目视通过仅覆盖静止等待页，动态页面和24FPS/42ms仍待验，详见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+
+18:47 EDT（22:47 UTC）最新快照为room993580116/version9，COM28/29/27分别席1/2/3在线、三真人加一机器人，Tag配对complete、boundMask7、AvatarSetup；COM7由用户关机。16格在线、唯一环自动分配及reader stable已通过。保留09:39 UTC旧room993580113/v11四屏在线但COM29 seat0的历史事实，不再将它作为当前入局状态。
 
 | ID | 测试 | 通过标准与当前状态 |
 | --- | --- | --- |
-| SETUP-01 | 1/2/3/4合格屏自动建局 | 补足4席；0/5台拒绝；晚加入/断线不替换冻结席位；逻辑回归通过。09:39 UTC 四屏在线，但 room993580113/v11 仍三真人加一机器人，COM29 seat0 等待下次新局；四真人同局未验 |
-| SETUP-02 | 单个未分配reader/开放链 | 清场后新Tag绑定，提示拿回并进入外貌；已有单reader真实成功记录，多人复用仍待验 |
-| SETUP-03 | 多reader连续配对 | 尽量不用上一reader；已绑定者编辑与下一人配对并行；旧reader保留拿回提示；实物待验 |
+| SETUP-01 | 1/2/3/4合格屏自动建局 | 补足4席；0/5台拒绝；晚加入/断线不替换冻结席位；逻辑回归通过。最新room993580116/v9为三真人加一机器人，COM28/29/27席1/2/3、Tag complete/AvatarSetup；四真人完整身份流程仍待验 |
+| SETUP-02 | 单个未分配reader/开放链 | 清场后新Tag绑定，提示拿回并进入外貌；已有单reader真实成功记录及本次三真人配对complete状态；指定同reader多人复用与拿回提示仍需逐项实物验收 |
+| SETUP-03 | 多reader连续配对 | 尽量不用上一reader；已绑定者编辑与下一人配对并行；旧reader保留拿回提示。最新三真人配对complete已有服务端快照，具体reader轮换/拿回提示/并行编辑未逐项实物采证，四真人完整流程待验 |
 | SETUP-04 | 重复UID/多Tag/旧缓存/离线 | 不误绑、不触发移动；重试校验room/session/revision；软件回归通过 |
 | IN-NEW-01 | Avatar行慢/快正反切换 | 每格一步且无回跳，周期Identity保留焦点；当前COM7为22ca、COM27/28为dfc4、COM29为716ff623/12MHz，均包含既有输入修复。粗略四组24解码步与消费对应不替代精确物理卡点/Avatar手感，后两项待验 |
 | IN-NEW-02 | 输入积压与短按 | 每轮最多16事件，保留正反/按键顺序，ButtonUp 后先处理页面，积压不误判长按；2ea95b4 含256项历史主机回归，真实高负载手感另验 |
 | UI-NEW-01 | Avatar保留控件 | 只移动焦点时更新旧/新行及必要确认样式，不获取/重绘头像；源码及历史针对性回归已有证据，当前Avatar目视待验 |
-| UI-NEW-02 | 等待页重复事件 | e6d6563：60次重试由120次整屏重建降至0，51+83项回归通过；COM27/28的dfc4等待页正常、COM7配对页稳定。COM29旧dfc4/16MHz等待页目视失败，改716ff623/12MHz后用户确认静止等待页画面正常、频闪和错位消失；不推广为动态页面或性能通过 |
+| UI-NEW-02 | 等待页重复事件 | e6d6563：60次重试由120次整屏重建降至0，51+83项历史回归通过；COM27/28的dfc4等待页正常、COM7配对页稳定。COM29旧dfc4/16MHz等待页目视失败，改716ff623/12MHz后用户确认静止等待页正常、频闪和错位消失；不推广为动态页面或性能通过。LVGL性能叠层仍可定时flush，不把控件保留等同于完全无刷新 |
 | NAME-NEW-01 | 三笔H/快写/后台快照 | 不早识别、不断笔、不清画布；9月修复已有用户确认，不能扩展为当前四台全部复验通过 |
 | NAME-NEW-02 | DELETE、连续DELETE、DONE | 依序处理，墨迹先清、异步结果不复活；DONE成功提交再离页，拒识留画布；主机回归通过 |
 | END-01 | 破产和最终胜者 | 正确显示终局，禁用已结束游戏的操作；核心/Web回归通过，实体整局待验 |
-| BAT-01 | 默认遥测关闭 | 四台普通固件与trial16 v4均BatteryBoard=none，不初始化UART、不显示假电量；none不表示物理上无电池 |
+| BAT-01 | 默认遥测关闭 | 四台在用固件、待部署普通3da4及trial16 v4均BatteryBoard=none，不初始化UART、不显示假电量；none不表示物理上无电池 |
 | BAT-02 | 启用电池遥测 | 未知与0%区分，EXT/CHG不冒称净充电，UI不抢焦点/破坏墨迹；9月27日主机44+18+4检查及启用构建通过，启用功能尚未部署/实测，返修板USB运行不替代遥测验收 |
+| NET-NEW-01 | USB热点与真实16环 | 22:07:58及22:18:49 UTC两次16格＋4屏/20台关联认证注册；随后COM7关机，软件重启后16格＋3屏持续观察通过，唯一16节点环和正确自动映射/reader stable通过。未来36台、无家庭网断电冷启动及实体整局待验 |
+| CFG-NEW-01 | 显示时钟与诊断分离 | 13e4de40独立配置DisplayClock和DisplayDiagnostic；既有18/18配置与15/15诊断窗口检查通过，普通12MHz 3da4已核验不含诊断日志/计数符号，仍未部署。默认vendor保持16MHz，不回写旧v4 |
 
-玩家≥24FPS、Retarget最大间隔、原场景频闪/错位仍保留原门槛；不能用上述逻辑测试替代。
+玩家动画目标30FPS、持续≥24FPS及最大42ms门槛保持不变；core1历史Retarget max57ms仍未通过，原动态场景频闪/错位仍需相应版本目视。LVGL刷新定时器30ms、性能叠层FPS和frame-complete回调计数均不能替代有效动画帧测量；不能用上述逻辑回归、联网或静止等待页反馈关闭性能验收。
 
-证据入口：[输入部署](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页修复](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台部署](../firmware/player-fourth-screen-flash-2026-10-15.md)、[历史电池遥测验证](../firmware/player-battery-telemetry-progress-2026-09-27.md)。本表引用各报告结果，不声称本次文档整合重跑了这些测试。
+证据入口：[输入部署](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页修复](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台部署](../firmware/player-fourth-screen-flash-2026-10-15.md)、[COM29诊断与普通候选](../firmware/player-com29-display-progress-2026-10-15.md)、[USB热点部署](../firmware/usb-ap-deployment-2026-10-15.md)、[设备台账](../firmware/current-device-connections.md)、[历史电池遥测验证](../firmware/player-battery-telemetry-progress-2026-09-27.md)。本表引用各报告结果，不声称本次文档整合重跑了这些测试。

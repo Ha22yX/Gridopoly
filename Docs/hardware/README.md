@@ -12,7 +12,7 @@
 | COM27／COM28，普通dfc4 | 两块底板已返修、带电池；升级后用户确认等待新游戏页正常 | 其他页面、精确输入及电池全项验收 |
 | COM29，12MHz正常游戏诊断构建 `716ff623…` | 用户确认底板已返修、接着电池；改12MHz后静止等待新游戏页画面正常、频闪和错位消失 | 动态页面、24FPS/42ms及电气/遥测仍未验收 |
 
-COM29的120秒有界日志已停止，135秒观察完成且串口释放；关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建、未部署。现场AP曾见7台关联（3屏＋4格，COM28由用户关闭），排查期间暂缓COM29重启/刷写，避免释放的关联位置被其它格子占用。旧dfc4/16MHz在COM29的失败保留在[显示记录](../firmware/player-com29-display-progress-2026-10-15.md)；其它三屏固件及冻结v4不变。
+COM29的120秒有界日志已停止，135秒观察完成且串口释放；关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建、未部署。此前7台关联造成的刷写暂缓属于历史排查：USB热点部署后已有16格＋4屏共20台同时关联/注册证据，该容量阻塞已解除；普通12MHz候选仍未部署，需另行安排，不能把网络恢复当作已经升级。见[USB热点部署](../firmware/usb-ap-deployment-2026-10-15.md)。旧dfc4/16MHz在COM29的失败保留在[显示记录](../firmware/player-com29-display-progress-2026-10-15.md)；其它三屏固件及冻结v4不变。
 
 以上固件全部保持 `BatteryBoard=none`，即遥测关闭，不表示实物没有电池。COM7/27/28/29的用户返修反馈仅覆盖上述实物，不扩大到其他旧板；USB写验成功和无明显发热反馈不替代充电、放电、欠压、温升或UART实测。见[设备台账](../firmware/current-device-connections.md)和[16格试玩记录](../firmware/trial16-release-2026-10-15.md)。
 
@@ -37,7 +37,9 @@ J2反向焊盘映射与厂家排线逻辑针序分开；J3为JST B2B-PH-K-S(LF)(
 
 长边PCB2_1为141件/底面48件，角落PCB2_5为152件/底面46件；当前相关机械/布局图元与9/21归档一致。角落J301接稳压24V、5.5×2.1mm中心正极；PD/NVM取消，本地支路仍保留TPS26621与LMR16030SDDAR，INA226只测本板5V。24V/5A是适配器选型建议，120W铭牌不提高板端额定；60W整盘/约1W每板仍是待验证预算。
 
-计划16块（12长边＋4角落）已分批完成V0.34写验、启动及联网，13板灯效获用户确认，COM16/17/18待单独目视。原故障COM19仍隔离，替换COM10正常不等于原板已修复；[全白故障原记录](corner-led-white-2026-10-15.md)保持冻结，后续状态以[当前试玩记录](../firmware/trial16-release-2026-10-15.md)为准。完整24V供电、RFID、16板同时在线实体环及整局未验收。服务端已支持目录16/24/32/40 ORDER环，RS485仍禁用，不能借ORDER闭环证明A/B闭环可用。
+计划16块（12长边＋4角落）已分批完成V0.34写验、启动及联网，13板灯效获用户确认，COM16/17/18待单独目视。原故障COM19仍隔离，替换COM10正常不等于原板已修复；[全白故障原记录](corner-led-white-2026-10-15.md)保持冻结，后续状态以[当前试玩记录](../firmware/trial16-release-2026-10-15.md)为准。用户已给16板接入24V，将RFID线圈略抬高于LCD后确认16板均能识别Tag；服务器也记录16个reader stable及唯一16节点ORDER环、0～15自动分配与四角0/4/8/12。整盘峰值、压降、纹波、温升、插拔、相邻线圈多Tag及完整实体对局仍待验。服务端已支持目录16/24/32/40 ORDER环，RS485仍禁用，不能借ORDER闭环证明A/B闭环可用。
+
+ALFA AWUS036ACM独立USB热点已解除此前7台关联阻塞。22:07:58及22:18:49 UTC快照有16格＋4屏共20台；COM7随后由用户关闭，Pi软件重启后22:21:14～22:23:15 UTC的13个样本、121.18秒持续确认16格＋指定3屏、唯一ORDER环和16 reader stable。此为20台接入与软件重启恢复证据；36台、长期稳定及家庭路由器不可用时完全断电冷上电仍待验，见[部署记录](../firmware/usb-ap-deployment-2026-10-15.md)。
 
 | 内容 | 文档 |
 | --- | --- |
@@ -45,10 +47,10 @@ J2反向焊盘映射与厂家排线逻辑针序分开；J3为JST B2B-PH-K-S(LF)(
 | 电源 | [直接24V](corner-dc24-input-2026-09-21.md)、[供电复核](power-schematic-audit-2026-09-21.md)、[外接电源](external-24v-supply.md) |
 | GPIO／对插 | [GPIO](esp32-s3-pin-map.md)、[9触点互连](module-interconnect-5wire.md)、[历史二维核查](interconnect-audit-2026-09-21.md) |
 | 首板／整盘 | [首板清单](bring-up-checklist.md)、[供电验收](power-system-acceptance.md)、[功耗固件](../firmware/module-power-firmware.md) |
-| 机械 | [整体底板首件R2](../../Mechanical/BoardBase/README.md)、[冻结接口](../../Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/mechanical-interface.json) |
+| 机械 | [整体底板Full16 R1](../../Mechanical/BoardBase/Full16_R1/README.md)、[玩家底座V2 R3](../../Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/README.md)、[冻结接口](../../Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/mechanical-interface.json) |
 | 历史采购／制造 | [BOM提示](bom-review-2026-09-21.md)、[9月22日汇报](development-handoff-2026-09-22.md)、[批量固件板型审计](batch32-firmware-audit-2026-09-25.md) |
 
-当前R2为一角两长、151×151mm连续L形，PCB底面离桌16mm，Ø6/Ø3.6接触环；3.0×10mm塑料专用螺钉和Ø2.5mm候选盲孔需先试孔，尚未实际切片、打印或试装。用户自然共面、板厚约1.6mm与底面突出约8.1mm已记录；g=9mm仍以约12/15mm来自主体直边为条件。冻结包中的旧14mm架高/滑移提案不改写，现行安装以R2为准。
+三模块角落R2首件已实际打印，用户确认配合正常。现行整盘交付为Full16 R1：四个相同L主件＋八片连接片，主框366×366mm、含外侧连接耳406×406mm，PCB底面离桌16mm；新增长—长接口、全环拼接及承载仍待打印和实装，不继承三板首件通过。玩家底座现行为V2 R3安装耳加固，只替换02屏幕支架，其余01/03/04/05沿用R2；新支架打印、装配与约60mm排线松弛仍待验。冻结接口包中的旧14mm架高/滑移提案和历史未打印记录保持原样，安装以各现行README为准。
 
 ## 历史效力与发布
 

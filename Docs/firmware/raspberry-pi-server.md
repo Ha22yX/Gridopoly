@@ -2,13 +2,15 @@
 
 ## 2026-10-15 当前版本与流程
 
-Pi 已部署源码检查点 `0fed0ce` 的 binary `ea6e1f517c597cc69f6f0724af0d501206cf3d57e457945c9cc138fc3f2d118d`，支持全部在线集合匹配的 16/24/32/40 四角环、自动四席及逐人 Tag 配对。[部署记录](server-all-online-ring-progress-2026-10-15.md)保留首轮核验回滚原因、最终 20 秒检查与存档证据。管理网最近地址 `10.0.0.124`，玩家网 `10.42.0.1`；本轮文档整理不访问设备或部署。
+Pi 已部署源码检查点 `0fed0ce` 的 binary `ea6e1f517c597cc69f6f0724af0d501206cf3d57e457945c9cc138fc3f2d118d`，支持全部在线集合匹配的 16/24/32/40 四角环、自动四席及逐人 Tag 配对。[服务端部署记录](server-all-online-ring-progress-2026-10-15.md)保留构建、回滚和存档核验证据；USB 迁移及随后观察没有更新游戏程序或玩家/格子固件。
 
-主任务 2026-10-15 09:39 UTC 只读确认 room `993580113` / version 11：四屏 online/eligible，但当前冻结三真人加一机器人，COM29 为 seat0 等待下一新局。不能将发现列表四屏写成四真人已入局。设备版本及后续动态以[设备台账](current-device-connections.md)和[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)为准。
+ALFA AWUS036ACM 已作为独立 USB 热点部署：固定接口 `gpusb0`、2.4 GHz、US／信道 6／HT20，SSID `gridopoly`、原密码及游戏地址 `10.42.0.1` 保持。板载 `wlan0` 保留管理，最近地址 `10.0.0.124`。2026-10-15 22:07:58、22:18:49 UTC 两个快照均为 16 格＋4 屏、20 台同时关联并注册；用户关闭 COM7 后，重启后的连续观察按实际开启的 16 格＋指定 3 屏验收。20 台证据不等于 36 台容量或四真人完整游戏通过，见[USB 部署与启动验收](usb-ap-deployment-2026-10-15.md)。
 
-用户随后已接 24V 给 16 格整盘供电；11:21:45–11:25:03 UTC 的[AP 容量调查](ap-capacity-investigation-2026-10-15.md)确认四次 Wi-Fi 关联表均为 7 台（3 屏＋4 格），四格 HTTP 在线、没有服务拒绝或 DHCP 耗尽。该窗口 room `993580113` / version 12，COM28 offline；早前四屏在线记录保留原时刻。当前无线关联瓶颈阻塞 16 格同时在线、16 格＋4 屏＝20 台及未来 32 格＋4 屏＝36 台验收，不能继续把“尚未接 24V”作为本轮联网阻塞原因；供电、RFID与实体闭环仍需各自验证。
+22:19 UTC 实际 Pi 软件重启后，四服务自动恢复且 enabled/active，原房间 `993580115` 保持；独立 121.18 秒检查中，16 个 reader stable、唯一 16 节点 ORDER 环 ready、0～15 自动映射及四角 0/4/8/12 持续满足。设备事件恢复也已通过定向驱动解绑/重绑验证。完全断电、没有家庭网络的冷上电及 32 格＋4 屏＝36 台仍待实测。
 
-用户已购买 ALFA AWUS036ACM（MT7612U）作为便携 USB-A 热点，尚未报告到货；[采购依据](portable-wifi-selection-2026-10-15.md)区分驱动支持与36台实测。服务器正准备独立USB预检与迁移配置，当前现场未切换。旧eth0外置AP工具回归不代表USB已验收。
+22:29～22:34 UTC 用户再次新建 16 格房间 `993580116`，150 组观察映射保持，独立 30 秒 230 次真实心跳响应全部 `assigned=true`，用户确认正常。首次部分屏 `WAITING FOR TILE` 的原因未定，本轮没有代码修复或部署；上下文并发窗口另列待复现，见[重开局观察](newgame16-assignment-observation-2026-10-15.md)。当前设备数、房间和版本均为带时间的记录，以[设备台账](current-device-connections.md)和[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)为入口。
+
+此前 11:21～11:25 UTC 的板载热点七台限制属于[迁移前调查](ap-capacity-investigation-2026-10-15.md)，已不再阻塞当前 16 格同时上线；不能推广为所有 Pi 的硬上限。用户已接 24V，线圈略高于 LCD 后确认 16 板可读 Tag；配对、自动到达、供电与实体整局仍分别验收。
 
 网页主入口`POST /api/new?size=32&autoPlayers=1`，也接受16/24/40；冻结1～4台合格在线屏并补机器人至4席。`GET /api/player-devices`负责发现，`GET /api/tag-pairing`及版本化Retry/Cancel负责逐人配对。单块未分配reader/开放链可配对，不要求完整环；自动地图映射则要求全部当前在线模块恰好属于同一个匹配地图格数的环，4 个 corner 与实际地图四角一致，其余为 long。
 
@@ -44,25 +46,30 @@ ESP-NOW 回退，不再代表正式部署架构。
 ## 2. 运行架构
 
 ```text
-家庭 Wi-Fi / wlan0
-  ├─ 管理电脑 -> http://<Pi 家庭网 IP>/
+家庭 Wi-Fi / wlan0（管理、可选上网）
   └─ Raspberry Pi 5
        ├─ gridopoly_server（唯一权威进程）
-       ├─ ap0 = 10.42.0.1/24，SSID 由本机配置
-       ├─ HTTP :80
+       ├─ AWUS036ACM / gpusb0：独立 USB 射频
+       │    └─ gridopoly，2.4 GHz，10.42.0.1/24
+       ├─ HTTP :80（网页、格子心跳、素材）
        ├─ 玩家协议 UDP :4242
        ├─ DHCP/DNS：10.42.0.20..200，gridopoly.local
        └─ /var/lib/gridopoly（存档与最终头像）
 
-玩家圆屏
-  ├─ 连接 ap0 的 WPA2 网络
-  ├─ UDP 发现、配对、Heartbeat、快照和动作
-  └─ HTTP 按需下载格子图、头像组件和最终头像
+16 块格子和玩家圆屏
+  ├─ 连接 gpusb0 提供的 WPA2 网络
+  ├─ 格子 HTTP Heartbeat 与物理 ORDER；玩家认证 UDP
+  └─ HTTP 按需下载素材
 ```
 
-树莓派只有一套 Wi-Fi 射频时，`wlan0` 作为家庭网络上行，虚拟接口 `ap0` 创建玩家网络；
-AP 信道必须跟随 `wlan0` 的实际 2.4 GHz 信道。两个 IP 网络和用途彼此独立，但共享同一
-物理射频和信道，并不是两张独立无线网卡。
+当前 USB 热点和板载管理网使用独立射频，玩家网络信道不再跟随家庭 `wlan0`。
+`gpusb0` 按永久 MAC 和 `mt76x2u` 驱动持久命名，不依赖 `wlan1` 或 PHY 编号。
+`.1/24` 只能属于一个接口；当前旧虚拟 `ap0` 不承载游戏网。早期板载方案的
+`wlan0`＋`ap0` 共用射频/信道，保留作历史和经审核的恢复起点；旧 `eth0` 外置 AP
+工具是另一条未现场部署的可选路径，不能套用到现役 USB 配置。
+
+游戏与 AP 单元已去除家庭网络上线等待，实际软件重启时四服务约 4.55～4.58 秒启动，
+早于家庭网 wait-online 约 11.73 秒结束；完全离线冷上电仍需单独实测。
 
 ## 3. 源码入口
 
@@ -140,9 +147,11 @@ TagPairSnapshot
 | 单元 | 作用 | 重启策略 |
 | --- | --- | --- |
 | `gridopoly.service` | 权威服务、HTTP 和 UDP | `Restart=always`，2 秒 |
-| `gridopoly-ap.service` | 创建/清理 `ap0` 与 hostapd 运行配置 | 失败后 3 秒 |
+| `gridopoly-ap.service` | 在已核验的 `gpusb0` 上启动 USB AP，guard 管理地址与身份 | 失败后 3 秒 |
 | `gridopoly-dnsmasq.service` | 玩家网 DHCP 与本地 DNS | 失败后 2 秒 |
 | `gridopoly-ap-watchdog.service` | 监测邻居、RX 停滞和 AP 自愈 | `Restart=always`，2 秒 |
+
+现役四个单元已 enabled，并已完成实际 Pi 软件重启自启动验收。以下是新安装语义，不能据此重复覆盖现役 USB 单元。
 
 `gridopoly.service` 安装到 `multi-user.target` 后可开机自启动，但
 `deploy/install.sh` **只安装文件并执行 `daemon-reload`，不会自动 enable/start**。
@@ -161,17 +170,21 @@ sudo systemctl enable --now \
 
 ### 5.2 AP 与 DHCP
 
-下列 fallback/模板值须和实际运行配置分开。2026-10-15 容量调查已核对：现场 `gridopoly-ap` 是历史硬编码 10/0 的脚本，真实 hostapd 配置为 `ap_max_inactivity=10`、`disassoc_low_ack=0`；watchdog 运行环境为 20/45/2 秒。工作区的参数化/校验及模板修改仍未提交部署，不能把“参数化修改未部署”说成“现场未使用 10/0”。本日游戏服务器两次部署未修改 AP。脚本哈希、文件来源及容量证据见[调查报告](ap-capacity-investigation-2026-10-15.md)，替代网络方案见[外置 AP 文档](external-ap-deployment-2026-09-26.md)。
+当前 USB 配置与迁移前板载脚本、工作区尚未部署的参数化修改分别记账：
 
-- `ap0`：`10.42.0.1/24`
-- DHCP：`10.42.0.20`～`10.42.0.200`，租约 12 小时
-- 本地域名：`gridopoly.local`
-- Wi-Fi：2.4 GHz、WPA2-PSK、CCMP、802.11n/WMM
-- hostapd 当前硬编码运行 10/0。尚未部署的工作区参数化脚本在缺参数时兼容回退到 15/1，模板设置 10/0；这两项新环境变量不能当成现场旧脚本已读取的配置。
-- watchdog 当前运行失败邻居 20 秒、RX 停滞 45 秒、2 秒轮询；脚本缺参数 fallback 仍为 6/10/2，工作区模板为 20/45/2。现有设置不代表重连或容量问题已解决，主动 ARP 提案尚未实现部署。
-- 当前配置未设置 `max_num_sta`。调查中的七台均有持续 RX，不是七个僵尸 station；没有依据通过提高 hostapd 人数配置解除本次瓶颈，也不能用 DHCP 池大小证明 AP 容量。
+- `gpusb0` 独占 `10.42.0.1/24`，AWUS036ACM 永久 MAC `00:c0:ca:be:2a:df`、USB ID `0e8d:7612`、驱动 `mt76x2u`。
+- 热点 `gridopoly`，2.4 GHz／US／信道 6／HT20、WPA2-PSK／CCMP／802.11n／WMM；国家码按用户确认的实际使用地设置。
+- DHCP `10.42.0.20`～`10.42.0.200`，12 小时；DNS 与网关均为 `10.42.0.1`，本地域名 `gridopoly.local`。格子固件要求非零网关，即使游戏仅使用本地服务也不能省略。
+- USB AP 使用从已审核现场脚本复制的 `/usr/local/libexec/gridopoly-usb-ap`，保留 `ap_max_inactivity=10`、`disassoc_low_ack=0`；watchdog 仍为 20/45/2 秒。
+- 原 `/usr/local/libexec/gridopoly-ap` 与工作区参数化修改不是同一部署物。后者缺参 15/1、模板 10/0 的行为不能当作当前 USB 的运行值；旧主动 ARP/定向清站提案未因此上线。
+- 迁移前的七台关联瓶颈已有 USB 20 台同时关联/注册证据。DHCP 池 181 个地址和驱动 128 项 WCID 均不能替代未来 36 台及管理终端余量实测。
+- 重启前保留 61 条 DHCP 租约是历史地址记录，不是 61 台在线。格子随机 Wi-Fi MAC 与 12 小时租约在反复上电时可能积累，扩容应核对剩余池，不能靠清租约制造验收通过。
 
-玩家网不转发外部 DNS，也不是面向互联网的通用热点。SSID、AP 密码、家庭 Wi-Fi 凭据和
+四服务随实际 Pi 软件重启自动恢复；USB 设备重新枚举后约 6.9 秒自动恢复 AP/DHCP/watchdog 已验证。
+这是定向驱动解绑/重绑证据，真实物理拔插和无家庭网冷上电仍另验。
+初次设备恢复失败及安全回退记录保留，不能抹去，详见[USB 部署报告](usb-ap-deployment-2026-10-15.md)。
+
+玩家网不转发外部 DNS，也不是面向互联网的通用热点。SSID 可公开；AP 密码、家庭 Wi-Fi 凭据和
 UDP PSK 只写入树莓派本地配置，禁止提交 Git 或输出到日志。
 
 ## 6. 配置
@@ -198,17 +211,17 @@ UDP PSK 只写入树莓派本地配置，禁止提交 Git 或输出到日志。
 | `GRIDOPOLY_BOT_ACTION_INTERVAL_MS` | `1200` | 机器人动作节拍，100..10000 ms |
 | `GRIDOPOLY_UDP_PSK` | 无默认 | 至少 16 字节；缺失或过短时进程拒绝启动 |
 
-`ap.env`：
+`ap.env`（区分仓库板载模板与现役 USB 值）：
 
 | 变量 | 默认/示例 | 说明 |
 | --- | --- | --- |
 | `GRIDOPOLY_AP_SSID` | `gridopoly` | 玩家网络名 |
 | `GRIDOPOLY_AP_PASSPHRASE` | 本机设置 | WPA2 密码，不提交仓库 |
 | `GRIDOPOLY_UPLINK_IFACE` | `wlan0` | 家庭网络接口 |
-| `GRIDOPOLY_AP_PARENT_IFACE` | `wlan0` | AP 的父无线接口 |
-| `GRIDOPOLY_AP_IFACE` | `ap0` | 虚拟 AP 接口 |
+| `GRIDOPOLY_AP_PARENT_IFACE` | 旧模板 `wlan0`；现役 `gpusb0` | 现役使用 USB 独立接口 |
+| `GRIDOPOLY_AP_IFACE` | 旧模板 `ap0`；现役 `gpusb0` | USB 物理接口，不创建虚拟 ap0 |
 | `GRIDOPOLY_AP_ADDRESS` | `10.42.0.1/24` | AP 地址 |
-| `GRIDOPOLY_AP_CHANNEL` | 空 | 空值表示跟随上行实际信道 |
+| `GRIDOPOLY_AP_CHANNEL` | 旧模板空；现役 `6` | 旧空值跟随上行；USB 使用已核验信道 |
 | `GRIDOPOLY_AP_MAX_INACTIVITY_SECONDS` | 回退 `15`，模板 `10` | hostapd station inactivity 秒数 |
 | `GRIDOPOLY_AP_DISASSOC_LOW_ACK` | 回退 `1`，模板 `0` | 是否按驱动 low-ACK 立即断站，只允许 0/1 |
 | `GRIDOPOLY_STALE_STATION_GRACE_SECONDS` | 回退 `6`，模板 `20` | FAILED/INCOMPLETE 邻居持续多久才回收 |
@@ -218,7 +231,7 @@ UDP PSK 只写入树莓派本地配置，禁止提交 Git 或输出到日志。
 环境变量中的 Bot 间隔只是新安装/缺省值；网页保存后的实际值写入 `authority.meta`，之后重启
 继续采用持久化值。
 
-上述 AP 新变量描述工作区参数化方案；现场旧脚本硬编码 10/0，不读取这两个新变量。安装器会保留已存在的 `/etc/gridopoly/ap.env`；后续若部署已审阅的参数化脚本，需同时按选定方案合并参数，不能只替换脚本而意外退回 15/1。
+上述 inactivity/low-ACK 参数化行为属于尚未部署的工作区方案；现役 USB 复制脚本保留硬编码 10/0。USB 的国家码来自已审核专用脚本，不能只改表中接口或信道就代替完整迁移。安装器虽然保留现有 `ap.env`，仍会安装板载网络文件；现役机更新游戏程序不得重跑未经适配的全量安装器。
 运行验收只能筛选 `/run/gridopoly/hostapd.conf` 的 inactivity/low-ACK 行，禁止输出含 WPA
 口令的完整文件。
 
@@ -243,8 +256,8 @@ Server/RaspberryPi/tools/build-and-test-native.sh
 ```
 
 该脚本使用 `-std=c++17 -O2 -Wall -Wextra -Werror -pthread` 编译并运行大多数 Linux/ARM64
-主机测试，最后生成 `build-pi-native/gridopoly_server`。它当前不包含
-`player_avatar_component_client_tests`，所以发布前仍需运行上面的完整 CTest。
+主机测试，最后生成 `build-pi-native/gridopoly_server`，当前脚本也包含
+`player_avatar_component_client_tests`。具体发布记录须列明实际执行目标，不能把选择运行三个目标写成完整 CTest 通过。
 
 素材门禁：
 
@@ -267,6 +280,8 @@ bash -n Server/RaspberryPi/deploy/gridopoly-ap-watchdog
 ## 8. 安装、升级与回滚
 
 ### 8.1 安装
+
+以下全量安装器用于对应的初始部署基线。现役 USB AP 的完整单元、guard、持久命名与 udev 规则按[USB 部署记录](usb-ap-deployment-2026-10-15.md)维护；不要用旧板载或 eth0 安装流程覆盖。
 
 ```bash
 sudo Server/RaspberryPi/deploy/install.sh \
@@ -380,6 +395,8 @@ Heartbeat 当前位于可信 LAN 边界，没有单独登录。精确 API、DTO�
 
 这套策略用于避免浏览器预连接、慢客户端和持续轮询占满服务，同时不阻塞 20 ms 权威循环或
 UDP Heartbeat。
+
+待复现的独立风险：HTTP 路由分别读取 `stateCopy()` 与 `roomId()`，旧请求可能在新上下文后触发再次清理 manual/Tag。尚无确定性并发复现或修复；同尺寸稳定环在锁内立即重新投影，不能将该窗口认定为本次等待页根因。见[重开局观察](newgame16-assignment-observation-2026-10-15.md)。
 
 ## 10. HTTP 素材契约
 
@@ -495,7 +512,7 @@ UDP：
 
 ### 圆屏扫描到 AP 但不能配对
 
-1. 确认 `ap0`、dnsmasq 和 watchdog 三个单元 active。
+1. 确认 `gpusb0` 及 AP、dnsmasq、watchdog 三个单元 active，游戏地址只在该接口；旧 ap0 仅用于经审核的回退。
 2. 确认圆屏获得 `10.42.0.x`，服务为 `10.42.0.1:4242`。
 3. 核对双方 PSK，不在日志中打印明文。
 4. 查看 `authFailures/replayDrops` 和 device-seat 注册。
@@ -503,11 +520,11 @@ UDP：
 
 ### AP station 反复关联/断开，格子 Heartbeat 消失
 
-1. 若 `ap0`、`10.42.0.1/24`、直连路由和 `0.0.0.0:80` 均正常，而日志出现
+1. 若现役 `gpusb0`、`10.42.0.1/24`、直连路由和 `0.0.0.0:80` 均正常，而日志出现
    `rx-stalled`、failed-neighbor eviction 或密集 associated/disassociated，应判为无线
    station 数据面抖动，不要重启健康的 `gridopoly.service`。
 2. 实体 RST/断电不保证发送 deauth，旧 station 可导致客户端 `AUTH_FAIL reason202`；
-   软件 RESTART 的优雅 deauth 正常不能代替这条硬复位门禁。现场已运行硬编码 10/0 和 watchdog 20/45/2，参数化修改仍待部署；现有值不能作为重连或容量问题已修复的证据。只有独立审核并授权 AP 变更后，才在维护窗口调整并重启 `gridopoly-ap.service`、`gridopoly-dnsmasq.service` 和
+   软件 RESTART 的优雅 deauth 正常不能代替这条硬复位门禁。现役 USB 保留 10/0 和 watchdog 20/45/2，参数化修改仍未部署；20 台容量和设备恢复依据实机窗口，不由参数值本身证明。只有独立审核并授权 AP 变更后，才在维护窗口调整并重启 `gridopoly-ap.service`、`gridopoly-dnsmasq.service` 和
    `gridopoly-ap-watchdog.service`。
 3. 只用下列命令确认运行配置，避免泄露 WPA 口令：
 
@@ -519,6 +536,10 @@ UDP：
    无关联循环且 systemd `NRestarts` 不增长。
 5. 若弱信号位置仍不能连续 Heartbeat，不再继续放宽超时；应改善模块与 Pi 的距离、遮挡、
    天线方向或供电。
+
+### 重开 16 格后个别模块等待分配
+
+2026-10-15 的首次报告在开始采集时已恢复。随后同尺寸重开局的 150 组观察与 230 次真实回包均正确，用户确认正常；未改源码或部署，根因未定。若复发，先保留当前房间和异常画面/module ID，由主会话协调同步采集 ORDER/assignment、实际心跳回包及该板有界串口。不要先反复重开抹去现场，也不要把 `ready` 拓扑或回包正确单独当作屏幕已刷新。
 
 ### Avatar Loading 或 Identity 卡住
 

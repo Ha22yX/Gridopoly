@@ -2,20 +2,20 @@
 
 状态：A 级当前实现规范
 
-更新日期：2026-10-15（含当日后续COM29显示诊断与独立12MHz配置；各版本部署、目视与性能结果分别记录）。
+更新日期：2026-10-15（含USB热点迁移、22:47 UTC现场快照及COM29独立12MHz配置；部署、目视与性能结果分别记录）。
 
-冻结组合包仍为 `trial16-2026-10-15-v4`；COM29随后单独部署12MHz构建，未写回该包。2026-10-15 09:39:03 UTC（05:39:03 EDT）服务器曾记录四屏均online/eligible，当时room993580113/version11仍为三真人加一机器人、COM29等待下一次新局；这不代表四真人同局通过或现在仍有四屏在线。
+冻结组合包仍为 `trial16-2026-10-15-v4`；COM29随后单独部署12MHz构建，未写回该包。2026-10-15 09:39:03 UTC（05:39:03 EDT）的room993580113/version11曾为三真人加一机器人、COM29 seat0等待新局，这是历史状态。最新18:47 EDT（22:47 UTC）只读快照为room993580116/version9：COM28/29/27在线、席位1/2/3，三真人Tag配对 `complete`、boundMask7，身份处于AvatarSetup；COM7此前由用户关机。服务器阶段不替代头像操作、四真人完整流程或实体对局验收，见[设备台账](../firmware/current-device-connections.md)。
 
-| 设备 | 完整 MAC | 当前应用 SHA-256 前缀 | 09:39席位 | 已有目视证据 |
+| 设备 | 完整 MAC | 当前应用 SHA-256 前缀 | 22:47 UTC席位/连接记录 | 已有目视证据 |
 | --- | --- | --- | --- | --- |
-| COM7 | `dc:b4:d9:02:d1:dc` | `22ca08e6…` | 2 | 配对页稳定 |
-| COM27 | `dc:b4:d9:02:bf:88` | `dfc4b7e5…` | 3 | 等待新游戏页正常 |
-| COM28 | `dc:b4:d9:07:81:b0` | `dfc4b7e5…` | 1 | 等待新游戏页正常 |
-| COM29 | `20:6e:f1:ba:c9:04` | `716ff623…`，12MHz正常游戏诊断构建 | 0 | 用户确认静止等待页正常、频闪和错位消失；动态页面另待验 |
+| COM7 | `dc:b4:d9:02:d1:dc` | `22ca08e6…`，16MHz | 用户已关机，不在在线列表 | 配对页稳定 |
+| COM27 | `dc:b4:d9:02:bf:88` | `dfc4b7e5…`，16MHz | 席3、在线 | 等待新游戏页正常 |
+| COM28 | `dc:b4:d9:07:81:b0` | `dfc4b7e5…`，16MHz | 席1、在线 | 等待新游戏页正常 |
+| COM29 | `20:6e:f1:ba:c9:04` | `716ff623…`，12MHz正常游戏诊断构建 | 席2、在线 | 用户确认静止等待页正常、频闪和错位消失；动态页面另待验 |
 
-COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建、未部署。AP现场曾见7台关联（3屏＋4格，COM28由用户关闭），排查期间暂缓COM29重启/刷写，避免释放的关联位置被其它格子占用，待主会话安排。COM7/27/28固件不变；旧dfc4/16MHz在COM29的失败保留在[显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建并核验、未部署，后续由主会话安排写验和目视窗口。旧板载AP的7台关联限制曾使刷写暂缓，现USB热点已实证16格＋4屏共20台同时接入，该限制不再是部署阻塞。COM7/27/28固件不变；旧dfc4/16MHz在COM29的失败保留在[显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
 
-`2ea95b4` 的输入批处理和头像焦点局部刷新已进入上述四台；`e6d6563` 的等待页重复重绘修复进入dfc4及继承它的716ff623。精确物理卡点、Avatar/游戏页、完整实体对局和性能门槛仍待验收；历史core0方案因频闪/错位撤回，core1的Retarget max57ms仍超过42ms。9月手写及网络恢复确认只对应各自版本和场景。
+`2ea95b4` 的输入批处理和头像焦点局部刷新已进入上述四台；`e6d6563` 的等待页重复重绘修复进入dfc4及继承它的716ff623、3da4c493候选。精确物理卡点、Avatar/游戏页、完整实体对局和性能门槛仍待验收；历史core0方案因频闪/错位撤回，core1的Retarget max57ms仍超过42ms。9月手写及网络恢复确认只对应各自版本和场景。
 
 四台在用固件及本次 v4 均为 `BatteryBoard=none`，表示软件遥测关闭，不表示未装电池。`8ee546b` 已实现遥测且两种构建历史通过，启用功能尚未部署验收。完整哈希、来源和各次验证见[输入报告](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页报告](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台烧录](../firmware/player-fourth-screen-flash-2026-10-15.md)、[试玩包记录](../firmware/trial16-release-2026-10-15.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
 
@@ -102,7 +102,7 @@ COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；
 - LVGL 使用 2 个显示缓冲。
 - RGB DMA bounce buffer 为 `480×40` 像素并放在内部 SRAM，降低 Wi-Fi、PSRAM 解码和
   RGB 扫描同时发生时的左侧点状残影、行漂移和频闪。
-- UI 帧间隔为 33ms，目标约 30 FPS；持续帧率不得低于 24 FPS。
+- 当前 `LV_DISP_DEF_REFR_PERIOD=30ms` 是LVGL刷新定时器配置，不是实测帧间隔；动画目标30 FPS，持续帧率不得低于24 FPS。COM7/27/28请求PCLK为16MHz，COM29当前为12MHz。
 - 首页轮盘 220ms 过渡的相邻有效帧间隔不得持续超过 42ms；首帧反馈目标小于 80ms。
 - 场景切换或显存恢复时允许整屏 invalidate；后台素材完成只允许重建当前实际引用该素材的
   页面，不能因无关缓存完成反复整屏刷新。
@@ -112,12 +112,14 @@ COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；
 
 上述帧率和延迟是验收门槛，不是当前全部通过的实测值。COM27/28仅dfc4等待新局页获目视确认，COM7配对页稳定；COM29旧dfc4/16MHz失败，716ff623/12MHz静止等待页目视通过。COM29动态页面、24FPS及42ms门槛仍待测；core1历史Retarget max57ms尚未关闭，core0历史性能PASS已随显示异常方案撤回。
 
+当前仍启用LVGL性能叠层（`LV_USE_PERF_MONITOR=1`），FPS/CPU标签约每300ms更新，因此等待页控件保持不变也可能出现flush。COM29有界诊断中的frame-complete频率是硬件回调计数，不是LCD可见FPS或欠载计数；60次重试的主机回归只证明未新增页面重建/脏区，不覆盖持续运行的性能叠层定时器。
+
 抗频闪不能只靠一次照片验收。发布前必须覆盖长时间静置、连续动画、Wi-Fi 下载、PSRAM
 解码和弹窗长按等组合负载，并确认左侧圆弧没有闪烁短线、点阵或残影。
 
 ## 6. 正式通信
 
-- 默认传输：树莓派专用热点上的认证 Wi-Fi/UDP。
+- 默认传输：树莓派USB独立热点上的认证 Wi-Fi/UDP；当前ALFA AWUS036ACM使用 `gpusb0`、2.4GHz/US/信道6/HT20。
 - AP：`gridopoly`；服务地址 `10.42.0.1:4242`。口令只保存在 Git 忽略的本地 secrets，
   不得写入文档或提交。
 - 一个 UDP datagram 承载一个现有 Gridopoly 二进制协议帧。
@@ -126,6 +128,8 @@ COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；
 - 9 秒没有任何合法服务端帧：禁用权威动作并在所有页面最上层显示红色断线图标。
 - 15 秒仍未恢复：丢弃旧会话，重新发现、配对并恢复原席位。
 - 同一 request ID 的重发必须保持业务 payload 不变；权威服务端负责幂等和只执行一次。
+
+2026-10-15 22:07:58及22:18:49 UTC两次快照均确认16格＋4屏共20台关联/认证/注册。随后COM7由用户关闭，Pi软件重启后按16格＋COM27/28/29持续观察；唯一16节点环、自动映射及reader stable已取得证据。22:47 UTC三真人Tag配对已完成。旧7关联瓶颈、16环和基本RFID不再列为当前阻塞；未来36台、无家庭网断电冷启动、四真人完整身份流程和实体整局仍待验，见[USB部署](../firmware/usb-ap-deployment-2026-10-15.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
 
 ESP-NOW 仅保留为编译期回退；正式双向交易和当前身份流程以 Raspberry Pi Wi-Fi/UDP
 服务端为验收对象。SelfTest 使用 `DemoTransport`，无需无线对端。
@@ -209,7 +213,9 @@ COM29已通过静止等待页目视的12MHz配置需显式选择，后续普通�
 powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard none -DisplayClock pclk12 -DisplayDiagnostic none
 ```
 
-默认 `DisplayClock=vendor` 仍是板型16MHz；`pclk12` 目前只验过COM29静止等待页，不代表所有页面或性能已通过。`DisplayDiagnostic=counters` 只用于120秒有界采样，其候选会被普通批量发布工具拒绝。旧冻结v4仍为16MHz，不能当作包含本次COM29时钟调整的包；精确候选及部署见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+默认 `DisplayClock=vendor` 仍是板型16MHz；`pclk12` 目前只验过COM29静止等待页，不代表所有页面或性能已通过。`DisplayDiagnostic=counters` 只用于120秒有界采样，其候选会被普通批量发布工具拒绝。`13e4de40` 已将时钟与诊断独立配置；普通12MHz候选3da4c493已核实 `normalFirmware=true`、`diagnosticOnly=false`、`displayDiagnostic=none`，未部署。旧冻结v4仍为16MHz，不能当作包含本次COM29时钟调整的包；精确候选及部署见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+
+既有验证包括诊断窗口15/15、真实渲染/输入51/51和时钟/诊断配置18/18；这些是对应源码、构建及主机验证，不能代替普通候选写验、动态页面目视或性能验收。本轮文档整合没有重新执行测试。
 
 上述命令要求已配置的本机 ToolRoot，默认使用 esp32:esp32 3.3.11。脚本为每次构建冻结源码和依赖，输出独立候选及校验信息；构建完成不表示已经部署。正式 FQBN 使用 16MB Flash、`app3M_fat9M_16MB`、Octal PSRAM、CDC on boot 和 HWCDC。
 
