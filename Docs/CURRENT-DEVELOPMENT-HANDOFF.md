@@ -1,5 +1,7 @@
 # Gridopoly 当前开发交接
 
+COM8线圈围屏实机调查已取得UID：单板仅USB，原亮度150的1kHz PWM下两次各12次均无完整UID；关背光3/3、全亮255下3/5读到同一Tag。ANTFAIL在全部条件下仍置位，正常代码提前退出是另一门控问题。COM8已从V0.32更新为V0.34基础stage2诊断`4fe2e35a…`，unknown/8MHz；结束恢复亮度150、Strict门控，正常扫描仍Fault。诊断未发布UID，未修改其余16板、玩家屏或游戏状态；长期背光与门控修复待做。详见[围屏RFID调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)。
+
 COM29 当前运行12MHz诊断候选 `716ff623…`，用户确认静止 Waiting for new game 页频闪、错位消失；120秒诊断日志已自动结束，游戏功能继续可用。普通12MHz候选 `3da4c493…` 已构建和独立核验，尚未部署：当前热点只有7台活跃关联，暂不重启COM29释放连接名额。动态页面与原24FPS/42ms门槛仍待验；冻结v4保持16MHz历史基线。 见[显示记录](firmware/player-com29-display-progress-2026-10-15.md)。
 
 用户已给16格接上24V电源。2026-10-15 11:21～11:23 UTC只读检查持续7台活跃关联（3玩家屏＋4格子；COM28由用户关闭），DHCP未耗尽，HTTP拒绝数为0。证据强烈指向内置Wi-Fi接入容量，但未读得芯片maxassoc或抓到明确拒绝码；不能写成硬上限已证明。16格＋4屏需20台、未来32格＋4屏需36台，另留调试终端余量。用户已购买ALFA AWUS036ACM（MT7612U）作为便携USB-A热点，尚未报告到货；只读预检、候选配置生成与原件恢复步骤已加入项目，未迁移或通过整盘容量验收。见[热点调查](firmware/ap-capacity-investigation-2026-10-15.md)、[便携USB选型](firmware/portable-wifi-selection-2026-10-15.md)、[USB部署准备](firmware/usb-ap-deployment-2026-10-15.md)。

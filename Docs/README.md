@@ -16,6 +16,7 @@
 | 电池功能是否已部署 | [固件接入证据](firmware/player-battery-telemetry-progress-2026-09-27.md)：源码/构建已完成，默认关闭，未部署 |
 | 新屏显示与第四屏 | [等待页修复](firmware/player-new-screen-display-progress-2026-10-15.md)、[COM29首次部署](firmware/player-fourth-screen-flash-2026-10-15.md)、[12MHz显示结果](firmware/player-com29-display-progress-2026-10-15.md) |
 | 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；未切网、20/36台待验 |
+| 线圈包围屏幕时的RFID故障 | [COM8单板实机调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)；区分供电、芯片告警与实际UID读取 |
 | 3D与机械 | [模型、首件及待办](mechanical/README.md) |
 | 接下来做什么 | [实施与验收路线图](firmware/development-roadmap-2026-09-21.md) |
 
