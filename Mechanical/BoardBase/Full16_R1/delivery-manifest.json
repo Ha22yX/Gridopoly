@@ -1,0 +1,75 @@
+{
+  "revision": "FULL16_R1",
+  "status": "Digital geometry passed; full-ring print, fit and mechanical strength pending",
+  "print_quantities": {
+    "01_L_Quarter_PRINT_4": 4,
+    "02_Splice_Bridge_PRINT_8": 8
+  },
+  "source_interface_sha256": "e78d4cbc840f58c6564f7e6513c5992925e54811c4d39e5e01467c7390e53df6",
+  "files": {
+    "01_L_Quarter_PRINT_4.stl": {
+      "bytes": 815984,
+      "sha256": "106204a6cd02ce4a5727619349d61e098255bf33e9c3a49b69b928ba2743c1ae"
+    },
+    "01_L_Quarter_PRINT_4.3mf": {
+      "bytes": 175147,
+      "sha256": "1d004ec0b2ae1b9a626360e9ce32b7dfa269359f475b38445505068f08f5c262"
+    },
+    "02_Splice_Bridge_PRINT_8.stl": {
+      "bytes": 65884,
+      "sha256": "9763a895a197c22dbeddb6dc0c550ef8c82876e63e657784e4e440839dad4bbc"
+    },
+    "02_Splice_Bridge_PRINT_8.3mf": {
+      "bytes": 13880,
+      "sha256": "0b784b5ecf0e42a4fb260ac91f4b76f2ef63c70a97c97a3b8dfc66f4c62b0487"
+    },
+    "Gridopoly_Full16_R1.blend": {
+      "bytes": 1439187,
+      "sha256": "971482bc4a05ce069b694f12cf9df1cb3ea41e4196af2751689a8a4d96d4085a"
+    },
+    "rebuild_in_blender.py": {
+      "bytes": 36788,
+      "sha256": "4da55557172370c2788324c3c6f358e6698e9fbf19f76a6ec919123e8cf946b8"
+    },
+    "01_full_frame.png": {
+      "bytes": 2333398,
+      "sha256": "596deabc3ac8fa6ce20f10417fc2691f4953da58f549e9cab1e4a02f58ead6cd"
+    },
+    "02_with_16_pcbs_reference.png": {
+      "bytes": 2412437,
+      "sha256": "fcee1883ec910b0ad31875063a399aa9d5c569d87fafff3a9adc088519eb2dc6"
+    },
+    "03_top_layout.png": {
+      "bytes": 2401107,
+      "sha256": "ffb7ad46197686f0baa834c3f3c08533c45de76c8c0cb0c02dbd11494e40d0e3"
+    },
+    "04_single_quarter_print_4.png": {
+      "bytes": 2234021,
+      "sha256": "ca977a04a3aadb81893f26002fae4e65340c0b35ec92733acb72781c03c1339f"
+    },
+    "05_joint_detail.png": {
+      "bytes": 2333886,
+      "sha256": "831bce5e6b9ec6ffcb3ea5cfdec14fbe04662c213b86130c5ea923996293e9ae"
+    },
+    "README.md": {
+      "bytes": 6347,
+      "sha256": "2999029deabbd160b054c8172c39777173879b3f4b1d8bc851e04aca8679c4c2"
+    },
+    "config.json": {
+      "bytes": 42853,
+      "sha256": "262dd1010271e45e3f72390756a5219f936ab45c59081e333899ff2c5e3c716d"
+    },
+    "layout-audit.json": {
+      "bytes": 36739,
+      "sha256": "bd9fbbaf6ff478452310ccfbd3be5772a8df27cfaab049619fb0efb7b4a0f12f"
+    },
+    "assembly-verification.json": {
+      "bytes": 2235,
+      "sha256": "5be6c425fccaeba1ffcb9d80cf8d7aa61e1c41ac8f024ccd9ebef34b84b84d31"
+    },
+    "parts-verification.json": {
+      "bytes": 10059,
+      "sha256": "20f27c70b166aec6785958f07b1fc7f26db1ca03e35076464a147ad813510480"
+    }
+  }
+}
