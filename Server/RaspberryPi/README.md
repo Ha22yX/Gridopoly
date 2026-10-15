@@ -1,8 +1,8 @@
 # Gridopoly Raspberry Pi Server
 
-## 当前交付（2026-09-27）
+## 当前交付（2026-10-15）
 
-32 ORDER环/四角约束、完整MAC屏幕发现、1～4真人补足4席、逐人Tag配对、并行外貌/姓名和有限库存/破产/终局已实现并回归；16/24/32/40地图均支持自动建局，单个未分配reader/开放链可用。最新Pi部署记录binary `2bc084d7…`、管理网`10.0.0.124`，不是本次实时在线核验。
+全部在线格子模块属于同一 ORDER 完整环、数量等于当前地图、实际四角类型匹配时，服务器自动沿环序分配；支持目录中的16/24/32/40格。额外在线模块、第二个环或错误角落不能被忽略，开放链人工锚点仍可调试。完整MAC屏幕发现、1～4真人补足4席、逐人Tag配对、并行外貌/姓名和有限库存/破产/终局保持。已部署Pi binary `ea6e1f51…`，管理网`10.0.0.124`；源码检查点`0fed0ce`，三个完整Linux目标及网页回归通过，真实全环仍待实体供电联调。[本轮构建、部署和回滚诊断记录](../../Docs/firmware/server-all-online-ring-progress-2026-10-15.md)。
 
 当前契约见[闭环/席位/配对](../../Docs/firmware/ring-onboarding-contract-2026-09-26.md)、[新局兼容](../../Docs/firmware/newgame-map-compatibility-2026-09-26.md)、[部署台账](../../Docs/firmware/current-device-connections.md)。完整32实体/四屏/36客户端仍待验收；[外置AP工具](../../Docs/firmware/external-ap-deployment-2026-09-26.md)已交付但未切换现场网络。
 
