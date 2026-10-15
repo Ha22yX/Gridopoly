@@ -16,6 +16,29 @@ constexpr std::uint32_t kPlayerRgb[] = {
     0x58A7EBu, 0xEF7168u, 0x52DCB7u, 0xF2C453u, 0xC28AE8u, 0xEA8A55u,
 };
 
+// Do not infer map geometry from its tile count alone. Each physical corner
+// must land on one of the actual corner kinds, with START at the default root.
+bool ringBoardLayoutMatches(const BoardDefinition& board) {
+  const int spacing = tileOrderRingCornerSpacing(board.tileCount);
+  if (spacing == 0 || board.tiles == nullptr || board.tiles[0].kind != TileKind::Start)
+    return false;
+  unsigned kinds = 0;
+  for (unsigned i = 0; i < board.tileCount; ++i) {
+    unsigned corner = 0;
+    switch (board.tiles[i].kind) {
+      case TileKind::Start: corner = 1; break;
+      case TileKind::Hold: corner = 2; break;
+      case TileKind::Rest: corner = 4; break;
+      case TileKind::GoToHold: corner = 8; break;
+      default: break;
+    }
+    if ((corner != 0) != (i % static_cast<unsigned>(spacing) == 0) ||
+        (corner & kinds) != 0) return false;
+    kinds |= corner;
+  }
+  return kinds == 15;
+}
+
 const char* tileKindName(TileKind kind) {
   switch (kind) {
     case TileKind::Start: return "START";
@@ -437,6 +460,24 @@ void TileDebugAssignments::refreshOrderLocked(const GameState& state, std::uint6
   nodes.erase(std::remove_if(nodes.begin(), nodes.end(), [&](const TileOrderNode& node) {
     return !modules_.count(node.moduleId) && !orderAnchors_.count(node.moduleId);
   }), nodes.end());
+  std::map<std::string, std::string> blockedRings;
+  std::vector<TileOrderChain> projectionChains;
+  for (const auto& chain : chains) {
+    std::string reason;
+    if (chain.closedRing) {
+      // modules_ is the complete current HTTP lease registry, including legacy
+      // readers, unknown roles, disconnected islands and other physical rings.
+      const bool allOnline = chain.moduleIds.size() == modules_.size() &&
+          std::all_of(chain.moduleIds.begin(), chain.moduleIds.end(),
+              [&](const std::string& id) { return modules_.count(id) != 0; });
+      if (!allOnline) reason = "ring_online_set_mismatch";
+      else if (state.board == nullptr || chain.moduleIds.size() != state.board->tileCount)
+        reason = "ring_size_mismatch";
+      else if (!ringBoardLayoutMatches(*state.board)) reason = "ring_board_layout_mismatch";
+    }
+    if (reason.empty()) projectionChains.push_back(chain);
+    else blockedRings[chain.chainId] = std::move(reason);
+  }
   auto desired = assignments_;
   // A module advertising physical ORDER can no longer use a guessed auto slot.
   for (auto it = desired.begin(); it != desired.end();) {
@@ -485,9 +526,14 @@ void TileDebugAssignments::refreshOrderLocked(const GameState& state, std::uint6
     std::uint8_t index = 0;
     if (findTile(*state.board, orderAnchors_.at(id).tileId, index)) anchors[id] = index;
   }
-  const auto plan = projectTileOrder(chains, anchors, external,
+  const auto plan = projectTileOrder(projectionChains, anchors, external,
                                     state.board == nullptr ? 0 : state.board->tileCount);
   for (auto& node : nodes) {
+    const auto blocked = blockedRings.find(node.chainId);
+    if (blocked != blockedRings.end()) {
+      node.status = "conflict"; node.conflict = blocked->second;
+      continue;
+    }
     if (suspendedAnchors.count(node.moduleId)) {
       node.status = "conflict"; node.conflict = "manual_anchor_occupied";
     }
@@ -507,7 +553,13 @@ void TileDebugAssignments::refreshOrderLocked(const GameState& state, std::uint6
   const bool topologyChanged = fingerprint.str() != orderFingerprint_;
   if (topologyChanged) { orderFingerprint_ = fingerprint.str(); ++orderEpoch_; }
   for (const auto& chain : chains) if (chain.closedRing) {
-    const bool invalid = std::any_of(plan.begin(), plan.end(), [&](const TileOrderPlacement& p) {
+    const auto blocked = blockedRings.find(chain.chainId);
+    // Losing the full online set withdraws only derived assignments, just as
+    // opening a former ring does. Invalid map/anchor intent stays remembered
+    // but cannot be displayed as a valid ring mapping.
+    const bool invalid = (blocked != blockedRings.end() &&
+        blocked->second != "ring_online_set_mismatch") ||
+        std::any_of(plan.begin(), plan.end(), [&](const TileOrderPlacement& p) {
       return p.chainId == chain.chainId && p.conflict;
     });
     if (invalid) for (const auto& id : chain.moduleIds) desired.erase(id);
@@ -708,7 +760,8 @@ TileDebugResult TileDebugAssignments::set(std::uint32_t roomId, const GameState&
       if (findTile(*state.board, anchor.second.tileId, index)) anchors[anchor.first] = index;
     }
     anchors[moduleId] = mapIndex; int phase = 0;
-    if (!tileOrderRingPhase(chain, anchors, state.board->tileCount, phase))
+    if (!ringBoardLayoutMatches(*state.board) ||
+        !tileOrderRingPhase(chain, anchors, state.board->tileCount, phase))
       return {TileDebugResultCode::TileConflict, "manual anchor conflicts with ring corner phase", false, revision_};
   }
   auto projected = projectAssignment(state, moduleId, deviceId, tileId,

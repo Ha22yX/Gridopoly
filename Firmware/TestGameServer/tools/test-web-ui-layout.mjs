@@ -120,7 +120,7 @@ assert.ok(!source.includes('&ownerPlayerId=${ownerPlayerId}') &&
   'tile debug UI must not expose or submit a forged owner override');
 assert.ok(source.includes("'POST',") && source.includes("'DELETE',"),
   'tile debug panel must expose explicit set and clear mutations');
-assert.ok(source.includes('完整环自动识别四角并排布格子'),
+assert.ok(source.includes('全部在线模块连成一个完整环、数量与当前地图一致且四角匹配时，自动按 ORDER 顺序分配格子'),
   'module panel must explain the ring assignment workflow');
 assert.ok(source.includes('.tile-debug-form{display:grid;grid-template-columns:1fr;gap:8px}'),
   'the single online-module control must use the full form width');
@@ -236,8 +236,10 @@ const ringView=tileDebugHelpers.normalizeTileDebugData({modules:[{moduleId:'corn
 assert.match(tileDebugHelpers.tileDebugOrderLabel(ringView.modules[0]),/角落.*闭环/);
 assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(ringView.modules[0]),/\d+ 格闭环/,
   'a legacy snapshot without physical chain evidence must not invent a ring size');
-assert.match(tileDebugHelpers.tileDebugOrderLabel({...ringView.modules[0],orderConflict:'invalid_corner_spacing'}),/16 格应有 3 块长边.*32 格应有 7 块长边/);
-for(const size of [16,32]){
+assert.match(tileDebugHelpers.tileDebugOrderLabel({...ringView.modules[0],orderConflict:'invalid_corner_spacing'}),/16 \/ 24 \/ 32 \/ 40 格.*3 \/ 5 \/ 7 \/ 9 块长边/);
+// Physical rings may have a size outside the game catalog; report their actual
+// size so a map mismatch cannot disguise an otherwise confirmed closed cable.
+for(const size of [4,8,12,16,24,32,40,64]){
   const moduleIds=['corner-01',...Array.from({length:size-1},(_,i)=>`ring-${i+1}`)];
   const chain={chainId:'corner-01',closedRing:true,moduleIds};
   const view=tileDebugHelpers.normalizeTileDebugData({boardSize:size===16?32:16,
@@ -250,6 +252,16 @@ for(const size of [16,32]){
     assert.doesNotMatch(tileDebugHelpers.tileDebugOrderLabel(invalid.modules[0]),/\d+ 格闭环/,
       'incomplete or ambiguous physical chain evidence must not claim a ring size');
   }
+}
+for(const [reason,message] of [
+  ['ring_online_set_mismatch','环内未包含全部在线模块'],
+  ['ring_size_mismatch','环内模块数与当前游戏格子数不一致'],
+  ['ring_board_layout_mismatch','当前地图的角落布局与实物环不匹配'],
+]){
+  const module={...ringView.modules[0],orderStatus:'conflict',orderConflict:reason,orderRingSize:16};
+  const label=tileDebugHelpers.tileDebugOrderLabel(module);
+  assert.ok(label.includes(message),'ring withholding reasons must explain the unmet condition');
+  assert.match(label,/16 格闭环/,'withheld assignment must preserve the confirmed physical ring');
 }
 assert.equal(tileDebugHelpers.tileDebugSourceLabel(orderView.modules[2],null),'手动指定（锚点）');
 assert.equal(tileDebugHelpers.tileDebugOrderLabel(tileDebugModel.modules[0]),'未启用 ORDER',

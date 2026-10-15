@@ -440,11 +440,11 @@ void verifyClosedRingFaults(unsigned size) {
 }
 
 void verifyUnsupportedRingSizes() {
-  for (unsigned size : {15u, 17u, 24u, 40u}) {
+  for (unsigned size : {2u, 15u, 17u, 63u}) {
     TileOrderTopology topology;
     for (unsigned i = 0; i < size; ++i) {
       auto r = orderReport(i + 1, (i + size - 1) % size + 1);
-      r.moduleRole = i % (size / 4) == 0 ? "corner" : "long";
+      r.moduleRole = size >= 4 && i % (size / 4) == 0 ? "corner" : "long";
       assert(topology.update("size-" + std::to_string(i), r, 1));
     }
     std::vector<TileOrderNode> nodes; std::vector<TileOrderChain> chains;
@@ -453,11 +453,159 @@ void verifyUnsupportedRingSizes() {
   }
 }
 
+void verifyRingOnlineSet(unsigned size) {
+  const unsigned spacing = size / 4;
+  auto state = makeState(static_cast<std::uint8_t>(size));
+  auto id = [](unsigned i) { return "online-" + std::to_string(100 + i); };
+  auto report = [size, spacing](unsigned i, unsigned sequence) {
+    auto r = orderReport(i + 1, (i + size - 1) % size + 1, sequence);
+    r.moduleRole = i % spacing == 0 ? "corner" : "long"; return r;
+  };
+  // Test each outsider both before and after the ring becomes complete. A
+  // legacy reader has no ORDER record at all; it still belongs to the registry.
+  for (unsigned outsider = 0; outsider < 4; ++outsider) for (bool first : {false, true}) {
+    std::uint64_t now = 1000;
+    TileDebugAssignments service([&] { return now; });
+    auto extra = [&] {
+      auto r = orderReport(1000);
+      if (outsider == 2) r.moduleRole = "long";
+      if (outsider == 3) { r = orderReport(1000, 999); r.moduleRole = "long"; }
+      assert(service.heartbeat(1, state, "outside", "dev-outside", nullptr, false,
+          outsider == 0 ? nullptr : &r).result);
+    };
+    auto registerAll = [&](unsigned seq) {
+      for (unsigned i = size; i-- > 0;) {
+        const auto r = report(i, seq);
+        const auto response = service.heartbeat(1, state, id(i), "dev-" + id(i), nullptr, false, &r);
+        assert(response.result);
+        if (seq == 1 && (i != 0 || first)) assert(!response.assigned);
+      }
+    };
+    if (first) extra();
+    registerAll(1);
+    if (!first) assert(service.snapshot(1, state).assignments.size() == size);
+    assert(service.set(1, state, id(0), "dev-" + id(0), state.board->tiles[spacing].id));
+    const auto before = service.snapshot(1, state).revision;
+    if (!first) extra();
+    auto view = service.snapshot(1, state);
+    if (!first) assert(view.revision > before);
+    for (unsigned i = 0; i < size; ++i) {
+      const auto& m = moduleFor(view, id(i).c_str());
+      assert(m.closedRing && m.orderConflict == "ring_online_set_mismatch");
+      assert(m.assigned == (i == 0));
+    }
+    assert(assignmentFor(view, id(0).c_str()).source == TileDebugAssignmentSource::Manual);
+    // Refresh only the ring; expiry of the extra reader must automatically
+    // restore the remembered phase without a clear/set or a new game.
+    now += TileDebugAssignments::kLeaseMs - 1;
+    registerAll(2);
+    assert(!moduleFor(service.snapshot(1, state), id(1).c_str()).assigned);
+    ++now;
+    view = service.snapshot(1, state);
+    assert(view.assignments.size() == size && view.modules.size() == size);
+    for (unsigned i = 0; i < size; ++i)
+      assert(assignmentFor(view, id(i).c_str()).mapIndex == (i + spacing) % size);
+    assert(service.snapshot(1, state).revision == view.revision);
+  }
+
+  // Two valid rings are not one complete online ring, even if one matches the
+  // current map size. The second ring fits the registry's 64-module limit.
+  std::uint64_t now = 1000;
+  TileDebugAssignments service([&] { return now; });
+  for (unsigned i = 0; i < size; ++i) {
+    const auto r = report(i, 1);
+    const auto response = service.heartbeat(2, state, id(i), "dev-" + id(i), nullptr, false, &r);
+    assert(response.result && response.assigned == (i + 1 == size));
+  }
+  const auto assignedRevision = service.snapshot(2, state).revision;
+  auto moving = state;
+  moving.phase = GamePhase::AwaitMoveConfirm;
+  moving.pendingMove.active = true; moving.pendingMove.playerId = 1;
+  moving.pendingMove.origin = 0; moving.pendingMove.target = 1;
+  assert(service.movementCue(2, moving, id(1), true).mode == TileMovementCueMode::Destination);
+  for (unsigned i = 0; i < 16; ++i) {
+    auto r = orderReport(100 + i, 100 + (i + 15) % 16);
+    r.moduleRole = i % 4 == 0 ? "corner" : "long";
+    const auto name = "second-" + std::to_string(100 + i);
+    assert(service.heartbeat(2, state, name, "dev-" + name, nullptr, false, &r).result);
+  }
+  auto view = service.snapshot(2, state);
+  assert(view.assignments.empty() && view.orderChains.size() == 2 && view.revision > assignedRevision);
+  for (const auto& m : view.modules)
+    assert(m.closedRing && m.orderConflict == "ring_online_set_mismatch");
+  auto r = report(1, 2);
+  const auto withdrawn = service.heartbeat(2, moving, id(1), "dev-" + id(1), nullptr, true, &r);
+  assert(withdrawn.result && !withdrawn.assigned && withdrawn.serverRevision > assignedRevision);
+  assert(withdrawn.movementCue.mode == TileMovementCueMode::None);
+  now += TileDebugAssignments::kLeaseMs - 1;
+  for (unsigned i = 0; i < size; ++i) {
+    r = report(i, 3);
+    assert(service.heartbeat(2, state, id(i), "dev-" + id(i), nullptr, false, &r).result);
+  }
+  ++now;
+  view = service.snapshot(2, state);
+  assert(view.assignments.size() == size && view.orderChains.size() == 1);
+  // A fork inside the remaining graph is never a valid ring.
+  r = report(2, 4); r.upstreamBootId = report(0, 4).bootId;
+  assert(service.heartbeat(2, state, id(2), "dev-" + id(2), nullptr, false, &r).result);
+  view = service.snapshot(2, state); assert(view.assignments.empty());
+  for (const auto& m : view.modules) assert(m.orderConflict == "multiple_downstream");
+  r = report(2, 5);
+  assert(service.heartbeat(2, state, id(2), "dev-" + id(2), nullptr, false, &r).assigned);
+  assert(service.snapshot(2, state).assignments.size() == size);
+
+  // One member loses its HTTP lease while the others keep fresh physical
+  // reports. The same boot needs a fresh sequence to restore its expired edge.
+  now += TileDebugAssignments::kLeaseMs - 2;
+  for (unsigned i = 1; i < size; ++i) {
+    r = report(i, 6);
+    assert(service.heartbeat(2, state, id(i), "dev-" + id(i), nullptr, false, &r).result);
+  }
+  ++now; assert(service.snapshot(2, state).assignments.empty());
+  r = report(0, 3);
+  assert(!service.heartbeat(2, state, id(0), "dev-" + id(0), nullptr, false, &r).assigned);
+  r = report(0, 7);
+  const auto restored = service.heartbeat(2, state, id(0), "dev-" + id(0), nullptr, false, &r);
+  assert(restored.assigned && restored.assignment.revision > withdrawn.serverRevision);
+  assert(service.snapshot(2, state).assignments.size() == size);
+}
+
+void verifyRingActualBoardLayout(unsigned size) {
+  const auto state = makeState(static_cast<std::uint8_t>(size));
+  std::uint64_t now = 1000;
+  TileDebugAssignments service([&] { return now; });
+  for (unsigned i = 0; i < size; ++i) {
+    auto r = orderReport(i + 1, (i + size - 1) % size + 1);
+    r.moduleRole = i % (size / 4) == 0 ? "corner" : "long";
+    const auto id = "layout-" + std::to_string(100 + i);
+    assert(service.heartbeat(1, state, id, "dev-" + id, nullptr, false, &r).result);
+  }
+  assert(service.snapshot(1, state).assignments.size() == size);
+  for (unsigned fault = 0; fault < 4; ++fault) {
+    auto board = *state.board;
+    std::vector<TileDefinition> tiles(board.tiles, board.tiles + size);
+    board.tiles = tiles.data();
+    if (fault == 0) std::swap(tiles[1], tiles[size / 4]); // Four corners, wrong spacing.
+    if (fault == 1) tiles[1].kind = TileKind::Rest; // An extra corner on a long side.
+    if (fault == 2) tiles[size / 4].kind = TileKind::Start; // Duplicate START, absent HOLD.
+    if (fault == 3) std::swap(tiles[0], tiles[size / 4]); // START is not the default root.
+    auto invalid = state; invalid.board = &board;
+    const auto view = service.snapshot(1, invalid);
+    assert(view.assignments.empty());
+    for (const auto& m : view.modules)
+      assert(m.closedRing && m.orderConflict == "ring_board_layout_mismatch");
+    assert(!service.set(1, invalid, "layout-100", "dev-layout-100", board.tiles[0].id));
+    assert(service.snapshot(1, state).assignments.size() == size);
+  }
+}
+
 void verifyTileOrder() {
-  verifyClosedOrderRing(16);
-  verifyClosedOrderRing(32);
-  verifyClosedRingFaults(16);
-  verifyClosedRingFaults(32);
+  for (unsigned size : {16u, 24u, 32u, 40u}) {
+    verifyClosedOrderRing(size);
+    verifyClosedRingFaults(size);
+    verifyRingOnlineSet(size);
+    verifyRingActualBoardLayout(size);
+  }
   verifyUnsupportedRingSizes();
   verifyOrderPhysicalGraph(); verifyOrderAnchorsAndLeases(); verifyOrderProjectionAndJson();
   verifyOrderPriorityAndSuspendedSegment();

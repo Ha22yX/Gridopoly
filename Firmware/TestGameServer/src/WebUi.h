@@ -113,7 +113,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
       <p id="newgame-result" role="status" aria-live="polite" hidden></p>
     </section>
     <section class="panel tile-debug" aria-labelledby="tile-debug-title">
-      <div class="tile-debug-head"><div><h2 id="tile-debug-title">棋盘模块与顺序</h2><p>16 / 32 格完整环自动识别四角并排布格子，地图须与实物格数一致；右键指定角落可调整起点。开链仍按手动锚点分配。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
+      <div class="tile-debug-head"><div><h2 id="tile-debug-title">棋盘模块与顺序</h2><p>全部在线模块连成一个完整环、数量与当前地图一致且四角匹配时，自动按 ORDER 顺序分配格子。支持 16 / 24 / 32 / 40 格；右键指定角落可调整起点，开链仍按手动锚点分配。</p></div><button id="tile-debug-refresh" type="button">刷新</button></div>
       <div class="tile-debug-meta"><span id="tile-debug-revision">REV 0</span><span id="tile-debug-updated">尚未修改</span></div>
       <div id="tile-debug-status" class="tile-debug-status" role="status" aria-live="polite">正在读取临时分配…</div>
       <div id="tile-debug-list" class="tile-debug-list" aria-label="当前临时分配"><div class="tile-debug-empty">暂无临时分配</div></div>
@@ -246,13 +246,17 @@ function tileDebugOrderLabel(module){
   if(!module||!module.orderCapable)return'未启用 ORDER';
   const labels={probing:'正在识别接线',ready:'接线顺序已确认',unanchored:'等待指定一个格子',stale:'接线信息已过期',conflict:'接线或格子分配冲突',legacy:'尚无接线信息'};
   const index=module.orderIndex===null?'':` · 第 ${module.orderIndex+1} 块`;
-  const ringLabel=[16,32].includes(module.orderRingSize)?`${module.orderRingSize} 格闭环`:'闭环';
+  const ringLabel=Number.isInteger(module.orderRingSize)&&module.orderRingSize>=4&&
+    module.orderRingSize<=64&&module.orderRingSize%4===0?`${module.orderRingSize} 格闭环`:'闭环';
   const chain=module.orderChainId?` · ${module.closedRing?ringLabel:'链'} ${module.orderChainId}`:'';
   const upstream=module.orderUpstreamModuleId?` · 上游 ${module.orderUpstreamModuleId}`:'';
   const role={long:'长边',corner:'角落',unknown:'板型未设置'}[module.moduleRole]||'板型未设置';
   const reasons={unknown_module_role:'请检查长边/角落固件',invalid_corner_count:'角落数量应为 4 个',
-    invalid_corner_spacing:'相邻角落之间：16 格应有 3 块长边，32 格应有 7 块长边',incomplete_ring:'环形连接不完整',
-    ring_open:'环形接线已断开',ring_or_tile_conflict:'地图或手动锚点与环形位置冲突',
+    invalid_corner_spacing:'相邻角落之间：16 / 24 / 32 / 40 格应分别有 3 / 5 / 7 / 9 块长边',incomplete_ring:'环形连接不完整',
+    ring_open:'环形接线已断开',ring_or_tile_conflict:'手动锚点或格子占位与环形位置冲突',
+    ring_online_set_mismatch:'环内未包含全部在线模块，请检查环外模块或另一组接线',
+    ring_size_mismatch:'环内模块数与当前游戏格子数不一致',
+    ring_board_layout_mismatch:'当前地图的角落布局与实物环不匹配',
     multiple_downstream:'检测到分叉接线',cycle:'环形模块数量与完整棋盘不符'};
   const conflict=module.orderConflict?` · ${reasons[module.orderConflict]||module.orderConflict}`:'';
   return`${role} · ORDER：${labels[module.orderStatus]||labels.legacy}${index}${chain}${upstream}${conflict}`;
@@ -275,7 +279,7 @@ function normalizeTileDebugData(payload){
   for(const module of modules){
     const matching=chains.filter(chain=>chain&&chain.closedRing===true&&chain.chainId===module.orderChainId);
     const ids=matching.length===1&&Array.isArray(matching[0].moduleIds)?matching[0].moduleIds:[];
-    module.orderRingSize=module.closedRing&&[16,32].includes(ids.length)&&
+    module.orderRingSize=module.closedRing&&ids.length>=4&&ids.length<=64&&ids.length%4===0&&
       ids.every(tileDebugSafeIdentifier)&&new Set(ids).size===ids.length&&ids.includes(module.moduleId)?ids.length:0;
   }
   const tiles=(Array.isArray(source.tiles)?source.tiles:[]).map(tile=>({

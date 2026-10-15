@@ -9,10 +9,11 @@
 
 namespace gridopoly::pi {
 
-// Only these physical ring layouts have a supported four-corner contract.
-// Other board sizes may still use independently anchored open chains.
+// Physical four-sided rings are independent of the selected game. The service
+// also validates the current board's actual corner tiles before projecting.
 inline int tileOrderRingCornerSpacing(std::size_t nodeCount) {
-  return nodeCount == 16 || nodeCount == 32 ? static_cast<int>(nodeCount / 4) : 0;
+  return nodeCount >= 4 && nodeCount <= 64 && nodeCount % 4 == 0 ?
+      static_cast<int>(nodeCount / 4) : 0;
 }
 
 // A chain is ordered from ORDER IN towards ORDER OUT. Only validated physical

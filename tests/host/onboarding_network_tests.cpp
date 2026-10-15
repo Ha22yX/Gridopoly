@@ -765,7 +765,8 @@ void singleUnassignedReaderAcrossSupportedBoards() {
 }
 
 void ringHeartbeatWire(unsigned size) {
-  Fixture fixture(size == 16 ? "ring-wire-16" : "ring-wire-32");
+  const auto fixtureName = "ring-wire-" + std::to_string(size);
+  Fixture fixture(fixtureName.c_str());
   Client player(fixture, 0x51);
   assert(player.pair(fixture).accepted == 1);
   newAutomaticGame(fixture, 1, static_cast<std::uint8_t>(size));
@@ -783,8 +784,8 @@ void ringHeartbeatWire(unsigned size) {
     out << std::hex << std::uppercase << std::setw(16) << std::setfill('0') << (0xABCD0000u + i + 1);
     return out.str();
   };
-  std::array<unsigned, 32> sequences{};
-  std::array<std::string, 32> bootIds{};
+  std::vector<unsigned> sequences(size);
+  std::vector<std::string> bootIds(size);
   for (unsigned i = 0; i < size; ++i) bootIds[i] = boot(i);
   auto report = [&](unsigned i, bool wrongRole = false, bool connected = true) {
     const auto sequence = ++sequences[i];
@@ -803,7 +804,11 @@ void ringHeartbeatWire(unsigned size) {
         "&deviceId=device-" + module(i), body.str());
   };
   // Deliberately register in reverse order; map order comes from OUT direction.
-  for (unsigned i = size; i > 0; --i) assert(report(i - 1).status == 200);
+  for (unsigned i = size; i > 0; --i) {
+    const auto heartbeat = report(i - 1);
+    assert(heartbeat.status == 200);
+    assert(heartbeat.body.find(i == 1 ? "\"assigned\":true" : "\"assigned\":false") != std::string::npos);
+  }
   const auto assignments = fixture.get("/api/tile-debug/assignments");
   assert(assignments.status == 200);
   assert(occurrences(assignments.body, "\"assigned\":true") == size);
@@ -864,7 +869,8 @@ void ringHeartbeatWire(unsigned size) {
   assert(player.pair(fixture).accepted == 1 && player.seat == 1);
   const auto mismatch = fixture.get("/api/tile-debug/assignments");
   assert(mismatch.body.find("\"assignments\":[]") != std::string::npos);
-  assert(mismatch.body.find("\"ring_or_tile_conflict\"") != std::string::npos);
+  assert(mismatch.body.find("\"ring_size_mismatch\"") != std::string::npos);
+  assert(occurrences(mismatch.body, "\"closedRing\":true") == size + 1);
   assert(occurrences(mismatch.body, "\"orderAnchorTileId\":\"\"") == size);
   const auto mismatchedHeartbeat = report(1);
   assert(mismatchedHeartbeat.status == 200 &&
@@ -872,6 +878,19 @@ void ringHeartbeatWire(unsigned size) {
   newAutomaticGame(fixture, 1, static_cast<std::uint8_t>(size));
   assert(player.pair(fixture).accepted == 1 && player.seat == 1);
   assertMapping(0, false);
+  // A reader without any ORDER evidence must still invalidate automatic ring
+  // projection immediately; each ring heartbeat must explicitly clear its tile.
+  const auto stableRevision = number(fixture.get("/api/tile-debug/assignments").body, "revision");
+  assert(fixture.post("/api/tile-modules/heartbeat?moduleId=outside&deviceId=outside-device").status == 200);
+  const auto extra = fixture.get("/api/tile-debug/assignments");
+  assert(occurrences(extra.body, "\"ring_online_set_mismatch\"") == size);
+  assert(occurrences(extra.body, "\"closedRing\":true") == size + 1);
+  assert(number(extra.body, "revision") > stableRevision);
+  for (unsigned i = 0; i < size; ++i) {
+    const auto heartbeat = report(i);
+    assert(heartbeat.status == 200 && heartbeat.body.find("\"assigned\":false") != std::string::npos);
+    assert(heartbeat.body.find("\"mode\":\"none\"") != std::string::npos);
+  }
 }
 
 }  // namespace
@@ -881,6 +900,8 @@ int main() {
   tagOnboardingAcrossTransports();
   singleUnassignedReaderAcrossSupportedBoards();
   ringHeartbeatWire(16);
+  ringHeartbeatWire(24);
   ringHeartbeatWire(32);
+  ringHeartbeatWire(40);
   std::cout << "onboarding HTTP/UDP network tests passed\n";
 }
