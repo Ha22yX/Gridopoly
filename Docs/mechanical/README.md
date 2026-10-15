@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 棋盘三模块底板 R2_PRINT_FRIENDLY | 一个连续L形底板固定一角两长；151×151×16.8mm；12柱、6颗塑料专用螺钉；取消R1底部螺母槽。导出网格、3MF回读、装配参考几何通过 | 螺钉试孔、自然插合孔距、切片、打印及实物安装 |
 | 旧玩家支架 CW47.5 | 用户已打印试装，圆环、定位柱及排线槽配合正常 | 这项反馈仅覆盖旧支架与屏幕接口 |
-| 玩家底座 V2 R1 | 首版模型与交付包完成；复用CW47.5接口，上支架＋电池托盘＋隔柱，下方固定80×80mm供电PCB | 排线有效长度、实物元件/电池/紧固件、切片打印、整机试装与温升 |
+| 玩家底座 V2 R2 FPC60 MODULAR | 按约60mm排线和LP103454成品56×34.5×10.3mm改成五种独立件；5套STL/3MF、装配包络通过 | 排线实际松弛/接触面/插入长度、切片打印、实物紧固/整机试装与温升 |
 | 完整16模块整体底板 | 用户要求及三模块首件设计已记录 | 整体制造方案、最终模型与实物验证；不能把三模块首件当作完整16板交付 |
 
 ## 棋盘底板
@@ -23,18 +23,26 @@ R2主件4944顶点、9884三角面，单一闭合实体；底板与三块带孔P
 
 ## 玩家底座
 
+当前推荐试装候选为[V2 R2 FPC60](../../Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/README.md)：连接板116×111×4mm、支架74×50×41.8645mm、电池仓84×17×39mm、盖69×22×4mm及四颗6mm隔柱。PCB四孔中心距70×70mm，主固定M3×18，两个分件各用两颗M3×12；紧固件不可沿用R1长度。用户更正原排线为约60mm，中心线路径含假定4mm插入段约56.843mm，计算余量不代表实物必定装得下。
+
+[零件检查](../../Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/outputs/parts-verification.json)、[装配检查](../../Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/outputs/assembly-verification.json)、[交付清单](../../Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/outputs/delivery-manifest.json)已归档。五件闭合网格和3MF回读通过，1300组装配、190组FPC、95组电池线包络相交检查未见超过0.001mm³的碰撞；真实接触面/逐针方向、线根位置、打印及受力仍待验。
+
+本机包为 `C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60.zip`，SHA256 `e9423d0cfea4763f37fc5e61b87f293a546d00b152c9d93a735560699073b4d3`。主会话独立核对ZIP CRC及清单19项哈希；源参数和报告入Git，打印二进制包仍在本机。
+
+### R1历史
+
 [V2 R1说明](../../Mechanical/PlayerConsoleStandV2/README.md)、[设计参数](../../Mechanical/PlayerConsoleStandV2/design-parameters.json)、[RC6-TP机械接口](../../Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/README.md)、[网格报告](../../Mechanical/PlayerConsoleStandV2/outputs/verification-report.json)和[装配报告](../../Mechanical/PlayerConsoleStandV2/outputs/assembly-verification.json)构成本版资料；[旧CW47.5来源](../../Mechanical/PlayerConsoleStand/README.md)保留。
 
 V2 R1采用94×82mm上支架与独立托盘，电池仓净60×38×14mm；PCB四孔中心距70×70mm。默认8mm隔柱配M3×35四颗及8mm贯通内螺纹绝缘底脚；选择12mm隔柱必须改用M3×40，不能混用尺寸链。屏幕继续采用旧版可拔重力定位，四螺丝固定支架、托盘与PCB，并不锁住屏幕本体。
 
-四个独立打印网格通过检查，旧屏幕接口2004顶点保留；489对装配参考几何未发现超阈值相交。参考元件高度、排线示意及碰撞结果不能替代实物测量。排线实际有效长度尚待用户提供；既有走线路径长度不作为采购尺寸。
+四个独立打印网格通过检查，旧屏幕接口2004顶点保留；489对装配参考几何未发现超阈值相交。参考元件高度、排线示意及碰撞结果不能替代实物测量。R1交付时排线有效长度尚待用户提供；后续用户更正约60mm，已由上方R2替代，R1不再用于该排线的打印推荐。
 
 本机交付包为`C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1.zip`，SHA256 `6a990f137abd7e299e5a29c362010bede4b99bd517f83860a417cc16b2c16644`。这是首版CAD交付，尚不是最终装配验收。用户已返修供电底板的状态按[当前硬件记录](../hardware/player-usbc-battery-base-2026-09-27.md)区分设备；模型完成不改变RC6-TP制造或电气验收状态。
 
 ## 后续闭合条件
 
 1. 棋盘先打印试孔片，再确认三板自然插合、底板孔位与底部空间；通过后扩展整盘。
-2. 玩家底座先量原排线、电池成品尺寸及PCB最高实装件，再切片和试装。
+2. 玩家底座按R2和已知约60mm排线/电池尺寸先核实接触面、插入长度、实际松弛及PCB最高实装件，再切片和试装。
 3. 真实装配完成后检查接口可操作性、旋钮自由转动、线材松弛、充放电与温升。
 
 PlayerTokens本轮没有新的完成或验收证据，不随本次文档更新扩大其状态。其余项目责任见[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。

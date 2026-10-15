@@ -1,0 +1,121 @@
+{
+  "revision": "V2 R2 FPC60 MODULAR",
+  "date": "2026-10-15",
+  "status": "CAD/mesh/assembly-envelope checks passed; slicing and physical fit pending",
+  "quantity": {
+    "01_Connection_Plate_R2": 1,
+    "02_Screen_Support_CW47_5_R2": 1,
+    "03_Battery_Cradle_R2": 1,
+    "04_Battery_Lid_R2": 1,
+    "05_Spacer_6mm_R2": 4
+  },
+  "user_cable_length_mm": 60,
+  "battery_finished_pack_mm": [
+    56,
+    34.5,
+    10.3
+  ],
+  "files": [
+    {
+      "file": "01_Connection_Plate_R2.stl",
+      "bytes": 112984,
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f"
+    },
+    {
+      "file": "01_Connection_Plate_R2.3mf",
+      "bytes": 22747,
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d"
+    },
+    {
+      "file": "02_Screen_Support_CW47_5_R2.stl",
+      "bytes": 245084,
+      "sha256": "11787f915adbf812320ce1327995a6526942aa8a832a906ebe291776f7c2d4e9"
+    },
+    {
+      "file": "02_Screen_Support_CW47_5_R2.3mf",
+      "bytes": 67074,
+      "sha256": "ecbe837c7d8ce0c0b356e8fc676900825a3fee9ab8661dd71e28dd028697a43e"
+    },
+    {
+      "file": "03_Battery_Cradle_R2.stl",
+      "bytes": 69684,
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e"
+    },
+    {
+      "file": "03_Battery_Cradle_R2.3mf",
+      "bytes": 14542,
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174"
+    },
+    {
+      "file": "04_Battery_Lid_R2.stl",
+      "bytes": 27084,
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584"
+    },
+    {
+      "file": "04_Battery_Lid_R2.3mf",
+      "bytes": 6370,
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594"
+    },
+    {
+      "file": "05_Spacer_6mm_R2.stl",
+      "bytes": 25684,
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732"
+    },
+    {
+      "file": "05_Spacer_6mm_R2.3mf",
+      "bytes": 6001,
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c"
+    },
+    {
+      "file": "Gridopoly_Player_Stand_V2_R2_FPC60.blend",
+      "bytes": 373158,
+      "sha256": "a1022324e5d52d634e2b85313012ea524d453e8cb8d3b5f39efeddfdb2111bb0"
+    },
+    {
+      "file": "preview-assembly.png",
+      "bytes": 2290790,
+      "sha256": "1787917957fe7db26e60a5f95199c45f7c291ddf09b0c91f0fe1dc2c6af90bad"
+    },
+    {
+      "file": "preview-battery-exploded.png",
+      "bytes": 2233224,
+      "sha256": "a196bf5a998d5edf25bf93520c17c956af33ccea8d013a6e7f76a616f32879ea"
+    },
+    {
+      "file": "preview-fpc-route.png",
+      "bytes": 2367981,
+      "sha256": "22d5426386576f536ae70228c4cf1bdaae17c4b98f5c92b9bf0d3366e932af2e"
+    },
+    {
+      "file": "preview-print-parts.png",
+      "bytes": 2270900,
+      "sha256": "f561ce8efc39b04f9b24381da923a17c9699b7955cd4cade4466a2d6e341ff62"
+    },
+    {
+      "file": "README.md",
+      "bytes": 6812,
+      "sha256": "03626ccd7b6248c4c595ab100d11fc0dd185d53b112fd9a930540a11d9a96714"
+    },
+    {
+      "file": "parameters.json",
+      "bytes": 753144,
+      "sha256": "caf3bb4b742cc5240f1503fa828f0ffb5a2579b8bff0cdf9dd914f28f42de8ed"
+    },
+    {
+      "file": "parts-verification.json",
+      "bytes": 18211,
+      "sha256": "291a4c760718e2a0fb66ced22368b6582dbb89a006f5a9cdfd2f9b517cadd076"
+    },
+    {
+      "file": "assembly-verification.json",
+      "bytes": 185575,
+      "sha256": "8862568a26e6589a54abb9c047c132d72c4bf8fb6b6fedcf5c152fbdecf1f148"
+    }
+  ],
+  "archive": {
+    "file": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60.zip",
+    "bytes": 9923544,
+    "sha256": "e9423d0cfea4763f37fc5e61b87f293a546d00b152c9d93a735560699073b4d3",
+    "crc_checked": true
+  }
+}
