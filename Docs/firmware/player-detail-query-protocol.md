@@ -1,22 +1,32 @@
 # 玩家详情按需查询协议
 
-本文定义玩家圆屏 `Players -> Player Detail` 页面使用的单次、按需 ESP-NOW 查询。唯一代码来源是：
+状态：当前正式协议；2026-10-15 按源码复核，payload/schema 未改变
+
+本文定义玩家圆屏 `Players -> Player Detail` 页面使用的单次、按需查询。正式传输为
+Raspberry Pi Wi-Fi/UDP；ESP-NOW 适配器只保留兼容回退。唯一代码来源是：
 
 - `Firmware/libraries/GridopolyProtocol/src/gridopoly/protocol/Protocol.h`
 - `Firmware/libraries/GridopolyProtocol/src/gridopoly/protocol/Protocol.cpp`
 - `Firmware/TestGameServer/src/PlayerDetailProjection.cpp`
-- `Firmware/TestGameServer/src/EspNowTransport.cpp`
+- `Server/RaspberryPi/src/UdpPlayerServer.cpp`
+- `Firmware/PlayerConsole/wifi_udp_player_transport.cpp`
 
 该查询不属于常规状态同步事务，不加入 `StateSnapshot`、`AuthoritySnapshot`、`RosterSnapshot` 或 `GameEvent` 广播。进入详情页时请求一次，只有用户手动刷新或请求超时才重发；离开页面后不订阅、不轮询。
 
 ## 消息类型与鉴权
 
-| 值 | 名称 | 方向 | 加密 |
+| 值 | 名称 | 方向 | 正式 UDP 保护 |
 | ---: | --- | --- | --- |
-| `0x24` | `PlayerDetailRequest` | 玩家屏 -> 服务端 | 是 |
-| `0x25` | `PlayerDetailResponse` | 服务端 -> 玩家屏 | 是 |
+| `0x24` | `PlayerDetailRequest` | 玩家屏 -> 服务端 | session HMAC + replay window |
+| `0x25` | `PlayerDetailResponse` | 服务端 -> 玩家屏 | session HMAC + replay window |
 
-两种消息继续使用 32 字节公共帧头。帧头的 `room_id` 必须等于当前房间，`device_id + source MAC + LMK` 必须命中已经绑定席位的 peer。请求 payload 不再重复携带 room 或来源席位；服务端以已认证 peer 的 `seat_id` 鉴权。同一房间内任意已认证真人屏幕可以查询任意现有玩家的公开详情；非法来源、非法目标或错误 room 不返回详情。所有多字节整数均为 little-endian。
+两种消息继续使用 32 字节公共帧头。正式 UDP 中，帧外再包 48 字节认证 envelope；
+`room_id + device_id + session_id` 必须命中已绑定真人席位，并通过 HMAC/replay window 校验。
+认证成功后来源 IP/UDP 端口可迁移，服务端更新 session endpoint，席位不变。
+请求 payload 不重复携带 room 或 actor；服务端以认证 session 的 `seat_id` 鉴权。同一房间内
+任意已认证真人屏幕可以查询任意现有玩家的公开详情。非法来源、目标、room、session 或认证
+标签不会返回详情。HMAC 不加密 payload；无线保密性由 WPA2-CCMP 提供。ESP-NOW 回退使用
+既有 MAC/LMK 会话，但不改变 payload。所有多字节整数均为 little-endian。
 
 ## `PlayerDetailRequest` payload
 
@@ -34,7 +44,10 @@
 
 ## `PlayerDetailResponse` payload
 
-codec 为 `encodePlayerDetailResponse()` / `decodePlayerDetailResponse()`。基础头固定 20 字节，之后先放资产数组，再放财务流水数组：`20 + asset_count*2 + ledger_count*12`。最坏情况为 196 字节，加公共帧头后整帧 228 字节，低于 ESP-NOW 250 字节上限。
+codec 为 `encodePlayerDetailResponse()` / `decodePlayerDetailResponse()`。基础头固定 20 字节，
+之后先放资产数组，再放财务流水数组：`20 + asset_count*2 + ledger_count*12`。最坏情况为
+196 字节，加公共帧头后 Frame 为 228 字节；正式 UDP 再加 48 字节 envelope 后为 276 字节，
+低于 298 字节数据报上限，也保持在 ESP-NOW 250 字节 Frame 回退边界内。
 
 | 偏移 | 长度 | 字段 | 说明 |
 | ---: | ---: | --- | --- |
@@ -69,13 +82,17 @@ codec 为 `encodePlayerDetailResponse()` / `decodePlayerDetailResponse()`。基�
 
 ## 幂等、重试与生命周期
 
-- 服务端为每个已认证 peer 缓存最近一次成功响应的完整 payload。
-- 幂等键是 `peer + room_id + request_id`。同一 ID 且 target/version 相同，逐字节回放第一次结果，即使游戏版本已推进也不重新计算。
+- 服务端为每个已认证 session 缓存最近一次成功响应的完整 payload。
+- 幂等键是 `session/peer + room_id + request_id`。同一 ID 且 target/version 相同，逐字节回放第一次结果，即使游戏版本已推进也不重新计算。
 - 同一 ID 携带不同 target 或 expected version 是调用方错误并被拒绝；手动刷新必须使用新 ID。
 - 新房间或重新配对会清空缓存。
 - 响应帧头 `acknowledgement` 等于本次请求帧 sequence；payload 的 `request_id` 用于页面匹配。
 - 进入详情页生成新 ID 并请求一次；超时用相同 payload/ID 重发。离开页面后丢弃迟到响应，不订阅。
-- 响应走高优先队列，MAC 层最多尝试 3 次。建议约 800ms 后重发，最多 4 次；仍失败时显示 Retry，不要周期轮询。
+- UDP 本身不提供 MAC 层业务重试。客户端缓存原始请求，700 ms 无匹配响应时以同一
+  request ID 和 payload 重发，最多发送 4 次（含首次）；4 秒仍失败时显示 Retry，不要周期轮询。服务端收到
+  重复请求后逐字节回放第一次响应。
+
+当前自动开局固定总共四席，codec 仍保留最多六席、28 项资产的容量；不要把传输容量当作自动真人上限。详情请求仅来自本局已认证席位，晚加入且 `seatId=0` 的屏幕等待新局，不能以发现列表在线身份查询本局详情。TagPairing 的独立 requestId/session/revision 不与详情请求缓存混用。
 
 ## 验收边界
 

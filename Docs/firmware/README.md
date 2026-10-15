@@ -1,36 +1,37 @@
 # 固件与服务端文档入口
 
-更新：2026-09-27。先读[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)与[设备台账](current-device-connections.md)。源码、候选构建、实际部署和实物验收分别记录。
+更新：2026-10-15。先读[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)和[设备台账](current-device-connections.md)。源码、构建、部署、视觉、性能与电气验收分别记录。
 
-| 工程 | 当前实现 | 当前缺口 |
+| 工程 | 已交付实现 | 当前实物缺口 |
 | --- | --- | --- |
-| Firmware/TileModule | V0.33；long/corner/unknown profile；Wi-Fi/HTTP、ORDER直邻信标、RFID新鲜扫描及配对屏/灯 | 32实体环、批量显示/RFID、板级功耗策略；RS485未启用 |
-| Firmware/PlayerConsole | LVGL/RGB core1、完整MAC身份、配对/外貌/姓名、终局；旋钮可信定位点与手写修复 | 最新旋钮实机反馈、频闪/错位原场景、Retarget长帧 |
-| 玩家电池扩展 | SC18IM704/MAX17048非阻塞UART及独立状态条，默认关闭 | 两种普通构建已通过；未部署，等待实物底板 |
-| Server/RaspberryPi | 32环/角落约束、1～4屏冻结并补机器人、16/24/32/40建局配对、规则与存档 | 四屏、多reader、36客户端、真实整局/恢复 |
-| Firmware/libraries | GridopolyCore / GridopolyProtocol，破产/库存/整组卖房与配对消息 | 保持旧协议/存档兼容；roundNumber仍uint8 |
-| Firmware/TestGameServer | ESP32/ESP-NOW历史回归服务 | 不作为当前正式主控 |
+| Firmware/TileModule | V0.34；显式long/corner；Wi-Fi/HTTP、ORDER直邻、新鲜RFID与配对屏灯，V6 LED时序修复 | 16板已分批运行；正常24V下全环、RFID、图文与整盘功耗待验，RS485未启用 |
+| Firmware/PlayerConsole | core1/mode3；完整MAC身份、配对/外貌/姓名/终局，输入批处理与等待页保留渲染 | 四屏在线记录；COM27/28等待页正常，COM29目视、精确旋钮、Avatar/游戏视觉及Retarget长帧待验 |
+| 玩家电池扩展 | SC18IM704/MAX17048 UART及独立状态条，两种候选构建通过 | 默认关闭且未部署；实物UART、电量、充电/欠压待验 |
+| Server/RaspberryPi | 全在线16/24/32/40完整环与实际四角，1～4屏冻结补足四席，逐人Tag、规则和持久化 | 四屏/多reader完整流程、16实体全环、整局与容量恢复待验 |
+| Firmware/libraries | Core/Protocol：破产推进、建筑库存、整组卖房、配对/到达消息 | 维护旧存档兼容；roundNumber仍uint8 |
+| Firmware/TestGameServer | ESP32/ESP-NOW历史测试服务 | 不替代正式Pi服务 |
 
-## 当前发布与跨端契约
+## 发布与运行
 
-- [批量开发/部署记录](batch32-game-release-2026-09-26.md)、[批量打包和烧录](../../Tools/release/README.md)：最新冻结包v4，不能等同当前源码HEAD。
-- [32环、自动席位与配对契约](ring-onboarding-contract-2026-09-26.md)：仅32格完整环自动映射，非环形单模块也能配对。
-- [ORDER V1波形/新鲜度](tile-order-protocol.md)、[格子分配/Tag/到达](tile-module-debug-assignment.md)。
-- [新局地图兼容与单reader记录](newgame-open-chain-fix-2026-09-26.md)、[服务端集成验收](server-onboarding-validation-2026-09-26.md)。
-- [旋钮/手写修复与部署](player-input-handwriting-fix-2026-09-26.md)、[电池遥测固件](player-battery-telemetry-progress-2026-09-27.md)。
+当前包为 **`trial16-2026-10-15-v4`**，含V0.34 long/corner、普通player `dfc4b7e5…`及Pi `ea6e1f51…`；12长边/4角落/最多4屏。旧`batch32-2026-09-26-v4`是另一日期的历史包，不能只用“v4”区分。
 
-## 开发与验收入口
+- [本轮16格包、完整SHA和验收](trial16-release-2026-10-15.md)、[批量工具](../../Tools/release/README.md)。VERIFIED表示写验，不等于实物游戏通过；原厂分区不匹配需先备份迁移。
+- [全在线闭环服务端](server-all-online-ring-progress-2026-10-15.md)、[16板分批部署](tile-16-trial-progress-2026-10-15.md)。
+- [玩家输入修复](player-16-trial-progress-2026-10-15.md)、[等待页显示修复](player-new-screen-display-progress-2026-10-15.md)、[新增两屏](player-two-screen-flash-2026-10-15.md)、[第四屏](player-fourth-screen-flash-2026-10-15.md)。
+- [当前拓扑与配对契约](ring-onboarding-contract-2026-09-26.md)、[ORDER V1](tile-order-protocol.md)、[格子分配/Tag/到达](tile-module-debug-assignment.md)。单模块/开链配对不要求完整环。
 
-[实施路线图](development-roadmap-2026-09-21.md)、[两种棋盘PCB](../hardware/pcb-variants.md)、[GPIO](../hardware/esp32-s3-pin-map.md)、[格子指南](firmware-development-guide.md)、[格子工程](../../Firmware/TileModule/README.md)、[功耗开发](module-power-firmware.md)、[供电验收](../hardware/power-system-acceptance.md)。板型profile已实现，功耗限制和整盘电气仍待完成；PD电路/NVM取消，GPIO13 NC。
+## 规范与开发
 
-正式服务：[Pi部署](raspberry-pi-server.md)、[UDP](wifi-udp-player-protocol.md)、[头像](avatar-component-protocol.md)、[详情](player-detail-query-protocol.md)、[交易](trade-protocol.md)、[领域事件](generated/domain-events-v1.md)。
+[路线图](development-roadmap-2026-09-21.md)、[格子开发指南](firmware-development-guide.md)、[格子工程](../../Firmware/TileModule/README.md)、[功耗要求](module-power-firmware.md)、[GPIO](../hardware/esp32-s3-pin-map.md)。GPIO13 NC，PD/NVM工作已取消。
 
-玩家：[当前实现](../player-console/current-player-console-baseline.md)、[头像/姓名规格](../player-console/player-avatar-setup-spec.md)、[UI](../player-console/player-console-ui-spec.md)、[验收](../player-console/player-console-acceptance-tests.md)、[电池接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)。
+服务端：[Pi部署](raspberry-pi-server.md)、[Wi-Fi/UDP](wifi-udp-player-protocol.md)、[头像](avatar-component-protocol.md)、[详情](player-detail-query-protocol.md)、[交易](trade-protocol.md)、[领域事件](generated/domain-events-v1.md)。
 
-网络：[外置AP可选迁移](external-ap-deployment-2026-09-26.md)，未在现场执行，不能凭DHCP地址池判断无线容量。
+玩家：[当前实现](../player-console/current-player-console-baseline.md)、[头像/姓名](../player-console/player-avatar-setup-spec.md)、[UI](../player-console/player-console-ui-spec.md)、[验收](../player-console/player-console-acceptance-tests.md)、[手写](player-console-handwriting-neural.md)、[电池固件](player-battery-telemetry-progress-2026-09-27.md)。
+
+网络：[外置AP方案](external-ap-deployment-2026-09-26.md)未迁移现场；AP认证恢复提案和未提交脚本不能写成生产部署，DHCP地址池大小不证明无线容量。
 
 ## 历史与协作
 
-[协调记录](development-coordination-2026-09-07.md)、[服务端早期进度](server-development-progress-2026-09-07.md)、[玩家早期进度](player-console-development-progress-2026-09-07.md)、[双板ORDER记录](tile-order-development-progress-2026-09-09.md)保留当时证据；其“当前版本”不覆盖本页和设备台账。
+[9月批量记录](batch32-game-release-2026-09-26.md)、[协调沿革](development-coordination-2026-09-07.md)、[双板ORDER](tile-order-development-progress-2026-09-09.md)、[手写/旋钮旧修复](player-input-handwriting-fix-2026-09-26.md)保留对应版本证据。旧core0性能、8MHz/40MHz屏幕结果及有限RFID矩阵不能扩展到新板和全部场景。
 
-[ESP32测试服务端](test-game-server.md)、[ESP-NOW协议](test-game-server-espnow-protocol.md)、[玩家ESP-NOW回退](../player-console/espnow-integration.md)、[旧WebSocket/JSON](main-controller-protocol.md)仅为历史/回归入口。没有自动续派定时任务。
+[ESP32服务端](test-game-server.md)、[ESP-NOW协议](test-game-server-espnow-protocol.md)、[玩家ESP-NOW回退](../player-console/espnow-integration.md)、[旧WebSocket/JSON](main-controller-protocol.md)均为历史/回归入口。主会话统一提交；没有自动续派定时任务。

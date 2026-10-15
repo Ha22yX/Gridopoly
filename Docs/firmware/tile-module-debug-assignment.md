@@ -1,8 +1,8 @@
 # 格子模块临时分配调试契约
 
-> 2026-10-15 当前源码范围：V0.33 角色、16 / 32 ORDER 环、逐人 Tag 配对以[跨端契约](ring-onboarding-contract-2026-09-26.md)为准；部署与实物验收见[本轮记录](trial16-release-2026-10-15.md)。本文保留旧模块自动认领兼容接口；带 ORDER 能力的当前模块不能按注册顺序占格。自动建局的 Tag 绑定必须经配对流程，旧手工 set/clear 接口不能绕过门槛。
+> 2026-10-15 当前源码范围：V0.34 角色、全部在线 16 / 24 / 32 / 40 ORDER 环、逐人 Tag 配对以[跨端契约](ring-onboarding-contract-2026-09-26.md)为准；实际 Pi `ea6e1f51…` 部署与验收边界见[服务端记录](server-all-online-ring-progress-2026-10-15.md)。本文保留旧模块自动认领兼容接口；带 ORDER 能力的当前模块不能按注册顺序占格。自动建局的 Tag 绑定必须经配对流程，旧手工 set/clear 接口不能绕过门槛。
 
-更新日期：2026-08-28
+更新日期：2026-10-15
 
 ## 1. 用途与边界
 
@@ -11,13 +11,12 @@ Heartbeat 注册、续租并取得冻结 DTO；网页通过棋盘格右键菜单
 所有者始终是当前权威 `GameState` 的只读投影，不能由调试网页指定。该接口是服务器进程内的
 调试绑定，不是游戏规则、资产过户或正式格子总线：
 
-- 不修改 `GameState`、资产 owner、玩家现金、room、`stateVersion`、`controlVersion` 或
-  `identityRevision`。
-- 不写 `state.bin`、`identity.bin`、`authority.meta` 或 `device-seats.bin`。
+- 仅注册/分配操作不修改 `GameState`、资产 owner、玩家现金、room 或权威版本。同一次 Heartbeat 中的 Tag 配对或合法自动到达可执行独立权威事务，不能混为一谈。
+- 仅注册/分配不写 `state.bin`、`identity.bin`、`authority.meta` 或 `device-seats.bin`。
 - 服务重启后注册表和临时分配均为空；不写任何存档。
 - Heartbeat 默认每 2 秒一次，在线租约为 15 秒；过期模块释放其格子。
-- 首次注册、清除后的下一次 Heartbeat，都会在锁内原子认领当前地图 `mapIndex` 最小的空闲格。
-- 建立新 room 或切换地图时，未过期在线模块按稳定注册顺序，从最低 `mapIndex` 起原子重排。
+- 只有无 ORDER 能力的旧模块首次注册或清除后的下一次 Heartbeat，才原子认领最低空闲格。当前模块按合法 ORDER 环或人工锚点派生，无锚开放链可以未分配。
+- 新 room/地图清除旧 assignment 和人工锚点；保留仍新鲜的物理证据并对新图重新校验。仅旧无 ORDER 模块按注册顺序重排；完整匹配环自动分配，开放链等待新锚点。
 - `moduleId`、`deviceId` 和被占用格子分别唯一；一个模块同时最多占一个格子。
 - 数组排序和注册顺序只用于确定性调试，绝不表示物理安装顺序；原始调试协议没有 `ORDER` 枚举；下文“ORDER 物理邻接扩展”定义新增能力。
 
@@ -63,7 +62,7 @@ Content-Type: application/json
 ```
 
 - 格子固件每 2 秒发送一次；服务端返回的 `leaseMs` 固定为 15000。
-- 仅缺少ORDER能力的旧模块首次注册会原子认领当前地图最低空闲 `mapIndex`；当前V0.33使用手动锚点/ORDER投影，无锚开链可保持未分配。旧兼容路径没有空闲格时返回
+- 仅缺少ORDER能力的旧模块首次注册会原子认领当前地图最低空闲 `mapIndex`；当前 V0.34 使用完整匹配环自动分配或开放链手动锚点/ORDER 投影，无锚开链可保持未分配。旧兼容路径没有空闲格时返回
   `assigned=false`、`source="none"`，模块仍保持在线。
 - 后续 Heartbeat 会续租、刷新权威 owner 投影并返回当前冻结 DTO；绑定和 owner 投影均未变化
   的单纯续租不会推进 `serverRevision`。
@@ -108,7 +107,7 @@ Content-Type: application/json
 }
 ```
 
-`source` 只允许 `auto`、`manual`、`none`，只表示绑定来源。无论自动还是手动绑定，owner 字段
+`source` 允许 `auto`、`manual`、`order`、`none`；示例 `auto` 属于旧模块兼容路径，当前 ORDER 派生使用 `order`。它只表示绑定来源。无论自动还是手动绑定，owner 字段
 都按当前权威 `GameState` 派生；自动认领到已购买资产时也必须显示其真实 owner。
 
 `movementCue` 每个 Heartbeat 都存在：`mode` 只允许 `none|departure|destination`，
@@ -158,7 +157,7 @@ GET /api/tile-debug/assignments
 `tiles` 是当前地图的完整可选目录；`players` 是 P1–P6 的只读服务端席位名和正式颜色目录，
 不作为右键输入；`modules` 给出注册、在线、租约和来源状态；`assignments` 是当前临时绑定及
 权威 owner 投影。读取会先按当前时间回收过期租约，并刷新所有 assignment 的 owner 投影；
-只有发生过期回收或 owner 投影实际变化时才推进 revision。网页右键菜单只列
+注册、分配、拓扑有效性/epoch、过期回收或 owner 投影实际变化会推进 revision；没有变化的纯读取不推进。网页右键菜单只列
 `online=true` 的模块。
 
 ### 3.3 右键手动设置或替换
@@ -173,7 +172,7 @@ POST /api/tile-debug/assignment?moduleId=<id>&deviceId=<id>&tileId=<tile>
   `owner_display_name`、`owner_color` 等追加 query 没有输入语义，服务器必须忽略且不得让它们
   进入状态或响应投影。
 - 同一在线模块被移到新格时，服务端在同一把锁内释放原格并占用新格。
-- 目标格被另一个在线模块占用时返回 409，不能静默抢占。
+- 目标格被另一 manual 占用时返回 409；manual 优先于 order/legacy auto，后者撤销或重新投影。闭环锚点还必须保持全环同相位和角落位置，不一致请求 409 且不改原映射。
 - 成功后 assignment 的 `source` 为 `manual`；首次设置或实际变化时全局 revision 加一。
 - 每次处理 POST 前先刷新权威 owner 投影；完全相同的重复绑定不再额外增加 revision。
 - 成功响应是与 GET 相同的完整最新快照。
@@ -184,9 +183,7 @@ POST /api/tile-debug/assignment?moduleId=<id>&deviceId=<id>&tileId=<tile>
 DELETE /api/tile-debug/assignment?moduleId=<id>
 ```
 
-存在时删除 assignment、revision 加一并返回完整最新快照；不存在返回 `404`。模块注册和在线
-租约仍保留，但暂时为 `assigned=false`、`source="none"`；它的下一次 Heartbeat 会原子认领
-最低空闲格。清除不改变任何游戏状态。
+DELETE 清除该模块显式 assignment 和 ORDER 锚点意图，并立即重算；闭环可能立刻恢复默认相位的 `order` 分配，开放链按其余锚点派生或保持未分配。离线但保留锚点意图也可清除；无 assignment 且无意图返回 `404`。在线租约保留，只有旧无 ORDER 模块在后续 Heartbeat 自动认领最低空闲格。清除不改变游戏状态。
 
 ### 3.5 全局 Tag 检测与玩家绑定
 
@@ -225,14 +222,14 @@ GET /api/tile-tags
 - `currentlySeen=true` 仅来自当前在线模块的 `stable` 完整集合。`scanning`、`fault` 或历史记录
   只能用于诊断，不能触发自动到达。
 
-玩家卡片右键通过以下 revision-gated API 修改绑定：
+非自动调试局的玩家卡片右键通过以下 revision-gated API 修改绑定：
 
 ```http
 POST /api/player-tag-binding?playerId=1&uid=8EFA259D&expectedRevision=4
 DELETE /api/player-tag-binding?playerId=1&expectedRevision=5
 ```
 
-POST 只接受当前 `currentlySeen=true` 的 UID。`expectedRevision` 必须为非零且精确等于当前
+以下为非自动调试局的兼容语义。自动建局模式的 POST/DELETE 一律返回 NotAllowed，必须通过逐人 Tag 配对，不能转移已有绑定来绕过门槛。兼容 POST 只接受当前 `currentlySeen=true` 的 UID。`expectedRevision` 必须为非零且精确等于当前
 `bindingRevision`，否则返回 409。一个玩家最多一个 UID，一个 UID 最多一个玩家；把已有 UID
 分给另一玩家时，在同一权威临界区内先解除旧玩家再绑定新玩家，不存在双重绑定窗口。完全相同
 的重复 POST 幂等，不推进版本。实际绑定/解除会同时推进 `bindingRevision` 与 `stateVersion`，
@@ -249,9 +246,10 @@ POST 只接受当前 `currentlySeen=true` 的 UID。`expectedRevision` 必须为
 3. 当前模块 assignment 的 `mapIndex` 精确等于 `pendingMove.target`；
 4. reader 为 `stable` 且 `overflow=false`；
 5. `tags[]` 含当前移动玩家绑定的 UID；
-6. 请求处理时的 `stateVersion` 仍与该 pending move 相同。
+6. 请求处理时的 `stateVersion` 仍与该 pending move 相同；
+7. 配对/未取回限制不阻挡该模块；新协议报告须 `tagFresh=true` 且 pairing room/session echo 为零，配对扫描不得用于到达。
 
-服务器不新增 Tag/RFID 专用玩家消息；仅复用普通 ActionRequest 的展示回执 code 17。自动到达仍在
+自动到达不额外增加玩家消息，展示回执复用普通 ActionRequest 的 code 17；入局配对另使用 TagPairRequest/Snapshot。自动到达仍在
 权威锁内复用
 `ActionCode::ConfirmPosition(2)` / `GameEngine::confirmPosition`。成功只推进一次 `stateVersion`，
 清除 `pendingMove`、把玩家位置设为目标格，并进入既有 Purchase/Debt/Auction/Card/TurnEnd 等
@@ -323,8 +321,8 @@ state、错误玩家、错误 UID、错误格、overflow 或非稳定 reader 都
 ```
 
 颜色是 `0xRRGGBB` 的 24 位无符号整数。owner 三元组不是 assignment 的可写属性；每次
-Heartbeat、GET 或 POST 前都从当前权威 `GameState` 刷新。当前 DTO 不包含建筑、抵押、
-活动效果或物理顺序；以后增加正式下发传输层时必须复用这些语义，不能让浏览器成为视觉或
+Heartbeat、GET 或 POST 前都从当前权威 `GameState` 刷新。当前 DTO 不包含建筑、抵押或
+活动效果；ORDER 扩展增加 anchor/offset/epoch，物理链顺序由 snapshot 的 order/modules 描述。扩展下发时必须复用这些语义，不能让浏览器成为视觉或
 归属数据来源。
 
 ## 6. Revision、租约与换图语义
@@ -334,14 +332,13 @@ Heartbeat、GET 或 POST 前都从当前权威 `GameState` 刷新。当前 DTO �
 - 每个 assignment 的 `revision` 是该项最后一次实际变化时的全局版本。
 - `updatedAtMs` 是服务器 Unix epoch 毫秒。
 - 服务重启后 revision 从 0 开始。
-- 首次注册、自动/手动分配、清除、租约过期和 room/地图重排会推进一次全局版本。
+- 首次注册、分配/清除、租约过期、拓扑有效性和 room/地图变化会推进全局版本；一次请求可经过多个变更阶段，不承诺只加 1。
 - 每次 Heartbeat、GET 或 POST 前刷新所有 assignment 的权威 owner 投影。一次刷新中只要
   任一受影响 assignment 的 owner id、显示名或正式颜色实际变化，全局 revision 只推进一次；
   所有变化项取得相同的新 `revision` 和 `updatedAtMs`，绑定格子与 `source` 保持不变。
 - 正常 2 秒 Heartbeat 续租、权威 owner 投影未变化的重复手动设置和纯读取不推进版本。
 - 租约 15 秒；过期模块释放格子，之后再次 Heartbeat 视为新注册。
-- 新 room/换地图不会保留旧 tileId。未过期在线模块按稳定注册顺序，在单一临界区中从当前
-  地图最低 `mapIndex` 开始重排；没有空闲格的模块保持在线未分配。
+- 新 room/换地图清除旧 tileId 与锚点意图；新鲜物理证据不随 room 清空，重新满足全部在线集合/地图/角色条件的环立即自动映射。开放链等新锚点；仅 legacy 按注册顺序认领空闲格。
 - revision 不进入 `/api/sync`，也不触发圆屏投影或游戏持久化。
 - 上一条只指临时 module assignment revision；玩家 `bindingRevision` 是另一条权威版本线，
   会进入 `/api/sync` 并写 `authority.meta`。
@@ -353,34 +350,35 @@ Heartbeat、GET 或 POST 前都从当前权威 `GameState` 刷新。当前 DTO �
 - 模块下拉只显示 `online=true` 的注册项，并显示 device、当前格、来源和剩余租约。
 - 菜单只要求选择一个在线模块；不提供“临时所有者”或任何 owner 控件，也不提交
   `ownerPlayerId`。当前权威 owner 可只读显示。
-- 玩家卡片右键提供“分配 Tag / 更换 Tag / 解除 Tag”。弹窗只列全局目录中
+- 非自动调试局的玩家卡片右键提供“分配 Tag / 更换 Tag / 解除 Tag”。弹窗只列全局目录中
   `currentlySeen=true` 的 UID，并显示当前看到它的 module/tile；从其他玩家转移时明确提示原子转移。
+  自动局通过逐人配对面板操作，不使用该兼容绑定入口。
 - 应用成功即关闭菜单并刷新状态，失败保留菜单和模块选择以便重试。
-- “清除”只清除该模块当前 assignment；下一次 Heartbeat 会恢复自动认领。
+- “清除”撤销显式锚点并立即重算：环可恢复默认映射，链可跟随其余锚点或未分配；只有 legacy 下一次 Heartbeat 自动认领。
 - 页面外点击、Escape、窗口尺寸或 room/地图变化会关闭菜单。强制投骰的棋盘点选模式优先，
   右键菜单不得取消或打断该流程。
 
 ## 8. 最小验收
 
-1. 两个模块并发首次 Heartbeat 只会分别占用 `mapIndex=0`、`mapIndex=1`，不会重复占格。
+1. 两个旧无 ORDER 模块并发首次 Heartbeat 只会分别占用 `mapIndex=0`、`mapIndex=1`，不会重复占格。
 2. 重复 Heartbeat 续租不增加 `serverRevision`；15 秒过期会释放格子并增加版本。
-3. 手动右键把在线模块移到另一空闲格时，原格立即空闲；另一个在线模块占用目标时返回 409。
-4. DELETE 后模块仍在线未分配；下一 Heartbeat 自动认领当前最低空闲格。
-5. 新 room/换地图后，未过期在线模块按稳定注册顺序原子重排；不沿用旧 tileId。
+3. 手动右键把在线模块移到另一空闲格时，原格立即空闲；另一 manual 占用目标时返回 409；order/auto 按优先级撤销或重投影。
+4. DELETE 后仍在线；当前 ORDER 模块立即重算，旧无 ORDER 模块下次 Heartbeat 自动认领。
+5. 新 room/换地图清旧意图；匹配完整环自动分配，开放链待锚点，旧无 ORDER 模块按注册序重排。
 6. 16/24/32/40 地图目录中的每个格子都有名称、kind、accent 和 artworkKey。
 7. 16 格地图的 B3 派生为 `Beacon Boulevard`、`b3-beacon-boulevard`、价格 220。权威状态
    未购买时，自动或手动绑定都返回 owner 0；权威状态改为由 P1 购买后，无需重新 POST，下一次
    Heartbeat/GET 即自动返回 P1 的权威名字和正式颜色，并按第 6 节只推进一次调试 revision。
-8. 设置、列出、续租、过期、清除和重排前后 room、游戏 version、资产 owner 和现金完全不变。
+8. 仅分配操作前后 room、游戏 version、资产 owner 和现金不变；同心跳含有效配对/到达另按权威事务核验。
 9. 浏览器追加伪造的 `ownerPlayerId`、owner、名称、颜色、价格或 artwork query 不会进入响应，
    也不会修改权威状态。
 10. 原始legacy模式不定义或推断物理 `ORDER`；新增能力见下文物理邻接扩展。
 11. 两个模块同时报告同 UID 时全局目录只出现一个 Tag，并保留两条 sighting；租约过期或
     60 秒历史过期后不再可选。
-12. 同 UID 从 P1 原子改绑 P2 时 P1 立即清空；重复/过期 revision 不产生第二次状态变化；
-    服务重启保持绑定，新 room 清空绑定。
-13. AwaitMoveConfirm 时原格返回 departure、目标格返回 destination；stable 且非 overflow 的
-    目标 Tag 只执行一次 ConfirmPosition，重复 Heartbeat 不再推进 version；手动确认始终可用。
+12. 非自动调试局中，同 UID 从 P1 原子改绑 P2 时 P1 立即清空；重复/过期 revision 不产生第二次状态变化；
+    服务重启保持绑定，新 room 清空绑定。自动局拒绝该手动改绑，按配对协议验收。
+13. AwaitMoveConfirm 且服务端已接受 MovementCueReady(17) 后，合法原格返回 departure、目标格返回 destination；
+    满足第 3.6 节全部新鲜度及配对限制的稳定目标 Tag 只执行一次 ConfirmPosition，重复 Heartbeat 不再推进 version；手动确认始终可用。
 
 
 ## ORDER 物理邻接扩展（2026-09-10）
@@ -390,7 +388,7 @@ ORDER线信标与HTTP请求字段由[tile-order-protocol.md](tile-order-protocol
 原Tag心跳body添加order对象，服务器只根据新鲜的物理bootId/上游bootId/序号证据建有向边。
 不存在将完整拓扑列表直接写入服务器的测试后门。原POST/DELETE assignment路径沿用。
 
-支持ORDER的模块停止使用注册顺序auto占空位。无手动锚点显示unanchored；已验证链内最近
+支持 ORDER 的模块停止使用注册顺序 auto 占空位。开放链无锚点显示 unanchored，完整匹配环自动分配；已验证链内最近
 上游manual为分段锚点，首锚前使用负偏移回推，mapIndex按当前board.tileCount环绕。新manual
 重启后段基准；派生source为order，auto和order绝不充当锚点。manual优先于order，order优先
 于legacy auto；legacy临时占格被实际ORDER占用后，在下一次legacy心跳选剩余空位。其它manual
@@ -409,8 +407,9 @@ GET /api/tile-debug/assignments新增顶层order：epoch、status、leaseRemaini
 orderChainId、orderIndex（0起，未知-1）、orderEpoch、orderConflict、orderUpstreamModuleId和
 orderAnchorTileId（无意图为空）。离线但保留manual意图的模块仍有online=false/assigned=false行，
 供用户撤销。assignment新增orderAnchorModuleId、orderOffset有符号整数及orderEpoch；source
-仍可none/auto/manual，新增order。ready拓扑不表示已分配；链序仅描述当前验证连通分量的方向。
+仍可none/auto/manual，新增order。ready 拓扑不单独证明有 assignment；闭环须额外通过全部在线集合与地图校验，链序描述当前物理方向。
 
-旧客户端忽略新增字段即可。新固件必须在assigned=false时撤销旧assignment与提示，不能保留
-已经过期的ORDER派生格。此时可继续上报Tag inventory，但未分配的模块不触发目标格自动到达。
+完整环还需满足[闭环契约](ring-onboarding-contract-2026-09-26.md)：全部当前在线模块集合等于唯一环，长度等于当前 16/24/32/40 地图，4 个 corner 对齐实际四角，其余为 long。环外在线旧模块/孤岛/第二环不能忽略。snapshot 保留物理 `closedRing`，以 `ring_online_set_mismatch`、`ring_size_mismatch`、`ring_board_layout_mismatch` 或 `ring_or_tile_conflict` 说明不可分配原因。全集失效撤销派生、保留 manual；地图/锚点无效暂停整环显示并保留锚点意图。
+
+旧客户端忽略新增字段即可。V0.34 在收到 assigned=false 响应时清旧 assignment 和提示。HTTP 完全断开时现有固件保留旧格子并显示网络异常，不可声称服务器租约到期已让离线屏即时清图。此时可继续上报Tag inventory，但未分配的模块不触发目标格自动到达。
 新增目标由服务器native/HTTP隔离回归检验，实际信标与双板联调须另记录设备版本及现场证据。

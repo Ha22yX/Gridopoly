@@ -1,9 +1,11 @@
 # Avatar Component Streaming Protocol v1
 
-Status: canonical and frozen; reviewed against the deployed Raspberry Pi and PlayerConsole
-implementations on 2026-08-24.
+Status: canonical GAVC/catalog v1 remains frozen. Client lifecycle documentation checked
+against current source and archived deployment evidence on 2026-10-15; no new wire version
+or hardware acceptance is implied. Device versions and outstanding checks are listed in the
+[current player baseline](../player-console/current-player-console-baseline.md).
 
-This contract lets a player console fetch only the structural avatar layer that changed. Hair color and skin tone are applied locally without a network request. The Raspberry Pi final-avatar compositor uses the same neutral component bytes, palettes, fixed-point tint rules, and source-over blend rules, so preview and final output have one pixel source of truth.
+This contract distributes neutral structural avatar layers. The current console preloads all 30 components before editing, then changes presets and colors locally without network requests. The Raspberry Pi final-avatar compositor uses the same neutral component bytes, palettes, fixed-point tint rules, and source-over blend rules, so preview and final output have one pixel source of truth.
 
 ## Routes
 
@@ -170,13 +172,25 @@ The final compositor places the same transparent 220x300 composite into a transp
 
 - Before Avatar Setup becomes interactive, the console requests the current recipe's three
   components first, then preloads all 30 immutable `.gavc` files behind one 0/30 progress page.
+- Four low-priority HTTP workers perform the preload. Once all 30 components are validated,
+  preload completion stays true for that lifecycle and the editor can open before the first
+  composition completes. Initial composition is requested automatically, without a user rotation.
 - After that preload, Hair/Face/Outfit preset changes are cache-only for the rest of identity setup.
-- HairColor and SkinTone changes make no HTTP request and immediately rerun local tint/composition.
-- A late response may populate cache but may publish only if its kind/preset still matches the current recipe generation.
+- HairColor and SkinTone changes make no HTTP request. Recipe changes schedule a complete
+  background composition after a 45 ms settle period; intermediate recipes may be superseded.
+- Late downloads may populate the matching immutable cache entry. A stale composition generation
+  must not publish as the current recipe. The worker may write only the available back buffer;
+  neither the displayed front buffer nor a completed buffer awaiting handoff may be overwritten.
+- Only the LVGL owner acquires a completed frame under the LVGL/cache locking discipline and
+  changes the displayed image. `remoteAvatarPreviewFrame()` returns `{image, exact}`: no image
+  means spinner/`LOADING PREVIEW`; a previous complete image with `exact=false` remains visible
+  with `UPDATING PREVIEW`. The compatibility `remoteAvatarPreview()` wrapper returns only exact
+  images. Focus-only row changes do not reacquire or redraw the portrait.
 - The 30 compressed component files total 1,921,970 bytes. Two 132,000-byte RGB565 preview buffers retain the last complete displayed composition while the other is written. Their combined 2,185,970 bytes fit the setup-only 2304 KiB cap (`remote_tile_cache_policy.h`); decoding remains streaming. The earlier single-preview 2 MiB description is superseded.
 - The setup pool remains resident through Avatar Setup, Name Setup, Player Ready, and Countdown so
-  a deliberate Back action never returns to a blank editor. Entering Active gameplay releases all
-  30 components and both previews in one lifecycle transition.
+  a deliberate Back action can reuse the components; a cold recovery preloads them if needed.
+  Entering Active gameplay releases all 30 components and both previews after LVGL no longer
+  references the temporary images.
 - Six final RGB565 avatars use 196,608 bytes, fitting the separately frozen 384 KiB gameplay avatar
   cache. The setup-only 2304 KiB pool is not charged to the strict 1 MiB gameplay artwork budget.
 

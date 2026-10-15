@@ -1,6 +1,6 @@
 # Gridopoly 双向交易按需协议 v1
 
-状态：冻结（2026-08-05）
+状态：冻结；2026-10-15 按 Raspberry Pi 源码复核，schema 未改变
 单一实现来源：`Firmware/libraries/GridopolyProtocol`、`GridopolyCore`、
 `Server/RaspberryPi/src/UdpPlayerServer.cpp`
 
@@ -12,7 +12,8 @@
   均远低于 218 B payload 上限。
 - 请求来源玩家由已认证 UDP session 的 `seatId` 决定。payload 不允许自报 actor。
 - v1 每名玩家最多参与一笔未关闭交易；最多三对互不重叠的玩家并发交易。
-- 本次仅支持普通交易。`AwaitDebt` 强制筹资交易留给后续版本。
+- 当前仅支持 `AwaitRoll` / `TurnEnd` 稳定阶段的普通交易。`AwaitDebt` 强制筹资交易留给后续版本。
+- 网页自动局冻结 1～4 真人并补足四席；三对并发是 Core 六席容量，不是默认四人局保证存在三对。Identity/Tag 准备期及没有本局席位的晚加入屏幕不能用交易绕过开局门槛。
 
 ## 2. MessageType 与操作号
 
@@ -157,7 +158,7 @@ Offered/Countered
 
 ## 7. 幂等、重试与恢复
 
-- 客户端一次只允许一个 TradeRequest pending；建议 700 ms 重发，最多 4 次，4 s 失败。
+- 客户端一次只允许一个 TradeRequest pending；重发间隔 700 ms，最多发送 4 次（含首次），4 s 失败。
 - 重发必须保留相同 requestId 和完全相同 payload，但使用新的 UDP packetSequence/inner sequence。
 - 收到 StateVersionStale/RevisionStale 后应先应用最新投影，再用新的 requestId 构造新请求；不得
   在旧 requestId 下修改 expectedStateVersion、revision 或报价内容。
@@ -179,6 +180,6 @@ Offered/Countered
 
 ## 8. 持久化与诊断
 
-树莓派状态存储 schema 为 3，持久化最多三笔交易和 nextTradeId；schema 2 游戏存档可原位迁移，
-已有房间和游戏进度不会因此重建。`/health.udp.trade` 提供请求、响应、回放、错误、最近
+树莓派游戏状态存储当前为 schema 4，兼容读取 schema 2/3；持久化最多三笔交易和
+nextTradeId，旧房间与进度不会因懒迁移而重建。`/health.udp.trade` 提供请求、响应、回放、错误、最近
 requestId/tradeId/revision/operation/result/responseBytes 计数，不记录报价隐私或 PSK。

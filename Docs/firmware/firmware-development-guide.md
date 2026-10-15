@@ -1,6 +1,6 @@
 # Gridopoly ESP32-S3 固件开发指南
 
-更新日期：2026-09-27
+更新日期：2026-10-15
 
 本文给出单格模块固件的开发基线。GPIO 的最终定义来自
 [ESP32-S3 引脚与接口定义](../hardware/esp32-s3-pin-map.md)，通信和物理顺序来自
@@ -22,7 +22,7 @@ pio test -e native
 
 板级定义位于 `include/board_config.h`，实现位于 `src/`，本机配置在 `config/`，禁止提交网络凭据。共享业务模型与协议位于 Firmware/libraries。
 
-当前V0.33支持显示、LED、INA226、RFID、HTTP心跳、ORDER物理信标和配对提示，未启用RS485。`tile_esp32s3_long`/`tile_esp32s3_corner`显式上报板型，默认`tile_esp32s3`为unknown；没有硬件自动角色识别。批量用两类普通profile及[发布工具](../../Tools/release/README.md)，不是将默认unknown刷遍32板。功耗策略仍待开发/验证，见[直接24V板固件要求](module-power-firmware.md)。GPIO13 NC，PD驱动取消。
+当前V0.34支持显示、LED、INA226、RFID、HTTP心跳、ORDER物理信标和配对提示，未启用RS485。`tile_esp32s3_long`/`tile_esp32s3_corner`显式上报板型，默认`tile_esp32s3`为unknown；没有硬件自动角色识别。批量用两类普通profile及[发布工具](../../Tools/release/README.md)，16格清单为12长边/4角落，32格为28长边/4角落，不能将默认unknown刷遍全部板。V0.34已修复WS2812B-B-V6时序并记录发送错误，详见[16板部署](tile-16-trial-progress-2026-10-15.md)。功耗策略仍待开发/验证，见[直接24V板固件要求](module-power-firmware.md)。GPIO13 NC，PD驱动取消。
 
 ## 3. 板级 GPIO
 

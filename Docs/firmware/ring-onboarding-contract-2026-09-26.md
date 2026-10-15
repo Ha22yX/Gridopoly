@@ -15,7 +15,7 @@
 | 32 | 28 / 4 | 7 | 0 / 8 / 16 / 24 |
 | 40 | 36 / 4 | 9 | 0 / 10 / 20 / 30 |
 
-还须核对实际地图的角落类型；数量相同不代表布局正确。根是稳定 moduleId 字典序最小的 corner，沿 ORDER_OUT 排列 mapIndex 0..N-1。随机 bootId 与上线先后不决定根。无需先人工指定格子，最后一条有效闭环证据到达后即可自动分配；地图切换、模块入网/过期与重连时重新计算。未知板型、错误角落数量/间距或不匹配的地图结构均不自动映射。
+还须读取实际 `BoardDefinition.tiles`：Start/Hold/Rest/GoToHold 各一个且位于等距四角，START 为索引 0；数量相同不代表布局正确。根是稳定 moduleId 字典序最小的 corner，沿 ORDER_OUT 排列 mapIndex 0..N-1。随机 bootId 与上线先后不决定根。无需先人工指定格子，最后一条有效闭环证据到达后即可自动分配；地图切换、模块入网/过期与重连时重新计算。未知板型、错误角落数量/间距或不匹配的地图结构均不自动映射。
 
 环的手动锚点只能一致旋转同一相位，不能破坏 corner 位置或让多个锚点相互冲突。旧开放链仍支持分段手动锚点。曾验证为环的模块断环后撤回推导分配，不能静默降级成开放链自动编号。开放链中的旧锚点若在闭环后不一致，保留其意图供纠正，同时撤回该环全部显示分配。
 
@@ -29,9 +29,11 @@
 
 新能力位 `0x02` 表示 Tag 配对，原 Wi-Fi UDP 位为 `0x01`。新屏的 deviceId 为六字节完整 MAC 的 FNV-1a32（ESP.getEfuseMac 低字节在先，hash=0 映射为1）；PairRequest.displayName 为 `GP-` 加同序六字节十二位十六进制。服务端复算并拒绝身份冲突。设备 boot nonce 不作为稳定身份。新握手的 nonce/packetSequence 重放不能刷新 online。
 
-`POST /api/new?size=32&autoPlayers=1` 从当前合格在线屏冻结 1..4 个真实席位，按稳定 deviceId 排序，机器人补到总共4席。size 默认32，也接受 BoardCatalog 支持的16、24、40；其它尺寸拒绝且不改变房间。零合格屏或多于4屏返回 HTTP409，message 分别为 `no_eligible_players`、`too_many_players`，不改变房间。自动人数与 Tag 配对不要求32实体闭环，单块未分配 reader 或开放链同样可用。完整32闭环的角色/角落规则仅约束该拓扑的编号。显式 humans/bots 调试接口保留旧行为。
+`POST /api/new?size=32&autoPlayers=1` 从当前合格在线屏冻结 1..4 个真实席位，按稳定 deviceId 排序，机器人补到总共4席。size 默认32，也接受 BoardCatalog 支持的16、24、40；其它尺寸拒绝且不改变房间。零合格屏或多于4屏返回 HTTP409，message 分别为 `no_eligible_players`、`too_many_players`，不改变房间。自动人数与 Tag 配对不要求实体闭环，单块未分配 reader 或开放链在四种地图上同样可用。完整环的角色/角落规则约束地图分配，不是 reader 配对的前提。显式 humans/bots 调试接口保留旧行为。
 
 冻结的 full identity 与 seat 持久化；重连/设备重启不抢占其它座位，晚加入的设备不能挤占机器人。旧截断 deviceId 不自动偷迁已占座位；新固件即使在旧局被拒绝席位，仍能通过发现接口计入下一自动新局。
+
+`devices` 的实时 eligible/online 与 `sync.frozenDevices` 的本局席位是两份不同视图。即使后来有四屏在线，先前冻结的三真人加一机器人仍保持原样；第四屏可显示 `seatId=0` 等待下一次用户新局。四屏在线不等于四人已完成 Tag、身份准备或实际游戏验收。
 
 ## 配对流程
 

@@ -1,12 +1,12 @@
 # Gridopoly 当前游戏规则与实现边界
 
-更新：2026-09-27。本文描述当前共享`GridopolyCore`与Pi权威服务的实际行为；不把早期桌游参考规则当作已实现功能。主要来源：[GameEngine.cpp](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/GameEngine.cpp)、[BoardCatalog.cpp](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/BoardCatalog.cpp)、[跨端配对/库存契约](../firmware/ring-onboarding-contract-2026-09-26.md)。本次只更新文档。
+更新：2026-10-15。本文描述当前共享`GridopolyCore`与Pi权威服务的实际行为；不把早期桌游参考规则当作已实现功能。主要来源：[GameEngine.cpp](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/GameEngine.cpp)、[BoardCatalog.cpp](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/BoardCatalog.cpp)、[跨端配对/库存契约](../firmware/ring-onboarding-contract-2026-09-26.md)。本次只更新文档。
 
 ## 开局与人数
 
-网页主入口自动发现1～4台合格在线屏，冻结真人席位并补机器人至4席。0台或超过4台拒绝；掉线不把已冻结真人变为机器人。Core容量仍为6，显式调试建局保留兼容，不能把容量6当默认自动模式人数。
+网页主入口自动发现1～4台合格在线屏，冻结真人席位并补机器人至4席。0台或超过4台拒绝；掉线不把已冻结真人变为机器人，晚加入屏幕也不挤占已有机器人。新屏在线且 eligible 只表示可参加下一次用户创建的新局。Core容量仍为6，显式调试建局保留兼容，不能把容量6当默认自动模式人数。
 
-地图为16/24/32/40格，默认32；无需先连接等量物理模块，单块未分配reader与开链也可完成Tag配对。仅完整32 ORDER环有4角位置自动约束，不影响其他尺寸地图测试。
+地图为16/24/32/40格，默认32；无需先连接等量物理模块，单块未分配reader与开链也可完成Tag配对。四种尺寸均支持完整 ORDER 环自动映射：全部当前在线模块必须恰好组成同一个新鲜、唯一邻接的完整环，数量与当前地图相同，4 个 corner 对应实际地图四角，其余为 long。环外在线模块、未知角色、无 ORDER 或第二个环不能忽略；详细锚点/失效语义见跨端契约。
 
 流程：创建新局→逐人Tag配对→绑定者自定义外貌/姓名→全部必需身份ready→统一五秒倒计时→正式游戏。成功绑定提示拿回，尽量换reader接待下一人；旧缓存、重复UID、多Tag不得误绑。新局替换原房间；不能为测试自动创建。
 
@@ -64,6 +64,6 @@ Core启动时玩家1先行动，并按存活玩家顺序轮转；**没有实现�
 - 无快/正常/慢节奏运行时倍率、掷骰决定先手、地主放弃收租窗口、服务端独立付款超时扣款、建筑库存拍卖、顺序牌堆/可保留脱困卡、破产归银行资产自动拍卖。
 - 无固定轮数强制终局或机器人主动谈判；模拟有自然胜者案例，也有20000动作未结束案例。
 - `roundNumber`仍为uint8，超过255轮回绕；本轮未迁移存档格式。
-- 逻辑/HTTP/UDP回归通过不等于32模块/4屏完整实体对局通过。最新状态见[交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
+- 逻辑/HTTP/UDP回归、服务器已部署和四屏在线均不等于完整实体环或四人配对及实体对局通过。最新状态见[交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
 
 早期产品规则完整保存在[历史设计](../archive/game-rules-design-before-2026-09-27.md)。若要实现其中规则，应另改Core/协议/客户端和测试，而不是仅改文档宣称已支持。

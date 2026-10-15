@@ -1,6 +1,6 @@
 # 2026-09-27 全项目文档更新记录
 
-> 后续更新：本记录对应提交`463bf18`时的RC4状态。之后用户在PCB任务中翻转J3，现行候选为**RC5，J3.1=GND、J3.2=BAT_PACK**，已购电池为EEMB LP103454。下表RC4针序/商品图选项仅保留为当时核查历史，不能作为RC5接线依据；最新资料见[玩家底板说明](hardware/player-usbc-battery-base-2026-09-27.md)与[当前交接](CURRENT-DEVELOPMENT-HANDOFF.md)。
+> 历史记录：本页对应提交`463bf18`时的RC4状态；其后RC5翻转J3并修复地铜，现候选已到RC6-TP，J3.1=GND、J3.2=BAT_PACK。下表“现行”仅指9月27日当时，不覆盖10月15日的16/24/32/40环、V0.34、四屏及试玩v4。RC4针序/商品图选项不能作为新版本接线依据。最新资料见[本轮整合](documentation-refresh-2026-10-15.md)、[玩家底板说明](hardware/player-usbc-battery-base-2026-09-27.md)与[当前交接](CURRENT-DEVELOPMENT-HANDOFF.md)。
 
 本次按用户要求整理当前设计、开发进度和过时数据。开始时HEAD为`ad77384`，工作区已有协议/规则文档、AP脚本和PCB工程等未提交变更；此次仅归档明确核对的文档，不把原有内容全部算作本轮新增开发。
 

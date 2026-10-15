@@ -18,7 +18,7 @@
   <img alt="Tile MCU" src="https://img.shields.io/badge/tile-ESP32--S3-205A4B?style=for-the-badge" />
   <img alt="Authority" src="https://img.shields.io/badge/authority-Raspberry%20Pi%205-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white" />
   <img alt="Player console" src="https://img.shields.io/badge/player%20console-480x480%20round%20LCD-6B7FD7?style=for-the-badge" />
-  <img alt="Bus" src="https://img.shields.io/badge/bus-RS485%20%2B%20ORDER-2563EB?style=for-the-badge" />
+  <img alt="Bus" src="https://img.shields.io/badge/link-WiFi%20%2B%20ORDER-2563EB?style=for-the-badge" />
 </p>
 
 ## Project Gallery
@@ -58,17 +58,17 @@ The goal is not to copy the brand, map, art, cards, or product appearance of any
 
 ## Current Status
 
-Updated September 27, 2026. Gridopoly is an integrated prototype with working software candidates; full-board hardware acceptance and manufacturing approval remain open.
+Updated October 15, 2026. The current milestone is a 16-space trial board (12 long tiles and four corners), with up to four player consoles. This is an integrated prototype; complete physical-game acceptance and manufacturing approval remain open.
 
-- The Raspberry Pi authority and web UI implement authenticated player sessions, rules, persistence, trades, auctions, debt, building inventory, bankruptcy and game-over reporting.
-- Starting a game discovers 1–4 eligible player screens, freezes their seats and fills the remaining seats with bots, for four players total. Guided RFID pairing precedes each human player's avatar/name setup; a single unassigned tile or open chain is supported. Maps of 16/24/32/40 spaces can use this flow.
-- Tile V0.33 provides explicit long/corner profiles, fresh RFID scans and pairing display/LED feedback. ORDER V1 supplies independent physical-neighbor beacons; the server maps a complete 32-tile ring with 28 long tiles and four corners at positions 0/8/16/24. Other complete ring sizes are not implemented. RS485 remains reserved and disabled.
-- The latest frozen local batch candidate is v4, with long/corner/player firmware and a 36-device inventory template. Last verified deployments are Pi `2bc084d7…`, COM6 V0.33 `19edea4b…`, and COM7 normal core1 `9c4e1825…`; COM8 has not been upgraded from its recorded V0.32. These are deployment records, not live status.
-- Handwriting received user confirmation after the September 26 fixes. The later rotary decoder repair is deployed but awaits physical feedback. Retarget timing and the original flicker/shift scenario remain open; withdrawn core0 performance results do not certify the current build.
-- Board variants remain the six-layer long PCB2_1 and corner PCB2_5, using direct regulated 24 V input. USB-PD/NVM development was cancelled. The 60 W board-wide target and roughly 1 W per-tile budget still require measurement.
-- The separate player battery board has a two-layer 80×80 mm R1-RC5 manufacturing candidate (J3 pin 1 = GND, pin 2 = BAT_PACK; supersedes RC4 for the selected battery), with USB-C, charging, hardware cutoff, MAX17048/SC18IM704 telemetry and a PH2.0 battery connector. It is not manufacturing-approved. Telemetry firmware is implemented and built, disabled by default, and has not been deployed or added to v4.
+- All 16 planned tiles have been flashed, verified and run in batches on V0.34. The release fixes WS2812B-B-V6 LED timing; 13 tiles have user-confirmed normal lighting, three await visual confirmation. RFID and a powered full ring still need testing with the 24 V supply.
+- The deployed Raspberry Pi server maps complete 16/24/32/40-space ORDER rings only when every online tile belongs to the same ring, the count matches the active map, and the physical corner roles match. Consistent manual anchors rotate the assignment; open-chain testing remains available. RS485 stays disabled.
+- Four player consoles have been discovered online. New games freeze 1–4 eligible human consoles and fill the remaining seats with bots. Sequential fresh-tag pairing precedes avatar/name setup; single-reader and open-chain setups are supported. A newly connected console waits for the next game instead of taking an existing seat.
+- Input batching, stale-hold protection and focused-row redraws are implemented. The waiting-page redraw fix is installed on COM27/28/29; COM27/28 passed the user's visual check, while COM29 awaits its own feedback. COM7 retains the preceding normal build. Exact rotary detents, Avatar/game display and the Retarget frame-time limit remain to be verified.
+- The latest frozen local package is **trial16-2026-10-15-v4**: V0.34 long/corner images, normal player `dfc4b7e5…`, and Pi `ea6e1f51…`. It is separate from the older September batch32-v4 package. Battery telemetry remains disabled and undeployed.
+- Tile hardware uses direct regulated 24 V input. The current player power-board design candidate is **R1 RC6-TP**, adding eight test points to the corrected battery-board design. Three in-use power boards were reported repaired by the user; charging, cutoff, thermal and manufacturing acceptance remain open.
+- The mechanical work includes an R2 one-piece three-tile fixture with geometry checks passed and printing/fit tests pending. The older CW47.5 console stand has user-confirmed fit; its successor remains in development.
 
-Single-reader pairing has worked on the physical setup. Full 32-tile/four-screen gameplay, 36-client networking, mechanical fit, power/thermal behavior and the player battery first board remain unverified. See the [current handoff](Docs/CURRENT-DEVELOPMENT-HANDOFF.md), [device/deployment registry](Docs/firmware/current-device-connections.md) and [release record](Docs/firmware/batch32-game-release-2026-09-26.md).
+See the [current handoff](Docs/CURRENT-DEVELOPMENT-HANDOFF.md), [device registry](Docs/firmware/current-device-connections.md), [16-space release and acceptance record](Docs/firmware/trial16-release-2026-10-15.md), and [mechanical progress](Docs/mechanical/README.md). Host tests, flashing and user confirmation of one page do not certify full-board gameplay, wireless capacity or electrical behavior.
 
 ## System Architecture
 

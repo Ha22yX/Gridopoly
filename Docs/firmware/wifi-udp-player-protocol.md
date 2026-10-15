@@ -3,7 +3,7 @@
 状态：A 级当前规范
 协议：Gridopoly Frame v1 + UDP Envelope v1
 服务端固定地址：`10.42.0.1:4242`
-最后更新：2026-09-27；Frame/Envelope版本不变，新增配对消息见[跨端契约](ring-onboarding-contract-2026-09-26.md)。
+最后更新：2026-10-15；Frame/Envelope 版本不变，Tag 配对消息及完整在线环约束见[跨端契约](ring-onboarding-contract-2026-09-26.md)。本页 wire 容量与网页默认四席模式分别说明。
 
 ## 1. 目标与边界
 
@@ -64,7 +64,7 @@ sessionKey = HMAC-SHA256(
 2. 服务端每秒向 `10.42.0.255:4242` 发送 PairingKey+Broadcast Discover。
 3. 圆屏也可不等待广播，直接向 `10.42.0.1:4242` 发送 PairRequest。
 4. PairRequest inner header 的 `deviceId` 必须等于 envelope `senderDeviceId`，roomId 必须来自当前 Discover。
-5. 服务端按持久化 `deviceId -> seatId` 恢复席位；新设备分配尚未保留的席位。
+5. 自动建局模式只按持久化 full identity 恢复本局冻结的真人席位；晚加入设备进入发现列表等待新局，不能占机器人席位。显式 humans/bots 调试局才按兼容注册规则分配尚未保留的真人席位。
 6. PairAccept 使用 pairKey，envelope 与 payload 同时携带非零 sessionId。
 7. 圆屏派生 sessionKey，随后发送 Heartbeat；服务端开始全量同步。
 
@@ -79,7 +79,7 @@ schema `1` 才是合法 Discover。
 | 0 | 1 | u8 | schema；树莓派 UDP 固定为 `2` |
 | 1 | 1 | u8 | UDP flags/reserved；当前固定为 `0` |
 | 2 | 1 | u8 | inner `FrameHeader` 协议版本；当前为 `kVersion` |
-| 3 | 1 | u8 | 服务端支持的最大玩家席位数；当前为 `6` |
+| 3 | 1 | u8 | codec/Core 最大席位数 `6`；不是自动建局人数上限，后者为 4 |
 | 4 | 4 | LE32 | serverDeviceId；必须等于 inner header 与 envelope senderDeviceId |
 | 8 | 4 | LE32 | roomId；PairRequest 必须回送当前值 |
 | 12 | 4 | LE32 | 当前 stateVersion；只用于发现阶段提示，配对后以权威快照为准 |
@@ -105,8 +105,9 @@ PairAccept payload schema v2 为 17 B：
 decoder 继续接受 ESP‑NOW v1 的 13 B PairAccept，并令 sessionId=0；encoder 只发 v2。
 
 通过 session HMAC 和 replay 校验后，来源 IP/UDP 端口允许变化，服务端更新 endpoint，席位不变。
-15 秒无合法帧后 peer 超时，服务端保留 session/seat 恢复信息 2 分钟。树莓派或 AP 重启会使
-room/session 失效；圆屏回到发现状态，以 deviceId 自动恢复原席位。
+15 秒无合法帧后 peer 超时，服务端保留 session 恢复信息 2 分钟；持久化席位不因此失效。
+服务器重启重建 UDP session，但成功恢复存档时保留 room 和冻结席位；AP 单独重启也不会创建新 room。
+圆屏在需要时回到发现/配对，以 full identity 恢复原席位。只有显式新局等房间生命周期操作更换 room。
 
 ## 5. 心跳、同步与重发
 
@@ -114,7 +115,7 @@ room/session 失效；圆屏回到发现状态，以 deviceId 自动恢复原席
 - 同版且无缺口时，服务端返回 Ack。
 - 版本不同、event gap、FlagResync 或 projectionIncomplete 时，服务端发送全量同步。
 - 推荐圆屏 UI degraded 门限 9 s，session reset/re-pair 门限 15 s。
-- Pair 后首次投影与任何全量重同步都保持同一顺序：Identity → 私有 pending CardDrawn replay（如有）
+- Pair 后首次投影与任何全量重同步都保持同一顺序：TagPairSnapshot → Identity → 私有 pending CardDrawn replay（如有）
   → State → Authority → Roster → Trade resync → events。Identity 不替代游戏投影；即使处于
   AvatarSetup/Countdown，服务端仍发送完整序列，便于客户端先进入正确的开局顶层页面，同时保留统一的
   Active 切换基线。
@@ -138,7 +139,7 @@ UDP packetSequence。服务端按 inner sequence 回放缓存 ActionResult，不
 服务端在此之前向所有格子返回 `movementCue=none`，并禁止 RFID 自动到达；成功后才开放出发格橙色
 呼吸、目标格绿色双闪和目标 Tag 自动确认。该后台回执不得阻塞稍后的手动 ConfirmPosition。
 
-PlayerDetailRequest 使用独立 requestId 缓存，700 ms 可重发，建议最多 4 次、4 s 失败；同 requestId
+PlayerDetailRequest 使用独立 requestId 缓存，重发间隔 700 ms，最多发送 4 次（含首次）、4 s 失败；同 requestId
 内容发生变化视为碰撞并拒绝。该查询不阻塞 Heartbeat 或 ActionRequest。
 
 ## 6. 卡片两阶段投影
@@ -251,7 +252,7 @@ seatRevision。ConfirmAvatar 只携带完整配方；ConfirmName 只携带姓名
 | ---: | ---: | --- |
 | 0 | 1 | schema=`1` |
 | 1 | 1 | roomPhase：AvatarSetup=`1`、Countdown=`2`、Active=`3` |
-| 2 | 1 | selfStage：AvatarSetup=`1`、Generating=`2`、Name=`3`、Ready=`4`、Countdown=`5`、Active=`6` |
+| 2 | 1 | selfStage：AvatarSetup=`1`、Generating=`2`、Name=`3`、Ready=`4`、Countdown=`5`、Active=`6`、TagPairing=`7` |
 | 3 | 1 | IdentityResultCode（见下表） |
 | 4 | 4 | requestId；主动全量投影为 `0` |
 | 8 | 4 | stateVersion |
@@ -293,7 +294,7 @@ ID 依次位于 18..22。未完成合成的真人配方不得出现在公共 Sna
 | 10 | RequestIdConflict |
 | 11 | AvatarGenerationFailed |
 
-完整重同步先发 IdentitySnapshot，再按第 5 节顺序发送其余游戏投影。服务端倒计时使用
+完整重同步先发 TagPairSnapshot、IdentitySnapshot，再按第 5 节顺序发送其余游戏投影。服务端倒计时使用
 `serverEpochMs` 与持久化 deadline，所有圆屏显示同一 5 秒时间线。ConfirmName 成功会在同一权威事务中
 写入 `PlayerState.name`、推进 `stateVersion/identityRevision/seatRevision`，随后立即触发所有已连接屏幕的
 Identity + Roster 全量投影；未确认姓名的真人席位在 Roster 中保持空名，UI 使用 P1/P2 等席位占位，不得
@@ -358,3 +359,7 @@ senderDeviceId 不匹配、room 不匹配、replay、seat/player 不匹配、旧
 新增TagPairRequest=0x2B（20字节）和TagPairSnapshot=0x2C（88字节），schema1、小端；身份席位TagPairing=7。字段布局、会话fence、revision、Retry/Cancel权限及持久化以[完整契约](ring-onboarding-contract-2026-09-26.md)为准，避免复制多个偏移表造成漂移。自动新局先绑定Tag再允许外貌姓名；单reader/开放链也可用。
 
 配对revision独立于游戏stateVersion，新认证session重置边界可接受首次可信resync重建，不能仅凭普通包Resync位接受旧revision。原Identity消息长度与Frame/Envelope均保持兼容。
+
+单 reader 可以没有 assignment、处于开放链，甚至暂未形成任何 ORDER 边；有新鲜可信空场→单 UID 扫描即可逐人配对。配对完成不代表该 reader 已映射到地图，自动到达仍须目标 assignment 和 MovementCueReady gate。服务器重启保留已绑定 UID、未取回限制和身份进度，换新的扫描 session；取消/超时仍须显式 Retry，不能靠 reader 重启跳过。
+
+已部署版本和验证范围见[服务端部署记录](server-all-online-ring-progress-2026-10-15.md)，四屏现场状态见[当前设备台账](current-device-connections.md)。设备在线/eligible 不代表当前局已冻结四真人，也不代表四人配对与完整实体游戏已通过。

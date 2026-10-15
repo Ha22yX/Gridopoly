@@ -1,47 +1,55 @@
 # 硬件文档入口
 
-**2026-10-14 当前工程全面投产复核**：已重新导出并冻结源文件、Gerber、BOM/CPL；68件/243脚/41网同步及实际铜层检查通过，原生PCB DRC 0，未发现新的确定性致命错接。原理图43条警告现已取得分类：两条重复同名网络和器件属性差异；30料号身份核对未发现错料，原生警告未清除。当前快照J3孔径0.9mm，不能与旧RC5 ZIP仅凭同名视为相同。**静态审查完成，量产仍未放行**：成品电池包4.23V充电容差/独立保护、J2实物配合、U1热孔与钢网工艺、USB/充电/欠压/遥测首件验收待闭合；默认电脑USB100mA限制保留。新Gerber SHA256为`ff1d6610f86817b8abf856b8e372c66f574020b3824ed76b2c69375bd793d031`。本轮未改电路、布局或软件；旧批BAT短路实物仍未返修。详见[本次完整审查与验收表](../../PCB%20Files/PlayerConsolePower/ProductionReadiness-2026-10-14/README.md)。
+更新：2026-10-15。项目包含长边与角落两种棋盘PCB，以及独立玩家圆屏和USB-C电池底板。下列状态区分当前数字设计、旧批实物、普通固件部署及尚未完成的电气验收；设备在线均为有时间的记录，不是实时保证。
 
-基线更新：2026-09-27；玩家供电PCB专项补充：2026-10-14。项目包含两种棋盘PCB，以及独立玩家圆屏和新增玩家电池底板。硬件审查统一由PCB任务负责；本页汇总PCB任务已交付的设计证据，主任务文档整合未操作在线工程或实物。
+## 玩家电池底板：当前候选与实物分别记录
 
-2026-10-05玩家底板补充：用户已下单、尚未收到。现场与RC5电气/机械图元一致，重新检查PCB DRC 0、243脚同步及41网制造铜层连通通过；订单文件尚待对应。新增BQ24074充电上限4.23V与EEMB公开电芯规格上限4.22V的容差缺口，普通电脑USB口100mA供电限制仍存在。原理图警告、接口/USB/充电实板验收未完成；[本轮全面复核](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/README.md) · [到货测试](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/arrival-tests.md)。RC5冻结文件未改动。
+当前数字候选为 **PLAYER POWER R1 RC6-TP**：80×80mm/R5、双层、1.6mm/1oz、实装器件顶面；76组件（68实装＋8裸测试点）、251焊盘、555线段、84过孔、41网。8测试点单排8mm间距，孔1.0mm/铜盘2.2mm、双面仅网络名；原68件、82旧过孔、原走线物理路径及板框/安装孔保持。完整PCB DRC 0、实际铜层连通及测试点制造层检查通过；原理图43条既有警告已分类，未清除。**静态候选仍为投产HOLD，不等于所有实板功能已验收。**
 
-## 玩家电池底板：打样包 J3 地铜短路已定位，实物待返修
+| 玩家屏最后记录 | 底板／电池与实际反馈 | 仍未确认 |
+| --- | --- | --- |
+| COM7，普通22ca | 用户报告已返修、带电池；经底板USB升级成功，屏幕稳定、无明显发热 | 定量充放电、热、保护及UART遥测 |
+| COM27／COM28，普通dfc4 | 两块底板已返修、带电池；升级后用户确认等待新游戏页正常 | 其他页面、精确输入及电池全项验收 |
+| COM29，普通dfc4 | 升级、启动联网通过；最新服务器快照曾有四屏online/eligible | 底板是否返修、是否接电池、画面目视均未获相同确认 |
 
-**2026-10-14 打样包已查明致命短路**：用户提供的 `Gridopoly_PCB1_20260927_204456.zip` 在 J3.2/BAT+ 顶层保留三条0.254mm接地铜桥，BAT_PACK与GND实际铜几何相连。该20:44:56包早于20:57:30修复后的RC5，足以解释所有板BAT约0.2Ω；SYS_RAW约18.92kΩ、5V_SCREEN几MΩ不矛盾。**文件原因已定位，实物未返修，继续断开电池/USB/屏幕。** 当前工程DRC0不适用于此旧包；本轮全网几何检查未发现其他短断路，不等于整板功能验收。[打样文件证据与位置图](../../PCB%20Files/PlayerConsolePower/OrderPackageAudit-2026-10-14/README.md)。
+以上普通固件全部保持 `BatteryBoard=none`，即遥测关闭，不表示实物没有电池。COM7/27/28的用户返修反馈不扩大到其他旧板；USB写验成功和无明显发热反馈不替代充电、放电、欠压、温升或UART实测。见[设备台账](../firmware/current-device-connections.md)和[16格试玩记录](../firmware/trial16-release-2026-10-15.md)。
 
+| 数字文件／历史阶段 | 结论与SHA256 |
+| --- | --- |
+| [RC6-TP当前候选](../../PCB%20Files/PlayerConsolePower/Testpoints-2026-10-15/README.md) | Gerber `bff4f65a4de8f07b44090f04ccfda05d3c57241564201dea600e5bc1f85e09d3`；测试点增量通过，电气首件条件继续保留 |
+| [10月14日全面审查基线](../../PCB%20Files/PlayerConsolePower/ProductionReadiness-2026-10-14/README.md) | Gerber `ff1d6610f86817b8abf856b8e372c66f574020b3824ed76b2c69375bd793d031`；68件/243脚/41网，J3孔0.9mm，静态审查通过范围见原报告 |
+| [旧打样故障包](../../PCB%20Files/PlayerConsolePower/OrderPackageAudit-2026-10-14/README.md) | ZIP `2344f34c45307a879c9a3274bddd53681152dcf42d9fb47637cb690d554405b6`；9/27 20:44:56版J3.2保留三条地铜桥，不能重新用于投产 |
 
-当前候选 **R1-RC5**：80×80mm/R5、双层、1.6mm/1oz、器件顶面；68件/243脚、536线段/82过孔。J2焊盘1–10反转对应厂家排线逻辑针序；J3沿用PH2.0-2P并翻转极性，JST B2B-PH-K-S(LF)(SN)/C131337，1脚GND/BAT−、2脚BAT_PACK/BAT+，匹配PHR-2线端。
+10/14查明旧包的BAT_PACK与GND实际铜短路，足以解释用户当时批量约0.2Ω；SYS_RAW约18.92kΩ、5V_SCREEN几MΩ不矛盾。原报告“未返修、断开电池/USB/屏幕”描述当时故障板，不能覆盖上表后续明确返修的板。当前编辑器DRC0不能替代旧订单包检查，数字设计修复也不会自动修复实物。
 
-用户已选择标准型SMT，保留U5 TUSB320LAIRWBR；67件SMT＋1件插件、30料号，J3需插件焊接或后焊。PCB DRC 0、34项布局检查、11项J3检查及41网铜层连通审查通过，37份交付哈希核验通过；这些结论只覆盖归档文件，不代表实物装配已成功。
+J2反向焊盘映射与厂家排线逻辑针序分开；J3为JST B2B-PH-K-S(LF)(SN)/C131337，配PHR-2，1脚GND/BAT−、2脚BAT_PACK/BAT+。用户选择标准型SMT并保留U5 TUSB320LAI；实装为67件SMT＋1件PH2.0插件、30料号。RC4的J3极性相反，RC6-TP沿用RC5修正极性，制造资料不得跨版本拼接。
 
-**已到货，BAT 端批量低阻故障未修复，禁止以旧静态检查作为通电放行依据**：用户所给打样包已确认错误，订单贴装资料和成品电池包充电电压容差仍待核对；当前43条原理图警告已分类并核对料号，原生警告未清除；J2供应商500mA/触点与屏幕实际峰值、排线0.30±0.03mm尾端/接触面/通断、1S电池保护与电流、USB/充电/热/欠压首板验收待完成。电池遥测固件已构建，默认关闭，尚未部署或连接底板。
+仍待闭合：成品电池包与BQ24074最高4.23V的容差、独立保护，J2实际尾端/接触/峰值，U1热孔与钢网及插件装配，以及充放电、热、欠压和UART首件验收。**无电池供电有条件可用**：当前默认100mA；电脑C-to-C须具备数据且CC宣告至少1.5A，才会进入约894mA输入档，并需按POWER开机；默认电流/A-to-C不保证启动。尚无无电池实测通过结论，详见[USB输入与上传边界](player-usbc-battery-base-2026-09-27.md#5-usb-输入电流与上传边界)。
 
-- [电路、接线与采购说明](player-usbc-battery-base-2026-09-27.md)
-- [J3规格、观察方向与黑1红2接线速查](player-usbc-battery-base-2026-09-27.md#j3-battery-connector)
-- [RC5制造归档](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/README.md) / [投产复核](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/production-review.md) / [首板清单](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/bringup-checklist.md)
-- [UART协议](player-battery-telemetry-interface-2026-09-27.md) / [厂家GPIO证据](player-screen-uart-gpio-evidence-2026-09-27.md) / [固件接入](../firmware/player-battery-telemetry-progress-2026-09-27.md)
-
-旧DesignDraft及RC1～RC4原始文件/哈希保留追溯。RC4的J3极性与RC5相反，当前所选电池使用RC5同版资料。按键内部常通组错误已修复为1/2接控制、3/4接GND；旧97afc2d不作为制造版本，81项修复检查不等于41条原生警告已分类。
+- [电路、接线、采购与当前四屏状态](player-usbc-battery-base-2026-09-27.md)
+- [J3观察方向与黑1红2接线](player-usbc-battery-base-2026-09-27.md#j3-battery-connector) / [测试点位置](player-usbc-battery-base-2026-09-27.md#rc6-tp-testpoints)
+- [UART协议](player-battery-telemetry-interface-2026-09-27.md) / [GPIO证据](player-screen-uart-gpio-evidence-2026-09-27.md) / [固件接入](../firmware/player-battery-telemetry-progress-2026-09-27.md)
+- [历史RC5制造归档](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/README.md) / [10月5日复核](../../PCB%20Files/PlayerConsolePower/ProductionAudit-2026-10-05/README.md)
 
 ## 棋盘长边与角落
 
-长边PCB2_1、角落PCB2_5；角落J301使用稳压24V、5.5×2.1mm中心正。PD电路/NVM已取消。两板支路保留TPS26621、LMR16030SDDAR，INA226只测本板5V。181项供电引脚断言及四种组合36触点二维核对是设计证据；最终制造revision、机械、射频、电气和整盘仍待验。
+长边PCB2_1为141件/底面48件，角落PCB2_5为152件/底面46件；当前相关机械/布局图元与9/21归档一致。角落J301接稳压24V、5.5×2.1mm中心正极；PD/NVM取消，本地支路仍保留TPS26621与LMR16030SDDAR，INA226只测本板5V。24V/5A是适配器选型建议，120W铭牌不提高板端额定；60W整盘/约1W每板仍是待验证预算。
+
+计划16块（12长边＋4角落）已分批完成V0.34写验、启动及联网，13板灯效获用户确认，COM16/17/18待单独目视。原故障COM19仍隔离，替换COM10正常不等于原板已修复；[全白故障原记录](corner-led-white-2026-10-15.md)保持冻结，后续状态以[当前试玩记录](../firmware/trial16-release-2026-10-15.md)为准。完整24V供电、RFID、16板同时在线实体环及整局未验收。服务端已支持目录16/24/32/40 ORDER环，RS485仍禁用，不能借ORDER闭环证明A/B闭环可用。
 
 | 内容 | 文档 |
 | --- | --- |
-| 工程身份与基线 | [两种PCB](pcb-variants.md)、[硬件基线](hardware-baseline.md) |
-| 当前电源 | [直接24V](corner-dc24-input-2026-09-21.md)、[供电复核](power-schematic-audit-2026-09-21.md)、[外接电源](external-24v-supply.md) |
-| GPIO/对插 | [GPIO](esp32-s3-pin-map.md)、[9触点互连](module-interconnect-5wire.md)、[历史二维核查](interconnect-audit-2026-09-21.md) |
-| 首板/整盘 | [首板](bring-up-checklist.md)、[供电验收](power-system-acceptance.md)、[功耗固件](../firmware/module-power-firmware.md) |
-| 采购/制造 | [历史BOM提示](bom-review-2026-09-21.md)、[9月22日汇报](development-handoff-2026-09-22.md)、[批量固件板型审计](batch32-firmware-audit-2026-09-25.md) |
+| 工程身份／基线 | [两种PCB](pcb-variants.md)、[硬件基线](hardware-baseline.md) |
+| 电源 | [直接24V](corner-dc24-input-2026-09-21.md)、[供电复核](power-schematic-audit-2026-09-21.md)、[外接电源](external-24v-supply.md) |
+| GPIO／对插 | [GPIO](esp32-s3-pin-map.md)、[9触点互连](module-interconnect-5wire.md)、[历史二维核查](interconnect-audit-2026-09-21.md) |
+| 首板／整盘 | [首板清单](bring-up-checklist.md)、[供电验收](power-system-acceptance.md)、[功耗固件](../firmware/module-power-firmware.md) |
+| 机械 | [整体底板首件R2](../../Mechanical/BoardBase/README.md)、[冻结接口](../../Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/mechanical-interface.json) |
+| 历史采购／制造 | [BOM提示](bom-review-2026-09-21.md)、[9月22日汇报](development-handoff-2026-09-22.md)、[批量固件板型审计](batch32-firmware-audit-2026-09-25.md) |
 
-24V/5A是适配器选型建议，120W铭牌不等于棋盘额定；60W整盘/约1W每板是待验预算。R26/R30的C165751缺料是9月21日截图记录，本次未查当前库存或替料，不作为实时缺货结论。
-
-V0.33显式角色profile已实现；完整32 ORDER环及四角规则已在服务端实现，实物待验。旧“ORDER必须断开”的方案不再作为当前软件限制；RS485仍未启用，A/B启用前仍需线型断点/终端。[现行拓扑契约](../firmware/ring-onboarding-contract-2026-09-26.md)
+当前R2为一角两长、151×151mm连续L形，PCB底面离桌16mm，Ø6/Ø3.6接触环；3.0×10mm塑料专用螺钉和Ø2.5mm候选盲孔需先试孔，尚未实际切片、打印或试装。用户自然共面、板厚约1.6mm与底面突出约8.1mm已记录；g=9mm仍以约12/15mm来自主体直边为条件。冻结包中的旧14mm架高/滑移提案不改写，现行安装以R2为准。
 
 ## 历史效力与发布
 
-`corner-usbc-pd-*`、`corner-pd-esp32-programming-*`、旧218器件布局和PD固件规格不指导当前采购或制造；支路保护设计中未被改版替代的部分仍保留。订单制造revision没有与可核对的包绑定前，不能把本地PCB名字当已下单版本。
+`corner-usbc-pd-*`、`corner-pd-esp32-programming-*`、旧218件候选及旧PD固件规格不指导当前采购。R26/R30的C165751缺料为9/21截图记录，本次未查库存，不作为实时缺货结论。10/5“已下单、未收到”及10/14“全部未返修”均按当时时点保留，后续实板状态见上述分设备记录。
 
-[当前项目交接](../CURRENT-DEVELOPMENT-HANDOFF.md)统一记录部署与待办。原理图、PCB、BOM/CPL、Gerber、固件和实机验收分别冻结，不能跨版本拼接通过结论。
+[当前项目交接](../CURRENT-DEVELOPMENT-HANDOFF.md)统一记录部署与待办。原理图、PCB、BOM/CPL、Gerber、固件及实机验收分别冻结；棋盘当前实物批次未与制造文件哈希绑定前，不能把工程树名字当作订单版本，也不能跨版本拼接通过结论。

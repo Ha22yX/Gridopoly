@@ -1,6 +1,6 @@
 # Gridopoly 文档中心
 
-更新：2026-10-15。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)了解已有实现、最后部署和未完成验收，再按下表进入规范。本轮正在完成 4 角落 + 12 长边的 16 格试玩、玩家屏优化及分批写验，不能把旧 32 格包或主机测试当作本轮实体试玩通过。
+更新：2026-10-15。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)了解已有实现、最后部署和未完成验收，再按下表进入规范。当前12长边＋4角落已完成V0.34分批写验，4台玩家屏在线已有证据，最新包为trial16-2026-10-15-v4；整盘24V/RFID/实体游戏仍待验。
 
 ## 当前状态入口
 
@@ -10,13 +10,15 @@
 | 16 格试玩开发、四板一批烧录 | [本轮发布与验收](firmware/trial16-release-2026-10-15.md) |
 | 当前设备IP、MAC、串口、实际固件 | [最后有证据的设备台账](firmware/current-device-connections.md)，不是实时在线状态 |
 | 候选包与批量刷写 | [本轮16格冻结包](firmware/trial16-release-2026-10-15.md)、[批量工具](../Tools/release/README.md)；[历史32格v4](firmware/batch32-game-release-2026-09-26.md) |
-| 16/32环与非环形测试、配对流程 | [跨端契约](firmware/ring-onboarding-contract-2026-09-26.md)、[单模块/地图修复](firmware/newgame-open-chain-fix-2026-09-26.md) |
-| 玩家输入 | [本轮输入批处理与局部刷新](firmware/player-16-trial-progress-2026-10-15.md)、[9月26日旋钮/手写修复](firmware/player-input-handwriting-fix-2026-09-26.md)；新候选已构建，尚未部署和实机复验 |
-| 玩家电池底板 | [电路/接线/采购](hardware/player-usbc-battery-base-2026-09-27.md)、[RC5制造候选](../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/README.md) |
+| 全在线16/24/32/40环、开链测试与配对 | [跨端契约](firmware/ring-onboarding-contract-2026-09-26.md)、[单模块/地图修复](firmware/newgame-open-chain-fix-2026-09-26.md) |
+| 玩家输入 | [本轮输入批处理与局部刷新](firmware/player-16-trial-progress-2026-10-15.md)、[9月26日旋钮/手写修复](firmware/player-input-handwriting-fix-2026-09-26.md)；COM7已部署22ca，COM27/28/29为dfc4；精确卡点与Avatar手感仍待验 |
+| 玩家电池底板 | [电路/接线/采购](hardware/player-usbc-battery-base-2026-09-27.md)、[RC6-TP当前设计候选](../PCB%20Files/PlayerConsolePower/Testpoints-2026-10-15/README.md) |
 | 电池功能是否已部署 | [固件接入证据](firmware/player-battery-telemetry-progress-2026-09-27.md)：源码/构建已完成，默认关闭，未部署 |
+| 新屏显示与第四屏 | [等待页修复](firmware/player-new-screen-display-progress-2026-10-15.md)、[COM29部署](firmware/player-fourth-screen-flash-2026-10-15.md) |
+| 3D与机械 | [模型、首件及待办](mechanical/README.md) |
 | 接下来做什么 | [实施与验收路线图](firmware/development-roadmap-2026-09-21.md) |
 
-棋盘为长边PCB2_1与角落PCB2_5，直接24V供电；另有独立玩家屏和RC5电池底板。玩家Wi-Fi/UDP、格子Wi-Fi/HTTP＋ORDER，RS485未启用。本轮将完整 ORDER 自动闭环从 32 节点扩展为 16 / 32 节点及对应四角约束；实际部署和验收见本轮记录。24 / 40 地图不代表支持对应完整物理环，单模块配对不要求闭环。玩家底板旧订单实物短路与最新制造候选的区别见当前交接。
+棋盘为长边PCB2_1与角落PCB2_5，直接24V供电；另有独立玩家屏和RC6-TP电池底板候选。玩家Wi-Fi/UDP、格子Wi-Fi/HTTP＋ORDER，RS485未启用。全在线ORDER自动闭环现支持目录16/24/32/40节点及实际四角校验，已部署Pi；完整实物环仍待验。单模块配对不要求闭环。玩家底板旧订单实物短路与最新制造候选的区别见当前交接。
 
 ## 规范与开发入口
 
@@ -39,7 +41,7 @@
 
 ## 版本沿革与历史效力
 
-- 玩家底板：DesignDraft原始设计 → 按键内部常通组修复 → RC1布线 → RC2 USB路径调整 → RC3电源走线/丝印 → RC4 PH2.0 J3 → **RC5 J3黑1/红2及地铜修复**。仅RC5为当前归档候选，仍未制造放行；旧版原始网表、报告和哈希不改写。
+- 玩家底板：DesignDraft原始设计 → 按键内部常通组修复 → RC1布线 → RC2 USB路径调整 → RC3电源走线/丝印 → RC4 PH2.0 J3 → **RC5 J3黑1/红2及地铜修复**。后续RC6-TP增加8个测试点并完成静态复核，当前候选仍未制造放行；旧版原始网表、报告和哈希不改写。
 - 棋盘：旧24模块PD方案、PD NVM与218器件布局已取消；当前为直接24V。保留[9月22日硬件汇报](hardware/development-handoff-2026-09-22.md)、[历史PD设计](hardware/corner-usbc-pd-24v-plan-2026-09-20.md)、[接口核查](hardware/interconnect-audit-2026-09-21.md)供追溯，历史“ORDER拒绝环”不覆盖最新闭环契约。
 - 软件：[协调](firmware/development-coordination-2026-09-07.md)、[服务端早期进度](firmware/server-development-progress-2026-09-07.md)、[玩家早期进度](firmware/player-console-development-progress-2026-09-07.md)、[格子早期进度](firmware/tile-module-development-progress-2026-09-07.md)、[双板ORDER](firmware/tile-order-development-progress-2026-09-09.md)、[刷新](firmware/tile-display-refresh-progress-2026-09-08.md)、[显示时钟](firmware/tile-display-clock-progress-2026-09-08.md)、[早期输入](firmware/avatar-input-recovery-progress-2026-09-08.md)。历史用户确认只对应其版本/场景。
 - 旧入口：[8月交接](archive/development-handoff-2026-08-28.md)、[整合前交接](archive/development-handoff-before-2026-09-27-refresh.md)、[PCB接任](hardware/pcb-design-handoff-2026-09-19.md)、[旧连接器](hardware/connector-selection-2026-09-19.md)。`design-records`、`superpowers`及ESP32测试服务端仅供沿革/回归，不替代正式Pi架构。
@@ -50,4 +52,4 @@
 
 构建、测试、部署、功能、性能、视觉和电气分别记录；DRC或串口正常不代替实物验收。供应库存注明查询日期，下单前重查。凭据、固件私有配置和本地备份不提交。当前无自动续派定时任务。
 
-本轮整理范围及证据见[文档更新记录](documentation-refresh-2026-09-27.md)。
+本轮整理范围及证据见[2026-10-15更新记录](documentation-refresh-2026-10-15.md)；[9月整合](documentation-refresh-2026-09-27.md)保留历史。

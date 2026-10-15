@@ -1,10 +1,12 @@
 # Raspberry Pi 5 权威服务端
 
-## 2026-09-27当前版本与流程
+## 2026-10-15 当前版本与流程
 
-本页部署/运维基础说明保留，最新软件交付为32环/四角约束、四屏自动组队、逐人Tag配对和地图兼容修复；Pi最后部署binary `2bc084d7…`，管理网最后`10.0.0.124`、设备网`10.42.0.1`。本次未访问现场或重启服务，历史地址/房间不代表实时状态。
+Pi 已部署源码检查点 `0fed0ce` 的 binary `ea6e1f517c597cc69f6f0724af0d501206cf3d57e457945c9cc138fc3f2d118d`，支持全部在线集合匹配的 16/24/32/40 四角环、自动四席及逐人 Tag 配对。[部署记录](server-all-online-ring-progress-2026-10-15.md)保留首轮核验回滚原因、最终 20 秒检查与存档证据。管理网最近地址 `10.0.0.124`，玩家网 `10.42.0.1`；本轮文档整理不访问设备或部署。
 
-网页主入口`POST /api/new?size=32&autoPlayers=1`，也接受16/24/40；冻结1～4台合格在线屏并补机器人至4席。`GET /api/player-devices`负责发现，`GET /api/tag-pairing`及版本化Retry/Cancel负责逐人配对。单块未分配reader/开放链可配对，不要求32环；仅32实体拓扑满足4角/28长边才自动闭环映射。
+主任务 2026-10-15 09:39 UTC 只读确认 room `993580113` / version 11：四屏 online/eligible，但当前冻结三真人加一机器人，COM29 为 seat0 等待下一新局。不能将发现列表四屏写成四真人已入局。设备版本及后续动态以[设备台账](current-device-connections.md)和[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)为准。
+
+网页主入口`POST /api/new?size=32&autoPlayers=1`，也接受16/24/40；冻结1～4台合格在线屏并补机器人至4席。`GET /api/player-devices`负责发现，`GET /api/tag-pairing`及版本化Retry/Cancel负责逐人配对。单块未分配reader/开放链可配对，不要求完整环；自动地图映射则要求全部当前在线模块恰好属于同一个匹配地图格数的环，4 个 corner 与实际地图四角一致，其余为 long。
 
 TagPairing在Identity准备期进行，绑定成功即可并行外貌姓名，全部ready后五秒倒计时；成功拿回限制与冻结席位持久化，重启生成新的扫描session。元数据保留旧前缀并追加ONB1/PND1，旧存档兼容；完整字段与二进制布局只在[跨端契约](ring-onboarding-contract-2026-09-26.md)维护。
 
@@ -14,7 +16,7 @@ TagPairing在Identity准备期进行，绑定成功即可并行外貌姓名，�
 
 目标系统：Raspberry Pi OS Lite 64-bit
 
-最后更新：2026-09-27（历史观测保留原日期；未重新部署）
+最后更新：2026-10-15（本轮仅文档；旧观测保留原日期）
 
 ## 1. 当前结论
 
@@ -25,13 +27,13 @@ ESP-NOW 回退，不再代表正式部署架构。
 
 当前服务器能力包括：
 
-- 16/24/32/40 格地图，最多 6 名玩家、28 项资产和完整回合/经济状态机。
+- 16/24/32/40 格地图，Core/codec 容量 6 席、28 项资产；网页自动模式为 1～4 真人加机器人共四席。
 - 真人席位与 Bot 席位在网页建局时冻结；Bot 不能占用预留真人席位。
-- Avatar Setup → Name Setup → Ready → 统一 5 秒倒计时；身份状态和最终头像可持久化恢复。
+- 自动模式逐人 Tag 配对 → 绑定者独立 Avatar Setup → Name Setup → Ready → 统一 5 秒倒计时；身份状态和最终头像可持久化恢复。
 - HMAC 认证的 Wi-Fi/UDP 玩家屏会话、动作幂等、事件补发、全量恢复和端点迁移。
 - 玩家详情、双向交易和身份操作采用独立按需消息，不扩大常规快照。
 - 网页棋盘、机器人间隔设置、指定玩家下一次投骰目的地、地产归属徽标和逐格移动动画。
-- 格子2秒Heartbeat、15秒租约；V0.33按ORDER/手动锚点/32环分配，最低空闲格自动认领仅兼容旧无ORDER模块。
+- 格子2秒Heartbeat、15秒租约；V0.34 按完整匹配环或开放链手动锚点分配，最低空闲格自动认领仅兼容旧无ORDER模块。
 - 36 张网页 PNG、36 张圆屏 RGB565 格子图、30 个中性 GAVC 头像组件和最终公共头像。
 - 有界并发 HTTP、原子主状态存档、systemd 自启/自动重启和独立 `gridopoly` 玩家网络。
 
@@ -66,6 +68,8 @@ AP 信道必须跟随 `wlan0` 的实际 2.4 GHz 信道。两个 IP 网络和用�
 | `AuthorityService.*` | 线程安全权威入口、机器人、网页控制、投影、交易与身份编排 |
 | `UdpPlayerServer.*` | UDP 发现/配对、HMAC、重放窗口、Heartbeat、按需协议和全量同步 |
 | `HttpServer.*` | 有界并发 HTTP、网页 API、素材路由与运行诊断 |
+| `TileOrderTopology.h` / `TileOrderProjection.h` | 新鲜物理邻接、四角环、开放链锚点与派生冲突 |
+| `TagPairingModel.h` | 单 reader 也可用的逐人配对、新鲜空场、幂等、取消/重试和拿回限制 |
 | `TileDebugAssignments.*` | 进程内格子模块注册/租约、自动与手动分配、视觉派生和冻结下行 DTO |
 | `FileStateStore.*` | 游戏状态 schema 4、兼容迁移和主状态原子提交 |
 | `IdentityModel.*` | 冻结真人/Bot 席位、Identity 阶段、倒计时和确定性 Bot 外貌 |
@@ -90,8 +94,9 @@ Firmware/TestGameServer/src/PlayerDetailProjection.*
 
 ### 4.1 建立新对局
 
-网页调用 `POST /api/new?size=<16|24|32|40>&humans=<1..6>&bots=<0..5>`。
-服务端要求总人数为 2..6，并立即冻结席位类型：
+网页主入口为 `POST /api/new?size=<16|24|32|40>&autoPlayers=1`：当前 1～4 台 eligible 在线屏按 deviceId 排序冻结真人，补机器人至四席；0 台或超过 4 台拒绝且不改房间。后来上线的屏幕不能替换机器人或已有真人，等下一次用户新局。
+
+显式 `humans=<1..6>&bots=<0..5>` 保留调试兼容，总数 2..6，不是主入口。两种模式均冻结席位类型：
 
 - 真人设备只能绑定预留真人席位。
 - Bot 席位固定，不能被真人替换。
@@ -101,11 +106,12 @@ Firmware/TestGameServer/src/PlayerDetailProjection.*
 
 ### 4.2 真人身份流程
 
+0. 自动模式未绑定真人先处于 `TagPairing` 席位阶段 7：新 session 下先见新鲜空场、再见新唯一 UID；绑定落盘后即可编辑，取回提示独立保留。
 1. `AvatarSetup`：圆屏提交最终 recipe；服务端异步生成最终公共头像。
 2. `NameSetup`：头像生成成功后提交最终姓名；名称必须是 1..16 字节有效 UTF-8，
    不得含控制字符，且忽略大小写后不得与任何真人或 Bot 重名。
 3. `Ready`：`ConfirmName` 成功即完成真人 Ready，不存在第四个确认动作。
-4. `Countdown`：所有必需真人的头像、姓名和生成任务完成后，只创建一次统一 5 秒 deadline。
+4. `Countdown`：所有必需真人的 Tag 配对、头像、姓名和生成任务完成后，只创建一次统一 5 秒 deadline。
 5. `Active`：deadline 到达后进入正式游戏；倒计时中断线不会暂停或重建 deadline。
 
 Identity 投影使用独立 `IdentitySnapshot/IdentityRequest`（`0x2A/0x29`）。Identity 非 Active
@@ -113,7 +119,8 @@ Identity 投影使用独立 `IdentitySnapshot/IdentityRequest`（`0x2A/0x29`）�
 完整同步顺序为：
 
 ```text
-Identity
+TagPairSnapshot
+-> Identity
 -> 本席未完成 CardReveal（如有）
 -> State
 -> Authority
@@ -150,15 +157,17 @@ sudo systemctl enable --now \
 
 ### 5.2 AP 与 DHCP
 
+下列 fallback/模板值须和实际运行配置分开。工作区 AP 脚本/env 的待验证修改尚未提交部署；本轮游戏服务器更新没有修改 AP。此前只读核对 watchdog 实际 20/45/2 秒，不能据模板宣称 hostapd 新配置、主动 ARP 提案或重连延迟修复已上线。详见[外置 AP 与当前边界](external-ap-deployment-2026-09-26.md)。
+
 - `ap0`：`10.42.0.1/24`
 - DHCP：`10.42.0.20`～`10.42.0.200`，租约 12 小时
 - 本地域名：`gridopoly.local`
 - Wi-Fi：2.4 GHz、WPA2-PSK、CCMP、802.11n/WMM
-- hostapd 兼容回退为 inactivity 15 秒、low-ACK 断站开启；新安装模板推荐 inactivity 10 秒、
-  `disassoc_low_ack=0`。实体 RST/断电可能不发送 deauth，短 inactivity 会在客户端重新认证前
-  清除 ghost station；关闭 low-ACK 断站则避免弱信号本身触发关联抖动。
-- watchdog 兼容回退为失败邻居 6 秒、RX 停滞 10 秒、2 秒轮询；新安装模板推荐
-  20 秒、45 秒、2 秒，避免 2 秒 Heartbeat 在短时衰落中触发反复重关联。
+- hostapd 兼容回退为 inactivity 15 秒、low-ACK 断站开启；未部署的工作区模板提出 inactivity 10 秒、
+  `disassoc_low_ack=0`。实体 RST/断电可能不发送 deauth；该提案旨在缩短残留 station 的寿命，
+  并减少驱动 low-ACK 触发的断站，实际重连延迟和弱信号表现仍需现场验证。
+- watchdog 兼容回退为失败邻居 6 秒、RX 停滞 10 秒、2 秒轮询；未部署的工作区模板提出
+  20 秒、45 秒、2 秒，目的是降低短时通信停滞引起误回收的风险，不代表重连问题已解决。
 
 玩家网不转发外部 DNS，也不是面向互联网的通用热点。SSID、AP 密码、家庭 Wi-Fi 凭据和
 UDP PSK 只写入树莓派本地配置，禁止提交 Git 或输出到日志。
@@ -272,21 +281,9 @@ sudo Server/RaspberryPi/deploy/install.sh \
 - 保留已存在的 `/etc/gridopoly/server.env` 与 `ap.env`。
 - 不启动服务；配置完成后由维护者显式 enable/start。
 
-升级生产机前应先备份：
+已有生产机仅更新游戏 binary/Web 时，不重复运行可能改 AP/unit 的全量安装器。先核对候选 SHA、实际进程 SHA、room/玩家/状态并保存旧程序；正常 stop 让存档 flush，再复制整个数据目录取得一致备份、核对文件哈希，原子替换 binary 后 start。仅重启 gridopoly，保留 AP、凭据、配置和全部存档。启动或存档异常须保留失败数据再回滚一致备份。
 
-```bash
-sudo cp -a /usr/local/bin/gridopoly_server \
-  /usr/local/bin/gridopoly_server.rollback
-sudo cp -a /var/lib/gridopoly /var/lib/gridopoly.backup
-```
-
-随后运行安装器，只重启权威服务，不重启整机或 AP：
-
-```bash
-sudo systemctl restart gridopoly.service
-sudo systemctl --no-pager --full status gridopoly.service
-curl --max-time 3 http://127.0.0.1/health
-```
+部署后有界 GET 检查 health/sync/devices/assignments、原席位恢复、实际 `/proc/<pid>/exe` 与网页 ETag/gzip。正常停服会把真人 connected 持久化为 false，重连恢复 true；仅可在核对具体字段和最终完整 presence 后解释版本/CRC/真人 connected 的变化，不能忽略现金、资产、Tag 或其它 flags。2026-10-15 的首轮验收脚本曾因此误判并回滚，证据和第二轮成功完整保留在部署记录，不能把运行中的简单 `cp` 当一致快照。
 
 涉及 AP/unit 配置时才单独重启对应单元。部署不应操作或重刷玩家屏COM7（COM4仅历史端口）；圆屏会根据
 device id、room 和会话规则自动恢复。
@@ -302,13 +299,16 @@ HTTP 在全部 IPv4 接口监听，当前没有登录或 CSRF 保护。因此管
 | --- | --- | --- |
 | GET | `/` | gzip 测试网页；`ETag` + `no-cache` |
 | GET | `/health` | 服务、HTTP、UDP、详情、交易和身份诊断 |
-| GET | `/api/sync` | 网页增量入口；七个版本键相同返回 204 |
+| GET | `/api/sync` | 网页增量入口；全部游戏/控制/身份/配对版本键相同返回 204 |
 | GET | `/api/state` | 完整动态状态 |
 | GET | `/api/board?room=<id>` | 当前房间静态棋盘；room 改变返回 409 |
 | GET | `/api/settings` | Bot 间隔和允许范围 |
 | POST | `/api/settings?botIntervalMs=<100..10000>` | 保存 Bot 间隔 |
 | POST | `/api/action?...` | Web 控制席位动作 |
-| POST | `/api/new?size=&humans=&bots=` | 建立新测试对局和 Identity 生命周期 |
+| POST | `/api/new?size=&autoPlayers=1` | 主入口：冻结 1～4 合格在线屏，补机器人至四席 |
+| GET | `/api/player-devices` | 实时发现、eligible 与当前 seatId；不同于本局冻结名单 |
+| GET / POST | `/api/tag-pairing` | 查询或带 room/session/revision/requestId 的 Retry/Cancel |
+| POST | `/api/new?size=&humans=&bots=` | 显式调试兼容新局 |
 | POST | `/api/forced-roll?player=&target=&expected=` | 指定某玩家下一次投骰落点 |
 | POST | `/api/forced-roll?cancel=1` | 取消待执行强制落点 |
 | POST | `/api/tile-modules/heartbeat?moduleId=&deviceId=` | 注册/续租、上报稳定 Tag 集合并返回 assignment + movement cue |
@@ -316,8 +316,8 @@ HTTP 在全部 IPv4 接口监听，当前没有登录或 CSRF 保护。因此管
 | POST | `/api/tile-debug/assignment?moduleId=&deviceId=&tileId=` | 右键把在线模块手动移动到当前格；owner 只读投影自权威状态 |
 | DELETE | `/api/tile-debug/assignment?moduleId=` | 清除manual并保持在线；恢复合法ORDER投影或等待，旧无ORDER模块才自动认领 |
 | GET | `/api/tile-tags` | 全局去重 Tag 目录、module/tile sighting 与玩家绑定 |
-| POST | `/api/player-tag-binding?playerId=&uid=&expectedRevision=` | 把当前稳定检测到的 UID 原子绑定/转移给玩家 |
-| DELETE | `/api/player-tag-binding?playerId=&expectedRevision=` | 解除玩家 Tag 绑定 |
+| POST | `/api/player-tag-binding?playerId=&uid=&expectedRevision=` | 非自动调试局兼容绑定；自动模式返回 NotAllowed |
+| DELETE | `/api/player-tag-binding?playerId=&expectedRevision=` | 非自动调试局兼容解除；自动模式返回 NotAllowed |
 | POST | `/api/web-detach` | 网页卸载提示，返回 204 |
 
 `/api/sync` 的 unchanged 判断同时比较 `stateVersion`、`peers`、`roomId`、`networkId`、
@@ -339,8 +339,8 @@ HTTP 在全部 IPv4 接口监听，当前没有登录或 CSRF 保护。因此管
 - 棋盘格右键菜单只需从在线模块中选择一个并分配到当前格；不提供“临时所有者”控件，也不
   提交 `ownerPlayerId`。名称、类型、颜色、素材键、价格和 owner 均由服务器派生，菜单不再
   要求浏览器选择第二次 tile。
-- 只有无ORDER能力的旧模块首次Heartbeat自动认领最低空闲mapIndex；V0.33按物理链锚点/32环派生，无锚时可未分配。手动移动会释放原格，
-  但目标被另一在线模块占用时返回 409，不能静默抢占。
+- 只有无ORDER能力的旧模块首次Heartbeat自动认领最低空闲mapIndex；V0.34 按物理链锚点或全部在线匹配环派生，无锚时可未分配。手动移动会释放原格，
+  但目标被另一 manual 锚点占用时返回 409；order/auto 按优先级撤销或重投影，环内还须满足四角相位。
 - 手工Tag绑定接口仅保留旧调试局兼容。自动新局必须逐人配对；手动set/clear返回NotAllowed，已绑定UID不能转移给下一人。
 - AwaitMoveConfirm 建立时 LED 仍保持 none；对应圆屏完成骰子动画、结果保持并呈现 MoveGuide
   首帧后，以 `ActionCode::MovementCueReady(17)` 放行。之后原格模块才收到
@@ -360,7 +360,7 @@ assignment 的 `owner_player/owner_display_name/owner_color` 在每次 Heartbeat
 投影不会反向修改资产 owner、现金或任何权威版本。
 
 注册表和临时分配只在服务器进程内存中存在，不写游戏存档、不改变 room、GameState 或任何
-权威版本；服务重启后需新物理邻接证据。数组顺序不表示物理顺序，当前ORDER邻接/32环另按契约构图；配对扫描可经权威更新绑定，不能与仅分配owner投影混为一谈。HTTP管理与
+权威版本；服务重启后需新物理邻接证据。数组顺序不表示物理顺序，当前 ORDER 邻接/16、24、32、40 完整环按契约构图；配对扫描可经权威更新绑定，不能与仅分配owner投影混为一谈。HTTP管理与
 Heartbeat 当前位于可信 LAN 边界，没有单独登录。精确 API、DTO、租约和 revision 语义见
 [格子模块临时分配调试契约](tile-module-debug-assignment.md)。
 
@@ -425,7 +425,8 @@ PSK 和 WPA2 密码是两套独立凭据。
 | `PlayerDetailRequest/Response` | `0x24/0x25` | 28 项资产 + 最近 10 条财务流水 |
 | `PlayerCardEvent` | `0x26` | 两阶段 Card Drawn/Applied |
 | `TradeRequest/Response` | `0x27/0x28` | 双向资产/现金交易 |
-| `IdentityRequest/Snapshot` | `0x29/0x2A` | Avatar、Name、Ready、Countdown |
+| `IdentityRequest/Snapshot` | `0x29/0x2A` | TagPairing 席位阶段、Avatar、Name、Ready、Countdown |
+| `TagPairRequest/Snapshot` | `0x2B/0x2C` | 独立配对查询、Retry/Cancel、新扫描会话与拿回提示 |
 
 ## 12. 机器人调度
 
@@ -442,13 +443,12 @@ Web 控制席位，不自动 Roll、购买、筹款、交易或结束回合。
 | --- | --- | --- |
 | `state.bin` | schema 4；兼容 v2/v3，游戏、财务历史、最多 3 笔交易 | CRC、0600 临时文件、fsync、rename |
 | `identity.bin` | schema 1；席位、recipe、姓名、掩码、deadline | 独立 Identity 存储 |
-| `authority.meta` | room、device、Bot 间隔、control/forced-roll | 临时文件 + rename |
+| `authority.meta` | room、Tag 绑定、Bot 间隔、control/gate/forced-roll；ONB1 冻结身份和 PND1 未取回来源 | 临时文件 + rename |
 | `device-seats.bin` | device → 真人 seat 绑定 | 临时文件 + rename |
 | `assets/avatars/` | 内容寻址最终头像 | 临时生成后原子发布 |
 
 游戏状态使用 750 ms 静默窗口合并写入，持续变化时最多 5 秒必须落盘，避免 Bot 推进造成同步
-写放大。不要声称所有元数据文件都具有与 `state.bin` 相同的 CRC/fsync 级别；当前只有主状态
-文件执行完整耐久提交。
+写放大。不要声称所有元数据文件都具有与 `state.bin` 相同的 CRC/fsync 级别；`state.bin` 与 `identity.bin` 的各自写入均实现 CRC/临时文件/fsync/rename，但多个文件不是一个跨文件原子事务；metadata/设备注册不能据此宣称同等耐久级别。
 
 ## 14. 健康检查与日志
 
@@ -478,7 +478,7 @@ UDP：
 - `peerSilenceMs/maxPeerSilenceMs`
 - `detail`、`trade`、`identity` 子计数及最近请求
 
-稳定链路的基本证据是 Heartbeat 与 Ack 同步增长、`peers=1`、认证/重放/发送错误不增长，
+稳定链路的基本证据是 Heartbeat 与 Ack 同步增长、`peers` 与当前实际已入席会话数相符、认证/重放/发送错误不增长，
 而不是强求活跃游戏中的 `resyncs` 永远不变。
 
 ## 15. 常见故障
@@ -505,8 +505,7 @@ UDP：
    `rx-stalled`、failed-neighbor eviction 或密集 associated/disassociated，应判为无线
    station 数据面抖动，不要重启健康的 `gridopoly.service`。
 2. 实体 RST/断电不保证发送 deauth，旧 station 可导致客户端 `AUTH_FAIL reason202`；
-   软件 RESTART 的优雅 deauth 正常不能代替这条硬复位门禁。采用模板的 10/0/20/45/2
-   profile，只重启 `gridopoly-ap.service`、`gridopoly-dnsmasq.service` 和
+   软件 RESTART 的优雅 deauth 正常不能代替这条硬复位门禁。10/0/20/45/2 是待验证模板方案，不能直接作为已完成修复。只有独立审核并授权 AP 变更后，才在维护窗口调整并重启 `gridopoly-ap.service`、`gridopoly-dnsmasq.service` 和
    `gridopoly-ap-watchdog.service`。
 3. 只用下列命令确认运行配置，避免泄露 WPA 口令：
 
@@ -540,8 +539,7 @@ UDP：
 8. Identity 阶段与 Active 阶段各验证一次全量恢复。
 9. 16/24/32/40 网页棋盘检查 overflow、控制台错误、角落图、地产归属和移动动画。
 10. 按需验证 PlayerDetail、Trade、Identity 和 Avatar HTTP，不把它们加入常规轮询。
-11. 并发注册两个格子模块，验证最低索引唯一认领、右键移动释放旧格、409 冲突、15 秒回收、
-    DELETE 后下一 Heartbeat 自动认领，以及前后权威 GameState 完全相同；另验证 16 格 B3
+11. 旧无 ORDER 模块验证最低索引唯一认领；当前模块验证全部在线单环、四尺寸真实地图四角、最后一条边触发、额外孤岛/旧模块/第二环拒绝、断开撤销和重连恢复，以及开放链锚点/清除、冲突和换图。仅分配操作不改变 GameState；另验证 16 格 B3
     未购买时显示 `$220`/owner 0，权威改为 P1 购买后无需重绑即自动显示 P1 和正式席位色。
 12. 验证 Tag 全局去重、sighting/租约过期、玩家与 UID 一对一原子改绑、metadata 重启恢复和
     新 room 清理；验证 departure/destination cue、overflow 禁止自动触发、目标 Tag 只执行一次
@@ -549,9 +547,9 @@ UDP：
 13. AP 脚本修改需通过部署静态门禁和当前摆位 15 分钟 soak；确认无 station churn 后再判定
     可发布。
 
-## 17. 2026-08-24 运行状态记录
+## 17. 2026-08-24 历史运行状态记录（不代表当前可达性）
 
-本次文档更新完成了源码和配置审计，但当前工作站无法对树莓派做新的在线确认：
+以下保留 2026-08-24 当时记录；2026-10-15 已有新的部署/在线证据，见页首。该次审计无法对树莓派做新的在线确认：
 
 - 先前使用的家庭网地址 `192.168.3.31` 当前没有有效 ARP，HTTP `/health` 超时。
 - `Gridopoly.local` 当前被本机 Clash/TUN 解析到 `198.18.1.123`，不是树莓派真实地址。

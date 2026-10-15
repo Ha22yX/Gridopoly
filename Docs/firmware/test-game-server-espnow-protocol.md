@@ -1,6 +1,13 @@
 # 测试服务端与玩家屏幕 ESP-NOW 协议 v1
 
-本文件是玩家控制屏幕开发会话 `019fbb98-c4f6-7e20-9ccc-5f6dc5b00413` 的对接入口。代码权威定义位于：
+> 状态：回退 transport / 历史实机基线。正式玩家屏使用
+> [Wi-Fi/UDP 协议](wifi-udp-player-protocol.md)；Identity `0x29/0x2A`、正式交易
+> `0x27/0x28` 和当前全量同步顺序不得从本文推导。发生字段或 schema 冲突时，
+> `GridopolyProtocol` 源码优先。
+
+2026-10-15 现行入口复核：自动开局四席、TagPairRequest/Snapshot `0x2B/0x2C`、恢复时 TagPair→Identity 的顺序以 [Wi-Fi/UDP](wifi-udp-player-protocol.md) 和[跨端契约](ring-onboarding-contract-2026-09-26.md)为准。下文旧容量、ESP-NOW 加密/配对条件和当时测试结果不能替代生产 UDP 鉴权；本轮未改 Frame 版本或执行 ESP-NOW 实机复测。
+
+本文件原是玩家控制屏幕开发会话 `019fbb98-c4f6-7e20-9ccc-5f6dc5b00413` 的对接入口。代码权威定义位于：
 
 - `Firmware/libraries/GridopolyProtocol/src/gridopoly/protocol/Protocol.h`
 - `Firmware/libraries/GridopolyProtocol/src/gridopoly/protocol/Protocol.cpp`
@@ -255,6 +262,7 @@ payload schema 1，长度为 `6 + 18 × player_count`：`schema:u8, state_versio
 | 8 | 4 | `expected_state_version` |
 
 `expected_state_version` 推荐始终填写最近快照版本；填 0 表示测试模式下不做版本栅栏。
+`MovementCueReady` 不接受 0，必须精确匹配当前 `AwaitMoveConfirm` 版本。
 
 `AuctionReady` 是例外：服务端不要求 `expected_state_version` 精确等于当前版本，因为其他屏幕的 Ready 也会推进版本。该动作由帧头 `room_id`、来源 peer 的已绑定席位、`player_id`、`asset_index` 与 `auction_generation` 共同约束。
 
@@ -275,8 +283,19 @@ payload schema 1，长度为 `6 + 18 × player_count`：`schema:u8, state_versio
 | 13 | AuctionBid | 13 | `argument=出价金额` |
 | 14 | AuctionPass | 14 | 无；退出本次拍卖 |
 | 15 | AuctionReady | 15 | `asset_index=拍品`，`argument` 的 32 位原始值为 `auction_generation` |
+| 16 | CardContinue | 内部流程动作 | `asset_index=0xFF`，`argument=card_instance_id` |
+| 17 | MovementCueReady | 展示完成回执 | `asset_index=0xFF`，`argument=pending_target`，版本必须精确非零 |
 
-屏幕只能展示并发送 `available_actions` 已开放的动作。位置确认必须使用 `pending_target` 对应的实物检测结果，不能仅因动画结束自动确认。`active_player_id` 表示正常回合归属，`decision_player_id` 表示当前必须操作的玩家；债务和拍卖中两者可能不同。
+屏幕只能展示并发送 `available_actions` 已开放的游戏动作。`MovementCueReady` 是不可见的展示完成
+回执，不属于游戏动作按钮：圆屏完成骰子动画与结果保持，并且成功呈现首个 MoveGuide 帧后才发送。
+它只允许服务端向物理格子下发 departure/destination LED，并允许之后的 RFID 自动到达；不会推进
+`stateVersion`，也不能代替 `ConfirmPosition`。位置确认必须使用 `pending_target` 对应的实物检测
+结果，不能仅因动画结束自动确认。`active_player_id` 表示正常回合归属，`decision_player_id` 表示
+当前必须操作的玩家；债务和拍卖中两者可能不同。
+
+同一 room + 玩家 + origin + target 的重复 `MovementCueReady` 幂等。旧版本、错误席位、错误目标、
+非 `AwaitMoveConfirm` 或非 PlayerConsole 席位均拒绝。普通 resync/重连若仍是同一待移动事务且尚未
+收到成功结果，可用同一逻辑请求重发；新 room、目标或阶段必须清旧请求。
 
 只允许 `ControllerKind::Bot` 自动调用动作。只要席位是 PlayerConsole，服务端会停在该玩家的债务、拍卖、购买、移动确认和回合结束状态，直到收到该屏幕的合法 ActionRequest；断线不会把该席位自动改成机器人。
 

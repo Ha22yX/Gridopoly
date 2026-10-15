@@ -1,12 +1,18 @@
 # Gridopoly 当前权威状态机
 
-更新：2026-09-27。枚举以[GameModel.h](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/GameModel.h)为准，转移以[GameEngine.cpp](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/GameEngine.cpp)为准。身份、游戏、配对及传输会话是不同状态域，不用一个页面名代替多个权威状态。
+更新：2026-10-15。枚举以[GameModel.h](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/GameModel.h)为准，转移以[GameEngine.cpp](../../Firmware/libraries/GridopolyCore/src/gridopoly/core/GameEngine.cpp)为准。身份、游戏、配对及传输会话是不同状态域，不用一个页面名代替多个权威状态。
 
 ## 开局身份和Tag
 
 自动建局冻结设备席位，Identity保持准备阶段；逐人TagPairing席位阶段7完成后，该玩家可独立进入外貌/姓名，下一人继续配对。全部必需玩家绑定并ready才进入五秒倒计时，然后开启Core游戏。未获席位显示等待新局，不显示假金额主页。
 
 配对状态为Disabled、WaitingReader、ClearRequired、AwaitingTag、SuccessRemove、AlreadyBound、MultipleTags、ReaderOffline、TimedOut、Cancelled、Complete。room/session/revision及新扫描共同隔离旧事件；成功取回提示可跨下一人的reader继续存在。详见[现行跨端契约](../firmware/ring-onboarding-contract-2026-09-26.md)。
+
+## 物理拓扑与开局的关系
+
+16/24/32/40 地图均可在单块未分配 reader 或开放链上执行 Tag 配对。ORDER 完整环只决定地图模块映射：全部 15 秒租约内在线模块必须属于同一个环，长度匹配地图且四角/long 角色正确。最后一条有效边、地图切换和重连触发重算；失效撤销派生，不改变 Core 游戏阶段。未分配 reader 可以配对，但不能作为确定目标格触发自动到达。
+
+发现列表也独立于本局席位：四屏在线可能仍对应三真人加一机器人，第四屏 `seatId=0` 等待新局。只有显式新局才重新冻结 1～4 真人并补足四席。
 
 ## Core实际阶段
 
@@ -51,8 +57,8 @@ stateDiagram-v2
 
 ## 恢复和验证
 
-游戏、Identity、冻结席位、Tag绑定及未取回限制持久化；配对恢复生成新session fence。ORDER物理邻接/租约及人工锚点不沿用持久化旧边。UDP重连恢复同席位，不能把断线真人变为bot。
+游戏、Identity、冻结席位、Tag绑定及未取回限制持久化；配对恢复生成新session fence。ORDER 物理邻接/租约及人工锚点仅在进程内存，重启不沿用旧边或锚点；换 room/board 清人工意图，但仍新鲜的物理证据可重投影到匹配地图。UDP重连恢复同席位，不能把断线真人变为bot。
 
-重复、过期room/session/revision、旧请求及乱序投影必须拒绝或幂等；页面恢复不能重新播一次已完成到达/卡片或重复扣款。主机和隔离集成已有回归；真实pendingMove断网、完整32块/4屏恢复与整局仍待现场验收。
+重复、过期room/session/revision、旧请求及乱序投影必须拒绝或幂等；页面恢复不能重新播一次已完成到达/卡片或重复扣款。主机和隔离集成已有回归；最近部署已核对正常停服离线→原席位自动重连，版本与真人 connected 位可随恢复变化，其他业务不应改变。真实 pendingMove 断网、完整实体环/四屏配对与整局仍待现场验收，见[部署证据](../firmware/server-all-online-ring-progress-2026-10-15.md)。
 
 [当前规则](game-rules.md) · [旧设计状态图](../archive/game-state-machine-design-before-2026-09-27.md) · [当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)

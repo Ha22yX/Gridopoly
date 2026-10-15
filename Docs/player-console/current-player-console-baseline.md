@@ -2,11 +2,20 @@
 
 状态：A 级当前实现规范
 
-更新日期：2026-09-27（依据已归档源码/构建/部署，未重新操作设备）。
+更新日期：2026-10-15（文档与源码、归档部署证据核对；本次整合未重新构建或操作设备）。
 
-最后部署为COM7普通core1 `9c4e1825…`（2026-09-26 21:54:20 UTC），包含完整MAC身份、Tag配对、等待新局、头像焦点/手写和旋钮可信定位点修复。手写已获用户确认；最新旋钮慢/快切行手感待复验。历史core0因频闪/错位撤回，Retarget max57ms及原游戏视觉验收仍未关闭。
+当前冻结包为 `trial16-2026-10-15-v4`。2026-10-15 09:39:03 UTC（05:39:03 EDT）服务器记录四屏均 online/eligible；当时 room993580113/version11 仍为三真人加一机器人，COM29 等待下一次新局，不能据此认定四真人同局通过。
 
-电池遥测源码已提交`8ee546b`、默认与启用两种普通构建通过，默认禁用、未部署；最新批量包v4仍不含电池功能。完整MAC/哈希/证据见[设备台账](../firmware/current-device-connections.md)和[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。旧ad8a网络恢复、9月8日输入确认只对应原版本/场景。
+| 设备 | 完整 MAC | 普通应用 SHA-256 前缀 | 当时席位 | 已有目视证据 |
+| --- | --- | --- | --- | --- |
+| COM7 | `dc:b4:d9:02:d1:dc` | `22ca08e6…` | 2 | 配对页稳定 |
+| COM27 | `dc:b4:d9:02:bf:88` | `dfc4b7e5…` | 3 | 等待新游戏页正常 |
+| COM28 | `dc:b4:d9:07:81:b0` | `dfc4b7e5…` | 1 | 等待新游戏页正常 |
+| COM29 | `20:6e:f1:ba:c9:04` | `dfc4b7e5…` | 0 | 尚待反馈 |
+
+`2ea95b4` 的输入批处理和头像焦点局部刷新已进入上述四台；`e6d6563` 的等待页重复重绘修复进入 dfc4。精确物理卡点、Avatar/游戏页、完整实体对局和性能门槛仍待验收；历史 core0 方案因频闪/错位撤回，core1 的 Retarget max57ms 仍超过 42ms。9 月手写及网络恢复确认只对应各自版本和场景。
+
+四台普通固件及本次 v4 均为 `BatteryBoard=none`，表示软件遥测关闭，不表示未装电池。`8ee546b` 已实现遥测且两种构建历史通过，启用功能尚未部署验收。完整哈希、来源和各次验证见[输入报告](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页报告](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台烧录](../firmware/player-fourth-screen-flash-2026-10-15.md)、[试玩包记录](../firmware/trial16-release-2026-10-15.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
 
 ## 1. 适用范围
 
@@ -26,13 +35,13 @@
 
 ## 2. 当前硬件
 
-2026-09-27 另行设计[玩家屏 USB-C 电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)：按用户最新分配固定80×80 mm板框、外接两线电池、原软排线连接，具备充电/供电、开关、硬件欠压关断和原生USB通路。原理图加入MAX17048与SC18IM704，FPC6 RX←桥接TX、FPC7 TX→桥接RX，GPIO0/1查询CHG/PGOOD，底板无需另烧程序；[UART固件接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)和[玩家端实现与验证](../firmware/player-battery-telemetry-progress-2026-09-27.md)已记录。电池功能默认关闭，源码及主机回归已接入，本轮未更新COM7。两页68个符号，导出连接比较通过，68个器件已纳入PCB，含按用户要求反转1–10脚网络的J2母座；已取消外置温度探头，FPC机械、电池规格、ERC明细和实测仍待闭合。后续[PCB布局制造候选RC5](../../PCB%20Files/PlayerConsolePower/Layout-2026-09-27-RC5/README.md)已完成双层、全顶面布局及全部布线，PCB原生DRC 0项、Gerber/BOM/CPL已导出。本板仍未制造放行，不替代下列现有实机配置。 [本轮按键致命接线修复](../../PCB%20Files/PlayerConsolePower/DesignDraft-2026-09-27/schematic-comprehensive-review.md)已同步原理图与PCB，81/81静态检查通过，原生41条警告明细仍待分类。
+供电底板设计、返修和制造状态由 PCB 会话维护，见[硬件入口](../hardware/README.md)及[玩家屏 USB-C 电池底板](../hardware/player-usbc-battery-base-2026-09-27.md)。本页不复制旧 RC5 审查结论。按当前交接，COM7/27/28 所用底板已获用户返修确认并带电池完成 USB 升级，COM29 底板状态尚无独立确认；这些运行反馈不能替代充电、欠压和温升验收。软件接口与启用边界见[UART 接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)及[遥测实现记录](../firmware/player-battery-telemetry-progress-2026-09-27.md)。
 
 - 模组：VIEWESMART/Viewe `UEDX48480021-MD80ET`。
 - 主控：ESP32-S3-WROOM-1-N16R8，16MB Flash、8MB Octal PSRAM。
 - 显示：2.1 英寸 480×480 圆形 LCD。
 - 输入：旋转外圈、旋钮按压、电容触摸。
-- 调试：外置 USB 调试转接板，正式构建使用 USB HWCDC。
+- 调试：正式构建使用原生 USB HWCDC；现有返修底板 USB 通路已用于升级，外置转接板不是必需的固定配置。
 - 板级宏：`BOARD_VIEWE_UEDX48480021_MD80ET`。
 
 ## 3. 物理方向和坐标
@@ -65,10 +74,11 @@
 | 按压 | GPIO0 |
 
 安装后的物理手感要求顺时针和逆时针焦点移动与玩家视角一致。当前电气方向只在
-`hardware_input.cpp` 边界反转一次：左沿事件映射为 `Rotate +1`，右沿事件映射为
-`Rotate -1`。页面、列表和数值编辑不得再二次反转。
+硬件输入边界的 `RotaryQuadratureDecoder` 中反转一次。页面、列表和数值编辑不得再二次反转，也不使用单向冷却来掩盖反跳。
 
-旋转输入使用32项固定队列，同方向增量可合并，UI每次消费一个detent。它不是无限队列，不能保证任意输入速率无丢失。解码器保留完整合法路径确定的00/11可信定位点，非法双相跳变及半程恢复不得重置定位点并产生反向假步。周期身份快照不得覆盖同页本地焦点；详见[真实问题与修复](../firmware/player-input-handwriting-fix-2026-09-26.md)。
+`hardware_input.cpp` 以 1ms 定时器联合读取 A/B；解码器保留完整合法路径确定的 00/11 可信定位点，非法双相跳变及半程恢复不得重置定位点并产生反向假步。32 项固定队列只合并相邻同方向旋转，不跨反向或按键合并；poll 将合并项拆为 ±1。`input_dispatch.h` 每轮最多顺序消费 16 个事件，遇 `ButtonUp` 提前结束该批，让页面和手写先处理释放结果。有输入积压时暂缓长按判定，避免尚未消费的释放被误判成长按。
+
+合并项保留首项时间戳，拆出的步共享该时间戳，并非每个物理卡点各有独立时间。队列有限，不能保证任意速率无丢失。10 月 15 日粗略四组共 24 个解码步与消费对应，不替代精确物理卡点验收。周期身份快照保留同页本地焦点；见[输入修复报告](../firmware/player-16-trial-progress-2026-10-15.md)及[历史解码/手写修复](../firmware/player-input-handwriting-fix-2026-09-26.md)。
 
 ### 4.2 按压时长
 
@@ -85,7 +95,7 @@
 
 ## 5. 显示和抗频闪基线
 
-- 正式构建使用 vendor direct anti-tearing mode 3：
+- 正式构建的 LVGL 任务运行在 core1，使用 vendor direct anti-tearing mode 3：
   `CONFIG_LVGL_PORT_AVOID_TEARING_MODE=3`。
 - LVGL 使用 2 个显示缓冲。
 - RGB DMA bounce buffer 为 `480×40` 像素并放在内部 SRAM，降低 Wi-Fi、PSRAM 解码和
@@ -95,6 +105,10 @@
 - 场景切换或显存恢复时允许整屏 invalidate；后台素材完成只允许重建当前实际引用该素材的
   页面，不能因无关缓存完成反复整屏刷新。
 - 静态弹窗更新必须幂等。样式、边框和几何未变化时，只更新真正变化的倒计时、进度或文字。
+- 重复 Connecting/Waiting 事件仍应用到状态机；`WaitingForGame` 可见内容相同时保留控件，不重复整屏重建。首次进入、真实断线/同步、遮罩或素材变化仍需更新。
+- Avatar 只移动焦点时更新旧/新行，以及进入或离开确认按钮时的样式，不重新获取或重绘头像。
+
+上述帧率和延迟是验收门槛，不是当前全部通过的实测值。COM27/28 仅等待新局页获目视确认；COM7 配对页稳定，COM29 目视待反馈。core1 历史 Retarget max57ms 尚未关闭，core0 历史性能 PASS 已随显示异常方案撤回。
 
 抗频闪不能只靠一次照片验收。发布前必须覆盖长时间静置、连续动画、Wi-Fi 下载、PSRAM
 解码和弹窗长按等组合负载，并确认左侧圆弧没有闪烁短线、点阵或残影。
@@ -150,11 +164,11 @@ ESP-NOW 仅保留为编译期回退；正式双向交易和当前身份流程以
 - Hair 10、Hair Color 20、Face 10、Skin Tone 8、Outfit 10。
 - 组件合成顺序固定为 `face -> outfit -> hair`；发色和肤色使用 canonical 整数算法在本地
   着色，不为每种颜色下载位图。
-- 当前候选临时池上限 2304KiB；30 个压缩组件共 1,921,970B，另有两张 220×300 RGB565
+- 当前实现临时池上限 2304KiB；30 个压缩组件共 1,921,970B，另有两张 220×300 RGB565
   预览，每张 132,000B，用于合成时保留上一张完整预览。身份设置期间组件不做 LRU 淘汰。
-- 素材达到 30/30 后必须自动进入 Avatar Setup；初始配方必须立即合成，不能等待用户先旋转
-  一次预设才显示。
-- 外貌、姓名、准备和倒计时共用该临时池；进入 Active 后统一释放。
+- 30 个组件校验齐全后准备状态保持完成并自动进入 Avatar Setup，初始合成自动请求；首次预览可以稍后完成，不能依赖用户旋转才能出现。
+- 配方变化后后台等待 45ms 稳定期再合成完整预览。双缓冲的前台图和待交付完整图不可被 worker 改写；LVGL 所属任务取得完成图后才切换显示。无完整图时显示 `LOADING PREVIEW` 和转圈；已有完整图时保留它并标注 `UPDATING PREVIEW`，不能把旧图冒充当前配方。
+- 外貌、姓名、准备和倒计时共用该临时池；进入 Active、LVGL 不再引用临时图后统一释放。
 
 ## 9. 身份、头像和姓名
 
@@ -167,7 +181,7 @@ WaitingForServer/NewGame -> TagPairing -> AvatarLoading -> AvatarSetup
 ```
 
 Avatar Setup 使用 B. Focus Stack：左侧 5 个贴合圆弧的固定槽位和确认按钮，右侧是静态
-半身预览，不使用圆形头像框。确认外貌后服务端只生成一次最终公共头像；Ready、Player Detail、
+半身预览，不使用圆形头像框。每次合法外貌确认由服务端生成对应版本的公共头像，同请求重发保持幂等；姓名确认前 Name Review 可返回修改外貌。Ready、Player Detail、
 交易接收者、付款和活动页面都使用该版本化头像。
 
 姓名手写当前规则：
@@ -183,16 +197,17 @@ Avatar Setup 使用 B. Focus Stack：左侧 5 个贴合圆弧的固定槽位和�
 在仓库根目录运行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile.ps1 -SelfTest
-powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile.ps1
-powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/upload.ps1 -Port COMx
+powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode selftest -BatteryBoard none
+powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard none
 ```
 
-正式 FQBN 使用 16MB Flash、`app3M_fat9M_16MB`、Octal PSRAM、CDC on boot 和 HWCDC。
-编译脚本会先执行字形、布局、棋盘素材检查，再编译并校验输出。发布时必须记录固件 Git
-提交、构建尺寸、资源 manifest、端口、实机照片和服务端版本。
+上述命令要求已配置的本机 ToolRoot，默认使用 esp32:esp32 3.3.11。脚本为每次构建冻结源码和依赖，输出独立候选及校验信息；构建完成不表示已经部署。正式 FQBN 使用 16MB Flash、`app3M_fat9M_16MB`、Octal PSRAM、CDC on boot 和 HWCDC。
+
+批量写入以[试玩包记录](../firmware/trial16-release-2026-10-15.md)中的冻结产物、release 校验和固定工具流程为准，先确认完整 MAC、Flash 和分区，再写验并观察正常应用。既有布局升级与原厂首次迁移不同：COM27/28/29 首次迁移先完整备份，再初始化目标 20KiB NVS，不能称为保留全部原厂 NVS。不要用通用 COMx 示例绕过这些检查，也不要直接重刷旧的电池启用候选。记录源码/产物哈希、端口/MAC、服务端版本及实际页面证据。
 
 ## 11. 发布前快速核对
+
+以下是门槛清单，不是全部 PASS 的声明。已通过和待验证项分别见[验收矩阵](player-console-acceptance-tests.md)末尾的当前状态表。
 
 1. 定位柱在六点钟，文字水平；诊断显示 mechanical 60°、firmware 0°。
 2. 外环和内环上下左右间距一致，几何中心为 `(240,240)`。

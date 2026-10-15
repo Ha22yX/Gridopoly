@@ -1,10 +1,17 @@
 # ESP32-S3 测试游戏服务端
 
-状态：2026-08-03 已在独立 ESP32-S3 开发板 COM5 上编译、烧录并完成实机验证。
+状态：ESP32-S3/ESP-NOW 回退与历史硬件回归基线；2026-10-15 核对正式主控仍为 Raspberry Pi。
+
+> 本文记录 COM5 测试固件，不是当前生产服务端。正式部署、网页、Identity、交易、素材和
+> Wi-Fi/UDP 行为以 [Raspberry Pi 5 权威服务端](raspberry-pi-server.md) 为准。
+
+当前 Pi 源码 `0fed0ce`、运行 binary `ea6e1f51…` 的全部在线 16/24/32/40 环、1～4 屏自动席位、逐人 Tag 配对见[跨端契约](ring-onboarding-contract-2026-09-26.md)和[部署记录](server-all-online-ring-progress-2026-10-15.md)。共享 WebUi 源码同时被 Pi 使用，不表示 Arduino/ESP-NOW 适配器实现了所有新增管理端点。本文既有 COM5 测试日期和结果只说明当时固件，本轮没有再次烧录或验证它。
 
 ## 1. 用途与边界
 
-该固件是玩家控制屏幕开发期间的临时权威主控，目标是用一块真实玩家屏幕配合网页棋盘和机器人完成交互验证。它不是最终树莓派服务端，但核心规则和二进制协议都放在无 Arduino 依赖的 C++ 库中，后续可以原样迁移。
+该固件是玩家控制屏幕开发期间的临时权威主控，目标是用真实玩家屏配合网页棋盘和机器人
+完成 ESP-NOW/硬件回归。共享纯 C++ 核心与 codec 已被 Raspberry Pi 正式服务复用；新增
+Identity、完整交易和 GAVC/HTTP 素材能力不要求回灌到该 Arduino 适配器。
 
 固件同时运行两条逻辑链路：
 
@@ -139,13 +146,16 @@ Firmware/TestGameServer/config/secrets.local.h
 
 该文件、`build/` 和 `runtime/` 已被 `.gitignore` 排除。仓库只保留 `secrets.example.h`。编译、烧录、串口日志、网页 API 和文档都不得输出 Wi-Fi 密码或 ESP-NOW 测试 PSK。
 
-## 8. 迁移到正式主控
+## 8. 与正式主控的关系
 
-树莓派版本保留 `GridopolyCore`、`GridopolyProtocol`、地图数据和动作语义，替换以下适配器：
+迁移已经完成。Raspberry Pi 版本保留 `GridopolyCore`、`GridopolyProtocol`、地图数据和动作语义，
+并使用以下正式适配器：
 
-- 固定容量 `HttpServer` → 正式 HTTP/WebSocket 服务。
-- Preferences/NVS → 文件或数据库事件存储。
-- ESP-NOW transport → ESP32 无线网关或正式玩家终端传输层。
-- 当前机器人调度器 → 可配置策略调度器。
+- Arduino 固定槽 HTTP → Linux 32-worker 有界 HTTP/1.1。
+- Preferences/NVS → `/var/lib/gridopoly` 文件存储与 schema 迁移。
+- ESP-NOW → WPA2 玩家网 + HMAC 认证 UDP envelope。
+- Arduino Bot tick → 可持久化 100..10000 ms 权威调度器。
+- 本地嵌入素材 → Pi HTTP 按需 RGB565/GAVC/最终头像。
 
-这样玩家控制屏幕只依赖协议 v1 的状态和动作，不依赖临时网页或 Arduino 对象。
+PlayerConsole 通过 transport 抽象继续复用共享 reducer；ESP-NOW 构建只用于回退，并明确禁用
+当前未实现的 Identity 和双向交易入口。

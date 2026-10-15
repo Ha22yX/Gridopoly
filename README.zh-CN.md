@@ -18,7 +18,7 @@
   <img alt="格子主控" src="https://img.shields.io/badge/tile-ESP32--S3-205A4B?style=for-the-badge" />
   <img alt="中控" src="https://img.shields.io/badge/authority-Raspberry%20Pi%205-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white" />
   <img alt="玩家屏幕" src="https://img.shields.io/badge/player%20console-480x480%20round%20LCD-6B7FD7?style=for-the-badge" />
-  <img alt="总线" src="https://img.shields.io/badge/bus-RS485%20%2B%20ORDER-2563EB?style=for-the-badge" />
+  <img alt="总线" src="https://img.shields.io/badge/link-WiFi%20%2B%20ORDER-2563EB?style=for-the-badge" />
 </p>
 
 ## 项目图集
@@ -60,17 +60,17 @@ Gridopoly 想探索一件很有意思的事：如果桌游的棋盘本身是可�
 
 ## 当前进度
 
-更新：2026-09-27。项目已进入系统集成与批量候选验证阶段，仍未完成整盘实物验收或制造放行。
+更新于2026-10-15。当前目标为 **12长边＋4角落的16格试玩、最多4台玩家屏**。项目已有集成实现与部署证据，完整实体游戏和制造放行仍待验收。
 
-- 树莓派权威服务和网页已实现认证会话、规则、存档、交易、拍卖、债务、实际建筑库存、破产推进和终局显示。
-- 网页新局自动发现1～4台合格玩家屏，冻结真人席位并补足4人；逐人引导Tag配对，绑定后可并行设置外貌和姓名。支持16/24/32/40格地图，单块未分配格子或开放链也能配对。
-- 格子V0.33已有long/corner显式板型、新鲜RFID扫描及配对屏幕/灯效。ORDER V1独立信标提供真实邻接，服务端支持28长边＋4角落的32格完整环，四角为0/8/16/24；未实现其他尺寸完整环自动映射。RS485仍未启用。
-- 最新本地冻结批量候选为v4，含long/corner/player固件和36台设备清单模板。最后部署记录：Pi `2bc084d7…`、COM6 V0.33 `19edea4b…`、COM7普通core1 `9c4e1825…`；COM8未从既有V0.32升级。这些不是实时在线查询。
-- 9月26日手写修复获用户确认；后续旋钮解码修复已部署，等待实机反馈。Retarget长帧和原场景频闪/错位仍待验收，撤回的core0性能成绩不代表当前版本通过。
-- 棋盘板为六层长边PCB2_1、角落PCB2_5，使用直接稳压24V输入；USB-PD和NVM需求已取消。整盘60W、每板约1W仍为待测预算。
-- 独立玩家电池底板已有双层80×80mm **R1-RC5** 制造候选（J3.1=GND、J3.2=BAT_PACK，所选电池对应资料替代RC4），含USB-C、充电、硬件欠压关断、MAX17048/SC18IM704遥测及PH2.0电池座，尚未制造放行。遥测固件已实现并构建，默认关闭、未部署，也未加入v4包。
+- 计划16板均已完成V0.34分批写验和正常运行，修正WS2812B-B-V6时序；13板灯效获确认，3板目视待补。正常24V下RFID和完整实体环尚待验。
+- Pi现支持全在线16/24/32/40格ORDER环：全部在线模块必须属于同一有效环，数量等于地图且实际四角角色匹配；一致手动锚点重派全环跟随，开链调试仍可用。RS485保持禁用。
+- 已发现4台在线玩家屏。新游戏冻结1～4真人并补足四席，逐人新鲜Tag配对后设置外貌姓名；单reader和非环形场景可用。新增屏等下一局加入，不抢占现有席位。
+- 玩家输入批处理、积压短按保护和焦点局部刷新已实现。COM27/28/29已部署等待页重复整屏重绘修复；COM27/28用户确认正常，COM29目视待反馈，COM7仍保留前版。精确旋钮、Avatar/游戏视觉和Retarget长帧仍待验。
+- 最新冻结包 **trial16-2026-10-15-v4** 包含V0.34 long/corner、普通player `dfc4b7e5…`和Pi `ea6e1f51…`，不要与9月batch32-v4混淆；电池遥测默认关闭、未部署。
+- 棋盘采用直接24V，独立玩家供电板当前设计候选为 **R1 RC6-TP**，新增8个测试点。三块在用底板返修已获用户确认，充电/欠压/温升和制造验收仍未完成。
+- 3D已交付R2三模块一体底板，几何检查通过、打印试配待验；旧CW47.5玩家支架获用户装配确认，新版仍在开发。
 
-单reader实物配对已有成功记录；完整32块/4屏、36客户端网络、机械配合、整盘电气与玩家电池首板仍待验证。详情见[当前开发交接](Docs/CURRENT-DEVELOPMENT-HANDOFF.md)、[设备部署台账](Docs/firmware/current-device-connections.md)和[批量发布记录](Docs/firmware/batch32-game-release-2026-09-26.md)。
+详情见[当前交接](Docs/CURRENT-DEVELOPMENT-HANDOFF.md)、[设备台账](Docs/firmware/current-device-connections.md)、[16格发布与验收](Docs/firmware/trial16-release-2026-10-15.md)和[机械进展](Docs/mechanical/README.md)。编译、烧录和局部页面目视通过均不等于整盘游戏、网络容量或电气验收。
 
 ## 系统架构
 
