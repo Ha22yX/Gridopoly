@@ -12,7 +12,7 @@ static_assert(GRIDOPOLY_TILE_ROLE >= 0 && GRIDOPOLY_TILE_ROLE <= 2,
 namespace gridopoly::tile {
 enum class ModuleRole : std::uint8_t { Unknown = 0, Long = 1, Corner = 2 };
 inline constexpr ModuleRole kModuleRole = static_cast<ModuleRole>(GRIDOPOLY_TILE_ROLE);
-inline constexpr const char *kFirmwareVersion = "V0.33";
+inline constexpr const char *kFirmwareVersion = "V0.34";
 inline constexpr const char *moduleRoleLabel(ModuleRole role) {
   switch (role) {
     case ModuleRole::Long: return "long";

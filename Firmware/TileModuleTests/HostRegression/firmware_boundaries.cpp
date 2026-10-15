@@ -12,6 +12,7 @@
 #undef private
 #include "tile_connection_view.h"
 #include "tile_ui_theme.h"
+#include "ws2812_led.h"
 
 using namespace gridopoly::tile;
 using namespace gridopoly::tile::board;
@@ -45,6 +46,7 @@ bool gHtrcTransmitterSafe = true;
 TileNetworkSnapshot gNetworkSnapshot{};
 Rgb gPixels[kWs2812Count]{};
 bool gLedReady = true;
+ws2812::Maintenance gLedMaintenance;
 std::uint32_t gMovementCueStartedMs = 0;
 std::uint32_t gPairingCueStartedMs = 0;
 TagScanEvidence gTagScanEvidence{};
@@ -73,6 +75,7 @@ void setUp() {
   gNetwork.mutex_ = &denyLock;
   denyLock = false;
   testMillis = 1000;
+  gLedMaintenance = {};
   gTagScanEvidence = {};
   gScanPairingRoom = gScanPairingSession = 0;
   gTagStatus = TagStatus::Scanning;
@@ -303,6 +306,23 @@ void test_pairing_priority_clear_and_lease_rollover() {
   TEST_ASSERT_TRUE(pageChanged(next));
 }
 
+void test_led_maintenance_expires_into_current_game_scene() {
+  gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
+  const auto before = gNetworkSnapshot;
+  gLedMaintenance.apply(ws2812::parseCommand("LED RED 1"), 1000);
+  renderLedScene(1999);
+  for (const auto &pixel : gPixels) {
+    TEST_ASSERT_EQUAL_UINT8(8, pixel.red);
+    TEST_ASSERT_EQUAL_UINT8(0, pixel.green);
+    TEST_ASSERT_EQUAL_UINT8(0, pixel.blue);
+  }
+  renderLedScene(2000);  // Current destination is illuminated at this phase.
+  TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].red, gPixels[0].green);
+  TEST_ASSERT_EQUAL(ws2812::Mode::Scene, gLedMaintenance.mode(1001));
+  TEST_ASSERT_EQUAL_MEMORY(&before, &gNetworkSnapshot, sizeof(before));
+  assertWholeRing();
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_failed_publish_retries_identical_local_inventory);
@@ -316,5 +336,6 @@ int main() {
   RUN_TEST(test_freshness_expires_and_incomplete_inventory_cannot_refresh);
   RUN_TEST(test_pairing_uses_scanned_session_not_current_cached_session);
   RUN_TEST(test_pairing_priority_clear_and_lease_rollover);
+  RUN_TEST(test_led_maintenance_expires_into_current_game_scene);
   return UNITY_END();
 }

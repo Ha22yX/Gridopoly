@@ -2,7 +2,6 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <driver/gpio.h>
-#include <esp32-hal-rmt.h>
 #include <esp_system.h>
 #include <esp_heap_caps.h>
 #include <esp_mac.h>
@@ -29,6 +28,9 @@
 #include "tile_model.h"
 #include "tile_network.h"
 #include "tile_ui_theme.h"
+#include "ws2812_led.h"
+#include "ws2812_esp32.h"
+#include "serial_command_line.h"
 
 namespace {
 
@@ -47,7 +49,6 @@ constexpr std::uint8_t kInaRegDieId = 0xFF;
 constexpr std::uint16_t kInaConfig = 0x0527;
 constexpr std::uint16_t kInaCalibration = 0x1400;
 
-constexpr std::uint32_t kRmtFrequencyHz = 8'000'000;
 constexpr std::uint32_t kPowerSamplePeriodMs = 200;
 constexpr std::uint32_t kUiRefreshPeriodMs = 500;
 constexpr std::uint32_t kLedFramePeriodMs = 50;
@@ -201,10 +202,10 @@ TileNetworkClient gNetwork;
 TileNetworkSnapshot gNetworkSnapshot{};
 PowerReading gPower;
 Rgb gPixels[kWs2812Count]{};
-rmt_data_t gLedSymbols[kWs2812Count * 24]{};
+ws2812::Transmitter<ws2812::Esp32Driver, kWs2812Count> gLedTransmitter;
+ws2812::Maintenance gLedMaintenance;
 alignas(4) std::uint16_t gArtworkRow[160]{};
 bool gDisplayReady = false;
-rmt_obj_t *gLedRmt = nullptr;
 bool gLedReady = false;
 bool gDiagnosticPage = false;
 std::uint8_t gBacklightDuty = kBacklightDuty;
@@ -229,8 +230,7 @@ bool gTagPreferredSamplingValid = false;
 bool gTagUiDirty = false;
 bool gTagNetworkPublishPending = false;
 bool gRfidDebug = false;
-char gSerialLine[64]{};
-std::size_t gSerialLength = 0;
+SerialCommandLine<64> gSerialLine;
 DRAM_ATTR volatile TagEdge gTagEdges[kTagMaximumEdges]{};
 DRAM_ATTR volatile std::uint16_t gTagEdgeCount = 0;
 DRAM_ATTR volatile std::uint32_t gTagCaptureStartUs = 0;
@@ -1502,44 +1502,39 @@ void scanHitagTag() {
   }
 }
 
-void encodeLedByte(std::uint8_t value, std::size_t &symbol_index) {
-  for (int bit = 7; bit >= 0; --bit) {
-    const bool one = (value & (1U << bit)) != 0U;
-    rmt_data_t &symbol = gLedSymbols[symbol_index++];
-    symbol.level0 = 1;
-    symbol.duration0 = one ? 6 : 3;
-    symbol.level1 = 0;
-    symbol.duration1 = one ? 4 : 7;
-  }
-}
-
 void showPixels() {
   if (!gLedReady) {
     return;
   }
-  std::size_t symbol_index = 0;
-  for (const Rgb &pixel : gPixels) {
-    encodeLedByte(pixel.green, symbol_index);
-    encodeLedByte(pixel.red, symbol_index);
-    encodeLedByte(pixel.blue, symbol_index);
+  if (!gLedTransmitter.send(gPixels)) {
+    gLedReady = false;
+    const auto &status = gLedTransmitter.status();
+    Serial.printf("[WS2812] ERROR stage=%s driver_error=%d stop_error=%d\r\n",
+                  status.stage, status.driver_error, status.stop_error);
   }
-  rmtWriteBlocking(gLedRmt, gLedSymbols, symbol_index);
-  delayMicroseconds(80);
 }
 
 void initializeLeds() {
-  gLedRmt = rmtInit(kWs2812DataPin, RMT_TX_MODE, RMT_MEM_256);
-  gLedReady = gLedRmt != nullptr && rmtSetTick(gLedRmt, 125.0F) > 0.0F;
+  gLedReady = gLedTransmitter.begin();
   if (gLedReady) {
     std::memset(gPixels, 0, sizeof(gPixels));
     showPixels();
   }
-  Serial.printf("[WS2812] count=%u RMT=%s\r\n",
-                static_cast<unsigned>(kWs2812Count), gLedReady ? "OK" : "FAIL");
+  const auto &status = gLedTransmitter.status();
+  Serial.printf("[WS2812] count=%u RMT=%s clock_hz=%lu stage=%s driver_error=%d stop_error=%d\r\n",
+                static_cast<unsigned>(kWs2812Count), gLedReady ? "OK" : "FAIL",
+                static_cast<unsigned long>(status.clock_hz), status.stage,
+                status.driver_error, status.stop_error);
 }
 
 void renderLedScene(std::uint32_t now_ms) {
   if (!gLedReady) {
+    return;
+  }
+  Rgb maintenance_color{};
+  if (gLedMaintenance.color(now_ms, maintenance_color)) {
+    std::fill(std::begin(gPixels), std::end(gPixels), maintenance_color);
+    showPixels();
     return;
   }
   if (pairingVisible(gNetworkSnapshot.pairing, now_ms)) {
@@ -2040,7 +2035,24 @@ void recoverAndRenderPage() {
   renderPage();
 }
 
+void printLedStatus() {
+  const auto &status = gLedTransmitter.status();
+  const auto now = millis();
+  gLedMaintenance.expire(now);
+  Serial.printf("[WS2812-STATUS] ready=%s mode=%s remaining_ms=%lu pin=%d count=%u clock_hz=%lu reset_us=%u requested_rgb=%u,%u,%u attempted=%lu completed=%lu failed=%lu stage=%s driver_error=%d stop_error=%d optical_verified=NO\r\n",
+                gLedReady ? "YES" : "NO", ws2812::modeName(gLedMaintenance.mode(now)),
+                static_cast<unsigned long>(gLedMaintenance.remaining(now)),
+                kWs2812DataPin, static_cast<unsigned>(kWs2812Count),
+                static_cast<unsigned long>(status.clock_hz), ws2812::kResetUs,
+                gPixels[0].red, gPixels[0].green, gPixels[0].blue,
+                static_cast<unsigned long>(status.attempted),
+                static_cast<unsigned long>(status.completed),
+                static_cast<unsigned long>(status.failed), status.stage,
+                status.driver_error, status.stop_error);
+}
+
 void printStatus() {
+  printLedStatus();
   Serial.printf("[PAIRING] active=%s state=%s room=%lu session=%lu revision=%lu player=%u scan_seq=%lu fresh=%s\r\n",
                 pairingVisible(gNetworkSnapshot.pairing, millis()) ? "YES" : "NO",
                 tilePairingStateLabel(gNetworkSnapshot.pairing.state),
@@ -2059,10 +2071,10 @@ void printStatus() {
                 order.output_pulled_low ? "LOW" : "RELEASED",
                 order.timer_ready ? "OK" : "FAIL", order.accepted, order.rejected,
                 order.timing_drops);
-  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=V0.33\r\n",
+  Serial.printf("[DISPLAY-CLOCK] requested_hz=%u actual_hz=%u experiment_ms=%u firmware=%s\r\n",
                 gDisplayClockHz,
                 spiClockDivToFrequency(gDisplaySpi.getClockDivider()),
-                gDisplayExperimentDurationMs);
+                gDisplayExperimentDurationMs, kFirmwareVersion);
   Serial.printf("[DISPLAY-PERF] renderer=%s frames=%u skipped=%u rectangles=%u pixels=%u full=%u last_us=%u max_us=%u\r\n",
                 gSubmittedFrame != nullptr ? "PSRAM_DIFF" : "DIRECT_FALLBACK",
                 gDisplayMetrics.frames, gDisplayMetrics.skipped,
@@ -2122,6 +2134,9 @@ void printHelp() {
   Serial.println(F("  DISPLAY SAFE      restore board-safe speed and normal page"));
   Serial.println(F("  RESTART           restart ESP32-S3 for boot timing test"));
   Serial.println(F("  BRIGHTNESS 0..255 set LCD backlight PWM"));
+  Serial.println(F("  LED STATUS        print driver and requested-pixel state"));
+  Serial.println(F("  LED OFF|RED|GREEN|BLUE seconds  local override, 1..30 s, level 8"));
+  Serial.println(F("  LED AUTO          restore normal game lighting immediately"));
   Serial.println(F("  STATUS            print current state and power"));
   Serial.println(F("  RFID DEBUG ON|OFF toggle raw RFID capture diagnostics"));
   Serial.println(F("  HELP              print this list"));
@@ -2139,7 +2154,15 @@ void processCommand(char *command) {
     ++command;
   }
   uppercase(command);
-  if (std::strncmp(command, "DISPLAY SPEED ", 14) == 0) {
+  if (std::strncmp(command, "LED", 3) == 0) {
+    const auto led_command = ws2812::parseCommand(command);
+    if (!led_command.valid) {
+      Serial.println(F("ERR: LED STATUS, LED AUTO, or LED OFF|RED|GREEN|BLUE 1..30"));
+      return;
+    }
+    if (gLedMaintenance.apply(led_command, millis())) renderLedScene(millis());
+    printLedStatus();
+  } else if (std::strncmp(command, "DISPLAY SPEED ", 14) == 0) {
     unsigned long hz = 0;
     unsigned long seconds = 0;
     char extra = 0;
@@ -2196,15 +2219,10 @@ void processCommand(char *command) {
 void pollSerial() {
   while (Serial.available() > 0) {
     const char character = static_cast<char>(Serial.read());
-    if (character == '\r' || character == '\n') {
-      if (gSerialLength != 0) {
-        gSerialLine[gSerialLength] = '\0';
-        processCommand(gSerialLine);
-        gSerialLength = 0;
-      }
-    } else if (gSerialLength + 1U < sizeof(gSerialLine)) {
-      gSerialLine[gSerialLength++] = character;
-    }
+    const auto result = gSerialLine.feed(character);
+    if (result == SerialLineResult::Line) processCommand(gSerialLine.data());
+    else if (result == SerialLineResult::TooLong)
+      Serial.println(F("ERR: command too long; entire line discarded"));
   }
 }
 
@@ -2250,7 +2268,7 @@ void setup() {
   renderLedScene(now);
 
   Serial.println();
-  Serial.println(F("GRIDOPOLY TILE MODULE V0.33 - ROLE AND TOKEN PAIRING"));
+  Serial.printf("GRIDOPOLY TILE MODULE %s - ROLE AND TOKEN PAIRING\r\n", kFirmwareVersion);
   Serial.println(F("RS485 disabled; ORDER physical beacon and Wi-Fi/HTTP assignment enabled."));
   Serial.printf("[PROFILE] role=%s profile=%s firmware=%s\r\n",
                 moduleRoleLabel(kModuleRole), kModuleProfile, kFirmwareVersion);

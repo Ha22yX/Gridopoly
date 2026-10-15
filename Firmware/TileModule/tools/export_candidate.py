@@ -5,6 +5,7 @@ Does not open serial ports. The release owner binds the profile to physical MACs
 from pathlib import Path
 import hashlib
 import json
+import re
 import subprocess
 
 Import("env")  # noqa: F821 - supplied by PlatformIO/SCons
@@ -49,11 +50,15 @@ def export_candidate(source, target, env):
                                      end > segments[index + 1]["offset"]):
             raise ValueError("Invalid or overlapping flash segments")
     repo = project.parents[1]
+    version = re.search(r'kFirmwareVersion\s*=\s*"([^"]+)"',
+                        (project / "include/module_profile.h").read_text(encoding="utf-8"))
+    if version is None:
+        raise ValueError("Firmware version is missing from module_profile.h")
     revision = subprocess.check_output(
         ["git", "-c", "safe.directory=*", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
     manifest = {
         "schemaVersion": 1, "profile": profiles[environment], "environment": environment,
-        "firmwareVersion": "V0.33", "hardwareRevision": "unknown", "chip": "esp32s3",
+        "firmwareVersion": version.group(1), "hardwareRevision": "unknown", "chip": "esp32s3",
         "flashSize": env.BoardConfig().get("upload.flash_size"),
         "flashMode": env.subst("${__get_board_flash_mode(__env__)}"),
         "flashFrequency": env.subst("${__get_board_f_image(__env__)}"),
@@ -61,7 +66,7 @@ def export_candidate(source, target, env):
         "sourceManifest": str(build / "candidate-sources.json"), "segments": segments,
         "normalFirmware": True, "displayDefaultHz": 8000000,
         "role": "long" if profiles[environment] == "tile-long" else "corner",
-        "validation": "Candidate only; no device deployment or 32-board acceptance implied",
+        "validation": "Candidate only; no device deployment, LED optical or full-board acceptance implied",
     }
     destination = build / "candidate.json"
     destination.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
