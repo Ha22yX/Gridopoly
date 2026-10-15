@@ -147,6 +147,38 @@ class USBPreparationTests(unittest.TestCase):
             with self.subTest(info=info, reg=reg), self.assertRaises(ap.Refused):
                 ap.validate_radio(info, reg, country, 6)
 
+    def test_iw_decimal_frequency_format(self):
+        ap.validate_radio(RADIO.replace("2437 MHz", "2437.0 MHz"), "country US:", "US", 6)
+        for frequency in ("2437.5", "12437.0", "2438.0"):
+            with self.subTest(frequency=frequency), self.assertRaises(ap.Refused):
+                ap.validate_radio(RADIO.replace("2437 MHz", frequency + " MHz"), "country US:", "US", 6)
+
+    def test_reviewed_derived_domains_are_explicit_and_recorded(self):
+        regulatory = "global\ncountry 98: DFS-FCC\nphy#0\ncountry 99: DFS-UNSET\n"
+        with self.assertRaises(ap.Refused):
+            ap.validate_radio(RADIO, regulatory, "US", 6)
+        result = ap.validate_radio(RADIO, regulatory, "US", 6, review_derived_regdom=True)
+        self.assertTrue(result["derivedDomainAccepted"])
+        self.assertEqual(result["reportedCodes"], ["98", "99"])
+        self.assertEqual(result["raw"], regulatory)
+        for extra in ("country CN:", "country 97:"):
+            with self.subTest(extra=extra), self.assertRaises(ap.Refused):
+                ap.validate_radio(RADIO, regulatory + extra, "US", 6, review_derived_regdom=True)
+        with self.assertRaises(ap.Refused):
+            ap.validate_radio(RADIO.replace("20.0 dBm", "no IR"), regulatory, "US", 6, True)
+
+    def test_usb_hotplug_rule_starts_entire_stack_only_for_matched_adapter(self):
+        _, output, _ = self.prepare()
+        rule = output[ap.UDEV].decode()
+        self.assertIn('ACTION!="remove", SUBSYSTEM=="net"', rule)
+        self.assertNotIn('ACTION=="add"', rule)
+        self.assertIn('DRIVERS=="mt76x2u"', rule)
+        self.assertIn(f'ATTR{{address}}=="{MAC}"', rule)
+        self.assertIn('TAG+="systemd"', rule)
+        self.assertIn('ENV{SYSTEMD_WANTS}+="gridopoly-ap.service gridopoly-dnsmasq.service gridopoly-ap-watchdog.service"', rule)
+        self.assertNotIn('RUN+=', rule)
+        self.assertNotIn('wlan0', rule)
+
     def test_missing_firmware_and_busy_device_refused(self):
         self.host.firmware_ok = False
         with self.assertRaises(ap.Refused):
@@ -219,7 +251,7 @@ class USBPreparationTests(unittest.TestCase):
             for path in (ap.ENV, ap.DNS, ap.AP, ap.GAME):
                 self.assertEqual(restore[path], originals[path]["data"])
                 self.assertEqual(manifest["files"][path]["original"]["mode"], 0o640)
-            for path in (ap.USB_SCRIPT, ap.GUARD, ap.LINK, ap.NM):
+            for path in (ap.USB_SCRIPT, ap.GUARD, ap.LINK, ap.NM, ap.UDEV):
                 self.assertIsNone(restore[path])
             with self.assertRaises(ap.Refused):
                 ap.write_bundle(target, originals, output, evidence)

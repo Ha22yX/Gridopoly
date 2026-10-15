@@ -1,6 +1,6 @@
 # Gridopoly 文档中心
 
-更新：2026-10-15。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)了解已有实现、最后部署和未完成验收，再按下表进入规范。当前12长边＋4角落已完成V0.34分批写验，4台玩家屏在线已有证据，最新包为trial16-2026-10-15-v4；整盘24V/RFID/实体游戏仍待验。
+更新：2026-10-15。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)了解已有实现、最后部署和未完成验收，再按下表进入规范。当前12长边＋4角落已完成V0.34分批写验，4台玩家屏在线已有证据，最新包为trial16-2026-10-15-v4；线圈抬高后16板读卡获用户确认；服务器整盘联网、自动到达和实体游戏分别验收。
 
 ## 当前状态入口
 
@@ -15,12 +15,12 @@
 | 玩家电池底板 | [电路/接线/采购](hardware/player-usbc-battery-base-2026-09-27.md)、[RC6-TP当前设计候选](../PCB%20Files/PlayerConsolePower/Testpoints-2026-10-15/README.md) |
 | 电池功能是否已部署 | [固件接入证据](firmware/player-battery-telemetry-progress-2026-09-27.md)：源码/构建已完成，默认关闭，未部署 |
 | 新屏显示与第四屏 | [等待页修复](firmware/player-new-screen-display-progress-2026-10-15.md)、[COM29首次部署](firmware/player-fourth-screen-flash-2026-10-15.md)、[12MHz显示结果](firmware/player-com29-display-progress-2026-10-15.md) |
-| 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；未切网、20/36台待验 |
+| 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；[USB已部署及重启自启验收](firmware/usb-ap-deployment-2026-10-15.md)，20台同时接入已实证、36台待验 |
 | 线圈包围屏幕时的RFID故障 | [COM8单板实机调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)；区分供电、芯片告警与实际UID读取 |
 | 3D与机械 | [模型、首件及待办](mechanical/README.md) |
 | 接下来做什么 | [实施与验收路线图](firmware/development-roadmap-2026-09-21.md) |
 
-棋盘为长边PCB2_1与角落PCB2_5，直接24V供电；另有独立玩家屏和RC6-TP电池底板候选。玩家Wi-Fi/UDP、格子Wi-Fi/HTTP＋ORDER，RS485未启用。全在线ORDER自动闭环现支持目录16/24/32/40节点及实际四角校验，已部署Pi；完整实物环仍待验。单模块配对不要求闭环。玩家底板旧订单实物短路与最新制造候选的区别见当前交接。
+棋盘为长边PCB2_1与角落PCB2_5，直接24V供电；另有独立玩家屏和RC6-TP电池底板候选。玩家Wi-Fi/UDP、格子Wi-Fi/HTTP＋ORDER，RS485未启用。全在线ORDER自动闭环现支持目录16/24/32/40节点及实际四角校验，已部署Pi；16实体环ready及四角0/4/8/12自动分配已验，锚点改派/物理断环另验。单模块配对不要求闭环。玩家底板旧订单实物短路与最新制造候选的区别见当前交接。
 
 ## 规范与开发入口
 

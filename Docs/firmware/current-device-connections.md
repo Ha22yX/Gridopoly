@@ -1,8 +1,10 @@
 # 最后已知设备连接记录
 
-COM8于2026-10-15单板仅USB接入，完整MAC仍为`68:ee:8f:54:11:a4`，由实际V0.32升级至V0.34基础stage2诊断`4fe2e35a…`，unknown角色、LCD8MHz。仅本地试读越过ANTFAIL时，关闭背光或全亮255都读到UID `7EF9FD7E`；亮度150的1kHz PWM两次对照均无完整UID。结束恢复150、Strict门控，DEBUG关闭/串口释放，正常扫描仍Fault。此设备不属于本轮16块计划棋盘，不可标作corner；见[围屏RFID调查](tile-rfid-screen-coupling-2026-10-15.md)。
+2026-10-15最新网络记录：ALFA AWUS036ACM已部署为USB独立2.4GHz热点，US／信道6／HT20；SSID仍为`gridopoly`，密码与`10.42.0.1`保持。已实证16格＋4屏共20台同时关联并注册；用户随后关闭COM7，最终重启后的观察为16格＋指定3屏。16格唯一ORDER环ready、0～15自动分配及四角0/4/8/12已通过。设备事件自动恢复已验证，四服务enabled，22:19 UTC实际Pi软件重启后自动启动并恢复原房间。未来36台、无家庭网络的整机冷上电及完整实体对局仍单独待验。 USB永久MAC为`00:c0:ca:be:2a:df`，固定接口`gpusb0`、驱动`mt76x2u`；Pi家网管理地址最后仍为`10.0.0.124`。详见[USB部署验收](usb-ap-deployment-2026-10-15.md)。
 
-COM29 当前运行12MHz诊断候选 `716ff623…`，用户确认静止 Waiting for new game 页频闪、错位消失；120秒诊断日志已自动结束，游戏功能继续可用。普通12MHz候选 `3da4c493…` 已构建和独立核验，尚未部署：当前热点只有7台活跃关联，暂不重启COM29释放连接名额。动态页面与原24FPS/42ms门槛仍待验；冻结v4保持16MHz历史基线。 见[显示记录](player-com29-display-progress-2026-10-15.md)。
+COM8于2026-10-15单板仅USB接入，完整MAC仍为`68:ee:8f:54:11:a4`，由实际V0.32升级至V0.34基础stage2诊断`4fe2e35a…`，unknown角色、LCD8MHz。仅本地试读越过ANTFAIL时，关闭背光或全亮255都读到UID `7EF9FD7E`；亮度150的1kHz PWM两次对照均无完整UID。该调试窗口结束时恢复150、Strict门控，DEBUG关闭/串口释放，正常扫描仍Fault。此设备不属于本轮16块计划棋盘，不可标作corner；见[围屏RFID调查](tile-rfid-screen-coupling-2026-10-15.md)。
+
+COM29 当前运行12MHz诊断候选 `716ff623…`，用户确认静止 Waiting for new game 页频闪、错位消失；120秒诊断日志已自动结束，游戏功能继续可用。普通12MHz候选 `3da4c493…` 已构建和独立核验，尚未部署；原热点容量限制已解决，普通候选与页面验收另排。动态页面与原24FPS/42ms门槛仍待验；冻结v4保持16MHz历史基线。 见[显示记录](player-com29-display-progress-2026-10-15.md)。
 
 用户已给16格接上24V电源。2026-10-15 11:21～11:23 UTC只读检查持续7台活跃关联（3玩家屏＋4格子；COM28由用户关闭），DHCP未耗尽，HTTP拒绝数为0。证据强烈指向内置Wi-Fi接入容量，但未读得芯片maxassoc或抓到明确拒绝码；不能写成硬上限已证明。16格＋4屏需20台、未来32格＋4屏需36台，另留调试终端余量。用户已购买ALFA AWUS036ACM（MT7612U）作为便携USB-A热点，尚未报告到货；配置准备中，未迁移或通过整盘容量验收。 见[热点调查](ap-capacity-investigation-2026-10-15.md)、[便携USB选型](portable-wifi-selection-2026-10-15.md)。
 

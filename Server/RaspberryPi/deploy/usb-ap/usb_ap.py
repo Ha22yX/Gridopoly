@@ -29,6 +29,7 @@ USB_SCRIPT = "/usr/local/libexec/gridopoly-usb-ap"
 GUARD = "/usr/local/libexec/gridopoly-usb-ap-guard"
 LINK = "/etc/systemd/network/10-gridopoly-usb.link"
 NM = "/etc/NetworkManager/conf.d/90-gridopoly-usb.conf"
+UDEV = "/etc/udev/rules.d/90-gridopoly-usb.rules"
 UNITS = ("gridopoly-ap.service", "gridopoly-dnsmasq.service",
          "gridopoly-ap-watchdog.service", "gridopoly.service")
 EXPECTED_SERVER = {"GRIDOPOLY_HTTP_PORT": "80", "GRIDOPOLY_SERVICE_IP": "10.42.0.1",
@@ -126,17 +127,25 @@ def validate_network(addresses, routes, interface, ssh, route_to_client):
                 for d in addresses), "SSH server address is not on wlan0")
 
 
-def validate_radio(info, regulatory, country, channel):
+def validate_radio(info, regulatory, country, channel, review_derived_regdom=False):
     require(re.fullmatch(r"[A-Z]{2}", country), "Supply the actual operating country as two uppercase letters")
     require(channel in (1, 6, 11), "This 2.4 GHz preparation supports channels 1, 6, or 11")
     require(re.search(r"^\s*\* AP\s*$", info, re.M), "Driver does not advertise AP mode")
     frequencies = [line.lower() for line in info.splitlines() if re.search(rf"\[{channel}\]", line)]
-    require(len(frequencies) == 1 and f"{2407 + channel * 5} mhz" in frequencies[0]
+    require(len(frequencies) == 1 and re.search(rf"\b{2407 + channel * 5}(?:\.0+)? mhz\b", frequencies[0])
             and not any(x in frequencies[0] for x in ("disabled", "no ir", "no-ir", "radar")),
             "Selected 2.4 GHz channel is not currently usable for AP")
     reported = set(re.findall(r"\bcountry ([A-Z0-9]{2}):", regulatory))
-    require(country in reported and reported <= {country, "00"},
+    exact = country in reported and reported <= {country, "00"}
+    # Linux reg.c: 98 is an intersection, 99 is driver-built/unknown alpha2.
+    # They do not confirm a location. Only a deliberately reviewed preparation
+    # may use the explicit operator-supplied country with these special codes.
+    derived = (review_derived_regdom and bool(reported & {"98", "99"})
+               and reported <= {country, "00", "98", "99"})
+    require(exact or derived,
             "Requested country absent from current regulatory state; review separately, no automatic change")
+    return {"reportedCodes": sorted(reported), "reviewDerivedRegdom": review_derived_regdom,
+            "derivedDomainAccepted": bool(derived and not exact), "raw": regulatory}
 
 
 class Host:
@@ -204,7 +213,7 @@ def replace_once(text, old, new):
     return text.replace(old, new, 1)
 
 
-def candidates(originals, mac, country, channel):
+def candidates(originals, mac, country, channel, guard_template=None):
     env = originals[ENV]["data"]
     current = parse_env(env)
     require(current.get("GRIDOPOLY_AP_SSID") == "gridopoly", "Unexpected SSID")
@@ -240,17 +249,21 @@ def candidates(originals, mac, country, channel):
     ap_unit = replace_once(ap_unit, "[Unit]", "[Unit]\nAfter=sys-subsystem-net-devices-gpusb0.device\n"
                            "BindsTo=sys-subsystem-net-devices-gpusb0.device\nJobTimeoutSec=30")
     game_unit = remove_online_wait(originals[GAME]["data"].decode())
-    guard = Path(__file__).with_name("guard.py.in").read_text(encoding="utf-8")
+    guard = guard_template if guard_template is not None else Path(__file__).with_name("guard.py.in").read_text(encoding="utf-8")
     guard = guard.replace("@MAC@", mac)
     return {ENV: new_env.encode(), DNS: dns.encode(), AP: ap_unit.encode(), GAME: game_unit.encode(),
             USB_SCRIPT: new_script.encode(), GUARD: guard.encode(),
             LINK: f"[Match]\nPermanentMACAddress={mac}\nDriver=mt76x2u\n\n[Link]\nNamePolicy=\nName={IFACE}\nMACAddressPolicy=none\n".encode(),
-            NM: f"[device-gridopoly-usb]\nmatch-device=mac:{mac}\nmanaged=0\n".encode()}
+            NM: f"[device-gridopoly-usb]\nmatch-device=mac:{mac}\nmanaged=0\n".encode(),
+            UDEV: ('# Retain activation properties through the move/change events caused by .link renaming.\n'
+                   f'ACTION!="remove", SUBSYSTEM=="net", DRIVERS=="mt76x2u", ATTR{{address}}=="{mac}", '
+                   'TAG+="systemd", ENV{SYSTEMD_WANTS}+="gridopoly-ap.service gridopoly-dnsmasq.service gridopoly-ap-watchdog.service"\n').encode()}
 
 
-def preflight(host, mac, country, channel, explicit=None, ssh=""):
+def preflight(host, mac, country, channel, explicit=None, ssh="", review_derived_regdom=False):
     device = select_device(host.devices(), mac, explicit)
-    validate_radio(host.run("iw", "phy", device["phy"], "info"), host.run("iw", "reg", "get"), country, channel)
+    radio = validate_radio(host.run("iw", "phy", device["phy"], "info"), host.run("iw", "reg", "get"),
+                           country, channel, review_derived_regdom)
     require(host.run("nmcli", "-g", "GENERAL.STATE", "device", "show", device["name"]).split()[:1] == ["30"],
             "USB must be NetworkManager-managed and disconnected for initial preparation")
     fields = ssh.split()
@@ -285,12 +298,13 @@ def preflight(host, mac, country, channel, explicit=None, ssh=""):
                     "/etc/systemd/system/gridopoly-dnsmasq.service", "/etc/systemd/system/gridopoly-ap-watchdog.service")
     originals = {p: host.capture(p) for p in source_paths}
     require(all(originals.values()), "A required original file is missing")
-    for path in (USB_SCRIPT, GUARD, LINK, NM):
+    for path in (USB_SCRIPT, GUARD, LINK, NM, UDEV):
         require(host.capture(path) is None, "USB candidate destination already exists; review before reuse")
         originals[path] = None
     generated = candidates(originals, mac_address(mac), country, channel)
     return originals, generated, {"device": device, "country": country, "channel": channel,
-                                  "firmware": firmware, "scope": "review-only; not applied or capacity tested"}
+                                  "firmware": firmware, "regulatory": radio,
+                                  "scope": "review-only; not applied or capacity tested"}
 
 
 def write_bundle(directory, originals, generated, evidence):
@@ -336,7 +350,7 @@ def verify_bundle(directory):
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     require(manifest.get("schema") == 1, "Unknown bundle schema")
     restore = {}
-    allowed = {ENV, DNS, AP, GAME, SCRIPT, USB_SCRIPT, GUARD, LINK, NM, "/etc/gridopoly/server.env",
+    allowed = {ENV, DNS, AP, GAME, SCRIPT, USB_SCRIPT, GUARD, LINK, NM, UDEV, "/etc/gridopoly/server.env",
                "/usr/local/libexec/gridopoly-ap-cleanup", "/usr/local/libexec/gridopoly-ap-watchdog",
                "/etc/systemd/system/gridopoly-dnsmasq.service", "/etc/systemd/system/gridopoly-ap-watchdog.service"}
     require(set(manifest["files"]) == allowed, "Unexpected bundle destination set")
@@ -362,6 +376,8 @@ def main(argv=None):
     parser.add_argument("--interface", help="optional current name, must match MAC; no wlan1 assumption")
     parser.add_argument("--country", help="actual operating country, uppercase ISO alpha-2; no default")
     parser.add_argument("--channel", type=int, choices=(1, 6, 11), default=6)
+    parser.add_argument("--review-derived-regdom", action="store_true",
+                        help="explicitly review Linux 98/99 domains with a confirmed operating country; no regulatory changes")
     args = parser.parse_args(argv)
     try:
         if args.verify_bundle:
@@ -372,7 +388,8 @@ def main(argv=None):
         elif args.check or args.prepare:
             require(args.mac and args.country, "--mac and --country are required")
             originals, generated, evidence = preflight(Host(), args.mac, args.country, args.channel,
-                                                       args.interface, os.environ.get("SSH_CONNECTION", ""))
+                                                       args.interface, os.environ.get("SSH_CONNECTION", ""),
+                                                       args.review_derived_regdom)
             if args.prepare:
                 write_bundle(args.prepare, originals, generated, evidence)
             print("Preflight passed. " + ("Private review bundle written; " if args.prepare else "") +
