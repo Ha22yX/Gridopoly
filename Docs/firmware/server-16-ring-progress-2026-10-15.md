@@ -26,7 +26,7 @@
 
 最终冻结快照的上述三个目标全部 PASS，正常 `gridopoly_server` 构建 exit 0。Pi aarch64 / g++ 14.2.0，沿用项目 C++17、`-O2 -Wall -Wextra -Werror -pthread`，没有 NDEBUG，断言开启。仅上述三个 native 目标属于本轮验证，不将其记作所有 native/资产流水线均已重跑。
 
-## 已归档候选（尚未部署）
+## 已归档候选（后续部署见下节）
 
 - 本地目录：`C:/Users/kicof/GridopolyReleases/server-ring16-20261015-042104/`。
 - 正常二进制：该目录 `gridopoly_server`，637328 bytes，ELF 64-bit ARM aarch64，SHA256 `ae01f6e5032d66c2e24aa47ba8b4d2e6a344b2c282575e4f0b11c3e1f2723af0`。
@@ -57,4 +57,25 @@
 
 ## 交接边界
 
-本端源码实现、三个目标回归、正常 Linux 构建和候选归档已完成，`git diff --check` 通过。生产仍为旧服务器版本；完整 16 板闭环、全部在线、真实锚点旋转和玩家屏实际入局未由本阶段证明。下一步由主任务审核候选并协调部署、剩余硬件与现场验收。源码和本报告交主任务统一审查/提交，本端没有操作共享 Git 索引、后台轮询或自动化。
+本端源码实现、三个目标回归、正常 Linux 构建和候选归档已完成，`git diff --check` 通过。主任务审核并统一提交 `ca4b91e` 后，授权下述一次生产部署。完整 16 板闭环、全部在线、真实锚点旋转和玩家屏实际入局仍未由本阶段证明。剩余硬件与现场验收由主任务继续协调；本端没有操作共享 Git 索引或创建后台轮询/自动化。
+
+## 生产部署已完成：一次重启、存档保留
+
+主任务独立复核候选完整 SHA、128 源一致性及三个目标结果后，明确授权部署 `ae01f6e5…` 和一次服务重启。操作期间没有 POST 新局、锚点、Tag 或资产，也没有修改 AP、服务配置或占用串口。
+
+先保存旧二进制和运行期数据压缩包，再将一次重启拆成 `stop` → 正常 flush 完成后的 `cp -a` 一致快照 → 原子替换程序 → `start`。一致快照与停止后的整个 `/var/lib/gridopoly` 共 250 文件逐 SHA 相等；旧二进制 SHA 也复核为 `2bc084d7…`。备份位于 Pi 的 root 私有目录 `/var/backups/gridopoly/server-ring16-20261015-042540`，包含 `data/`、`previous-gridopoly_server`、前后清单和证据。启动或存档验证失败会保留失败数据并恢复此一致快照；本次全部检查通过，没有执行回滚。
+
+客户端执行窗口为 `2026-10-15T04:28:55.101Z`–`04:29:18.935Z`。停服时刻 `04:28:56.747Z`，新服务 HTTP 就绪 `04:28:58.793Z`，约 2.05 秒。实际生产 PID **10677**，`/proc/10677/exe` SHA256 **`ae01f6e5032d66c2e24aa47ba8b4d2e6a344b2c282575e4f0b11c3e1f2723af0`**，与审核候选完全一致。
+
+部署后 20 秒、10 组真实 GET 观察通过：
+
+- `/health`、`/api/sync`、`/api/player-devices`、`/api/tile-debug/assignments` 正常返回。room `993580110` 保留，版本按既有恢复初始化逻辑从 10 增至 11。
+- 最终完整 `/api/sync` 相对紧邻停服前只有三处差异：`version`、`identity.serverEpochMs`、`tagPairing.sessionId`。剔除这些恢复/时钟字段后，业务差异为空；玩家、现金、位置、资产、Tag UID、身份状态、冻结设备、回合及其它字段全同。
+- 250 数据文件没有缺失。`state.bin` 因恢复后的版本写回发生变化；其余 249 份数据（包括 `identity.bin`、`authority.meta`、`device-seats.bin`）均逐字节一致。
+- 首页 HTTP 200 / gzip，解压后 HTML 为 92714 bytes（`decodedHtmlBytes`），冻结 gzip 体为 25504 bytes（`gzipBytes`），ETag `gridopoly-ui-15e74b00f252`。gzip 大小由归档 `WebUiGzip.h` 数组核对，解压内容与部署时保存的 `page.html` 逐字节相同；原部署记录中的 92714 是解压长度，不是压缩传输长度。解压后 HTML 完整 SHA256 为 `15e74b00f2527805d7a7c26ef424a1bc687a9dcb8f2fbe15455c567ba75aa3f5`。
+- 四个服务全部 active/running，gridopoly `NRestarts=0`。AP、DHCP 和 watchdog 的 PID 819/820/821 与部署前完全一致，未重启网络。
+- **部署前最新现场已变化为两板**：V0.33 corner `tile-a4cb8fc1e188` 与 long `tile-288485ba9fe8`，均无上游；早先的四板链不是此时快照。新进程初始模块表为空，20 秒内同两板自动重注册，仍未锚定/未分配。玩家屏仍离线；不把此次部署写成 16 板闭环、RFID 或玩家入局通过。用户目前没有 24V，USB 低压启动也不代表 RFID 电气验收。
+
+本地证据目录为候选归档下 `deployment-20261015-042540/`，包含前后 JSON、十组观察、服务状态、部署脚本/日志、页内容及清单。`recovery.tar.gz` 为私有离机恢复包（7388585 bytes，SHA256 `a40b2b1dfc88c5caad89f842a2b093ec9e042f18015efe289abf47f312873762`），下载后再次核对其中 250 文件和旧 binary，drift 为空；`archive-verification.json` 记录核验。该恢复包及原始生产快照含用户存档，不纳入普通组合分发包。
+
+服务端部署阶段完成，后续由主任务协调玩家屏上线、用户实际新局及完整 16 板闭环验收。此次授权不包含替用户创建真实新局。
