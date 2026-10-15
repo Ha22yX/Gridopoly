@@ -31,11 +31,23 @@ if ($segments.Count -ne 4 -or @($segments | Where-Object { $_.offset -eq 65536 }
 }
 $candidatePath = Join-Path $RunDir 'candidate.json'
 $displayDiagnostic = if ($inputs.displayDiagnostic) { [string]$inputs.displayDiagnostic } else { 'none' }
+$displayClock = if ($inputs.displayClock) { [string]$inputs.displayClock } else { 'vendor' }
+$batteryBoard = if ($inputs.batteryBoard) { [string]$inputs.batteryBoard } else { 'none' }
+. (Join-Path $PSScriptRoot 'resolve-display-profile.ps1')
+$displayProfile = Resolve-PlayerDisplayProfile -Mode $inputs.mode -BatteryBoard $batteryBoard -DisplayClock $displayClock -DisplayDiagnostic $displayDiagnostic
+if ($inputs.requestedPclkHz -and $inputs.requestedPclkHz -ne $displayProfile.requestedPclkHz) {
+    throw 'Requested pixel clock metadata does not match the selected build profile'
+}
+if (($inputs.flags -match '-DGRIDOPOLY_DISPLAY_DIAGNOSTIC=1(?:\s|$)') -ne $displayProfile.diagnosticOnly -or
+    ($inputs.flags -match '-DGRIDOPOLY_DISPLAY_PCLK_HZ=12000000(?:\s|$)') -ne ($displayClock -eq 'pclk12')) {
+    throw 'Display profile metadata does not match the actual compiler flags'
+}
 @{
     schemaVersion = 1; profile = 'player'; normalFirmware = $true; chip = 'esp32s3'
     flashMode = $flashMode; flashFrequency = $flashFrequency; flashSize = $flashSize
     gitRevision = $inputs.gitRevision; sourceManifest = $inputs.sourceManifest
     displayDiagnostic = $displayDiagnostic; diagnosticOnly = ($displayDiagnostic -ne 'none')
+    displayClock = $displayClock; requestedPclkHz = $displayProfile.requestedPclkHz
     sourceDigest = (Get-FileHash -LiteralPath $inputs.sourceManifest).Hash.ToLowerInvariant()
     segments = $segments
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $candidatePath -Encoding utf8

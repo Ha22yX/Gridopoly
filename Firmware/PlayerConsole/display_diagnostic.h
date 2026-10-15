@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include "display_config.h"
 
 #ifndef GRIDOPOLY_DISPLAY_DIAGNOSTIC
 #define GRIDOPOLY_DISPLAY_DIAGNOSTIC 0
@@ -8,9 +8,6 @@
 #if GRIDOPOLY_DISPLAY_DIAGNOSTIC != 0 && GRIDOPOLY_DISPLAY_DIAGNOSTIC != 1
 #error "Unsupported display diagnostic profile"
 #endif
-
-// Explicit diagnostic profile only. Normal builds keep the vendor board clock.
-constexpr uint32_t kDisplayDiagnosticPclkHz = 12000000;
 
 // A single bounded observation window, started when the normal loop is ready.
 // Subtraction keeps the deadline correct across millis() wrap. No catch-up burst.

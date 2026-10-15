@@ -4,12 +4,12 @@ param(
     [string]$ToolRoot = "$env:LOCALAPPDATA\GridopolyPlayerTools-3311",
     [switch]$ReuseBuildCache,
     [ValidateSet('none','viewe-md80et-v10')][string]$BatteryBoard = 'none',
-    [ValidateSet('none','pclk12')][string]$DisplayDiagnostic = 'none'
+    [ValidateSet('vendor','pclk12')][string]$DisplayClock = 'vendor',
+    [ValidateSet('none','counters')][string]$DisplayDiagnostic = 'none'
 )
 $ErrorActionPreference = 'Stop'
-if ($DisplayDiagnostic -ne 'none' -and ($Mode -ne 'production' -or $BatteryBoard -ne 'none')) {
-    throw 'Display diagnosis requires normal Wi-Fi firmware with battery telemetry disabled'
-}
+. (Join-Path $PSScriptRoot 'resolve-display-profile.ps1')
+$displayProfile = Resolve-PlayerDisplayProfile -Mode $Mode -BatteryBoard $BatteryBoard -DisplayClock $DisplayClock -DisplayDiagnostic $DisplayDiagnostic
 $project = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $repo = (Resolve-Path (Join-Path $project '..\..')).Path
 $ToolRoot = (Resolve-Path -LiteralPath $ToolRoot).Path
@@ -71,7 +71,7 @@ $fqbn = 'esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRA
 if ($Mode -eq 'selftest') { $flags += ' -DGRIDOPOLY_SELF_TEST=1' }
 if ($Mode -eq 'espnow') { $flags += ' -DGRIDOPOLY_USE_ESPNOW=1' }
 if ($BatteryBoard -eq 'viewe-md80et-v10') { $flags += ' -DGRIDOPOLY_BATTERY_BOARD=1' }
-if ($DisplayDiagnostic -eq 'pclk12') { $flags += ' -DGRIDOPOLY_DISPLAY_DIAGNOSTIC=1' }
+if ($displayProfile.extraFlags) { $flags += ' ' + $displayProfile.extraFlags }
 # Arduino's dependency files can retain an older snapshot's lv_conf.h path.
 # Reuse objects only when every sketch/library input and build flag is identical;
 # a changed configuration/header/deleted file must select a different cache.
@@ -108,12 +108,14 @@ if ($LASTEXITCODE -ne 0 -or $gitRevision -notmatch '^[0-9a-f]{40}$') { throw 'Ca
 $sourceManifest = Join-Path $run 'candidate-sources.json'
 @{
     schemaVersion = 1; gitRevision = $gitRevision; mode = $Mode; batteryBoard = $BatteryBoard; displayDiagnostic = $DisplayDiagnostic
+    displayClock = $displayProfile.displayClock; requestedPclkHz = $displayProfile.requestedPclkHz; diagnosticOnly = $displayProfile.diagnosticOnly
     core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; flags = $flags
     buildInputFingerprint = $fingerprint; files = @($sourceRecords.ToArray())
     note = 'Git revision is the checkout base; file hashes identify the exact possibly uncommitted source snapshot. Local secrets are hashed, never embedded.'
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $sourceManifest -Encoding utf8
 @{
     mode = $Mode; core = 'esp32:esp32@3.3.11'; fqbn = $fqbn; source = $project; snapshot = $stage; batteryBoard = $BatteryBoard; displayDiagnostic = $DisplayDiagnostic
+    displayClock = $displayProfile.displayClock; requestedPclkHz = $displayProfile.requestedPclkHz; diagnosticOnly = $displayProfile.diagnosticOnly
     sourceProjectLibraries = $sourceLibraries
     projectLibraries = $libraries; externalLibraries = $externalLibraries
     externalVersions = $dependencyVersions; config = $config; flags = $flags

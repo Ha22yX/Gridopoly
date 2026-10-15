@@ -72,7 +72,7 @@ void serviceDisplayDiagnostic(uint32_t nowMs)
     const int length = snprintf(line, sizeof(line),
         "GRIDOPOLY_DISPLAY_DIAG ms=%lu done=%u pclk_requested=%lu sdk=%s page=%u rebuild=%lu incremental=%lu flush=%lu switch_fail=%lu frame_complete=%lu internal=%u largest=%u\n",
         static_cast<unsigned long>(nowMs), window.finished ? 1u : 0u,
-        static_cast<unsigned long>(kDisplayDiagnosticPclkHz), esp_get_idf_version(), page,
+        static_cast<unsigned long>(kDisplayRequestedPclkHz), esp_get_idf_version(), page,
         static_cast<unsigned long>(renderer.rebuildRenders),
         static_cast<unsigned long>(renderer.incrementalRenders),
         static_cast<unsigned long>(display.flushes),
@@ -784,12 +784,12 @@ void setup()
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB && CONFIG_IDF_TARGET_ESP32S3
     auto lcdBus = lcd->getBus();
     if (lcdBus->getBasicAttributes().type == ESP_PANEL_BUS_TYPE_RGB) {
-#if GRIDOPOLY_DISPLAY_DIAGNOSTIC
-        if (!static_cast<BusRGB *>(lcdBus)->configRGB_FreqHz(kDisplayDiagnosticPclkHz)) {
-            fault("RGB_DIAGNOSTIC_CLOCK"); return;
+#if GRIDOPOLY_DISPLAY_PCLK_HZ != 0
+        if (!static_cast<BusRGB *>(lcdBus)->configRGB_FreqHz(kDisplayRequestedPclkHz)) {
+            fault("RGB_CLOCK_CONFIG"); return;
         }
 #endif
-        // The board default is ten rows. Keep forty rows in internal SRAM so
+        // The board default is ten rows. Keeping forty rows in internal SRAM
         // reduces RGB scan starvation risk during sustained Wi-Fi/PSRAM traffic.
         static_cast<BusRGB *>(lcdBus)->configRGB_BounceBufferSize(
             lcd->getFrameWidth() * kRgbBounceBufferRows
