@@ -1,0 +1,2590 @@
+{
+  "audit_date_local": "2026-10-14 America/New_York",
+  "snapshot_capturedAt": "2026-10-15T02:55:10.983Z",
+  "status": "PASS",
+  "scope": "SCH netlist vs PCB netlist vs live pads; native BOM and CPL semantic consistency only, no library accuracy or Gerber physical connectivity certification",
+  "inputs_sha256": {
+    "PCB1-netlist.json": "7fee63bcac5412992a08d29fca70b60ab0c1b5f33aa76a67780f44741f8a7125",
+    "schematic-netlist.json": "d9e4665240d30dd23e839e6bb02fd68e9e5dcf05a7ec9245d7a2b428de0e7098",
+    "current-snapshot.json": "514525b69079c1752307edff7b40681068bd6d8691afb7db4ee0688ce93eb4a3",
+    "native-BOM.csv": "a12637a5315d24663a266d47c7ef5ad68380d7945cd17dd61a07d29dacc5d371",
+    "native-CPL.csv": "d8222115aa828f5fde88b117511866f0ee784c71c9bda837fa372795ddb43d35"
+  },
+  "counts": {
+    "schematic_components": 68,
+    "pcb_components": 68,
+    "live_components": 68,
+    "bom_group_rows": 30,
+    "bom_quantity_total": 68,
+    "expanded_bom_components": 68,
+    "cpl_components": 68,
+    "pin_endpoints_compared": 243,
+    "blank_net_endpoints": 21,
+    "nonempty_named_nets": 41
+  },
+  "rules": {
+    "format": "BOM/CPL are tab-separated UTF-8 with quote handling despite .csv suffix",
+    "coordinates": "snapshot mil × 0.0254, preserve signed Y; Mid/Ref tolerance 0.000051mm = half last exported 0.0001mm digit plus 1nm",
+    "rotation": "modulo 360; angular tolerance 1e-7 degree; no mirroring applied",
+    "layer": "snapshot layer 1 and PCB TopLayer must correspond to native CPL T",
+    "NC": "Only the literal empty string is an unassigned net; each blank pin remains a distinct endpoint. No empty-net pads are merged into one electrical network. Names such as NC, $1Nxx, NC1, NC2, or other aliases are compared literally and never treated as universally disconnected. Actual electrical isolation requires separate Gerber connectivity audit. This snapshot has 21 blank-net endpoints and zero differing aliases between sources.",
+    "properties": "MPN, supplier number, ID and footprint name compare literally. Footprint IDs only available and compared between SCH and PCB netlists; native BOM/CPL expose names, not IDs. Live snapshot contains identity/pads/placement only, no MPN fields. DeviceName is library device identity and is compared to CPL Device rather than assumed to equal MPN.",
+    "values": "R/C values literal equality across SCH, PCB, BOM and CPL; no unit substitution needed because representations match."
+  },
+  "check_counts": {
+    "BOM_group_quantity": 30,
+    "reference_sets": 4,
+    "SCH_PCB_property": 680,
+    "BOM_PCB_property": 476,
+    "CPL_PCB_property": 340,
+    "component_identity": 136,
+    "pin_number_sets": 136,
+    "CPL_pin_count": 68,
+    "pin_number_value": 486,
+    "pin_net": 486,
+    "CPL_position": 272,
+    "CPL_rotation": 68,
+    "CPL_layer": 204
+  },
+  "difference_count": 0,
+  "differences": [],
+  "NC_endpoint_ledger": [
+    {
+      "ref": "J1",
+      "pin": "B8",
+      "endpoint_key": "J1.B8",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "J1",
+      "pin": "A8",
+      "endpoint_key": "J1.A8",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "J2",
+      "pin": "6",
+      "endpoint_key": "J2.6",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "J2",
+      "pin": "7",
+      "endpoint_key": "J2.7",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "J2",
+      "pin": "9",
+      "endpoint_key": "J2.9",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U1",
+      "pin": "15",
+      "endpoint_key": "U1.15",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U3",
+      "pin": "4",
+      "endpoint_key": "U3.4",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U5",
+      "pin": "5",
+      "endpoint_key": "U5.5",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U5",
+      "pin": "6",
+      "endpoint_key": "U5.6",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U5",
+      "pin": "8",
+      "endpoint_key": "U5.8",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U5",
+      "pin": "9",
+      "endpoint_key": "U5.9",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U6",
+      "pin": "4",
+      "endpoint_key": "U6.4",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U7",
+      "pin": "3",
+      "endpoint_key": "U7.3",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U7",
+      "pin": "4",
+      "endpoint_key": "U7.4",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U8",
+      "pin": "4",
+      "endpoint_key": "U8.4",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U9",
+      "pin": "5",
+      "endpoint_key": "U9.5",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U9",
+      "pin": "6",
+      "endpoint_key": "U9.6",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U9",
+      "pin": "7",
+      "endpoint_key": "U9.7",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U9",
+      "pin": "8",
+      "endpoint_key": "U9.8",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U9",
+      "pin": "14",
+      "endpoint_key": "U9.14",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    },
+    {
+      "ref": "U10",
+      "pin": "5",
+      "endpoint_key": "U10.5",
+      "sch_net": "",
+      "pcb_net": "",
+      "live_net": "",
+      "meaning": "unassigned per endpoint; no electrical equivalence with any other blank-net pad"
+    }
+  ],
+  "nonempty_net_members": {
+    "5V_SCREEN": [
+      "C8.1",
+      "C9.1",
+      "C10.1",
+      "C14.1",
+      "J2.10",
+      "R9.1",
+      "U2.6",
+      "U8.1",
+      "U8.3"
+    ],
+    "BAT_PACK": [
+      "C2.1",
+      "C19.1",
+      "J3.2",
+      "U1.2",
+      "U1.3",
+      "U10.2",
+      "U10.3"
+    ],
+    "BAT_SCL": [
+      "R23.2",
+      "U9.2",
+      "U10.7"
+    ],
+    "BAT_SDA": [
+      "R22.2",
+      "U9.1",
+      "U10.8"
+    ],
+    "BOOST_FB": [
+      "R9.2",
+      "R10.1",
+      "U2.1"
+    ],
+    "BOOST_SW": [
+      "L1.2",
+      "U2.5"
+    ],
+    "BRIDGE_BOOT_H": [
+      "R24.2",
+      "U9.3"
+    ],
+    "BRIDGE_RST_N": [
+      "C20.1",
+      "R25.2",
+      "U9.4"
+    ],
+    "CC_3V3": [
+      "C12.1",
+      "C13.1",
+      "Q2.2",
+      "R14.1",
+      "R16.1",
+      "U5.12",
+      "U6.5"
+    ],
+    "CC_DET_R1": [
+      "R11.2",
+      "R12.1"
+    ],
+    "CC_DET_R2": [
+      "R12.2",
+      "R13.1"
+    ],
+    "CC_OUT1_N": [
+      "R14.2",
+      "R15.1",
+      "U5.7"
+    ],
+    "CC_PNP_BASE": [
+      "Q2.1",
+      "R15.2",
+      "R16.2"
+    ],
+    "CC_VBUS_DET": [
+      "R13.2",
+      "U5.4"
+    ],
+    "CHG_ILIM": [
+      "R2.1",
+      "U1.12"
+    ],
+    "CHG_ISET": [
+      "R1.1",
+      "U1.16"
+    ],
+    "CHG_N": [
+      "R27.2",
+      "U1.9",
+      "U9.9"
+    ],
+    "CHG_TMR": [
+      "R20.1",
+      "U1.14"
+    ],
+    "CHG_TS_BIAS": [
+      "R21.1",
+      "U1.1"
+    ],
+    "GND": [
+      "C1.2",
+      "C2.2",
+      "C3.2",
+      "C4.2",
+      "C5.2",
+      "C6.2",
+      "C7.2",
+      "C8.2",
+      "C9.2",
+      "C10.2",
+      "C11.2",
+      "C12.2",
+      "C13.2",
+      "C14.2",
+      "C15.2",
+      "C16.2",
+      "C17.2",
+      "C18.2",
+      "C19.2",
+      "C20.2",
+      "D1.2",
+      "J1.1",
+      "J1.2",
+      "J1.3",
+      "J1.4",
+      "J1.A1B12",
+      "J1.B1A12",
+      "J2.8",
+      "J2.11",
+      "J2.12",
+      "J3.1",
+      "Q1.2",
+      "Q3.2",
+      "R1.2",
+      "R2.2",
+      "R4.2",
+      "R8.2",
+      "R10.2",
+      "R17.2",
+      "R18.2",
+      "R20.2",
+      "R21.2",
+      "SW1.3",
+      "SW1.4",
+      "SW2.3",
+      "SW2.4",
+      "U1.4",
+      "U1.6",
+      "U1.8",
+      "U1.17",
+      "U2.4",
+      "U3.2",
+      "U4.2",
+      "U5.3",
+      "U5.10",
+      "U5.11",
+      "U6.2",
+      "U7.5",
+      "U7.9",
+      "U8.2",
+      "U9.13",
+      "U10.1",
+      "U10.4",
+      "U10.6",
+      "U10.9"
+    ],
+    "PGOOD_N": [
+      "R26.2",
+      "U1.7",
+      "U9.16"
+    ],
+    "POWER_EN": [
+      "R8.1",
+      "U2.2",
+      "U3.5"
+    ],
+    "POWER_KEY_N": [
+      "SW1.1",
+      "SW1.2",
+      "U3.1"
+    ],
+    "SCREEN_DM": [
+      "J2.1",
+      "U7.2"
+    ],
+    "SCREEN_DP": [
+      "J2.2",
+      "U7.1"
+    ],
+    "SCREEN_IO3V3": [
+      "C15.1",
+      "C16.1",
+      "C18.1",
+      "R19.1",
+      "R22.1",
+      "R23.1",
+      "R24.1",
+      "R25.1",
+      "R26.1",
+      "R27.1",
+      "R28.1",
+      "U7.10",
+      "U8.5",
+      "U9.12",
+      "U9.15"
+    ],
+    "SCREEN_RST": [
+      "J2.3",
+      "SW2.1",
+      "SW2.2"
+    ],
+    "SCREEN_RX": [
+      "J2.5",
+      "U9.11"
+    ],
+    "SCREEN_TX": [
+      "J2.4",
+      "R28.2",
+      "U9.10"
+    ],
+    "SYS_RAW": [
+      "C3.1",
+      "C4.1",
+      "C6.1",
+      "C7.1",
+      "L1.1",
+      "R3.1",
+      "R5.1",
+      "R6.1",
+      "R7.1",
+      "U1.10",
+      "U1.11",
+      "U2.3",
+      "U3.6",
+      "U4.3",
+      "U4.6"
+    ],
+    "USB_CC1": [
+      "J1.A5",
+      "U5.1"
+    ],
+    "USB_CC2": [
+      "J1.B5",
+      "U5.2"
+    ],
+    "USB_HIGH_CURRENT": [
+      "Q2.3",
+      "R17.1",
+      "U1.5"
+    ],
+    "USB_HOST_DM": [
+      "D1.3",
+      "D1.4",
+      "J1.B7",
+      "J1.A7",
+      "U7.7"
+    ],
+    "USB_HOST_DP": [
+      "D1.1",
+      "D1.6",
+      "J1.A6",
+      "J1.B6",
+      "U7.8"
+    ],
+    "USB_OE_N": [
+      "Q3.3",
+      "R19.2",
+      "U7.6"
+    ],
+    "USB_VBUS": [
+      "C1.1",
+      "C11.1",
+      "C17.1",
+      "D1.5",
+      "J1.A4B9",
+      "J1.B4A9",
+      "Q3.1",
+      "R11.1",
+      "R18.1",
+      "U1.13",
+      "U6.1",
+      "U6.3"
+    ],
+    "UV_CLEAR": [
+      "Q1.3",
+      "R7.2",
+      "U3.3"
+    ],
+    "UV_DELAY": [
+      "R6.2",
+      "U4.4"
+    ],
+    "UV_RESET_N": [
+      "Q1.1",
+      "R5.2",
+      "U4.1"
+    ],
+    "UV_SENSE": [
+      "C5.1",
+      "R3.2",
+      "R4.1",
+      "U4.5"
+    ]
+  },
+  "components": [
+    {
+      "ref": "C1",
+      "MPN": "CL10A105KB8NNNC",
+      "supplier_part": "C15849",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "1uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2017.7165,
+        -2657.4803
+      ],
+      "snapshot_mm": [
+        51.2499991,
+        -67.49999962
+      ],
+      "CPL_mm": [
+        51.25,
+        -67.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 9.000000034120603e-07,
+        "Mid Y": -3.8000000301963155e-07,
+        "Ref X": 9.000000034120603e-07,
+        "Ref Y": -3.8000000301963155e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C2",
+      "MPN": "CL21A106KAYNNNE",
+      "supplier_part": "C15850",
+      "footprint_id": "426dabcfe6a6ceff",
+      "footprint_name": "C0805",
+      "value": "10uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2204.7244,
+        -2460.6299
+      ],
+      "snapshot_mm": [
+        55.99999976,
+        -62.49999946
+      ],
+      "CPL_mm": [
+        56.0,
+        -62.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 2.3999999854140697e-07,
+        "Mid Y": -5.400000020472362e-07,
+        "Ref X": 2.3999999854140697e-07,
+        "Ref Y": -5.400000020472362e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C3",
+      "MPN": "CL21A106KAYNNNE",
+      "supplier_part": "C15850",
+      "footprint_id": "426dabcfe6a6ceff",
+      "footprint_name": "C0805",
+      "value": "10uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1866.1417000000001,
+        -2515.748
+      ],
+      "snapshot_mm": [
+        47.39999918,
+        -63.899999199999996
+      ],
+      "CPL_mm": [
+        47.4,
+        -63.9
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 8.199999967928306e-07,
+        "Mid Y": -8.000000022434506e-07,
+        "Ref X": 8.199999967928306e-07,
+        "Ref Y": -8.000000022434506e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C4",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2224.4094,
+        -1417.3228
+      ],
+      "snapshot_mm": [
+        56.49999876,
+        -35.99999912
+      ],
+      "CPL_mm": [
+        56.5,
+        -36.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.240000003122077e-06,
+        "Mid Y": -8.800000017572529e-07,
+        "Ref X": 1.240000003122077e-06,
+        "Ref Y": -8.800000017572529e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C5",
+      "MPN": "CL10B103KB8NNNC",
+      "supplier_part": "C1589",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "10nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2125.9843,
+        -1555.1181
+      ],
+      "snapshot_mm": [
+        54.00000122,
+        -39.49999973999999
+      ],
+      "CPL_mm": [
+        54.0,
+        -39.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.2200000014672696e-06,
+        "Mid Y": -2.6000000730164174e-07,
+        "Ref X": -1.2200000014672696e-06,
+        "Ref Y": -2.6000000730164174e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C6",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2500,
+        -1141.7323
+      ],
+      "snapshot_mm": [
+        63.5,
+        -29.000000419999996
+      ],
+      "CPL_mm": [
+        63.5,
+        -29.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 0.0,
+        "Mid Y": 4.1999999567110535e-07,
+        "Ref X": 0.0,
+        "Ref Y": 4.1999999567110535e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C7",
+      "MPN": "CL21A106KAYNNNE",
+      "supplier_part": "C15850",
+      "footprint_id": "426dabcfe6a6ceff",
+      "footprint_name": "C0805",
+      "value": "10uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1909.4488,
+        -2106.2992
+      ],
+      "snapshot_mm": [
+        48.499999519999996,
+        -53.499999679999995
+      ],
+      "CPL_mm": [
+        48.5,
+        -53.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 4.800000041882413e-07,
+        "Mid Y": -3.2000000516063665e-07,
+        "Ref X": 4.800000041882413e-07,
+        "Ref Y": -3.2000000516063665e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C8",
+      "MPN": "CL21A106KAYNNNE",
+      "supplier_part": "C15850",
+      "footprint_id": "426dabcfe6a6ceff",
+      "footprint_name": "C0805",
+      "value": "10uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2165.3543,
+        -2086.6142
+      ],
+      "snapshot_mm": [
+        54.99999922,
+        -53.00000068
+      ],
+      "CPL_mm": [
+        55.0,
+        -53.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 7.800000005886432e-07,
+        "Mid Y": 6.799999994200334e-07,
+        "Ref X": 7.800000005886432e-07,
+        "Ref Y": 6.799999994200334e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C9",
+      "MPN": "CL21A106KAYNNNE",
+      "supplier_part": "C15850",
+      "footprint_id": "426dabcfe6a6ceff",
+      "footprint_name": "C0805",
+      "value": "10uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2263.7795,
+        -2086.6142
+      ],
+      "snapshot_mm": [
+        57.4999993,
+        -53.00000068
+      ],
+      "CPL_mm": [
+        57.5,
+        -53.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 7.000000010748408e-07,
+        "Mid Y": 6.799999994200334e-07,
+        "Ref X": 7.000000010748408e-07,
+        "Ref Y": 6.799999994200334e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C10",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2354.3307,
+        -2086.6142
+      ],
+      "snapshot_mm": [
+        59.79999978,
+        -53.00000068
+      ],
+      "CPL_mm": [
+        59.8,
+        -53.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 2.1999999688659955e-07,
+        "Mid Y": 6.799999994200334e-07,
+        "Ref X": 2.1999999688659955e-07,
+        "Ref Y": 6.799999994200334e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C11",
+      "MPN": "CL10A105KB8NNNC",
+      "supplier_part": "C15849",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "1uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2696.8503999999994,
+        -2925.1969
+      ],
+      "snapshot_mm": [
+        68.50000015999998,
+        -74.30000125999999
+      ],
+      "CPL_mm": [
+        68.5,
+        -74.3
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.5999998481674993e-07,
+        "Mid Y": 1.2599999905660297e-06,
+        "Ref X": -1.5999998481674993e-07,
+        "Ref Y": 1.2599999905660297e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C12",
+      "MPN": "CL10A105KB8NNNC",
+      "supplier_part": "C15849",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "1uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2381.8898,
+        -2874.0157
+      ],
+      "snapshot_mm": [
+        60.50000092,
+        -72.99999878
+      ],
+      "CPL_mm": [
+        60.5,
+        -73.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -9.199999979614404e-07,
+        "Mid Y": -1.2200000014672696e-06,
+        "Ref X": -9.199999979614404e-07,
+        "Ref Y": -1.2200000014672696e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C13",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2244.0945,
+        -2688.9764000000005
+      ],
+      "snapshot_mm": [
+        57.0000003,
+        -68.30000056000002
+      ],
+      "CPL_mm": [
+        57.0,
+        -68.3
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -3.0000000350582923e-07,
+        "Mid Y": 5.600000179128983e-07,
+        "Ref X": -3.0000000350582923e-07,
+        "Ref Y": 5.600000179128983e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C14",
+      "MPN": "CL10A105KB8NNNC",
+      "supplier_part": "C15849",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "1uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1023.6220000000001,
+        -1594.4882000000002
+      ],
+      "snapshot_mm": [
+        25.9999988,
+        -40.50000028
+      ],
+      "CPL_mm": [
+        26.0,
+        -40.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.1999999998124622e-06,
+        "Mid Y": 2.800000018510218e-07,
+        "Ref X": 1.1999999998124622e-06,
+        "Ref Y": 2.800000018510218e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C15",
+      "MPN": "CL10A105KB8NNNC",
+      "supplier_part": "C15849",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "1uF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        982.2835,
+        -1881.8898
+      ],
+      "snapshot_mm": [
+        24.9500009,
+        -47.800000919999995
+      ],
+      "CPL_mm": [
+        24.95,
+        -47.8
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -8.999999998593466e-07,
+        "Mid Y": 9.199999979614404e-07,
+        "Ref X": -8.999999998593466e-07,
+        "Ref Y": 9.199999979614404e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C16",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        976.3779999999999,
+        -2421.2598
+      ],
+      "snapshot_mm": [
+        24.800001199999997,
+        -61.499998919999996
+      ],
+      "CPL_mm": [
+        24.8,
+        -61.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.1999999962597485e-06,
+        "Mid Y": -1.0800000040944724e-06,
+        "Ref X": -1.1999999962597485e-06,
+        "Ref Y": -1.0800000040944724e-06
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C17",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1692.9134,
+        -2677.1654
+      ],
+      "snapshot_mm": [
+        43.000000359999994,
+        -68.00000116
+      ],
+      "CPL_mm": [
+        43.0,
+        -68.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -3.5999999425939677e-07,
+        "Mid Y": 1.1599999965028474e-06,
+        "Ref X": -3.5999999425939677e-07,
+        "Ref Y": 1.1599999965028474e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C18",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        590.5512,
+        -2074.8031
+      ],
+      "snapshot_mm": [
+        15.000000479999999,
+        -52.69999874
+      ],
+      "CPL_mm": [
+        15.0,
+        -52.7
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -4.799999988591708e-07,
+        "Mid Y": -1.2600000047768845e-06,
+        "Ref X": -4.799999988591708e-07,
+        "Ref Y": -1.2600000047768845e-06
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C19",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2322.8346,
+        -1948.8189
+      ],
+      "snapshot_mm": [
+        58.99999884,
+        -49.50000006
+      ],
+      "CPL_mm": [
+        59.0,
+        -49.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.1599999965028474e-06,
+        "Mid Y": 5.99999978589949e-08,
+        "Ref X": 1.1599999965028474e-06,
+        "Ref Y": 5.99999978589949e-08
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "C20",
+      "MPN": "CL10B104KB8NNNC",
+      "supplier_part": "C1591",
+      "footprint_id": "100749ec02c3d857",
+      "footprint_name": "C0603",
+      "value": "100nF",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1102.3622,
+        -2314.9606
+      ],
+      "snapshot_mm": [
+        27.99999988,
+        -58.79999924
+      ],
+      "CPL_mm": [
+        28.0,
+        -58.8
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.1999999927070348e-07,
+        "Mid Y": -7.599999989338357e-07,
+        "Ref X": 1.1999999927070348e-07,
+        "Ref Y": -7.599999989338357e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "D1",
+      "MPN": "USBLC6-2SC6",
+      "supplier_part": "C7519",
+      "footprint_id": "4ca675f264780723",
+      "footprint_name": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+      "value": "",
+      "pin_count": 6,
+      "snapshot_mil": [
+        1555.1181,
+        -2736.2205
+      ],
+      "snapshot_mm": [
+        39.49999973999999,
+        -69.5000007
+      ],
+      "CPL_mm": [
+        39.5,
+        -69.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 2.6000000730164174e-07,
+        "Mid Y": 7.000000010748408e-07,
+        "Ref X": 2.6000000730164174e-07,
+        "Ref Y": 7.000000010748408e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "J1",
+      "MPN": "TYPE-C-31-M-12",
+      "supplier_part": "C165948",
+      "footprint_id": "71bc3fa66c4da62e",
+      "footprint_name": "USB-C_SMD-TYPE-C-31-M-12_1",
+      "value": "",
+      "pin_count": 16,
+      "snapshot_mil": [
+        1574.8031,
+        -2970
+      ],
+      "snapshot_mm": [
+        39.99999874,
+        -75.438
+      ],
+      "CPL_mm": [
+        40.0,
+        -75.438
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.259999997671457e-06,
+        "Mid Y": 0.0,
+        "Ref X": 1.259999997671457e-06,
+        "Ref Y": 0.0
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "J2",
+      "MPN": "FPC-05F-10PH20",
+      "supplier_part": "C2856798",
+      "footprint_id": "30ee92e656c169b2",
+      "footprint_name": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
+      "value": "",
+      "pin_count": 12,
+      "snapshot_mil": [
+        150,
+        -2315
+      ],
+      "snapshot_mm": [
+        3.81,
+        -58.800999999999995
+      ],
+      "CPL_mm": [
+        3.81,
+        -58.801
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 0.0,
+        "Mid Y": -7.105427357601002e-15,
+        "Ref X": 0.0,
+        "Ref Y": -7.105427357601002e-15
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "J3",
+      "MPN": "B2B-PH-K-S(LF)(SN)",
+      "supplier_part": "C131337",
+      "footprint_id": "7ce0217ca3d16eb3",
+      "footprint_name": "CONN-TH_B2B-PH-K-S",
+      "value": "",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1574.8031,
+        -196.8504
+      ],
+      "snapshot_mm": [
+        39.99999874,
+        -5.00000016
+      ],
+      "CPL_mm": [
+        40.0,
+        -5.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.259999997671457e-06,
+        "Mid Y": 1.5999999991578306e-07,
+        "Ref X": 1.259999997671457e-06,
+        "Ref Y": 1.5999999991578306e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "L1",
+      "MPN": "MWSA0402S-1R0MT",
+      "supplier_part": "C408332",
+      "footprint_id": "2998f79f0f82def9",
+      "footprint_name": "IND-SMD_L4.4-W4.2",
+      "value": "1uH",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2007.8739999999998,
+        -2244.0945
+      ],
+      "snapshot_mm": [
+        50.999999599999995,
+        -57.0000003
+      ],
+      "CPL_mm": [
+        51.0,
+        -57.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 4.0000000467443897e-07,
+        "Mid Y": 3.0000000350582923e-07,
+        "Ref X": 4.0000000467443897e-07,
+        "Ref Y": 3.0000000350582923e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "Q1",
+      "MPN": "2N7002",
+      "supplier_part": "C8545",
+      "footprint_id": "420f07ee53e2eb3d",
+      "footprint_name": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "value": "",
+      "pin_count": 3,
+      "snapshot_mil": [
+        2637.7953,
+        -1377.9528
+      ],
+      "snapshot_mm": [
+        67.00000062000001,
+        -35.00000112
+      ],
+      "CPL_mm": [
+        67.0,
+        -35.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -6.200000086664659e-07,
+        "Mid Y": 1.1200000002986599e-06,
+        "Ref X": -6.200000086664659e-07,
+        "Ref Y": 1.1200000002986599e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "Q2",
+      "MPN": "MMBT3906 2A(RANGE:100-300)",
+      "supplier_part": "C2143",
+      "footprint_id": "420f07ee53e2eb3d",
+      "footprint_name": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "value": "",
+      "pin_count": 3,
+      "snapshot_mil": [
+        2480.315,
+        -2618.1102
+      ],
+      "snapshot_mm": [
+        63.000001,
+        -66.49999908
+      ],
+      "CPL_mm": [
+        63.0,
+        -66.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -9.999999974752427e-07,
+        "Mid Y": -9.200000050668677e-07,
+        "Ref X": -9.999999974752427e-07,
+        "Ref Y": -9.200000050668677e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "Q3",
+      "MPN": "2N7002",
+      "supplier_part": "C8545",
+      "footprint_id": "420f07ee53e2eb3d",
+      "footprint_name": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "value": "",
+      "pin_count": 3,
+      "snapshot_mil": [
+        1141.7323,
+        -2874.0157
+      ],
+      "snapshot_mm": [
+        29.000000419999996,
+        -72.99999878
+      ],
+      "CPL_mm": [
+        29.0,
+        -73.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -4.1999999567110535e-07,
+        "Mid Y": -1.2200000014672696e-06,
+        "Ref X": -4.1999999567110535e-07,
+        "Ref Y": -1.2200000014672696e-06
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R1",
+      "MPN": "0603WAF1781T5E",
+      "supplier_part": "C22849",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "1.78kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2141.7323,
+        -2685.0394
+      ],
+      "snapshot_mm": [
+        54.40000042,
+        -68.20000076
+      ],
+      "CPL_mm": [
+        54.4,
+        -68.2
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -4.1999999922381903e-07,
+        "Mid Y": 7.599999918284084e-07,
+        "Ref X": -4.1999999922381903e-07,
+        "Ref Y": 7.599999918284084e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R2",
+      "MPN": "0603WAF1801T5E",
+      "supplier_part": "C4177",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "1.8kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1751.9685,
+        -2549.2126
+      ],
+      "snapshot_mm": [
+        44.4999999,
+        -64.75000003999999
+      ],
+      "CPL_mm": [
+        44.5,
+        -64.75
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.0000000116860974e-07,
+        "Mid Y": 3.9999989098760125e-08,
+        "Ref X": 1.0000000116860974e-07,
+        "Ref Y": 3.9999989098760125e-08
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R3",
+      "MPN": "0603WAF7153T5E",
+      "supplier_part": "C23237",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "715kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2125.9843,
+        -1279.5276
+      ],
+      "snapshot_mm": [
+        54.00000122,
+        -32.500001039999994
+      ],
+      "CPL_mm": [
+        54.0,
+        -32.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.2200000014672696e-06,
+        "Mid Y": 1.0399999936794302e-06,
+        "Ref X": -1.2200000014672696e-06,
+        "Ref Y": 1.0399999936794302e-06
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R4",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2125.9843,
+        -1417.3228
+      ],
+      "snapshot_mm": [
+        54.00000122,
+        -35.99999912
+      ],
+      "CPL_mm": [
+        54.0,
+        -36.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.2200000014672696e-06,
+        "Mid Y": -8.800000017572529e-07,
+        "Ref X": -1.2200000014672696e-06,
+        "Ref Y": -8.800000017572529e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R5",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2519.685,
+        -1417.3228
+      ],
+      "snapshot_mm": [
+        63.999998999999995,
+        -35.99999912
+      ],
+      "CPL_mm": [
+        64.0,
+        -36.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.00000000458067e-06,
+        "Mid Y": -8.800000017572529e-07,
+        "Ref X": 1.00000000458067e-06,
+        "Ref Y": -8.800000017572529e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R6",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2283.4646,
+        -1220.4724
+      ],
+      "snapshot_mm": [
+        58.00000083999999,
+        -30.999998960000003
+      ],
+      "CPL_mm": [
+        58.0,
+        -31.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -8.399999913422107e-07,
+        "Mid Y": -1.0399999972321439e-06,
+        "Ref X": -8.399999913422107e-07,
+        "Ref Y": -1.0399999972321439e-06
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R7",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2677.1654,
+        -1535.4331
+      ],
+      "snapshot_mm": [
+        68.00000116,
+        -39.00000074
+      ],
+      "CPL_mm": [
+        68.0,
+        -39.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.1599999965028474e-06,
+        "Mid Y": 7.399999972790283e-07,
+        "Ref X": -1.1599999965028474e-06,
+        "Ref Y": 7.399999972790283e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R8",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1822.8346,
+        -2224.4094
+      ],
+      "snapshot_mm": [
+        46.29999883999999,
+        -56.49999876
+      ],
+      "CPL_mm": [
+        46.3,
+        -56.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.1600000036082747e-06,
+        "Mid Y": -1.240000003122077e-06,
+        "Ref X": 1.1600000036082747e-06,
+        "Ref Y": -1.240000003122077e-06
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R9",
+      "MPN": "0603WAF7323T5E",
+      "supplier_part": "C23239",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "732kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2078.7402,
+        -1968.5039000000002
+      ],
+      "snapshot_mm": [
+        52.80000108,
+        -49.99999906
+      ],
+      "CPL_mm": [
+        52.8,
+        -50.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.0800000040944724e-06,
+        "Mid Y": -9.399999996162478e-07,
+        "Ref X": -1.0800000040944724e-06,
+        "Ref Y": -9.399999996162478e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R10",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1952.7559,
+        -1968.5039000000002
+      ],
+      "snapshot_mm": [
+        49.599999860000004,
+        -49.99999906
+      ],
+      "CPL_mm": [
+        49.6,
+        -50.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.3999999737279722e-07,
+        "Mid Y": -9.399999996162478e-07,
+        "Ref X": 1.3999999737279722e-07,
+        "Ref Y": -9.399999996162478e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R11",
+      "MPN": "0603WAF3003T5E",
+      "supplier_part": "C23024",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "300kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1889.7638000000002,
+        -2992.126
+      ],
+      "snapshot_mm": [
+        48.00000052,
+        -76.0000004
+      ],
+      "CPL_mm": [
+        48.0,
+        -76.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -5.200000003924288e-07,
+        "Mid Y": 4.0000000467443897e-07,
+        "Ref X": -5.200000003924288e-07,
+        "Ref Y": 4.0000000467443897e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R12",
+      "MPN": "0603WAF3003T5E",
+      "supplier_part": "C23024",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "300kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2027.5591,
+        -2992.126
+      ],
+      "snapshot_mm": [
+        51.500001139999995,
+        -76.0000004
+      ],
+      "CPL_mm": [
+        51.5,
+        -76.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.13999999484804e-06,
+        "Mid Y": 4.0000000467443897e-07,
+        "Ref X": -1.13999999484804e-06,
+        "Ref Y": 4.0000000467443897e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R13",
+      "MPN": "0603WAF3003T5E",
+      "supplier_part": "C23024",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "300kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2086.6142,
+        -2893.7008000000005
+      ],
+      "snapshot_mm": [
+        53.00000068,
+        -73.50000032000001
+      ],
+      "CPL_mm": [
+        53.0,
+        -73.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -6.799999994200334e-07,
+        "Mid Y": 3.20000012266064e-07,
+        "Ref X": -6.799999994200334e-07,
+        "Ref Y": 3.20000012266064e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R14",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2342.5197,
+        -2696.8503999999994
+      ],
+      "snapshot_mm": [
+        59.500000379999996,
+        -68.50000015999998
+      ],
+      "CPL_mm": [
+        59.5,
+        -68.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -3.799999959142042e-07,
+        "Mid Y": 1.5999998481674993e-07,
+        "Ref X": -3.799999959142042e-07,
+        "Ref Y": 1.5999998481674993e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R15",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2480.315,
+        -2736.2205
+      ],
+      "snapshot_mm": [
+        63.000001,
+        -69.5000007
+      ],
+      "CPL_mm": [
+        63.0,
+        -69.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -9.999999974752427e-07,
+        "Mid Y": 7.000000010748408e-07,
+        "Ref X": -9.999999974752427e-07,
+        "Ref Y": 7.000000010748408e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R16",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2618.1102,
+        -2637.7953
+      ],
+      "snapshot_mm": [
+        66.49999908,
+        -67.00000062000001
+      ],
+      "CPL_mm": [
+        66.5,
+        -67.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 9.200000050668677e-07,
+        "Mid Y": 6.200000086664659e-07,
+        "Ref X": 9.200000050668677e-07,
+        "Ref Y": 6.200000086664659e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R17",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2618.1102,
+        -2500
+      ],
+      "snapshot_mm": [
+        66.49999908,
+        -63.5
+      ],
+      "CPL_mm": [
+        66.5,
+        -63.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 9.200000050668677e-07,
+        "Mid Y": 0.0,
+        "Ref X": 9.200000050668677e-07,
+        "Ref Y": 0.0
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R18",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1417.3228,
+        -2724.4094
+      ],
+      "snapshot_mm": [
+        35.99999912,
+        -69.19999876
+      ],
+      "CPL_mm": [
+        36.0,
+        -69.2
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 8.800000017572529e-07,
+        "Mid Y": -1.240000003122077e-06,
+        "Ref X": 8.800000017572529e-07,
+        "Ref Y": -1.240000003122077e-06
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R19",
+      "MPN": "0603WAF1003T5E",
+      "supplier_part": "C25803",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "100kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1141.7323,
+        -2755.9055
+      ],
+      "snapshot_mm": [
+        29.000000419999996,
+        -69.99999969999999
+      ],
+      "CPL_mm": [
+        29.0,
+        -70.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -4.1999999567110535e-07,
+        "Mid Y": -3.000000106112566e-07,
+        "Ref X": -4.1999999567110535e-07,
+        "Ref Y": -3.000000106112566e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R20",
+      "MPN": "0603WAF6802T5E",
+      "supplier_part": "C23231",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "68kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1889.7638000000002,
+        -2657.4803
+      ],
+      "snapshot_mm": [
+        48.00000052,
+        -67.49999962
+      ],
+      "CPL_mm": [
+        48.0,
+        -67.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -5.200000003924288e-07,
+        "Mid Y": -3.8000000301963155e-07,
+        "Ref X": -5.200000003924288e-07,
+        "Ref Y": -3.8000000301963155e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R21",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        2244.0945,
+        -2586.6142
+      ],
+      "snapshot_mm": [
+        57.0000003,
+        -65.70000068
+      ],
+      "CPL_mm": [
+        57.0,
+        -65.7
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -3.0000000350582923e-07,
+        "Mid Y": 6.799999994200334e-07,
+        "Ref X": -3.0000000350582923e-07,
+        "Ref Y": 6.799999994200334e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R22",
+      "MPN": "0603WAF4701T5E",
+      "supplier_part": "C23162",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "4.7kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1181.1024,
+        -2224.4094
+      ],
+      "snapshot_mm": [
+        30.000000959999998,
+        -56.49999876
+      ],
+      "CPL_mm": [
+        30.0,
+        -56.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -9.599999977183415e-07,
+        "Mid Y": -1.240000003122077e-06,
+        "Ref X": -9.599999977183415e-07,
+        "Ref Y": -1.240000003122077e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R23",
+      "MPN": "0603WAF4701T5E",
+      "supplier_part": "C23162",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "4.7kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1181.1024,
+        -2125.9843
+      ],
+      "snapshot_mm": [
+        30.000000959999998,
+        -54.00000122
+      ],
+      "CPL_mm": [
+        30.0,
+        -54.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -9.599999977183415e-07,
+        "Mid Y": 1.2200000014672696e-06,
+        "Ref X": -9.599999977183415e-07,
+        "Ref Y": 1.2200000014672696e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R24",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1082.6772,
+        -2007.8739999999998
+      ],
+      "snapshot_mm": [
+        27.50000088,
+        -50.999999599999995
+      ],
+      "CPL_mm": [
+        27.5,
+        -51.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -8.800000017572529e-07,
+        "Mid Y": -4.0000000467443897e-07,
+        "Ref X": -8.800000017572529e-07,
+        "Ref Y": -4.0000000467443897e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R25",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        1200.7874,
+        -2007.8739999999998
+      ],
+      "snapshot_mm": [
+        30.499999959999997,
+        -50.999999599999995
+      ],
+      "CPL_mm": [
+        30.5,
+        -51.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 4.000000330961484e-08,
+        "Mid Y": -4.0000000467443897e-07,
+        "Ref X": 4.000000330961484e-08,
+        "Ref Y": -4.0000000467443897e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R26",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        590.5512,
+        -2244.0945
+      ],
+      "snapshot_mm": [
+        15.000000479999999,
+        -57.0000003
+      ],
+      "CPL_mm": [
+        15.0,
+        -57.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -4.799999988591708e-07,
+        "Mid Y": 3.0000000350582923e-07,
+        "Ref X": -4.799999988591708e-07,
+        "Ref Y": 3.0000000350582923e-07
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R27",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        590.5512,
+        -1929.1338999999998
+      ],
+      "snapshot_mm": [
+        15.000000479999999,
+        -49.000001059999995
+      ],
+      "CPL_mm": [
+        15.0,
+        -49.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -4.799999988591708e-07,
+        "Mid Y": 1.0599999953342376e-06,
+        "Ref X": -4.799999988591708e-07,
+        "Ref Y": 1.0599999953342376e-06
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "R28",
+      "MPN": "0603WAF1002T5E",
+      "supplier_part": "C25804",
+      "footprint_id": "5aa4f04a6bc72ca3",
+      "footprint_name": "R0603",
+      "value": "10kΩ",
+      "pin_count": 2,
+      "snapshot_mil": [
+        452.7559,
+        -2027.5591
+      ],
+      "snapshot_mm": [
+        11.499999859999999,
+        -51.500001139999995
+      ],
+      "CPL_mm": [
+        11.5,
+        -51.5
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.400000009255109e-07,
+        "Mid Y": 1.13999999484804e-06,
+        "Ref X": 1.400000009255109e-07,
+        "Ref Y": 1.13999999484804e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "SW1",
+      "MPN": "TS-1187A-B-A-B",
+      "supplier_part": "C318884",
+      "footprint_id": "bf3c9b3102ad4c64",
+      "footprint_name": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+      "value": "",
+      "pin_count": 4,
+      "snapshot_mil": [
+        2965,
+        -1054.8031
+      ],
+      "snapshot_mm": [
+        75.31099999999999,
+        -26.79199874
+      ],
+      "CPL_mm": [
+        75.311,
+        -26.792
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.4210854715202004e-14,
+        "Mid Y": -1.2600000012241708e-06,
+        "Ref X": 1.4210854715202004e-14,
+        "Ref Y": -1.2600000012241708e-06
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "SW2",
+      "MPN": "TS-1187A-B-A-B",
+      "supplier_part": "C318884",
+      "footprint_id": "bf3c9b3102ad4c64",
+      "footprint_name": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+      "value": "",
+      "pin_count": 4,
+      "snapshot_mil": [
+        2965,
+        -2094.8031
+      ],
+      "snapshot_mm": [
+        75.31099999999999,
+        -53.20799874
+      ],
+      "CPL_mm": [
+        75.311,
+        -53.208
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.4210854715202004e-14,
+        "Mid Y": -1.259999997671457e-06,
+        "Ref X": 1.4210854715202004e-14,
+        "Ref Y": -1.259999997671457e-06
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U1",
+      "MPN": "BQ24074RGTR",
+      "supplier_part": "C54313",
+      "footprint_id": "e606f41dfe07167e",
+      "footprint_name": "QFN-16_L3.0-W3.0-P0.50-TL-EP1.7",
+      "value": "",
+      "pin_count": 17,
+      "snapshot_mil": [
+        2047.2441,
+        -2519.685
+      ],
+      "snapshot_mm": [
+        52.00000014,
+        -63.999998999999995
+      ],
+      "CPL_mm": [
+        52.0,
+        -64.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.3999999737279722e-07,
+        "Mid Y": -1.00000000458067e-06,
+        "Ref X": -1.3999999737279722e-07,
+        "Ref Y": -1.00000000458067e-06
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U2",
+      "MPN": "TPS61023DRLR",
+      "supplier_part": "C919459",
+      "footprint_id": "56e9aeccc024626d",
+      "footprint_name": "SOT-563_L1.6-W1.2-P0.50-LS1.6-BR",
+      "value": "",
+      "pin_count": 6,
+      "snapshot_mil": [
+        2047.2441,
+        -2086.6142
+      ],
+      "snapshot_mm": [
+        52.00000014,
+        -53.00000068
+      ],
+      "CPL_mm": [
+        52.0,
+        -53.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.3999999737279722e-07,
+        "Mid Y": 6.799999994200334e-07,
+        "Ref X": -1.3999999737279722e-07,
+        "Ref Y": 6.799999994200334e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U3",
+      "MPN": "MAX16054AZT+T",
+      "supplier_part": "C79401",
+      "footprint_id": "ae67c434211e503a",
+      "footprint_name": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-TL",
+      "value": "",
+      "pin_count": 6,
+      "snapshot_mil": [
+        2637.7953,
+        -1102.3622
+      ],
+      "snapshot_mm": [
+        67.00000062000001,
+        -27.99999988
+      ],
+      "CPL_mm": [
+        67.0,
+        -28.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -6.200000086664659e-07,
+        "Mid Y": -1.1999999927070348e-07,
+        "Ref X": -6.200000086664659e-07,
+        "Ref Y": -1.1999999927070348e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U4",
+      "MPN": "TPS3808G01DBVR",
+      "supplier_part": "C19653",
+      "footprint_id": "c4e5010902297a9e",
+      "footprint_name": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+      "value": "",
+      "pin_count": 6,
+      "snapshot_mil": [
+        2362.2047,
+        -1377.9528
+      ],
+      "snapshot_mm": [
+        59.99999937999999,
+        -35.00000112
+      ],
+      "CPL_mm": [
+        60.0,
+        -35.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 6.200000086664659e-07,
+        "Mid Y": 1.1200000002986599e-06,
+        "Ref X": 6.200000086664659e-07,
+        "Ref Y": 1.1200000002986599e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U5",
+      "MPN": "TUSB320LAIRWBR",
+      "supplier_part": "C132554",
+      "footprint_id": "eb335d0eb6dfc4ee",
+      "footprint_name": "X2QFN-12_L1.6-W1.6-P0.40-TL",
+      "value": "",
+      "pin_count": 12,
+      "snapshot_mil": [
+        2244.0945,
+        -2795.2756
+      ],
+      "snapshot_mm": [
+        57.0000003,
+        -71.00000023999999
+      ],
+      "CPL_mm": [
+        57.0,
+        -71.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -3.0000000350582923e-07,
+        "Mid Y": 2.399999914359796e-07,
+        "Ref X": -3.0000000350582923e-07,
+        "Ref Y": 2.399999914359796e-07
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U6",
+      "MPN": "AP2112K-3.3TRG1",
+      "supplier_part": "C51118",
+      "footprint_id": "dbf6b629cde46ba9",
+      "footprint_name": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+      "value": "",
+      "pin_count": 5,
+      "snapshot_mil": [
+        2559.0551,
+        -2874.0157
+      ],
+      "snapshot_mm": [
+        64.99999954,
+        -72.99999878
+      ],
+      "CPL_mm": [
+        65.0,
+        -73.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 4.599999954280065e-07,
+        "Mid Y": -1.2200000014672696e-06,
+        "Ref X": 4.599999954280065e-07,
+        "Ref Y": -1.2200000014672696e-06
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U7",
+      "MPN": "TS3USB221ARSER",
+      "supplier_part": "C128396",
+      "footprint_id": "453e2d2585c813d0",
+      "footprint_name": "UQFN-10_L2.0-W1.5-P0.50-BL",
+      "value": "",
+      "pin_count": 10,
+      "snapshot_mil": [
+        984.252,
+        -2519.685
+      ],
+      "snapshot_mm": [
+        25.0000008,
+        -63.999998999999995
+      ],
+      "CPL_mm": [
+        25.0,
+        -64.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -7.999999986907369e-07,
+        "Mid Y": -1.00000000458067e-06,
+        "Ref X": -7.999999986907369e-07,
+        "Ref Y": -1.00000000458067e-06
+      },
+      "rotation_normalized": 270.0,
+      "CPL_rotation_normalized": 270.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U8",
+      "MPN": "AP2112K-3.3TRG1",
+      "supplier_part": "C51118",
+      "footprint_id": "dbf6b629cde46ba9",
+      "footprint_name": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+      "value": "",
+      "pin_count": 5,
+      "snapshot_mil": [
+        944.8819000000001,
+        -1732.2835
+      ],
+      "snapshot_mm": [
+        24.00000026,
+        -44.000000899999996
+      ],
+      "CPL_mm": [
+        24.0,
+        -44.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -2.600000001962144e-07,
+        "Mid Y": 8.99999996306633e-07,
+        "Ref X": -2.600000001962144e-07,
+        "Ref Y": 8.99999996306633e-07
+      },
+      "rotation_normalized": 180.0,
+      "CPL_rotation_normalized": 180.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U9",
+      "MPN": "SC18IM704PWJ",
+      "supplier_part": "C5190383",
+      "footprint_id": "d8a1db0b4d29f75d",
+      "footprint_name": "TSSOP-16_L5.0-W4.4-P0.65-LS6.4-BL",
+      "value": "",
+      "pin_count": 16,
+      "snapshot_mil": [
+        826.7717,
+        -2086.6142
+      ],
+      "snapshot_mm": [
+        21.000001179999998,
+        -53.00000068
+      ],
+      "CPL_mm": [
+        21.0,
+        -53.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": -1.1799999981576548e-06,
+        "Mid Y": 6.799999994200334e-07,
+        "Ref X": -1.1799999981576548e-06,
+        "Ref Y": 6.799999994200334e-07
+      },
+      "rotation_normalized": 90.0,
+      "CPL_rotation_normalized": 90.0,
+      "layer": "Top/T"
+    },
+    {
+      "ref": "U10",
+      "MPN": "MAX17048G+T10",
+      "supplier_part": "C2682616",
+      "footprint_id": "5572444fbc3faca9",
+      "footprint_name": "TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2",
+      "value": "",
+      "pin_count": 9,
+      "snapshot_mil": [
+        2322.8346,
+        -1850.3937
+      ],
+      "snapshot_mm": [
+        58.99999884,
+        -46.99999998
+      ],
+      "CPL_mm": [
+        59.0,
+        -47.0
+      ],
+      "coordinate_error_mm": {
+        "Mid X": 1.1599999965028474e-06,
+        "Mid Y": -2.000000165480742e-08,
+        "Ref X": 1.1599999965028474e-06,
+        "Ref Y": -2.000000165480742e-08
+      },
+      "rotation_normalized": 0.0,
+      "CPL_rotation_normalized": 0.0,
+      "layer": "Top/T"
+    }
+  ]
+}

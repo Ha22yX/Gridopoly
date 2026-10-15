@@ -1,0 +1,5 @@
+AUDIT EVIDENCE ONLY — NOT RELEASED FOR PRODUCTION
+当前目录是2026-10-14玩家屏幕供电PCB静态审查快照。
+Gerber已通过本次数字铜网检查，但电池规范、FPC实物配合、U1钢网/热孔工艺和首件功能尚未闭合。
+不要把此目录直接当已批准下单包；先阅读README.md与first-article-acceptance.md。
+旧订单Gridopoly_PCB1_20260927_204456.zip含BAT/GND短路，禁止再用于生产。

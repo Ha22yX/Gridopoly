@@ -1,0 +1,28 @@
+{
+  "dateLocal": "2026-10-14",
+  "timezone": "America/New_York",
+  "project": "Gridopoly / 玩家屏幕控制板",
+  "pcbUuid": "847ec1f4dfc5086a",
+  "schematicPages": [
+    "443216bbada87fe6",
+    "9eb230ca6fd4b303"
+  ],
+  "auditStatus": "STATIC_REVIEW_COMPLETE",
+  "productionRelease": "HOLD",
+  "physicalValidation": "NOT_PERFORMED",
+  "designChangedThisAudit": false,
+  "sourceDirectory": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-readiness-20261014",
+  "method": "Live bridge export, native DRC, 3 independent domain reviews, source/BOM/CPL matching, geometric copper reconstruction, primary datasheet and supplier identity verification",
+  "sourceCounts": {
+    "components": 68,
+    "componentPads": 243,
+    "nets": 41,
+    "traces": 536,
+    "vias": 82,
+    "bomGroups": 30
+  },
+  "previousFaultPackageSha256": "2344f34c45307a879c9a3274bddd53681152dcf42d9fb47637cb690d554405b6",
+  "currentGerberSha256": "ff1d6610f86817b8abf856b8e372c66f574020b3824ed76b2c69375bd793d031",
+  "factoryFiles": "Audit snapshot only; not approved for ordering",
+  "nativeCsvDelimiter": "tab; converted BOM-all68.csv/CPL-all68.csv use comma without changing data"
+}

@@ -1,0 +1,1893 @@
+{
+  "at": "2026-10-15T03:07:12.085Z",
+  "response": {
+    "success": true,
+    "result": [
+      {
+        "id": "C408332",
+        "mpn": "MWSA0402S-1R0MT",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C408339",
+            "name": "MWSA0402S-100MT",
+            "uuid": "40a6372bcd224cbc9bf89d90fe5c16cb"
+          },
+          {
+            "supplierId": "C408338",
+            "name": "MWSA0402S-6R8MT",
+            "uuid": "727dbe5d07ed42bea99d04ec91a17414"
+          },
+          {
+            "supplierId": "C112125",
+            "name": "MWSA0603S-1R0MT",
+            "uuid": "be5ecc59df9b4f0eaf29cbd28bb217bc"
+          },
+          {
+            "supplierId": "C327345",
+            "name": "RC0402FR-07402KL",
+            "uuid": "19792141c5f44ef982d50383e8d6f254"
+          },
+          {
+            "supplierId": "C408452",
+            "name": "MWSA0603S-150MT",
+            "uuid": "766e9f6673cf491bbd07f3002d37b3bd"
+          },
+          {
+            "supplierId": "C408444",
+            "name": "MWSA0603S-1R5MT",
+            "uuid": "f689d5d6a0c04f0794560042fb0a33bc"
+          },
+          {
+            "supplierId": "C408487",
+            "name": "MWSA1004S-100MT",
+            "uuid": "0e3d7a5fb99b449ab87f2771e7c507ac"
+          },
+          {
+            "supplierId": "C10402",
+            "name": "PH-5AW_C10402",
+            "uuid": "01cddd2f57294079acfcd5a6bcef70eb"
+          },
+          {
+            "supplierId": "C280402",
+            "name": "RT1V221M0810",
+            "uuid": "80d76fa015b04fc5baf6e16c694d5359"
+          },
+          {
+            "supplierId": "C98359",
+            "name": "WPN4020H1R0MT",
+            "uuid": "a9c5ac918142419787641815db53d904"
+          },
+          {
+            "supplierId": "C23049",
+            "name": "0603WAF4020T5E",
+            "uuid": "ca7ee1a5f01e4e3a84938fbbd2b385fc"
+          },
+          {
+            "supplierId": "C160402",
+            "name": "SM02B-SRSS-TB(LF)(SN)",
+            "uuid": "da46b87d5762441a89a5a75edf0e7e02"
+          },
+          {
+            "supplierId": "C23048",
+            "name": "0603WAF4023T5E",
+            "uuid": "eb388b0bdf61429999bb3f55764a5bc9"
+          },
+          {
+            "supplierId": "C304029",
+            "name": "1808B102K302CT",
+            "uuid": "fb8ffdc72e4e45ffabaa5e07cf37b526"
+          },
+          {
+            "supplierId": "C408436",
+            "name": "MWSA0624S-220MT",
+            "uuid": "531db0174be34f3cb20ae908bfee5762"
+          },
+          {
+            "supplierId": "C408453",
+            "name": "MWSA0603S-220MT",
+            "uuid": "74973000b1dc4b2583214dcca4ef7610"
+          },
+          {
+            "supplierId": "C408454",
+            "name": "MWSA0603S-330MT",
+            "uuid": "9d156d2c486a4e0d8512573716e83e1e"
+          },
+          {
+            "supplierId": "C408469",
+            "name": "MWSA0605S-220MT",
+            "uuid": "9e0f9008b63f4498a34e3914e50e2fa9"
+          },
+          {
+            "supplierId": "C139506",
+            "name": "MWSA0503-100MT",
+            "uuid": "dddb949234524c15abf0377a82e1b5ae"
+          },
+          {
+            "supplierId": "C408455",
+            "name": "MWSA0603S-470MT",
+            "uuid": "e297825f35e7418eb89c311cd2a9d457"
+          },
+          {
+            "supplierId": "C433051",
+            "name": "TFM201208ALD-1R0MTCA",
+            "uuid": "7fce4f6e7c194f0d80f10a8cb1b25f63"
+          },
+          {
+            "supplierId": "C408489",
+            "name": "MWSA1004S-220MT",
+            "uuid": "616ac098ed1d4d6998c5b659714c58ee"
+          },
+          {
+            "supplierId": "C408490",
+            "name": "MWSA1004S-330MT",
+            "uuid": "a56c1d389d7247b684761217fb0e9aa4"
+          },
+          {
+            "supplierId": "C1550",
+            "name": "0402CG1R0C500NT",
+            "uuid": "0fa17adbab424e96a21c449504f83f47"
+          },
+          {
+            "supplierId": "C23040",
+            "name": "0603WAF4021T5E_C23040",
+            "uuid": "23d572dac5af4868a216a1c32b165a06"
+          },
+          {
+            "supplierId": "C43251",
+            "name": "0402WGF4021TCE",
+            "uuid": "25dda79aeb1d4d2885b1a42e310d2203"
+          },
+          {
+            "supplierId": "C29402",
+            "name": "0402WGF3012TCE",
+            "uuid": "5c83843fbb40436385910478e08e4f9c"
+          },
+          {
+            "supplierId": "C96723",
+            "name": "PZ1005U121-1R0TF",
+            "uuid": "7820cabe1bd547a2b00d7aa58d7d6747"
+          },
+          {
+            "supplierId": "C138040",
+            "name": "RC0402FR-071K2L",
+            "uuid": "867b55f7bc18467685441473442163cd"
+          },
+          {
+            "supplierId": "C25769",
+            "name": "0402WGF2402TCE",
+            "uuid": "8d7637b01b89450f8b1ba85a1dab2c55"
+          }
+        ]
+      },
+      {
+        "id": "C23237",
+        "mpn": "0603WAF7153T5E",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C22954",
+            "name": "0603WAF2153T5E",
+            "uuid": "df6d77f826ee4bbdb4850bae86fe6329"
+          },
+          {
+            "supplierId": "C22783",
+            "name": "0603WAF1153T5E",
+            "uuid": "f564b6b94ab74c578acfe31bd8751da4"
+          },
+          {
+            "supplierId": "C23103",
+            "name": "0603WAF7152T5E",
+            "uuid": "f71ef8bcddb84a508b60d21f475ee81d"
+          },
+          {
+            "supplierId": "C25581",
+            "name": "0603WAJ0153T5E",
+            "uuid": "3275f0822c594cdebb844a202328dd60"
+          },
+          {
+            "supplierId": "C23153",
+            "name": "0603WAF3902T5E",
+            "uuid": "80b791b4bc9146a497082e3134a376dc"
+          },
+          {
+            "supplierId": "C23240",
+            "name": "0603WAF7503T5E",
+            "uuid": "092e0df336774018b6dc818cd610382d"
+          },
+          {
+            "supplierId": "C23227",
+            "name": "0603WAF6653T5E",
+            "uuid": "1c7e60c1fba346298f3cd9dd43d8ac9e"
+          },
+          {
+            "supplierId": "C23203",
+            "name": "0603WAF5603T5E",
+            "uuid": "39568742161e44fc80d7b0d5d8a276ad"
+          },
+          {
+            "supplierId": "C22816",
+            "name": "0603WAF1653T5E",
+            "uuid": "6cde734ea2c64f3eacbc286408cb5d94"
+          },
+          {
+            "supplierId": "C23031",
+            "name": "0603WAF3653T5E",
+            "uuid": "6d40db268fba4790b6680597378761a6"
+          },
+          {
+            "supplierId": "C22949",
+            "name": "0603WAF2053T5E",
+            "uuid": "78a0e40fa77c421cadade7e2413594d6"
+          },
+          {
+            "supplierId": "C23146",
+            "name": "0603WAF3603T5E",
+            "uuid": "8de332e92ad244d1a374027d0521eff7"
+          },
+          {
+            "supplierId": "C16840",
+            "name": "0603WAF1053T5E",
+            "uuid": "b4f6c5eff71248b1b261f10cbfc0d78a"
+          },
+          {
+            "supplierId": "C23354",
+            "name": "0603WAF2553T5E",
+            "uuid": "ca24c11e55a94b6fb5d7e4ac6154ea1e"
+          },
+          {
+            "supplierId": "C22813",
+            "name": "0603WAF1603T5E",
+            "uuid": "f8bdaf5982534e01a172ff0aece73406"
+          },
+          {
+            "supplierId": "C22930",
+            "name": "0603WAF1963T5E",
+            "uuid": "0000d86e2f96444db66a0974cc8d980b"
+          },
+          {
+            "supplierId": "C25809",
+            "name": "0603WAF1213T5E",
+            "uuid": "056527fd30fc4fbdafad4f4da4adfa7c"
+          },
+          {
+            "supplierId": "C23234",
+            "name": "0603WAF7501T5E",
+            "uuid": "078baddb48b744bd92e65d7734dd3a2a"
+          },
+          {
+            "supplierId": "C33619",
+            "name": "0603WAF2263T5E",
+            "uuid": "083b2436f661455d875ee73201f64868"
+          },
+          {
+            "supplierId": "C23208",
+            "name": "0603WAF5903T5E",
+            "uuid": "08acd4e4ecec4a13bc4b5e8b8f167d37"
+          },
+          {
+            "supplierId": "C22894",
+            "name": "0603WAF1823T5E",
+            "uuid": "0ceb3e27083d4331ac6e61aaa18a28e2"
+          },
+          {
+            "supplierId": "C23351",
+            "name": "0603WAF2433T5E",
+            "uuid": "1486fa2842a5451c9481d0e580335567"
+          },
+          {
+            "supplierId": "C23192",
+            "name": "0603WAF5103T5E",
+            "uuid": "166934aca7da44aebe82d81283da2a4d"
+          },
+          {
+            "supplierId": "C25816",
+            "name": "0603WAF3833T5E",
+            "uuid": "17ff31eca6104b51be265faff45dc61d"
+          },
+          {
+            "supplierId": "C22896",
+            "name": "0603WAF1873T5E",
+            "uuid": "1d110963114341e3b65dbc09ca451805"
+          },
+          {
+            "supplierId": "C23109",
+            "name": "0603WAF7872T5E",
+            "uuid": "20007c4ec3a541a488553ebe9fe770fc"
+          },
+          {
+            "supplierId": "C25808",
+            "name": "0603WAF1203T5E",
+            "uuid": "22de8dddb7d840b89bb36fd55bcaec49"
+          },
+          {
+            "supplierId": "C23001",
+            "name": "0603WAF3093T5E",
+            "uuid": "233daeab3a8b4409a902359980fc541c"
+          },
+          {
+            "supplierId": "C23169",
+            "name": "0603WAF4223T5E",
+            "uuid": "23e0ff235a64455185b5eb9a8859acb8"
+          },
+          {
+            "supplierId": "C25806",
+            "name": "0603WAF1183T5E",
+            "uuid": "26608d6f728240edb82ee10e31c3e060"
+          }
+        ]
+      },
+      {
+        "id": "C23239",
+        "mpn": "0603WAF7323T5E",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C23234",
+            "name": "0603WAF7501T5E",
+            "uuid": "078baddb48b744bd92e65d7734dd3a2a"
+          },
+          {
+            "supplierId": "C23235",
+            "name": "0603WAF750KT5E",
+            "uuid": "38063be56e744117aa31fd1bac3a8c00"
+          },
+          {
+            "supplierId": "C23236",
+            "name": "0603WAF7871T5E",
+            "uuid": "50a5cf95f4824ae1a1db3b63acbf34ed"
+          },
+          {
+            "supplierId": "C22913",
+            "name": "0603WAF2323T5E",
+            "uuid": "b5e1bab3e62c4b9eb46e56c9f09032d9"
+          },
+          {
+            "supplierId": "C23139",
+            "name": "0603WAF3323T5E",
+            "uuid": "d1179d37d86e48e1986e655f997f0596"
+          },
+          {
+            "supplierId": "C14890",
+            "name": "0603WAF7322T5E",
+            "uuid": "bf0fcc6db9994a689f68e5d251f8f662"
+          },
+          {
+            "supplierId": "C23101",
+            "name": "0603WAF7321T5E",
+            "uuid": "e44026e5edf64aa1b64037f78ce595b8"
+          },
+          {
+            "supplierId": "C23231",
+            "name": "0603WAF6802T5E",
+            "uuid": "e8000dce1bc2400bac62fc70285942f1"
+          },
+          {
+            "supplierId": "C23240",
+            "name": "0603WAF7503T5E",
+            "uuid": "092e0df336774018b6dc818cd610382d"
+          },
+          {
+            "supplierId": "C22894",
+            "name": "0603WAF1823T5E",
+            "uuid": "0ceb3e27083d4331ac6e61aaa18a28e2"
+          },
+          {
+            "supplierId": "C23169",
+            "name": "0603WAF4223T5E",
+            "uuid": "23e0ff235a64455185b5eb9a8859acb8"
+          },
+          {
+            "supplierId": "C23203",
+            "name": "0603WAF5603T5E",
+            "uuid": "39568742161e44fc80d7b0d5d8a276ad"
+          },
+          {
+            "supplierId": "C23175",
+            "name": "0603WAF4423T5E",
+            "uuid": "7fcc0cc6bb7544fca5454a83587872e4"
+          },
+          {
+            "supplierId": "C23146",
+            "name": "0603WAF3603T5E",
+            "uuid": "8de332e92ad244d1a374027d0521eff7"
+          },
+          {
+            "supplierId": "C22815",
+            "name": "0603WAF1623T5E",
+            "uuid": "a59cff3543eb43f8bec753e127e5d072"
+          },
+          {
+            "supplierId": "C22858",
+            "name": "0603WAF1023T5E",
+            "uuid": "ab1e72d266a9408685db74e9245bc53e"
+          },
+          {
+            "supplierId": "C23048",
+            "name": "0603WAF4023T5E",
+            "uuid": "eb388b0bdf61429999bb3f55764a5bc9"
+          },
+          {
+            "supplierId": "C23050",
+            "name": "0603WAF4123T5E",
+            "uuid": "eed2b12850bd435580a754ab8fcbf5e4"
+          },
+          {
+            "supplierId": "C22813",
+            "name": "0603WAF1603T5E",
+            "uuid": "f8bdaf5982534e01a172ff0aece73406"
+          },
+          {
+            "supplierId": "C22930",
+            "name": "0603WAF1963T5E",
+            "uuid": "0000d86e2f96444db66a0974cc8d980b"
+          },
+          {
+            "supplierId": "C25809",
+            "name": "0603WAF1213T5E",
+            "uuid": "056527fd30fc4fbdafad4f4da4adfa7c"
+          },
+          {
+            "supplierId": "C33619",
+            "name": "0603WAF2263T5E",
+            "uuid": "083b2436f661455d875ee73201f64868"
+          },
+          {
+            "supplierId": "C23208",
+            "name": "0603WAF5903T5E",
+            "uuid": "08acd4e4ecec4a13bc4b5e8b8f167d37"
+          },
+          {
+            "supplierId": "C23351",
+            "name": "0603WAF2433T5E",
+            "uuid": "1486fa2842a5451c9481d0e580335567"
+          },
+          {
+            "supplierId": "C23192",
+            "name": "0603WAF5103T5E",
+            "uuid": "166934aca7da44aebe82d81283da2a4d"
+          },
+          {
+            "supplierId": "C25816",
+            "name": "0603WAF3833T5E",
+            "uuid": "17ff31eca6104b51be265faff45dc61d"
+          },
+          {
+            "supplierId": "C23227",
+            "name": "0603WAF6653T5E",
+            "uuid": "1c7e60c1fba346298f3cd9dd43d8ac9e"
+          },
+          {
+            "supplierId": "C22896",
+            "name": "0603WAF1873T5E",
+            "uuid": "1d110963114341e3b65dbc09ca451805"
+          },
+          {
+            "supplierId": "C23109",
+            "name": "0603WAF7872T5E",
+            "uuid": "20007c4ec3a541a488553ebe9fe770fc"
+          },
+          {
+            "supplierId": "C25808",
+            "name": "0603WAF1203T5E",
+            "uuid": "22de8dddb7d840b89bb36fd55bcaec49"
+          }
+        ]
+      },
+      {
+        "id": "C54313",
+        "mpn": "BQ24074RGTR",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C15464",
+            "name": "BQ24075RGTR",
+            "uuid": "0913b1858cf144a1a70d1a5babbf68d4"
+          },
+          {
+            "supplierId": "C290162",
+            "name": "RS-06K2403FT",
+            "uuid": "0257e13c63a44f02a80bd51737d09e6d"
+          },
+          {
+            "supplierId": "C185292",
+            "name": "RC0805FR-07240RL",
+            "uuid": "0a449099ad2745638000b63ce64ea641"
+          },
+          {
+            "supplierId": "C64043",
+            "name": "0402WGF2403TCE",
+            "uuid": "18edd42f9f704e83b0f81368af964109"
+          },
+          {
+            "supplierId": "C103446",
+            "name": "RTT032400FTP",
+            "uuid": "2f291309588b4ee0a429710125a368fc"
+          },
+          {
+            "supplierId": "C286526",
+            "name": "RS-06K241JT",
+            "uuid": "3150bfb2a7254e3992cb29a2d6fb0851"
+          },
+          {
+            "supplierId": "C140176",
+            "name": "RC-02W2400FT",
+            "uuid": "3257e8889b804608a32e8487ac867422"
+          },
+          {
+            "supplierId": "C25296",
+            "name": "0805W8J0241T5E",
+            "uuid": "475de891fef5473fa143bd547908a988"
+          },
+          {
+            "supplierId": "C137765",
+            "name": "RC0603FR-07240KL",
+            "uuid": "4dfc3736833b41be8cd9ead28769de06"
+          },
+          {
+            "supplierId": "C286557",
+            "name": "RC-02W2403FT",
+            "uuid": "54487da367c841c39aeaed95ad08722d"
+          },
+          {
+            "supplierId": "C286579",
+            "name": "RS-03K2400FT",
+            "uuid": "663e53bbdd184dd48c3f4cd08609f562"
+          },
+          {
+            "supplierId": "C137351",
+            "name": "RC1206FR-07240KL",
+            "uuid": "68252a341e994a3b9a75b03517a8ea86"
+          },
+          {
+            "supplierId": "C25094",
+            "name": "0402WGF2400TCE",
+            "uuid": "68f72db6b17649baa025fe8e4d55f8f2"
+          },
+          {
+            "supplierId": "C224075",
+            "name": "SMDJ36CA",
+            "uuid": "708126566fa449ac80618f33476cecfe"
+          },
+          {
+            "supplierId": "C37599",
+            "name": "1206W4F240LT5E",
+            "uuid": "7302a2e4650049a194a8316a4b9b21b9"
+          },
+          {
+            "supplierId": "C138029",
+            "name": "RC0402FR-07240KL",
+            "uuid": "7419a60eafd34a959f173beca63ed7f6"
+          },
+          {
+            "supplierId": "C114755",
+            "name": "RC0402FR-07240RL",
+            "uuid": "7628c15615a343268fe4a1864c611b4a"
+          },
+          {
+            "supplierId": "C104937",
+            "name": "RTT06R240FTP",
+            "uuid": "825b1136797745978a460008aa9df1d4"
+          },
+          {
+            "supplierId": "C155745",
+            "name": "RC0201FR-07240RL",
+            "uuid": "99733b45aa944ea6abfc0cc402f09807"
+          },
+          {
+            "supplierId": "C82407",
+            "name": "NCP1729SN35T1G",
+            "uuid": "a1c82c23b9334adfba5d153a14db6b10"
+          },
+          {
+            "supplierId": "C492407",
+            "name": "PZ254V-11-08P",
+            "uuid": "bb3fd46657bf4a9681e23a6dd985a212"
+          },
+          {
+            "supplierId": "C17961",
+            "name": "1206W4F2400T5E",
+            "uuid": "c02d96f918704bc2a230c74fc5a7b848"
+          },
+          {
+            "supplierId": "C114613",
+            "name": "RC0603FR-07240RL",
+            "uuid": "c1a2fa96d0c34731be5bfd6900656dbf"
+          },
+          {
+            "supplierId": "C25153",
+            "name": "0402WGJ0241TCE",
+            "uuid": "d417b5c0ad7940e386ddbcc6ee9094c9"
+          },
+          {
+            "supplierId": "C118325",
+            "name": "RS-05K241JT",
+            "uuid": "d5ac21ae3f58413dbdc4c63088063028"
+          },
+          {
+            "supplierId": "C17572",
+            "name": "0805W8F2400T5E",
+            "uuid": "f4b77918c6734b52aab9f9e44a8668c9"
+          },
+          {
+            "supplierId": "C40740",
+            "name": "LNK364PN",
+            "uuid": "e3229cb4818e48c59d0a34fe5c6e357c"
+          },
+          {
+            "supplierId": "C374074",
+            "name": "TCC0603X7R222K500CT",
+            "uuid": "fcb6c596d7f940198b7b8764996e639c"
+          },
+          {
+            "supplierId": "C81080",
+            "name": "BQ24040DSQR",
+            "uuid": "29d2e1bee7a444938389a0d6ea34453e"
+          },
+          {
+            "supplierId": "C43306",
+            "name": "BQ24090DGQR",
+            "uuid": "98bc6bb64df84965a6a997f58128f0de"
+          }
+        ]
+      },
+      {
+        "id": "C919459",
+        "mpn": "TPS61023DRLR",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C26991",
+            "name": "0402WGF1023TCE",
+            "uuid": "19366f2e01684ffda048de4e722a51da"
+          },
+          {
+            "supplierId": "C386102",
+            "name": "TMK325BJ226MM-P",
+            "uuid": "1f6b2cfbd0dc4d9aaaf50190bfa32486"
+          },
+          {
+            "supplierId": "C16102",
+            "name": "GSOT05C-E3-08",
+            "uuid": "311e90e5af604f149b2806ec52704fb8"
+          },
+          {
+            "supplierId": "C10234",
+            "name": "74HC1G04GW,125",
+            "uuid": "3adc97628695400cbd2c95b7d6f13c2f"
+          },
+          {
+            "supplierId": "C310236",
+            "name": "RC-02W51R0FT",
+            "uuid": "7651a16e01524b3f91e06ce2d231a7ca"
+          },
+          {
+            "supplierId": "C310239",
+            "name": "RC-02W5602FT",
+            "uuid": "842376cd0d844dd89157b0ee1a76358f"
+          },
+          {
+            "supplierId": "C106102",
+            "name": "C1210X103K102T",
+            "uuid": "8457442ffe254d688f4e12f79341da12"
+          },
+          {
+            "supplierId": "C102307",
+            "name": "CR1206J40220G",
+            "uuid": "a2373a2127d14fc291e490924da1ba0b"
+          },
+          {
+            "supplierId": "C361026",
+            "name": "LM317T",
+            "uuid": "b2e02a82e80b4cd582243fcba7319d74"
+          },
+          {
+            "supplierId": "C26102",
+            "name": "0603WAJ0205T5E",
+            "uuid": "c5788d0637e945d9a5be053362089d4d"
+          },
+          {
+            "supplierId": "C10237",
+            "name": "74LVC1G04GW,125",
+            "uuid": "d8951d388e4c4114a22daef022deec44"
+          },
+          {
+            "supplierId": "C96102",
+            "name": "HNB09A03",
+            "uuid": "dbc0acbbf15f4e86ab34eccc9d9f1ba8"
+          },
+          {
+            "supplierId": "C191023",
+            "name": "1N5819WS_C191023",
+            "uuid": "f6ddb4d1896c48fb93741cc428d25950"
+          },
+          {
+            "supplierId": "C87357",
+            "name": "TPS61088RHLR",
+            "uuid": "5fec1498aa47483c95e22a9b4921a8e9"
+          },
+          {
+            "supplierId": "C9841",
+            "name": "TPS61070DDCR",
+            "uuid": "c1890065f96841e886f2f03dc2e3c97e"
+          },
+          {
+            "supplierId": "C7722",
+            "name": "TPS61040DBVR",
+            "uuid": "f69d14f04fec47c183b44795892c7c6f"
+          },
+          {
+            "supplierId": "C106101",
+            "name": "C1210X102K202T",
+            "uuid": "12418737d4794ecf8a5cacb3f984798e"
+          },
+          {
+            "supplierId": "C102974",
+            "name": "RTT023300FTH",
+            "uuid": "51532ff060ef40e4a7dfb6014401181f"
+          },
+          {
+            "supplierId": "C161015",
+            "name": "DE1E3KX102MC4BN01F",
+            "uuid": "80b81a8d3b994a2ba4f5f644bc40910f"
+          },
+          {
+            "supplierId": "C133102",
+            "name": "STPS2L30A",
+            "uuid": "9fef72fab21f499e9dddc02c55f8bd44"
+          },
+          {
+            "supplierId": "C102986",
+            "name": "RTT0233R0FTH",
+            "uuid": "a581f42c998d4c0f9c1ede67e0febad4"
+          },
+          {
+            "supplierId": "C42543",
+            "name": "916-262A1023Y10200",
+            "uuid": "b8f06e102abb40098f59a4b5059306ac"
+          },
+          {
+            "supplierId": "C102978",
+            "name": "RTT02330JTH",
+            "uuid": "d04a9fa075374377b7a494adb8a081ae"
+          },
+          {
+            "supplierId": "C28023",
+            "name": "TPS54231DR",
+            "uuid": "07786a8d7a3c4eaf830633384a7ae03f"
+          },
+          {
+            "supplierId": "C15421",
+            "name": "TPS61220DCKR",
+            "uuid": "317a139edf044a19b6f896d859554c4e"
+          },
+          {
+            "supplierId": "C15163",
+            "name": "TPS61170DRVR",
+            "uuid": "700aa275c0424fd698526ea3cd5784ae"
+          },
+          {
+            "supplierId": "C58756",
+            "name": "TPS61165DBVR",
+            "uuid": "e1bab778e65547b5b49948dc4d2163b2"
+          },
+          {
+            "supplierId": "C273102",
+            "name": "A2008WR-4P",
+            "uuid": "002ee27a1e5a45c4b49f08a639b630dc"
+          },
+          {
+            "supplierId": "C310281",
+            "name": "RS-03K4301FT",
+            "uuid": "07665e238095441999671108c8e67e09"
+          },
+          {
+            "supplierId": "C106141",
+            "name": "C1812X102K102T",
+            "uuid": "07b2b6b6e8cd4dcbb8fc767057932892"
+          }
+        ]
+      },
+      {
+        "id": "C79401",
+        "mpn": "MAX16054AZT+T",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C316059",
+            "name": "BPESD0402-05ST",
+            "uuid": "e6e097e7c8c94f8da1e0b128ea903b71"
+          },
+          {
+            "supplierId": "C516053",
+            "name": "TCJR106M006R0500E",
+            "uuid": "01dd8748890e4e1981d4f0683abeab5a"
+          },
+          {
+            "supplierId": "C160595",
+            "name": "HCNR200-000E",
+            "uuid": "3c30bebf4ed84fe082b6f908eeb6690a"
+          },
+          {
+            "supplierId": "C137793",
+            "name": "RC0603FR-07160KL",
+            "uuid": "4146fe117b544d90b4f9d6aa89fe897a"
+          },
+          {
+            "supplierId": "C160588",
+            "name": "RLP25FEER050",
+            "uuid": "757cc3700bd64215b81536a32c94cbf5"
+          },
+          {
+            "supplierId": "C17485",
+            "name": "0805W8F1603T5E",
+            "uuid": "7ca9432baf364b99ad602dde72664b66"
+          },
+          {
+            "supplierId": "C160587",
+            "name": "RLP25FEER100",
+            "uuid": "8d95b9a1c56142dbac169b8aa4cd6bfe"
+          },
+          {
+            "supplierId": "C160589",
+            "name": "RLP25FEER020",
+            "uuid": "a834889017a148c6ac9ea763a6310700"
+          },
+          {
+            "supplierId": "C17919",
+            "name": "1206W4F1600T5E",
+            "uuid": "afe1d74cb90b425088af75cb6519b106"
+          },
+          {
+            "supplierId": "C273334",
+            "name": "RC0402FR-07160KL",
+            "uuid": "c07d76bf54a348d180236b6b1fcddaa6"
+          },
+          {
+            "supplierId": "C25757",
+            "name": "0402WGF1603TCE",
+            "uuid": "c9ad08fc992043078a2a8e0d2fff19b6"
+          },
+          {
+            "supplierId": "C123537",
+            "name": "0603N161J500LT",
+            "uuid": "ffe595b177714dfba46ad06149fc918c"
+          },
+          {
+            "supplierId": "C96054",
+            "name": "RCLAMP3346P.TNT",
+            "uuid": "0050224f5a7c4d4e92bd834cff50e3a7"
+          },
+          {
+            "supplierId": "C605434",
+            "name": "IP2325",
+            "uuid": "1a1e7c68adb64ead8fa02f3309361ec9"
+          },
+          {
+            "supplierId": "C605458",
+            "name": "67-03A/R6GHBHW-A01/2T/MS",
+            "uuid": "3a9a163e20a846caa19e12a71bafab6d"
+          },
+          {
+            "supplierId": "C605456",
+            "name": "19-337C/RSBHGHC-M03/2T",
+            "uuid": "a82b90f4e115472592d67ef2865f07ed"
+          },
+          {
+            "supplierId": "C60544",
+            "name": "AT45DB321E-SHF-T",
+            "uuid": "b21a594a9d4343d192f6e2378953b719"
+          },
+          {
+            "supplierId": "C510548",
+            "name": "B1601S",
+            "uuid": "5571b46fa04444d481af8f78e6b51a89"
+          },
+          {
+            "supplierId": "C16030",
+            "name": "MAX6675ISA+T",
+            "uuid": "011f5e87505144379db1b85b9579952f"
+          },
+          {
+            "supplierId": "C105478",
+            "name": "1206X106K160NT",
+            "uuid": "2aadc5854c37436f9724834984abfc26"
+          },
+          {
+            "supplierId": "C105480",
+            "name": "1206X226K160NT",
+            "uuid": "662a7e66621b4262809094a636f24966"
+          },
+          {
+            "supplierId": "C236052",
+            "name": "MAX809TTRG",
+            "uuid": "760e9645efe743079cc4f2619750a497"
+          },
+          {
+            "supplierId": "C160172",
+            "name": "EWH2WM100G16OT",
+            "uuid": "ef185da28ec54fa6ac67b840b1706aac"
+          },
+          {
+            "supplierId": "C720548",
+            "name": "USB-269-BRW",
+            "uuid": "0158fba17cfe49ec96874d1e276348d4"
+          },
+          {
+            "supplierId": "C316032",
+            "name": "SR05-N",
+            "uuid": "7384d0f23b994e3baca52abc0b8d2fcb"
+          },
+          {
+            "supplierId": "C316030",
+            "name": "PRTR5V0U2X-N",
+            "uuid": "d0028e7912f74d53b4d9405e3ba3ab15"
+          },
+          {
+            "supplierId": "C316025",
+            "name": "PESD3V3S2UT-N",
+            "uuid": "0a84ecf5cf4140fd95fa8268d6e9a57c"
+          },
+          {
+            "supplierId": "C305449",
+            "name": "2SB772D-P",
+            "uuid": "3da2686b02084336b03380f81503b74f"
+          },
+          {
+            "supplierId": "C305417",
+            "name": "S8050-D",
+            "uuid": "d5e83747b98b4673a2e050a54857b5fe"
+          },
+          {
+            "supplierId": "C16066",
+            "name": "S9013",
+            "uuid": "00b9f8a02806454292c6f8ee6bf9b712"
+          }
+        ]
+      },
+      {
+        "id": "C19653",
+        "mpn": "TPS3808G01DBVR",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C43698",
+            "name": "TPS3808G33DBVR",
+            "uuid": "bb230446dfcd4c149520babac09b3ba9"
+          },
+          {
+            "supplierId": "C37151",
+            "name": "TPS79301DBVR",
+            "uuid": "327e877aa9f04777a9ac18b941ef08cc"
+          },
+          {
+            "supplierId": "C34678",
+            "name": "TPS72301DBVR",
+            "uuid": "80ead6a4f2fe44eeba0619d57bf4eff1"
+          },
+          {
+            "supplierId": "C7719",
+            "name": "TPS3823-33DBVR",
+            "uuid": "d5b4a20a48844dfd8cbd864f979d122e"
+          },
+          {
+            "supplierId": "C338080",
+            "name": "C2012X5R1V226MT000E",
+            "uuid": "0729087e1b594fe08d58980c6e8be808"
+          },
+          {
+            "supplierId": "C163808",
+            "name": "WR04X1000FTL",
+            "uuid": "1f61a829e03b4456a1eb690a59eed0c4"
+          },
+          {
+            "supplierId": "C43808",
+            "name": "KM337M016F12RR0VH2FP0",
+            "uuid": "b7779e4e1f29426588e4b1aa8dbe0ba8"
+          },
+          {
+            "supplierId": "C180428",
+            "name": "TPS73801DCQR",
+            "uuid": "73be400315de4f9692cd94e6ea014787"
+          },
+          {
+            "supplierId": "C24593",
+            "name": "TPS2051BDBVR",
+            "uuid": "1695bbd0b1db4272bbfbf4b3cdf8e749"
+          },
+          {
+            "supplierId": "C57424",
+            "name": "TPS73033DBVR",
+            "uuid": "17b346397d474816b9f264591d92cf4e"
+          },
+          {
+            "supplierId": "C9840",
+            "name": "TPS79333DBVR",
+            "uuid": "5e8f37e514b34602b5e7cdaf210492c8"
+          },
+          {
+            "supplierId": "C7101",
+            "name": "TPS76933DBVR(清货)",
+            "uuid": "642e52d6e9f64fd5a1b50ab5ae179ba0"
+          },
+          {
+            "supplierId": "C83671",
+            "name": "TPS560200DBVR",
+            "uuid": "961a6886504a4ddd876119e5f8933c25"
+          },
+          {
+            "supplierId": "C9839",
+            "name": "TPS60400DBVR",
+            "uuid": "a69ca5df589041e78be57b2757079ab2"
+          },
+          {
+            "supplierId": "C58756",
+            "name": "TPS61165DBVR",
+            "uuid": "e1bab778e65547b5b49948dc4d2163b2"
+          },
+          {
+            "supplierId": "C89347",
+            "name": "TPS70933DBVR",
+            "uuid": "efb0d2ccc84049d585059199a5c3542a"
+          },
+          {
+            "supplierId": "C7722",
+            "name": "TPS61040DBVR",
+            "uuid": "f69d14f04fec47c183b44795892c7c6f"
+          },
+          {
+            "supplierId": "C60719",
+            "name": "TPS7A7001DDAR",
+            "uuid": "50352b0c09304b58af2caf13787d41d1"
+          },
+          {
+            "supplierId": "C338096",
+            "name": "C1608X5R1A685KT000E",
+            "uuid": "0246c2c037164edda0b70643ba362d5c"
+          },
+          {
+            "supplierId": "C438001",
+            "name": "SD103AW",
+            "uuid": "0757f3e6566b4c87856a76f69d4acc2e"
+          },
+          {
+            "supplierId": "C138011",
+            "name": "RC0402FR-07300KL",
+            "uuid": "0874cd4b003d423e9c13b87041d47937"
+          },
+          {
+            "supplierId": "C191380",
+            "name": "NCE4080K",
+            "uuid": "09c59fed2ff94b99acdfcbd715c1fc0a"
+          },
+          {
+            "supplierId": "C73809",
+            "name": "RS-03K103JT",
+            "uuid": "0bdd53d3e1c449888c61565ffc457494"
+          },
+          {
+            "supplierId": "C238008",
+            "name": "CYCIRI-5020-102",
+            "uuid": "1079fb1c0ef144209061532aff089a45"
+          },
+          {
+            "supplierId": "C307380",
+            "name": "CL03A104KO3NNNC",
+            "uuid": "16328572563a486184296d30a6216dbf"
+          },
+          {
+            "supplierId": "C138063",
+            "name": "RC0402FR-0711KL",
+            "uuid": "16514dfcd6aa4e7fa3b28c5b7a709a6f"
+          },
+          {
+            "supplierId": "C114380",
+            "name": "LM324N",
+            "uuid": "165b019d6aca44d8a4eaed1a4d085804"
+          },
+          {
+            "supplierId": "C380762",
+            "name": "SY0603JN10KP",
+            "uuid": "1e0366c665794172b5aee2237d7b6b9f"
+          },
+          {
+            "supplierId": "C138033",
+            "name": "RC0402FR-071ML",
+            "uuid": "25122afdae9d44188f452a5536327abd"
+          },
+          {
+            "supplierId": "C138002",
+            "name": "RC0402FR-0733RL",
+            "uuid": "2629d7694a9f40fb82940d2fa5fa448c"
+          }
+        ]
+      },
+      {
+        "id": "C132554",
+        "mpn": "TUSB320LAIRWBR",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C132156",
+            "name": "USB3320C-EZK-TR",
+            "uuid": "9e37805c4deb4ec59b79ff8ab9f94543"
+          },
+          {
+            "supplierId": "C320923",
+            "name": "RC-01W4701FT",
+            "uuid": "0892a09b4c89467f86ed4a4adc88c622"
+          },
+          {
+            "supplierId": "C23208",
+            "name": "0603WAF5903T5E",
+            "uuid": "08acd4e4ecec4a13bc4b5e8b8f167d37"
+          },
+          {
+            "supplierId": "C115320",
+            "name": "RS-03K1003FT",
+            "uuid": "0d6b8d92b7b64c3992e184b2a1cbca03"
+          },
+          {
+            "supplierId": "C32078",
+            "name": "MC34063ADR2G",
+            "uuid": "13c2d62e75274e47b45aae92c46caf9d"
+          },
+          {
+            "supplierId": "C27320",
+            "name": "A07-103JP",
+            "uuid": "19da8900255b426c87223ffe7bf458f5"
+          },
+          {
+            "supplierId": "C132016",
+            "name": "TLV803SDBZR",
+            "uuid": "207ed222ce0b485fb95994c24b3565c4"
+          },
+          {
+            "supplierId": "C105320",
+            "name": "EWH1HM100D11OT",
+            "uuid": "284a18f88d7f445992160e81761964e7"
+          },
+          {
+            "supplierId": "C83206",
+            "name": "K2-6639SP-C4SC-04",
+            "uuid": "28ab05fc34f84671bc4e482681fc8841"
+          },
+          {
+            "supplierId": "C89320",
+            "name": "LM317TG",
+            "uuid": "2ec8349bc173445aa99ae1a852ab865c"
+          },
+          {
+            "supplierId": "C320497",
+            "name": "RC-01W1003FT",
+            "uuid": "37130d76fc0b49a6806830d9fdb4a207"
+          },
+          {
+            "supplierId": "C23203",
+            "name": "0603WAF5603T5E",
+            "uuid": "39568742161e44fc80d7b0d5d8a276ad"
+          },
+          {
+            "supplierId": "C132320",
+            "name": "RC0805FR-0749R9L",
+            "uuid": "39b6fac1cc9542748d8eea85a36b0feb"
+          },
+          {
+            "supplierId": "C32090",
+            "name": "NC7SZ04M5X",
+            "uuid": "44ee97577547439ba722a1268763b238"
+          },
+          {
+            "supplierId": "C13320",
+            "name": "0603WAF5104T5E",
+            "uuid": "5402559f86944ce49f81f9e8916e77b1"
+          },
+          {
+            "supplierId": "C32004",
+            "name": "SDCL1005C56NJTDF",
+            "uuid": "55ed78a7e3ab46f9a821097f32cba7ff"
+          },
+          {
+            "supplierId": "C103209",
+            "name": "RTT03102JTP",
+            "uuid": "5a77b2bc628e4eb1bd47bf57d3986444"
+          },
+          {
+            "supplierId": "C23206",
+            "name": "0603WAF5602T5E",
+            "uuid": "5b160a02740a4a05b51e666ce1090eeb"
+          },
+          {
+            "supplierId": "C83205",
+            "name": "K2-6639DP-B4SW-04",
+            "uuid": "5ce199ac090d4cdca95b4111b4e698ce"
+          },
+          {
+            "supplierId": "C160320",
+            "name": "B8P-VH(LF)(SN)",
+            "uuid": "6361f52dc4514da4a7e4a5b15ad84346"
+          },
+          {
+            "supplierId": "C78320",
+            "name": "3RM075L-8",
+            "uuid": "67757a654265497386daf572697a827d"
+          },
+          {
+            "supplierId": "C192320",
+            "name": "TJ-S2012SW8TGLC6B-A5",
+            "uuid": "67dca2efc9a5403cbd54125341864935"
+          },
+          {
+            "supplierId": "C162320",
+            "name": "GRM21BC71H475KE11L",
+            "uuid": "69fda775c4f14e48b3a5dece49d79ad8"
+          },
+          {
+            "supplierId": "C59320",
+            "name": "KF101M050F115A",
+            "uuid": "7311b722b84d4194b00125e040499a07"
+          },
+          {
+            "supplierId": "C123202",
+            "name": "MOC3021",
+            "uuid": "733dc41ec61a4dcf8a9370ba2b917e25"
+          },
+          {
+            "supplierId": "C103201",
+            "name": "RTT031004FTP",
+            "uuid": "740c61e580304eb2872594113614b05d"
+          },
+          {
+            "supplierId": "C103203",
+            "name": "RTT03100JTP",
+            "uuid": "823f0c7ed59f4da5bd533232202c4098"
+          },
+          {
+            "supplierId": "C148320",
+            "name": "MC78M05ABDTRKG",
+            "uuid": "85639a336b0c4c21b5d747d15a93f661"
+          },
+          {
+            "supplierId": "C103200",
+            "name": "RTT031003FTP",
+            "uuid": "8f6cd046bf024df686cfe61d7658a6ac"
+          },
+          {
+            "supplierId": "C132065",
+            "name": "CD74HC4051M96",
+            "uuid": "966ea14253c34fe8ac63b68be6b424ff"
+          }
+        ]
+      },
+      {
+        "id": "C128396",
+        "mpn": "TS3USB221ARSER",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C13342",
+            "name": "AD8221ARZ-R7",
+            "uuid": "9e1edf8fff174d488cc1666e290ad345"
+          },
+          {
+            "supplierId": "C87221",
+            "name": "MRD6432(2512)LR050FTR",
+            "uuid": "c39567f0f0144417ae526d29ed37dfee"
+          },
+          {
+            "supplierId": "C347221",
+            "name": "AMS1117-2.5V",
+            "uuid": "07411a524c5d414daa910f5a1f62a0a2"
+          },
+          {
+            "supplierId": "C178588",
+            "name": "EEEFT1C221AP",
+            "uuid": "0babf8153eca42d7b1181e4ccc8047ce"
+          },
+          {
+            "supplierId": "C132221",
+            "name": "AZV331KTR-G1",
+            "uuid": "0e1aa59ced19400eb71bbdca32f5c2d4"
+          },
+          {
+            "supplierId": "C1603",
+            "name": "CL10B221KB8NNNC",
+            "uuid": "11703a9f893b4a569944bf72c00dae0a"
+          },
+          {
+            "supplierId": "C182213",
+            "name": "19-223/R6GHC-A01/2T(YY)",
+            "uuid": "12019dd8ed8044618e0f0f3906cedf87"
+          },
+          {
+            "supplierId": "C23221",
+            "name": "0603WAF6202T5E",
+            "uuid": "12b82e200917452bb3341c77f32a2375"
+          },
+          {
+            "supplierId": "C221897",
+            "name": "PTS810SJS250SMTRLFS",
+            "uuid": "154d98cac72645a7bef093bee65f2224"
+          },
+          {
+            "supplierId": "C25221",
+            "name": "0603WAJ0241T5E",
+            "uuid": "19c41a7a571e46c092631609003b87d9"
+          },
+          {
+            "supplierId": "C221880",
+            "name": "PTS645SM43SMTR92LFS",
+            "uuid": "1abd243981244738962830fb4482aeae"
+          },
+          {
+            "supplierId": "C63848",
+            "name": "1206B221K202NT",
+            "uuid": "1f397b08a0544690bf47aa1d9230c7ab"
+          },
+          {
+            "supplierId": "C221896",
+            "name": "PTS810SJK250SMTRLFS",
+            "uuid": "2e999b48efb6494d8386ae85b72d51ad"
+          },
+          {
+            "supplierId": "C36259",
+            "name": "0603B221K500NT",
+            "uuid": "3054bf70cd284b8a88cc915872801794"
+          },
+          {
+            "supplierId": "C114401",
+            "name": "CC0402JRX7R9BB221",
+            "uuid": "340a248e55c24b22b2743dfde75bb864"
+          },
+          {
+            "supplierId": "C22107",
+            "name": "1206W4F1204T5E",
+            "uuid": "3434297ed5a946da92d0528fff256147"
+          },
+          {
+            "supplierId": "C2212",
+            "name": "X49SD221184MSD2SC",
+            "uuid": "348c4a0a837a43a183da2cbf370e6a59"
+          },
+          {
+            "supplierId": "C122152",
+            "name": "KNP3WS-22Ω±5% T",
+            "uuid": "3628d70f883f467297e73f176b0cd4c7"
+          },
+          {
+            "supplierId": "C22162",
+            "name": "IRFS3607TRLPBF",
+            "uuid": "374a91839d43483fb1c4d02a9b1bc22e"
+          },
+          {
+            "supplierId": "C322107",
+            "name": "RS-03L2404FT",
+            "uuid": "3cea03b964e24c2eb7898d2260c4b1f6"
+          },
+          {
+            "supplierId": "C9977",
+            "name": "XC6221A332MR-G",
+            "uuid": "43d61c6cf15a44ebb58890286761a5e2"
+          },
+          {
+            "supplierId": "C307778",
+            "name": "MPZ2012S221ATD25",
+            "uuid": "43f3cddcf4b24ce4b6a32acf6b02c944"
+          },
+          {
+            "supplierId": "C182211",
+            "name": "12-22/R6GHC-A30/2C",
+            "uuid": "4cf3b8e96a1a4d6baab0c139da1af061"
+          },
+          {
+            "supplierId": "C481221",
+            "name": "F0502-B-30-20T-R",
+            "uuid": "4f55396f7c744868ac3d9208dd592897"
+          },
+          {
+            "supplierId": "C82217",
+            "name": "HT7533-2",
+            "uuid": "4f7993ce48da4111b4a91895bc45b5c5"
+          },
+          {
+            "supplierId": "C262218",
+            "name": "AFC07-S30FCC-00",
+            "uuid": "4fe7eec929d7489dbf402807e7b1b7a0"
+          },
+          {
+            "supplierId": "C7221",
+            "name": "TAJD106K035RNJ",
+            "uuid": "512020ae126d45a8a34fca4396e00524"
+          },
+          {
+            "supplierId": "C221869",
+            "name": "PTS645SH50SMTR92LFS",
+            "uuid": "524f50d2f07c45138c0423763742e7c3"
+          },
+          {
+            "supplierId": "C382212",
+            "name": "FS32X105K101EFG",
+            "uuid": "5284ced320e54eccaa617a6c0deed1c2"
+          },
+          {
+            "supplierId": "C322104",
+            "name": "RS-03L225JT",
+            "uuid": "52aaff2ad85a47db8a728deb70207895"
+          }
+        ]
+      },
+      {
+        "id": "C5190383",
+        "mpn": "SC18IM704PWJ",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C182161",
+            "name": "SLH0704S330MTT",
+            "uuid": "61c65744cbdd40069653cbc81bdddb7e"
+          },
+          {
+            "supplierId": "C182195",
+            "name": "SLH0704S101MTT",
+            "uuid": "850a68f657c74e3590647a21c3683be5"
+          },
+          {
+            "supplierId": "C181171",
+            "name": "2SC1815",
+            "uuid": "95eedf8823ec4fbab0725cc5afbfd938"
+          },
+          {
+            "supplierId": "C181167",
+            "name": "2SC1623（L6）",
+            "uuid": "c7584225320343b397556284b60e03eb"
+          },
+          {
+            "supplierId": "C189737",
+            "name": "R-RJ11R04P-A802",
+            "uuid": "331e8d952a3a41ebb641409d85d26455"
+          },
+          {
+            "supplierId": "C189733",
+            "name": "U-USBBR04P-F000",
+            "uuid": "731005e2e58b45bdaeb0b99b04f65866"
+          },
+          {
+            "supplierId": "C70407",
+            "name": "1210W2F510JT5E",
+            "uuid": "037120a270074f39bccda31ca5005563"
+          },
+          {
+            "supplierId": "C134704",
+            "name": "SG-101M1CBK-0507",
+            "uuid": "047da2b821964e94a2160e60531bd559"
+          },
+          {
+            "supplierId": "C107046",
+            "name": "CC0603JRNPO9BN271",
+            "uuid": "1c77198123f54e7db1c3c15a00e13d05"
+          },
+          {
+            "supplierId": "C124704",
+            "name": "ILHB1206ER121V",
+            "uuid": "314bce797173487687f2fae10dc99a38"
+          },
+          {
+            "supplierId": "C107041",
+            "name": "CC0603JRNPO9BN181",
+            "uuid": "3251143eea724f71a3833d1d82189135"
+          },
+          {
+            "supplierId": "C294704",
+            "name": "RS-05K3303FT",
+            "uuid": "3311ea4fc58f46d7866519c737605796"
+          },
+          {
+            "supplierId": "C370427",
+            "name": "SPH3015H4R7MT",
+            "uuid": "3681f18516e441c8902f2cb0efb6f4aa"
+          },
+          {
+            "supplierId": "C397046",
+            "name": "MHT136WDT-C2",
+            "uuid": "372527a592c94e97bdd93062af204080"
+          },
+          {
+            "supplierId": "C70435",
+            "name": "CESD3V3AP",
+            "uuid": "3832c680cc9344e0b5678eed15b14025"
+          },
+          {
+            "supplierId": "C77041",
+            "name": "GRM188R60J106ME47D",
+            "uuid": "3a26ef1aeee0463f8696f30b883882f7"
+          },
+          {
+            "supplierId": "C177047",
+            "name": "MBR0580S1-7",
+            "uuid": "3cbeb26fb53d483bbac411c06efda347"
+          },
+          {
+            "supplierId": "C77044",
+            "name": "GRM188R61A106KE69D",
+            "uuid": "404ccc02cafe4f6999f2b3232b29ebf6"
+          },
+          {
+            "supplierId": "C157704",
+            "name": "GS8632-MR",
+            "uuid": "432f91d91f9f4b588241eef95756436f"
+          },
+          {
+            "supplierId": "C87044",
+            "name": "RC0402FR-0749R9L",
+            "uuid": "44e148cbbfd741aaba3a6da13700de99"
+          },
+          {
+            "supplierId": "C77047",
+            "name": "GRM188R61E225KA12D",
+            "uuid": "4acf77d0f207463c92f581cc06d43bce"
+          },
+          {
+            "supplierId": "C117040",
+            "name": "T491X227M016AT",
+            "uuid": "4e770924800f4a40b887aa149b8eaa32"
+          },
+          {
+            "supplierId": "C107043",
+            "name": "CC0603JRNPO9BN222",
+            "uuid": "500e1872eef94b3088848fc96baf6d3c"
+          },
+          {
+            "supplierId": "C437040",
+            "name": "XKSIM-1511B-P9",
+            "uuid": "523ee21e76834dc48cc00f38decfa2af"
+          },
+          {
+            "supplierId": "C304704",
+            "name": "RS-03K1473FT",
+            "uuid": "54ac7a95f95d495cb74bf2d7bb201606"
+          },
+          {
+            "supplierId": "C397047",
+            "name": "MHT170UGCT",
+            "uuid": "54d20f4900e14404a3ec92a9abe9c648"
+          },
+          {
+            "supplierId": "C337046",
+            "name": "MF1/4WS-10K±1% OT52",
+            "uuid": "5c7abe2c93464bd5ab259d7094b0916d"
+          },
+          {
+            "supplierId": "C168704",
+            "name": "918-418K2022Y40000",
+            "uuid": "618cba29c84746899e0203e9ea458b9f"
+          },
+          {
+            "supplierId": "C207048",
+            "name": "1210L150/16WR",
+            "uuid": "64dd946b15e747cab338e952ffe3bdf8"
+          },
+          {
+            "supplierId": "C70480",
+            "name": "B0303S-1WR2",
+            "uuid": "6d2146fc80a14bbb8a6ca33ee3c1764c"
+          }
+        ]
+      },
+      {
+        "id": "C2682616",
+        "mpn": "MAX17048G+T10",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C70466",
+            "name": "MAX1720EUTG",
+            "uuid": "c22803ec766b48c89a44aae7d82942eb"
+          },
+          {
+            "supplierId": "C117040",
+            "name": "T491X227M016AT",
+            "uuid": "4e770924800f4a40b887aa149b8eaa32"
+          },
+          {
+            "supplierId": "C1704",
+            "name": "0603F474M500NT",
+            "uuid": "b5a19295b7e64612bda257048da1b887"
+          },
+          {
+            "supplierId": "C207048",
+            "name": "1210L150/16WR",
+            "uuid": "64dd946b15e747cab338e952ffe3bdf8"
+          },
+          {
+            "supplierId": "C70480",
+            "name": "B0303S-1WR2",
+            "uuid": "6d2146fc80a14bbb8a6ca33ee3c1764c"
+          },
+          {
+            "supplierId": "C107048",
+            "name": "CC0603JRNPO9BN332",
+            "uuid": "6fded7a372f442b483e713f614a8286e"
+          },
+          {
+            "supplierId": "C409842",
+            "name": "YS-MBZ12085C05R42",
+            "uuid": "151c293bf7a9416f9d2e7354cd66837f"
+          },
+          {
+            "supplierId": "C252920",
+            "name": "GMC12085YA-16R2048",
+            "uuid": "49e89dc97b464684b8a4f03926f3ee8d"
+          },
+          {
+            "supplierId": "C252915",
+            "name": "GMC1205YA-16R2048",
+            "uuid": "8128b21082c240c4967c9bb691fb889c"
+          },
+          {
+            "supplierId": "C252917",
+            "name": "GMC1206YA-16R2048",
+            "uuid": "926438554abc4f02be598082c74c9e4b"
+          },
+          {
+            "supplierId": "C397047",
+            "name": "MHT170UGCT",
+            "uuid": "54d20f4900e14404a3ec92a9abe9c648"
+          },
+          {
+            "supplierId": "C223170",
+            "name": "CB2012T100MR",
+            "uuid": "9a4bd5e62e5b42fea395c5478088c910"
+          },
+          {
+            "supplierId": "C21706",
+            "name": "CJ7805 3%",
+            "uuid": "00c07cbd6d6048498be6b0b1a6e488fb"
+          },
+          {
+            "supplierId": "C91703",
+            "name": "0603CG150J500NT",
+            "uuid": "012b1fdfcba94f8bbcf37328b5890d88"
+          },
+          {
+            "supplierId": "C319170",
+            "name": "U254-051N-4BH806",
+            "uuid": "062b14abc52c48668b54a6afe1b694e4"
+          },
+          {
+            "supplierId": "C91702",
+            "name": "0603CG200J500NT",
+            "uuid": "086a88c1063448958bc3421d0c2ad070"
+          },
+          {
+            "supplierId": "C164170",
+            "name": "472192001",
+            "uuid": "09283a1c630647d29438e22dc359090b"
+          },
+          {
+            "supplierId": "C117038",
+            "name": "T491D106K050AT",
+            "uuid": "0a52c9982bbf49098217b1f621306250"
+          },
+          {
+            "supplierId": "C83170",
+            "name": "CC0805KRX7R9BB103",
+            "uuid": "155023266daa4558bab101c715279b61"
+          },
+          {
+            "supplierId": "C170151",
+            "name": "CL05A225KO5NQNC",
+            "uuid": "18c93fe250284f67bc33093a5a51063b"
+          },
+          {
+            "supplierId": "C17024",
+            "name": "CL21A106KPFNNNE",
+            "uuid": "2c8bdaeb33624757a7871109432b253d"
+          },
+          {
+            "supplierId": "C146170",
+            "name": "RKJXV1224005",
+            "uuid": "320d1a55d7484dfcae7a7713e02e8bb9"
+          },
+          {
+            "supplierId": "C170074",
+            "name": "1210X106K250NT",
+            "uuid": "32392db569b744419d6893b08f46799d"
+          },
+          {
+            "supplierId": "C17098",
+            "name": "AO4800_C17098",
+            "uuid": "332af7ab6da14e1ca56d63b238c6fcd7"
+          },
+          {
+            "supplierId": "C170148",
+            "name": "CL10B151KB8NNNC",
+            "uuid": "34c105f49eca47c892f10e8b226a0538"
+          },
+          {
+            "supplierId": "C117051",
+            "name": "DHT11",
+            "uuid": "392f5b6673c24241bbb8818c1269d1f1"
+          },
+          {
+            "supplierId": "C341706",
+            "name": "NCE3400AY",
+            "uuid": "4c4fa692c96b44fe9583c168f9a64534"
+          },
+          {
+            "supplierId": "C170099",
+            "name": "CL32B475KBUYNNE",
+            "uuid": "508b1ec139cb4795aa0cdbf9448c7603"
+          },
+          {
+            "supplierId": "C14170",
+            "name": "L78L33ACUTR",
+            "uuid": "50c11729ac4f41d4aea116dc6d9da024"
+          },
+          {
+            "supplierId": "C115170",
+            "name": "Z-21310110021001",
+            "uuid": "62c115729e454e8b8db0e02d8d8b6e4c"
+          }
+        ]
+      },
+      {
+        "id": "C2856798",
+        "mpn": "FPC-05F-10PH20",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C48735",
+            "name": "FPC1.0mm间距10PH2.5mm抽拉式下接",
+            "uuid": "f3cd950369d04751b82816a3fa800c26"
+          },
+          {
+            "supplierId": "C11050",
+            "name": "AFC07-S10FCC-00",
+            "uuid": "07af8e8929ff44b3bfcd8e01dee0e4be"
+          },
+          {
+            "supplierId": "C43535",
+            "name": "0201CG100J500NT",
+            "uuid": "06eb7950d9a94987aa66ccec07a3373e"
+          },
+          {
+            "supplierId": "C126491",
+            "name": "GCM1555C1H100JA16D",
+            "uuid": "0948f0ced1b84cffa946182bad908df4"
+          },
+          {
+            "supplierId": "C237160",
+            "name": "0402N100F500CT",
+            "uuid": "333e7ba744b94839b46d5946e7041aa3"
+          },
+          {
+            "supplierId": "C85889",
+            "name": "GRM0335C1H100GA01D",
+            "uuid": "34a48a1b793e408891bdfef1cebdf4f8"
+          },
+          {
+            "supplierId": "C344177",
+            "name": "TCC0805COG100J500BT",
+            "uuid": "34bf7858d689447da640e3874fbec7ee"
+          },
+          {
+            "supplierId": "C161520",
+            "name": "GRM1555C1H100FA01D",
+            "uuid": "389b246bbe714d53ab36a831efa33c82"
+          },
+          {
+            "supplierId": "C1883",
+            "name": "1206CG100J500NT",
+            "uuid": "43805c9b65bf4462b39a8baba0f4bf90"
+          },
+          {
+            "supplierId": "C32949",
+            "name": "CL05C100JB5NNNC",
+            "uuid": "471f8a8c98844b45a65295f1cbe1ec67"
+          },
+          {
+            "supplierId": "C318677",
+            "name": "CL10C100CB8NNNC",
+            "uuid": "50bc81a752ad4bde9744c617da5997bc"
+          },
+          {
+            "supplierId": "C376764",
+            "name": "TCC0603COG100J500CT",
+            "uuid": "58e185dedab543b8bf225bc375fbb742"
+          },
+          {
+            "supplierId": "C76946",
+            "name": "GRM1555C1H100JA01D",
+            "uuid": "5b8d8534890f4e57a7c3f151b7bbb924"
+          },
+          {
+            "supplierId": "C525235",
+            "name": "FN18N100J500PSG",
+            "uuid": "5fb7cd1bf1cd46d3abeb8ab8f535bcb6"
+          },
+          {
+            "supplierId": "C106245",
+            "name": "CC0603JRNPO9BN100",
+            "uuid": "615173e8071f4dcea0ba46b00ab26c2c"
+          },
+          {
+            "supplierId": "C296044",
+            "name": "0603N100D500CT",
+            "uuid": "64384b6f076e47f8a4056f299ebcec6f"
+          },
+          {
+            "supplierId": "C325459",
+            "name": "CC0402GRNPO9BN100",
+            "uuid": "6fbabebf2210412e8ab346f79714f710"
+          },
+          {
+            "supplierId": "C107172",
+            "name": "CC1206JKNPOCBN100",
+            "uuid": "70a61b8036694bc98f552f6cc38f4ba7"
+          },
+          {
+            "supplierId": "C1626",
+            "name": "0603B511K500NT",
+            "uuid": "72ed774142914fd887671535385c2edb"
+          },
+          {
+            "supplierId": "C513681",
+            "name": "CC0402FRNPO9BN100",
+            "uuid": "76f3afd9c7184287a98a795c3f2fd59f"
+          },
+          {
+            "supplierId": "C107052",
+            "name": "CC0603JRNPO9BN511",
+            "uuid": "7c33dcb0c1994c8da50e5b1c1a648fdf"
+          },
+          {
+            "supplierId": "C107107",
+            "name": "CC0805JRNPO9BN100",
+            "uuid": "87363ee399cf4ec98b06fa3f9e062faf"
+          },
+          {
+            "supplierId": "C272871",
+            "name": "CC0201JRNPO9BN100",
+            "uuid": "8bcc572b71754c65b9d0aeebb3a105f2"
+          },
+          {
+            "supplierId": "C309467",
+            "name": "CC0603FRNPO9BN100",
+            "uuid": "930f1a77bf8b4bd5bdc1c6eb04901e88"
+          },
+          {
+            "supplierId": "C123640",
+            "name": "0805N100J500CT",
+            "uuid": "95615ec018364e8883d3b1cd3bcccd94"
+          },
+          {
+            "supplierId": "C91367",
+            "name": "0603CG100J500NT",
+            "uuid": "b08f660a07ab4c2ab46becaf9f42c364"
+          },
+          {
+            "supplierId": "C126542",
+            "name": "GCM1885C1H100JA16D",
+            "uuid": "b58eeea80fa943f6accbf902a72afb7c"
+          },
+          {
+            "supplierId": "C1785",
+            "name": "CL21C100JBANNNC",
+            "uuid": "bd542304e7e54f27bb85a95d8b29dcd9"
+          },
+          {
+            "supplierId": "C179755",
+            "name": "0603CG100F500NT",
+            "uuid": "cce007665cb44eab9da666a6f84d1af3"
+          },
+          {
+            "supplierId": "C1634",
+            "name": "CL10C100JB8NNNC",
+            "uuid": "cce6c24475c147de9dedbc04bb9e84e4"
+          }
+        ]
+      }
+    ],
+    "windowId": "3997f065-11b1-4e69-a935-c6fa723dbb26"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "at": "2026-10-15T03:10:00.416Z",
+  "scope": "Read-only audit, final document is PCB1",
+  "results": [
+    {
+      "id": "443216bbada87fe6",
+      "before": "P1.source.jsonl",
+      "after": "P1-end.source.jsonl",
+      "sha256Before": "708950ea96949d76a09205531487ba6222b38efb034461e8916f7b11e2a1f72e",
+      "sha256After": "5658d39c87204bae9717a808e213f88911ece5715253cd4679275c5291df7529",
+      "byteIdentical": false,
+      "changedHeaderFields": {
+        "client": [
+          "b3e879c7de17af80",
+          "86a5ced51c3337b6"
+        ],
+        "version": [
+          "1792032911198",
+          "1792033799669"
+        ],
+        "updateTime": [
+          1792032911198,
+          1792033799669
+        ]
+      },
+      "allNonHeaderRecordsIdentical": true,
+      "nonHeaderSha256": "f363f85182c0570d335df0844e6283b0ed03272a2a126948d4287d404ec52d56"
+    },
+    {
+      "id": "9eb230ca6fd4b303",
+      "before": "P2.source.jsonl",
+      "after": "P2-end.source.jsonl",
+      "sha256Before": "f07c80995ee3e26dc11f28b36ba5bf5510ea3442eee21887e80190b532a2a68b",
+      "sha256After": "3bd9a8270e98b747462f88b5b2c1d4dc2da7e8e103e888dee887907cc36ee745",
+      "byteIdentical": false,
+      "changedHeaderFields": {
+        "client": [
+          "8189da01b6f6010e",
+          "282475a79fc37605"
+        ],
+        "version": [
+          "1792032912003",
+          "1792033799902"
+        ],
+        "updateTime": [
+          1792032912003,
+          1792033799902
+        ]
+      },
+      "allNonHeaderRecordsIdentical": true,
+      "nonHeaderSha256": "81795a1e07185f682722ac3f8a23613d14f2a62fa91f00243444e288d41c8e19"
+    },
+    {
+      "id": "847ec1f4dfc5086a",
+      "before": "PCB1-before.source.jsonl",
+      "after": "PCB1-end.source.jsonl",
+      "sha256Before": "550e4f8fe9d70baf6af8f4329a8b33e080eff0f1b060b94c0e0ab33ef3bd2452",
+      "sha256After": "8f11f58a5563bdcfb34cf8dd55a407462472e90fdbc2bde43a0265b0a89efb6f",
+      "byteIdentical": false,
+      "changedHeaderFields": {
+        "client": [
+          "13b4c102bce489ec",
+          "22710ea5160a853c"
+        ],
+        "version": [
+          "1792032910449",
+          "1792033800242"
+        ],
+        "updateTime": [
+          1792032910449,
+          1792033800242
+        ]
+      },
+      "allNonHeaderRecordsIdentical": true,
+      "nonHeaderSha256": "31b808da4e7cd064919e303ae0dd50d0c92c864a49d175e904847f0855da0ab9"
+    }
+  ],
+  "passed": true
+}

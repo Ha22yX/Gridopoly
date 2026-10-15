@@ -1,0 +1,217 @@
+www.viewedisplay.com telephone：400-660-3306 Page: 1 / 13
+SMART DISPLAY MODULE
+SPECIFICATION
+2.1 Inch Smart Knob Display with Touch and Wi-Fi /BLE
+Model: UEDX48480021-MD80ET
+Version: V1.1
+Date: 2025-01-07
+Customer Confirmation 客户确认
+Approved by Notes
+
+www.viewedisplay.com telephone：400-660-3306 Page: 2 / 13
+REVISION HISTORY
+Revision Date Contents of Revision Change Remark
+V1.0 20241202 Preliminary release
+V1.1 20250107 Add GitHub link
+
+www.viewedisplay.com telephone：400-660-3306 Page: 3 / 13
+TABLE of CONTENTS
+1. INTRODUCTION ........................................................................................................................................................... 4
+1.1 Features .............................................................................................................................................................4
+1.2 Appearance picture ........................................................................................................................................... 5
+2. PRODUCT INFORMATION ........................................................................................................................................ 6
+2.1 Hardware Description .......................................................................................................................................6
+2.2 Display Information ......................................................................................................................................... 9
+2.3 Voltage & Current .............................................................................................................................................9
+2.4 Reliability Test ................................................................................................................................................10
+2.5 Related software ............................................................................................................................................. 10
+3. MECHANICAL DRAWING ........................................................................................................................................11
+4. SCHEMATIC .................................................................................................................................................................12
+5. RELATED DOWNLOADS .......................................................................................................................................... 13
+5.1 Arduino and IDF relevant information .......................................................................................................... 13
+5.2 Libraries required for Arduino ....................................................................................................................... 13
+
+www.viewedisplay.com telephone：400-660-3306 Page: 4 / 13
+1. Introduction
+1.1 Features
+Brief Info:
+1) Outline Dimension:φ80 Round
+2) Interaction Method: Rotate and Press
+3) Shell Color: Black/White/Silver/Customized
+4) Power: DC 5V, 1A
+System
+1) OS: FreeRTOS
+2) CPU: ESP32-S3 240Mhz
+3) RAM: 8MB
+4) Flash: 16MB
+5) Interface: UART/USB
+6) Support 2.4GHz Wi-Fi、BLE 5、BLE Mesh
+7) Support Peripherals:
+GPIO, SPI, LCD interface, Camera interface, UART, I2C, I2S, remote control,
+pulse counter,LED PWM, full-speed USB 2.0 OTG, USB Serial/JTAG controller, MCPWM,
+SDIO host, GDMA, TWAI® controller (compatible with ISO 11898-1), ADC, touch sensor,
+temperature sensor, timers and watchdogs
+For more information on ESP32-S3-WROOM-1, please refer to the following link:datasheet_cn.pdf
+Display
+1) Size: 2.1 Inch
+2) Resolution: 480*480
+3) Mode: IPS
+4) Pixel Arrangement：RGB Vertical Stripe
+5) Interface Mode：3 Wire SPI-RGB 18bits
+6) Driver IC： ST7701S
+7) Touch IC：CST826
+8) Brightness: 300 cd/m2
+9) Backlight Type：White LED
+10) Display mode： Normally Black
+Other
+1) Operation Temperature：-20~70℃
+2) Storage Temperature：-30~80℃
+
+www.viewedisplay.com telephone：400-660-3306 Page: 5 / 13
+1.2 Appearance picture
+
+
+www.viewedisplay.com telephone：400-660-3306 Page: 6 / 13
+2. Product information
+2.1 Hardware Description
+Mainboard:
+1 USB power supply and burning interface
+Pin NO. Symbol Description Voltage Range Remarks
+1 VCC Power 5V 5V
+2 ADC GPIO4, ADC IO 0-3.3V Not Used
+3 GND Grounds 0V
+4 NC NC -
+5 NC NC -
+6 RX UART Receive 0-3.3V
+7 TX UART Transmit 0-3.3V
+8 RST Reset signal,
+do not connect if not in use 0-3.3V
+9 D+ USB D+ 3.3V
+10 D- USB D- 3.3V
+The connector specifications is 10PIN 0.5mm pitch
+
+www.viewedisplay.com telephone：400-660-3306 Page: 7 / 13
+2 Display Interface:
+3 Main Control Chip: ESP32S3-MCN16R8
+Dual-core processor, up to 240MHz operating frequency
+4 Encoder and button:The combination implements the control of the screen interface
+Encoder:
+Encoder model: EC35
+Operating length: 15mm
+positioning torque: 12±5mN·m
+Positioning number: 30
+Button:
+Button model: 6x6 silent switch
+USB adapter board:
+
+www.viewedisplay.com telephone：400-660-3306 Page: 8 / 13
+(1) Reserve IO: J5
+Pin Name Symbol Description Voltage Range Remarks
+5V VCC Power 5V 5V
+RX2 NC NC -
+TX2 NC NC -
+GND NC NC -
+D+ USB D+ USB D+ 3.3V
+D- USB D- USB D- 3.3V
+GND GND GND -
+SK NC NC -
+SD NC NC -
+GND GND GND 0V
+(2) Reserve Interface: UART
+Pin Name Symbol Description Voltage Range Remarks
+GND GND Power 5V -
+PB7 ADC GPIO4, ADC IO - Not Used
+RX1 RX UART Receive -
+TX1 TX UART Transmit -
+TX2 NC NC -
+RX2 NC NC -
+5V VCC Power 5V 5V
+(3) 10PIN-FPC J2: reference 2.1 Hardware Description:Mainboard/USB power supply and
+burning interface
+(4) USB: Used for powering and burning code
+
+www.viewedisplay.com telephone：400-660-3306 Page: 9 / 13
+2.2 Display Information
+Item Specification Unit Remark
+Pixel Driving element IPS TFT - -
+Screen Size 2.1 Inch Diagonal
+Resolution 480(W)*3(RGB)*480(H) Dots -
+Interface 3Wire SPI + 18RGB - 40pin
+Module Power Consumption 0.405 Watt Typ.
+Active Area 53.28(W)*53.28(H) mm -
+Module Size(W*H*D) 71.27(W)*71.27(H)*3.43(D) mm -
+Luminance 300 cd/m2 Typ.
+Viewing Direction All O’clock -
+Display Color 262K Colors 18Bits
+Display Driver IC ST7701S
+Touch Driver IC CST826
+2.3 Voltage & Current
+Item Conditions Min Typ Max Unit
+Power Voltage DC 4. 0 5.0 5.5 V
+Operation
+Current
+VCC= +5V, Maximum backlight current - 320 - mA
+VCC= +5V,backlight off - 100 - mA
+Recommended power supply:5V 1A DC
+
+www.viewedisplay.com telephone：400-660-3306 Page: 10 / 13
+2.4 Reliability Test
+Item Conditions Min Typ Max Unit
+Working Temperature 60%RH at 5V voltage -20 25 70 C
+Storage Temperature --- -30 25 80 C
+Working Humidity 25°C 10% 60% 90% RH
+ESD ---
+Contact: ±4KV
+Air: ±8KV KV
+2.5 Related software
+Software
+name Version Software associated configuration
+Development
+environment
+configuration link
+Arduino
+IDE
+2.0.17
+(esp32)
+1. Board: ESP32S3 Dev Module
+2. CPU Frequency: 240MHz (WiFì)
+3. Flash Frequency: NO
+4. Flash Mode: QIO 80MHz
+5. Flash Size: 16MB (128Mb)
+6. Partition Scheme: Default 4MB with spiffs
+(1.2MB APP/1.5MB SPIFFS)
+7. PSRAM: OPI PSRAM
+8. Programmer: Esptool
+ESP32-Arduino config
+(github.com)
+ESP-IDF 5.1.1
+5.2.2
+Once configured, no configuration is required
+（If you have any problem with the configuration,
+please contact us, we will help you）
+ESP-IDF config
+(github.com)
+
+www.viewedisplay.com telephone：400-660-3306 Page: 11 / 13
+3. MECHANICAL DRAWING
+PIN10
+PIN1
+FPC VIEW
+SCALE: 3:1
+自攻螺丝
+CD lines
+显示屏
+    2.1" TFT LCD
+480*(RGB)*480 PTXELS
+Back view Front viewSide view
+
+www.viewedisplay.com telephone：400-660-3306 Page: 12 / 13
+4. Schematic
+
+
+www.viewedisplay.com telephone：400-660-3306 Page: 13 / 13
+5. Related downloads
+5.1 Arduino and IDF relevant information
+https://github.com/VIEWESMART/UEDX48480021-MD80ESP32-2.1inch-Touch-Knob-Display
+5.2 Libraries required for Arduino
+https://github.com/VIEWESMART/UEDX48480021-MD80ESP32-2.1inch-Touch-Knob-Display/tree/main/Libraries

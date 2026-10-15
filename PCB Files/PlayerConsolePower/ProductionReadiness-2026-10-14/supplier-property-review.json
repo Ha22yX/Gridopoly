@@ -1,0 +1,1294 @@
+{
+  "status": "Identity/value audit, not native warning clearance; no bulk standardization applied",
+  "nativeWarningCount": 43,
+  "nativeFatal": 0,
+  "nativeError": 0,
+  "duplicateNames": [
+    {
+      "wire": "$2N92",
+      "names": [
+        "SCREEN_IO3V3",
+        "SCREEN_IO3V3"
+      ]
+    },
+    {
+      "wire": "$1N31",
+      "names": [
+        "GND",
+        "GND"
+      ]
+    }
+  ],
+  "bomDistinctParts": 30,
+  "exactLibraryMatches": 18,
+  "supplierWebFallbacks": 12,
+  "rows": [
+    {
+      "supplierPart": "C15849",
+      "refs": [
+        "C1",
+        "C11",
+        "C12",
+        "C14",
+        "C15"
+      ],
+      "mpn": "CL10A105KB8NNNC",
+      "footprint": "C0603",
+      "value": "1uF",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C15849.html",
+      "libraryMpn": "CL10A105KB8NNNC",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "1uF ±10% 50V",
+          "library": "1uF(105) ±10% 50V"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/CL10A105KB8NNNC/16531.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707679084.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "e92a0c4e0c82442c95b9f681928ac7a5"
+        },
+        "Designator": {
+          "instance": "C1",
+          "library": "C?"
+        },
+        "Footprint": {
+          "instance": "100749ec02c3d857",
+          "library": "76d6c29a47804db487f8a92b2621751b"
+        },
+        "3D Model": {
+          "instance": "ac125912035d415993ca9572d50418b1|0819f05c4eef4c71ace90d822a990e87",
+          "library": "ac125912035d415993ca9572d50418b1"
+        },
+        "Voltage Rated": {
+          "instance": null,
+          "library": "50V"
+        },
+        "Name": {
+          "instance": "1uF",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C15850",
+      "refs": [
+        "C2",
+        "C3",
+        "C7",
+        "C8",
+        "C9"
+      ],
+      "mpn": "CL21A106KAYNNNE",
+      "footprint": "C0805",
+      "value": "10uF",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C15850.html",
+      "libraryMpn": "CL21A106KAYNNNE",
+      "libraryDifferences": {
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/CL21A106KAYNNNE/16532.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707679302.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "5f9529790e034d94aefbb6c46308260a"
+        },
+        "Designator": {
+          "instance": "C2",
+          "library": "C?"
+        },
+        "Footprint": {
+          "instance": "426dabcfe6a6ceff",
+          "library": "ccb32feceadc4298b406326a506ce8e7"
+        },
+        "3D Model": {
+          "instance": "1ba041120af144c991958decab20d241|0819f05c4eef4c71ace90d822a990e87",
+          "library": "1ba041120af144c991958decab20d241"
+        },
+        "Voltage Rated": {
+          "instance": null,
+          "library": "25V"
+        },
+        "Name": {
+          "instance": "10uF",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C1591",
+      "refs": [
+        "C4",
+        "C6",
+        "C10",
+        "C13",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20"
+      ],
+      "mpn": "CL10B104KB8NNNC",
+      "footprint": "C0603",
+      "value": "100nF",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C1591.html",
+      "libraryMpn": "CL10B104KB8NNNC",
+      "libraryDifferences": {
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707680512.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "7e4a3fa416de498785d4b983a65978c9"
+        },
+        "Designator": {
+          "instance": "C4",
+          "library": "C?"
+        },
+        "Footprint": {
+          "instance": "100749ec02c3d857",
+          "library": "76d6c29a47804db487f8a92b2621751b"
+        },
+        "3D Model": {
+          "instance": "ac125912035d415993ca9572d50418b1|0819f05c4eef4c71ace90d822a990e87",
+          "library": "ac125912035d415993ca9572d50418b1"
+        },
+        "Voltage Rated": {
+          "instance": null,
+          "library": "50V"
+        },
+        "Name": {
+          "instance": "100nF",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C1589",
+      "refs": [
+        "C5"
+      ],
+      "mpn": "CL10B103KB8NNNC",
+      "footprint": "C0603",
+      "value": "10nF",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C1589.html",
+      "libraryMpn": "CL10B103KB8NNNC",
+      "libraryDifferences": {
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/CL10B103KB8NNNC/1941.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707680084.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "b179634282da4811901296db6ce1e91b"
+        },
+        "Designator": {
+          "instance": "C5",
+          "library": "C?"
+        },
+        "Footprint": {
+          "instance": "100749ec02c3d857",
+          "library": "76d6c29a47804db487f8a92b2621751b"
+        },
+        "3D Model": {
+          "instance": "ac125912035d415993ca9572d50418b1|0819f05c4eef4c71ace90d822a990e87",
+          "library": "ac125912035d415993ca9572d50418b1"
+        },
+        "Voltage Rated": {
+          "instance": null,
+          "library": "50V"
+        },
+        "Name": {
+          "instance": "10nF",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C7519",
+      "refs": [
+        "D1"
+      ],
+      "mpn": "USBLC6-2SC6",
+      "footprint": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C7519.html",
+      "libraryMpn": "USBLC6-2SC6",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "单向ESD 5.25V截止 峰值脉冲电流：5A",
+          "library": "USBLC6-2SC6"
+        },
+        "Supplier Footprint": {
+          "instance": "SOT-23-6L",
+          "library": "SOT-23-6"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/USBLC6-2SC6/7996.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20140724/1457707166955.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "0f94f580b82e472f955382ed98bcde1a"
+        },
+        "Designator": {
+          "instance": "D1",
+          "library": "D?"
+        },
+        "Footprint": {
+          "instance": "4ca675f264780723",
+          "library": "47d9e12405e949c2b190fdcf22199fbb"
+        },
+        "3D Model": {
+          "instance": "18da8f6c14a34920b3e136b5c401a119|0819f05c4eef4c71ace90d822a990e87",
+          "library": "18da8f6c14a34920b3e136b5c401a119"
+        },
+        "3D Model Transform": {
+          "instance": "110.236,113.364,0,90,0,0,0.0005,0.0005,0",
+          "library": "110.73671,114.173,0,180,0,0,0.001,-0.003,0"
+        },
+        "Polarity": {
+          "instance": "单向",
+          "library": "Unidirectional"
+        },
+        "Voltage - Reverse Standoff (Typ)": {
+          "instance": null,
+          "library": "5.25V"
+        },
+        "Voltage - Breakdown (Min)": {
+          "instance": null,
+          "library": "6V"
+        },
+        "Voltage - Clamping (Max) @ Ipp": {
+          "instance": null,
+          "library": "17V"
+        },
+        "Current - Peak Pulse (10/1000μs)": {
+          "instance": null,
+          "library": "5A"
+        },
+        "Name": {
+          "instance": "USBLC6-2SC6",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C165948",
+      "refs": [
+        "J1"
+      ],
+      "mpn": "TYPE-C-31-M-12",
+      "footprint": "USB-C_SMD-TYPE-C-31-M-12_1",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C165948.html",
+      "libraryMpn": "TYPE-C-31-M-12",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "Type-C 母 卧贴",
+          "library": "TYPE-C-31-M-12"
+        },
+        "Supplier Footprint": {
+          "instance": "SMD",
+          "library": "-"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/TYPE-C-31-M-12/177331.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20210111/C2682493_D8CCFED08835E878D16ACCF4460E43B8.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "8de51be61d8845edaaae6c1109a76c83"
+        },
+        "Designator": {
+          "instance": "J1",
+          "library": "USBC?"
+        },
+        "Footprint": {
+          "instance": "71bc3fa66c4da62e",
+          "library": "3a99a26691c94639ac164b9c86674ca5"
+        },
+        "3D Model": {
+          "instance": "2a22bb5af8894b85972aeeacf9cd92d0|0819f05c4eef4c71ace90d822a990e87",
+          "library": "35058e297fd54ee2afd2de30c3ce7155"
+        },
+        "3D Model Title": {
+          "instance": "USB-C_SMD-TYPE-C-31-M-12_1",
+          "library": "USB-C_SMD-TYPE-C-31-M-12"
+        },
+        "3D Model Transform": {
+          "instance": "351.9678,311.023,0,180,0,0,0,-43.307,-33.465",
+          "library": "351.9678,311.023,0,180,0,0,0,-44.647,-39.37"
+        },
+        "Standard": {
+          "instance": null,
+          "library": "-"
+        },
+        "Gender": {
+          "instance": "母",
+          "library": "母座"
+        },
+        "Number of Contacts": {
+          "instance": "16P",
+          "library": "16"
+        },
+        "Current Rating - Power (Max)": {
+          "instance": null,
+          "library": "250mA"
+        },
+        "Name": {
+          "instance": "TYPE-C-31-M-12",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C408332",
+      "refs": [
+        "L1"
+      ],
+      "mpn": "MWSA0402S-1R0MT",
+      "footprint": "IND-SMD_L4.4-W4.2",
+      "value": "1uH",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://item.szlcsc.com/397734.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C8545",
+      "refs": [
+        "Q1",
+        "Q3"
+      ],
+      "mpn": "2N7002",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C8545.html",
+      "libraryMpn": "2N7002",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "1个N沟道 耐压:60V 电流:115mA",
+          "library": "N沟道 60V 115mA"
+        },
+        "Manufacturer": {
+          "instance": "CJ(江苏长电/长晶)",
+          "library": "CJ（江苏长电/长晶）"
+        },
+        "Supplier Footprint": {
+          "instance": "SOT-23",
+          "library": "SOT-23(SOT-23-3)"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/2N7002/9040.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20170302/1488422688078.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "65262e964a954b63a27fe858d18f82a0"
+        },
+        "Designator": {
+          "instance": "Q1",
+          "library": "Q?"
+        },
+        "Footprint": {
+          "instance": "420f07ee53e2eb3d",
+          "library": "bdad16194d454cb292a50525f39c3ffd"
+        },
+        "3D Model": {
+          "instance": "c62791f0466c4ae2a892c056b845b0ca|0819f05c4eef4c71ace90d822a990e87",
+          "library": "c62791f0466c4ae2a892c056b845b0ca"
+        },
+        "Drain Source Voltage (Vdss)": {
+          "instance": null,
+          "library": "60V"
+        },
+        "Continuous Drain Current (Id)": {
+          "instance": null,
+          "library": "115mA"
+        },
+        "Power Dissipation (Pd)": {
+          "instance": null,
+          "library": "200mW"
+        },
+        "Drain Source On Resistance (RDS(on)@Vgs,Id)": {
+          "instance": null,
+          "library": "7.5Ω@10V,500mA"
+        },
+        "Gate Threshold Voltage (Vgs(th)@Id)": {
+          "instance": null,
+          "library": "2.5V@250μA"
+        },
+        "Name": {
+          "instance": "2N7002",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C2143",
+      "refs": [
+        "Q2"
+      ],
+      "mpn": "MMBT3906 2A(RANGE:100-300)",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C2143.html",
+      "libraryMpn": "MMBT3906 2A",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "hfe=100~300 PNP 电流:0.2A 电压:40V",
+          "library": "MMBT3906 2A 100-300 100-300"
+        },
+        "Manufacturer": {
+          "instance": "CJ(江苏长电/长晶)",
+          "library": "CJ（江苏长电/长晶）"
+        },
+        "Manufacturer Part": {
+          "instance": "MMBT3906 2A(RANGE:100-300)",
+          "library": "MMBT3906 2A"
+        },
+        "Supplier Footprint": {
+          "instance": "SOT-23",
+          "library": "SOT-23(SOT-23-3)"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/MMBT3906%25202A(RANGE%253A100-300)/2500.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20140809/1457707209152.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "fe6b456a778844d58258c8e73fe15843"
+        },
+        "Designator": {
+          "instance": "Q2",
+          "library": "Q?"
+        },
+        "Footprint": {
+          "instance": "420f07ee53e2eb3d",
+          "library": "bdad16194d454cb292a50525f39c3ffd"
+        },
+        "3D Model": {
+          "instance": "c62791f0466c4ae2a892c056b845b0ca|0819f05c4eef4c71ace90d822a990e87",
+          "library": "c62791f0466c4ae2a892c056b845b0ca"
+        },
+        "Transistor Type": {
+          "instance": null,
+          "library": "PNP"
+        },
+        "Collector-Emitter Breakdown Voltage (Vceo)": {
+          "instance": null,
+          "library": "40V"
+        },
+        "Collector Current (Ic)": {
+          "instance": null,
+          "library": "200mA"
+        },
+        "Power Dissipation (Pd)": {
+          "instance": null,
+          "library": "200mW"
+        },
+        "Collector-Emitter Saturation Voltage (VCE(sat)@Ic,Ib)": {
+          "instance": null,
+          "library": "300mV@50mA,5mA"
+        },
+        "DC Current Gain (hFE@Ic,Vce)": {
+          "instance": null,
+          "library": "100@10mA,1V"
+        },
+        "Transition Frequency (fT)": {
+          "instance": null,
+          "library": "300MHz"
+        },
+        "Operating Temperature": {
+          "instance": "-55℃~+150℃",
+          "library": "+150℃@(Tj)"
+        },
+        "Name": {
+          "instance": "MMBT3906 2A(RANGE:100-300)",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C22849",
+      "refs": [
+        "R1"
+      ],
+      "mpn": "0603WAF1781T5E",
+      "footprint": "R0603",
+      "value": "1.78kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C22849.html",
+      "libraryMpn": "0603WAF1781T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "厚膜电阻 1.78kΩ ±1%",
+          "library": "1.78KΩ ±1%"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF1781T5E/23576.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C22849_1505900950119982241.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "ed8e54b74d234afa8270074d155e27ed"
+        },
+        "Designator": {
+          "instance": "R1",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Power(Watts)": {
+          "instance": "100mW",
+          "library": "1/10W"
+        },
+        "Overload Voltage (Max)": {
+          "instance": null,
+          "library": "75V"
+        },
+        "Operating Temperature Range": {
+          "instance": null,
+          "library": "-55℃~+155℃"
+        },
+        "Name": {
+          "instance": "1.78kΩ",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C4177",
+      "refs": [
+        "R2"
+      ],
+      "mpn": "0603WAF1801T5E",
+      "footprint": "R0603",
+      "value": "1.8kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C4177.html",
+      "libraryMpn": "0603WAF1801T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "厚膜电阻 1.8kΩ ±1%",
+          "library": "1.8KΩ(1801) ±1% 编带"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF1801T5E/4584.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C4177_1505887494985980651.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "85a752982d0b4c1f925cc571ccef756f"
+        },
+        "Designator": {
+          "instance": "R2",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Name": {
+          "instance": "1.8kΩ",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C23237",
+      "refs": [
+        "R3"
+      ],
+      "mpn": "0603WAF7153T5E",
+      "footprint": "R0603",
+      "value": "715kΩ",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://item.szlcsc.com/23964.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C25803",
+      "refs": [
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R10",
+        "R16",
+        "R17",
+        "R18",
+        "R19"
+      ],
+      "mpn": "0603WAF1003T5E",
+      "footprint": "R0603",
+      "value": "100kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C25803.html",
+      "libraryMpn": "0603WAF1003T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "厚膜电阻 100kΩ ±1%",
+          "library": "100kΩ ±1% 100mW"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF1003T5E/26546.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "6d3562bdc96243ae97feaf073d2c8f4e"
+        },
+        "Designator": {
+          "instance": "R4",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Overload Voltage (Max)": {
+          "instance": null,
+          "library": "75V"
+        },
+        "Operating Temperature Range": {
+          "instance": null,
+          "library": "-55℃~+155℃"
+        },
+        "Name": {
+          "instance": "100kΩ",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C23239",
+      "refs": [
+        "R9"
+      ],
+      "mpn": "0603WAF7323T5E",
+      "footprint": "R0603",
+      "value": "732kΩ",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://item.szlcsc.com/23966.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C23024",
+      "refs": [
+        "R11",
+        "R12",
+        "R13"
+      ],
+      "mpn": "0603WAF3003T5E",
+      "footprint": "R0603",
+      "value": "300kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C23024.html",
+      "libraryMpn": "0603WAF3003T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "300kΩ ±1% 100mW 厚膜电阻",
+          "library": "300KΩ ±1%"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF3003T5E/23751.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C23024_1505901038798982411.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "e9dae0309479461cae835cdad632f508"
+        },
+        "Designator": {
+          "instance": "R11",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Power(Watts)": {
+          "instance": "100mW",
+          "library": "1/10W"
+        },
+        "Overload Voltage (Max)": {
+          "instance": null,
+          "library": "75V"
+        },
+        "Operating Temperature Range": {
+          "instance": null,
+          "library": "-55℃~+155℃"
+        },
+        "Name": {
+          "instance": "300kΩ",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C25804",
+      "refs": [
+        "R14",
+        "R15",
+        "R21",
+        "R24",
+        "R25",
+        "R26",
+        "R27",
+        "R28"
+      ],
+      "mpn": "0603WAF1002T5E",
+      "footprint": "R0603",
+      "value": "10kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C25804.html",
+      "libraryMpn": "0603WAF1002T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "厚膜电阻 10kΩ ±1% 100mW",
+          "library": "10kΩ ±1% 100mW"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "e23085a8f904493eb2ce369cbc1b267c"
+        },
+        "Designator": {
+          "instance": "R14",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Overload Voltage (Max)": {
+          "instance": null,
+          "library": "75V"
+        },
+        "Operating Temperature Range": {
+          "instance": null,
+          "library": "-55℃~+155℃"
+        },
+        "Name": {
+          "instance": "10kΩ",
+          "library": "={Value}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C23231",
+      "refs": [
+        "R20"
+      ],
+      "mpn": "0603WAF6802T5E",
+      "footprint": "R0603",
+      "value": "68kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C23231.html",
+      "libraryMpn": "0603WAF6802T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "68kΩ ±1% 100mW 厚膜电阻",
+          "library": "68KΩ(6802) ±1% 编带"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF6802T5E/23958.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C23231_1505901145876982612.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "c35565ef5fa14e11b86d00f8339d680f"
+        },
+        "Designator": {
+          "instance": "R20",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Name": {
+          "instance": "68kΩ",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C23162",
+      "refs": [
+        "R22",
+        "R23"
+      ],
+      "mpn": "0603WAF4701T5E",
+      "footprint": "R0603",
+      "value": "4.7kΩ",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C23162.html",
+      "libraryMpn": "0603WAF4701T5E",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "厚膜电阻 4.7kΩ ±1%",
+          "library": "4.7KΩ(4701) ±1% 编带"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/0603WAF4701T5E/23889.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C23162_1505901109673982545.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "f0d0fbaf53fd47efac1bc2b7375ab3ea"
+        },
+        "Designator": {
+          "instance": "R22",
+          "library": "R?"
+        },
+        "Footprint": {
+          "instance": "5aa4f04a6bc72ca3",
+          "library": "50b4943912284dab97752312e589e9e2"
+        },
+        "3D Model": {
+          "instance": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+          "library": "3281a289d46d4bb1877be1eabd090e13"
+        },
+        "3D Model Title": {
+          "instance": "R0603",
+          "library": "R0603_L1.6-W0.8-H0.8"
+        },
+        "3D Model Transform": {
+          "instance": "31.8897,63.7794,0,90,0,0,0,0,0",
+          "library": "62.992,31.496,0,0,0,0,0,0,0"
+        },
+        "Name": {
+          "instance": "4.7kΩ",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C318884",
+      "refs": [
+        "SW1",
+        "SW2"
+      ],
+      "mpn": "TS-1187A-B-A-B",
+      "footprint": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C318884.html",
+      "libraryMpn": "TS-1187A-B-A-B",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "5.1*5.1*1.5mm 立贴 轻触开关",
+          "library": "5.1*5.1*1.5 防水金属头160gf"
+        },
+        "Manufacturer": {
+          "instance": "XKB Connection(中国星坤)",
+          "library": "XKB Connectivity(中国星坤)"
+        },
+        "Supplier Footprint": {
+          "instance": "SMD-4P,5.1x5.1mm",
+          "library": "SMD"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/TS-1187A-B-A-B/299976.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20200227/C318884_1F20165719E1C4CAA3E10C4C359C6E26.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "491952e4d57b4ee4a524a485d9ced403"
+        },
+        "Designator": {
+          "instance": "SW1",
+          "library": "SW?"
+        },
+        "Footprint": {
+          "instance": "bf3c9b3102ad4c64",
+          "library": "3c61b670999c46a681a73fcd202b796e"
+        },
+        "3D Model": {
+          "instance": "56992f66d31b474c84a0c3bd0a81f82f|0819f05c4eef4c71ace90d822a990e87",
+          "library": "7a632f3c85934343b45d425e5b3b2c36"
+        },
+        "3D Model Title": {
+          "instance": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+          "library": "SW-SMD_4P-L5.2-W5.2-H1.5-LS6.4-P3.70"
+        },
+        "3D Model Transform": {
+          "instance": "255.905,204.76337,0,0,0,0,0,0,0",
+          "library": "251.968,204.724,0,0,0,0,0,-0.001,0"
+        },
+        "Voltage Rating (DC)": {
+          "instance": null,
+          "library": "12V"
+        },
+        "Insulation Resistance": {
+          "instance": null,
+          "library": "100mΩ"
+        },
+        "Mounting Style": {
+          "instance": null,
+          "library": "立贴"
+        },
+        "Operating Force": {
+          "instance": "1.6N",
+          "library": "160gf"
+        },
+        "Mechanical Life": {
+          "instance": null,
+          "library": "100000"
+        },
+        "Switch Length": {
+          "instance": null,
+          "library": "5.1mm"
+        },
+        "Switch Width": {
+          "instance": null,
+          "library": "5.1mm"
+        },
+        "Strike Gundam": {
+          "instance": null,
+          "library": "否"
+        },
+        "Name": {
+          "instance": "TS-1187A-B-A-B",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C54313",
+      "refs": [
+        "U1"
+      ],
+      "mpn": "BQ24074RGTR",
+      "footprint": "QFN-16_L3.0-W3.0-P0.50-TL-EP1.7",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C54313.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C919459",
+      "refs": [
+        "U2"
+      ],
+      "mpn": "TPS61023DRLR",
+      "footprint": "SOT-563_L1.6-W1.2-P0.50-LS1.6-BR",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C919459.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C79401",
+      "refs": [
+        "U3"
+      ],
+      "mpn": "MAX16054AZT+T",
+      "footprint": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-TL",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C79401.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C19653",
+      "refs": [
+        "U4"
+      ],
+      "mpn": "TPS3808G01DBVR",
+      "footprint": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C19653.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C132554",
+      "refs": [
+        "U5"
+      ],
+      "mpn": "TUSB320LAIRWBR",
+      "footprint": "X2QFN-12_L1.6-W1.6-P0.40-TL",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C132554.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C51118",
+      "refs": [
+        "U6",
+        "U8"
+      ],
+      "mpn": "AP2112K-3.3TRG1",
+      "footprint": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C51118.html",
+      "libraryMpn": "AP2112K-3.3TRG1",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "3.3V 600mA 6V",
+          "library": "Vin=6V Vout=3.3V 600mA 65dB@(100Hz,1kHz)"
+        },
+        "Supplier Footprint": {
+          "instance": "SOT-25-5",
+          "library": "SOT-25"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/AP2112K-3.3TRG1/52131.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20171221/C51118_15138312998391195590.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "5a7d9ffd1060435ba9921de5b7db9ef8"
+        },
+        "Designator": {
+          "instance": "U6",
+          "library": "U?"
+        },
+        "Footprint": {
+          "instance": "dbf6b629cde46ba9",
+          "library": "cdeb687a45224c4d89d5a789e2f4f2f8"
+        },
+        "3D Model": {
+          "instance": "c0f94ce67e934acfa3fe33a5b88e2836|0819f05c4eef4c71ace90d822a990e87",
+          "library": "2af5e521bdd54ca3a4af644424b5a864"
+        },
+        "3D Model Title": {
+          "instance": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+          "library": "SOT-25-5_L3.0-W1.6-H1.3-LS2.8-P0.95"
+        },
+        "3D Model Transform": {
+          "instance": "114.173,110.236,0,0,0,0,0,0,0",
+          "library": "110.7,118.1,0,180,0,0,-2.5,2.5,0"
+        },
+        "Output Polarity": {
+          "instance": null,
+          "library": "正"
+        },
+        "Maximum Input Voltage": {
+          "instance": null,
+          "library": "6V"
+        },
+        "Dropout Voltage": {
+          "instance": null,
+          "library": "400mV@(600mA)"
+        },
+        "Power Supply Rejection Ratio (PRSS)": {
+          "instance": null,
+          "library": "65dB@(100Hz,1kHz)"
+        },
+        "Name": {
+          "instance": "AP2112K-3.3TRG1",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    },
+    {
+      "supplierPart": "C128396",
+      "refs": [
+        "U7"
+      ],
+      "mpn": "TS3USB221ARSER",
+      "footprint": "UQFN-10_L2.0-W1.5-P0.50-BL",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C128396.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C5190383",
+      "refs": [
+        "U9"
+      ],
+      "mpn": "SC18IM704PWJ",
+      "footprint": "TSSOP-16_L5.0-W4.4-P0.65-LS6.4-BL",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C5190383.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C2682616",
+      "refs": [
+        "U10"
+      ],
+      "mpn": "MAX17048G+T10",
+      "footprint": "TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C2682616.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C2856798",
+      "refs": [
+        "J2"
+      ],
+      "mpn": "FPC-05F-10PH20",
+      "footprint": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
+      "value": "",
+      "evidence": "Supplier public product identity independently read; library search did not return exact ID",
+      "url": "https://www.lcsc.com/product-detail/C2856798.html",
+      "libraryMpn": null,
+      "libraryDifferences": null
+    },
+    {
+      "supplierPart": "C131337",
+      "refs": [
+        "J3"
+      ],
+      "mpn": "B2B-PH-K-S(LF)(SN)",
+      "footprint": "CONN-TH_B2B-PH-K-S",
+      "value": "",
+      "evidence": "Exact supplier ID returned by read-only library search",
+      "url": "https://www.lcsc.com/product-detail/C131337.html",
+      "libraryMpn": "B2B-PH-K-S(LF)(SN)",
+      "libraryDifferences": {
+        "LCSC Part Name": {
+          "instance": "1x2P 间距:2mm 直插 系列:PH",
+          "library": "B2B-PH-K-S(LF)(SN)"
+        },
+        "Datasheet": {
+          "instance": "https://item.szlcsc.com/datasheet/B2B-PH-K-S(LF)(SN)/142630.html",
+          "library": "https://atta.szlcsc.com/upload/public/pdf/source/20171026/C131337_15089839672461058811.pdf"
+        },
+        "Symbol": {
+          "instance": null,
+          "library": "31c9d3a2a1f04ca093e0635399f8b6dc"
+        },
+        "Designator": {
+          "instance": "J3",
+          "library": "CN?"
+        },
+        "Footprint": {
+          "instance": "7ce0217ca3d16eb3",
+          "library": "76edb65a696e4774927c1b090230312a"
+        },
+        "3D Model": {
+          "instance": "007589569b7e4f74b269bfb3c7ed3cc5|0819f05c4eef4c71ace90d822a990e87",
+          "library": "8f6597c354734a188d803e769ef5de47"
+        },
+        "3D Model Transform": {
+          "instance": "236.25937,181.102,0,180,0,0,0,23.622,-137.795",
+          "library": "236.2,181.1,0,180,0,0,0,23.6,-137.8"
+        },
+        "Mounting Style": {
+          "instance": null,
+          "library": "-"
+        },
+        "Name": {
+          "instance": "B2B-PH-K-S(LF)(SN)",
+          "library": "={Manufacturer Part}"
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Native warnings remain; API does not expose per-field triggering causes.",
+    "Supplier stock and reservations were not audited; no current stock guarantee.",
+    "The same C number may have updated descriptions, URLs, property names or footprint revisions; geometry was independently reviewed."
+  ]
+}

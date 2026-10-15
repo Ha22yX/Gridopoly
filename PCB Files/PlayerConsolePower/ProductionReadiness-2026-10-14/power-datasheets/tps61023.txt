@@ -1,0 +1,1344 @@
+PAGE 1
+TPS61023 3.7-A Boost Converter with 0.5-V Ultra-low Input Voltage
+1 Features
+• Input voltage range: 0.5 V to 5.5 V
+• 1.8-V Minimum input voltage for start-up
+• Output voltage setting range: 2.2 V to 5.5 V
+• Two 47-mΩ (LS) / 68-mΩ (HS) MOSFETs
+• 3.7-A Valley switching current limit
+• 94% Efficiency at V IN = 3.6 V, VOUT = 5 V and IOUT
+= 1.5 A
+• 1-MHz Switching frequency when V IN > 1.5 V and
+0.5-MHz switching frequency when VIN < 1 V
+• Typical 0.1-µA shutdown current from V IN and SW
+• ±2.5% Reference voltage accuracy over –40°C to
++125°C
+• Auto PFM operation mode at light load
+• Pass-through mode when V IN > VOUT
+• True disconnection between input and output
+during shutdown
+• Output overvoltage and thermal shutdown
+protections
+• Output short-circuit protection
+• 1.2-mm × 1.6-mm SOT563 (DRL) 6-pin package
+2 Applications
+• Electronic shelf label
+• Video doorbell
+• Remote controller
+3 Description
+TPS61023 device is a synchronous boost converter
+with 0.5-V ultra-low input voltage. The device provides
+a power supply solution for portable equipment and
+smart devices powered by various batteries and super
+capacitors. The TPS61023 has typical 3.7-A valley
+switch current limit over full temperature range. With a
+wide input voltage range of 0.5 V to 5.5 V, the
+TPS61023 supports super capacitor backup power
+applications, which may deeply discharge the super
+capacitor.
+The TPS61023 operates at 1-MHz switching
+frequency when the input voltage is above 1.5 V. The
+switching frequency decreases gradually to 0.5 MHz
+when the input voltage is below 1.5 V down to 1 V.
+The TPS61023 enters power-save mode at light load
+condition to maintain high efficiency over the entire
+load current range. The TPS61023 consumes a 20-
+µA quiescent current from VOUT in light load condition.
+During shutdown, the TPS61023 is completely
+disconnected from the input power and only
+consumes a 0.1-µA current to achieve long battery
+life. The TPS61023 has 5.7-V output overvoltage
+protection, output short circuit protection, and thermal
+shutdown protection.
+The TPS61023 offers a very small solution size with
+1.2-mm × 1.6-mm SOT563 (DRL) package and
+minimum amount of external components.
+Device Information
+PART NUMBER PACKAGE
+(1)
+BODY SIZE (NOM)
+TPS61023 SOT563 (6) 1.20 mm × 1.60 mm
+(1) For all available packages, see the orderable addendum at
+the end of the data sheet.
+VIN
+EN
+SW
+VOUT
+FB
+GND
+L1
+R1
+R2OFF
+ON
+C1
+C2
+VIN : 0.5 V ~ 5.5 V
+1 µH
+TPS61023
+VOUT : 2.2 V ~ 5.5 V
+Typical Application Circuit
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 1
+Product Folder Links: TPS61023
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+An IMPORTANT NOTICE at the end of this data sheet addresses availability, warranty, changes, use in safety-critical applications,
+intellectual property matters and other important disclaimers. PRODUCTION DATA.
+PAGE 2
+Table of Contents
+1 Features............................................................................1
+2 Applications.....................................................................1
+3 Description.......................................................................1
+4 Revision History.............................................................. 2
+5 Pin Configuration and Functions...................................3
+Pin Functions.................................................................... 3
+6 Specifications.................................................................. 4
+6.1 Absolute Maximum Ratings........................................ 4
+6.2 ESD Ratings............................................................... 4
+6.3 Recommended Operating Conditions.........................4
+6.4 Thermal Information....................................................4
+6.5 Electrical Characteristics.............................................5
+6.6 Typical Characteristics................................................6
+7 Detailed Description........................................................8
+7.1 Overview.....................................................................8
+7.2 Functional Block Diagram...........................................8
+7.3 Feature Description.....................................................9
+7.4 Device Functional Modes..........................................10
+8 Application and Implementation..................................12
+8.1 Application Information............................................. 12
+8.2 Typical Application....................................................12
+9 Power Supply Recommendations................................17
+10 Layout...........................................................................18
+10.1 Layout Guidelines................................................... 18
+10.2 Layout Example...................................................... 18
+10.3 Thermal Considerations..........................................19
+11 Device and Documentation Support..........................20
+11.1 Device Support........................................................20
+11.2 Receiving Notification of Documentation Updates..20
+11.3 Support Resources................................................. 20
+11.4 Trademarks.............................................................20
+11.5 Electrostatic Discharge Caution..............................20
+11.6 Glossary..................................................................20
+12 Mechanical, Packaging, and Orderable
+Information.................................................................... 20
+12.1 Package Option Addendum....................................21
+12.2 Tape and Reel Information......................................23
+4 Revision History
+NOTE: Page numbers for previous revisions may differ from page numbers in the current version.
+Changes from Revision A (October 2019) to Revision B (August 2020) Page
+• Updated the numbering format for tables, figures and cross-references throughout the document................... 1
+• Changed unit in Figure 6-6 to μA........................................................................................................................6
+• Changed 80 mA to 800 mA in Figure 8-7 ........................................................................................................ 16
+Changes from Revision * (September 2019) to Revision A (October 2019) Page
+• Changed Product Status to Production Data for Production release ................................................................. 1
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+2 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 3
+5 Pin Configuration and Functions
+FB VOUT
+EN
+VIN
+SW
+GND
+Figure 5-1. DRL Package 6-Pin SOT563 Top View
+Pin Functions
+PIN
+I/O DESCRIPTION
+NO. NAME
+1 FB I Voltage feedback of adjustable output voltage
+2 EN I Enable logic input. Logic high voltage enables the device. Logic low voltage disables the
+device and turns it into shutdown mode.
+3 VIN I IC power supply input
+4 GND PWR Ground pin of the IC
+5 SW PWR The switch pin of the converter. It is connected to the drain of the internal low-side power
+MOSFET and the source of the internal high-side power MOSFET.
+6 VOUT PWR Boost converter output
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 3
+Product Folder Links: TPS61023
+PAGE 4
+6 Specifications
+6.1 Absolute Maximum Ratings
+over operating free-air temperature range (unless otherwise noted)(1)
+MIN MAX UNIT
+Voltage range at terminals(2)
+VIN, EN, FB, SW, VOUT –0.3 7 V
+SW spike at 10ns –0.7 8 V
+SW spike at 1ns –0.7 9 V
+Operating junction temperature, TJ –40 150 °C
+Storage temperature, Tstg –65 150 °C
+(1) Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings
+only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under
+Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device
+reliability.
+(2) All voltage values are with respect to network ground terminal.
+6.2 ESD Ratings
+VALUE UNIT
+V(ESD) Electrostatic discharge
+Human-body model (HBM), per ANSI/ESDA/JEDEC JS-001(1) ±2000
+V
+Charged-device model (CDM), per JEDEC specification JESD22-C101(2) ±500
+(1) JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with
+less than 500-V HBM is possible with the necessary precautions. Pins listed as ±2000 V may actually have higher performance.
+(2) JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with
+less than 250-V CDM is possible with the necessary precautions. Pins listed as ±500 V may actually have higher performance.
+6.3 Recommended Operating Conditions
+over operating free-air temperature range (unless otherwise noted)
+MIN NOM MAX UNIT
+VIN Input voltage range 0.5 5.5 V
+VOUT Output voltage setting range 2.2 5.5 V
+L Effective inductance range 0.37 1.0 2.9 µH
+CIN Effective input capacitance range 1.0 4.7 µF
+COUT Effective output capacitance range 4 10 1000 µF
+TJ Operating junction temperature –40 125 °C
+6.4 Thermal Information
+THERMAL METRIC(1)
+TPS61023 TPS61023
+UNITDRL (SOT563) - 6 PINS DRL (SOT563) - 6 PINS
+Standard EVM(2)
+RθJA Junction-to-ambient thermal resistance 142.7 91.4 °C/W
+RθJC Junction-to-case thermal resistance 55.7 N/A °C/W
+RθJB Junction-to-board thermal resistance 31.0 N/A °C/W
+ΨJT Junction-to-top characterization parameter 1.4 5.3 °C/W
+ΨJB Junction-to-board characterization parameter 30.7 38.1 °C/W
+(1) For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application
+report.
+(2) Measured on TPS61023EVM, 4-layer, 2oz copper 50mm×38mm PCB.
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+4 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 5
+6.5 Electrical Characteristics
+TJ = –40°C to 125°C, VIN = 3.6 V and VOUT = 5.0 V. Typical values are at TJ = 25°C (unless otherwise noted)
+PARAMETER TEST CONDITIONS MIN TYP MAX UNIT
+POWER SUPPLY
+VIN Input voltage range 0.5 5.5 V
+VIN_UVLO Under-voltage lockout threshold
+VIN rising 1.7 1.8 V
+VIN falling 0.4 0.5 V
+IQ
+Quiescent current into VIN pin
+IC enabled, No load, No switching VIN =
+1.8 V to 5.5 V, VFB = VREF + 0.1 V, TJ up
+to 85°C
+0.9 3.0 µA
+Quiescent current into VOUT pin
+IC enabled, No load, No switching VOUT =
+2.2 V to 5.5 V, VFB = VREF + 0.1 V, TJ up
+to 85°C
+20 30 µA
+ISD Shutdown current into VIN and SW pin IC disabled, VIN = VSW = 3.6 V, TJ = 25°C 0.1 0.2 µA
+OUTPUT
+VOUT Output voltage setting range 2.2 5.5 V
+VREF Reference voltage at the FB pin
+PWM mode 580 595 610 mV
+PFM mode 585 601 mV
+VOVP Output over-voltage protection threshold VOUT rising 5.5 5.7 6.0 V
+VOVP_HYS Over-voltage protection hysteresis 0.1 V
+IFB_LKG Leakage current at FB pin
+TJ = 25°C 4 20 nA
+TJ = 125°C 6 nA
+IVOUT_LKG Leakage current into VOUT pin IC disabled, VIN = 0 V, VSW = 0 V, VOUT =
+5.5 V, TJ = 25°C 1 3 µA
+tSS Soft startup time
+From active EN to VOUT regulation.
+VIN = 2.5 V, VOUT = 5.0 V, COUT_EFF =
+10μF, IOUT = 0
+700 μs
+POWER SWITCH
+RDS(on)
+High-side MOSFET on resistance VOUT = 5.0 V 68 mΩ
+Low-side MOSFET on resistance VOUT = 5.0 V 47 mΩ
+fSW Switching frequency
+VIN = 3.6 V, VOUT = 5.0 V, PWM mode 1.0 MHz
+VIN = 1.0 V, VOUT = 5.0 V, PWM mode 0.5 MHz
+tON_min Minimum on time 40 96 130 ns
+tOFF_min Minimum off time 80 120 ns
+ILIM_SW Valley current limit VIN = 3.6 V, VOUT = 5.0 V 2.7 3.7 A
+ILIM_CHG Pre-charge current
+VIN = 1.8 - 5.5 V, VOUT < 0.4 V 200 350 mA
+VIN = 2.4 V, VOUT = 2.15 V 750 1200 mA
+LOGIC INTERFACE
+VEN_H EN logic high threshold VIN > 1.8 V or VOUT > 2.2 V 1.2
+V
+VEN_L EN logic low threshold VIN > 1.8 V or VOUT > 2.2 V 0.35 0.42 0.45
+PROTECTION
+TSD Thermal shutdown threshold TJ rising 150 °C
+TSD_HYS Thermal shutdown hysteresis TJ falling below TSD 20 °C
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 5
+Product Folder Links: TPS61023
+PAGE 6
+6.6 Typical Characteristics
+VIN = 3.6 V, VOUT = 5 V, TJ = 25°C, unless otherwise noted
+Output Current (A)
+Efficiency (%)
+0.0001 0.001 0.01 0.05 0.2 0.5 1 2
+50
+55
+60
+65
+70
+75
+80
+85
+90
+95
+100
+effi
+VIN=1.8 V
+VIN=3.0 V
+VIN=3.6 V
+VIN=4.2 V
+VIN = 1.8 V, 3.0 V, 3.6 V, 4.2 V; VOUT = 5 V
+Figure 6-1. Load Efficiency With Different Input
+Output Current (A)
+Efficiency (%)
+0.0001 0.001 0.01 0.05 0.2 0.5 1 2
+50
+55
+60
+65
+70
+75
+80
+85
+90
+95
+100
+effi
+VOUT=2.2V
+VOUT=3.6V
+VOUT=5V
+VIN = 1.8 V; VOUT = 2.2 V, 3.6 V, 5 V
+Figure 6-2. Load Efficiency With Different Output
+Output Current (A)
+Output Voltage (V)
+0.0001 0.001 0.01 0.05 0.2 0.5 1 2
+4.95
+5
+5.05
+5.1
+5.15
+regu
+VIN=1.8V
+VIN=3.0V
+VIN=3.6V
+VIN=4.2V
+VIN = 1.8 V, 3.0 V, 3.6 V, 4.2 V; VOUT = 5 V
+Figure 6-3. Load Regulation
+Output Voltage (V)
+Precharge Current (A)
+0 0.5 1 1.5 2 2.5 3 3.5
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+2
+prec
+VIN = 3.6 V; VOUT = 0.1 V to 3.3 V
+Figure 6-4. Pre-charge Current vs Output Voltage
+Temperature (qC)
+Reference Voltage (mV)
+-60 -30 0 30 60 90 120 150
+593
+594
+595
+596
+597
+598
+refe
+VIN = 3.6 V; VOUT = 5 V, TJ = –40°C to +125°C
+Figure 6-5. Reference Voltage vs Temperature
+Temperature (qC)
+Quiescent Current (PA)
+-60 -30 0 30 60 90 120 150
+0
+0.25
+0.5
+0.75
+1
+1.25
+iqVi
+VIN=1.8V
+VIN=3.6V
+VIN=4.5V
+VIN = 1.8 V, 3.6 V 4.5 V; VOUT = 5 V, TJ = –40°C to +125°C, No
+switching
+Figure 6-6. Quiescent Current into VIN vs
+Temperature
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+6 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 7
+Temperature (qC)
+Quiescent Current (PA)
+-40 -20 0 20 40 60 80 100 120 140
+16
+16.5
+17
+17.5
+18
+18.5
+19
+19.5
+20
+20.5
+21
+21.5
+22
+iqVo
+VOUT=2.2V
+VOUT=3.6V
+VOUT=5V
+VIN = 1.8 V; VOUT = 2.2 V, 3.6 V, 5 V, TJ = –40°C to +125°C, No
+switching
+Figure 6-7. Quiescent Current into VOUT vs
+Temperature
+Temperature (qC)
+Shutdown Current (PA)
+-40 -20 0 20 40 60 80 100 120 140
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+1.1
+shut
+VIN=1.8V
+VIN=3.6V
+VIN=4.5V
+VIN=5V
+VIN = VSW = 1.8 V, 3.6 V, 4.5 V, 5 V; VOUT = 0 V; TJ = –40°C to
++125°C
+Figure 6-8. Shutdown Current vs Temperature
+Input Voltage (V)
+Frequency (kHz)
+0.5 1 1.5 2 2.5 3 3.5 4 4.5
+500
+550
+600
+650
+700
+750
+800
+850
+900
+950
+1000
+1050
+freq
+VIN = 0.5 V to 4.5 V; VOUT = 5 V
+Figure 6-9. Switching Frequency vs Input Voltage
+Temperature (qC)
+Voltage (V)
+-40 -20 0 20 40 60 80 100 120 140
+0.69
+0.72
+0.75
+0.78
+0.81
+0.84
+0.87
+0.9
+0.93
+0.96
+0.99
+enri
+VIN=1.8V
+VIN=2.4V
+VIN=3.6V
+VIN=4.5V
+VIN = 1.8 V, 2.4 V, 3.6 V, 4.5 V; VOUT = 0 V; TJ = –40°C to
++125°C
+Figure 6-10. EN Rising Threshold vs Temperature
+Temperature (qC)
+Voltage (V)
+-40 -20 0 20 40 60 80 100 120 140
+0.35
+0.375
+0.4
+0.425
+0.45
+0.475
+enfa
+VIN=1.8V
+VIN=2.4V
+VIN=3.6V
+VIN=4.5V
+VIN = 1.8 V, 2.4 V, 3.6 V, 4.5 V; VOUT = 0 V; TJ = –40°C to +125°C
+Figure 6-11. EN Falling Threshold vs Temperature
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 7
+Product Folder Links: TPS61023
+PAGE 8
+7 Detailed Description
+7.1 Overview
+The TPS61023 synchronous step-up converter is designed to operate from an input voltage supply range
+between 0.5 V and 5.5 V with 3.7-A (typical) valley switch current limit. The TPS61023 typically operates at a
+quasi-constant frequency pulse width modulation (PWM) at moderate to heavy load currents. The switching
+frequency is 1 MHz when the input voltage is above 1.5 V. The switching frequency reduces down to 0.5 MHz
+gradually when the input voltage goes down from 1.5 V to 1 V and keeps at 0.5 MHz when the input voltage is
+below 1 V. At light load conditions, the TPS61023 converter operates in power-save mode with pulse frequency
+modulation (PFM). During PWM operation, the converter uses adaptive constant on-time valley current mode
+control scheme to achieve excellent line regulation and load regulation and allows the use of a small inductor
+and ceramic capacitors. Internal loop compensation simplifies the design process while minimizing the number
+of external components.
+7.2 Functional Block Diagram
+Thermal 
+Shutdown
+Undervoltage 
+Lockout
+Gate Driver
+PWM Control
+Over Voltage 
+Protection & 
+Short Circuit 
+Protection
+6
+5
+3
+Logic
+2
+EA
+SW
+EN
+FB
+VOUTVIN
+VREF
+1
+Valley Current 
+Sense
+4 GND
+Soft StartupVOUT
+VOUTVIN
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+8 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 9
+7.3 Feature Description
+7.3.1 Undervoltage Lockout
+The TPS61023 has a built-in undervoltage lockout (UVLO) circuit to ensure the device working properly. When
+the input voltage is above the UVLO rising threshold of 1.8 V, the TPS61023 can be enabled to boost the output
+voltage. After the TPS61023 starts up and the output voltage is above 2.2 V, the TPS61023 works with input
+voltage as low as 0.5 V.
+7.3.2 Enable and Soft Start
+When the input voltage is above the UVLO rising threshold and the EN pin is pulled to a voltage above 1.2 V, the
+TPS61023 is enabled and starts up. At the beginning, the TPS61023 charges the output capacitors with a
+current of about 350 mA when the output voltage is below 0.4 V. When the output voltage is charged above 0.4
+V, the output current is changed to having output current capability to drive the 2- Ω resistance load. After the
+output voltage reaches the input voltage, the TPS61023 starts switching, and the output voltage ramps up
+further. The typical start-up time is 700 µs accounting from EN high to output reaching target voltage for the
+application with input voltage is 2.5 V, output voltage is 5 V, output effective capacitance is 10 µF, and no load.
+When the voltage at the EN pin is below 0.4 V, the internal enable comparator turns the device into shutdown
+mode. In the shutdown mode, the device is entirely turned off. The output is disconnected from input power
+supply.
+7.3.3 Switching Frequency
+The TPS61023 switches at a quasi-constant 1-MHz frequency when the input voltage is above 1.5 V. When the
+input voltage is lower than 1.5 V, the switching frequency is reduced gradually to 0.5 MHz to improve the
+efficiency and get higher boost ratio. When the input voltage is below 1 V, the switching frequency is fixed at a
+quasi-constant 0.5 MHz.
+7.3.4 Current Limit Operation
+The TPS61023 uses a valley current limit sensing scheme. Current limit detection occurs during the off-time by
+sensing of the voltage drop across the synchronous rectifier.
+When the load current is increased such that the inductor current is above the current limit within the whole
+switching cycle time, the off-time is increased to allow the inductor current to decrease to this threshold before
+the next on-time begins (so called frequency foldback mechanism). When the current limit is reached, the output
+voltage decreases during further load increase.
+The maximum continuous output current (I OUT(LC)), before entering current limit (CL) operation, can be defined
+by Equation 1.
+   OUT(CL) LIM L P P
+1I 1 D I I 2 
+§ ·   u  '¨ ¸ 
+© ¹ 
+(1)
+where
+• D is the duty cycle
+• ΔI L(P-P) is the inductor ripple current
+The duty cycle can be estimated by Equation 2.
+IN
+OUT
+VD 1 V
+uK  
+(2)
+where
+• V OUT is the output voltage of the boost converter
+• V IN is the input voltage of the boost converter
+• η is the efficiency of the converter, use 90% for most applications
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 9
+Product Folder Links: TPS61023
+PAGE 10
+The peak-to-peak inductor ripple current is calculated by Equation 3.
+ 
+IN
+L P P
+SW
+V D I L f 
+u'  u
+(3)
+where
+• L is the inductance value of the inductor
+• f SW is the switching frequency
+• D is the duty cycle
+• V IN is the input voltage of the boost converter
+7.3.5 Pass-Through Operation
+When the input voltage is higher than the setting output voltage, the output voltage is higher than the target
+regulation voltage. When the output voltage is 101% of the setting target voltage, the TPS61023 stops switching
+and fully turns on the high-side PMOS FET. The device works in pass-through mode. The output voltage is the
+input voltage minus the voltage drop across the DCR of the inductor and the R DS(on) of the PMOS FET. When
+the output voltage drops below the 97% of the setting target voltage as the input voltage declines or the load
+current increases, the TPS61023 resumes switching again to regulate the output voltage.
+7.3.6 Overvoltage Protection
+The TPS61023 has an output overvoltage protection (OVP) to protect the device if the external feedback resistor
+divider is wrongly populated. When the output voltage is above 5.7 V typically, the device stops switching. Once
+the output voltage falls 0.1 V below the OVP threshold, the device resumes operating again.
+7.3.7 Output Short-to-Ground Protection
+The TPS61023 starts to limit the output current when the output voltage is below 1.8 V. The lower the output
+voltage reaches, the smaller the output current is. When the VOUT pin is short to ground, and the output voltage
+becomes less than 0.4 V, the output current is limited to approximately 350 mA. Once the short circuit is
+released, the TPS61023 goes through the soft start-up again to the regulated output voltage.
+7.3.8 Thermal Shutdown
+The TPS61023 goes into thermal shutdown once the junction temperature exceeds 150°C. When the junction
+temperature drops below the thermal shutdown recovery temperature, typically 130°C, the device starts
+operating again.
+7.4 Device Functional Modes
+The TPS61023 has two switching operation modes, PWM mode in moderate to heavy load conditions and power
+save mode with pulse frequency modulation (PFM) in light load conditions.
+7.4.1 PWM Mode
+The TPS61023 uses a quasi-constant 1.0-MHz frequency pulse width modulation (PWM) at moderate to heavy
+load current. Based on the input voltage to output voltage ratio, a circuit predicts the required on-time. At the
+beginning of the switching cycle, the NMOS switching FET. The input voltage is applied across the inductor and
+the inductor current ramps up. In this phase, the output capacitor is discharged by the load current. When the
+on-time expires, the main switch NMOS FET is turned off, and the rectifier PMOS FET is turned on. The inductor
+transfers its stored energy to replenish the output capacitor and supply the load. The inductor current declines
+because the output voltage is higher than the input voltage. When the inductor current hits the valley current
+threshold determined by the output of the error amplifier, the next switching cycle starts again.
+The TPS61023 has a built-in compensation circuit that can accommodate a wide range of input voltage, output
+voltage, inductor value, and output capacitor value for stable operation.
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+10 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 11
+7.4.2 Power-Save Mode
+The TPS61023 integrates a power-save mode with PFM to improve efficiency at light load. When the load
+current decreases, the inductor valley current set by the output of the error amplifier no longer regulates the
+output voltage. When the inductor valley current hits the low limit, the output voltage exceeds the setting voltage
+as the load current decreases further. When the FB voltage hits the PFM reference voltage, the TPS61023 goes
+into the power-save mode. In the power-save mode, when the FB voltage rises and hits the PFM reference
+voltage, the device continues switching for several cycles because of the delay time of the internal comparator
+— then it stops switching. The load is supplied by the output capacitor, and the output voltage declines. When
+the FB voltage falls below the PFM reference voltage, after the delay time of the comparator, the device starts
+switching again to ramp up the output voltage.
+Output 
+Voltage
+VOUT_NOM
+1.01 x VOUT_NOM
+PFM mode at light load
+PWM mode at heavy load
+Figure 7-1. Output Voltage in PWM Mode and PFM Mode
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 11
+Product Folder Links: TPS61023
+PAGE 12
+8 Application and Implementation
+Note
+Information in the following applications sections is not part of the TI component specification, and TI
+does not warrant its accuracy or completeness. TI’s customers are responsible for determining
+suitability of components for their purposes. Customers should validate and test their design
+implementation to confirm system functionality.
+8.1 Application Information
+The TPS61023 is a synchronous boost converter designed to operate from an input voltage supply range
+between 0.5 V and 5.5 V with a typically 3.7-A valley switch current limit. The TPS61023 typically operates at a
+quasi-constant 1-MHz frequency PWM at moderate-to-heavy load currents when the input voltage is above 1.5
+V. The switching frequency changes to 0.5 MHz gradually with the input voltage changing from 1.5 V to 1 V for
+better efficiency and high step-up ratio. When the input voltage is below 1 V, the switching frequency is fixed at a
+quasi-constant 0.5 MHz. At light load currents, the TPS61023 converter operates in power-save mode with PFM
+to achieve high efficiency over the entire load current range.
+8.2 Typical Application
+The TPS61023 provides a power supply solution for portable devices powered by batteries or backup
+applications powered by super-capacitors. With typical 3.7-A switch current capability, the TPS61023 can output
+5 V and 1.5 A from a single-cell Li-ion battery.
+VIN
+EN
+SW
+VOUT
+FB
+GND
+L1
+R1
+R2OFF
+ON
+C1
+C2
+2.7 V to 4.35 V
+1 µH
+TPS61023
+5 V
+10 µF 
+2 x 22 µF
+100 k 
+732 k 
+Figure 8-1. Li-ion Battery to 5-V Boost Converter
+8.2.1 Design Requirements
+The design parameters are listed in Table 8-1.
+Table 8-1. Design Parameters
+PARAMETERS VALUES
+Input voltage 2.7 V to 4.35 V
+Output voltage 5 V
+Output current 1.5 A
+Output voltage ripple ±50 mV
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+12 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 13
+8.2.2 Detailed Design Procedure
+8.2.2.1 Setting the Output Voltage
+The output voltage is set by an external resistor divider (R1, R2 in Figure 8-1 ). When the output voltage is
+regulated, the typical voltage at the FB pin is VREF. Thus the resistor divider is determined by Equation 4.
+OUT
+REF
+VR1 1 R2V
+§ ·   u¨ ¸ 
+© ¹ 
+(4)
+where
+• V OUT is the regulated output voltage
+• V REF is the internal reference voltage at the FB pin
+For the best accuracy, should be kept R2 smaller than 300 k Ω to ensure the current flowing through R2 is at
+least 100 times larger than the FB pin leakage current. Changing R2 towards a lower value increases the
+immunity against noise injection. Changing the R2 towards a higher value reduces the quiescent current for
+achieving highest efficiency at low load currents.
+8.2.2.2 Inductor Selection
+Because the selection of the inductor affects steady-state operation, transient behavior, and loop stability. The
+inductor is the most important component in power regulator design. There are three important inductor
+specifications, inductor value, saturation current, and dc resistance (DCR).
+The TPS61023 is designed to work with inductor values between 0.37 µH and 2.9 µH. Follow Equation 5  to
+Equation 7 to calculate the inductor peak current for the application. To calculate the current in the worst case,
+use the minimum input voltage, maximum output voltage, and maximum load current of the application. To have
+enough design margins, choose the inductor value with –30% tolerances, and low power-conversion efficiency
+for the calculation.
+In a boost regulator, the inductor dc current can be calculated by Equation 5.
+ 
+OUT OUT
+L DC
+IN
+V I I V
+u uK
+(5)
+where
+• V OUT is the output voltage of the boost converter
+• I OUT is the output current of the boost converter
+• V IN is the input voltage of the boost converter
+• η is the power conversion efficiency, use 90% for most applications
+The inductor ripple current is calculated by Equation 6.
+ 
+IN
+L P P
+SW
+V D I L f 
+u'  u
+(6)
+where
+• D is the duty cycle, which can be calculated by Equation 2
+• L is the inductance value of the inductor
+• f SW is the switching frequency
+• V IN is the input voltage of the boost converter
+Therefore, the inductor peak current is calculated by Equation 7.
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 13
+Product Folder Links: TPS61023
+PAGE 14
+   
+ L P P
+L P L DC
+I
+I I 2
+'
+  
+(7)
+Normally, it is advisable to work with an inductor peak-to-peak current of less than 40% of the average inductor
+current for maximum output current. A smaller ripple from a larger valued inductor reduces the magnetic
+hysteresis losses in the inductor and EMI. But in the same way, load transient response time is increased. The
+saturation current of the inductor must be higher than the calculated peak inductor current. Table 8-2 lists the
+recommended inductors for the TPS61023.
+Table 8-2. Recommended Inductors for the TPS61023
+PART NUMBER
+(1)
+L (µH) DCR MAX
+(mΩ)
+SATURATION CURRENT
+(A) SIZE (LxWxH) VENDOR
+XEL4030-102ME 1 9.78 9.0 4.0 × 4.0 × 3.1 Coilcraft
+74438357010 1 13.5 9.6 4.1 x 4.1 x 3.1 Wurth Elecktronik
+HBME042A-1R0MS-99 1 11.5 7.0 4.1 x 4.1 x 2.1 Cyntec
+(1) See Third-party Products disclaimer
+8.2.2.3 Output Capacitor Selection
+The output capacitor is mainly selected to meet the requirements for output ripple and loop stability. The ripple
+voltage is related to capacitor capacitance and its equivalent series resistance (ESR). Assuming a ceramic
+capacitor with zero ESR, the minimum capacitance needed for a given ripple voltage can be calculated by
+Equation 8.
+OUT MAX
+OUT
+SW RIPPLE
+I D C f V 
+u u
+(8)
+where
+• D MAX is the maximum switching duty cycle
+• V RIPPLE is the peak-to-peak output ripple voltage
+• I OUT is the maximum output current
+• f SW is the switching frequency
+The ESR impact on the output ripple must be considered if tantalum or aluminum electrolytic capacitors are
+used. The output peak-to-peak ripple voltage caused by the ESR of the output capacitors can be calculated by
+Equation 9.
+RIPPLE(ESR) L(P) ESRV I R  u 
+(9)
+Take care when evaluating the derating of a ceramic capacitor under dc bias voltage, aging, and ac signal. For
+example, the dc bias voltage can significantly reduce capacitance. A ceramic capacitor can lose more than 50%
+of its capacitance at its rated voltage. Therefore, always leave margin on the voltage rating to ensure adequate
+capacitance at the required output voltage. Increasing the output capacitor makes the output ripple voltage
+smaller in PWM mode.
+TI recommends using the X5R or X7R ceramic output capacitor in the range of 4- μF to 1000- μF effective
+capacitance. The output capacitor affects the small signal control loop stability of the boost regulator. If the
+output capacitor is below the range, the boost regulator can potentially become unstable. Increasing the output
+capacitor makes the output ripple voltage smaller in PWM mode.
+8.2.2.4 Loop Stability, Feedforward Capacitor Selection
+When the switching waveform shows large duty cycle jitter or the output voltage or inductor current shows
+oscillations, the regulation loop can be unstable.
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+14 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 15
+The load transient response is another approach to check the loop stability. During the load transient recovery
+time, VOUT can be monitored for settling time, overshoot or ringing that helps judge the stability of the converters.
+Without any ringing, the loop has usually more than 45° of phase margin.
+A feedforward capacitor (C3 in the Figure 8-2) in parallel with R1 induces a pair of zero and pole in the loop
+transfer function. By setting the proper zero frequency, the feedforward capacitor can increase the phase margin
+to improve the loop stability. For large output capacitance more than 40 μF application, TI recommends a
+feedforward capacitor to set the zero frequency (f FFZ) to 1 kHz. As for the input voltage lower than 1-V
+application, TI recommends to use the effective output capacitance is about 100 µF and set the zero frequency
+(fFFZ) to 1 kHz. The value of the feedforward capacitor can be calculated by Equation 10.
+FFZ
+1C3 2 f R1 Su u
+(10)
+where
+• R1 is the resistor between the VOUT pin and FB pin
+• f FFZ is the zero frequency created by the feedforward capacitor
+VIN
+EN
+SW
+VOUT
+FB
+GND
+L1
+R1
+R2OFF
+ON
+C1
+C2
+VIN : 0.5 V ~ 5.5 V
+1 µH
+TPS61023
+VOUT : 2.2 V ~ 5.5 V
+C3
+Figure 8-2. TPS61023 Circuit With Feedforward Capacitor
+8.2.2.5 Input Capacitor Selection
+Multilayer X5R or X7R ceramic capacitors are excellent choices for the input decoupling of the step-up converter
+as they have extremely low ESR and are available in small footprints. Input capacitors must be located as close
+as possible to the device. While a 10- μF input capacitor is sufficient for most applications, larger values may be
+used to reduce input current ripple without limitations. Take care when using only ceramic input capacitors.
+When a ceramic capacitor is used at the input and the power is being supplied through long wires, a load step at
+the output can induce ringing at the VIN pin. This ringing can couple to the output and be mistaken as loop
+instability or could even damage the part. In this circumstance, place additional bulk capacitance (tantalum or
+aluminum electrolytic capacitor) between ceramic input capacitor and the power source to reduce ringing that
+can occur between the inductance of the power source leads and ceramic input capacitor.
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 15
+Product Folder Links: TPS61023
+PAGE 16
+8.2.3 Application Curves
+Vout(5V offset)
+20mV/div
+Inductor Current
+1A/div
+Time Scale: 500ns/div
+SW
+2.0V/div
+VIN = 3.6 V, VOUT = 5 V, IOUT = 1 A
+Figure 8-3. Switching Waveform at Heavy Load
+Vout(5V offset)
+50mV/div
+Inductor Current
+500mA/div
+Time Scale: 5.0s/div
+SW
+2.0V/div
+VIN = 3.6 V, VOUT = 5 V, IOUT = 50 mA
+Figure 8-4. Switching Waveform at Light Load
+EN
+2.0V/div
+Inductor Current
+500mA/div
+Time Scale: 100µs/div
+Vout
+2.0V/div
+VIN = 3.6 V, VOUT = 5 V, 5-Ω resistance load
+Figure 8-5. Start-up Waveform
+EN
+2.0V/div
+Inductor Current
+500mA/div
+Time Scale: 5.0µs/div
+Vout
+2.0V/div
+VIN = 3.6 V, VOUT = 5 V, 5-Ω resistance load
+Figure 8-6. Shutdown Waveform
+Vout  (5V offset)
+500mV/div
+Output Current
+500mA/div
+Time Scale: 50µs/div
+VIN = 3.6 V, VOUT = 5 V, IOUT = 800 mA to 1.5 A with 20-μs slew
+rate
+Figure 8-7. Load Transient
+Vout  (5V offset)
+200mV/div
+Input Voltage
+1V/div
+Time Scale: 200µs/div
+VIN = 2.7 V to 4.35 V with 20-μs slew rate, VOUT = 5 V
+IOUT = 1 A
+Figure 8-8. Line Transient
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+16 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 17
+Vout (5V offset)
+100 mV/div
+Time Scale: 500µs/div
+Output Current
+500m A/div
+VIN = 3.6 V, VOUT = 5 V, IOUT = 0 A to 1.5 A Sweep
+Figure 8-9. Load Sweep
+Vin
+1.0 V/div
+Vout (5V offset)
+100 mV/div
+Time Scale: 10ms/div
+Inductor Current
+2.0 A/div
+VIN = 0 V to 4.35 V Sweep, VOUT = 5 V, 5-Ω resistance load
+Figure 8-10. Line Sweep
+Vout
+2.0 V/div
+SW
+2.0 V/div
+Time Scale: 5.0µs/div
+Inductor Current
+1.0 A/div
+VIN = 3.6 V, VOUT = 5 V, IOUT = 1 A
+Figure 8-11. Output Short Protection (Entry)
+Vout
+2.0 V/div
+SW
+2.0 V/div
+Time Scale: 100µs/div
+Inductor Current
+1.0 A/div
+VIN = 3.6 V, VOUT = 5 V, IOUT = 1 A
+Figure 8-12. Output Short Protection (Recover)
+9 Power Supply Recommendations
+The device is designed to operate from an input voltage supply range between 0.5 V to 5.5 V. This input supply
+must be well regulated. If the input supply is located more than a few inches from the converter, additional bulk
+capacitance may be required in addition to the ceramic bypass capacitors. A typical choice is a tantalum or
+aluminum electrolytic capacitor with a value of 100 µF. Output current of the input power supply must be rated
+according to the supply voltage, output voltage, and output current of the TPS61023.
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 17
+Product Folder Links: TPS61023
+PAGE 18
+10 Layout
+10.1 Layout Guidelines
+As for all switching power supplies, especially those running at high switching frequency and high currents,
+layout is an important design step. If the layout is not carefully done, the regulator could suffer from instability
+and noise problems. To maximize efficiency, switch rise and fall time are very fast. To prevent radiation of high
+frequency noise (for example, EMI), proper layout of the high-frequency switching path is essential. Minimize the
+length and area of all traces connected to the SW pin, and always use a ground plane under the switching
+regulator to minimize interplane coupling. The input capacitor needs not only to be close to the VIN pin, but also
+to the GND pin in order to reduce input supply ripple.
+The most critical current path for all boost converters is from the switching FET, through the rectifier FET, then
+the output capacitors, and back to ground of the switching FET. This high current path contains nanosecond rise
+and fall time and must be kept as short as possible. Therefore, the output capacitor not only must be close to the
+VOUT pin, but also to the GND pin to reduce the overshoot at the SW pin and VOUT pin.
+For better thermal performance, TI suggest to make copper polygon connected with each pin bigger.
+10.2 Layout Example
+FB
+EN
+VIN
+VOUT
+SW
+GND
+GND
+GND
+VIN
+GND
+VOUT
+Figure 10-1. Layout Example
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+18 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 19
+10.3 Thermal Considerations
+Restrict the maximum IC junction temperature to 125°C under normal operating conditions. Calculate the
+maximum allowable dissipation, PD(max), and keep the actual power dissipation less than or equal to P D(max). The
+maximum-power-dissipation limit is determined using Equation 11.
+ 
+A
+D max
+JA
+125 TP RT
+ 
+(11)
+where
+• T A is the maximum ambient temperature for the application
+• R θJA is the junction-to-ambient thermal resistance given in Thermal Information
+The TPS61023 comes in a SOT563 package. The real junction-to-ambient thermal resistance of the package
+greatly depends on the PCB type, layout. Using larger and thicker PCB copper for the power pads (GND, SW,
+and VOUT) to enhance the thermal performance. Using more vias connects the ground plate on the top layer
+and bottom layer around the IC without solder mask also improves the thermal capability.
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 19
+Product Folder Links: TPS61023
+PAGE 20
+11 Device and Documentation Support
+11.1 Device Support
+11.1.1 Third-Party Products Disclaimer
+TI'S PUBLICATION OF INFORMATION REGARDING THIRD-PARTY PRODUCTS OR SERVICES DOES NOT
+CONSTITUTE AN ENDORSEMENT REGARDING THE SUITABILITY OF SUCH PRODUCTS OR SERVICES
+OR A WARRANTY, REPRESENTATION OR ENDORSEMENT OF SUCH PRODUCTS OR SERVICES, EITHER
+ALONE OR IN COMBINATION WITH ANY TI PRODUCT OR SERVICE.
+11.2 Receiving Notification of Documentation Updates
+To receive notification of documentation updates, navigate to the device product folder on ti.com. Click on
+Subscribe to updates  to register and receive a weekly digest of any product information that has changed. For
+change details, review the revision history included in any revised document.
+11.3 Support Resources
+TI E2E ™ support forums  are an engineer's go-to source for fast, verified answers and design help — straight
+from the experts. Search existing answers or ask your own question to get the quick design help you need.
+Linked content is provided "AS IS" by the respective contributors. They do not constitute TI specifications and do
+not necessarily reflect TI's views; see TI's Terms of Use.
+11.4 Trademarks
+TI E2E™ is a trademark of Texas Instruments.
+All trademarks are the property of their respective owners.
+11.5 Electrostatic Discharge Caution
+This integrated circuit can be damaged by ESD. Texas Instruments recommends that all integrated circuits be handled
+with appropriate precautions. Failure to observe proper handling and installation procedures can cause damage.
+ESD damage can range from subtle performance degradation to complete device failure. Precision integrated circuits may
+be more susceptible to damage because very small parametric changes could cause the device not to meet its published
+specifications.
+11.6 Glossary
+TI Glossary This glossary lists and explains terms, acronyms, and definitions.
+12 Mechanical, Packaging, and Orderable Information
+The following pages include mechanical, packaging, and orderable information. This information is the most
+current data available for the designated devices. This data is subject to change without notice and revision of
+this document. For browser-based versions of this data sheet, refer to the left-hand navigation.
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+20 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 21
+12.1 Package Option Addendum
+Packaging Information
+Orderable
+Device
+Status(1) Package Type Package
+Drawing
+Pins Package Qty Eco Plan(2) Lead/Ball Finish(6) MSL Peak Temp(3) Op Temp (°C) Device Marking(4) (5)
+TPS61023DRLR ACTIVE SOT-5X3 DRL 6 4000 Green (RoHS &
+no Sb/Br)
+Call TISN Level-1-260-
+UNLIM
+-40 to 125 1GI
+1. The marketing status values are defined as follows:
+ACTIVE: Product device recommended for new designs.
+LIFEBUY: TI has announced that the device will be discontinued, and a lifetime-buy period is in effect.
+NRND: Not recommended for new designs. Device is in production to support existing customers, but TI does not recommend using this part in a new
+design.
+PRE_PROD Unannounced device, not in production, not available for mass market, nor on the web, samples not available.
+PREVIEW: Device has been announced but is not in production. Samples may or may not be available.
+OBSOLETE: TI has discontinued the production of the device.
+2. Eco Plan - The planned eco-friendly classification: Pb-Free (RoHS), Pb-Free (RoHS Exempt), or Green (RoHS & no Sb/Br) - please check
+www.ti.com/productcontent for the latest availability information and additional product content details.
+TBD: The Pb-Free/Green conversion plan has not been defined.
+Pb-Free (RoHS): TI's terms "Lead-Free" or "Pb-Free" mean semiconductor products that are compatible with the current RoHS requirements for all 6
+substances, including the requirement that lead not exceed 0.1% by weight in homogeneous materials. Where designed to be soldered at high
+temperatures, TI Pb-Free products are suitable for use in specified lead-free processes.
+Pb-Free (RoHS Exempt): This component has a RoHS exemption for either 1) lead-based flip-chip solder bumps used between the die and package,
+or 2) lead-based die adhesive used between the die and leadframe. The component is otherwise considered Pb-Free (RoHS compatible) as defined
+above.
+Green (RoHS & no Sb/Br): TI defines "Green" to mean Pb-Free (RoHS compatible), and free of Bromine (Br) and Antimony (Sb) based flame
+retardants (Br or Sb do not exceed 0.1% by weight in homogeneous material).
+3. MSL, Peak Temp. -- The Moisture Sensitivity Level rating according to the JEDEC industry standard classifications, and peak solder temperature.
+4. There may be additional marking, which relates to the logo, the lot trace code information, or the environmental category on the device.
+5. Multiple Device markings will be inside parentheses. Only one Device Marking contained in parentheses and separated by a "~" will appear on a
+device. If a line is indented then it is a continuation of the previous line and the two combined represent the entire Device Marking for that device.
+6. Lead/Ball Finish - Orderable Devices may have multiple material finish options. Finish options are separated by a vertical ruled line. Lead/Ball Finish
+values may wrap to two lines if the finish value exceeds the maximum column width.
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 21
+Product Folder Links: TPS61023
+PAGE 22
+Important Information and Disclaimer: The information provided on this page represents TI's knowledge and belief as of the date that it is provided. TI bases its knowledge and belief
+on information provided by third parties, and makes no representation or warranty as to the accuracy of such information. Efforts are underway to better integrate information from third
+parties. TI has taken and continues to take reasonable steps to provide representative and accurate information but may not have conducted destructive testing or chemical analysis on
+incoming materials and chemicals. TI and TI suppliers consider certain information to be proprietary, and thus CAS numbers and other limited information may not be available for release.
+In no event shall TI's liability arising out of such information exceed the total purchase price of the TI part(s) at issue in this document sold by TI to Customer on an annual basis.
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+22 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 23
+12.2 Tape and Reel Information
+Reel Width (W1)
+REEL DIMENSIONS
+A0
+B0
+K0
+W
+Dimension designed to accommodate the component length
+Dimension designed to accommodate the component thickness
+Overall width of the carrier tape
+Pitch between successive cavity centers
+Dimension designed to accommodate the component width
+TAPE DIMENSIONS
+K0
+P1
+B0 W
+A0Cavity
+QUADRANT ASSIGNMENTS FOR PIN 1 ORIENTATION IN TAPE
+Pocket Quadrants
+Sprocket Holes
+Q1 Q1Q2 Q2
+Q3 Q3Q4 Q4
+Reel
+Diameter
+User Direction of Feed
+P1
+Device Package
+Type
+Package
+Drawing Pins SPQ
+Reel
+Diameter
+(mm)
+Reel
+Width W1
+(mm)
+A0
+(mm)
+B0
+(mm)
+K0
+(mm)
+P1
+(mm)
+W
+(mm)
+Pin1
+Quadrant
+TPS61023DRLR SOT-5X3 DRL 6 4000 180.0 8.4 2.0 1.8 0.75 4.0 8.0 Q3
+www.ti.com
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020
+Copyright © 2020 Texas Instruments Incorporated Submit Document Feedback 23
+Product Folder Links: TPS61023
+PAGE 24
+TAPE AND REEL BOX DIMENSIONS
+Width (mm)
+W L
+H
+Device Package Type Package Drawing Pins SPQ Length (mm) Width (mm) Height (mm)
+TPS61023DRLR SOT-5X3 DRL 6 4000 182.0 182.0 20.0
+TPS61023
+SLVSF14B – SEPTEMBER 2019 – REVISED AUGUST 2020 www.ti.com
+24 Submit Document Feedback Copyright © 2020 Texas Instruments Incorporated
+Product Folder Links: TPS61023
+PAGE 25
+www.ti.com
+PACKAGE OUTLINE
+1.7
+1.5
+4X 0.5
+2X 1
+6X 0.3
+0.1
+0.6 MAX
+6X 0.18
+0.08
+6X 0.4
+0.2
+0.05
+0.00 TYP
+6X 0.27
+0.15
+2X 0 -10
+2X 4 -15
+1.3
+1.1
+1.7
+1.5
+NOTE 3
+SOT - 0.6 mm max heightDRL0006A
+PLASTIC SMALL OUTLINE
+4223266/F   11/2024
+NOTES: 
+ 
+1. All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+    per ASME Y14.5M.
+2. This drawing is subject to change without notice.
+3. This dimension does not include mold flash, protrusions, or gate burrs. Mold flash, protrusions, or gate burrs shall not
+    exceed 0.15 mm per side.
+4. Reference JEDEC registration MO-293 Variation UAAD
+1 6
+PIN 1
+ID AREA
+3 4
+SEATING PLANE
+0.05 C
+SCALE  8.000
+0.1 C A B
+0.05 C
+SYMM
+SYMM
+A
+B
+C
+PAGE 26
+www.ti.com
+EXAMPLE BOARD LAYOUT
+0.05 MAX
+AROUND
+0.05 MIN
+AROUND
+6X (0.67)
+6X (0.3)
+(1.48)
+4X (0.5)
+(R0.05) TYP
+4223266/F   11/2024
+SOT - 0.6 mm max heightDRL0006A
+PLASTIC SMALL OUTLINE
+NOTES: (continued)
+ 
+5. Publication IPC-7351 may have alternate designs. 
+6. Solder mask tolerances between and around signal pads can vary based on board fabrication site.
+7. Land pattern design aligns to IPC-610, Bottom Termination Component (BTC) solder joint inspection criteria.
+SYMM
+LAND PATTERN EXAMPLE
+SCALE:30X
+SYMM
+1
+3 4
+6
+SOLDER MASK
+OPENING
+METAL UNDER
+SOLDER MASK
+SOLDER MASK
+DEFINED
+METALSOLDER MASK
+OPENING
+NON SOLDER MASK
+DEFINED
+(PREFERRED)
+SOLDERMASK DETAILS
+PAGE 27
+www.ti.com
+EXAMPLE STENCIL DESIGN
+(1.48)
+4X (0.5)
+6X (0.67)
+6X (0.3)
+(R0.05) TYP
+SOT - 0.6 mm max heightDRL0006A
+PLASTIC SMALL OUTLINE
+4223266/F   11/2024
+NOTES: (continued)
+ 
+8. Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+    design recommendations. 
+9. Board assembly site may have different recommendations for stencil design.
+ 
+SOLDER PASTE EXAMPLE
+BASED ON 0.1 mm THICK STENCIL
+SCALE:30X
+SYMM
+SYMM
+1
+3 4
+6
+PAGE 28
+IMPORTANT NOTICE AND DISCLAIMER
+TI PROVIDES TECHNICAL AND RELIABILITY DATA (INCLUDING DATASHEETS), DESIGN RESOURCES (INCLUDING REFERENCE 
+DESIGNS), APPLICATION OR OTHER DESIGN ADVICE, WEB TOOLS, SAFETY INFORMATION, AND OTHER RESOURCES “AS IS” 
+AND WITH ALL FAULTS, AND DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT LIMITATION ANY 
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OF THIRD 
+PARTY INTELLECTUAL PROPERTY RIGHTS.
+These resources are intended for skilled developers designing with TI products. You are solely responsible for (1) selecting the appropriate 
+TI products for your application, (2) designing, validating and testing your application, and (3) ensuring your application meets applicable 
+standards, and any other safety, security, regulatory or other requirements.
+These resources are subject to change without notice. TI grants you permission to use these resources only for development of an 
+application that uses the TI products described in the resource. Other reproduction and display of these resources is prohibited. No license 
+is granted to any other TI intellectual property right or to any third party intellectual property right. TI disclaims responsibility for, and you fully 
+indemnify TI and its representatives against any claims, damages, costs, losses, and liabilities arising out of your use of these resources.
+TI’s products are provided subject to TI’s Terms of Sale, TI’s General Quality Guidelines, or other applicable terms available either on 
+ti.com or provided in conjunction with such TI products. TI’s provision of these resources does not expand or otherwise alter TI’s applicable 
+warranties or warranty disclaimers for TI products. Unless TI explicitly designates a product as custom or customer-specified, TI products 
+are standard, catalog, general purpose devices.
+TI objects to and rejects any additional or different terms you may propose.
+IMPORTANT NOTICE
+Copyright © 2026, Texas Instruments Incorporated
+Last updated 10/2025

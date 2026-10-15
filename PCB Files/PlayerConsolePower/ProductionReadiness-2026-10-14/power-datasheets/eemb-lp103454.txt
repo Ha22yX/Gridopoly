@@ -1,0 +1,467 @@
+PAGE 1
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 1/9
+EEMB BATTERY
+Polymer Li-ion Battery
+Specification
+聚合物锂离子电池
+产品规格书
+Model 型号： LP103454
+Capacity 容量： 2000mAh
+Prepared 编制 Checked 审核 Approved 批准
+Customer 客户名称：
+Customer Approval（Customer confirmation）客户确认:
+Address：6/F, Block 110, Jindi Industrial Zone, Sha Tou Street, Futian District, Shenzhen, China
+Postal code: 518048
+Phone：+86-755-83022275 FAX：+86-755-83021966
+https://www.eemb.com
+PAGE 2
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 2/9
+Catalog
+Chapter Content Page
+0 Catalog………………………………………………………………………………………………… 2
+1 Scope………………………………………………………………………………………………… 3
+2 Battery Cell Basic Characteristics…………………………………………………………………… 3
+2.1 Model………………………………………………………………………………………………… 3
+2.2 Capacity……………………………………………………………………………………………… 3
+2.3 Nominal Voltage……………………………………………………………………………………… 3
+2.4 Weight………………………………………………………………………………………………… 3
+2.5 Internal Impedance…………………………………………………………………………………… 3
+2.6 Dimension……………………………………………………………………………………………… 3
+2.7 Charge………………………………………………………………………………………………… 3
+2.8 Discharge……………………………………………………………………………………………… 3
+2.9 Operation Temperature………………………………………………………………………………… 3
+2.10 Storage Temperature………………………………………………………………………………… 3
+2.11 Storage Relative Humidity…………………………………………………………………………… 3
+3 Battery Cell Shape and Dimensions…………………………………………………………………… 4
+4 Appearance…………………………………………………………………………………………… 4
+5 Battery Cell Specification……………………………………………………………………………… 4
+5.1 Electrical Characteristics……………………………………………………………………………… 4
+5.1.1 1C5A rate discharge capacity………………………………………………………………………… 4
+5.1.2 High temp. discharge capacity………………………………………………………………………… 4
+5.1.3 Low temp. discharge capacity………………………………………………………………………… 4
+5.1.4 Cycle Life……………………………………………………………………………………………… 5
+5.1.5 Capacity Retention…………………………………………………………………………………… 5
+5.2 Acclimatization Characteristics……………………………………………………………………… 5
+5.2.1 High Temp. and High Humidity ……………………………………………………………………… 5
+5.2.2 Vibration ……………………………………………………………………………………………… 5
+5.2.3 Drop…………………………………………………………………………………………………… 5
+5.2.4 Low-pressure………………………………………………………………………………………….. 5
+5.3 Safety Characteristics………………………………………………………………………………… 6
+5.3.1 Overcharge…………………………………………………………………………………………… 6
+5.3.2 Short-Circuit…………………………………………………………………………………………… 6
+5.3.3 Heating………………………………………………………………………………………………… 6
+5.3.4 Temperature cycle……………………………………………………………………………………... 6
+6 Spec of PCM…………………………………………………………………………………………… 6~7
+7 Battery Pack’s Dimension …………………………………………………………………………….. 8
+8 Battery Pack’s Shipping Standard……………..……………………………………………………… 8
+9 Warranty………………………………………………………………………………………………. 8
+10 Matters Needing Attention…………………………………………………………………………… 8~11
+PAGE 3
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 3/9
+1. Scope 适用范围
+This product specification defines the requirements of the rechargeable polymer lithium-ion battery
+supplied to the customer by EEMB Co., Ltd.
+本产品规格书适用于 EEMB 提供的聚合物锂离子电池。
+2. Battery Cell Basic Characteristics 电芯产品基本特性
+No. Item 项目 Characteristics 性能指标 Remark 备 注
+2.1 Model 型 号 LP103454
+2.2 Capacity
+容量
+Nominal 标称容量 2000 mAh 0.2C5A
+Minimum 最小容量 1900 mAh 0.2C5A
+2.3 Nominal Voltage 额定电压 3.7 V
+2.4 Weight 重 量 Approx. 40 g
+2.5 Internal Impedance 内 阻 ≤ 70 mΩ AC 1KHz(50% charge)
+2.6 Dimension
+外形尺寸
+Length 长 ≤ 56 mm
+Width 宽 ≤ 34.5 mm
+Thickness 主体厚 ≤ 10.3 mm
+2.7 Charge
+充 电
+Maximum Current
+最大充电电流 2000 mA 1C5A（CC&CV）
+Limited Voltage
+充电上限电压 4.200±0.020 V
+End-of Current
+充电截至电流 40 mA
+2.8 Discharge
+放 电
+Maximum Current
+最大放电电流 4000 mA 2.0C5A
+Cut-off Voltage
+放电终止电压 2.750±0.005 V
+2.9
+Operation
+Temperature
+工作温度
+Charge 充电温度 0 ~ 45 ℃ 0~20℃≤0.3C5A
+Discharge 放电温度 -20 ~ +60 ℃
+2.10
+Storage
+Temperature
+贮存温度
+1 month
+1 个月（贮存期） -20 ~ +60 ℃
+3 months
+3 个月（贮存期） -20 ~ +45 ℃
+12 months
+12 个月（贮存期） -20 ~ +25 ℃ *1
+2.11 Storage Relative Humidity
+贮存湿度 65 ± 20 %
+PAGE 4
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 4/9
+*1 Keep the cells in 40%-60% charged state during long period storage. We recommend to charge
+the battery every 3 months after receipt of the battery and maintain the voltage 3.7~4.0V. And store
+the battery in cool and dry place.
+电池在长时间储存的过程中保持带电量应在 40%-60%。我们建议每 3 个月进行一次充放维
+护，保持电压在 3.7~4.0V。将电池存储在阴凉干燥的地方。
+3. Battery Cell Shape and Dimensions（Unit：mm）
+产品外形及尺寸（单位：mm）
+M
+W
+L
++
+T
+-
+L2
+L1
+N
+4. Appearance 外观
+It shall be free from any defects such as remarkable scratches, breaks, cracks, discoloration, leakage, or
+middle deformation.
+电池表面无划伤、裂纹、脏点、锈蚀、变形、变色、漏液等缺陷，中间无翘起。
+5. Battery Cell Specification 电池性能测试规范
+5.1 Electrical Characteristics 电学性能
+No. Item 项目 Criteria 标准 Test Instructions 测试方法
+5.1.1
+High temp.
+discharge capacity
+高温性能
+Discharge Time≥54min
+放电时间≥54min
+Full charge at 23±2℃, store at 55±2℃ for 2h, then
+discharge at the same temperature with 1.0C5A to 2.75V.
+电池在 23±2℃完全充电后放入 55±2℃的高温箱中恒
+温 2h，然后在同一温度下以 1.0C5A 电流放电至 2.75V
+记录放电时间。
+5.1.2
+Low temp.
+discharge capacity
+低温性能
+Discharge Time≥4.25h
+放电时间≥4.25h
+Full charge at 23±2℃, store at -10℃±2℃ for 16h~24h,
+then discharge at the same temperature with 0.2C5A to
+2.75V.
+电池在 23±2℃完全充电后放入-10±2℃的低温箱中恒
+温 16~24h，然后在同一温度下以 0.2C5A 电流放电至
+Item 项目 Specification 规格
+T Max10.3
+W Max34.5
+L Max55
+L1 Max56
+L2 10±1
+M 15±1
+N 4±0.5
+PAGE 5
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 5/9
+2.75V 记录放电时间。
+5.1.3
+Cycle life
+循环寿命
+≥500 cycles（0.5C5A）
+≥500 次（0.5C5A）
+≥800 cycles（0.2C5A）
+≥800 次（0.2C5A）
+After full charge, rest for 10 min, then discharge at constant
+current to 2.75V, rest for 10 minutes. Repeat above steps
+until the two consecutive cycles of discharge time is less
+than the specified time.
+(500 cycles≥96min,800 cycles≥240min)
+电池完全充电后搁置 10min，然后以规定电流恒流放电
+至 2.75V，搁置 10min。重复上述步骤直到连续两次循环
+的放电时间均少于规定的时间时寿命即为终止。(500 次
+≥96min,800 次≥240min)
+5.1.4
+Capacity
+Retention
+荷电保持能力
+Discharge Time≥4.5 h
+放电时间≥4.5 h
+After full charge, store at 23±2℃for 28 days. Then
+discharge with 0.2C5A to 2.75V.
+电池完全充电后在温度为 23±2℃条件下将电池开路搁
+置 28 天后，以 0.2C5A 电流放电至 2.75V 记录放电时间。
+5.2 Acclimatization Characteristics 环境适应性能
+No. Item 项目 Criteria 标准 Test Instructions 测试方法
+5.2.1
+High Temp. And
+High Humidity
+恒定湿热性能
+No deformation, no rust, no
+fire or explosion;
+Discharge time ≥36min
+电池外观应无明显变形、锈
+蚀、冒烟或爆炸，放电时间
+应不低于 36 min。
+After full charge, store at 40℃  2℃(90%~95%RH) for
+48h. After test, place at 23℃  2℃ for 2h and then
+discharge with 1C5A to end-voltage.
+电池完全充电后在 40℃2℃，相对湿度为 90%~95%
+的恒温恒湿箱中搁置 48h 后，将电池取出在环境温度
+23℃2℃的条件下搁置 2h，然后 1C5A 电流放电至终
+止电压。
+5.2.2
+Vibration
+振动
+No damnification, leakage,
+no fire or explosion;
+Battery Voltage≥3.6V.
+电池外观应无明显损伤、漏
+液、冒烟或爆炸，电池电压
+应不低于 3.6V。
+Batteries are vibrated 30 min in three mutually
+perpendicular directions with amplitude of 0.38mm
+(10~30Hz) or 0.19mm (30~55Hz) and the scanning rate
+of 1oct per min.
+在三个相互垂直的方向按单振幅 0.38mm（振动频率
+10～30Hz）、0.19mm（振动频率 30～55Hz）循环扫
+描振动 30min，扫频速度为 1oct/min。
+5.2.3
+Drop
+自由跌落
+No leakage, no fire or
+explosion;
+Discharge Time≥51 min
+电池应不漏液、不冒烟、不
+爆炸；放电时间应不低于
+51 min。
+Batteries are dropped onto a hard board with the
+thickness of 18~20mm from 1meter from X, Y, Z
+direction of the positive and negative (six directions) and
+then discharge with 1C5A to end-voltage.
+电池由高度（最低点高度）为 1000mm 的位置自由跌
+落到置于水泥地面上的 18mm～20mm 厚的硬木板上，
+从 X、Y、Z 正负方向（六个方向）每个方向自由跌
+落 1 次。自由跌落结束后，将电池以 1C5A 电流放电
+至终止电压。
+5.2.4
+Low-pressure
+低气压
+No leakage, no fire or
+explosion.
+电池应不漏液、不起火、不
+爆炸。
+Put the batteries in a sealed vacuum and reduce internal
+pressure gradually to lower than 11.6 kpa. Keep for 6h.
+将电芯搁置在真空箱中，真空箱密封后，逐渐减少其
+内部压力至不高于 11.6kpa 并保持 6h。
+PAGE 6
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 6/9
+5.3 Safety Characteristics 安全性能
+No. Item 项目 Criteria 标准 Test Instructions 测试方法
+5.3.1
+Overcharge
+过充电
+No fire or explosion
+电池应不爆炸、不
+起火。
+Charged the cells at 3C5A current 23±2℃ with a voltage limit of
+4.8V and end the test when current drops close to 0 A.
+将接有热电偶的电池置于通风橱中，接正负极于恒流恒压源，
+调节电流至 3C5A、电压为 4.8V。然后对电池以 3C5A 充电，直
+至电池电压为 4.8V，当电流降到接近于 0A, 结束试验。
+5.3.2
+Short-Circuit
+短路
+No fire or explosion;
+The maximum
+Temperature: 150℃.
+电池不起火、不爆
+炸。电池外表面温
+度不超过 150℃。
+Place the battery with thermocouple into a fume hood, and
+short-circuit by connecting the positive and negative terminals
+(resistance load of 0.1Ω), monitoring the battery temperature
+changes in the course of test. End the test when the battery
+temperature drops to about 10℃ lower than peak value.
+将接有热电偶的电池置于通风橱中，短路其正负极（线路总电
+阻 100mΩ），试验过程中监视电池温度变化。当电池温度下降
+到比峰值低约 10℃时，结束试验。
+5.3.3
+Thermal
+abuse
+热滥用
+No fire or explosion
+电池应不起火、不
+爆炸。
+Cell is heated in a circulating air oven at a rate of (5±2)℃ per
+minute to130±2℃, and then placed for 30 minutes at 130±2℃.
+电池放置于热箱中，温度以（5±2℃）/min 的速率升至 130±2℃
+并保温 30min。
+5.3.4
+Temperature
+cycle
+温度循环
+No leakage, no fire
+or explosion.
+电池应不泄露，不
+起火，不爆炸。
+After full charge , place the battery in the temperature control box of
+23±2℃, do the following steps:
+⑴Put the battery into test chamber of 75℃2℃and keep for 6h.
+⑵Lower the temperature to -40±2℃ and keep for 6h.
+⑶Temperature conversion time is no longer than 30 min.
+⑷Repeat the above three steps for 10 cycles.
+将电池充满电后，将电池放置在温度为 23℃±2℃的温控箱中进
+行如下步骤：
+⑴将电池放入温度为 75℃±2℃的试验箱中中保持 6h。
+⑵将实验箱的温度降为-40℃±2℃，并保持 6h。
+⑶温度转换时间不大于 30min。
+⑷重复步骤⑴~⑶，共循环 10 次。
+Note: Unless otherwise specified, all tests stated in this specification are conducted at the following conditions:
+Temp. :23±2℃; Relative Humidity: 25%～85%.
+备注：除特别说明外，本产品规格书规定的测试条件为：温度 23±2℃，相对湿度 25%～85%。
+PAGE 7
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 7/9
+6. Battery Pack’s Shipping Standard 电池出货标准
+Voltage for Sea Shipment：3.83V~3.9V
+Internal Resistance：≤70mΩ
+电池海运出货电压：3.83V~3.9V
+电池内阻：≤70mΩ
+Voltage for Air Shipment：3.72V~3.78V
+Internal Resistance：≤70mΩ
+电池空运出货电压：3.72V~3.78V
+电池内阻：≤70mΩ
+7. Warranty 保质期
+6 months warranty for sample battery after date of production. One year warranty for finished battery after
+the date of production.
+样品电池保质期为（出厂之日起）半年；产品电池保质期为（出厂之日起）1 年。
+8. Matters Needing Attention 注意事项
+Strictly observe the following matters needing attention. EEMB will not be responsible for any accident
+occurred by handling outside of the precautions in this specification.
+您必须严格遵守下述电池使用注意事项。对于没有按照以下注意事项所造成的任何意外事故，EEMB
+不负担任何责任。
+! Danger 危险
+ Strictly prohibit heat or throw cell into fire.
+严禁把将电池投进火中或进行加热。
+ Strictly prohibit throw and wet cell in liquid such as water、gasoline or drink etc.
+严禁把电池投入液体中，如水、汽油、饮料等，也不要把电池弄湿。
+ Strictly prohibit use leave cell close to fire or inside of a car where temperature may be above 60℃.
+Also do not charge / discharge in such conditions.
+禁止在火源附近或温度超过 60℃的轿车中使用或遗留电池，也不要在这些环境中进行充放电。
+ Strictly prohibit put batteries in your pockets or a bag together with metal objects such as necklaces.
+Hairpins, coins, or screws. Do not store or transportation batteries with such objects.
+禁止把电池同项链、发夹、硬币或螺钉等金属品一起放在兜中或包中，也不要把电池同上述物
+品一起储存或运输。
+ Strictly prohibit short circuit the (+) and (-) terminals with other metals.
+禁止使用金属导体短路电池的正负极。
+ Do not place Cell in a device with the (+) and (-) in the wrong way around.
+在装入设备时注意电池的正负极不要反装。
+ Strictly prohibit pierce Cell with a sharp object such as a needle.
+禁止使用锐利的物品刺穿电池。
+ Strictly prohibit disassemble or modify the cell.
+PAGE 8
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 8/9
+禁止对电池进行分解。
+ Strictly prohibit welding a cell directly.
+禁止直接对电池进行焊接。
+ Do not use a Cell with serious scar or deformation.
+禁止使用已经损坏的电池。
+ Thoroughly read the user’s manual before use, inaccurate handling of lithium ion rechargeable cell
+may cause leakage, heat, smoke, an explosion, or fire, capacity decreasing.
+在使用之前请详细阅读操作说明书，不适当的操作可能引起电池变热、着火、爆炸、毁坏或电
+池容量的衰减。
+! Warning 警 告
+ Strictly prohibit put cell into a micro-ware oven, dryer, or high-pressure container.
+禁止把电池放加热器皿、洗衣机或高压容器中。
+ Strictly prohibit use cell with dry cells and other primary batteries, or new and old battery or batteries
+of a different package, type, or brand.
+禁止把电池同干电池或其它原电池或者新旧电池一起使用，也不要同不同包装、不同型号或不
+同品牌的电池一起使用。
+ Stop charging the Cell if charging is not completed within the specified time.
+如果在规定的充电时间内充电没有结束，停止充电。
+ Stop using the Cell if abnormal heat, odor, discoloration, deformation or abnormal condition is
+detected during use, charge, or storage.
+在使用、充电或储存期间如发现电池有变热、散发气味、变色、变形或其它反常之处停止使用。
+ Keep away from fire immediately when leakage or foul odor is detected.
+当发现电池漏液或散发出难闻的气味时立即远离。
+ If liquid leaks onto your skin or clothes, wash well with fresh water immediately.
+如果电解液渗漏到您的皮肤或衣服上，立刻用大量清水冲洗。
+ If liquid leaking from the Cell gets into your eyes, do not rub your eyes. Wash them well with clean
+edible oil and go to see a doctor immediately.
+如果电解液渗出并进入您的眼睛里，不要揉擦您的眼睛，立刻用食用油清洗眼睛并就医。
+! Caution 注 意
+ Before using the Cell, be sure to read the user’s manual and cautions on handling thoroughly.
+在使用电池之前，应详细阅读操作指南并对使用中的注意事项有足够深刻的理解。
+ Charging with specific charger according to product specification. Charge with CC/CV method.
+Strictly prohibit revered charging. Connect cell reverse will not charge the cell. At the same time, it
+will reduce the charge-discharge characteristics and safety characteristics; this will lead to product heat
+and leakage.
+充电时请使用指定的充电器并按照本规格书的要求进行充电。采用恒流恒压方式充电，禁止反
+向充电。若电池正负极接反，将无法对电芯进行充电；同时，反向充电会降低电芯的充放电性
+能和安全性，并会导致发热和泄漏。
+ Store batteries out of reach of children so that they are not accidentally swallowed.
+把电池放到小孩够不到的地方以免吞服。
+ If younger children use the Cell, their guardians should explain the proper handling.
+小孩使用电池时，监护人应详细解释操作方法。
+ Before using the Cell, be sure to read the user’s manual and cautions on handling thoroughly.
+PAGE 9
+Document Name Document No. Date Page
+LP103454
+Specification ZJQM-RD-SPC-H0486 2019-4-29 9/9
+在将电池装入设备或从设备中取出之前详细阅读设备操作手册。
+ Batteries have life cycles. If the time that the Cell powers equipment becomes much shorter than usual,
+the Cell life is at an end. Replace the Cell with a new same one.
+电池具有使用寿命，如果使用电池的设备的工作时间比平常少的多，请更换新电池。
+ When not using Cell for an extended period, remove it from the equipment and store in a place with
+low humidity and low temperature.
+当长期不用时，要将电池从设备中取出并放在低温低湿的环境中保存。
+ While the Cell pack is charged, used and stored, keep it away from objects or materials with static electric
+charges.
+电池应在远离静电的场所进行充电、使用和储存。
+ If the terminals of the Cell become dirty, wipe with a dry clothe before using the Cell.
+如果电池的接线端变脏，在使用之前用干布擦净。
+ Storage the cells in storage temperature range as the specifications. After full discharged, we suggest
+that charging to 3.7~4.0V.with no using for a long time.
+电芯应贮存在产品规格书规定的温度范围内，电芯放电放完后，如果长期不使用，建议充电至
+3.7~4.0V 贮存。
+ Battery should be charged and discharged every 3 months at 0.2 C during long term storage, and then
+charge to 40-60% of the capacity for storage.
+ 电池在长期贮存过程中，必须每 3 个月 0.2C 进行充放电一次，然后充电至 40-60%的容量进行贮
+存。
+ Do not exceed these ranges of the following temperature ranges：
+电池在使用和贮存时的温度不能超出下面的要求：
+Charge temperature range 充电 : 0℃ to 45℃;
+Discharge temperature range 放电 : -20℃ to 60℃.
+Store less than 1 month 贮存 1 个月 : -20℃ - +60℃
+Store less than 3 months 贮存 3 个月 : -20℃ - +45℃
+Store less than 1 year 贮存 12 个月 : -20℃ - +25℃
+! Special Notice 特别注意
+Keep the cells in 40%-60% charged state during long period storage. We recommend to charge the
+battery every 3 months after receipt of the battery and maintain the voltage 3.7~4.0V. And store the
+battery in cool and dry place.
+电池在长时间储存的过程中保持带电量应在 40%-60%。我们建议每 3 个月进行一次充放维
+护，保持电压在 3.7~4.0V。将电池存储在阴凉干燥的地方。
+EEMB reserves the final explanation. Please use battery strictly according to specification. EEMB will not be responsible for any
+inappropriate operation. EEMB keeps the right to change product specifications without previous notice. If any question, please
+consult with the manufacturer
+EEMB 保留最终解释权。请严格按照规范使用电池。EEMB 对任何不当操作将不负责。EEMB 保留修改产品规格书不另行通知
+的权利。如有任何问题,请咨询制造商。

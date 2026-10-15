@@ -1,0 +1,41 @@
+{
+  "charge_A": {
+    "nominal": 0.5,
+    "min": 0.4433196128601624,
+    "max": 0.5532856656452162
+  },
+  "input_limit_A": {
+    "nominal": 0.8944444444444445,
+    "min": 0.8250825082508251,
+    "max": 0.9652076318742986
+  },
+  "charge_timer_hours": {
+    "nominal": 9.066666666666666,
+    "min": 6.732,
+    "max": 11.446666666666667
+  },
+  "boost_PWM_V": {
+    "typical": 4.9504,
+    "reference_plus_resistor_min": 4.741528712871286,
+    "reference_plus_resistor_max": 5.165406060606061,
+    "FB_leakage_20nA_extra_max": 0.0147864
+  },
+  "undervoltage_SYS_RAW_V": {
+    "typical": 3.3007500000000003,
+    "min_with_reference_2pct_resistors_1pct_sense_25nA": 3.1604864975247526,
+    "max_with_reference_2pct_resistors_1pct_sense_25nA": 3.44448875
+  },
+  "sense_lowpass_time_ms_nominal": 0.8773006134969323,
+  "direct_input_capacitance_uF_nominal": 2.1,
+  "standby_resistor_current_at_3p7V_uA": {
+    "R7_Q1_when_UVhealthy": 37.00000000000001,
+    "R3_R4_divider": 4.539877300613497
+  },
+  "fresh_inputs_sha256": {
+    "PCB1-netlist.json": "7fee63bcac5412992a08d29fca70b60ab0c1b5f33aa76a67780f44741f8a7125",
+    "schematic-netlist.json": "d9e4665240d30dd23e839e6bb02fd68e9e5dcf05a7ec9245d7a2b428de0e7098",
+    "current-snapshot.json": "514525b69079c1752307edff7b40681068bd6d8691afb7db4ee0688ce93eb4a3",
+    "P1.source.jsonl": "708950ea96949d76a09205531487ba6222b38efb034461e8916f7b11e2a1f72e",
+    "P2.source.jsonl": "f07c80995ee3e26dc11f28b36ba5bf5510ea3442eee21887e80190b532a2a68b"
+  }
+}

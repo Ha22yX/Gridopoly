@@ -1,0 +1,1677 @@
+PAGE 1
+TPS3808 Low-Quiescent-Current, Programmable-Delay Supervisory Circuit
+1 Features
+• Power-on reset generator with adjustable delay 
+time: 1.25ms to 10s
+• Very low quiescent current: 2.4μA typical
+• High threshold accuracy: 0.5% typical
+• Fixed threshold voltages for standard voltage rails 
+from 0.9V to 5V and adjustable voltage down to 
+0.4V are available
+• Manual reset (MR) input
+• Open-drain RESET output
+• Temperature range: –40°C to 125°C
+• Small SOT-23 and 2mm × 2mm WSON packages
+2 Applications
+• DSP or microcontroller applications
+• Notebook and desktop computers
+• PDAs and handheld products
+• Portable and battery-powered products
+• FPGA and ASIC applications
+3 Description
+The TPS3808 family of microprocessor supervisory 
+circuits monitors system voltages from 0.4V to 5V, 
+asserting an open-drain RESET signal when the 
+SENSE voltage drops below a preset threshold 
+or when the manual reset ( MR) pin drops to a 
+logic low. The RESET output remains low for the 
+user-adjustable delay time after the SENSE voltage 
+and manual reset ( MR) return above the respective 
+thresholds.
+The TPS3808 device uses a precision reference to 
+achieve 0.5% threshold accuracy for V IT ≤ 3.3V. The 
+reset delay time can be set to 20ms by disconnecting 
+the C T pin, 300ms by connecting the C T pin to 
+VDD using a resistor, or can be user-adjusted from 
+1.25ms to 10s by connecting the C T pin to an external 
+capacitor. The TPS3808 device has a very low typical 
+quiescent current of 2.4 μA, so it is an excellent 
+choice for battery-powered applications. TPS3808 is 
+available in the SOT-23 and 2mm × 2mm WSON 
+packages, and is fully specified over a temperature 
+range from –40°C to 125°C (TJ).
+Package Information
+PART NUMBER PACKAGE(1) PACKAGE SIZE(2)
+TPS3808
+DBV (SOT-23, 6) 2.90mm × 1.60mm
+DRV (WSON, 6) 2.00mm × 2.00mm
+(1) For all available packages, see the orderable addendum at 
+the end of the datasheet.
+(2) The package size (length × width) is a nominal value and 
+includes pins, where applicable.
+1.2 V 3.3 V
+TPS3808G12 TPS3808G33 DSP
+SENSE V DDVDD SENSE VI/O VCORE
+GPIO
+GNDGNDGND
+RESET MR
+CTCT
+RESET
+Typical Application
+1.5 2.5 3.5 4.5 5.5 6.5
+4.0
+3.5
+3.0
+2.5
+2.0
+1.5
+V (V)DD
+I ( A)DD
+/c109
+/c45 40 C/c176
+25 C
+85 C
+125 C
+/c176
+/c176
+/c176
+Supply Current vs Supply Voltage
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+An IMPORTANT NOTICE at the end of this data sheet addresses availability, warranty, changes, use in safety-critical applications, 
+intellectual property matters and other important disclaimers. PRODUCTION DATA.
+PAGE 2
+Table of Contents
+1 Features............................................................................1
+2 Applications.....................................................................1
+3 Description.......................................................................1
+4 Device Comparison ........................................................3
+5 Pin Configuration and Functions...................................4
+6 Specifications.................................................................. 5
+6.1 Absolute Maximum Ratings........................................ 5
+6.2 ESD Ratings............................................................... 5
+6.3 Recommended Operating Conditions.........................5
+6.4 Thermal Information....................................................5
+6.5 Electrical Characteristics.............................................6
+6.6 Switching Characteristics............................................7
+6.7 Typical Characteristics................................................8
+7 Detailed Description......................................................10
+7.1 Overview...................................................................10
+7.2 Functional Block Diagram.........................................10
+7.3 Feature Description...................................................10
+7.4 Device Functional Modes..........................................12
+8 Application and Implementation..................................14
+8.1 Application Information............................................. 14
+8.2 Typical Application.................................................... 14
+8.3 Power Supply Recommendations.............................15
+8.4 Layout....................................................................... 15
+9 Device and Documentation Support............................17
+9.1 Device Support......................................................... 17
+9.2 Documentation Support............................................ 17
+9.3 Support Resources................................................... 17
+9.4 Trademarks...............................................................17
+9.5 Electrostatic Discharge Caution................................17
+9.6 Glossary....................................................................17
+10 Revision History.......................................................... 17
+11 Mechanical, Packaging, and Orderable 
+Information.................................................................... 18
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+2 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 3
+4 Device Comparison 
+The following table shows the nominal rail to be monitored and the corresponding threshold voltage of the 
+device.
+Table 4-1. Device Voltage Thresholds
+PART NUMBER NOMINAL SUPPLY VOLTAGE(1) THRESHOLD VOLTAGE (VIT)
+TPS3808G01 Adjustable 0.405V
+TPS3808G09 0.9V 0.84V
+TPS3808G12 1.2V 1.12V
+TPS3808G125 1.25V 1.16V
+TPS3808G15 1.5V 1.40V
+TPS3808G18 1.8V 1.67V
+TPS3808G19 1.9V 1.77V
+TPS3808G25 2.5V 2.33V
+TPS3808G30 3V 2.79V
+TPS3808G33 3.3V 3.07V
+TPS3808G50 5V 4.65V
+(1) Please contact TI for availability of other threshold options.
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 3
+Product Folder Links: TPS3808
+PAGE 4
+5 Pin Configuration and Functions
+1
+2
+3
+6
+5
+4
+RESET
+GND
+MR CT
+SENSE
+VDD
+Figure 5-1. DBV Package 6-Pin SOT-23 Top View 
+6
+5
+4
+1
+2
+3
+RESET
+GND
+MR
+CT
+SENSE
+VDD
+THERMAL
+PAD Figure 5-2. DRV Package 6-Pin (2.00mm × 2.00mm) 
+WSON With Thermal Pad Top View 
+Table 5-1. Pin Functions
+PIN
+TYPE(1) DESCRIPTION
+NAME SOT-23 WSON
+CT 4 3 I
+Reset period programming pin. Connecting this pin to VDD through a 40kΩ to 200kΩ 
+resistor or leaving it open results in fixed delay times (see Section 6.5). Connecting this 
+pin to a ground referenced capacitor ≥ 100pF gives a user-programmable delay time. See 
+Section 7.3.2 for more information.
+GND 2 5 — Ground
+MR 3 4 I Driving the manual reset pin ( MR) low asserts RESET. MR is internally tied to VDD by a 
+90kΩ pull-up resistor.
+RESET 1 6 O
+RESET is an open-drain output that is driven to a low-impedance state when RESET is 
+asserted (either the SENSE input is lower than the threshold voltage (VIT) or the MR pin is 
+set to a logic low). RESET remains low (asserted) for the reset period after both SENSE 
+is above VIT and MR is set to a logic high. A pull-up resistor from 10kΩ to 1MΩ should be 
+used on this pin, and allows the reset pin to attain voltages higher than VDD.
+SENSE 5 2 I This pin is connected to the voltage to be monitored. If the voltage at this terminal drops 
+below the threshold voltage VIT, then RESET is asserted.
+VDD 6 1 I Supply voltage. It is good analog design practice to place a 0.1μF ceramic capacitor close 
+to this pin.
+Thermal 
+Pad — Pad — Thermal Pad. Connect to ground plane to enhance thermal performance of package.
+(1) I = input, O = output
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+4 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 5
+6 Specifications
+6.1 Absolute Maximum Ratings
+over operating junction temperature range (unless otherwise noted) (1)
+MIN MAX UNIT
+Voltage
+VDD –0.3 7 V
+VCT –0.3 VDD + 0.3 V
+VRESET, VMR, VSENSE –0.3 7 V
+Current RESET pin –5 5 mA
+Temperature
+Operating junction, TJ (2) –40 150 °C
+Storage, Tstg –65 150 °C
+(1) Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute Maximum Ratings do not imply 
+functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. 
+If used outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not be fully 
+functional, and this may affect device reliability, functionality, performance, and shorten the device lifetime.
+(2) As a result of the low dissipated power in this device, it is assumed that TJ = TA.
+6.2 ESD Ratings
+VALUE UNIT
+V(ESD) Electrostatic discharge
+Human body model (HBM), per ANSI/ESDA/JEDEC JS-001, 
+all pins(1) ±2000
+V
+Charged device model (CDM), per JEDEC specification 
+JESD22-C101, all pins(2) ±500
+(1) JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
+(2) JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process.
+6.3 Recommended Operating Conditions
+over operating free-air temperature range (unless otherwise noted)
+MIN NOM MAX UNIT
+VDD Input supply range 1.7 6.5 V
+VSENSE SENSE pin voltage 0 6.5 V
+V(Ct) CT pin voltage VDD V
+V  MR MR pin voltage 0 6.5 V
+V  RESET RESET pin voltage 0 6.5 V
+I  RESET RESET pin current 0.0003 5 mA
+6.4 Thermal Information
+THERMAL METRIC(1)
+TPS3808
+UNITDBV (SOT-23) DRV (WSON)
+6 PINS 6 PINS
+RθJA Junction-to-ambient thermal resistance 180.9 178.1 °C/W
+RθJC(top) Junction-to-case (top) thermal resistance 117.8 95.6 °C/W
+RθJB Junction-to-board thermal resistance 27.8 135 °C/W
+ψJT Junction-to-top characterization parameter 18.9 6.3 °C/W
+ψJB Junction-to-board characterization parameter 27.3 136.6 °C/W
+RθJC(bot) Junction-to-case (bottom) thermal resistance N/A 7.3 °C/W
+(1) For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application 
+note.
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 5
+Product Folder Links: TPS3808
+PAGE 6
+6.5 Electrical Characteristics
+1.7V ≤ VDD ≤ 6.5V, RLRESET = 100kΩ, CLRESET = 50pF, over operating temperature range (TJ = –40°C to 125°C), unless 
+otherwise noted. Typical values are at TJ = 25°C(1).
+PARAMETER TEST CONDITIONS MIN TYP MAX UNIT
+VDD Input supply range
+–40°C < TJ < 125°C 1.7 6.5 V
+0°C < TJ < 85°C 1.65 6.5 V
+IDD Supply current (current into VDD pin)
+VDD = 3.3V, RESET not asserted
+MR, RESET, CT open 2.4 5
+μA
+VDD = 6.5V, RESET not asserted
+MR, RESET, CT open 2.7 6
+VOL Low-level output voltage
+1.3V ≤ VDD < 1.8V, IOL = 0.4mA 0.3
+V1.8V ≤ VDD ≤ 6.5V, IOL = 1mA 0.4
+VPOR Power-up reset voltage(2) VOL (max) = 0.2V, I  RESET = 15μA 0.8
+VIT
+Negative-going input 
+threshold accuracy
+TPS3808G01 –2% ±1% 2%
+VIT ≤ 3.3V –1.5% ±0.5% 1.5%
+3.3V < VIT ≤ 5.0V –2% ±1% 2%
+VIT ≤ 3.3V –40°C < TJ < 85°C –1.25% ±0.5% 1.25%
+3.3V < VIT ≤ 5.0V –40°C < TJ < 85°C –1.5% ±0.5% 1.5%
+VHYS Hysteresis on VIT pin
+TPS3808G01 1.5% 3%
+VIT
+Fixed versions 1% 2.5%
+R  MR MR Internal pullup resistance 70 90 kΩ
+ISENSE
+Input current at 
+SENSE pin
+TPS3808G01 VSENSE = VIT –25 25 nA
+Fixed versions VSENSE = 6.5V 1.7 μA
+IOH RESET leakage current V  RESET = 6.5V, RESET not asserted 300 nA
+CIN
+Input capacitance, any 
+pin
+CT pin VIN = 0V to VDD 5
+pF
+Other pins VIN = 0V to 6.5V 5
+VIL MR logic low input 0 0.3VDD
+V
+VIH MR logic high input 0.7VDD VDD
+(1) The lowest supply voltage (VDD) at which RESET becomes active. Trise(VDD)  ≥ 15 μs/V.
+(2) RLRESET and CLRESET are the resistor and capacitor connected to the RESET pin.
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+6 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 7
+6.6 Switching Characteristics
+1.7V ≤ VDD ≤ 6.5V, RLRESET = 100kΩ, CLRESET = 50pF, over operating temperature range (TJ = –40°C to 125°C), unless 
+otherwise noted. Typical values are at TJ = 25°C.(1)
+PARAMETER TEST CONDITIONS MIN TYP MAX UNIT
+tw
+Input pulse width to 
+RESET
+SENSE VIH = 1.05VIT, VIL = 0.95VIT 20
+μs
+MR VIH = 0.7VDD, VIL = 0.3VDD 0.001
+td RESET delay time
+CT = Open
+See Figure 6-1
+12 20 28
+msCT = VDD 180 300 420
+CT = 130pF 0.75 1.25 1.75
+CT = 180nF 0.62 1.03 1.44 s
+Propagation delay MR to RESET VIH = 0.7VDD, VIL = 0.3VDD 150 ns
+High-to-low-level RESET 
+delay SENSE to RESET VIH = 1.05VIT, VIL = 0.95VIT 20 μs
+(1) RLRESET and CLRESET are the resistor and capacitor connected to the RESET pin.
+Time
+0.8V
+0.0V
+VIT + V HYS
+VIT
+0.7VDD
+0.3VDD
+MR
+SENSE
+RESET
+VDD
+tD tD tD
+tD = Reset Delay
+= Undefined State
+Figure 6-1. TPS3808 Timing Diagram Showing MR and SENSE Reset Timing
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 7
+Product Folder Links: TPS3808
+PAGE 8
+6.7 Typical Characteristics
+At TJ = 25°C, VDD = 3.3V, RLRESET = 100kΩ, and CLRESET = 50pF, unless otherwise noted.
+0 1 2 3 4 5 6 7
+4.0
+3.5
+3.0
+2.5
+2.0
+1.5
+1.0
+0.5
+0
+−40°C
++25°C
++85°C
++125°C
+IDD
+( A)/c109
+VDD (V)
+Figure 6-2. Supply Current vs Supply Voltage
+100
+10
+1
+0.1
+0.01
+0.001
+0.0001 0.001 0.01 0.1
+CT (/c109F)
+101
+−40/c176C, +25/c176C, +125/c176C
+RESET
+Timeout (sec) Figure 6-3. RESET Time-Out Period vs CT 
+10
+8
+6
+4
+2
+0
+10 30 50 70 90 110 130
+Temperature (/c176C)
+−50 −30 −10
+−10
+−8
+−6
+−4
+−2
+Normalized RESET
+Timeout Period (%)
+Figure 6-4. Normalized RESET Time-Out Period vs Temperature 
+(CT = Open, CT = VDD, CT = Any)
+100
+10
+1
+0 5 10 15 20 30 35 45 25
+Overdrive (%VIT)
+5040
+Transient Duration
+below V
+IT
+(/c109s)
+RESET OCCURS
+ABOVE THE CURVE
+Figure 6-5. Maximum Transient Duration at Sense vs Sense 
+Threshold Overdrive Voltage
+1.0
+0.8
+0.6
+0.4
+0.2
+0
+10 30 50 70 90 110 130
+Temperature (/c176C)
+−50 −30 −10
+−1.0
+−0.8
+−0.6
+−0.4
+−0.2
+Normalized V
+IT
+(%)
+Figure 6-6. Normalized Sense Threshold Voltage (VIT) vs 
+Temperature
+4.5
+4.0
+3.5
+3.0
+2.5
+2.0
+1.5
+1.0
+0.5
+0
+0 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0
+V
+OL
+Low−Level RESET Voltage (V)
+VDD = 1.8 V
+RESET Current (mA)
+Figure 6-7. Low-Level RESET Voltage vs RESET Current
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+8 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 9
+6.7 Typical Characteristics (continued)
+At TJ = 25°C, VDD = 3.3V, RLRESET = 100kΩ, and CLRESET = 50pF, unless otherwise noted.
+0 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+V
+OL
+Low−Level RESET Voltage (V)
+RESET Current (mA)
+VDD = 3.3 V
+VDD = 6.5 V
+Figure 6-8. Low-Level RESET Voltage vs RESET Current
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 9
+Product Folder Links: TPS3808
+PAGE 10
+7 Detailed Description
+7.1 Overview
+The TPS3808 microprocessor supervisory product family is designed to assert a RESET signal when either the 
+SENSE pin voltage drops below VIT or the manual reset (MR) is driven low. The RESET output remains asserted 
+for a user-adjustable time after both the manual reset ( MR) and SENSE voltages return above the respective 
+thresholds.
+7.2 Functional Block Diagram
+TPS3808G01
+Adjustable Version
+VDD
+VDD
+90 k/c87
+MR
+SENSE
+RESET
+CT
+GND
+0.4 V
+VREF
+Reset
+Logic
+Timer
+Fixed Voltage VersionAdjustable Voltage Version
+VDD
+VDD
+90 k/c87
+MR
+SENSE
+RESET
+CT
+GND
+0.4 V
+VREF
+Reset
+Logic
+Timer
+R2
+R1
+R + R = 4 M1 2 /c87
+7.3 Feature Description
+A broad range of voltage threshold and reset delay time adjustments are available for the TPS3808 device, 
+allowing these devices to be used in a wide array of applications. Reset threshold voltages can be factory-set 
+from 0.82V to 3.3V or from 4.4V to 5V, while the TPS3808G01 can be set to any voltage above 0.405V using an 
+external resistor divider. Two preset delay times are also user-selectable: connecting the C T pin to V DD results 
+in a 300ms reset delay, whereas leaving the C T pin open yields a 20ms reset delay. In addition, connecting a 
+capacitor between CT and GND allows the designer to select any reset delay period from 1.25ms to 10s.
+7.3.1 SENSE Input
+The SENSE input provides a pin at which any system voltage can be monitored. If the voltage on this pin 
+drops below VIT, then RESET is asserted. The comparator has a built-in hysteresis to establish smooth RESET 
+assertions and de-assertions. Good analog design practice is to put a from 1nF to 10nF bypass capacitor on the 
+SENSE input to reduce sensitivity to transients and layout parasitics.
+The TPS3808 device is relatively immune to short negative transients on the SENSE pin. Sensitivity to transients 
+depends on threshold overdrive, as Figure 6-5 shows.
+Use the TPS3808G01 to monitor any voltage rail down to 0.405 V using the circuit that Figure 7-1 shows.
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+10 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 11
+VIN
+TPS3808G01
+VDD
+SENSE
+GND
+RESET
+R1
+R21nF
+V =□(1□+□□□□□□□)□0.405IT/c162 R1
+R2
+VOUT
+Figure 7-1. Using the TPS3808G01 to Monitor a User-Defined Threshold Voltage
+7.3.2 Selecting the RESET Delay Time
+The TPS3808 has three options for setting the RESET delay time as shown in Figure 7-2. Figure 7-2 (a) shows 
+the configuration for a fixed 300ms typical delay time by tying C T to V DD; use a resistor from 40k Ω to 200k Ω. 
+Resistor selection does not impact the supply current. Figure 7-2 (b) shows a fixed 20ms delay time by leaving 
+the CT pin open. Figure 7-2 (c) shows a ground referenced capacitor connected to CT for a user-defined program 
+time from 1.25ms to 10s.
+Delay (s) = CT (nF) + 0.5 x 10−3 (s)
+20ms Delay300ms Delay
+(c)(b)(a)
+   175
+3.3V
+TPS3808G33
+VDDSENSE
+CT RESET
+3.3V
+TPS3808G33
+VDDSENSE
+CT
+CT
+RESET
+3.3V
+TPS3808G33
+VDDSENSE
+CT
+50kΩ
+RESET
+Figure 7-2. Configuration Used to Set the RESET Delay Time
+The capacitor CT must be ≥ 100pF nominal value for the TPS3808xxx to recognize that the capacitor is present. 
+Calculate the capacitor value for a given delay time using Equation 1.
+CT nF = tD s − 0.5 × 10−3 s × 175 (1)
+The time an on-chip precision 220nA current source takes to charge the external capacitor to 1.23V determines 
+the reset delay time. When a RESET is asserted, the capacitor is discharged. When the RESET conditions are 
+cleared, the internal current source is enabled and begins to charge the external capacitor. When the voltage on 
+this capacitor reaches 1.23V, RESET is deasserted. Note that a low-leakage type capacitor such as a ceramic 
+must be used, and that stray capacitance around this pin can cause errors in the reset delay time.
+7.3.3 Manual RESET (MR) Input
+The manual reset (MR) input allows a processor or other logic circuits to initiate a reset. A logic low (0.3 V DD) on 
+MR causes RESET to assert. After MR returns to a logic high and SENSE is above its reset threshold, RESET 
+is de-asserted after the user-defined reset delay expires. Note that MR is internally tied to V DD using a 90k Ω 
+resistor, so this pin can be left unconnected if MR is not used.
+See Figure 7-3 for how to use MR to monitor multiple system voltages. Note that if the logic signal driving MR 
+does not go fully to V DD, there is some additional current draw into V DD as a result of the internal pullup resistor 
+on MR. To minimize current draw, use a logic-level FET, as in Figure 7-4.
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 11
+Product Folder Links: TPS3808
+PAGE 12
+1.2V 3.3V
+TPS3808G12 TPS3808G33 DSP
+SENSE VDDVDD SENSE VI/O VCORE
+GPIO
+GNDGNDGND
+RESET MR
+CTCT
+RESET
+Figure 7-3. Using MR to Monitor Multiple System Voltages
+3.3V
+TPS3808xxx
+V DD SENSE
+MR
+90k/c87
+GND
+Figure 7-4. Using an External MOSFET to Minimize IDD When MR Signal Does Not Go to VDD 
+7.3.4 RESET Output
+RESET remains high (unasserted) as long as SENSE is above its threshold (V IT) and the manual reset ( MR) is 
+logic high. If either SENSE falls below V IT or MR is driven low, RESET is asserted, driving the RESET pin to a 
+low impedance.
+Once MR is again logic high and SENSE is above V IT + V HYS (the threshold hysteresis), a delay circuit is 
+enabled that holds RESET low for a specified reset delay period. Once the reset delay has expired, the RESET 
+pin goes to a high-impedance state. The pullup resistor from the open-drain RESET to the supply line can be 
+used to allow the reset signal for the microprocessor to have a voltage higher than V DD (up to 6.5V). The pullup 
+resistor must be no smaller than 10kΩ as a result of the finite impedance of the RESET line.
+7.4 Device Functional Modes
+Table 7-1. Truth Table
+MR SENSE > VIT RESET
+L 0 L
+L 1 L
+H 0 L
+H 1 H
+7.4.1 Normal Operation (VDD > VDD(min))
+When V DD is greater than V DD(min), the voltage on the SENSE pin and the logic state of MR determine the 
+RESET signal.
+• MR high: When the voltage on VDD is greater than 1.7V for a time of the selected tD, the RESET signal 
+corresponds to the voltage on SENSE relative to VIT.
+• MR low: in this mode, RESET is held low regardless of the value of the SENSE pin.
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+12 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 13
+7.4.2 Above Power-On Reset but Less Than VDD(min) (VPOR < VDD < VDD(min))
+When the voltage on V DD is less than the device V DD(min) voltage, and greater than the power-on reset voltage 
+(VPOR), the RESET signal is asserted and low impedance, respectively, regardless of the voltage on the SENSE 
+pin.
+7.4.3 Below Power-On Reset (VDD < VPOR)
+When the voltage on V DD is lower than the required voltage (V POR) needed to internally pull the asserted output 
+to GND, RESET is undefined, do not rely on RESET for proper device function.
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 13
+Product Folder Links: TPS3808
+PAGE 14
+8 Application and Implementation
+Note
+Information in the following applications sections is not part of the TI component specification, 
+and TI does not warrant its accuracy or completeness. TI’s customers are responsible for 
+determining suitability of components for their purposes, as well as validating and testing their design 
+implementation to confirm system functionality.
+8.1 Application Information
+The following sections describe in detail how to properly use this device, depending on the requirements of the 
+final application.
+8.2 Typical Application
+Figure 8-1 shows a typical application of the TPS3808G25 used with a 2.5V processor. The open-drain RESET 
+output is typically connected to the RESET input of a microprocessor. Use a pullup resistor to hold this line high 
+when RESET is not asserted. The RESET output is undefined for voltage below 0.8V, but this characteristic is 
+normally not a problem because most microprocessors do not function below this voltage.
+2.5 V
+TPS3808G25
+VDD VDDSHV 1, 3, 6, 7, 9SENSE
+GNDGND
+MR
+CT
+RESET RESPWRON
+1 M/c87 OMAP1510
+Figure 8-1. Typical Application of the TPS3808 With an OMAP™ Processor
+8.2.1 Design Requirements
+The TPS3808 is intended to drive the RESET input of a microprocessor. The RESET pin is pulled high with 
+a 1MΩ resistor and the reset delay time is controlled by C T depending on the reset requirement times of the 
+microprocessor. In this case, CT is left open for a typical reset delay time of 20ms.
+8.2.2 Detailed Design Procedure
+The primary constraint for this application is the reset delay time. In this case, because C T is open, it is set to 
+20 ms. A 0.1µF decoupling capacitor connect to the V DD pin and a 1M Ω resistor is used to pull up the RESET 
+pin high. The MR pin can connect to an external signal if desired.
+8.2.2.1 Immunity to SENSE Pin Voltage Transients
+The TPS3808 is relatively immune to short negative transients on the SENSE pin. Sensitivity to transients 
+depends on threshold overdrive. Threshold overdrive is defined by how much the V SENSE exceeds the specified 
+threshold, and is important to know because the smaller the overdrive, the slower the RESET response. 
+Threshold overdrive is a percent of the threshold in question, as shown in Equation 2:
+Overdrive =
+VSENSE
+VIT − 1 × 100% (2)
+where
+• VIT is the threshold voltage.
+Figure 8-2 shows this relationship.
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+14 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 15
+8.2.3 Application Curve
+100
+10
+1
+0 5 10 15 20 30 35 45 25
+Overdrive (%VIT)
+5040
+Transient Duration below VIT (µs)
+RESET OCCURS
+ABOVE THE CURVE
+Figure 8-2. Maximum Transient Duration at SENSE vs SENSE Threshold Overdrive Voltage
+8.3 Power Supply Recommendations
+These devices are designed to operate from an input supply with a voltage range between 1.7V and 6.5V. Use a 
+low-impedance power supply to eliminate inaccuracies caused by current changes during the voltage reference 
+refresh.
+8.4 Layout
+8.4.1 Layout Guidelines
+Make sure the connection to the V DD pin is low impedance. Place a 0.1-µF ceramic capacitor near the V DD pin. 
+If no capacitor is connected to the C T pin, parasitic capacitance on this pin should be minimized so the RESET 
+delay time is not adversely affected.
+8.4.2 Layout Example
+The layout example in Figure 8-3 shows how the TPS3808 is laid out on a printed circuit board (PCB) for a 20ms 
+delay.
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 15
+Product Folder Links: TPS3808
+PAGE 16
+GND 
+VDD
+CIN
+MR
+GND
+RESET VDD
+SENSE
+CT
+Vias used to connect pins for application-specific connections
+Figure 8-3. Layout Example for a 20ms Delay
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+16 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 17
+9 Device and Documentation Support
+9.1 Device Support
+9.1.1 Development Support
+9.1.1.1 Evaluation Modules
+An evaluation module (EVM) is available to assist in the initial circuit performance evaluation using the 
+TPS3808. The TPS3808G01DBVEVM evaluation module  (and related user guide ) can be requested at the 
+Texas Instruments website through the product folders or purchased directly from the TI eStore.
+9.2 Documentation Support
+9.2.1 Related Documentation
+• Texas Instruments, Optimizing Resistor Dividers at a Comparator Input application note
+• Texas Instruments, Sensitivity Analysis for Power Supply Design application note
+• Texas Instruments, TPS3808G01DBVEVM Evaluation Module User Guide
+9.3 Support Resources
+TI E2E ™ support forums  are an engineer's go-to source for fast, verified answers and design help — straight 
+from the experts. Search existing answers or ask your own question to get the quick design help you need.
+Linked content is provided "AS IS" by the respective contributors. They do not constitute TI specifications and do 
+not necessarily reflect TI's views; see TI's Terms of Use.
+9.4 Trademarks
+OMAP™ and TI E2E™ are trademarks of Texas Instruments.
+All trademarks are the property of their respective owners.
+9.5 Electrostatic Discharge Caution
+This integrated circuit can be damaged by ESD. Texas Instruments recommends that all integrated circuits be handled 
+with appropriate precautions. Failure to observe proper handling and installation procedures can cause damage.
+ESD damage can range from subtle performance degradation to complete device failure. Precision integrated circuits may 
+be more susceptible to damage because very small parametric changes could cause the device not to meet its published 
+specifications.
+9.6 Glossary
+TI Glossary This glossary lists and explains terms, acronyms, and definitions.
+10 Revision History
+NOTE: Page numbers for previous revisions may differ from page numbers in the current version.
+Changes from Revision M (March 2023) to Revision N (August 2026) Page
+• Updated the numbering format for tables, figures and cross-references throughout the document.................. 1
+• Updated corresponding td for CT = 180nF..........................................................................................................7
+• Changed CT = 100pF to CT = 130pF to match td .............................................................................................. 7
+Changes from Revision L (September 2020) to Revision M (March 2023) Page
+• Updated Thermal Information.............................................................................................................................5
+www.ti.com
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+Copyright © 2026 Texas Instruments Incorporated Submit Document Feedback 17
+Product Folder Links: TPS3808
+PAGE 18
+11 Mechanical, Packaging, and Orderable Information
+The following pages include mechanical, packaging, and orderable information. This information is the most-
+current data available for the designated devices. This data is subject to change without notice and without 
+revision of this document. For browser-based versions of this data sheet, see the left-hand navigation pane.
+TPS3808
+SBVS050N – MAY 2004 – REVISED AUGUST 2026
+ www.ti.com
+18 Submit Document Feedback Copyright © 2026 Texas Instruments Incorporated
+Product Folder Links: TPS3808
+PAGE 19
+PACKAGE OPTION ADDENDUM
+www.ti.com 16-Jul-2026
+PACKAGING INFORMATION
+Orderable part number Status
+(1)
+Material type
+(2)
+Package | Pins Package qty | Carrier RoHS
+(3)
+Lead finish/
+Ball material
+(4)
+MSL rating/
+Peak reflow
+(5)
+Op temp (°C) Part marking
+(6)
+TPS3808G01DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G01DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G01DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DRVR1G4 Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DRVR1G4.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DRVRG4 Active Production WSON (DRV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G01DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G01DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVW
+TPS3808G09DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 125 AVV
+TPS3808G09DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVV
+TPS3808G09DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVV
+TPS3808G09DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVV
+TPS3808G09DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G09DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVV
+TPS3808G09DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVV
+TPS3808G09DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G125DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CAC
+TPS3808G125DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CAC
+TPS3808G125DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CAC
+TPS3808G125DBVRG4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CAC
+TPS3808G125DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CAC
+TPS3808G125DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CAC
+Addendum-Page 1
+PAGE 20
+PACKAGE OPTION ADDENDUM
+www.ti.com 16-Jul-2026
+Orderable part number Status
+(1)
+Material type
+(2)
+Package | Pins Package qty | Carrier RoHS
+(3)
+Lead finish/
+Ball material
+(4)
+MSL rating/
+Peak reflow
+(5)
+Op temp (°C) Part marking
+(6)
+TPS3808G125DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G12DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G12DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G12DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU | NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DRVRG4 Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DRVRG4.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU | NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVY
+TPS3808G12DRVTG4 Active Production WSON (DRV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G15DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G15DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DBVT1G4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DBVT1G4.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G15DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G15DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVS
+TPS3808G18DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+Addendum-Page 2
+PAGE 21
+PACKAGE OPTION ADDENDUM
+www.ti.com 16-Jul-2026
+Orderable part number Status
+(1)
+Material type
+(2)
+Package | Pins Package qty | Carrier RoHS
+(3)
+Lead finish/
+Ball material
+(4)
+MSL rating/
+Peak reflow
+(5)
+Op temp (°C) Part marking
+(6)
+TPS3808G18DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DBVT1G4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DBVT1G4.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G18DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G18DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVR
+TPS3808G19DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CHP
+TPS3808G19DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CHP
+TPS3808G19DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CHP
+TPS3808G19DBVRG4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CHP
+TPS3808G19DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CHP
+TPS3808G19DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 CHP
+TPS3808G25DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 (AVQ, EG25)
+TPS3808G25DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 (AVQ, EG25)
+TPS3808G25DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G25DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G25DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G25DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVQ
+TPS3808G30DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVP
+Addendum-Page 3
+PAGE 22
+PACKAGE OPTION ADDENDUM
+www.ti.com 16-Jul-2026
+Orderable part number Status
+(1)
+Material type
+(2)
+Package | Pins Package qty | Carrier RoHS
+(3)
+Lead finish/
+Ball material
+(4)
+MSL rating/
+Peak reflow
+(5)
+Op temp (°C) Part marking
+(6)
+TPS3808G30DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G30DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G30DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU | NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU | NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAUAG Level-1-260C-UNLIM -40 to 125 AVP
+TPS3808G30DRVTG4.B Active Production WSON (DRV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G33DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 125 AVO
+TPS3808G33DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes SN Level-1-260C-UNLIM -40 to 125 AVO
+TPS3808G33DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVO
+TPS3808G33DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVO
+TPS3808G33DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G33DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVO
+TPS3808G33DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVO
+TPS3808G33DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+TPS3808G33DRVR Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 SEC
+TPS3808G33DRVR.B Active Production WSON (DRV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 SEC
+TPS3808G33DRVT Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 SEC
+TPS3808G33DRVT.B Active Production WSON (DRV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 SEC
+TPS3808G50DBVR Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVN
+TPS3808G50DBVR.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVN
+TPS3808G50DBVR1G4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVN
+TPS3808G50DBVR1G4.B Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVN
+TPS3808G50DBVRG4 Active Production SOT-23 (DBV) | 6 3000 | LARGE T&R - Call TI Call TI -40 to 125
+TPS3808G50DBVT Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVN
+TPS3808G50DBVT.B Active Production SOT-23 (DBV) | 6 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 125 AVN
+TPS3808G50DBVTG4 Active Production SOT-23 (DBV) | 6 250 | SMALL T&R - Call TI Call TI -40 to 125
+ 
+(1) Status:  For more details on status, see our product life cycle.
+Addendum-Page 4
+PAGE 23
+PACKAGE OPTION ADDENDUM
+www.ti.com 16-Jul-2026
+ 
+(2) Material type:  When designated, preproduction parts are prototypes/experimental devices, and are not yet approved or released for full production. Testing and final process, including without limitation quality assurance,
+reliability performance testing, and/or process qualification, may not yet be complete, and this item is subject to further changes or possible discontinuation. If available for ordering, purchases will be subject to an additional
+waiver at checkout, and are intended for early internal evaluation purposes only. These items are sold without warranties of any kind.
+ 
+(3) RoHS values:  Yes, No, RoHS Exempt. See the TI RoHS Statement for additional information and value definition.
+ 
+(4) Lead finish/Ball material:  Parts may have multiple material finish options. Finish options are separated by a vertical ruled line. Lead finish/Ball material values may wrap to two lines if the finish value exceeds the maximum
+column width.
+ 
+(5) MSL rating/Peak reflow:  The moisture sensitivity level ratings and peak solder (reflow) temperatures. In the event that a part has multiple moisture sensitivity ratings, only the lowest level per JEDEC standards is shown.
+Refer to the shipping label for the actual reflow temperature that will be used to mount the part to the printed circuit board.
+ 
+(6) Part marking:  There may be an additional marking, which relates to the logo, the lot trace code information, or the environmental category of the part.
+ 
+Multiple part markings will be inside parentheses. Only one part marking contained in parentheses and separated by a "~" will appear on a part. If a line is indented then it is a continuation of the previous line and the two
+combined represent the entire part marking for that device.
+ 
+Important Information and Disclaimer:The information provided on this page represents TI's knowledge and belief as of the date that it is provided. TI bases its knowledge and belief on information provided by third parties, and
+makes no representation or warranty as to the accuracy of such information. Efforts are underway to better integrate information from third parties. TI has taken and continues to take reasonable steps to provide representative
+and accurate information but may not have conducted destructive testing or chemical analysis on incoming materials and chemicals. TI and TI suppliers consider certain information to be proprietary, and thus CAS numbers
+and other limited information may not be available for release.
+ 
+In no event shall TI's liability arising out of such information exceed the total purchase price of the TI part(s) at issue in this document sold by TI to Customer on an annual basis.
+ 
+ OTHER QUALIFIED VERSIONS OF TPS3808 :
+• Automotive : TPS3808-Q1
+• Enhanced Product : TPS3808-EP
+ NOTE: Qualified Version Definitions:
+• Automotive - Q100 devices qualified for high-reliability automotive applications targeting zero defects
+• Enhanced Product - Supports Defense, Aerospace and Medical Applications
+Addendum-Page 5
+PAGE 24
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+TAPE AND REEL INFORMATION
+Reel Width (W1)
+REEL DIMENSIONS
+A0B0K0WDimension designed to accommodate the component lengthDimension designed to accommodate the component thicknessOverall width of the carrier tapePitch between successive cavity centersDimension designed to accommodate the component width
+TAPE DIMENSIONSK0 P1B0WA0Cavity
+QUADRANT ASSIGNMENTS FOR PIN 1 ORIENTATION IN TAPE
+Pocket QuadrantsSprocket HolesQ1Q1Q2Q2Q3Q3Q4Q4User Direction of Feed
+P1ReelDiameter
+ 
+*All dimensions are nominal
+Device Package
+Type
+Package
+Drawing
+Pins SPQ Reel
+Diameter
+(mm)
+Reel
+Width
+W1 (mm)
+A0
+(mm)
+B0
+(mm)
+K0
+(mm)
+P1
+(mm)
+W
+(mm)
+Pin1
+Quadrant
+TPS3808G01DBVR SOT-23 DBV 6 3000 178.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G01DBVR SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G01DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G01DBVR SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G01DBVR1G4 SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G01DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G01DBVT SOT-23 DBV 6 250 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G01DRVR WSON DRV 6 3000 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G01DRVR1G4 WSON DRV 6 3000 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G01DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G01DRVT WSON DRV 6 250 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G09DBVR SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G09DBVR SOT-23 DBV 6 3000 178.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G09DBVR1G4 SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G09DBVT SOT-23 DBV 6 250 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G125DBVR SOT-23 DBV 6 3000 179.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+Pack Materials-Page 1
+PAGE 25
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+Device Package
+Type
+Package
+Drawing
+Pins SPQ Reel
+Diameter
+(mm)
+Reel
+Width
+W1 (mm)
+A0
+(mm)
+B0
+(mm)
+K0
+(mm)
+P1
+(mm)
+W
+(mm)
+Pin1
+Quadrant
+TPS3808G125DBVRG4 SOT-23 DBV 6 3000 179.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G125DBVT SOT-23 DBV 6 250 179.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G12DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G12DBVR1G4 SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G12DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G12DRVR WSON DRV 6 3000 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G12DRVRG4 WSON DRV 6 3000 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G12DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G12DRVT WSON DRV 6 250 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G15DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G15DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G15DBVT1G4 SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G15DRVR WSON DRV 6 3000 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G15DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G18DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G18DBVR SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G18DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G18DBVT SOT-23 DBV 6 250 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G18DBVT1G4 SOT-23 DBV 6 250 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G18DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G19DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G19DBVRG4 SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G19DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G25DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G25DBVR1G4 SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G25DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G25DRVR WSON DRV 6 3000 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G25DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G30DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G30DBVR SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G30DBVR1G4 SOT-23 DBV 6 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G30DBVT SOT-23 DBV 6 250 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G30DRVR WSON DRV 6 3000 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G30DRVR WSON DRV 6 3000 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G30DRVT WSON DRV 6 250 178.0 8.4 2.25 2.25 1.0 4.0 8.0 Q2
+TPS3808G30DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G33DBVR SOT-23 DBV 6 3000 178.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+TPS3808G33DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G33DBVR1G4 SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G33DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G33DRVR WSON DRV 6 3000 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+Pack Materials-Page 2
+PAGE 26
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+Device Package
+Type
+Package
+Drawing
+Pins SPQ Reel
+Diameter
+(mm)
+Reel
+Width
+W1 (mm)
+A0
+(mm)
+B0
+(mm)
+K0
+(mm)
+P1
+(mm)
+W
+(mm)
+Pin1
+Quadrant
+TPS3808G33DRVT WSON DRV 6 250 179.0 8.4 2.2 2.2 1.2 4.0 8.0 Q2
+TPS3808G50DBVR SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G50DBVR1G4 SOT-23 DBV 6 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+TPS3808G50DBVT SOT-23 DBV 6 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+Pack Materials-Page 3
+PAGE 27
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+TAPE AND REEL BOX DIMENSIONS
+Width (mm)
+W LH
+ 
+*All dimensions are nominal
+Device Package Type Package Drawing Pins SPQ Length (mm) Width (mm) Height (mm)
+TPS3808G01DBVR SOT-23 DBV 6 3000 208.0 191.0 35.0
+TPS3808G01DBVR SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G01DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G01DBVR SOT-23 DBV 6 3000 200.0 183.0 25.0
+TPS3808G01DBVR1G4 SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G01DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G01DBVT SOT-23 DBV 6 250 210.0 185.0 35.0
+TPS3808G01DRVR WSON DRV 6 3000 205.0 200.0 33.0
+TPS3808G01DRVR1G4 WSON DRV 6 3000 205.0 200.0 33.0
+TPS3808G01DRVT WSON DRV 6 250 203.0 203.0 35.0
+TPS3808G01DRVT WSON DRV 6 250 205.0 200.0 33.0
+TPS3808G09DBVR SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G09DBVR SOT-23 DBV 6 3000 208.0 191.0 35.0
+TPS3808G09DBVR1G4 SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G09DBVT SOT-23 DBV 6 250 210.0 185.0 35.0
+TPS3808G125DBVR SOT-23 DBV 6 3000 200.0 183.0 25.0
+TPS3808G125DBVRG4 SOT-23 DBV 6 3000 200.0 183.0 25.0
+TPS3808G125DBVT SOT-23 DBV 6 250 200.0 183.0 25.0
+Pack Materials-Page 4
+PAGE 28
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+Device Package Type Package Drawing Pins SPQ Length (mm) Width (mm) Height (mm)
+TPS3808G12DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G12DBVR1G4 SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G12DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G12DRVR WSON DRV 6 3000 205.0 200.0 33.0
+TPS3808G12DRVRG4 WSON DRV 6 3000 205.0 200.0 33.0
+TPS3808G12DRVT WSON DRV 6 250 203.0 203.0 35.0
+TPS3808G12DRVT WSON DRV 6 250 205.0 200.0 33.0
+TPS3808G15DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G15DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G15DBVT1G4 SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G15DRVR WSON DRV 6 3000 200.0 183.0 25.0
+TPS3808G15DRVT WSON DRV 6 250 200.0 183.0 25.0
+TPS3808G18DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G18DBVR SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G18DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G18DBVT SOT-23 DBV 6 250 210.0 185.0 35.0
+TPS3808G18DBVT1G4 SOT-23 DBV 6 250 210.0 185.0 35.0
+TPS3808G18DRVT WSON DRV 6 250 200.0 183.0 25.0
+TPS3808G19DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G19DBVRG4 SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G19DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G25DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G25DBVR1G4 SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G25DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G25DRVR WSON DRV 6 3000 203.0 203.0 35.0
+TPS3808G25DRVT WSON DRV 6 250 200.0 183.0 25.0
+TPS3808G30DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G30DBVR SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G30DBVR1G4 SOT-23 DBV 6 3000 210.0 185.0 35.0
+TPS3808G30DBVT SOT-23 DBV 6 250 210.0 185.0 35.0
+TPS3808G30DRVR WSON DRV 6 3000 203.0 203.0 35.0
+TPS3808G30DRVR WSON DRV 6 3000 205.0 200.0 33.0
+TPS3808G30DRVT WSON DRV 6 250 205.0 200.0 33.0
+TPS3808G30DRVT WSON DRV 6 250 203.0 203.0 35.0
+TPS3808G33DBVR SOT-23 DBV 6 3000 208.0 191.0 35.0
+TPS3808G33DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G33DBVR1G4 SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G33DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+TPS3808G33DRVR WSON DRV 6 3000 200.0 183.0 25.0
+TPS3808G33DRVT WSON DRV 6 250 200.0 183.0 25.0
+TPS3808G50DBVR SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G50DBVR1G4 SOT-23 DBV 6 3000 180.0 180.0 18.0
+TPS3808G50DBVT SOT-23 DBV 6 250 180.0 180.0 18.0
+Pack Materials-Page 5
+PAGE 29
+GENERIC PACKAGE VIEW
+Images above are just a representation of the package family, actual package may vary.
+Refer to the product data sheet for package details.
+DRV 6 WSON - 0.8 mm max height
+PLASTIC SMALL OUTLINE - NO LEAD
+4206925/F
+PAGE 30
+www.ti.com
+PACKAGE OUTLINE
+C
+6X 0.35
+0.25
+1.6 0.1
+6X 0.3
+0.2
+2X
+1.3
+1 0.1
+4X 0.65
+0.8
+0.7
+0.05
+0.00
+B 2.1
+1.9
+A
+2.1
+1.9
+(0.2) TYP
+WSON - 0.8 mm max heightDRV0006D
+PLASTIC SMALL OUTLINE - NO LEAD
+4225563/A   12/2019
+PIN 1 INDEX AREA
+SEATING PLANE
+0.08 C
+1
+3 4
+6
+(OPTIONAL)
+PIN 1 ID
+0.1 C A B
+0.05 C
+THERMAL PAD
+EXPOSED
+7
+NOTES:
+ 
+1. All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+    per ASME Y14.5M. 
+2. This drawing is subject to change without notice. 
+3. The package thermal pad must be soldered to the printed circuit board for thermal and mechanical performance.
+SCALE  5.500
+PAGE 31
+www.ti.com
+EXAMPLE BOARD LAYOUT
+0.07 MIN
+ALL AROUND
+0.07 MAX
+ALL AROUND
+(1)
+4X (0.65)
+(1.95)
+6X (0.3)
+6X (0.45)
+(1.6)
+(R0.05) TYP
+( 0.2) VIA
+TYP
+(1.1)
+WSON - 0.8 mm max heightDRV0006D
+PLASTIC SMALL OUTLINE - NO LEAD
+4225563/A   12/2019
+SYMM
+1
+3 4
+6
+SYMM
+LAND PATTERN EXAMPLE
+EXPOSED METAL SHOWN
+SCALE:25X
+7
+NOTES: (continued)
+ 
+4. This package is designed to be soldered to a thermal pad on the board. For more information, see Texas Instruments literature
+    number SLUA271 (www.ti.com/lit/slua271).
+5. Vias are optional depending on application, refer to device data sheet. If some or all are implemented, recommended via locations are shown.
+ 
+ 
+SOLDER MASK
+OPENING
+SOLDER MASK
+METAL UNDER
+SOLDER MASK
+DEFINED
+EXPOSED
+METAL
+METALSOLDER MASK
+OPENING SOLDER MASK DETAILS
+NON SOLDER MASK
+DEFINED
+(PREFERRED)
+EXPOSED
+METAL
+PAGE 32
+www.ti.com
+EXAMPLE STENCIL DESIGN
+6X (0.3)
+6X (0.45)
+4X (0.65)
+(0.7)
+(1)
+(1.95)
+(R0.05) TYP
+(0.45)
+WSON - 0.8 mm max heightDRV0006D
+PLASTIC SMALL OUTLINE - NO LEAD
+4225563/A   12/2019
+NOTES: (continued)
+ 
+6. Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+    design recommendations. 
+ 
+SOLDER PASTE EXAMPLE
+BASED ON 0.125 mm THICK STENCIL
+ 
+EXPOSED PAD #7
+ 88% PRINTED SOLDER COVERAGE BY AREA UNDER PACKAGE
+SCALE:30X
+SYMM
+1
+3 4
+6
+SYMM
+METAL
+7
+PAGE 33
+www.ti.com
+PACKAGE OUTLINE
+C
+6X 0.35
+0.25
+1.6 0.1
+6X 0.3
+0.2
+2X
+1.3
+1 0.1
+4X 0.65
+0.8
+0.7
+0.05
+0.00
+B 2.1
+1.9
+A
+2.1
+1.9
+0.1 MIN
+0.08 MAX
+(0.2) TYP
+WSON - 0.8 mm max heightDRV0006A
+PLASTIC SMALL OUTLINE - NO LEAD
+4222173/C   11/2025
+PIN 1 INDEX AREA
+SEATING PLANE
+0.08 C
+1
+3 4
+6
+(OPTIONAL)
+PIN 1 ID
+0.1 C A B
+0.05 C
+THERMAL PAD
+EXPOSED
+7
+NOTES:
+ 
+1. All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+    per ASME Y14.5M. 
+2. This drawing is subject to change without notice. 
+3. The package thermal pad must be soldered to the printed circuit board for thermal and mechanical performance.
+4.  Minimum 0.1 mm solder wetting on pin side wall. Available for wettable flank version only.
+SCALE  5.500
+OPTIONAL: SIDE WALL PIN DETAIL
+NOTE 4
+PAGE 34
+www.ti.com
+EXAMPLE BOARD LAYOUT
+0.07 MIN
+ALL AROUND
+0.07 MAX
+ALL AROUND
+(1)
+4X (0.65)
+(1.95)
+6X (0.3)
+6X (0.45)
+(1.6)
+(R0.05) TYP
+( 0.2) VIA
+TYP
+(1.1)
+WSON - 0.8 mm max heightDRV0006A
+PLASTIC SMALL OUTLINE - NO LEAD
+4222173/C   11/2025
+SYMM
+1
+3 4
+6
+SYMM
+LAND PATTERN EXAMPLE
+SCALE:25X
+7
+NOTES: (continued)
+ 
+5. This package is designed to be soldered to a thermal pad on the board. For more information, see Texas Instruments literature
+    number SLUA271 (www.ti.com/lit/slua271).
+6. Vias are optional depending on application, refer to device data sheet. If some or all are implemented, recommended via locations
+    are shown.
+ 
+ 
+SOLDER MASK
+OPENING
+SOLDER MASK
+METAL UNDER
+SOLDER MASK
+DEFINED
+METALSOLDER MASK
+OPENING SOLDER MASK DETAILS
+NON SOLDER MASK
+DEFINED
+(PREFERRED)
+PAGE 35
+www.ti.com
+EXAMPLE STENCIL DESIGN
+6X (0.3)
+6X (0.45)
+4X (0.65)
+(0.7)
+(1)
+(1.95)
+(R0.05) TYP
+(0.45)
+WSON - 0.8 mm max heightDRV0006A
+PLASTIC SMALL OUTLINE - NO LEAD
+4222173/C   11/2025
+NOTES: (continued)
+ 
+7. Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+    design recommendations. 
+ 
+SOLDER PASTE EXAMPLE
+BASED ON 0.125 mm THICK STENCIL
+ 
+EXPOSED PAD #7
+ 88% PRINTED SOLDER COVERAGE BY AREA UNDER PACKAGE
+SCALE:30X
+SYMM
+1
+3 4
+6
+SYMM
+METAL
+7
+PAGE 36
+www.ti.com
+PACKAGE OUTLINE
+C
+0.22
+0.08 TYP
+0.25
+3.0
+2.6
+2X 0.95
+1.45
+0.90
+0.15
+0.00 TYP
+6X 0.50
+0.25
+0.6
+0.3 TYP
+8
+0  TYP
+1.9
+4X 0 -15
+4X 4 -15
+A
+3.05
+2.75
+B1.75
+1.45
+(1.1)
+SOT-23 - 1.45 mm max heightDBV0006A
+SMALL OUTLINE TRANSISTOR
+4214840/G   08/2024
+NOTES: 
+ 
+1. All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+    per ASME Y14.5M.
+2. This drawing is subject to change without notice.
+3. Body dimensions do not include mold flash or protrusion. Mold flash and protrusion shall not exceed 0.25 per side.
+4. Leads 1,2,3 may be wider than leads 4,5,6 for package orientation.
+5. Refernce JEDEC MO-178.
+0.2 C A B
+1
+3
+4
+52
+INDEX AREA
+PIN 1
+6
+GAGE PLANE
+SEATING PLANE
+0.1 C
+SCALE  4.000
+PAGE 37
+www.ti.com
+EXAMPLE BOARD LAYOUT
+0.07 MAX
+ARROUND
+0.07 MIN
+ARROUND
+6X (1.1)
+6X (0.6)
+(2.6)
+2X (0.95)
+(R0.05) TYP
+4214840/G   08/2024
+SOT-23 - 1.45 mm max heightDBV0006A
+SMALL OUTLINE TRANSISTOR
+NOTES: (continued)
+ 
+6. Publication IPC-7351 may have alternate designs. 
+7. Solder mask tolerances between and around signal pads can vary based on board fabrication site.
+ 
+SYMM
+LAND PATTERN EXAMPLE
+EXPOSED METAL SHOWN
+SCALE:15X
+PKG
+1
+3 4
+52
+6
+SOLDER MASK
+OPENING
+METAL UNDER
+SOLDER MASK
+SOLDER MASK
+DEFINED
+EXPOSED METAL
+METALSOLDER MASK
+OPENING
+NON SOLDER MASK
+DEFINED
+(PREFERRED)
+SOLDER MASK DETAILS
+EXPOSED METAL
+PAGE 38
+www.ti.com
+EXAMPLE STENCIL DESIGN
+(2.6)
+2X(0.95)
+6X (1.1)
+6X (0.6)
+(R0.05) TYP
+SOT-23 - 1.45 mm max heightDBV0006A
+SMALL OUTLINE TRANSISTOR
+4214840/G   08/2024
+NOTES: (continued)
+ 
+8. Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+     design recommendations. 
+9. Board assembly site may have different recommendations for stencil design.
+ 
+SOLDER PASTE EXAMPLE
+BASED ON 0.125 mm THICK STENCIL
+SCALE:15X
+SYMM
+PKG
+1
+3 4
+52
+6
+PAGE 39
+IMPORTANT NOTICE AND DISCLAIMER
+TI PROVIDES TECHNICAL AND RELIABILITY DATA (INCLUDING DATASHEETS), DESIGN RESOURCES (INCLUDING REFERENCE 
+DESIGNS), APPLICATION OR OTHER DESIGN ADVICE, WEB TOOLS, SAFETY INFORMATION, AND OTHER RESOURCES “AS IS” 
+AND WITH ALL FAULTS, AND DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT LIMITATION ANY 
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OF THIRD 
+PARTY INTELLECTUAL PROPERTY RIGHTS.
+These resources are intended for skilled developers designing with TI products. You are solely responsible for (1) selecting the appropriate 
+TI products for your application, (2) designing, validating and testing your application, and (3) ensuring your application meets applicable 
+standards, and any other safety, security, regulatory or other requirements.
+These resources are subject to change without notice. TI grants you permission to use these resources only for development of an 
+application that uses the TI products described in the resource. Other reproduction and display of these resources is prohibited. No license 
+is granted to any other TI intellectual property right or to any third party intellectual property right. TI disclaims responsibility for, and you fully 
+indemnify TI and its representatives against any claims, damages, costs, losses, and liabilities arising out of your use of these resources.
+TI’s products are provided subject to TI’s Terms of Sale, TI’s General Quality Guidelines, or other applicable terms available either on 
+ti.com or provided in conjunction with such TI products. TI’s provision of these resources does not expand or otherwise alter TI’s applicable 
+warranties or warranty disclaimers for TI products. Unless TI explicitly designates a product as custom or customer-specified, TI products 
+are standard, catalog, general purpose devices.
+TI objects to and rejects any additional or different terms you may propose.
+IMPORTANT NOTICE
+Copyright © 2026, Texas Instruments Incorporated
+Last updated 10/2025

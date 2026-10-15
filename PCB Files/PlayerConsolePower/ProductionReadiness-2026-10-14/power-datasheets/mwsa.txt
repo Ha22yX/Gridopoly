@@ -1,0 +1,856 @@
+129
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Molded SMD Power Inductors – MWSA-S Series
+Operating Temp. : -40℃ ~+125℃ (Including self-heating) 
+ ● Metal material for large current and low DCR
+ ● Closed magnetic circuit design reduces leakage flux
+FEATURES
+ ● TV , graphics, memory
+ ● Notebooks, tablets
+ ● Communication equipments, industrial equipments
+APPLICATIONS
+PRODUCT IDENTIFICATION
+XXX □ T □□□
+①
+Type
+MWSA Molded SMD Power Inductors
+③
+ Nominal Inductance[μH]
+Example Nominal Value[μH]
+R15 0. 15μH
+1R0 1.0μH
+④
+ Inductance Tolerance
+M ±20%
+⑤
+Packing
+T Tape & Reel
+⑥
+Design Code
+  □□□ Design Code
+* Conventional product is blank
+②
+External Dimensions(L×W×H) [mm]
+0412 4.2×4.4×1.0
+0402 4.2×4.4×1.8
+0518 5.2×5.4×1.6
+0503 5.2×5.4×2.8
+0615 6.6×7 .0×1.3
+0618 6.6×7 .0×1.6
+0602 6.6×7 .0×1.8
+0624 6.6×7 .0×2.2
+0603 6.6×7 .0×2.8
+0604 6.6×7 .0×3.8
+0605 6.6×7 .0×4.8
+0804 8.2×8.8×3.8
+1003 10.0×11.5×2.8
+1004 10.0×11.0×3.8
+1005 10.0×11.5×4.8
+1204 12.8×13.45×4.0
+1205 12.6×13.45×4.8
+1206 12.6×13.45×5.8
+1265 12.6×13.45×6.5
+1707 17 . 15×17 . 15×6.7
+2213 23.5×22.0×12.6
+0412SMWSA
+
+130
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+Unit: mm
+Series A B C D E I Typ. J Typ. H Typ.
+MWSA0412S 4.2±0.25 4.4±0.35 1.0±0.2 0.8±0.3 2.0±0.3 1.5 2.2 2.5
+MWSA0402S 4.2±0.25 4.4±0.35 1.8±0.2 0.8±0.3 2.0±0.3 1.5 2.2 2.5
+MWSA0518S 5.2±0.2 5.4±0.35 1.6±0.2 1.2±0.2 2.2±0.3 1.9 2.2 2.5
+MWSA0503S 5.2±0.2 5.4±0.35 2.8±0.2 1.2±0.2 2.2±0.3 1.9 2.2 2.5
+MWSA0615S 6.6±0.2 7.0±0.3 1.3±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0618S 6.6±0.2 7.0±0.3 1.6±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0602S 6.6±0.2 7.0±0.3 1.8±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0624S 6.6±0.2 7.0±0.3 2.2±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0603S 6.6±0.2 7.0±0.3 2.8±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0604S 6.6±0.2 7.0±0.3 3.8±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0605S 6.6±0.2 7.0±0.3 4.8±0.2 1.6±0.3 3.0±0.3 2.35 3.7 3.5
+MWSA0804S 8.8±0.4 8.2±0.3 3.8±0.2 1.4±0.3 5.0±0.3 2.75 4.0 5.5
+MWSA1003S 10.0±0.3 11.5 Max 2.8±0.2 2.0±0.5 3.0±0.3 4.1 5.4 4.1
+MWSA1004S 10.0±0.3 11.0±0.5 3.8±0.2 2.0±0.5 3.0±0.5 4.1 5.4 4.1
+MWSA1005S 10.0±0.3 11.5 Max 4.8±0.2 2.0±0.5 3.0±0.5 4.1 5.4 4.1
+MWSA1204S 12.8±0.5 13.45±0.35 4.0Max. 2.0±0.5 See Remarks 3.25 8.0 5.5
+MWSA1205S 12.6±0.3 13.45±0.35 4.8±0.2 2.0±0.5 See Remarks 3.25 8.0 5.5
+MWSA1206S 12.6±0.3 13.45±0.35 5.8±0.2 2.0±0.5 See Remarks 3.25 8.0 5.5
+MWSA1265S 12.6±0.3 13.45±0.35 6.5Max. 2.0±0.5 5.0±0.3 3.25 8.0 5.5
+MWSA1707S 17.15Max 17.15±0.35 6.7±0.3 2.5±0.5 12.0±0.3 3.50 11.2 12.8
+MWSA2213S 22.0±0.3 23.5±0.5 12.6±0.4 5.0±0.4 19.0±0.3 5.75 12.5 19.6
+SHAPE AND DIMENSIONS
+Remark：MWSA0412S ~ MWSA1265S Series
+Remark：MWSA1707S ~ MWSA2213S Series
+131
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Remarks:
+Series E(mm) Dimensions
+MWSA1204S
+3.85±0.5 R22/R47
+5.0±0.3 R68/R82/1R0/1R5/2R2/3R3/4R7/6R8/100/150/220
+MWSA1205S
+3.85±0.5 R22/R36/R50/R68/R82/1R0/1R5/2R2
+5.0±0.3 3R3/4R7/6R8/100/150/220/330/470
+MWSA1206S
+3.85±0.5 R68/1R5/2R2
+5.0±0.3 3R3/4R7/5R6/6R8/8R2/100/120/150/180/220/270/330/470/680/101/121/151 
+SHAPE AND DIMENSIONS
+SPECIFICATIONS
+MWSA0412S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0412S-R15MT 0.15±20% 9 12.0 15.0 6.80 7.50 
+MWSA0412S-R22MT 0.22±20% 11 8.80 11.0 6.50 7.00 
+MWSA0412S-R33MT 0.33±20% 19 6.70 8.40 5.70 6.50 
+MWSA0412S-R47MT 0.47±20% 21 5.40 6.80 5.20 6.00 
+MWSA0412S-R68MT 0.68±20% 36 4.80 6.00 4.20 4.70 
+MWSA0412S-1R0MT 1.0±20% 47 4.40 5.50 3.80 4.50 
+MWSA0412S-1R5MT 1.5±20% 75 3.20 4.00 2.70 3.25 
+MWSA0412S-2R2MT 2.2±20% 83.5 2.40 3.00 2.20 2.75 
+MWSA0412S-3R3MT 3.3±20% 160 2.38 2.70 1.77 2.00
+MWSA0412S-4R7MT 4.7±20% 195 1.80 2.20 1.45 1.80 
+MWSA0402S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0402S-R10MT 0.10±20% 4 17.6 22.0 11.2 13.0
+MWSA0402S-R22MT 0.22±20% 6.6 10.0 12.5 8.20 9.50 
+MWSA0402S-R33MT 0.33±20% 11 9.60 12.0 8.60 10.0 
+MWSA0402S-R47MT 0.47±20% 14 7.60 9.50 6.65 7.50 
+MWSA0402S-R56MT 0.56±20% 16 7.20 9.00 6.10 7.00 
+MWSA0402S-R68MT 0.68±20% 18 6.40 8.00 6.15 7.00 
+MWSA0402S-1R0MT 1.0±20% 27 5.60 7.00 5.40 6.00 
+MWSA0402S-1R0MTB01 1.0±20% 27 8.00 9.00 5.40 6.00 
+MWSA0402S-1R2MT 1.2±20% 27 5.20 6.50 5.40 6.00 
+MWSA0402S-1R5MT 1.5±20% 46 4.40 5.50 4.30 5.00 
+MWSA0402S-2R2MT 2.2±20% 58 4.00 5.00 3.80 4.50 
+MWSA0402S-3R3MT 3.3±20% 87 2.80 3.50 2.80 3.30 
+MWSA0402S-4R7MT 4.7±20% 105 2.40 3.00 2.20 2.80 
+MWSA0402S-6R8MT 6.8±20% 175 2.00 2.50 1.90 2.40 
+MWSA0402S-100MT 10±20% 282 1.60 2.00 1.30 1.60 
+MWSA0402S-220MT 22±20% 363 1.12 1.40 0.90 1.20
+        
+132
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+SPECIFICATIONS
+MWSA0518S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0518S-R47MT 0.47±20% 9 9.60 12.0 9.50 10.5
+MWSA0518S-R56MT 0.56±20% 10 8.80 11.0 8.20 9.50
+MWSA0518S-R68MT 0.68±20% 13.8 9.30 10.5 7.70 8.70
+MWSA0518S-1R0MT 1.0±20% 17 7.20 9.00 7.20 8.00
+MWSA0518S-1R5MT 1.5±20% 26 6.40 8.00 6.60 7.50
+MWSA0518S-2R2MT 2.2±20% 35 4.80 6.00 4.20 5.00
+MWSA0518S-3R3MT 3.3±20% 58 3.84 4.80 3.80 4.50
+MWSA0518S-4R7MT 4.7±20% 85 3.20 4.00 3.00 3.50
+MWSA0518S-6R8MT 6.8±20% 120 2.72 3.40 2.40 2.80
+MWSA0518S-100MT 10±20% 155 2.00 2.50 2.20 2.50
+MWSA0503S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0503S-R10MT 0.10±20% 3 24.0 30.0 23.0 25.0
+MWSA0503S-R20MT 0.20±20% 3.9 16.0 20.0 13.0 14.0
+MWSA0503S-R33MT 0.33±20% 5.5 14.4 18.0 13.1 14.0
+MWSA0503S-R47MT 0.47±20% 8.5 12.0 15.0 10.0 11.0
+MWSA0503S-R68MT 0.68±20% 12 9.20 11.5 8.20 9.00
+MWSA0503S-R82MT 0.82±20% 10.4 9.20 10.5 9.00 10.5
+MWSA0503S-1R0MT 1.0±20% 14 8.00 10.0 7.80 8.50
+MWSA0503S-1R2MT 1.2±20% 16 7.60 9.50 7.85 8.50
+MWSA0503S-1R5MT 1.5±20% 25 7.20 9.00 7.60 8.20
+MWSA0503S-2R2MT 2.2±20% 29 5.60 7.00 6.40 7.00
+MWSA0503S-3R3MT 3.3±20% 38 4.80 6.00 5.00 5.50
+MWSA0503S-4R7MT 4.7±20% 60 3.68 4.60 4.00 4.50
+MWSA0503S-6R8MT 6.8±20% 90 2.88 3.60 2.90 3.50
+MWSA0503S-100MT 10±20% 125 2.80 3.50 2.80 3.20
+MWSA0503S-150MT 15±20% 170 2.00 2.20 1.60 1.80
+MWSA0615S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0615S-R47MT 0.47±20% 8.5 14.16 16.0 8.85 10.0
+MWSA0615S-R56MT 0.56±20% 11 12.38 14.0 7.96 9.00
+MWSA0615S-R68MT 0.68±20% 12 10.62 12.0 7.52 8.50
+MWSA0615S-R82MT 0.82±20% 17 8.85 10.0 7.08 8.00
+MWSA0615S-1R0MT 1.0±20% 21 7.96 9.00 5.30 6.00
+MWSA0615S-1R5MT 1.5±20% 40 7.00 8.00 4.40 5.00
+MWSA0615S-2R2MT 2.2±20% 54 6.19 7.00 3.36 3.80
+MWSA0615S-3R3MT 3.3±20% 63 4.87 5.50 3.10 3.50
+MWSA0615S-4R7MT 4.7±20% 85 4.42 5.00 2.83 3.20
+MWSA0615S-6R8MT 6.8±20% 135 3.54 4.00 2.21 2.50
+MWSA0615S-100MT 10±20% 175 2.65 3.00 1.77 2.00
+MWSA0615S-220MT 22±20% 510 2.20 2.50 1.32 1.40
+133
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+SPECIFICATIONS
+MWSA0618S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0618S-R10MT 0.10±20% 2.3 30.4 38.0 23.0 25.0
+MWSA0618S-R22MT 0.22±20% 3.5 19.2 24.0 20.0 22.0
+MWSA0618S-R47MT 0.47±20% 8.4 14.4 18.0 10.0 11.5
+MWSA0618S-R68MT 0.68±20% 12 13.2 16.5 8.40 9.50 
+MWSA0618S-1R0MT 1.0±20% 16 9.60 12.0 7.60 8.50 
+MWSA0618S-1R5MT 1.5±20% 26 7.36 9.20 7.10 8.00 
+MWSA0618S-2R2MT 2.2±20% 35 6.40 8.00 6.20 7.00 
+MWSA0618S-3R3MT 3.3±20% 50 4.80 6.00 3.80 4.50 
+MWSA0618S-4R7MT 4.7±20% 62 4.00 5.00 3.50 4.00 
+MWSA0618S-6R8MT 6.8±20% 110 3.60 4.50 2.40 3.00 
+MWSA0618S-8R2MT 8.2±20% 135 2.90 3.60 2.10 2.40
+MWSA0618S-100MT 10±20% 155 3.20 4.00 1.95 2.30 
+MWSA0618S-220MT 22±20% 350 1.84 2.30 1.40 1.80
+MWSA0602S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0602S-1R5MT 1.5±20% 18 10.0 12.0 7.00 8.00
+MWSA0602S-4R7MT 4.7±20% 60 - 5.50 - 4.30
+MWSA0602S-100MT 10±20% 145 - 4.00 - 2.80
+MWSA0624S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0624S-R22MT 0.22±20% 3 24.0 30.0 19.0 21.0
+MWSA0624S-R33MT 0.33±20% 4.1 19.6 24.5 16.0 18.0
+MWSA0624S-R47MT 0.47±20% 5.1 16.0 20.0 13.5 15.0
+MWSA0624S-R56MT 0.56±20% 6.5 13.6 17.0 11.5 13.0
+MWSA0624S-R68MT 0.68±20% 7 12.8 16.0 10.5 12.0
+MWSA0624S-1R0MT 1.0±20% 13.5 12.0 15.0 8.00 9.00 
+MWSA0624S-1R5MT 1.5±20% 20 10.8 13.5 7.00 8.20 
+MWSA0624S-2R2MT 2.2±20% 28 8.00 10.0 6.20 7.00 
+MWSA0624S-3R3MT 3.3±20% 39 6.40 8.00 4.80 5.50 
+MWSA0624S-4R7MT 4.7±20% 50 5.20 6.50 4.30 5.00 
+MWSA0624S-6R8MT 6.8±20% 70 4.80 6.00 3.20 4.00 
+MWSA0624S-100MT 10±20% 101 3.20 4.00 2.40 3.10 
+MWSA0624S-150MT 15±20% 160 2.64 3.30 2.00 2.50 
+MWSA0624S-220MT 22±20% 230 2.00 2.50 1.60 2.00 
+            
+134
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+SPECIFICATIONS
+MWSA0603S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0603S-R10MT 0.10±20% 1.7 53.0 60.0 28.5 32.5
+MWSA0603S-R12MT 0.12±20% 0.77±7% 30.0 40.0 32.0 38.0
+MWSA0603S-R22MT 0.22±20% 3 27.2 34.0 21.0 24.0
+MWSA0603S-R24MT 0.24±20% 3.1 22.4 28.0 18.4 23.0
+MWSA0603S-R24MTY02 0.24±20% 1.19±7% 30.0 35.0 26.0 30.0
+MWSA0603S-R33MT 0.33±20% 3.5 20.0 25.0 19.0 21.0
+MWSA0603S-R47MT 0.47±20% 4.1 16.0 20.0 16.5 18.0
+MWSA0603S-R56MT 0.56±20% 4.5 14.4 18.0 15.0 16.5
+MWSA0603S-R68MT 0.68±20% 5.3 13.6 17.0 14.5 16.0 
+MWSA0603S-R82MT 0.82±20% 6.0 12.8 16.0 12.5 14.0 
+MWSA0603S-1R0MT 1.0±20% 7.4 12.0 15.0 10.5 12.0 
+MWSA0603S-1R5MT 1.5±20% 12.1 9.60 12.0 10.5 12.0 
+MWSA0603S-1R5MTB01 1.5±20% 11 - 14.0 - 10.5
+MWSA0603S-1R8MT 1.8±20% 12.6 9.40 11.8 8.20 9.30
+MWSA0603S-2R2MT 2.2±20% 15 8.00 10.0 8.50 9.50 
+MWSA0603S-3R3MT 3.3±20% 22 7.60 9.50 7.50 8.50 
+MWSA0603S-4R7MT 4.7±20% 33 7.20 9.00 5.00 6.00 
+MWSA0603S-5R6MT 5.6±20% 42 5.20 6.50 4.80 5.50 
+MWSA0603S-6R8MT 6.8±20% 48 4.80 6.00 4.20 5.00 
+MWSA0603S-8R2MT 8.2±20% 60 4.40 5.50 4.20 5.00 
+MWSA0603S-100MT 10±20% 68 4.40 5.50 3.80 4.50 
+MWSA0603S-150MT 15±20% 113 3.20 4.00 2.30 3.00 
+MWSA0603S-220MT 22±20% 170 2.40 3.00 2.00 2.50 
+MWSA0603S-330MT 33±20% 270 2.00 2.50 1.60 2.00 
+MWSA0603S-330MTB01 33±20% 210 2.00 2.50 1.70 2.20
+MWSA0603S-470MT 47±20% 385 1.60 2.00 1.20 1.50 
+MWSA0604S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0604S-R68MT 0.68±20% 4.8 17.0 19.0 16.0 17.0 
+MWSA0604S-1R0MT 1.0±20% 6.6 15.0 16.0 12.5 13.5
+MWSA0604S-1R5MT 1.5±20% 10 12.0 12.5 11.0 12.4
+MWSA0604S-2R2MT 2.2±20% 14 10.0 11.0 8.50 10.0
+MWSA0604S-3R3MT 3.3±20% 20 8.70 9.50 7.80 8.50
+MWSA0604S-4R7MT 4.7±20% 30 8.00 9.00 6.00 6.50 
+MWSA0604S-6R8MT 6.8±20% 45 6.00 6.50 5.00 5.50
+MWSA0604S-100MT 10±20% 65 5.00 6.00 4.00 4.80
+MWSA0604S-100MTB01 10±20% 63 5.50 6.50 4.10 5.00
+MWSA0604S-150MT 15±20% 95 4.00 4.50 3.20 3.70 
+MWSA0604S-220MT 22±20% 125 3.50 4.00 3.00 3.30
+MWSA0604S-330MT 33±20% 240 2.50 3.00 2.00 2.20
+MWSA0604S-470MT 47±20% 320 2.00 2.50 1.60 1.80
+135
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+SPECIFICATIONS
+MWSA0605S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0605S-R47MT 0.47±20% 3.9 16.8 21.0 17.0 20.0
+MWSA0605S-R68MT 0.68±20% 4.5 14.4 18.0 14.5 16.5
+MWSA0605S-1R0MT 1.0±20% 6.6 12.8 16.0 10.0 12.0
+MWSA0605S-1R5MT 1.5±20% 10 10.4 13.0 8.20 9.50
+MWSA0605S-2R2MT 2.2±20% 12.5 8.80 11.0 8.00 9.00
+MWSA0605S-3R3MT 3.3±20% 22 8.00 10.0 7.60 8.50
+MWSA0605S-4R7MT 4.7±20% 29 6.40 8.00 5.00 6.00
+MWSA0605S-6R8MT 6.8±20% 41 5.04 6.30 4.00 5.80
+MWSA0605S-8R2MT 8.2±20% 48 4.40 5.50 4.80 5.50
+MWSA0605S-100MT 10±20% 60 4.24 5.30 3.80 4.50 
+MWSA0605S-150MT 15±20% 90 3.20 4.00 2.60 3.10 
+MWSA0605S-220MT 22±20% 140 2.80 3.50 2.00 2.60 
+MWSA0605S-330MT 33±20% 190 2.40 3.00 1.80 2.30 
+MWSA0605S-470MT 47±20% 230 2.08 2.60 1.50 2.00
+MWSA0804S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA0804S-R15MT 0.15±20% 1.65 65.0 70.0 33.0 39.0
+MWSA0804S-R22MT 0.22±20% 1.8 55.0 60.0 30.0 36.0
+MWSA0804S-R33MT 0.33±20% 2.4 40.0 45.0 25.0 30.0
+MWSA0804S-R47MT 0.47±20% 2.8 36.0 42.0 25.0 28.0
+MWSA0804S-R56MT 0.56±20% 3.2 23.0 26.0 22.0 24.0
+MWSA0804S-R68MT 0.68±20% 3.8 22.0 24.0 21.0 23.0
+MWSA0804S-R82MT 0.82±20% 4.4 19.0 21.0 19.0 21.0
+MWSA0804S-1R0MT 1.0±20% 4.62 17.0 19.0 17.0 19.0
+MWSA0804S-1R5MT 1.5±20% 7.6 15.0 17.0 15.0 17.0
+MWSA0804S-1R8MT 1.8±20% 11 13.5 15.0 12.5 15.0
+MWSA0804S-2R2MT 2.2±20% 11.4 12.0 14.0 12.0 14.0
+MWSA0804S-3R3MT 3.3±20% 15 11.0 12.5 10.0 12.0
+MWSA0804S-4R7MT 4.7±20% 26.5 10.5 11.5 8.50 9.50
+MWSA0804S-5R6MT 5.6±20% 30 10.0 11.0 8.00 9.00
+MWSA0804S-6R8MT 6.8±20% 36.8 8.00 9.00 7.00 8.00
+MWSA0804S-8R2MT 8.2±20% 46 7.70 8.70 6.00 7.00
+MWSA0804S-100MT 10±20% 59 7.00 8.00 5.50 6.50
+MWSA0804S-150MT 15±20% 71 4.90 5.50 4.80 5.40
+MWSA0804S-220MT 22±20% 113 4.50 5.00 4.20 4.80
+MWSA0804S-330MT 33±20% 156 3.30 3.50 3.00 3.50
+MWSA0804S-470MT 47±20% 225 2.90 3.10 2.50 2.90
+136
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+SPECIFICATIONS
+MWSA1003S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1003S-R22MT 0.22±20% 1.2 44.24 50.0 29.2 33.0
+MWSA1003S-R33MT 0.33±20% 1.6 28.3 32.0 20.35 23.0
+MWSA1003S-R36MT 0.36±20% 1.6 24.8 28.0 20.35 23.0
+MWSA1003S-R47MT 0.47±20% 2.5 23.0 26.0 19.47 22.0
+MWSA1003S-R82MT 0.82±20% 3.7 20.35 23.0 15.93 18.0
+MWSA1003S-1R0MT 1.0±20% 6 18.58 21.0 13.27 15.0
+MWSA1003S-1R5MT 1.5±20% 7.5 17.69 20.0 11.5 13.0
+MWSA1003S-2R2MT 2.2±20% 9 12.38 14.0 9.73 11.0
+MWSA1003S-3R3MT 3.3±20% 16 10.61 12.0 7.96 9.00
+MWSA1003S-4R7MT 4.7±20% 22.5 8.84 10.0 6.19 7.00
+MWSA1003S-8R2MT 8.2±20% 45 6.20 7.00 4.42 5.00
+MWSA1003S-100MT 10±20% 55 5.75 6.50 3.98 4.50 
+MWSA1003S-330MT 33±20% 160 3.53 4.00 2.30 2.60 
+MWSA1004S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1004S-R13MT 0.13±20% 0.52（±5%） 63.0 92.0 63.0 72.0
+MWSA1004S-R15MT 0.15±20% 0.65 60.0 75.0 40.0 45.0
+MWSA1004S-R22MT 0.22±20% 1 48.0 60.0 30.0 35.0
+MWSA1004S-R30MT 0.30±20% 1.1 36.0 45.0 30.0 35.0
+MWSA1004S-R36MT 0.36±20% 1.2 36.0 45.0 25.0 30.0
+MWSA1004S-R45MT 0.45±20% 1.5 34.0 43.0 25.0 30.0
+MWSA1004S-R47MT 0.47±20% 1.7 32.0 40.0 25.0 30.0
+MWSA1004S-R56MT 0.56±20% 1.8 26.4 33.0 20.0 25.0
+MWSA1004S-R68MT 0.68±20% 2.4 24.0 30.0 19.0 23.0
+MWSA1004S-R80MT 0.80±20% 2.7 23.2 29.0 19.0 23.0
+MWSA1004S-1R0MT 1.0±20% 3.3 22.4 28.0 16.0 19.0
+MWSA1004S-1R5MT 1.5±20% 4.2 19.2 24.0 14.0 16.0
+MWSA1004S-2R2MT 2.2±20% 7 13.2 16.5 10.0 12.0
+MWSA1004S-3R3MT 3.3±20% 11.8 12.8 16.0 9.50 11.0
+MWSA1004S-4R7MT 4.7±20% 20 10.4 13.0 7.50 9.00
+MWSA1004S-6R8MT 6.8±20% 25 9.60 12.0 7.00 8.50
+MWSA1004S-8R2MT 8.2±20% 27 7.20 9.00 6.80 8.00
+MWSA1004S-100MT 10±20% 30 6.80 8.50 6.90 7.80
+MWSA1004S-150MT 15±20% 45 5.60 7.00 5.60 6.50
+MWSA1004S-220MT 22±20% 66 4.40 5.50 4.20 5.00
+MWSA1004S-330MT 33±20% 92 3.84 4.80 3.80 4.40
+MWSA1004S-470MT 47±20% 145 3.10 3.50 2.80 3.30
+MWSA1004S-680MT 68±20% 195 2.40 3.00 2.00 2.50
+MWSA1004S-820MT 82±20% 285 2.30 2.80 2.10 2.30
+MWSA1004S-101MT 100±20% 340 2.10 2.30 1.80 2.00
+137
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+SPECIFICATIONS
+MWSA1005S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1005S-R22MT 0.22±20% 0.8 57.5 65.0 32.5 37.0
+MWSA1005S-R68MT 0.68±20% 1.95 34.0 37.0 21.0 23.0
+MWSA1005S-1R0MT 1.0±20% 3 28.0 30.0 20.3 23.0
+MWSA1005S-1R5MT 1.5±20% 3.8 22.0 25.0 18.5 21.0
+MWSA1005S-2R2MT 2.2±20% 6 16.8 19.0 13.2 15.0
+MWSA1005S-3R3MT 3.3±20% 10 14.0 16.0 11.5 13.0
+MWSA1005S-4R7MT 4.7±20% 14 13.2 15.0 9.70 11.0
+MWSA1005S-5R6MT 5.6±20% 17 12.3 14.0 8.50 9.50
+MWSA1005S-6R8MT 6.8±20% 18.5 12.3 14.0 8.00 9.00
+MWSA1005S-100MT 10±20% 28 8.80 10.0 7.00 8.00
+MWSA1005S-150MT 15±20% 42 6.50 7.50 5.70 6.50
+MWSA1005S-220MT 22±20% 50 5.30 6.00 5.00 5.50
+MWSA1005S-330MT 33±20% 86 4.60 5.20 4.20 4.80
+MWSA1005S-470MT 47±20% 127 4.00 4.50 3.20 3.70
+MWSA1005S-680MT 68±20% 185 2.80 3.20 2.40 2.70
+MWSA1005S-820MT 82±20% 280 3.00 3.50 1.70 2.00
+MWSA1005S-101MT 100±20% 290 2.50 2.80 1.80 2.10
+MWSA1204S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1204S-R22MT 0.22±20% 0.9 40.0 50.0 38.0 42.0
+MWSA1204S-R47MT 0.47±20% 2 38.4 48.0 29.0 33.0
+MWSA1204S-R68MT 0.68±20% 3.5 37.6 47.0 24.0 28.0
+MWSA1204S-R82MT 0.82±20% 4.5 32.0 40.0 24.0 28.0
+MWSA1204S-1R0MT 1.0±20% 7.5 28.0 35.0 20.0 24.0
+MWSA1204S-1R5MT 1.5±20% 9.5 24.4 30.5 17.0 20.0
+MWSA1204S-2R2MT 2.2±20% 11.5 20.8 26.0 15.0 18.0
+MWSA1204S-3R3MT 3.3±20% 13 16.8 21.0 13.0 15.0
+MWSA1204S-4R7MT 4.7±20% 14.5 14.4 18.0 11.0 13.0
+MWSA1204S-6R8MT 6.8±20% 20 11.2 14.0 8.00 9.00
+MWSA1204S-100MT 10±20% 25 8.00 10.0 7.00 8.00
+MWSA1204S-150MT 15±20% 39 6.00 7.50 5.80 6.50
+MWSA1204S-220MT 22±20% 51 4.80 6.00 3.80 4.50
+MWSA1205S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1205S-R22MT 0.22±20% 0.7 60.0 75.0 45.0 50.0 
+MWSA1205S-R36MT 0.36±20% 0.85 40.0 50.0 37.0 42.0
+MWSA1205S-R50MT 0.50±20% 1.15 38.4 48.0 33.0 38.0
+MWSA1205S-R68MT 0.68±20% 1.55 36.8 46.0 29.0 33.0
+138
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+SPECIFICATIONS
+MWSA1205S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1205S-R82MT 0.82±20% 1.67 31.2 39.0 26.0 30.0
+MWSA1205S-1R0MT 1.0±20% 2.2 28.0 35.0 22.0 26.0
+MWSA1205S-1R5MT 1.5±20% 3.2 26.4 33.0 19.0 23.0
+MWSA1205S-2R2MT 2.2±20% 5 19.2 24.0 13.0 15.0
+MWSA1205S-3R3MT 3.3±20% 7 17.6 22.0 12.0 14.0
+MWSA1205S-4R7MT 4.7±20% 9 16.0 20.0 11.0 13.0
+MWSA1205S-6R8MT 6.8±20% 18 12.8 16.0 10.0 12.0
+MWSA1205S-100MT 10±20% 22 9.60 12.0 8.00 9.00
+MWSA1205S-150MT 15±20% 30 8.00 10.0 7.00 8.00
+MWSA1205S-220MT 22±20% 58 5.20 6.50 3.80 4.50
+MWSA1205S-330MT 33±20% 84 4.80 6.00 2.80 3.50
+MWSA1205S-330MTY01 33±20% 63 4.80 6.00 2.80 3.50
+MWSA1205S-470MT 47±20% 130 4.00 5.00 2.60 3.00
+MWSA1206S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1206S-1R5MT 1.5±20% 2.9 27.0 30.0 23.0 27.0
+MWSA1206S-2R2MT 2.2±20% 4.2 24.0 28.0 18.0 22.0
+MWSA1206S-3R3MT 3.3±20% 6.8 21.0 25.0 14.0 17.0
+MWSA1206S-4R7MT 4.7±20% 9 19.2 24.0 12.0 15.0
+MWSA1206S-5R6MT 5.6±20% 11 18.0 22.5 11.0 13.0
+MWSA1206S-6R8MT 6.8±20% 13.5 15.2 19.0 10.0 12.0
+MWSA1206S-8R2MT 8.2±20% 16 10.8 13.5 9.00 11.0
+MWSA1206S-100MT 10±20% 20.7 11.1 12.5 8.50 10.0
+MWSA1206S-120MT 12±20% 23 8.00 10.0 7.80 9.00
+MWSA1206S-150MT 15±20% 29 7.20 9.00 7.50 8.50
+MWSA1206S-180MT 18±20% 35 6.40 8.00 6.50 7.50
+MWSA1206S-220MT 22±20% 39.5 6.00 7.50 6.00 7.00
+MWSA1206S-270MT 27±20% 56 5.20 6.50 5.00 6.00
+MWSA1206S-330MT 33±20% 75 4.80 6.00 4.80 5.50
+MWSA1206S-470MT 47±20% 90 4.40 5.50 4.20 5.00
+MWSA1206S-680MT 68±20% 140 3.60 4.50 3.20 4.00
+MWSA1206S-101MT 100±20% 200 2.80 3.50 2.50 3.00
+MWSA1206S-121MT 120±20% 235 2.56 3.20 1.70 2.00
+MWSA1206S-151MT 150±20% 350 2.16 2.70 1.20 1.50
+MWSA1265S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1265S-4R7MT 4.7±20% 8.5 - 24.0 - 16.0
+MWSA1265S-5R6MT 5.6±20% 10.5 - 22.5 - 14.0
+MWSA1265S-6R8MT 6.8±20% 12 - 19.0 - 13.0
+MWSA1265S-8R2MT 8.2±20% 14 - 16.0 - 12.0
+139
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+MWSA1265S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1265S-100MT 10±20% 16.5 - 15.0 - 11.0
+MWSA1265S-150MT 15±20% 26 - 11.0 - 9.50
+MWSA1265S-220MT 22±20% 36 - 9.00 - 8.00
+MWSA1265S-330MT 33±20% 65 - 8.00 - 6.50
+MWSA1265S-470MT 47±20% 70 - 6.80 - 5.50
+MWSA1265S-470MTB01 47±20% 67 - 7.60 - 8.00
+MWSA1265S-680MT 68±20% 120 - 5.20 - 4.80
+MWSA1265S-820MT 82±20% 135 - 4.50 - 4.00
+MWSA1265S-101MT 100±20% 170 - 4.00 - 3.50
+MWSA1707S Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA1707S-1R5MT 1.5±20% 2.1 - 40.0 - 33.0
+MWSA1707S-2R2MT 2.2±20% 2.5 - 34.0 - 29.0
+MWSA1707S-3R3MT 3.3±20% 3.95 - 30.0 - 24.0
+MWSA1707S-4R7MT 4.7±20% 4.75 - 24.0 - 21.0
+MWSA1707S-6R8MT 6.8±20% 7.5 - 22.0 - 17.0
+MWSA1707S-8R2MT 8.2±20% 8.7 - 20.0 - 13.0
+MWSA1707S-100MT 10±20% 9.9 - 19.0 - 12.0
+MWSA1707S-150MT 15±20% 17 - 14.5 - 11.0
+MWSA1707S-220MT 22±20% 23 - 11.5 - 8.50
+MWSA1707S-330MT 33±20% 37 - 10.0 - 8.00
+MWSA1707S-470MT 47±20% 47 - 7.50 - 6.00
+MWSA1707S-680MT 68±20% 85 - 6.50 - 5.20
+MWSA1707S-101MT 100±20% 130 - 5.00 - 3.70
+MWSA2213 Series
+Part Number Inductance DC Resistance Saturation Current Heat Rating Current
+@100KHz,1V Max. Max. Typ. Max. Typ.
+Units μH mΩ A A
+Symbol L DCR Isat Irms
+MWSA2213S-2R2MT 2.2±20% 1.25 43.0 48.0 52.0 58.0
+MWSA2213S-3R3MT 3.3±20% 1.75 37.0 41.0 47.0 49.0
+MWSA2213S-4R7MT 4.7±20% 2.2 34.0 38.0 44.0 47.0
+MWSA2213S-100MT 10±20% 4.15 20.0 28.0 30.0 33.0
+MWSA2213S-150MT 15±20% 6.12 18.0 23.0 23.0 26.0
+MWSA2213S-330MT 33±20% 15.4 10.5 12.0 16.0 19.0
+MWSA2213S-470MT 47±20% 20.8 10.0 12.0 14.0 17.0
+MWSA2213S-680MT 68±20% 29.5 9.00 12.0 12.0 14.0
+※1: All test data is referenced to 20°C ambient;  
+※2: Rated current: Isat or Irms, whichever is smaller; 
+※3: Isat(Typ): DC current at which the inductance drops approximate 30% from its value without current; 
+※4: Isat(Max): DC current at which the inductance drops approximate 20% from its value without current; 
+※5: Irms(Typ): DC current that causes the temperature rise ( △ T =40°C) from 20°C ambient.
+※6: Irms(Max): DC current that causes the temperature rise ( △ T =20°C) from 20°C ambient.
+※7: Absolute maximum voltage 30VDC
+SPECIFICATIONS
+
+140
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0412S Series
+
+141
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0402S Series
+
+142
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0402S Series
+MWSA0518S Series
+MWSA0518S-R47MT
+MWSA0402S-220MT
+MWSA0518S-R56MT
+
+143
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0518S Series
+MWSA0518S-1R0MT MWSA0518S-1R5MT
+MWSA0518S-3R3MTMWSA0518S-2R2MT
+MWSA0518S-100MT
+144
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0503S Series
+MWSA0503S-R10MT
+MWSA0503S-R33MT
+MWSA0503S-R68MT
+MWSA0503S-1R2MT
+MWSA0503S-2R2MT MWSA0503S-3R3MT
+MWSA0503S-1R5MT
+MWSA0503S-1R0MT
+MWSA0503S-R20MT
+MWSA0503S-R47MT
+
+145
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0503S Series
+MWSA0618S Series
+MWSA0503S-4R7MT
+MWSA0503S-100MT
+MWSA0618S-R10MT
+MWSA0618S-R47MT
+MWSA0503S-6R8MT
+MWSA0618S-R22MT
+MWSA0618S-R68MT
+146
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0618S Series
+MWSA0618S-1R0MT
+MWSA0618S-2R2MT
+MWSA0618S-4R7MT 
+MWSA0618S-100MT
+MWSA0618S-1R5MT
+MWSA0618S-3R3MT
+MWSA0618S-6R8MT
+MWSA0618S-220MT
+147
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0624S Series
+MWSA0624S-R22MT
+MWSA0624S-R47MT
+MWSA0624S-R68MT
+MWSA0624S-1R5MT
+MWSA0624S-R33MT
+MWSA0624S-R56MT
+MWSA0624S-1R0MT
+MWSA0624S-2R2MT
+148
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0624S Series
+MWSA0603S Series
+MWSA0624S-3R3MT MWSA0624S-4R7MT
+MWSA0624S-100MTMWSA0624S-6R8MT
+MWSA0624S-150MT MWSA0624S-220MT
+MWSA0603S-R22MTMWSA0603S-R10MT
+
+149
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0603S Series
+MWSA0603S-R47MT
+MWSA0603S-R68MT
+MWSA0603S-1R0MT
+MWSA0603S-2R2MT
+MWSA0603S-R56MT
+MWSA0603S-R82MT
+MWSA0603S-1R5MT
+MWSA0603S-R33MT
+
+150
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0603S-3R3MT
+MWSA0603S Series
+MWSA0603S-4R7MT
+MWSA0603S-6R8MT
+MWSA0603S-100MT
+MWSA0603S-220MT
+MWSA0603S-8R2MT
+MWSA0603S-150MT
+MWSA0603S-330MT
+
+151
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0605S Series
+MWSA0605S-R47MT
+MWSA0605S-1R0MT
+MWSA0605S-R68MT
+MWSA0605S-1R5MT
+MWSA0604S Series
+MWSA0604S-2R2MT
+MWSA0604S-150MT
+MWSA0604S-4R7MT
+
+152
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA0605S-2R2MT
+ MWSA0605S-4R7MT 
+ MWSA0605S-3R3MT
+MWSA0605S-6R8MT
+MWSA0605S Series
+MWSA0605S-8R2MT MWSA0605S-100MT
+MWSA0605S-150MT
+ MWSA0605S-220MT
+
+153
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1004S-R30MT
+MWSA1004S-R15MT
+MWSA1004S-R36MT
+MWSA1004S-R22MT
+MWSA0605S Series
+MWSA0804S Series
+MWSA1004S Series
+MWSA0605S-330MT
+MWSA0804S-R22MT
+MWSA0605S-470MT
+
+154
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1004S-R47MT MWSA1004S-R56MT
+MWSA1004S-R68MT MWSA1004S-R80MT
+MWSA1004S-1R0MT MWSA1004S-1R5MT
+MWSA1004S Series
+MWSA1004S-2R2MT MWSA1004S-3R3MT
+
+155
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1004S Series
+MWSA1004S-330MT  MWSA1004S-470MT
+MWSA1004S-6R8MTMWSA1004S-4R7MT 
+MWSA1004S-100MTMWSA1004S-8R2MT
+MWSA1004S-220MTMWSA1004S-150MT
+
+156
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1004S Series
+MWSA1204S Series
+ MWSA1004S-680MT 
+MWSA1204S-R22MT MWSA1204S-R47MT
+MWSA1204S-R82MT  MWSA1204S-R68MT
+MWSA1204S-1R0MT MWSA1204S-1R5MT
+
+157
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1204S Series
+MWSA1204S-220MT
+MWSA1204S-2R2MT
+MWSA1204S-4R7MT
+MWSA1204S-100MT MWSA1204S-150MT
+MWSA1204S-3R3MT
+MWSA1204S-6R8MT
+
+158
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1205S-R22MT MWSA1205S-R36MT
+MWSA1205S-R50MT MWSA1205S-R68MT
+MWSA1205S-R82MT MWSA1205S-1R0MT
+MWSA1205S Series
+MWSA1205S-1R5MT MWSA1205S-2R2MT
+
+159
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1205S Series
+MWSA1205S-330MT MWSA1205S-470MT
+MWSA1205S-6R8MT
+MWSA1205S-150MT
+MWSA1205S-100MT
+MWSA1205S-220MT
+MWSA1205S-3R3MT MWSA1205S-4R7MT
+
+160
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1206S-4R7MT 
+MWSA1206S-6R8MT
+MWSA1206S-100MT 
+MWSA1206S-5R6MT
+MWSA1206S-8R2MT
+MWSA1206S-120MT
+MWSA1206S Series
+ MWSA1206S-150MT MWSA1206S-180MT
+
+161
+SMD Power Inductor
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+TYPICAL ELECTRICAL CHARACTERISTICS
+MWSA1206S Series
+MWSA1206S-680MT MWSA1206S-101MT
+MWSA1206S-330MT MWSA1206S-470MT
+MWSA1206S-220MT MWSA1206S-270MT
+MWSA1206S-121MT MWSA1206S-151MT
+162
+Specifications subject to change without notice. Please check our website for latest information.  Revised 2022/10/12
+Sunlord Industrial Park, Dafuyuan Industrial Zone, Guanlan, Shenzhen, China 518110 Tel: 0086-755-29832333 Fax: 0086-755-82269029 E-Mail: sunlord@sunlordinc.com
+Shenzhen Sunlord Electronics Co.,Ltd. 
+MWSA1265S Series
+MWSA1265S-150MT
+TYPICAL ELECTRICAL CHARACTERISTICS

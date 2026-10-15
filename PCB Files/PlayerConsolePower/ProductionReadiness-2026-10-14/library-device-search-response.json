@@ -1,0 +1,4692 @@
+{
+  "requested": [
+    "C15849",
+    "C15850",
+    "C1591",
+    "C1589",
+    "C7519",
+    "C165948",
+    "C408332",
+    "C8545",
+    "C2143",
+    "C22849",
+    "C4177",
+    "C23237",
+    "C25803",
+    "C23239",
+    "C23024",
+    "C25804",
+    "C23231",
+    "C23162",
+    "C318884",
+    "C54313",
+    "C919459",
+    "C79401",
+    "C19653",
+    "C132554",
+    "C51118",
+    "C128396",
+    "C5190383",
+    "C2682616",
+    "C2856798",
+    "C131337"
+  ],
+  "capturedAt": "2026-10-15T03:06:05.699Z",
+  "response": {
+    "success": true,
+    "result": [
+      {
+        "id": "C15849",
+        "matches": [
+          {
+            "uuid": "f4744ff7405a46a48e360c2c6fadeca3",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "3b62e6cdbff4454d89be00c5be874148",
+              "secondaryClassificationUuid": "e0e233af679044a4b2ae2f40389f22ae"
+            },
+            "ordinal": 0,
+            "name": "CL10A105KB8NNNC",
+            "symbolName": "CL10A105KB8NNNC",
+            "symbolUuid": "e92a0c4e0c82442c95b9f681928ac7a5",
+            "footprintName": "C0603",
+            "footprintUuid": "76d6c29a47804db487f8a92b2621751b",
+            "model3DName": "C0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "ac125912035d415993ca9572d50418b1",
+            "description": "温度系数:X5R;精度:±10%;额定电压:50V;容值:1uF;",
+            "manufacturer": "SAMSUNG(三星)",
+            "manufacturerId": "CL10A105KB8NNNC",
+            "supplier": "LCSC",
+            "supplierId": "C15849",
+            "otherProperty": {
+              "LCSC Part Name": "1uF(105) ±10% 50V",
+              "Supplier Part": "C15849",
+              "Manufacturer": "SAMSUNG(三星)",
+              "Manufacturer Part": "CL10A105KB8NNNC",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707679084.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "e92a0c4e0c82442c95b9f681928ac7a5",
+              "Designator": "C?",
+              "Footprint": "76d6c29a47804db487f8a92b2621751b",
+              "3D Model": "ac125912035d415993ca9572d50418b1",
+              "3D Model Title": "C0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Temperature Coefficient": "X5R",
+              "Tolerance": "±10%",
+              "Voltage Rated": "50V",
+              "Value": "1uF",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C15849",
+            "name": "CL10A105KB8NNNC"
+          },
+          {
+            "supplierId": "C15840",
+            "name": "SRD-24VDC-SL-C"
+          },
+          {
+            "supplierId": "C15846",
+            "name": "MAX3232ESE+T"
+          },
+          {
+            "supplierId": "C1584",
+            "name": "0402F223M500NT"
+          },
+          {
+            "supplierId": "C158044",
+            "name": "B06B-PASK(LF)(SN)"
+          },
+          {
+            "supplierId": "C1589",
+            "name": "CL10B103KB8NNNC"
+          },
+          {
+            "supplierId": "C158010",
+            "name": "B2P3-VH-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158001",
+            "name": "B3B-ZR(LF)(SN)"
+          },
+          {
+            "supplierId": "C1582",
+            "name": "0402F105M160NT"
+          },
+          {
+            "supplierId": "C158100",
+            "name": "NCD0603W3"
+          },
+          {
+            "supplierId": "C15874",
+            "name": "SS310_C15874"
+          },
+          {
+            "supplierId": "C158711",
+            "name": "RTT012201FTH"
+          },
+          {
+            "supplierId": "C1581",
+            "name": "0402F104M500NT"
+          },
+          {
+            "supplierId": "C158017",
+            "name": "B20B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C15808",
+            "name": "C8051F410-GQR"
+          },
+          {
+            "supplierId": "C158068",
+            "name": "MAX232DR"
+          },
+          {
+            "supplierId": "C158038",
+            "name": "B10B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C158012",
+            "name": "B2B-XH-A(LF)(SN)"
+          },
+          {
+            "supplierId": "C15850",
+            "name": "CL21A106KAYNNNE_C15850"
+          },
+          {
+            "supplierId": "C15833",
+            "name": "MC7805BD2TR4G"
+          },
+          {
+            "supplierId": "C158007",
+            "name": "B2PS-VH(LF)(SN)"
+          },
+          {
+            "supplierId": "C15857",
+            "name": "SWPA8040S220MT"
+          },
+          {
+            "supplierId": "C22883",
+            "name": "0603WAF1583T5E"
+          },
+          {
+            "supplierId": "C158691",
+            "name": "RTT0122R0FTH"
+          },
+          {
+            "supplierId": "C115844",
+            "name": "AON7534"
+          },
+          {
+            "supplierId": "C158030",
+            "name": "B12B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158039",
+            "name": "B10B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158011",
+            "name": "B2B-ZR(LF)(SN)"
+          },
+          {
+            "supplierId": "C158000",
+            "name": "B3P-VH-FB-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158027",
+            "name": "B12B-XH-A(LF)(SN)"
+          }
+        ]
+      },
+      {
+        "id": "C15850",
+        "matches": [
+          {
+            "uuid": "8c1f4a9e9d204b148b36ce719c891bd1",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "3b62e6cdbff4454d89be00c5be874148",
+              "secondaryClassificationUuid": "e0e233af679044a4b2ae2f40389f22ae"
+            },
+            "ordinal": 0,
+            "name": "CL21A106KAYNNNE_C15850",
+            "symbolName": "CL21A106KAYNNNE",
+            "symbolUuid": "5f9529790e034d94aefbb6c46308260a",
+            "footprintName": "C0805",
+            "footprintUuid": "ccb32feceadc4298b406326a506ce8e7",
+            "model3DName": "C0805_L2.0-W1.3-H1.3",
+            "model3DUuid": "1ba041120af144c991958decab20d241",
+            "description": "容值:10uF;精度:±10%;额定电压:25V;材质(温度系数):X5R;",
+            "manufacturer": "SAMSUNG(三星)",
+            "manufacturerId": "CL21A106KAYNNNE",
+            "supplier": "LCSC",
+            "supplierId": "C15850",
+            "otherProperty": {
+              "LCSC Part Name": "10uF ±10% 25V",
+              "Supplier Part": "C15850",
+              "Manufacturer": "SAMSUNG(三星)",
+              "Manufacturer Part": "CL21A106KAYNNNE",
+              "Supplier Footprint": "0805",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707679302.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "5f9529790e034d94aefbb6c46308260a",
+              "Designator": "C?",
+              "Footprint": "ccb32feceadc4298b406326a506ce8e7",
+              "3D Model": "1ba041120af144c991958decab20d241",
+              "3D Model Title": "C0805_L2.0-W1.3-H1.3",
+              "3D Model Transform": "78.74,51.181,0,0,0,0,0,0.0005,0",
+              "Value": "10uF",
+              "Tolerance": "±10%",
+              "Voltage Rated": "25V",
+              "Temperature Coefficient": "X5R",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C15850",
+            "name": "CL21A106KAYNNNE_C15850"
+          },
+          {
+            "supplierId": "C15857",
+            "name": "SWPA8040S220MT"
+          },
+          {
+            "supplierId": "C1585",
+            "name": "0402F333M500NT (SMT业务专用)"
+          },
+          {
+            "supplierId": "C15874",
+            "name": "SS310_C15874"
+          },
+          {
+            "supplierId": "C158044",
+            "name": "B06B-PASK(LF)(SN)"
+          },
+          {
+            "supplierId": "C1589",
+            "name": "CL10B103KB8NNNC"
+          },
+          {
+            "supplierId": "C158010",
+            "name": "B2P3-VH-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158001",
+            "name": "B3B-ZR(LF)(SN)"
+          },
+          {
+            "supplierId": "C1582",
+            "name": "0402F105M160NT"
+          },
+          {
+            "supplierId": "C158100",
+            "name": "NCD0603W3"
+          },
+          {
+            "supplierId": "C158711",
+            "name": "RTT012201FTH"
+          },
+          {
+            "supplierId": "C1581",
+            "name": "0402F104M500NT"
+          },
+          {
+            "supplierId": "C158017",
+            "name": "B20B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C15808",
+            "name": "C8051F410-GQR"
+          },
+          {
+            "supplierId": "C158068",
+            "name": "MAX232DR"
+          },
+          {
+            "supplierId": "C158038",
+            "name": "B10B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C158012",
+            "name": "B2B-XH-A(LF)(SN)"
+          },
+          {
+            "supplierId": "C15833",
+            "name": "MC7805BD2TR4G"
+          },
+          {
+            "supplierId": "C158007",
+            "name": "B2PS-VH(LF)(SN)"
+          },
+          {
+            "supplierId": "C15840",
+            "name": "SRD-24VDC-SL-C"
+          },
+          {
+            "supplierId": "C22883",
+            "name": "0603WAF1583T5E"
+          },
+          {
+            "supplierId": "C158691",
+            "name": "RTT0122R0FTH"
+          },
+          {
+            "supplierId": "C251585",
+            "name": "6I08000F20UCG"
+          },
+          {
+            "supplierId": "C158030",
+            "name": "B12B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158039",
+            "name": "B10B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158011",
+            "name": "B2B-ZR(LF)(SN)"
+          },
+          {
+            "supplierId": "C158000",
+            "name": "B3P-VH-FB-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158027",
+            "name": "B12B-XH-A(LF)(SN)"
+          },
+          {
+            "supplierId": "C15846",
+            "name": "MAX3232ESE+T"
+          },
+          {
+            "supplierId": "C15879",
+            "name": "SMF05CT1G"
+          }
+        ]
+      },
+      {
+        "id": "C1591",
+        "matches": [
+          {
+            "uuid": "ac7072e4a0764739a31216c96ed3c9cc",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "3b62e6cdbff4454d89be00c5be874148",
+              "secondaryClassificationUuid": "e0e233af679044a4b2ae2f40389f22ae"
+            },
+            "ordinal": 1,
+            "name": "CL10B104KB8NNNC",
+            "symbolName": "CL10B104KB8NNNC",
+            "symbolUuid": "7e4a3fa416de498785d4b983a65978c9",
+            "footprintName": "C0603",
+            "footprintUuid": "76d6c29a47804db487f8a92b2621751b",
+            "model3DName": "C0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "ac125912035d415993ca9572d50418b1",
+            "description": "容值:100nF;精度:±10%;额定电压:50V;材质(温度系数):X7R;",
+            "manufacturer": "SAMSUNG(三星)",
+            "manufacturerId": "CL10B104KB8NNNC",
+            "supplier": "LCSC",
+            "supplierId": "C1591",
+            "otherProperty": {
+              "LCSC Part Name": "100nF ±10% 50V",
+              "Supplier Part": "C1591",
+              "Manufacturer": "SAMSUNG(三星)",
+              "Manufacturer Part": "CL10B104KB8NNNC",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707680512.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "7e4a3fa416de498785d4b983a65978c9",
+              "Designator": "C?",
+              "Footprint": "76d6c29a47804db487f8a92b2621751b",
+              "3D Model": "ac125912035d415993ca9572d50418b1",
+              "3D Model Title": "C0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Value": "100nF",
+              "Tolerance": "±10%",
+              "Voltage Rated": "50V",
+              "Temperature Coefficient": "X7R",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C159164",
+            "name": "RTT25R200FTE"
+          },
+          {
+            "supplierId": "C1591",
+            "name": "CL10B104KB8NNNC"
+          },
+          {
+            "supplierId": "C159766",
+            "name": "CL21C331JBANNNC"
+          },
+          {
+            "supplierId": "C15972",
+            "name": "CL21B474KAFNNNE"
+          },
+          {
+            "supplierId": "C1596",
+            "name": "0603B153K500NT"
+          },
+          {
+            "supplierId": "C159798",
+            "name": "CL10B334KO8NNNC"
+          },
+          {
+            "supplierId": "C1598",
+            "name": "0603B181K500NT"
+          },
+          {
+            "supplierId": "C115919",
+            "name": "BISS0001"
+          },
+          {
+            "supplierId": "C159779",
+            "name": "CL21B103KDCNNNC"
+          },
+          {
+            "supplierId": "C1595",
+            "name": "0603B152K500NT"
+          },
+          {
+            "supplierId": "C159777",
+            "name": "CL21B333KBANNNC"
+          },
+          {
+            "supplierId": "C15990",
+            "name": "G6S-2 DC24"
+          },
+          {
+            "supplierId": "C159816",
+            "name": "CL05A104KO5NNNC"
+          },
+          {
+            "supplierId": "C15903",
+            "name": "CJ3407"
+          },
+          {
+            "supplierId": "C91591",
+            "name": "DLP11TB800UL2L"
+          },
+          {
+            "supplierId": "C15997",
+            "name": "SMD1210P050TF"
+          },
+          {
+            "supplierId": "C159782",
+            "name": "CL21A225KB9LNNC"
+          },
+          {
+            "supplierId": "C159774",
+            "name": "CL21B473KBANNNC"
+          },
+          {
+            "supplierId": "C1597",
+            "name": "0603B154K500NT"
+          },
+          {
+            "supplierId": "C1592",
+            "name": "CL10A105KO8NNNC"
+          },
+          {
+            "supplierId": "C111591",
+            "name": "0805F104M101NT"
+          },
+          {
+            "supplierId": "C159771",
+            "name": "CL21C101JCANNNC"
+          },
+          {
+            "supplierId": "C15906",
+            "name": "XC6206P252MR_C15906"
+          },
+          {
+            "supplierId": "C15957",
+            "name": "MPZ2012S101AT000"
+          },
+          {
+            "supplierId": "C159795",
+            "name": "CL10C1R2BB8NNNC"
+          },
+          {
+            "supplierId": "C1590",
+            "name": "CL10B104KA8NNNC"
+          },
+          {
+            "supplierId": "C1599",
+            "name": "0603B182K500NT"
+          },
+          {
+            "supplierId": "C159801",
+            "name": "CL10A226MQ8NRNE"
+          },
+          {
+            "supplierId": "C159757",
+            "name": "CL31A226MQHNNNE"
+          },
+          {
+            "supplierId": "C1594",
+            "name": "0603B151K500NT"
+          }
+        ]
+      },
+      {
+        "id": "C1589",
+        "matches": [
+          {
+            "uuid": "03a827702a5d447dbe9d3571f0aad427",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "3b62e6cdbff4454d89be00c5be874148",
+              "secondaryClassificationUuid": "e0e233af679044a4b2ae2f40389f22ae"
+            },
+            "ordinal": 0,
+            "name": "CL10B103KB8NNNC",
+            "symbolName": "CL10B103KB8NNNC",
+            "symbolUuid": "b179634282da4811901296db6ce1e91b",
+            "footprintName": "C0603",
+            "footprintUuid": "76d6c29a47804db487f8a92b2621751b",
+            "model3DName": "C0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "ac125912035d415993ca9572d50418b1",
+            "description": "容值:10nF;精度:±10%;额定电压:50V;材质(温度系数):X7R;",
+            "manufacturer": "SAMSUNG(三星)",
+            "manufacturerId": "CL10B103KB8NNNC",
+            "supplier": "LCSC",
+            "supplierId": "C1589",
+            "otherProperty": {
+              "LCSC Part Name": "10nF ±10% 50V",
+              "Supplier Part": "C1589",
+              "Manufacturer": "SAMSUNG(三星)",
+              "Manufacturer Part": "CL10B103KB8NNNC",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160103/1457707680084.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "b179634282da4811901296db6ce1e91b",
+              "Designator": "C?",
+              "Footprint": "76d6c29a47804db487f8a92b2621751b",
+              "3D Model": "ac125912035d415993ca9572d50418b1",
+              "3D Model Title": "C0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Value": "10nF",
+              "Tolerance": "±10%",
+              "Voltage Rated": "50V",
+              "Temperature Coefficient": "X7R",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C1589",
+            "name": "CL10B103KB8NNNC"
+          },
+          {
+            "supplierId": "C158044",
+            "name": "B06B-PASK(LF)(SN)"
+          },
+          {
+            "supplierId": "C158010",
+            "name": "B2P3-VH-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158001",
+            "name": "B3B-ZR(LF)(SN)"
+          },
+          {
+            "supplierId": "C1582",
+            "name": "0402F105M160NT"
+          },
+          {
+            "supplierId": "C158100",
+            "name": "NCD0603W3"
+          },
+          {
+            "supplierId": "C15874",
+            "name": "SS310_C15874"
+          },
+          {
+            "supplierId": "C158711",
+            "name": "RTT012201FTH"
+          },
+          {
+            "supplierId": "C1581",
+            "name": "0402F104M500NT"
+          },
+          {
+            "supplierId": "C158017",
+            "name": "B20B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C15808",
+            "name": "C8051F410-GQR"
+          },
+          {
+            "supplierId": "C158068",
+            "name": "MAX232DR"
+          },
+          {
+            "supplierId": "C158038",
+            "name": "B10B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C158012",
+            "name": "B2B-XH-A(LF)(SN)"
+          },
+          {
+            "supplierId": "C15850",
+            "name": "CL21A106KAYNNNE_C15850"
+          },
+          {
+            "supplierId": "C15833",
+            "name": "MC7805BD2TR4G"
+          },
+          {
+            "supplierId": "C158007",
+            "name": "B2PS-VH(LF)(SN)"
+          },
+          {
+            "supplierId": "C15840",
+            "name": "SRD-24VDC-SL-C"
+          },
+          {
+            "supplierId": "C15857",
+            "name": "SWPA8040S220MT"
+          },
+          {
+            "supplierId": "C22883",
+            "name": "0603WAF1583T5E"
+          },
+          {
+            "supplierId": "C158691",
+            "name": "RTT0122R0FTH"
+          },
+          {
+            "supplierId": "C158030",
+            "name": "B12B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158039",
+            "name": "B10B-PHDSS-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158011",
+            "name": "B2B-ZR(LF)(SN)"
+          },
+          {
+            "supplierId": "C158000",
+            "name": "B3P-VH-FB-B(LF)(SN)"
+          },
+          {
+            "supplierId": "C158027",
+            "name": "B12B-XH-A(LF)(SN)"
+          },
+          {
+            "supplierId": "C315892",
+            "name": "1206L005/60WR"
+          },
+          {
+            "supplierId": "C15846",
+            "name": "MAX3232ESE+T"
+          },
+          {
+            "supplierId": "C1585",
+            "name": "0402F333M500NT (SMT业务专用)"
+          },
+          {
+            "supplierId": "C15879",
+            "name": "SMF05CT1G"
+          }
+        ]
+      },
+      {
+        "id": "C7519",
+        "matches": [
+          {
+            "uuid": "41567551402d47e3a0236ab3d895b322",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "7357a79d2b8c4880a723730f0abfb8ac"
+            },
+            "ordinal": 0,
+            "name": "USBLC6-2SC6_C7519",
+            "symbolName": "USBLC6-2SC6",
+            "symbolUuid": "0f94f580b82e472f955382ed98bcde1a",
+            "footprintName": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+            "footprintUuid": "47d9e12405e949c2b190fdcf22199fbb",
+            "model3DName": "SOT-23-6_L2.9-W1.6-H1.5-LS2.8-P0.95",
+            "model3DUuid": "18da8f6c14a34920b3e136b5c401a119",
+            "description": "极性:Unidirectional;反向关断电压（典型值）:5.25V;击穿电压（最小值）:6V;箝位电压:17V;峰值脉冲电流（10/1000us）:5A;",
+            "manufacturer": "ST(意法半导体)",
+            "manufacturerId": "USBLC6-2SC6",
+            "supplier": "LCSC",
+            "supplierId": "C7519",
+            "otherProperty": {
+              "LCSC Part Name": "USBLC6-2SC6",
+              "Supplier Part": "C7519",
+              "Manufacturer": "ST(意法半导体)",
+              "Manufacturer Part": "USBLC6-2SC6",
+              "Supplier Footprint": "SOT-23-6",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20140724/1457707166955.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "0f94f580b82e472f955382ed98bcde1a",
+              "Designator": "D?",
+              "Footprint": "47d9e12405e949c2b190fdcf22199fbb",
+              "3D Model": "18da8f6c14a34920b3e136b5c401a119",
+              "3D Model Title": "SOT-23-6_L2.9-W1.6-H1.5-LS2.8-P0.95",
+              "3D Model Transform": "110.73671,114.173,0,180,0,0,0.001,-0.003,0",
+              "Polarity": "Unidirectional",
+              "Voltage - Reverse Standoff (Typ)": "5.25V",
+              "Voltage - Breakdown (Min)": "6V",
+              "Voltage - Clamping (Max) @ Ipp": "17V",
+              "Current - Peak Pulse (10/1000μs)": "5A",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C7519",
+            "name": "USBLC6-2SC6_C7519"
+          },
+          {
+            "supplierId": "C75195",
+            "name": "UU10.5-5mH"
+          },
+          {
+            "supplierId": "C75196",
+            "name": "UU10.5Y-10mH"
+          },
+          {
+            "supplierId": "C75192",
+            "name": "UU9.8Y-10mH"
+          },
+          {
+            "supplierId": "C75194",
+            "name": "UU9.8-15mH"
+          },
+          {
+            "supplierId": "C277519",
+            "name": "CC0603CRNPO9BN8R2"
+          },
+          {
+            "supplierId": "C327519",
+            "name": "SS8550DBU"
+          },
+          {
+            "supplierId": "C7512",
+            "name": "ULN2003ADR"
+          },
+          {
+            "supplierId": "C75751",
+            "name": "DS1037-25MNAKT74-0CC"
+          },
+          {
+            "supplierId": "C75177",
+            "name": "35ZLH330MEFC10X12.5"
+          },
+          {
+            "supplierId": "C75176",
+            "name": "PESD2CAN,215"
+          },
+          {
+            "supplierId": "C151956",
+            "name": "BTC900N"
+          },
+          {
+            "supplierId": "C295195",
+            "name": "NLCV32T-100K-EFR"
+          },
+          {
+            "supplierId": "C519078",
+            "name": "L7812CV"
+          },
+          {
+            "supplierId": "C389519",
+            "name": "MHT192UGCT"
+          },
+          {
+            "supplierId": "C239519",
+            "name": "A1002WV-S-10P"
+          },
+          {
+            "supplierId": "C25194",
+            "name": "0603WAF3600T5E"
+          },
+          {
+            "supplierId": "C151908",
+            "name": "SMBJ6.5CA_C151908"
+          },
+          {
+            "supplierId": "C305194",
+            "name": "TMPA0605S-150MN-D"
+          },
+          {
+            "supplierId": "C51942",
+            "name": "MCL1608S100MT"
+          },
+          {
+            "supplierId": "C123519",
+            "name": "0603F105Z160CT"
+          },
+          {
+            "supplierId": "C225190",
+            "name": "A2001WV-4P"
+          },
+          {
+            "supplierId": "C519088",
+            "name": "SP3232EIM/TR"
+          },
+          {
+            "supplierId": "C41519",
+            "name": "ACM4520-901-2P-t000"
+          },
+          {
+            "supplierId": "C394519",
+            "name": "CBW453215U101T"
+          },
+          {
+            "supplierId": "C519177",
+            "name": "X9827WRS-02-9TSN"
+          },
+          {
+            "supplierId": "C519924",
+            "name": "CC0805KRX7R9BB201"
+          },
+          {
+            "supplierId": "C151996",
+            "name": "BSD3C051V"
+          },
+          {
+            "supplierId": "C471519",
+            "name": "B10B-PHDSS(LF)(SN)"
+          },
+          {
+            "supplierId": "C114519",
+            "name": "RC0805FR-07220RL"
+          }
+        ]
+      },
+      {
+        "id": "C165948",
+        "matches": [
+          {
+            "uuid": "74d31c19993b4b9581f3175a7da4b280",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "5ba1dba2dd33484a861ea82e85bce4ea",
+              "secondaryClassificationUuid": "c63acb9a9c364dccb2c6a171f2a23a34"
+            },
+            "ordinal": 0,
+            "name": "TYPE-C-31-M-12",
+            "symbolName": "TYPE-C-31-M-12",
+            "symbolUuid": "8de51be61d8845edaaae6c1109a76c83",
+            "footprintName": "USB-C_SMD-TYPE-C-31-M-12",
+            "footprintUuid": "3a99a26691c94639ac164b9c86674ca5",
+            "model3DName": "USB-C_SMD-TYPE-C-31-M-12",
+            "model3DUuid": "35058e297fd54ee2afd2de30c3ce7155",
+            "description": "连接器类型:Type-C;标准:-;公母:母座;触点数量:16;端口数量:1;额定电流 - 电源:250mA;",
+            "manufacturer": "韩国韩荣",
+            "manufacturerId": "TYPE-C-31-M-12",
+            "supplier": "LCSC",
+            "supplierId": "C165948",
+            "otherProperty": {
+              "LCSC Part Name": "TYPE-C-31-M-12",
+              "Supplier Part": "C165948",
+              "Manufacturer": "韩国韩荣",
+              "Manufacturer Part": "TYPE-C-31-M-12",
+              "Supplier Footprint": "-",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20210111/C2682493_D8CCFED08835E878D16ACCF4460E43B8.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "8de51be61d8845edaaae6c1109a76c83",
+              "Designator": "USBC?",
+              "Footprint": "3a99a26691c94639ac164b9c86674ca5",
+              "3D Model": "35058e297fd54ee2afd2de30c3ce7155",
+              "3D Model Title": "USB-C_SMD-TYPE-C-31-M-12",
+              "3D Model Transform": "351.9678,311.023,0,180,0,0,0,-44.647,-39.37",
+              "Connector Type": "Type-C",
+              "Standard": "-",
+              "Gender": "母座",
+              "Number of Contacts": "16",
+              "Number of Ports": "1",
+              "Current Rating - Power (Max)": "250mA",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C165948",
+            "name": "TYPE-C-31-M-12"
+          },
+          {
+            "supplierId": "C165947",
+            "name": "PJ-3250-5A"
+          },
+          {
+            "supplierId": "C165976",
+            "name": "TC0350D1001T5E"
+          },
+          {
+            "supplierId": "C165956",
+            "name": "YC164-JR-0733RL"
+          },
+          {
+            "supplierId": "C165974",
+            "name": "EEEFTH101XAP"
+          },
+          {
+            "supplierId": "C165991",
+            "name": "0603B225K100NT"
+          },
+          {
+            "supplierId": "C165937",
+            "name": "STF9NK90Z"
+          },
+          {
+            "supplierId": "C16581",
+            "name": "TP4056-42-ESOP8"
+          },
+          {
+            "supplierId": "C1656",
+            "name": "CL10C270JB8NNNC"
+          },
+          {
+            "supplierId": "C16587",
+            "name": "H11L1M"
+          },
+          {
+            "supplierId": "C165732",
+            "name": "0603CG200F500NT"
+          },
+          {
+            "supplierId": "C165877",
+            "name": "1210F226M250NT"
+          },
+          {
+            "supplierId": "C21659",
+            "name": "XC6206P182MR"
+          },
+          {
+            "supplierId": "C1657",
+            "name": "CL10C271JB8NNNC"
+          },
+          {
+            "supplierId": "C165616",
+            "name": "STF6N65K3"
+          },
+          {
+            "supplierId": "C165775",
+            "name": "B72520T0300K062"
+          },
+          {
+            "supplierId": "C165807",
+            "name": "NLCV32T-101K-EF"
+          },
+          {
+            "supplierId": "C165609",
+            "name": "BC856BLT1G"
+          },
+          {
+            "supplierId": "C361659",
+            "name": "SDCW2012-2-102TF"
+          },
+          {
+            "supplierId": "C165698",
+            "name": "PE2512FKE7W0R1L"
+          },
+          {
+            "supplierId": "C165742",
+            "name": "RC0603FR-0760K4L"
+          },
+          {
+            "supplierId": "C51659",
+            "name": "CN3704"
+          },
+          {
+            "supplierId": "C165071",
+            "name": "0603B333K500CT"
+          },
+          {
+            "supplierId": "C1654",
+            "name": "0603CG240J500NT"
+          },
+          {
+            "supplierId": "C165202",
+            "name": "RS-05K221JT"
+          },
+          {
+            "supplierId": "C165064",
+            "name": "X1A0001210005"
+          },
+          {
+            "supplierId": "C1658",
+            "name": "0603CG300J500NT"
+          },
+          {
+            "supplierId": "C1653",
+            "name": "CL10C220JB8NNNC"
+          },
+          {
+            "supplierId": "C165878",
+            "name": "0402X104K250NT"
+          },
+          {
+            "supplierId": "C321746",
+            "name": "RS-03K1653FT"
+          }
+        ]
+      },
+      {
+        "id": "C408332",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C408339",
+            "name": "MWSA0402S-100MT"
+          },
+          {
+            "supplierId": "C408338",
+            "name": "MWSA0402S-6R8MT"
+          },
+          {
+            "supplierId": "C408388",
+            "name": "BAT54C_C408388"
+          },
+          {
+            "supplierId": "C408384",
+            "name": "SS16F"
+          },
+          {
+            "supplierId": "C408378",
+            "name": "SMCJ36CA_C408378"
+          },
+          {
+            "supplierId": "C408374",
+            "name": "SMCJ30A_C408374"
+          },
+          {
+            "supplierId": "C408389",
+            "name": "BAT54S"
+          },
+          {
+            "supplierId": "C140833",
+            "name": "EGM2WM2R2F12OT"
+          },
+          {
+            "supplierId": "C408377",
+            "name": "SMCJ36A_C408377"
+          },
+          {
+            "supplierId": "C240833",
+            "name": "39301080"
+          },
+          {
+            "supplierId": "C408347",
+            "name": "MWSA0518S-4R7MT"
+          },
+          {
+            "supplierId": "C408376",
+            "name": "SMCJ33CA_C408376"
+          },
+          {
+            "supplierId": "C408390",
+            "name": "TL431_C408390"
+          },
+          {
+            "supplierId": "C408396",
+            "name": "MMBT5551_C408396"
+          },
+          {
+            "supplierId": "C83326",
+            "name": "SMBJ36CA"
+          },
+          {
+            "supplierId": "C83324",
+            "name": "SMAJ5.0CA"
+          },
+          {
+            "supplierId": "C283322",
+            "name": "LF347DT"
+          },
+          {
+            "supplierId": "C38332",
+            "name": "0805B335K160NT"
+          },
+          {
+            "supplierId": "C23139",
+            "name": "0603WAF3323T5E"
+          },
+          {
+            "supplierId": "C23007",
+            "name": "0603WAF3320T5E"
+          },
+          {
+            "supplierId": "C408446",
+            "name": "MWSA0603S-3R3MT"
+          },
+          {
+            "supplierId": "C408487",
+            "name": "MWSA1004S-100MT"
+          },
+          {
+            "supplierId": "C40877",
+            "name": "HDR-F_2.54_1x6P"
+          },
+          {
+            "supplierId": "C408533",
+            "name": "MWSA1206S-101MT"
+          },
+          {
+            "supplierId": "C408270",
+            "name": "LM358S_C408270"
+          },
+          {
+            "supplierId": "C408271",
+            "name": "MC34063S"
+          },
+          {
+            "supplierId": "C408409",
+            "name": "MWSA0503S-3R3MT"
+          },
+          {
+            "supplierId": "C408871",
+            "name": "TF-1016DG"
+          },
+          {
+            "supplierId": "C408137",
+            "name": "GRM188R61E475KE15D"
+          },
+          {
+            "supplierId": "C408433",
+            "name": "MWSA0624S-4R7MT"
+          }
+        ]
+      },
+      {
+        "id": "C8545",
+        "matches": [
+          {
+            "uuid": "f8007837564a4f1fa0e6b57b81dccb0d",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "aed5172a42864cdbbb99a16a189ff5e5",
+              "secondaryClassificationUuid": "3ddbca48beeb46868e99c76c8f18abc0"
+            },
+            "ordinal": 0,
+            "name": "2N7002",
+            "symbolName": "2N7002",
+            "symbolUuid": "65262e964a954b63a27fe858d18f82a0",
+            "footprintName": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+            "footprintUuid": "bdad16194d454cb292a50525f39c3ffd",
+            "model3DName": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95",
+            "model3DUuid": "c62791f0466c4ae2a892c056b845b0ca",
+            "description": "类型:N沟道;漏源电压(Vdss):60V;连续漏极电流(Id):115mA;功率(Pd):200mW;导通电阻(RDS(on)@Vgs,Id):7.5Ω@10V,500mA;阈值电压(Vgs(th)@Id):2.5V@250μA;",
+            "manufacturer": "CJ（江苏长电/长晶）",
+            "manufacturerId": "2N7002",
+            "supplier": "LCSC",
+            "supplierId": "C8545",
+            "otherProperty": {
+              "LCSC Part Name": "N沟道 60V 115mA",
+              "Supplier Part": "C8545",
+              "Manufacturer": "CJ（江苏长电/长晶）",
+              "Manufacturer Part": "2N7002",
+              "Supplier Footprint": "SOT-23(SOT-23-3)",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170302/1488422688078.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "65262e964a954b63a27fe858d18f82a0",
+              "Designator": "Q?",
+              "Footprint": "bdad16194d454cb292a50525f39c3ffd",
+              "3D Model": "c62791f0466c4ae2a892c056b845b0ca",
+              "3D Model Title": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95",
+              "3D Model Transform": "98.425,114.173,0,180,0,0,0.0005,-0.0005,0",
+              "Type": "N沟道",
+              "Drain Source Voltage (Vdss)": "60V",
+              "Continuous Drain Current (Id)": "115mA",
+              "Power Dissipation (Pd)": "200mW",
+              "Drain Source On Resistance (RDS(on)@Vgs,Id)": "7.5Ω@10V,500mA",
+              "Gate Threshold Voltage (Vgs(th)@Id)": "2.5V@250μA",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C8545",
+            "name": "2N7002"
+          },
+          {
+            "supplierId": "C2195",
+            "name": "X49SD3579545MSD2SC-1"
+          },
+          {
+            "supplierId": "C78545",
+            "name": "LMBR0540T1G"
+          },
+          {
+            "supplierId": "C128545",
+            "name": "VG039NCHXTB104"
+          },
+          {
+            "supplierId": "C2237",
+            "name": "X49SM3579545MSD2SC-1"
+          },
+          {
+            "supplierId": "C8549",
+            "name": "CJ2305"
+          },
+          {
+            "supplierId": "C8543",
+            "name": "S9012 2T1"
+          },
+          {
+            "supplierId": "C85416",
+            "name": "NTR4501NT1G"
+          },
+          {
+            "supplierId": "C8541",
+            "name": "SS8550_C8541"
+          },
+          {
+            "supplierId": "C8547",
+            "name": "CJ2301 S1"
+          },
+          {
+            "supplierId": "C8548",
+            "name": "CJ2302 S2"
+          },
+          {
+            "supplierId": "C8542",
+            "name": "SS8550 Y2"
+          },
+          {
+            "supplierId": "C8544",
+            "name": "S9018"
+          },
+          {
+            "supplierId": "C395459",
+            "name": "LMV321_C395459"
+          },
+          {
+            "supplierId": "C545533",
+            "name": "S8550"
+          },
+          {
+            "supplierId": "C15545",
+            "name": "1206W4F180KT5E"
+          },
+          {
+            "supplierId": "C54531",
+            "name": "25121WF220LT4F"
+          },
+          {
+            "supplierId": "C54596",
+            "name": "HEF4528BT,653"
+          },
+          {
+            "supplierId": "C354565",
+            "name": "CKCS3015-4.7uH/M"
+          },
+          {
+            "supplierId": "C262545",
+            "name": "AFE03-S31FMA-1H"
+          },
+          {
+            "supplierId": "C115450",
+            "name": "LTV-217-B-G"
+          },
+          {
+            "supplierId": "C545541",
+            "name": "BAV99"
+          },
+          {
+            "supplierId": "C354581",
+            "name": "CKCS4020-4.7uH/M"
+          },
+          {
+            "supplierId": "C152545",
+            "name": "MC74HC14ADR2G"
+          },
+          {
+            "supplierId": "C54512",
+            "name": "HK19F-DC5V-SHG（Y)"
+          },
+          {
+            "supplierId": "C545549",
+            "name": "BAT54S"
+          },
+          {
+            "supplierId": "C354584",
+            "name": "CKCS4030-2.2uH/M"
+          },
+          {
+            "supplierId": "C55450",
+            "name": "LP2301BLT1G"
+          },
+          {
+            "supplierId": "C395457",
+            "name": "LMV358"
+          },
+          {
+            "supplierId": "C54587",
+            "name": "CD4051BPWR"
+          }
+        ]
+      },
+      {
+        "id": "C2143",
+        "matches": [
+          {
+            "uuid": "279b72a1c88341558b7f8c3df1c92021",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "aed5172a42864cdbbb99a16a189ff5e5",
+              "secondaryClassificationUuid": "e4e5c04c17b24869a08c53244aeb77d7"
+            },
+            "ordinal": 0,
+            "name": "MMBT3906 2A_C2143",
+            "symbolName": "MMBT3906_C2143",
+            "symbolUuid": "fe6b456a778844d58258c8e73fe15843",
+            "footprintName": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+            "footprintUuid": "bdad16194d454cb292a50525f39c3ffd",
+            "model3DName": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95",
+            "model3DUuid": "c62791f0466c4ae2a892c056b845b0ca",
+            "description": "晶体管类型:PNP;集射极击穿电压(Vceo):40V;集电极电流(Ic):200mA;功率(Pd):200mW;集电极-发射极饱和电压(VCE(sat)@Ic,Ib):300mV@50mA,5mA;直流电流增益(hFE@Ic,Vce):100@10mA,1V;特征频率(fT):300MHz;工作温度:+150℃@(Tj);",
+            "manufacturer": "CJ（江苏长电/长晶）",
+            "manufacturerId": "MMBT3906 2A",
+            "supplier": "LCSC",
+            "supplierId": "C2143",
+            "otherProperty": {
+              "LCSC Part Name": "MMBT3906 2A 100-300 100-300",
+              "Supplier Part": "C2143",
+              "Manufacturer": "CJ（江苏长电/长晶）",
+              "Manufacturer Part": "MMBT3906 2A",
+              "Supplier Footprint": "SOT-23(SOT-23-3)",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20140809/1457707209152.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "fe6b456a778844d58258c8e73fe15843",
+              "Designator": "Q?",
+              "Footprint": "bdad16194d454cb292a50525f39c3ffd",
+              "3D Model": "c62791f0466c4ae2a892c056b845b0ca",
+              "3D Model Title": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95",
+              "3D Model Transform": "98.425,114.173,0,180,0,0,0.0005,-0.0005,0",
+              "Transistor Type": "PNP",
+              "Collector-Emitter Breakdown Voltage (Vceo)": "40V",
+              "Collector Current (Ic)": "200mA",
+              "Power Dissipation (Pd)": "200mW",
+              "Collector-Emitter Saturation Voltage (VCE(sat)@Ic,Ib)": "300mV@50mA,5mA",
+              "DC Current Gain (hFE@Ic,Vce)": "100@10mA,1V",
+              "Transition Frequency (fT)": "300MHz",
+              "Operating Temperature": "+150℃@(Tj)",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C2143",
+            "name": "MMBT3906 2A_C2143"
+          },
+          {
+            "supplierId": "C21430",
+            "name": "SDCL1608CR18JTDF"
+          },
+          {
+            "supplierId": "C321432",
+            "name": "RC-02W3001FT"
+          },
+          {
+            "supplierId": "C321433",
+            "name": "RC-02W3012FT"
+          },
+          {
+            "supplierId": "C321435",
+            "name": "RC-02W304JT"
+          },
+          {
+            "supplierId": "C382143",
+            "name": "KND3403A"
+          },
+          {
+            "supplierId": "C22877",
+            "name": "0603WAF1433T5E"
+          },
+          {
+            "supplierId": "C2146",
+            "name": "S8050 J3Y_C2146"
+          },
+          {
+            "supplierId": "C21473",
+            "name": "VH-6A"
+          },
+          {
+            "supplierId": "C2144",
+            "name": "MMBT4401_C2144"
+          },
+          {
+            "supplierId": "C21474",
+            "name": "VH-8A"
+          },
+          {
+            "supplierId": "C2147",
+            "name": "S8550 2TY_C2147"
+          },
+          {
+            "supplierId": "C21417",
+            "name": "TP4056M"
+          },
+          {
+            "supplierId": "C21454",
+            "name": "SPX3819M5-L-2-5"
+          },
+          {
+            "supplierId": "C21488",
+            "name": "MMBT5401LT1G"
+          },
+          {
+            "supplierId": "C2148",
+            "name": "S9014_C2148"
+          },
+          {
+            "supplierId": "C21499",
+            "name": "X49SD20MPB2SC"
+          },
+          {
+            "supplierId": "C2149",
+            "name": "S9015_C2149"
+          },
+          {
+            "supplierId": "C2145",
+            "name": "MMBT5551_C2145"
+          },
+          {
+            "supplierId": "C14332",
+            "name": "SS2200_C14332"
+          },
+          {
+            "supplierId": "C211773",
+            "name": "SS24A"
+          },
+          {
+            "supplierId": "C211752",
+            "name": "M7_C211752"
+          },
+          {
+            "supplierId": "C211770",
+            "name": "SS14A"
+          },
+          {
+            "supplierId": "C27143",
+            "name": "SDCL1005C15NJTDF"
+          },
+          {
+            "supplierId": "C398143",
+            "name": "LM321M5X/TR"
+          },
+          {
+            "supplierId": "C143580",
+            "name": "MAX706TESA+T"
+          },
+          {
+            "supplierId": "C143315",
+            "name": "DS28E01P-100+T"
+          },
+          {
+            "supplierId": "C141437",
+            "name": "S108500006"
+          },
+          {
+            "supplierId": "C143856",
+            "name": "TC0310F1000T5E"
+          },
+          {
+            "supplierId": "C14308",
+            "name": "BAT54CLT1G"
+          }
+        ]
+      },
+      {
+        "id": "C22849",
+        "matches": [
+          {
+            "uuid": "b5c8ff7a181d441ab9b52a2d8a4a0050",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 0,
+            "name": "0603WAF1781T5E",
+            "symbolName": "0603WAF1781T5E",
+            "symbolUuid": "ed8e54b74d234afa8270074d155e27ed",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "阻值:1.78kΩ;精度:±1%;温度系数:±100ppm/℃;功率:1/10W;最大工作电压:75V;工作温度范围:-55℃~+155℃;",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF1781T5E",
+            "supplier": "LCSC",
+            "supplierId": "C22849",
+            "otherProperty": {
+              "LCSC Part Name": "1.78KΩ ±1%",
+              "Supplier Part": "C22849",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF1781T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C22849_1505900950119982241.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "ed8e54b74d234afa8270074d155e27ed",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Value": "1.78kΩ",
+              "Tolerance": "±1%",
+              "Temperature Coefficient": "±100ppm/℃",
+              "Power(Watts)": "1/10W",
+              "Overload Voltage (Max)": "75V",
+              "Operating Temperature Range": "-55℃~+155℃",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C22849",
+            "name": "0603WAF1781T5E"
+          },
+          {
+            "supplierId": "C2284",
+            "name": "CSTLS4M00G53-B0"
+          },
+          {
+            "supplierId": "C22845",
+            "name": "0603WAF1651T5E"
+          },
+          {
+            "supplierId": "C22846",
+            "name": "0603WAF1691T5E"
+          },
+          {
+            "supplierId": "C22847",
+            "name": "0603WAF1601T5E"
+          },
+          {
+            "supplierId": "C122849",
+            "name": "79L05"
+          },
+          {
+            "supplierId": "C22843",
+            "name": "0603WAF1501T5E"
+          },
+          {
+            "supplierId": "C228277",
+            "name": "AC0805FR-07120RL"
+          },
+          {
+            "supplierId": "C22874",
+            "name": "0603WAF1472T5E"
+          },
+          {
+            "supplierId": "C2286",
+            "name": "KT-0603R"
+          },
+          {
+            "supplierId": "C22830",
+            "name": "0603WAF180JT5E"
+          },
+          {
+            "supplierId": "C228802",
+            "name": "AC0805FR-073KL"
+          },
+          {
+            "supplierId": "C22894",
+            "name": "0603WAF1823T5E"
+          },
+          {
+            "supplierId": "C22833",
+            "name": "0603WAF1131T5E"
+          },
+          {
+            "supplierId": "C22803",
+            "name": "0603WAF1402T5E"
+          },
+          {
+            "supplierId": "C22896",
+            "name": "0603WAF1873T5E"
+          },
+          {
+            "supplierId": "C228604",
+            "name": "AC0805FR-071ML"
+          },
+          {
+            "supplierId": "C22853",
+            "name": "0603WAF1911T5E"
+          },
+          {
+            "supplierId": "C2289",
+            "name": "XL-0603QYGC"
+          },
+          {
+            "supplierId": "C212284",
+            "name": "RMS10FT1002"
+          },
+          {
+            "supplierId": "C22875",
+            "name": "0603WAF1403T5E"
+          },
+          {
+            "supplierId": "C22862",
+            "name": "0603WAF1133T5E"
+          },
+          {
+            "supplierId": "C22866",
+            "name": "0603WAF1272T5E"
+          },
+          {
+            "supplierId": "C22892",
+            "name": "0603WAF1822T5E"
+          },
+          {
+            "supplierId": "C22890",
+            "name": "0603WAF1743T5E"
+          },
+          {
+            "supplierId": "C22878",
+            "name": "0603WAF1473T5E"
+          },
+          {
+            "supplierId": "C22818",
+            "name": "0603WAF1602T5E (SMT业务专用)"
+          },
+          {
+            "supplierId": "C22819",
+            "name": "0603WAF1742T5E"
+          },
+          {
+            "supplierId": "C142284",
+            "name": "EL357N(B)(TA)-VG"
+          },
+          {
+            "supplierId": "C22881",
+            "name": "0603WAF1543T5E"
+          }
+        ]
+      },
+      {
+        "id": "C4177",
+        "matches": [
+          {
+            "uuid": "8bb0ae0c5d1043db9392f133c0870a77",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 1,
+            "name": "0603WAF1801T5E",
+            "symbolName": "0603WAF1801T5E",
+            "symbolUuid": "85a752982d0b4c1f925cc571ccef756f",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF1801T5E",
+            "supplier": "LCSC",
+            "supplierId": "C4177",
+            "otherProperty": {
+              "LCSC Part Name": "1.8KΩ(1801) ±1% 编带",
+              "Supplier Part": "C4177",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF1801T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C4177_1505887494985980651.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "85a752982d0b4c1f925cc571ccef756f",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C41777",
+            "name": "MAX823REUK+T"
+          },
+          {
+            "supplierId": "C4177",
+            "name": "0603WAF1801T5E"
+          },
+          {
+            "supplierId": "C344177",
+            "name": "TCC0805COG100J500BT"
+          },
+          {
+            "supplierId": "C141777",
+            "name": "M24C08-RMN6TP"
+          },
+          {
+            "supplierId": "C41768",
+            "name": "AOZ1016AI"
+          },
+          {
+            "supplierId": "C41744",
+            "name": "0402CG6R2C500NT"
+          },
+          {
+            "supplierId": "C417389",
+            "name": "FMB12A05-5V"
+          },
+          {
+            "supplierId": "C417350",
+            "name": "MHL3214UBDWT"
+          },
+          {
+            "supplierId": "C417349",
+            "name": "MHLA5319URGBDWT"
+          },
+          {
+            "supplierId": "C4172",
+            "name": "0603WAF1504T5E"
+          },
+          {
+            "supplierId": "C417346",
+            "name": "MHL5013UGDWT"
+          },
+          {
+            "supplierId": "C41714",
+            "name": "MAX9814ETD+T"
+          },
+          {
+            "supplierId": "C417282",
+            "name": "0603X475M160NT"
+          },
+          {
+            "supplierId": "C417347",
+            "name": "MHL5013URDRT"
+          },
+          {
+            "supplierId": "C414173",
+            "name": "SBD10L45BT3"
+          },
+          {
+            "supplierId": "C417348",
+            "name": "MHL5013UYDYT"
+          },
+          {
+            "supplierId": "C417352",
+            "name": "MHK1373CRBDT"
+          },
+          {
+            "supplierId": "C211775",
+            "name": "SS34A_C211775"
+          },
+          {
+            "supplierId": "C177338",
+            "name": "RCT0322RJLF"
+          },
+          {
+            "supplierId": "C17738",
+            "name": "0805W8F510JT5E"
+          },
+          {
+            "supplierId": "C136177",
+            "name": "LESDA6V1W6T1G"
+          },
+          {
+            "supplierId": "C217770",
+            "name": "ARG05FTC1002"
+          },
+          {
+            "supplierId": "C111776",
+            "name": "3296X-1-103LF"
+          },
+          {
+            "supplierId": "C177739",
+            "name": "SS8050"
+          },
+          {
+            "supplierId": "C317795",
+            "name": "10D471K"
+          },
+          {
+            "supplierId": "C177332",
+            "name": "RCT032K2JLF"
+          },
+          {
+            "supplierId": "C217774",
+            "name": "ARG05FTC0100"
+          },
+          {
+            "supplierId": "C81770",
+            "name": "ESP-WROOM-02"
+          },
+          {
+            "supplierId": "C5177",
+            "name": "UC3843BN"
+          },
+          {
+            "supplierId": "C17756",
+            "name": "0805W8F5602T5E"
+          }
+        ]
+      },
+      {
+        "id": "C23237",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C23234",
+            "name": "0603WAF7501T5E"
+          },
+          {
+            "supplierId": "C23235",
+            "name": "0603WAF750KT5E"
+          },
+          {
+            "supplierId": "C23236",
+            "name": "0603WAF7871T5E"
+          },
+          {
+            "supplierId": "C23231",
+            "name": "0603WAF6802T5E"
+          },
+          {
+            "supplierId": "C23208",
+            "name": "0603WAF5903T5E"
+          },
+          {
+            "supplierId": "C23240",
+            "name": "0603WAF7503T5E"
+          },
+          {
+            "supplierId": "C232830",
+            "name": "ES1J_C232830"
+          },
+          {
+            "supplierId": "C282323",
+            "name": "CH440R"
+          },
+          {
+            "supplierId": "C232461",
+            "name": "1N5817RLG"
+          },
+          {
+            "supplierId": "C23210",
+            "name": "0603WAF620KT5E"
+          },
+          {
+            "supplierId": "C23221",
+            "name": "0603WAF6202T5E"
+          },
+          {
+            "supplierId": "C23254",
+            "name": "0603WAF8202T5E"
+          },
+          {
+            "supplierId": "C23227",
+            "name": "0603WAF6653T5E"
+          },
+          {
+            "supplierId": "C82323",
+            "name": "ESD5Z6.0T1G"
+          },
+          {
+            "supplierId": "C23211",
+            "name": "0603WAF6811T5E"
+          },
+          {
+            "supplierId": "C23252",
+            "name": "0603WAF8203T5E"
+          },
+          {
+            "supplierId": "C232833",
+            "name": "MBR0540"
+          },
+          {
+            "supplierId": "C23263",
+            "name": "0603WAF9103T5E"
+          },
+          {
+            "supplierId": "C232824",
+            "name": "S1A"
+          },
+          {
+            "supplierId": "C323288",
+            "name": "RS-06L3R3JT"
+          },
+          {
+            "supplierId": "C232432",
+            "name": "LP2951ACDR2G"
+          },
+          {
+            "supplierId": "C23214",
+            "name": "0603WAF680KT5E"
+          },
+          {
+            "supplierId": "C23267",
+            "name": "0603WAF9532T5E"
+          },
+          {
+            "supplierId": "C23265",
+            "name": "0603WAF9102T5E"
+          },
+          {
+            "supplierId": "C23203",
+            "name": "0603WAF5603T5E"
+          },
+          {
+            "supplierId": "C132320",
+            "name": "RC0805FR-0749R9L"
+          },
+          {
+            "supplierId": "C23225",
+            "name": "0603WAF6652T5E"
+          },
+          {
+            "supplierId": "C232827",
+            "name": "S2M_C232827"
+          },
+          {
+            "supplierId": "C132327",
+            "name": "EL3H4(B)(TA)-VG"
+          },
+          {
+            "supplierId": "C23258",
+            "name": "0603WAF8872T5E"
+          }
+        ]
+      },
+      {
+        "id": "C25803",
+        "matches": [
+          {
+            "uuid": "40ff282b3d594c33b798d1707d8406cb",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 0,
+            "name": "0603WAF1003T5E",
+            "symbolName": "0603WAF1003T5E",
+            "symbolUuid": "6d3562bdc96243ae97feaf073d2c8f4e",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "电阻类型:厚膜电阻;阻值:100kΩ;精度:±1%;功率:100mW;温度系数:±100ppm/℃;最大工作电压:75V;工作温度范围:-55℃~+155℃;",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF1003T5E",
+            "supplier": "LCSC",
+            "supplierId": "C25803",
+            "otherProperty": {
+              "LCSC Part Name": "100kΩ ±1% 100mW",
+              "Supplier Part": "C25803",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF1003T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "6d3562bdc96243ae97feaf073d2c8f4e",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Type": "厚膜电阻",
+              "Value": "100kΩ",
+              "Tolerance": "±1%",
+              "Power(Watts)": "100mW",
+              "Temperature Coefficient": "±100ppm/℃",
+              "Overload Voltage (Max)": "75V",
+              "Operating Temperature Range": "-55℃~+155℃",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C25803",
+            "name": "0603WAF1003T5E"
+          },
+          {
+            "supplierId": "C25809",
+            "name": "0603WAF1213T5E"
+          },
+          {
+            "supplierId": "C258091",
+            "name": "RC-02W1002FT"
+          },
+          {
+            "supplierId": "C25808",
+            "name": "0603WAF1203T5E"
+          },
+          {
+            "supplierId": "C25806",
+            "name": "0603WAF1183T5E"
+          },
+          {
+            "supplierId": "C258096",
+            "name": "RC-02W2002FT"
+          },
+          {
+            "supplierId": "C258090",
+            "name": "RC-02W1003FT"
+          },
+          {
+            "supplierId": "C258097",
+            "name": "RC-02W2202FT"
+          },
+          {
+            "supplierId": "C2580",
+            "name": "IRFP250NPBF"
+          },
+          {
+            "supplierId": "C25805",
+            "name": "0603WAF1103T5E"
+          },
+          {
+            "supplierId": "C258094",
+            "name": "RC-02W2003FT"
+          },
+          {
+            "supplierId": "C25804",
+            "name": "0603WAF1002T5E"
+          },
+          {
+            "supplierId": "C258098",
+            "name": "RC-02W2402FT"
+          },
+          {
+            "supplierId": "C258093",
+            "name": "RC-02W2201FT"
+          },
+          {
+            "supplierId": "C25822",
+            "name": "0603WAF6803T5E"
+          },
+          {
+            "supplierId": "C258195",
+            "name": "MMBFJ112"
+          },
+          {
+            "supplierId": "C25853",
+            "name": "0402WGF1272TCE"
+          },
+          {
+            "supplierId": "C25872",
+            "name": "0402WGF2152TCE"
+          },
+          {
+            "supplierId": "C25856",
+            "name": "0402WGF1472TCE"
+          },
+          {
+            "supplierId": "C2589",
+            "name": "IRLML2502TRPBF_C2589"
+          },
+          {
+            "supplierId": "C258109",
+            "name": "RC-02W101JT"
+          },
+          {
+            "supplierId": "C25826",
+            "name": "0805W8F3902T5E"
+          },
+          {
+            "supplierId": "C25816",
+            "name": "0603WAF3833T5E"
+          },
+          {
+            "supplierId": "C25852",
+            "name": "0402WGF1212TCE"
+          },
+          {
+            "supplierId": "C258974",
+            "name": "B04000J089"
+          },
+          {
+            "supplierId": "C258134",
+            "name": "RC-02W562JT"
+          },
+          {
+            "supplierId": "C25835",
+            "name": "1206W4F7503T5E"
+          },
+          {
+            "supplierId": "C25874",
+            "name": "0402WGF2492TCE"
+          },
+          {
+            "supplierId": "C258127",
+            "name": "RC-02W331JT"
+          },
+          {
+            "supplierId": "C258117",
+            "name": "RC-02W102JT"
+          }
+        ]
+      },
+      {
+        "id": "C23239",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C23234",
+            "name": "0603WAF7501T5E"
+          },
+          {
+            "supplierId": "C23235",
+            "name": "0603WAF750KT5E"
+          },
+          {
+            "supplierId": "C23236",
+            "name": "0603WAF7871T5E"
+          },
+          {
+            "supplierId": "C23231",
+            "name": "0603WAF6802T5E"
+          },
+          {
+            "supplierId": "C239632",
+            "name": "ESD56151W04-2/TR"
+          },
+          {
+            "supplierId": "C239538",
+            "name": "WSB5543W-2/TR"
+          },
+          {
+            "supplierId": "C23208",
+            "name": "0603WAF5903T5E"
+          },
+          {
+            "supplierId": "C23240",
+            "name": "0603WAF7503T5E"
+          },
+          {
+            "supplierId": "C232830",
+            "name": "ES1J_C232830"
+          },
+          {
+            "supplierId": "C282323",
+            "name": "CH440R"
+          },
+          {
+            "supplierId": "C232461",
+            "name": "1N5817RLG"
+          },
+          {
+            "supplierId": "C23210",
+            "name": "0603WAF620KT5E"
+          },
+          {
+            "supplierId": "C23221",
+            "name": "0603WAF6202T5E"
+          },
+          {
+            "supplierId": "C23254",
+            "name": "0603WAF8202T5E"
+          },
+          {
+            "supplierId": "C23227",
+            "name": "0603WAF6653T5E"
+          },
+          {
+            "supplierId": "C82323",
+            "name": "ESD5Z6.0T1G"
+          },
+          {
+            "supplierId": "C23211",
+            "name": "0603WAF6811T5E"
+          },
+          {
+            "supplierId": "C23252",
+            "name": "0603WAF8203T5E"
+          },
+          {
+            "supplierId": "C232833",
+            "name": "MBR0540"
+          },
+          {
+            "supplierId": "C23263",
+            "name": "0603WAF9103T5E"
+          },
+          {
+            "supplierId": "C232824",
+            "name": "S1A"
+          },
+          {
+            "supplierId": "C323288",
+            "name": "RS-06L3R3JT"
+          },
+          {
+            "supplierId": "C232432",
+            "name": "LP2951ACDR2G"
+          },
+          {
+            "supplierId": "C23214",
+            "name": "0603WAF680KT5E"
+          },
+          {
+            "supplierId": "C23267",
+            "name": "0603WAF9532T5E"
+          },
+          {
+            "supplierId": "C23265",
+            "name": "0603WAF9102T5E"
+          },
+          {
+            "supplierId": "C23203",
+            "name": "0603WAF5603T5E"
+          },
+          {
+            "supplierId": "C132320",
+            "name": "RC0805FR-0749R9L"
+          },
+          {
+            "supplierId": "C23225",
+            "name": "0603WAF6652T5E"
+          },
+          {
+            "supplierId": "C232827",
+            "name": "S2M_C232827"
+          }
+        ]
+      },
+      {
+        "id": "C23024",
+        "matches": [
+          {
+            "uuid": "912aada3cd3a4c8d9f303b14eeb81721",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 0,
+            "name": "0603WAF3003T5E",
+            "symbolName": "0603WAF3003T5E",
+            "symbolUuid": "e9dae0309479461cae835cdad632f508",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "精度:±1%;阻值:300kΩ;温度系数:±100ppm/℃;功率:1/10W;最大工作电压:75V;工作温度范围:-55℃~+155℃;",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF3003T5E",
+            "supplier": "LCSC",
+            "supplierId": "C23024",
+            "otherProperty": {
+              "LCSC Part Name": "300KΩ ±1%",
+              "Supplier Part": "C23024",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF3003T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C23024_1505901038798982411.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "e9dae0309479461cae835cdad632f508",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Tolerance": "±1%",
+              "Value": "300kΩ",
+              "Temperature Coefficient": "±100ppm/℃",
+              "Power(Watts)": "1/10W",
+              "Overload Voltage (Max)": "75V",
+              "Operating Temperature Range": "-55℃~+155℃",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C23024",
+            "name": "0603WAF3003T5E"
+          },
+          {
+            "supplierId": "C23026",
+            "name": "0603WAF3013T5E"
+          },
+          {
+            "supplierId": "C23020",
+            "name": "0603WAF390KT5E"
+          },
+          {
+            "supplierId": "C23029",
+            "name": "0603WAF3652T5E"
+          },
+          {
+            "supplierId": "C23027",
+            "name": "0603WAF3572T5E"
+          },
+          {
+            "supplierId": "C23025",
+            "name": "0603WAF3000T5E"
+          },
+          {
+            "supplierId": "C23022",
+            "name": "0603WAF3092T5E"
+          },
+          {
+            "supplierId": "C23089",
+            "name": "0603WAF6042T5E"
+          },
+          {
+            "supplierId": "C122302",
+            "name": "T491D107K020AT"
+          },
+          {
+            "supplierId": "C96093",
+            "name": "TMB12A05_C96093"
+          },
+          {
+            "supplierId": "C417389",
+            "name": "FMB12A05-5V"
+          },
+          {
+            "supplierId": "C126347",
+            "name": "HMB1275-03B"
+          },
+          {
+            "supplierId": "C30230",
+            "name": "ADUM1200BRZ-RL7"
+          },
+          {
+            "supplierId": "C200209",
+            "name": "Cy-12095-5025"
+          },
+          {
+            "supplierId": "C23045",
+            "name": "0603WAF4871T5E"
+          },
+          {
+            "supplierId": "C23001",
+            "name": "0603WAF3093T5E"
+          },
+          {
+            "supplierId": "C23040",
+            "name": "0603WAF4021T5E_C23040"
+          },
+          {
+            "supplierId": "C23068",
+            "name": "0603WAF5231T5E"
+          },
+          {
+            "supplierId": "C23006",
+            "name": "0603WAF3483T5E"
+          },
+          {
+            "supplierId": "C96094",
+            "name": "HMB1275-12B"
+          },
+          {
+            "supplierId": "C23088",
+            "name": "0603WAF6491T5E"
+          },
+          {
+            "supplierId": "C23085",
+            "name": "0603WAF5902T5E"
+          },
+          {
+            "supplierId": "C23047",
+            "name": "0603WAF402JT5E"
+          },
+          {
+            "supplierId": "C23077",
+            "name": "0603WAF5492T5E"
+          },
+          {
+            "supplierId": "C23067",
+            "name": "0603WAF5111T5E"
+          },
+          {
+            "supplierId": "C442302",
+            "name": "HX25003-5A"
+          },
+          {
+            "supplierId": "C23091",
+            "name": "0603WAF6192T5E"
+          },
+          {
+            "supplierId": "C96078",
+            "name": "TMB12A24"
+          },
+          {
+            "supplierId": "C23093",
+            "name": "0603WAF6342T5E"
+          },
+          {
+            "supplierId": "C2308",
+            "name": "3528 翠绿"
+          }
+        ]
+      },
+      {
+        "id": "C25804",
+        "matches": [
+          {
+            "uuid": "b948db94476e4027ac8953235755ec96",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 0,
+            "name": "0603WAF1002T5E",
+            "symbolName": "0603WAF1002T5E",
+            "symbolUuid": "e23085a8f904493eb2ce369cbc1b267c",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;温度系数:±100ppm/℃;最大工作电压:75V;工作温度范围:-55℃~+155℃;",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF1002T5E",
+            "supplier": "LCSC",
+            "supplierId": "C25804",
+            "otherProperty": {
+              "LCSC Part Name": "10kΩ ±1% 100mW",
+              "Supplier Part": "C25804",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF1002T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "e23085a8f904493eb2ce369cbc1b267c",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Type": "厚膜电阻",
+              "Value": "10kΩ",
+              "Tolerance": "±1%",
+              "Power(Watts)": "100mW",
+              "Temperature Coefficient": "±100ppm/℃",
+              "Overload Voltage (Max)": "75V",
+              "Operating Temperature Range": "-55℃~+155℃",
+              "Name": "={Value}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C25804",
+            "name": "0603WAF1002T5E"
+          },
+          {
+            "supplierId": "C25809",
+            "name": "0603WAF1213T5E"
+          },
+          {
+            "supplierId": "C258091",
+            "name": "RC-02W1002FT"
+          },
+          {
+            "supplierId": "C25808",
+            "name": "0603WAF1203T5E"
+          },
+          {
+            "supplierId": "C25806",
+            "name": "0603WAF1183T5E"
+          },
+          {
+            "supplierId": "C258096",
+            "name": "RC-02W2002FT"
+          },
+          {
+            "supplierId": "C25803",
+            "name": "0603WAF1003T5E"
+          },
+          {
+            "supplierId": "C258090",
+            "name": "RC-02W1003FT"
+          },
+          {
+            "supplierId": "C258097",
+            "name": "RC-02W2202FT"
+          },
+          {
+            "supplierId": "C2580",
+            "name": "IRFP250NPBF"
+          },
+          {
+            "supplierId": "C25805",
+            "name": "0603WAF1103T5E"
+          },
+          {
+            "supplierId": "C258094",
+            "name": "RC-02W2003FT"
+          },
+          {
+            "supplierId": "C258098",
+            "name": "RC-02W2402FT"
+          },
+          {
+            "supplierId": "C258093",
+            "name": "RC-02W2201FT"
+          },
+          {
+            "supplierId": "C258195",
+            "name": "MMBFJ112"
+          },
+          {
+            "supplierId": "C25853",
+            "name": "0402WGF1272TCE"
+          },
+          {
+            "supplierId": "C25872",
+            "name": "0402WGF2152TCE"
+          },
+          {
+            "supplierId": "C25856",
+            "name": "0402WGF1472TCE"
+          },
+          {
+            "supplierId": "C2589",
+            "name": "IRLML2502TRPBF_C2589"
+          },
+          {
+            "supplierId": "C258109",
+            "name": "RC-02W101JT"
+          },
+          {
+            "supplierId": "C25826",
+            "name": "0805W8F3902T5E"
+          },
+          {
+            "supplierId": "C25816",
+            "name": "0603WAF3833T5E"
+          },
+          {
+            "supplierId": "C25852",
+            "name": "0402WGF1212TCE"
+          },
+          {
+            "supplierId": "C258974",
+            "name": "B04000J089"
+          },
+          {
+            "supplierId": "C258134",
+            "name": "RC-02W562JT"
+          },
+          {
+            "supplierId": "C25835",
+            "name": "1206W4F7503T5E"
+          },
+          {
+            "supplierId": "C25874",
+            "name": "0402WGF2492TCE"
+          },
+          {
+            "supplierId": "C258127",
+            "name": "RC-02W331JT"
+          },
+          {
+            "supplierId": "C258117",
+            "name": "RC-02W102JT"
+          },
+          {
+            "supplierId": "C2583",
+            "name": "IRFR024NTRPBF"
+          }
+        ]
+      },
+      {
+        "id": "C23231",
+        "matches": [
+          {
+            "uuid": "e8000dce1bc2400bac62fc70285942f1",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 0,
+            "name": "0603WAF6802T5E",
+            "symbolName": "0603WAF6802T5E",
+            "symbolUuid": "c35565ef5fa14e11b86d00f8339d680f",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF6802T5E",
+            "supplier": "LCSC",
+            "supplierId": "C23231",
+            "otherProperty": {
+              "LCSC Part Name": "68KΩ(6802) ±1% 编带",
+              "Supplier Part": "C23231",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF6802T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C23231_1505901145876982612.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "c35565ef5fa14e11b86d00f8339d680f",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C23231",
+            "name": "0603WAF6802T5E"
+          },
+          {
+            "supplierId": "C23234",
+            "name": "0603WAF7501T5E"
+          },
+          {
+            "supplierId": "C23235",
+            "name": "0603WAF750KT5E"
+          },
+          {
+            "supplierId": "C23236",
+            "name": "0603WAF7871T5E"
+          },
+          {
+            "supplierId": "C23139",
+            "name": "0603WAF3323T5E"
+          },
+          {
+            "supplierId": "C23198",
+            "name": "0603WAF5232T5E"
+          },
+          {
+            "supplierId": "C2318",
+            "name": "XH-5A"
+          },
+          {
+            "supplierId": "C23197",
+            "name": "0603WAF510JT5E"
+          },
+          {
+            "supplierId": "C23162",
+            "name": "0603WAF4701T5E"
+          },
+          {
+            "supplierId": "C231233",
+            "name": "ORPC-817SD-TP-F_C231233"
+          },
+          {
+            "supplierId": "C231180",
+            "name": "VEH101M1HTR-0810"
+          },
+          {
+            "supplierId": "C23192",
+            "name": "0603WAF5103T5E"
+          },
+          {
+            "supplierId": "C23167",
+            "name": "0603WAF4222T5E"
+          },
+          {
+            "supplierId": "C23109",
+            "name": "0603WAF7872T5E"
+          },
+          {
+            "supplierId": "C23196",
+            "name": "0603WAF5102T5E"
+          },
+          {
+            "supplierId": "C23169",
+            "name": "0603WAF4223T5E"
+          },
+          {
+            "supplierId": "C23195",
+            "name": "0603WAF5110T5E"
+          },
+          {
+            "supplierId": "C23141",
+            "name": "0603WAF3482T5E"
+          },
+          {
+            "supplierId": "C23164",
+            "name": "0603WAF470KT5E"
+          },
+          {
+            "supplierId": "C231228",
+            "name": "ORPC-817A"
+          },
+          {
+            "supplierId": "C23166",
+            "name": "0603WAF4122T5E"
+          },
+          {
+            "supplierId": "C23182",
+            "name": "0603WAF470JT5E"
+          },
+          {
+            "supplierId": "C23181",
+            "name": "0603WAF4750T5E"
+          },
+          {
+            "supplierId": "C23143",
+            "name": "0603WAF3403T5E"
+          },
+          {
+            "supplierId": "C23193",
+            "name": "0603WAF5100T5E"
+          },
+          {
+            "supplierId": "C23112",
+            "name": "0603WAF8061T5E"
+          },
+          {
+            "supplierId": "C23151",
+            "name": "0603WAF3900T5E"
+          },
+          {
+            "supplierId": "C23148",
+            "name": "0603WAF360JT5E"
+          },
+          {
+            "supplierId": "C23189",
+            "name": "0603WAF5601T5E"
+          },
+          {
+            "supplierId": "C23118",
+            "name": "0603WAF8452T5E"
+          }
+        ]
+      },
+      {
+        "id": "C23162",
+        "matches": [
+          {
+            "uuid": "0f0661658cdd4f45888ea39caf7e9650",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "8c8194fd9d1c41dfa56772c13dc7cff6",
+              "secondaryClassificationUuid": "a9e1db3973044222a2bbd5acdeaef2e4"
+            },
+            "ordinal": 0,
+            "name": "0603WAF4701T5E",
+            "symbolName": "0603WAF4701T5E",
+            "symbolUuid": "f0d0fbaf53fd47efac1bc2b7375ab3ea",
+            "footprintName": "R0603",
+            "footprintUuid": "50b4943912284dab97752312e589e9e2",
+            "model3DName": "R0603_L1.6-W0.8-H0.8",
+            "model3DUuid": "3281a289d46d4bb1877be1eabd090e13",
+            "description": "",
+            "manufacturer": "UNI-ROYAL(厚声)",
+            "manufacturerId": "0603WAF4701T5E",
+            "supplier": "LCSC",
+            "supplierId": "C23162",
+            "otherProperty": {
+              "LCSC Part Name": "4.7KΩ(4701) ±1% 编带",
+              "Supplier Part": "C23162",
+              "Manufacturer": "UNI-ROYAL(厚声)",
+              "Manufacturer Part": "0603WAF4701T5E",
+              "Supplier Footprint": "0603",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170920/C23162_1505901109673982545.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "f0d0fbaf53fd47efac1bc2b7375ab3ea",
+              "Designator": "R?",
+              "Footprint": "50b4943912284dab97752312e589e9e2",
+              "3D Model": "3281a289d46d4bb1877be1eabd090e13",
+              "3D Model Title": "R0603_L1.6-W0.8-H0.8",
+              "3D Model Transform": "62.992,31.496,0,0,0,0,0,0,0",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C23162",
+            "name": "0603WAF4701T5E"
+          },
+          {
+            "supplierId": "C23167",
+            "name": "0603WAF4222T5E"
+          },
+          {
+            "supplierId": "C23169",
+            "name": "0603WAF4223T5E"
+          },
+          {
+            "supplierId": "C23164",
+            "name": "0603WAF470KT5E"
+          },
+          {
+            "supplierId": "C23166",
+            "name": "0603WAF4122T5E"
+          },
+          {
+            "supplierId": "C23163",
+            "name": "0603WAF4704T5E"
+          },
+          {
+            "supplierId": "C23165",
+            "name": "0603WAF499KT5E"
+          },
+          {
+            "supplierId": "C2316",
+            "name": "XH-3A"
+          },
+          {
+            "supplierId": "C231668",
+            "name": "KAN0637-0701B"
+          },
+          {
+            "supplierId": "C316212",
+            "name": "AR05BTCW2002"
+          },
+          {
+            "supplierId": "C316229",
+            "name": "RLP25FEER010"
+          },
+          {
+            "supplierId": "C316225",
+            "name": "RLM12FTCMR005"
+          },
+          {
+            "supplierId": "C316228",
+            "name": "RLP25FEER005"
+          },
+          {
+            "supplierId": "C316259",
+            "name": "CB2012-102(f)"
+          },
+          {
+            "supplierId": "C316200",
+            "name": "AR05BTCW1002"
+          },
+          {
+            "supplierId": "C316218",
+            "name": "AR05BTCW5003"
+          },
+          {
+            "supplierId": "C316211",
+            "name": "AR05BTCW5002"
+          },
+          {
+            "supplierId": "C2318",
+            "name": "XH-5A"
+          },
+          {
+            "supplierId": "C23197",
+            "name": "0603WAF510JT5E"
+          },
+          {
+            "supplierId": "C231233",
+            "name": "ORPC-817SD-TP-F_C231233"
+          },
+          {
+            "supplierId": "C231180",
+            "name": "VEH101M1HTR-0810"
+          },
+          {
+            "supplierId": "C23192",
+            "name": "0603WAF5103T5E"
+          },
+          {
+            "supplierId": "C92316",
+            "name": "BK13000702-M"
+          },
+          {
+            "supplierId": "C23109",
+            "name": "0603WAF7872T5E"
+          },
+          {
+            "supplierId": "C23196",
+            "name": "0603WAF5102T5E"
+          },
+          {
+            "supplierId": "C23195",
+            "name": "0603WAF5110T5E"
+          },
+          {
+            "supplierId": "C23141",
+            "name": "0603WAF3482T5E"
+          },
+          {
+            "supplierId": "C231228",
+            "name": "ORPC-817A"
+          },
+          {
+            "supplierId": "C23182",
+            "name": "0603WAF470JT5E"
+          },
+          {
+            "supplierId": "C23181",
+            "name": "0603WAF4750T5E"
+          }
+        ]
+      },
+      {
+        "id": "C318884",
+        "matches": [
+          {
+            "uuid": "9b1d934c3e3a4920af227bab22a915b2",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "eea002382aa04401b4a5e4e81cf7dcba",
+              "secondaryClassificationUuid": "15383183d18542ffa12c99629b300604"
+            },
+            "ordinal": 0,
+            "name": "TS-1187A-B-A-B",
+            "symbolName": "TS-1187A-B-A-B",
+            "symbolUuid": "491952e4d57b4ee4a524a485d9ced403",
+            "footprintName": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL-2",
+            "footprintUuid": "3c61b670999c46a681a73fcd202b796e",
+            "model3DName": "SW-SMD_4P-L5.2-W5.2-H1.5-LS6.4-P3.70",
+            "model3DUuid": "7a632f3c85934343b45d425e5b3b2c36",
+            "description": "触点电流:50mA;额定电压(DC):12V;绝缘电阻:100mΩ;电路结构:单刀单掷;安装方式:立贴;按钮形状:圆形按钮;按钮/盖帽颜色:金色;带灯:无;作用力:160gf;机械寿命:100000;工作温度:-30℃~+85℃;开关长度:5.1mm;开关宽度:5.1mm;开关高度:1.5mm;带支架:否;",
+            "manufacturer": "XKB Connectivity(中国星坤)",
+            "manufacturerId": "TS-1187A-B-A-B",
+            "supplier": "LCSC",
+            "supplierId": "C318884",
+            "otherProperty": {
+              "LCSC Part Name": "5.1*5.1*1.5 防水金属头160gf",
+              "Supplier Part": "C318884",
+              "Manufacturer": "XKB Connectivity(中国星坤)",
+              "Manufacturer Part": "TS-1187A-B-A-B",
+              "Supplier Footprint": "SMD",
+              "JLCPCB Part Class": "Basic Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20200227/C318884_1F20165719E1C4CAA3E10C4C359C6E26.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "491952e4d57b4ee4a524a485d9ced403",
+              "Designator": "SW?",
+              "Footprint": "3c61b670999c46a681a73fcd202b796e",
+              "3D Model": "7a632f3c85934343b45d425e5b3b2c36",
+              "3D Model Title": "SW-SMD_4P-L5.2-W5.2-H1.5-LS6.4-P3.70",
+              "3D Model Transform": "251.968,204.724,0,0,0,0,0,-0.001,0",
+              "Contact Current": "50mA",
+              "Voltage Rating (DC)": "12V",
+              "Insulation Resistance": "100mΩ",
+              "Circuit": "单刀单掷",
+              "Mounting Style": "立贴",
+              "Actuator Style": "圆形按钮",
+              "Actuator/Cap Color": "金色",
+              "With Lamp": "无",
+              "Operating Force": "160gf",
+              "Mechanical Life": "100000",
+              "Operating Temperature": "-30℃~+85℃",
+              "Switch Length": "5.1mm",
+              "Switch Width": "5.1mm",
+              "Switch Height": "1.5mm",
+              "Strike Gundam": "否",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C318884",
+            "name": "TS-1187A-B-A-B"
+          },
+          {
+            "supplierId": "C318886",
+            "name": "TS-1187A-C-G-B"
+          },
+          {
+            "supplierId": "C318889",
+            "name": "TS-1187A-C-C-B"
+          },
+          {
+            "supplierId": "C318893",
+            "name": "TS-1185EC-C-D-B"
+          },
+          {
+            "supplierId": "C318865",
+            "name": "XKB5858-Z-C"
+          },
+          {
+            "supplierId": "C318862",
+            "name": "XKB7070-Z-92"
+          },
+          {
+            "supplierId": "C318863",
+            "name": "XKB7070-Z"
+          },
+          {
+            "supplierId": "C318870",
+            "name": "XKB5858-W-75"
+          },
+          {
+            "supplierId": "C31885",
+            "name": "25121WJ0102T4E"
+          },
+          {
+            "supplierId": "C318868",
+            "name": "XKB5858-Z"
+          },
+          {
+            "supplierId": "C311888",
+            "name": "ARG03DTC2002"
+          },
+          {
+            "supplierId": "C318860",
+            "name": "XKB8080-Z"
+          },
+          {
+            "supplierId": "C318823",
+            "name": "1TS002B-1900-4300-CT"
+          },
+          {
+            "supplierId": "C318871",
+            "name": "XKB5858-W"
+          },
+          {
+            "supplierId": "C318864",
+            "name": "XKB7070-W"
+          },
+          {
+            "supplierId": "C318867",
+            "name": "XKB5858-Z-75"
+          },
+          {
+            "supplierId": "C318869",
+            "name": "XKB5858-W-C"
+          },
+          {
+            "supplierId": "C88888",
+            "name": "GJM1555C1H2R4BB01D"
+          },
+          {
+            "supplierId": "C118849",
+            "name": "RS-06K1003FT"
+          },
+          {
+            "supplierId": "C118844",
+            "name": "RS-05K104JT"
+          },
+          {
+            "supplierId": "C118847",
+            "name": "RS-05K1003FT"
+          },
+          {
+            "supplierId": "C1884",
+            "name": "1206CG101J500NT"
+          },
+          {
+            "supplierId": "C188411",
+            "name": "MMSZ5243BT1G"
+          },
+          {
+            "supplierId": "C111884",
+            "name": "L7905CV"
+          },
+          {
+            "supplierId": "C188832",
+            "name": "TMC5130A-TA-T"
+          },
+          {
+            "supplierId": "C118845",
+            "name": "RS-06K101JT"
+          },
+          {
+            "supplierId": "C118848",
+            "name": "RS-05K5101FT"
+          },
+          {
+            "supplierId": "C23188",
+            "name": "0603WAF5621T5E"
+          },
+          {
+            "supplierId": "C318660",
+            "name": "CL10C1R8BB8NNNC"
+          },
+          {
+            "supplierId": "C318941",
+            "name": "TS-1010-B-A"
+          }
+        ]
+      },
+      {
+        "id": "C54313",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C54315",
+            "name": "25121WF1001T4E"
+          },
+          {
+            "supplierId": "C364313",
+            "name": "S8550-2TY"
+          },
+          {
+            "supplierId": "C313543",
+            "name": "BL1530TQFN"
+          },
+          {
+            "supplierId": "C431543",
+            "name": "MSS22D18G4"
+          },
+          {
+            "supplierId": "C54345",
+            "name": "TC0325B1003T5E"
+          },
+          {
+            "supplierId": "C54396",
+            "name": "FJ5461AH 红色"
+          },
+          {
+            "supplierId": "C54328",
+            "name": "STM32F429IGT6"
+          },
+          {
+            "supplierId": "C543002",
+            "name": "LM3481MMX/NOPB"
+          },
+          {
+            "supplierId": "C264310",
+            "name": "313-2SYGD/S530-E2"
+          },
+          {
+            "supplierId": "C131374",
+            "name": "SK-12D02VG3"
+          },
+          {
+            "supplierId": "C131388",
+            "name": "RS-05K100JT"
+          },
+          {
+            "supplierId": "C313102",
+            "name": "0603B473J500NT"
+          },
+          {
+            "supplierId": "C31302",
+            "name": "SN65176BDR_C31302"
+          },
+          {
+            "supplierId": "C131336",
+            "name": "B3PS-VH(LF)(SN)"
+          },
+          {
+            "supplierId": "C185313",
+            "name": "RC0603FR-076R8L"
+          },
+          {
+            "supplierId": "C393313",
+            "name": "SHMICTRL-28AF-TP"
+          },
+          {
+            "supplierId": "C131394",
+            "name": "CC0402KRX7R9BB104"
+          },
+          {
+            "supplierId": "C131339",
+            "name": "B3B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C131397",
+            "name": "RC0805FR-071RL"
+          },
+          {
+            "supplierId": "C313141",
+            "name": "ES1D_R1_00001"
+          },
+          {
+            "supplierId": "C33132",
+            "name": "XH-2AW"
+          },
+          {
+            "supplierId": "C131342",
+            "name": "B6B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C113131",
+            "name": "LQW18ANR15G00D"
+          },
+          {
+            "supplierId": "C313105",
+            "name": "CC0603KRX7R0BB223"
+          },
+          {
+            "supplierId": "C193138",
+            "name": "SN420362N"
+          },
+          {
+            "supplierId": "C33139",
+            "name": "GZ2012D070TF"
+          },
+          {
+            "supplierId": "C131334",
+            "name": "B4B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C283133",
+            "name": "THD0509-04CL-GF"
+          },
+          {
+            "supplierId": "C79313",
+            "name": "SY8088AAC"
+          },
+          {
+            "supplierId": "C273136",
+            "name": "A2008WR-S-8P"
+          }
+        ]
+      },
+      {
+        "id": "C919459",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C191945",
+            "name": "BL24C16A-RRRC"
+          },
+          {
+            "supplierId": "C194594",
+            "name": "SGM2036-ADJYN5G/TR"
+          },
+          {
+            "supplierId": "C9194",
+            "name": "1206B103K102NT"
+          },
+          {
+            "supplierId": "C194517",
+            "name": "H1601CG"
+          },
+          {
+            "supplierId": "C1945",
+            "name": "CL31B104KCFNNNE"
+          },
+          {
+            "supplierId": "C319194",
+            "name": "HMK432B7225KM-T"
+          },
+          {
+            "supplierId": "C19450",
+            "name": "INA333AIDGKR"
+          },
+          {
+            "supplierId": "C71945",
+            "name": "MX25L12835FM2I-10G"
+          },
+          {
+            "supplierId": "C94599",
+            "name": "MLT-8530_C94599"
+          },
+          {
+            "supplierId": "C239459",
+            "name": "C3030WR-2x1P"
+          },
+          {
+            "supplierId": "C94598",
+            "name": "MLT-5020"
+          },
+          {
+            "supplierId": "C129459",
+            "name": "TTP223E-HA6"
+          },
+          {
+            "supplierId": "C9199",
+            "name": "TLP785(D4-GB,F(C"
+          },
+          {
+            "supplierId": "C91936",
+            "name": "1775838-2"
+          },
+          {
+            "supplierId": "C9192",
+            "name": "1206B472K102NT"
+          },
+          {
+            "supplierId": "C91909",
+            "name": "CTM1051KAT"
+          },
+          {
+            "supplierId": "C91926",
+            "name": "HP122WF200KT4E"
+          },
+          {
+            "supplierId": "C9196",
+            "name": "1206B102K202NT"
+          },
+          {
+            "supplierId": "C9191",
+            "name": "1206B222K102NT"
+          },
+          {
+            "supplierId": "C12194",
+            "name": "3F.6300222000R1N"
+          },
+          {
+            "supplierId": "C301942",
+            "name": "0402B334K160NT"
+          },
+          {
+            "supplierId": "C25194",
+            "name": "0603WAF3600T5E"
+          },
+          {
+            "supplierId": "C194701",
+            "name": "TXB0108RGYR"
+          },
+          {
+            "supplierId": "C194474",
+            "name": "LM2576S-ADJ/TR_C194474"
+          },
+          {
+            "supplierId": "C305194",
+            "name": "TMPA0605S-150MN-D"
+          },
+          {
+            "supplierId": "C51942",
+            "name": "MCL1608S100MT"
+          },
+          {
+            "supplierId": "C431194",
+            "name": "AON7405"
+          },
+          {
+            "supplierId": "C194179",
+            "name": "NDT2955"
+          },
+          {
+            "supplierId": "C194457",
+            "name": "ESD24VS2UE6327"
+          },
+          {
+            "supplierId": "C194437",
+            "name": "MLZ1608N100LT000"
+          }
+        ]
+      },
+      {
+        "id": "C79401",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C7940",
+            "name": "LM317LDR2G"
+          },
+          {
+            "supplierId": "C17940",
+            "name": "1206W4F2703T5E"
+          },
+          {
+            "supplierId": "C79427",
+            "name": "O705050MEDH4MI"
+          },
+          {
+            "supplierId": "C79430",
+            "name": "O7050100MEDH4MI"
+          },
+          {
+            "supplierId": "C7943",
+            "name": "LM324DR"
+          },
+          {
+            "supplierId": "C7944",
+            "name": "LM324PT"
+          },
+          {
+            "supplierId": "C7948",
+            "name": "LM339DR"
+          },
+          {
+            "supplierId": "C77940",
+            "name": "GD32F103RET6"
+          },
+          {
+            "supplierId": "C47940",
+            "name": "2.54-1*40P母高5.7"
+          },
+          {
+            "supplierId": "C79496",
+            "name": "ERJ6ENF1001V"
+          },
+          {
+            "supplierId": "C7942",
+            "name": "LM324PWR"
+          },
+          {
+            "supplierId": "C79432",
+            "name": "O503250MEDH4MI"
+          },
+          {
+            "supplierId": "C22940",
+            "name": "0603WAF2401T5E"
+          },
+          {
+            "supplierId": "C4940",
+            "name": "0402WGF3401TCE"
+          },
+          {
+            "supplierId": "C233794",
+            "name": "B4013AM423-008"
+          },
+          {
+            "supplierId": "C17949",
+            "name": "1206W4F2401T5E"
+          },
+          {
+            "supplierId": "C225401",
+            "name": "A2501WR-4P"
+          },
+          {
+            "supplierId": "C82401",
+            "name": "SWPA4020S220MT"
+          },
+          {
+            "supplierId": "C304011",
+            "name": "1210B106K100CT"
+          },
+          {
+            "supplierId": "C401662",
+            "name": "W25Q128JVEIQ"
+          },
+          {
+            "supplierId": "C224017",
+            "name": "SMBJ24A"
+          },
+          {
+            "supplierId": "C164013",
+            "name": "WR08X7502FTL"
+          },
+          {
+            "supplierId": "C124401",
+            "name": "B-2202S32P-B120"
+          },
+          {
+            "supplierId": "C404010",
+            "name": "STM32H750VBT6"
+          },
+          {
+            "supplierId": "C140133",
+            "name": "RC-02W6800FT"
+          },
+          {
+            "supplierId": "C140176",
+            "name": "RC-02W2400FT"
+          },
+          {
+            "supplierId": "C114401",
+            "name": "CC0402JRX7R9BB221"
+          },
+          {
+            "supplierId": "C401672",
+            "name": "W25Q16FWUXIE"
+          },
+          {
+            "supplierId": "C401766",
+            "name": "EEEFT1E102UP"
+          },
+          {
+            "supplierId": "C401465",
+            "name": "UU9.8-YH160265"
+          }
+        ]
+      },
+      {
+        "id": "C19653",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C19651",
+            "name": "LM317G-AA3-R"
+          },
+          {
+            "supplierId": "C19659",
+            "name": "CL32A226KOJNNNE"
+          },
+          {
+            "supplierId": "C19690",
+            "name": "C8051F350-GQR"
+          },
+          {
+            "supplierId": "C19694",
+            "name": "2.0-2*10P直简牛"
+          },
+          {
+            "supplierId": "C19608",
+            "name": "OPA2333AIDGKR"
+          },
+          {
+            "supplierId": "C19666",
+            "name": "CL10A475KO8NNNC"
+          },
+          {
+            "supplierId": "C321965",
+            "name": "RS-03K6200FT"
+          },
+          {
+            "supplierId": "C19619",
+            "name": "TLV70025DDCR"
+          },
+          {
+            "supplierId": "C11969",
+            "name": "ISL3152EIBZ-T"
+          },
+          {
+            "supplierId": "C319698",
+            "name": "AR02BTD2001"
+          },
+          {
+            "supplierId": "C216196",
+            "name": "SLH0704S150MTT"
+          },
+          {
+            "supplierId": "C319662",
+            "name": "AR05BTCW3002"
+          },
+          {
+            "supplierId": "C23196",
+            "name": "0603WAF5102T5E"
+          },
+          {
+            "supplierId": "C336196",
+            "name": "EEE1VA470WP"
+          },
+          {
+            "supplierId": "C5196",
+            "name": "SN74HC573AN"
+          },
+          {
+            "supplierId": "C70196",
+            "name": "25121WJ051JT4E"
+          },
+          {
+            "supplierId": "C107196",
+            "name": "CC1206KKX7RCBB332"
+          },
+          {
+            "supplierId": "C74196",
+            "name": "XL1583E1"
+          },
+          {
+            "supplierId": "C301962",
+            "name": "0402N101J500CT"
+          },
+          {
+            "supplierId": "C231196",
+            "name": "RXK221M1HBK-1012"
+          },
+          {
+            "supplierId": "C521967",
+            "name": "TPSRV05LC"
+          },
+          {
+            "supplierId": "C2196",
+            "name": "X49SD36864MSD2SC-1"
+          },
+          {
+            "supplierId": "C521962",
+            "name": "SR05"
+          },
+          {
+            "supplierId": "C31966",
+            "name": "TPS54560DDAR"
+          },
+          {
+            "supplierId": "C7196",
+            "name": "TAJB107M010RNJ"
+          },
+          {
+            "supplierId": "C182196",
+            "name": "SLH1205S101MTT"
+          },
+          {
+            "supplierId": "C75196",
+            "name": "UU10.5Y-10mH"
+          },
+          {
+            "supplierId": "C25196",
+            "name": "0603WAF560JT5E"
+          },
+          {
+            "supplierId": "C9196",
+            "name": "1206B102K202NT"
+          },
+          {
+            "supplierId": "C319196",
+            "name": "JMK107ABJ106KA-T"
+          }
+        ]
+      },
+      {
+        "id": "C132554",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C132514",
+            "name": "F-FPC0M24P-C310"
+          },
+          {
+            "supplierId": "C132562",
+            "name": "10118193-0001LF"
+          },
+          {
+            "supplierId": "C132522",
+            "name": "W-1251M06P-0400"
+          },
+          {
+            "supplierId": "C132510",
+            "name": "F-FPC1M08P-A310"
+          },
+          {
+            "supplierId": "C132509",
+            "name": "F-FPC1M10P-C310"
+          },
+          {
+            "supplierId": "C132502",
+            "name": "W-2510S05P-0000"
+          },
+          {
+            "supplierId": "C132511",
+            "name": "F-FPC0M40P-C310"
+          },
+          {
+            "supplierId": "C132528",
+            "name": "W-1251M02P-0400"
+          },
+          {
+            "supplierId": "C132564",
+            "name": "10118192-0001LF"
+          },
+          {
+            "supplierId": "C132563",
+            "name": "10118194-0001LF"
+          },
+          {
+            "supplierId": "C132505",
+            "name": "W-2510S03P-0000"
+          },
+          {
+            "supplierId": "C132132",
+            "name": "DS1023-2*20SF11"
+          },
+          {
+            "supplierId": "C132504",
+            "name": "W-2510S02P-0000"
+          },
+          {
+            "supplierId": "C132560",
+            "name": "473460001"
+          },
+          {
+            "supplierId": "C132513",
+            "name": "F-FPC0M30P-A310"
+          },
+          {
+            "supplierId": "C132525",
+            "name": "W-1251M04P-0400"
+          },
+          {
+            "supplierId": "C132516",
+            "name": "Z-DC00R02P-2000"
+          },
+          {
+            "supplierId": "C132506",
+            "name": "Z-ICS0S40P-W000"
+          },
+          {
+            "supplierId": "C132430",
+            "name": "B-3000S16P-0110"
+          },
+          {
+            "supplierId": "C132339",
+            "name": "0402WGF5603TCE"
+          },
+          {
+            "supplierId": "C132648",
+            "name": "RC1206FR-073KL"
+          },
+          {
+            "supplierId": "C132362",
+            "name": "K7805M-1000R3_C132362"
+          },
+          {
+            "supplierId": "C132221",
+            "name": "AZV331KTR-G1"
+          },
+          {
+            "supplierId": "C132272",
+            "name": "TAJC227M010RNJ"
+          },
+          {
+            "supplierId": "C132178",
+            "name": "TEPT4400"
+          },
+          {
+            "supplierId": "C441325",
+            "name": "KF2EDGV-3.5-6P"
+          },
+          {
+            "supplierId": "C132804",
+            "name": "SGM2036-3.3YC5G/TR"
+          },
+          {
+            "supplierId": "C132308",
+            "name": "AiP650"
+          },
+          {
+            "supplierId": "C132016",
+            "name": "TLV803SDBZR"
+          },
+          {
+            "supplierId": "C132442",
+            "name": "B-3000S20P-0110"
+          }
+        ]
+      },
+      {
+        "id": "C51118",
+        "matches": [
+          {
+            "uuid": "96423716b14e4b449901f431653f1108",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "ece417310c684f4d9fd2327fff310964",
+              "secondaryClassificationUuid": "ac1d6a215c684562b9dfb1aba1125800"
+            },
+            "ordinal": 0,
+            "name": "AP2112K-3.3TRG1",
+            "symbolName": "AP2112K-3.3TRG1",
+            "symbolUuid": "5a7d9ffd1060435ba9921de5b7db9ef8",
+            "footprintName": "SOT-25-5_L3.0-W1.8-P0.95-LS3.0-BR",
+            "footprintUuid": "cdeb687a45224c4d89d5a789e2f4f2f8",
+            "model3DName": "SOT-25-5_L3.0-W1.6-H1.3-LS2.8-P0.95",
+            "model3DUuid": "2af5e521bdd54ca3a4af644424b5a864",
+            "description": "输出类型:固定;输出极性:正;输出通道数:1;最大输入电压:6V;输出电压:3.3V;压差:400mV@(600mA);输出电流:600mA;电源纹波抑制比(PRSS):65dB@(100Hz,1kHz);",
+            "manufacturer": "DIODES(美台)",
+            "manufacturerId": "AP2112K-3.3TRG1",
+            "supplier": "LCSC",
+            "supplierId": "C51118",
+            "otherProperty": {
+              "LCSC Part Name": "Vin=6V Vout=3.3V 600mA 65dB@(100Hz,1kHz)",
+              "Supplier Part": "C51118",
+              "Manufacturer": "DIODES(美台)",
+              "Manufacturer Part": "AP2112K-3.3TRG1",
+              "Supplier Footprint": "SOT-25",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20171221/C51118_15138312998391195590.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "5a7d9ffd1060435ba9921de5b7db9ef8",
+              "Designator": "U?",
+              "Footprint": "cdeb687a45224c4d89d5a789e2f4f2f8",
+              "3D Model": "2af5e521bdd54ca3a4af644424b5a864",
+              "3D Model Title": "SOT-25-5_L3.0-W1.6-H1.3-LS2.8-P0.95",
+              "3D Model Transform": "110.7,118.1,0,180,0,0,-2.5,2.5,0",
+              "Output Type": "固定",
+              "Output Polarity": "正",
+              "Number of Outputs": "1",
+              "Maximum Input Voltage": "6V",
+              "Output Voltage": "3.3V",
+              "Dropout Voltage": "400mV@(600mA)",
+              "Output Current": "600mA",
+              "Power Supply Rejection Ratio (PRSS)": "65dB@(100Hz,1kHz)",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C51118",
+            "name": "AP2112K-3.3TRG1"
+          },
+          {
+            "supplierId": "C111118",
+            "name": "TAXM25M2GLFBET2T"
+          },
+          {
+            "supplierId": "C111188",
+            "name": "HEL-10D471K"
+          },
+          {
+            "supplierId": "C111187",
+            "name": "7D471K_C111187"
+          },
+          {
+            "supplierId": "C111114",
+            "name": "MMBT3906_C111114"
+          },
+          {
+            "supplierId": "C111185",
+            "name": "STM8L101F3U6ATR"
+          },
+          {
+            "supplierId": "C111189",
+            "name": "14D471K"
+          },
+          {
+            "supplierId": "C111117",
+            "name": "TAXM12M2GLFBET2T"
+          },
+          {
+            "supplierId": "C5118",
+            "name": "HIR204C"
+          },
+          {
+            "supplierId": "C511874",
+            "name": "1N4148WT_C511874"
+          },
+          {
+            "supplierId": "C511866",
+            "name": "DSS34"
+          },
+          {
+            "supplierId": "C511877",
+            "name": "MMBT5551"
+          },
+          {
+            "supplierId": "C511854",
+            "name": "SS54SMB"
+          },
+          {
+            "supplierId": "C511880",
+            "name": "RB520S-30"
+          },
+          {
+            "supplierId": "C111839",
+            "name": "SYR827PKC"
+          },
+          {
+            "supplierId": "C691118",
+            "name": "RX-8025SA AC"
+          },
+          {
+            "supplierId": "C111199",
+            "name": "SIM-011B-R6"
+          },
+          {
+            "supplierId": "C111875",
+            "name": "SY8205FCC"
+          },
+          {
+            "supplierId": "C111887",
+            "name": "L7805CV"
+          },
+          {
+            "supplierId": "C111832",
+            "name": "MURA120T3G"
+          },
+          {
+            "supplierId": "C381118",
+            "name": "DC-0440-2.5A-2.0"
+          },
+          {
+            "supplierId": "C111134",
+            "name": "AC0603FR-0747KL"
+          },
+          {
+            "supplierId": "C111822",
+            "name": "LM5069MM-2/NOPB"
+          },
+          {
+            "supplierId": "C111834",
+            "name": "MURS260T3G"
+          },
+          {
+            "supplierId": "C111830",
+            "name": "SY6288CAAC"
+          },
+          {
+            "supplierId": "C111884",
+            "name": "L7905CV"
+          },
+          {
+            "supplierId": "C71111",
+            "name": "MC34063AG-S08-R"
+          },
+          {
+            "supplierId": "C211180",
+            "name": "SCK15105MSY"
+          },
+          {
+            "supplierId": "C111896",
+            "name": "C1812X106K050T"
+          },
+          {
+            "supplierId": "C111197",
+            "name": "SIM-021"
+          }
+        ]
+      },
+      {
+        "id": "C128396",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C128392",
+            "name": "PCA9555PW,118"
+          },
+          {
+            "supplierId": "C128353",
+            "name": "0805B104K250"
+          },
+          {
+            "supplierId": "C12831",
+            "name": "SDCL1608C56NJTDF"
+          },
+          {
+            "supplierId": "C283961",
+            "name": "ARG02FTC1002"
+          },
+          {
+            "supplierId": "C128615",
+            "name": "0603B103J500CT"
+          },
+          {
+            "supplierId": "C128059",
+            "name": "RC0603FR-0715RL"
+          },
+          {
+            "supplierId": "C128944",
+            "name": "K2-1806SA-A4DW-04"
+          },
+          {
+            "supplierId": "C128939",
+            "name": "K2-1817UQ-C4SW-01"
+          },
+          {
+            "supplierId": "C128688",
+            "name": "SMMS0630-4R7M"
+          },
+          {
+            "supplierId": "C128831",
+            "name": "BZV55-C5V1,115"
+          },
+          {
+            "supplierId": "C128464",
+            "name": "EEEFT1V101AP"
+          },
+          {
+            "supplierId": "C12891",
+            "name": "CL31A226KAHNNNE"
+          },
+          {
+            "supplierId": "C128539",
+            "name": "EVQPUA02K"
+          },
+          {
+            "supplierId": "C128693",
+            "name": "SMMS0630-150M"
+          },
+          {
+            "supplierId": "C128473",
+            "name": "EEUFM1H101"
+          },
+          {
+            "supplierId": "C128852",
+            "name": "RZ7886"
+          },
+          {
+            "supplierId": "C128803",
+            "name": "BL3085"
+          },
+          {
+            "supplierId": "C128943",
+            "name": "K2-1807SA-A4DW-06"
+          },
+          {
+            "supplierId": "C128780",
+            "name": "TC0325F1000T5E"
+          },
+          {
+            "supplierId": "C128557",
+            "name": "VG039NCHXTB502"
+          },
+          {
+            "supplierId": "C261283",
+            "name": "2SK3019"
+          },
+          {
+            "supplierId": "C128609",
+            "name": "MMBZ27VCLT1G"
+          },
+          {
+            "supplierId": "C12889",
+            "name": "B230A-13-F"
+          },
+          {
+            "supplierId": "C128550",
+            "name": "VG039NCHXTB203"
+          },
+          {
+            "supplierId": "C128781",
+            "name": "TC0325F1002T5E"
+          },
+          {
+            "supplierId": "C128418",
+            "name": "SN74AVC2T245RSWR"
+          },
+          {
+            "supplierId": "C128851",
+            "name": "TA6586"
+          },
+          {
+            "supplierId": "C128987",
+            "name": "PJ-316A-6A"
+          },
+          {
+            "supplierId": "C128783",
+            "name": "TC0325F1001T5E"
+          },
+          {
+            "supplierId": "C128035",
+            "name": "VLU1012-221K"
+          }
+        ]
+      },
+      {
+        "id": "C5190383",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C519078",
+            "name": "L7812CV"
+          },
+          {
+            "supplierId": "C519088",
+            "name": "SP3232EIM/TR"
+          },
+          {
+            "supplierId": "C519083",
+            "name": "MAX232EIM/TR"
+          },
+          {
+            "supplierId": "C519080",
+            "name": "MAX485EIM/TR"
+          },
+          {
+            "supplierId": "C190384",
+            "name": "TC211A476K010B"
+          },
+          {
+            "supplierId": "C519086",
+            "name": "SP3485EIM/TR"
+          },
+          {
+            "supplierId": "C519087",
+            "name": "SP232EIM/TR"
+          },
+          {
+            "supplierId": "C519074",
+            "name": "L7805CV_C519074"
+          },
+          {
+            "supplierId": "C151908",
+            "name": "SMBJ6.5CA_C151908"
+          },
+          {
+            "supplierId": "C225190",
+            "name": "A2001WV-4P"
+          },
+          {
+            "supplierId": "C190321",
+            "name": "TC0310B1002T5E"
+          },
+          {
+            "supplierId": "C25190",
+            "name": "0603WAF270JT5E"
+          },
+          {
+            "supplierId": "C517190",
+            "name": "LP3809-263B3F"
+          },
+          {
+            "supplierId": "C111903",
+            "name": "AA08000002"
+          },
+          {
+            "supplierId": "C511901",
+            "name": "S9013_C511901"
+          },
+          {
+            "supplierId": "C190903",
+            "name": "PC1C101ME054A00CR0"
+          },
+          {
+            "supplierId": "C25816",
+            "name": "0603WAF3833T5E"
+          },
+          {
+            "supplierId": "C51942",
+            "name": "MCL1608S100MT"
+          },
+          {
+            "supplierId": "C519177",
+            "name": "X9827WRS-02-9TSN"
+          },
+          {
+            "supplierId": "C519924",
+            "name": "CC0805KRX7R9BB201"
+          },
+          {
+            "supplierId": "C5196",
+            "name": "SN74HC573AN"
+          },
+          {
+            "supplierId": "C519223",
+            "name": "X9396WRS-02-9TSN"
+          },
+          {
+            "supplierId": "C519429",
+            "name": "CC0603KRX7R7BB223"
+          },
+          {
+            "supplierId": "C5197",
+            "name": "SN74LS07N"
+          },
+          {
+            "supplierId": "C5198",
+            "name": "CD4060BE_C5198"
+          },
+          {
+            "supplierId": "C519482",
+            "name": "CC0603FRNPO9BN120"
+          },
+          {
+            "supplierId": "C5199",
+            "name": "CD4013BE"
+          },
+          {
+            "supplierId": "C519910",
+            "name": "CC0805KRX7R8BB102"
+          },
+          {
+            "supplierId": "C519410",
+            "name": "CC0603KRX7R8BB101"
+          },
+          {
+            "supplierId": "C9038",
+            "name": "2.54-2*8P牛角"
+          }
+        ]
+      },
+      {
+        "id": "C2682616",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C2616",
+            "name": "IRF3710STRLPBF"
+          },
+          {
+            "supplierId": "C26162",
+            "name": "L7908CV-DG"
+          },
+          {
+            "supplierId": "C282682",
+            "name": "TCC0603X7R334K500CT"
+          },
+          {
+            "supplierId": "C268222",
+            "name": "MR1-110-C5N-BB"
+          },
+          {
+            "supplierId": "C268221",
+            "name": "MR1-110-C5N-BBAA"
+          },
+          {
+            "supplierId": "C268278",
+            "name": "OSG81206C1E"
+          },
+          {
+            "supplierId": "C282688",
+            "name": "TCC0603X7R682K500CT"
+          },
+          {
+            "supplierId": "C261926",
+            "name": "TLP172GM(TPL,E(O"
+          },
+          {
+            "supplierId": "C261957",
+            "name": "TLC-NSMD200"
+          },
+          {
+            "supplierId": "C26103",
+            "name": "0603WAJ0305T5E"
+          },
+          {
+            "supplierId": "C26184",
+            "name": "CJ7812_C26184"
+          },
+          {
+            "supplierId": "C261283",
+            "name": "2SK3019"
+          },
+          {
+            "supplierId": "C2613",
+            "name": "IRF3205STRLPBF"
+          },
+          {
+            "supplierId": "C261946",
+            "name": "TLC-NSMD005"
+          },
+          {
+            "supplierId": "C26125",
+            "name": "1206W4J0206T5E"
+          },
+          {
+            "supplierId": "C2612",
+            "name": "IRF3205ZPBF"
+          },
+          {
+            "supplierId": "C26175",
+            "name": "TOP223YN"
+          },
+          {
+            "supplierId": "C26112",
+            "name": "0805W8F2004T5E"
+          },
+          {
+            "supplierId": "C26119",
+            "name": "1206W4F1005T5E"
+          },
+          {
+            "supplierId": "C26115",
+            "name": "0805W8J0105T5E"
+          },
+          {
+            "supplierId": "C26178",
+            "name": "MBRA340T3G"
+          },
+          {
+            "supplierId": "C26121",
+            "name": "1206W4F2204T5E"
+          },
+          {
+            "supplierId": "C261386",
+            "name": "CYSCM1211FTL-102"
+          },
+          {
+            "supplierId": "C26101",
+            "name": "0603WAJ0206T5E"
+          },
+          {
+            "supplierId": "C26102",
+            "name": "0603WAJ0205T5E"
+          },
+          {
+            "supplierId": "C26108",
+            "name": "0805W8F1005T5E"
+          },
+          {
+            "supplierId": "C263261",
+            "name": "CY2472MD1IEF48F0A8"
+          },
+          {
+            "supplierId": "C261072",
+            "name": "2.54-2*5P立贴母"
+          },
+          {
+            "supplierId": "C26113",
+            "name": "0805W8F2204T5E"
+          },
+          {
+            "supplierId": "C26124",
+            "name": "1206W4J0105T5E"
+          }
+        ]
+      },
+      {
+        "id": "C2856798",
+        "matches": [],
+        "candidates": [
+          {
+            "supplierId": "C128567",
+            "name": "VZ067TL1B202"
+          },
+          {
+            "supplierId": "C285052",
+            "name": "0402CG0R5B500NT"
+          },
+          {
+            "supplierId": "C285389",
+            "name": "VEJ101M1CTR-0606"
+          },
+          {
+            "supplierId": "C285810",
+            "name": "MHCB06030-2R2M-C1"
+          },
+          {
+            "supplierId": "C285968",
+            "name": "CPY160808T-100M-NP"
+          },
+          {
+            "supplierId": "C285392",
+            "name": "VZH221M1CTR-0607"
+          },
+          {
+            "supplierId": "C62856",
+            "name": "6124B102K500NT"
+          },
+          {
+            "supplierId": "C285103",
+            "name": "0603B472K250NT"
+          },
+          {
+            "supplierId": "C285099",
+            "name": "0603B103K250NT"
+          },
+          {
+            "supplierId": "C285068",
+            "name": "0402CG0R8B500NT"
+          },
+          {
+            "supplierId": "C28521",
+            "name": "TNY276PN"
+          },
+          {
+            "supplierId": "C285384",
+            "name": "VES470M1VTR-0605"
+          },
+          {
+            "supplierId": "C285741",
+            "name": "MHCI04020-4R7M-R8"
+          },
+          {
+            "supplierId": "C328564",
+            "name": "BRCL4056BSE"
+          },
+          {
+            "supplierId": "C285151",
+            "name": "0402CG150F500NT"
+          },
+          {
+            "supplierId": "C28595",
+            "name": "ICL7662EBA+T"
+          },
+          {
+            "supplierId": "C32856",
+            "name": "KS106M050C07RR0VH2FP0"
+          },
+          {
+            "supplierId": "C28558",
+            "name": "L6599DTR"
+          },
+          {
+            "supplierId": "C285390",
+            "name": "VZH101M1CTR-0606"
+          },
+          {
+            "supplierId": "C128569",
+            "name": "VZ067TL1B204"
+          },
+          {
+            "supplierId": "C285821",
+            "name": "LVS606045L-220M-N"
+          },
+          {
+            "supplierId": "C282852",
+            "name": "TCC1206X7R225K500FT"
+          },
+          {
+            "supplierId": "C92856",
+            "name": "UMK325BJ106KM-T"
+          },
+          {
+            "supplierId": "C285712",
+            "name": "MHCI06030-4R7M-R8A"
+          },
+          {
+            "supplierId": "C285010",
+            "name": "0201B103K250NT"
+          },
+          {
+            "supplierId": "C285996",
+            "name": "CC6201TO"
+          },
+          {
+            "supplierId": "C285199",
+            "name": "0402B181K500NT"
+          },
+          {
+            "supplierId": "C285001",
+            "name": "0402CG270J500NT_C285001"
+          },
+          {
+            "supplierId": "C285717",
+            "name": "MHCI06030-150M-R8"
+          },
+          {
+            "supplierId": "C285028",
+            "name": "0402CG1R0B500NT"
+          }
+        ]
+      },
+      {
+        "id": "C131337",
+        "matches": [
+          {
+            "uuid": "b5207ff55eaf4225b6e0c3e9f7accd93",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "classification": {
+              "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+              "libraryType": "3",
+              "primaryClassificationUuid": "5ba1dba2dd33484a861ea82e85bce4ea",
+              "secondaryClassificationUuid": "d8c4a21fc0534e5b915a73b88471c1be"
+            },
+            "ordinal": 0,
+            "name": "B2B-PH-K-S(LF)(SN)",
+            "symbolName": "B2B-PH-K-S(LF)(SN)",
+            "symbolUuid": "31c9d3a2a1f04ca093e0635399f8b6dc",
+            "footprintName": "CONN-TH_B2B-PH-K-S",
+            "footprintUuid": "76edb65a696e4774927c1b090230312a",
+            "model3DName": "CONN-TH_PH2.00-LI-2P",
+            "model3DUuid": "8f6597c354734a188d803e769ef5de47",
+            "description": "参考系列:PH;间距:2mm;插针结构:1x2P;排数:1;每排PIN数:2;行距:-;安装方式:-;触头材质:黄铜;",
+            "manufacturer": "JST",
+            "manufacturerId": "B2B-PH-K-S(LF)(SN)",
+            "supplier": "LCSC",
+            "supplierId": "C131337",
+            "otherProperty": {
+              "LCSC Part Name": "B2B-PH-K-S(LF)(SN)",
+              "Supplier Part": "C131337",
+              "Manufacturer": "JST",
+              "Manufacturer Part": "B2B-PH-K-S(LF)(SN)",
+              "Supplier Footprint": "插件,P=2mm",
+              "JLCPCB Part Class": "Extended Part",
+              "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20171026/C131337_15089839672461058811.pdf",
+              "Supplier": "LCSC",
+              "Add into BOM": "yes",
+              "Convert to PCB": "yes",
+              "Symbol": "31c9d3a2a1f04ca093e0635399f8b6dc",
+              "Designator": "CN?",
+              "Footprint": "76edb65a696e4774927c1b090230312a",
+              "3D Model": "8f6597c354734a188d803e769ef5de47",
+              "3D Model Title": "CONN-TH_PH2.00-LI-2P",
+              "3D Model Transform": "236.2,181.1,0,180,0,0,0,23.6,-137.8",
+              "Reference Series": "PH",
+              "Pitch": "2mm",
+              "Pins Structure": "1x2P",
+              "Number of Rows": "1",
+              "Number of PINs Per Row": "2",
+              "Row Spacing": "-",
+              "Mounting Style": "-",
+              "Contact Material": "黄铜",
+              "Name": "={Manufacturer Part}"
+            }
+          }
+        ],
+        "candidates": [
+          {
+            "supplierId": "C131337",
+            "name": "B2B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C131336",
+            "name": "B3PS-VH(LF)(SN)"
+          },
+          {
+            "supplierId": "C131339",
+            "name": "B3B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C131334",
+            "name": "B4B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C131314",
+            "name": "74HCT541PW,118"
+          },
+          {
+            "supplierId": "C131374",
+            "name": "SK-12D02VG3"
+          },
+          {
+            "supplierId": "C131388",
+            "name": "RS-05K100JT"
+          },
+          {
+            "supplierId": "C131394",
+            "name": "CC0402KRX7R9BB104"
+          },
+          {
+            "supplierId": "C131397",
+            "name": "RC0805FR-071RL"
+          },
+          {
+            "supplierId": "C131342",
+            "name": "B6B-PH-K-S(LF)(SN)"
+          },
+          {
+            "supplierId": "C113131",
+            "name": "LQW18ANR15G00D"
+          },
+          {
+            "supplierId": "C131361",
+            "name": "RK73H1ETTP1002F"
+          },
+          {
+            "supplierId": "C131391",
+            "name": "RS-05K105JT"
+          },
+          {
+            "supplierId": "C131362",
+            "name": "RK73H1ETTP1003F"
+          },
+          {
+            "supplierId": "C131360",
+            "name": "RK73H1ETTP1001F"
+          },
+          {
+            "supplierId": "C131398",
+            "name": "RC1206FR-071KL"
+          },
+          {
+            "supplierId": "C131389",
+            "name": "RS-05K511JT"
+          },
+          {
+            "supplierId": "C131396",
+            "name": "RC0201JR-071KL"
+          },
+          {
+            "supplierId": "C131390",
+            "name": "RS-05K121JT"
+          },
+          {
+            "supplierId": "C13337",
+            "name": "STTH1R06A"
+          },
+          {
+            "supplierId": "C133733",
+            "name": "TC0325F1003T5E"
+          },
+          {
+            "supplierId": "C133729",
+            "name": "P6KE200A"
+          },
+          {
+            "supplierId": "C13376",
+            "name": "KF107M025F05RR0VH2FG0"
+          },
+          {
+            "supplierId": "C133791",
+            "name": "TLV76033DBZT"
+          },
+          {
+            "supplierId": "C133731",
+            "name": "P6KE15CA"
+          },
+          {
+            "supplierId": "C133751",
+            "name": "SY8079AAC"
+          },
+          {
+            "supplierId": "C231337",
+            "name": "D2F-L"
+          },
+          {
+            "supplierId": "C131204",
+            "name": "19-337/R6GHBHC-M01/2T"
+          },
+          {
+            "supplierId": "C131795",
+            "name": "LM5Z3V3T1G"
+          },
+          {
+            "supplierId": "C131463",
+            "name": "CBW321609U600T"
+          }
+        ]
+      }
+    ],
+    "windowId": "3997f065-11b1-4e69-a935-c6fa723dbb26"
+  }
+}

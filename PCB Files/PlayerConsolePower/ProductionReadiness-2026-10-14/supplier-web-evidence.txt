@@ -1,0 +1,204 @@
+0603WAF7153T5E中文资料_最新报价_数据手册下载_UNI-ROYAL(厚声)-贴片电阻-立创商城 (https://item.szlcsc.com/23964.html)
+citeturn410view0 [wordlim: 200] Crawled: 4 months ago; Content type: text/html; Source: open({"ref_id":"https://item.szlcsc.com/23964.html","lineno":null}); Total lines: 354
+--------------------------------------------------------------------------------
+BQ24074RGTR | Battery Chargers | TI | LCSC (https://www.lcsc.com/product-detail/C54313.html)
+citeturn410view1 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view0","pattern":"MPN"}); Total lines: 1541
+L1222: # TI BQ24074RGTR
+L1223: 
+L1224: Manufacturer  | cite561†TI L1225: MPN  | BQ24074RGTR
+L1226: LCSC Part #  | C54313
+L1227: Packaging  | QFN-16-EP(3x3)
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | 1.5-A USB-Friendly Li-lon Battery Charger and Power-Path Management IC
+L1230: Datasheet  | cite562†TI BQ24074RGTR L1231: RoHS Compliance  | 2 documents available
+L1232: Alternative Parts  | 5
+L1233: ## Products Specifications
+L1234: 
+L1235: All[Input]
+L1450:  | MPN  | Manufacturer  | Alternative Type  | Packaging  | Availability  | Unit Price  |
+L1451: --- | --- | --- | --- | --- | --- | --- | ---
+L1452: [Input]  | cite563†BQ24074RGTT | TI  | Alt. Packaging  | VQFN-16-EP(3x3)  | 114  | $ 3.6337  | [Input: 1]Add
+L1453: [Input]  | cite564†BQ24075RGTR | TI  | Similar  | QFN-16-EP(3x3)  | 16,705  | $ 1.0786  | [Input: 1]Add
+L1454: [Input]  | cite565†BQ24075RGTT | TI  | Similar  | VQFN-16-EP(3x3)  | 335  | $ 1.2685  | [Input: 1]Add
+--------------------------------------------------------------------------------
+TPS61023DRLR | Voltage Regulators - DC DC Switching Regulators | TI | LCSC (https://www.lcsc.com/product-detail/C919459.html)
+citeturn410view2 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view1","pattern":"MPN"}); Total lines: 1469
+L1222: # TI TPS61023DRLR
+L1223: 
+L1224: Manufacturer  | cite561†TI L1225: MPN  | TPS61023DRLR
+L1226: LCSC Part #  | C919459
+L1227: Packaging  | SOT-563
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | 3.7A boost converter with an ultra-low input voltage of 0.5V
+L1230: Datasheet  | cite562†TI TPS61023DRLR†www.ti.com.cn L1231: RoHS Compliance  | 2 documents available
+L1232: Alternative Parts  | 1
+L1233: ## Products Specifications
+L1234: 
+L1235: All[Input]
+L1236: Type  | Description  |
+L1237: --- | --- | ---
+L1238: Category  | cite425†Integrated Circuits (ICs)/Power Management (PMIC)/Voltage Regulators - DC DC Switching Regulators | [Input]
+L1239: Manufacturer  | cite561†TI | [Input]
+L1240: Packaging  | SOT-563  | [Input]
+L1241: Operating Temperature  | -40℃~+125℃@(TJ)  | [Input]
+L1242: Frequency - Switching  | 1MHz  | [Input]
+L1243: Function  | Boost  | [Input]
+L1244: Number of Outputs  | 1  | [Input]
+L1245: Features  | Overcurrent Protection;Light load efficient mode;Load disconnect  | [Input]
+L1379: ## Alternative Parts
+L1380: 
+L1381:  | MPN  | Manufacturer  | Alternative Type  | Packaging  | Availability  | Unit Price  |
+L1382: --- | --- | --- | --- | --- | --- | --- | ---
+L1383: [Input]  | cite563†TPS61023DRLT | TI  | Alt. Packaging  | SOT-563  | 1,375  | $ 0.2908  | [Input: 5]Add
+L1384: 
+L1385: Compare Selected (up to 6)cite564†View and Compare All Alternative Parts. L1386: 
+L1387: Information
+L1388: 
+L1389: cite565†About LCSC L1390: 
+L1391: cite566†Contact Us L1392: 
+L1393: cite567†LCSC Seller L1394: 
+L1395: cite568†Quality Assurance†assets.lcsc.com L1396: 
+L1397: cite569†Terms and Conditions L1398: 
+L1399: cite570†Privacy Policy --------------------------------------------------------------------------------
+MAX16054AZT+T | Specialized | ADI | LCSC (https://www.lcsc.com/product-detail/C79401.html)
+citeturn410view3 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view2","pattern":"MPN"}); Total lines: 1497
+L1222: # ADI MAX16054AZT+T
+L1223: 
+L1224: Manufacturer  | cite561†ADI L1225: MPN  | MAX16054AZT+T
+L1226: LCSC Part #  | C79401
+L1227: Packaging  | TSOT-23-6
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | On/Off Controller with Debounce and ±15kV ESD Protection
+L1230: Datasheet  | cite562†ADI MAX16054AZT+T L1231: RoHS Compliance  | 1 documents available
+L1232: ## Products Specifications
+L1233: 
+L1234: All[Input]
+L1235: 
+L1236: Type  | Description  |
+L1237: --- | --- | ---
+L1238: Category  | cite360†Integrated Circuits (ICs)/Interface/Specialized | [Input]
+L1239: Manufacturer  | cite561†ADI | [Input]
+L1240: Packaging  | TSOT-23-6  | [Input]
+L1241: Interface  | -  | [Input]
+L1242: Voltage Rating  | 2.7V~5.5V  | [Input]
+L1243: Features  | Power-up/reset configuration  | [Input]
+L1244: Operating Temperature  | -40℃~+125℃  | [Input]
+L1245: Supply Current  | 7uA  | [Input]
+L1246: Quiescent Supply Current  | -  | [Input]
+L1247: Data Rate  | -  | [Input]
+--------------------------------------------------------------------------------
+TPS3808G01DBVR | Supervisors | TI | LCSC (https://www.lcsc.com/product-detail/C19653.html)
+citeturn410view4 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view3","pattern":"MPN"}); Total lines: 1515
+L1222: # TI TPS3808G01DBVR
+L1223: 
+L1224: Manufacturer  | cite561†TI L1225: MPN  | TPS3808G01DBVR
+L1226: LCSC Part #  | C19653
+L1227: Packaging  | SOT-23-6
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | Low-Quiescent-Current, Programmable-Delay Supervisory Circuit
+L1230: Datasheet  | cite562†TI TPS3808G01DBVR L1231: RoHS Compliance  | 2 documents available
+L1232: Alternative Parts  | 5
+L1233: ## Products Specifications
+L1234: 
+L1235: All[Input]
+L1424:  | MPN  | Manufacturer  | Alternative Type  | Packaging  | Availability  | Unit Price  |
+L1425: --- | --- | --- | --- | --- | --- | --- | ---
+L1426: [Input]  | cite563†TPS3808G01DBVT | TI  | Alt. Packaging  | SOT-23-6  | 9  | $ 0.537  | [Input: 1]Add
+L1427: [Input]  | cite564†TPS3808G01QDBVRQ1 | TI  | Similar  | SOT-23-6  | 88  | $ 1.6922  | [Input: 1]Add
+L1428: [Input]  | cite565†HT3808G01RTZ | HTCSEMI  | Similar  | SOT-23-6  | 1,850  | $ 0.2075  | [Input: 5]Add
+--------------------------------------------------------------------------------
+TUSB320LAIRWBR | Specialized | TI | LCSC (https://www.lcsc.com/product-detail/C132554.html)
+citeturn410view5 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view4","pattern":"MPN"}); Total lines: 1482
+L1222: # TI TUSB320LAIRWBR
+L1223: 
+L1224: Manufacturer  | cite561†TI L1225: MPN  | TUSB320LAIRWBR
+L1226: LCSC Part #  | C132554
+L1227: Packaging  | X2-QFN-12(1.6x1.6)
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | USB Type-C Configuration Channel Logic and Port Control
+L1230: Datasheet  | cite562†TI TUSB320LAIRWBR L1231: RoHS Compliance  | 2 documents available
+L1232: ## Products Specifications
+L1233: 
+L1234: All[Input]
+L1235: 
+L1236: Type  | Description  |
+L1237: --- | --- | ---
+L1238: Category  | cite360†Integrated Circuits (ICs)/Interface/Specialized | [Input]
+L1239: Manufacturer  | cite561†TI | [Input]
+L1240: Packaging  | X2-QFN-12(1.6x1.6)  | [Input]
+L1241: 
+L1242: Type  | Description  |
+L1243: --- | --- | ---
+L1244: Category  | cite360†Integrated Circuits (ICs)/Interface/Specialized | [Input]
+L1245: Manufacturer  | cite561†TI | [Input]
+L1246: 
+L1247: Type  | Description  |
+L1248: --- | --- | ---
+L1249: Packaging  | X2-QFN-12(1.6x1.6)  | [Input]
+--------------------------------------------------------------------------------
+TS3USB221ARSER | Analog Switches - Special Purpose | TI | LCSC (https://www.lcsc.com/product-detail/C128396.html)
+citeturn410view6 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view5","pattern":"MPN"}); Total lines: 1522
+L1222: # TI TS3USB221ARSER
+L1223: 
+L1224: Manufacturer  | cite561†TI L1225: MPN  | TS3USB221ARSER
+L1226: LCSC Part #  | C128396
+L1227: Packaging  | UQFN-10(1.5x2)
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | ESD Protected, High-Speed USB2.0(480-Mbps) 1:2 Multiplexer and Demultiplexer Switch With Single Enable
+L1230: Datasheet  | cite562†TI TS3USB221ARSER L1231: RoHS Compliance  | 2 documents available
+--------------------------------------------------------------------------------
+SC18IM704PWJ | Controllers | NXP | LCSC (https://www.lcsc.com/product-detail/C5190383.html)
+citeturn410view7 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view6","pattern":"MPN"}); Total lines: 1512
+L1222: # NXP SC18IM704PWJ
+L1223: 
+L1224: Manufacturer  | cite561†NXP L1225: MPN  | SC18IM704PWJ
+L1226: LCSC Part #  | C5190383
+L1227: Packaging  | TSSOP-16
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | UART to I²C-bus bridge
+L1230: Datasheet  | cite562†NXP SC18IM704PWJ L1231: RoHS Compliance  | 2 documents available
+L1232: ## Products Specifications
+L1233: 
+L1234: All[Input]
+L1235: 
+L1236: Type  | Description  |
+L1237: --- | --- | ---
+L1238: Category  | cite346†Integrated Circuits (ICs)/Interface/Controllers | [Input]
+L1239: Manufacturer  | cite561†NXP | [Input]
+L1240: Packaging  | TSSOP-16  | [Input]
+L1241: Features  | Fractional baud rate generator;Low-power mode  | [Input]
+L1242: Voltage - Supply  | 1.71V~3.6V  | [Input]
+L1243: Operating Temperature  | -40℃~+105℃  | [Input]
+L1244: Memory Size  | 256Byte  | [Input]
+L1245: Number of Channels  | 1  | [Input]
+L1246: Data Rate(Max)  | 460.8Kbps  | [Input]
+--------------------------------------------------------------------------------
+MAX17048G+T10 | Battery Management | MAXIM | LCSC (https://www.lcsc.com/product-detail/C2682616.html)
+citeturn410view8 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view7","pattern":"MPN"}); Total lines: 1544
+L1222: # MAXIM MAX17048G+T10
+L1223: 
+L1224: Manufacturer  | cite561†MAXIM L1225: MPN  | MAX17048G+T10
+L1226: LCSC Part #  | C2682616
+L1227: Packaging  | DFN-8-EP(2x2)
+L1228: Customer #  | [Input: Customer Number]
+L1229: Key Attributes  | 1-Cell/2-Cell Fuel Gauge with ModelGauge
+L1230: Datasheet  | cite562†MAXIM MAX17048G+T10 L1231: RoHS Compliance  | 1 documents available
+L1232: ## Products Specifications
+L1233: 
+L1234: All[Input]
+L1235: Type  | Description  |
+L1236: --- | --- | ---
+L1237: Category  | cite400†Integrated Circuits (ICs)/Power Management (PMIC)/Battery Management | [Input]
+L1238: Manufacturer  | cite561†MAXIM | [Input]
+--------------------------------------------------------------------------------
+FPC-05F-10PH20 | FFC, FPC (Flat Flexible) Connector Assemblies | XUNPU | LCSC (https://www.lcsc.com/product-detail/C2856798.html)
+citeturn410view9 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"turn405view8","pattern":"MPN"}); Total lines: 1459
+L1224: # XUNPU FPC-05F-10PH20
+L1225: 
+L1226: Manufacturer  | cite561†XUNPU Asian Brands
+L1227: MPN  | FPC-05F-10PH20
+L1228: LCSC Part #  | C2856798
+L1229: Packaging  | SMD,P=0.5mm,Surface Mount,Right Angle
+L1230: Customer #  | [Input: Customer Number]
+L1231: Key Attributes  | CONN FFC FPC 10POS 0.5mm BOTTOM CNT SMD R/A
+L1232: Datasheet  | cite562†XUNPU FPC-05F-10PH20 L1233: Custom Cables  | cite207†MOQ 1pc†lcsccable.com 
