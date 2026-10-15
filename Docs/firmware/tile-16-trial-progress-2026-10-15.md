@@ -251,3 +251,34 @@ INA遥测4.616–4.639V、180.5–193.0mA（峰值224.0mA），9次RFID Fault/fr
 
 
 用户随后明确确认本批COM20/21/22/23四块均为正常低亮呼吸，故本批四板目视灯效验收通过。该证据来自后续用户回复；原始串口的optical_verified=NO及result采集时的pending描述保留，不把软件遥测改成光学传感结论。RFID仍未验收，COM19隔离及16环/实体对局待验状态不变。主任务正在协调最后3块未刷长边，未给出新窗口前不再操作硬件。
+
+
+## 第四批4块新板V0.34写验及实际启动（16/16完成首次写入）
+
+用户先接入最后3块未刷long并进入下载模式/松BOOT，后将COM23替换为最后一块原计划未刷corner COM11；角色依据用户实际换板操作。当前四口PnP完整父身份均OK。固定esptool5.3.1分别一次有界no-reset/no-stub ROM识别，三long窗口2026-10-15 05:30:44.096–05:30:45.653 UTC，corner窗口05:39:20.255–05:39:20.782 UTC，均exit0并释放。均ESP32-S3 rev0.2、16MB Flash、封装8MB PSRAM、liveGPIO0 HIGH、非secure USB-Serial/JTAG；四个MAC彼此唯一，且与此前13个历史写入身份无重复。识别阶段没有复位或写入。
+
+按主任务授权，身份通过后直接使用冻结v2正常候选：manifest SHA `81a1708b21df573143a93676ca8dbfd86a3df67b3dc821ecb0fca816101fab06`，long应用c08a4508…、corner应用7153f74f…。所有profile源码清单/烧录段哈希及布局重新核对通过，四行inventory dry-run通过。固定5.3.1先全批硬件预检、后逐板同连接四段写入/校验/MAC复核/liveGPIO0检查及watchdog-reset；4条preflight实际hard-reset，4条verified实际watchdog-reset，最终exit0。没有erase-all、NVS写入、布局迁移、盲目重试或追加恢复复位。未碰旧COM19、已拔COM23、首批四板、COM6、玩家屏或其他串口；未因Git HEAD变化重构建或修改候选基线。
+
+| 标签 / 串口 | 完整MAC | 普通profile | VERIFIED时间（EDT） |
+| --- | --- | --- | --- |
+| tile-long-10 / COM24 | `a4:cb:8f:c2:99:6c` | tile-long | 2026-10-15T01:40:18.017-04:00 |
+| tile-long-11 / COM25 | `a4:cb:8f:c2:98:a0` | tile-long | 2026-10-15T01:40:39.451-04:00 |
+| tile-long-12 / COM26 | `a4:cb:8f:c2:99:50` | tile-long | 2026-10-15T01:41:00.807-04:00 |
+| tile-corner-04 / COM11 | `a4:cb:8f:c6:25:e0` | tile-corner | 2026-10-15T01:41:22.221-04:00 |
+
+四口各一次45秒STATUS观察，每5秒请求、DTR/RTS均false，窗口2026-10-15 05:41:47.303–05:42:32.815 UTC。各101条记录、9次HTTP200、9条LED状态，实际V0.34、LCD8MHz，全部exit0/MONITOR CLOSED；已告知主任务四口释放。LED均readyYES/scene、16MHz/reset_us350，attempted=completed持续推进，failed/driver_error/stop_error均0，意图RGB为低亮青绿色呼吸变化。已在观察期间提前报告COM11实际启动及正常驱动，请主任务取得用户目视反馈；采集结束时本批灯色仍待目视，optical_verified=NO。全过程仅STATUS，没有颜色或游戏命令。
+
+| 串口 | LED completed首末值 | ORDER accepted首末值 | INA电压 | INA电流 |
+| --- | --- | --- | --- | --- |
+| COM24 | 1250→2068 | 0→0 | 4.506–4.544V | 118.0–144.3mA |
+| COM25 | 903→1720 | 10→17 | 4.561–4.586V | 118.0–138.8mA |
+| COM26 | 919→1736 | 7→13 | 4.506–4.526V | 117.8–135.8mA |
+| COM11 | 490→1306 | 3→10 | 4.564–4.592V | 189.8–206.5mA |
+
+四板boot依次保持`916B7EE27E20CDDA`、`D0E99ABD2B8F845A`、`0F6AD4DF0FBF5261`、`E101AF3771A0905F`；ORDER timerOK、rejected0、timing_drops固定1。实际后继串口upstream boot均等于前驱boot，HTTP确认COM24/996c → COM25/98a0 → COM26/9950 → COM11/25e0，index0/1/2/3、3long＋1corner、全部V0.34/online，无conflict，仍unanchored/assigned=false/closedRing=false。此次仍是四节点开链，未进行16闭环/锚点/对局操作。
+
+每板9次RFID Fault/freshNO、count0、TXDIS1/OFF，USB供电下RFID仍未验收，保护阈值不变。COM11峰值INA遥测240.8mA；这些不是校准电气验收。观察内无panic/reset/json_error/heartbeat_failed或WS2812 ERROR。before/after `/api/state`只有serverEpochMs变化（1792042791267→1792042952970），其余游戏业务一致；未修改分配、Tag、房间或棋子状态。
+
+独立证据均为trial目录的`batch04-`前缀：long-pnp/long-identities及3份ROM日志，corner-identity/COM11-ROM、before-flash-pnp、release-validation、inventory、dry-run、flash/events/process、4份COMxx-serial、observations、before/after HTTP及`batch04-result.json`。没有覆盖此前批次、重开串口或新增测试/构建；本轮仓库只更新本报告，Git统一提交归主任务。
+
+计划盘16/16已完成首次普通固件写验并实际启动，12long＋4corner身份齐全；其中12块V0.34，首批COM12/13/14/15四块仍V0.33，需下一接线窗口升级。历史唯一烧录新板共17，含隔离COM19；替换COM10属于计划盘有效角落，不额外占格。16首次启动不等于16板同时联网、同版本、闭环或完整游戏通过。主任务接续负责本批目视确认、首批四板接线/升级窗口及整盘联调；格子任务在新窗口内继续，不自行打开首批端口。RFID、供电、全部显示/灯色、16闭环、配对拿放及完整实体一局仍分别保留待验，COM19根因仍未关闭。
