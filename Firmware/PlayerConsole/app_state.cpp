@@ -4958,7 +4958,7 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
     if (action == TouchAction::DetailBack) appHandleUiEvent(state, UiEvent{UiEventKind::Back, 0}, nowMs);
 }
 
-void appTick(AppState &state, uint32_t nowMs)
+void appTick(AppState &state, uint32_t nowMs, bool inputPending)
 {
     if (appAwaitingGame(state)) return;
     if (!appIdentityActive(state) && presentGameOutcome(state)) return;
@@ -5018,7 +5018,7 @@ void appTick(AppState &state, uint32_t nowMs)
             showToast(state, "PAYMENT READY - HOLD TO RETRY", nowMs);
         }
     }
-    if (state.modal.kind != ModalKind::None && state.modal.holding &&
+    if (!inputPending && state.modal.kind != ModalKind::None && state.modal.holding &&
         !state.modal.submitting && !state.holdActionConsumed &&
         (state.modal.focus == ModalFocus::Confirm ||
          state.modal.focus == ModalFocus::ResolveAssets) &&
@@ -5134,7 +5134,7 @@ void appTick(AppState &state, uint32_t nowMs)
         return;
     }
 
-    if (!state.buttonHeld || state.holdActionConsumed) return;
+    if (inputPending || !state.buttonHeld || state.holdActionConsumed) return;
     const uint32_t heldMs = nowMs - state.buttonDownMs;
     if (state.modal.kind != ModalKind::None) {
         if (state.modal.holding && heldMs >= kConfirmHoldMs && !state.modal.submitting &&

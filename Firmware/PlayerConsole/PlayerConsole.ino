@@ -16,6 +16,7 @@
 #include "demo_transport.h"
 #include "espnow_player_transport.h"
 #include "hardware_input.h"
+#include "input_dispatch.h"
 #include "logic_tests.h"
 #include "lvgl_v8_port.h"
 #include "rom_console_stream.h"
@@ -895,21 +896,22 @@ void loop()
 {
     if (!ready) { delay(5); return; }
     const uint32_t nowMs = millis();
-    InputEvent input{};
     TransportCommand command{};
     TransportEvent transportEvent{};
-    bool rotaryStepApplied = false;
     serviceInputTrace(nowMs);
 #if GRIDOPOLY_BATTERY_ENABLED
     batteryHardwareTick(millis());
 #endif
-    while (!rotaryStepApplied && hardwareInputPoll(input)) {
+    dispatchInputBatch(hardwareInputPoll, [&](const InputEvent &input) {
         const uint8_t beforeCommands = app.commandCount;
         const ScreenPage beforePage = app.page;
         const uint8_t beforeFocus = app.focus;
         const bool beforeEditing = app.identity.editingValue;
         const TransportAvatarRecipe beforeRecipe = app.identity.draftRecipe;
         appHandleInput(app, input, nowMs);
+        // Per-detent diagnostics are opt-in, like the raw phase trace. Avoid
+        // filling USB CDC with two lines per step during normal play.
+        if (!inputTraceEnabled) return;
         Serial.printf(
             "GRIDOPOLY_INPUT kind=%u delta=%d page=%u focus=%u queued=%u auth=%u catalog=%u pending=%04x input_ms=%lu consumed_ms=%lu\n",
             static_cast<unsigned>(input.kind), input.delta, static_cast<unsigned>(app.page),
@@ -930,8 +932,7 @@ void loop()
                 after.hairPresetId, after.hairColorId, after.facePresetId,
                 after.skinToneId, after.outfitPresetId);
         }
-        rotaryStepApplied = input.kind == InputKind::Rotate;
-    }
+    });
 
     if (lvgl_port_lock(-1)) {
         // Apply the physical button request before newer queued touch actions.
@@ -965,7 +966,9 @@ void loop()
     }
     transport.tick(nowMs);
     while (transport.poll(transportEvent)) appHandleTransportEvent(app, transportEvent, nowMs);
-    appTick(app, nowMs);
+    // Timer callbacks may enqueue a press after the loop's initial clock read.
+    // A pending release must be consumed before elapsed time can trigger a hold.
+    appTick(app, millis(), hardwareInputPending());
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP
     if (appIdentityActive(app)) {
         avatarSetupCacheHeld = true;
@@ -987,7 +990,9 @@ void loop()
 #endif
 
     if (lvgl_port_lock(-1)) {
-        renderAppFrame(nowMs);
+        // The reducer and input callbacks can advance timestamps while this
+        // loop waits. Render after the lock with a clock no older than them.
+        renderAppFrame(millis());
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP
         // The previous page's LVGL objects must be gone before their source
         // pixels are released. Workers defer setup cleanup while composing.

@@ -783,6 +783,9 @@ void refreshSamePageFocus(const AppState &state)
     if (state.page == ScreenPage::AvatarSetup) {
         const bool focusChanged = state.focus != previousFocus;
         for (uint8_t row = 0; row < 5; ++row) {
+            // Style setters invalidate even when their value is unchanged.
+            // Only the old/new focused rows can change in a retained update.
+            if (row != state.focus && row != previousFocus) continue;
             AvatarRowBinding &binding = avatarRowBindings[row];
             if (binding.object == nullptr) continue;
             const bool focused = state.focus == row;
@@ -816,6 +819,8 @@ void refreshSamePageFocus(const AppState &state)
         for (uint8_t index = 0; index < tapBindingCount; ++index) {
             TapBinding &binding = tapBindings[index];
             if (binding.action != TouchAction::IdentityConfirm) continue;
+            const uint8_t confirm = static_cast<uint8_t>(AvatarEditField::Confirm);
+            if (!focusChanged || (state.focus != confirm && previousFocus != confirm)) continue;
             const bool focused = bindingIsFocused(state, binding.action);
             lv_obj_set_style_bg_color(
                 binding.object,

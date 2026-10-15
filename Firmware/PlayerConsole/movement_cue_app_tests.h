@@ -6,9 +6,11 @@
 #include <GridopolyProtocol.h>
 #include <cstring>
 // The same state-machine scenarios execute on the native host and device.
-template<class Check> bool runMovementCueAppTests(Check check)
+template<class Check> bool runMovementCueAppTests(Check check, uint8_t boardSize = 24)
 {
     bool ok = true;
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(boardSize);
+    if (board == nullptr) return check(false, "cue: requested board exists in the shared catalog");
     const TransportCommand legacy{TransportCommandKind::MortgageBatchRequest, 700, 42, 90, 0, 0x55};
     ok &= check(legacy.requestId == 700 && legacy.stateVersion == 42 &&
         legacy.transactionId == 90 && legacy.assetMask == 0x55 && legacy.roomId == 0,
@@ -39,6 +41,7 @@ template<class Check> bool runMovementCueAppTests(Check check)
         state.stateVersion = 100;
         state.selfSeatId = state.activePlayerId = 1;
         state.authorityOnline = state.boardCatalogCompatible = true;
+        state.boardSize = boardSize;
         state.authorityPhase = AuthorityPhase::AwaitMoveConfirm;
         state.rollOrigin = 3;
         state.rollTarget = 7;
@@ -69,18 +72,19 @@ template<class Check> bool runMovementCueAppTests(Check check)
     resync.roomId = 123; resync.stateVersion = 100; resync.resync = true;
     resync.phase = AuthorityPhase::AwaitMoveConfirm;
     resync.selfSeatId = resync.activePlayerId = resync.decisionPlayerId = 1;
-    resync.playerCount = 2; resync.boardSize = 24;
+    resync.playerCount = 2; resync.boardSize = boardSize;
     resync.playerPosition = 3; resync.pendingTarget = resync.targetPosition = 7;
     resync.availableActions = 1u << 1;
     appHandleTransportEvent(state, resync, 22);
     resync.kind = TransportEventKind::AuthoritySnapshotApplied;
-    const auto *board = gridopoly::core::BoardCatalog::findBySize(24);
     resync.boardIdHash = gridopoly::protocol::crc32(
         reinterpret_cast<const uint8_t *>(board->id), std::strlen(board->id));
     resync.assetCount = board->assetCount;
     resync.pendingMoveFlags = 1; resync.pendingMovePlayerId = 1;
     resync.pendingMoveOrigin = 3; resync.pendingMoveDieA = resync.pendingMoveDieB = 2;
     appHandleTransportEvent(state, resync, 23);
+    ok &= check(state.boardSize == boardSize && state.boardCatalogCompatible,
+        "cue: full projection accepts the exact board size and catalog hash");
     ok &= check(!appPollCommand(state, command) && state.movementCueRequestId == request &&
         state.movementCueFramePresented, "cue: same-key full resync keeps the first-frame receipt and request");
     TransportEvent loss{};
@@ -151,7 +155,7 @@ template<class Check> bool runMovementCueAppTests(Check check)
     arrived.roomId = 123; arrived.stateVersion = 101;
     arrived.phase = AuthorityPhase::AwaitPurchase;
     arrived.selfSeatId = arrived.activePlayerId = arrived.decisionPlayerId = 1;
-    arrived.playerCount = 2; arrived.boardSize = 24;
+    arrived.playerCount = 2; arrived.boardSize = boardSize;
     arrived.playerPosition = 7; arrived.pendingTarget = 0xFF;
     arrived.availableActions = (1u << 2) | (1u << 3);
     appHandleTransportEvent(state, arrived, 1000);

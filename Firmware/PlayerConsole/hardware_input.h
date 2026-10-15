@@ -6,6 +6,7 @@
 
 bool hardwareInputBegin();
 bool hardwareInputPoll(InputEvent &event);
+bool hardwareInputPending();
 
 #if GRIDOPOLY_SELF_TEST == 1
 void hardwareInputTestReset();

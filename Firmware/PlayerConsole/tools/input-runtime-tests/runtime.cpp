@@ -277,10 +277,20 @@ int main() {
     app.identity.editingValue = false; app.focus = app.nav.current.focus = 0;
     ++app.revision; uiRendererRender(app, ++t);
     auto *row = avatarRowBindings[0].object;
+    lv_refr_now(lv_disp_get_default());
     const unsigned previewBefore = previewQueries;
     const auto rebuildBefore = rendererTestStats.rebuildRenders;
     app.focus = app.nav.current.focus = 2; ++app.revision;
     uiRendererRender(app, ++t);
+    auto *activeDisplay = lv_disp_get_default();
+    bool untouchedRowDirty = false;
+    for (uint16_t index = 0; index < activeDisplay->inv_p; ++index) {
+        const auto &area = activeDisplay->inv_areas[index];
+        if (area.x1 <= 200 && area.x2 >= 200 && area.y1 <= 175 && area.y2 >= 175)
+            untouchedRowDirty = true;
+    }
+    check(!untouchedRowDirty,
+          "avatar focus change does not invalidate an unrelated row");
     check(avatarRowBindings[0].object == row && previewQueries == previewBefore &&
           rendererTestStats.rebuildRenders == rebuildBefore,
           "avatar focus change retains real LVGL rows and does not reacquire/redraw portrait");
@@ -292,6 +302,27 @@ int main() {
     uiRendererInvalidateArtwork(); uiRendererRender(app, ++t);
     check(previewQueries == previewBefore + 2 && avatarRowBindings[0].object == row,
           "newly published portrait is still acquired when artwork invalidation arrives");
+    bool focusStylesCorrect = true;
+    for (uint8_t selected : {5, 1, 3, 0, 4, 2}) {
+        app.focus = app.nav.current.focus = selected;
+        app.identity.editingValue = false;
+        ++app.revision; uiRendererRender(app, ++t);
+        for (uint8_t index = 0; index < 5; ++index) {
+            focusStylesCorrect &= lv_obj_get_style_bg_color(avatarRowBindings[index].object, 0).full ==
+                lv_color_hex(index == selected ? 0x16302A : 0x061017).full;
+            focusStylesCorrect &= lv_obj_get_style_border_color(avatarRowBindings[index].object, 0).full ==
+                lv_color_hex(index == selected ? kGreen : 0x061017).full;
+        }
+        focusStylesCorrect &= lv_obj_get_style_bg_color(avatarConfirmObject, 0).full ==
+            lv_color_hex(selected == 5 ? 0x16302A : kPanel).full;
+        app.identity.editingValue = selected < 5;
+        ++app.revision; uiRendererRender(app, ++t);
+        for (uint8_t index = 0; index < 5; ++index)
+            focusStylesCorrect &= strcmp(lv_label_get_text(avatarRowBindings[index].affordanceLabel),
+                                          index == selected ? "<>" : ">") == 0;
+    }
+    check(focusStylesCorrect,
+          "retained rows and confirm clear old highlights and show only the active edit affordance");
     app.page = app.nav.current.page = ScreenPage::NameHandwriting;
     app.identity.phase = IdentityClientPhase::NameHandwriting;
     app.identity.handwritingDoneRequested = false;

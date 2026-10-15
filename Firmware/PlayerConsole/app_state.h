@@ -7,7 +7,9 @@ void appInit(AppState &state, uint32_t nowMs, bool waitForAuthority = false);
 bool appAwaitingGame(const AppState &state);
 void appHandleInput(AppState &state, const InputEvent &event, uint32_t nowMs);
 void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs);
-void appTick(AppState &state, uint32_t nowMs);
+// Queue backlog can contain a physical release whose timestamp is already past.
+// Defer only held-input actions until it is consumed; other deadlines still run.
+void appTick(AppState &state, uint32_t nowMs, bool inputPending = false);
 void appNotifyFramePresented(AppState &state, uint32_t nowMs);
 bool appCanNavigateBack(const AppState &state);
 uint8_t appPageContentCount(const AppState &state);

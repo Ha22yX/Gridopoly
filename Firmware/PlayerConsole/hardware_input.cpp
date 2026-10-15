@@ -115,6 +115,14 @@ bool hardwareInputBegin()
     return true;
 }
 
+bool hardwareInputPending()
+{
+    portENTER_CRITICAL(&mux);
+    const bool pending = count != 0;
+    portEXIT_CRITICAL(&mux);
+    return pending;
+}
+
 bool hardwareInputPoll(InputEvent &event)
 {
     portENTER_CRITICAL(&mux);
