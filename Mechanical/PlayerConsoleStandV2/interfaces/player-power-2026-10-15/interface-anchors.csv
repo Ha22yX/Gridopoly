@@ -1,0 +1,6 @@
+﻿ref,function,anchor_mm,body_bbox_xy_mm,source_rotation_deg_ccw,design_service_bbox_xy_mm,design_height_reserve_above_top_mm,datum
+J1,USB-C charging/data,"[39.999999, 75.438]","[35.52998, 73.181896, 44.469992, 80.531894]",0,"[32, 70, 48, 95]",5,TOP mounted; opening faces +Y
+J2,Screen FPC 10pin 0.5mm bottom-contact,"[3.81, 58.801]","[-0.324841, 54.101009, 4.795164, 63.501016]",-90.00000000000001,"[-12, 51, 9, 67]",6,Insertion from -X; leave latch/finger room above
+J3,Battery JST PH 2pin top entry,"[39.999999, 5.0]","[37.049992, 3.300004, 42.94998, 7.799995]",180,"[33, 0, 47, 13]",15,Pin1 left black/GND; pin2 right red/BAT_PACK
+SW1,POWER,"[75.311, 26.791999]","[72.761018, 24.241991, 77.861033, 29.342006]",90,"[70, 21.5, 80, 32]",10,"Top-press switch, not side-actuated"
+SW2,RST,"[75.311, 53.207999]","[72.761018, 50.657991, 77.861033, 55.758006]",90,"[70, 48, 80, 58.5]",10,"Top-press switch, not side-actuated"

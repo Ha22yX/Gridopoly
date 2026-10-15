@@ -1,0 +1,13 @@
+{
+  "shorts": [],
+  "spacing_under_5_98mil": [],
+  "via_drill_gap_under_0_299mm": [],
+  "disconnected_nets_without_pours": [
+    "GND"
+  ],
+  "counts": {
+    "pin": 759,
+    "wire": 1307,
+    "via": 481
+  }
+}

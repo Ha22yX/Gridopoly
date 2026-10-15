@@ -1,0 +1,269 @@
+{
+  "date": "2026-10-15",
+  "scope": "Read-only saved PCB source and primary manufacturer drawings; no EDA/serial/git/repository edits. Output restricted to this temp directory.",
+  "current_physical_evidence": {
+    "reportedBy": "parent /root relaying latest user confirmation from 3D task",
+    "fact": "Two long boards and one corner naturally connect with PCB planes coplanar; individual board resting unevenly is due to tall bottom components.",
+    "notMeasuredByReviewer": true
+  },
+  "boards": {
+    "long": {
+      "current_path": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\long-current.source.jsonl",
+      "archive_path": "Z:\\Files\\我的项目\\Gridopoly\\PCB Files\\DesignAudit-2026-09-21\\long-pcb.source",
+      "current_sha256": "5eb60926f0544ea7aa55e0b3d274e967504dc89d7d3a8164c14049a4c5dd494d",
+      "connectors": {
+        "JIN1": {
+          "id": "b288303d1098f24c",
+          "source_line": 2616,
+          "x_mil": -25,
+          "y_mil": -1770,
+          "angle_deg": 90,
+          "layerId": 1,
+          "uniqueId": "gge166",
+          "footprintId": "d09a0faabc439b2a",
+          "deviceId": "2acd7ec844903338"
+        },
+        "JOUT1": {
+          "id": "fc5c19566c73f16b",
+          "source_line": 2626,
+          "x_mil": 1920,
+          "y_mil": -1770,
+          "angle_deg": 90,
+          "layerId": 1,
+          "uniqueId": "gge167",
+          "footprintId": "96f393a85191e111",
+          "deviceId": "4c1723df0ca7adad"
+        },
+        "JIN3": {
+          "id": "76bd4f63d901ec65",
+          "source_line": 2636,
+          "x_mil": -25,
+          "y_mil": -1240,
+          "angle_deg": -90,
+          "layerId": 1,
+          "uniqueId": "gge168",
+          "footprintId": "479108aa4e469959",
+          "deviceId": "68fe96b71c5d4f68"
+        },
+        "JOUT3": {
+          "id": "0b3ee5170b9ea8d6",
+          "source_line": 2643,
+          "x_mil": 1925,
+          "y_mil": -1240,
+          "angle_deg": 90,
+          "layerId": 1,
+          "uniqueId": "gge169",
+          "footprintId": "b8c2aaaa77322e9f",
+          "deviceId": "a72b797079b06351"
+        }
+      },
+      "matches_archive_component_placement_and_identifiers": {
+        "JIN1": true,
+        "JOUT1": true,
+        "JIN3": true,
+        "JOUT3": true
+      },
+      "note": "External footprint bodies are not embedded in these PCB sources; comparison does not independently prove the live 3D model or actual supplied component."
+    },
+    "corner": {
+      "current_path": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\corner-current.source.jsonl",
+      "archive_path": "Z:\\Files\\我的项目\\Gridopoly\\PCB Files\\DesignAudit-2026-09-21\\corner-pcb.source",
+      "current_sha256": "615d58e8a85cd7a4374f53b839b1d0672f55a4d97417fc5b6de69746be38d6bf",
+      "connectors": {
+        "JIN1": {
+          "id": "b288303d1098f24c",
+          "source_line": 2756,
+          "x_mil": -25,
+          "y_mil": -1770,
+          "angle_deg": 90,
+          "layerId": 1,
+          "uniqueId": "gge166",
+          "footprintId": "d09a0faabc439b2a",
+          "deviceId": "2acd7ec844903338"
+        },
+        "JOUT1": {
+          "id": "fc5c19566c73f16b",
+          "source_line": 2766,
+          "x_mil": 1652.0467,
+          "y_mil": -94.5779,
+          "angle_deg": 180,
+          "layerId": 1,
+          "uniqueId": "gge167",
+          "footprintId": "96f393a85191e111",
+          "deviceId": "4c1723df0ca7adad"
+        },
+        "JIN3": {
+          "id": "76bd4f63d901ec65",
+          "source_line": 2776,
+          "x_mil": -25,
+          "y_mil": -1240,
+          "angle_deg": -90,
+          "layerId": 1,
+          "uniqueId": "gge168",
+          "footprintId": "479108aa4e469959",
+          "deviceId": "68fe96b71c5d4f68"
+        },
+        "JOUT3": {
+          "id": "0b3ee5170b9ea8d6",
+          "source_line": 2783,
+          "x_mil": 1122.0467,
+          "y_mil": -94.5779,
+          "angle_deg": 180,
+          "layerId": 1,
+          "uniqueId": "gge169",
+          "footprintId": "b8c2aaaa77322e9f",
+          "deviceId": "a72b797079b06351"
+        }
+      },
+      "matches_archive_component_placement_and_identifiers": {
+        "JIN1": true,
+        "JOUT1": true,
+        "JIN3": true,
+        "JOUT3": true
+      },
+      "note": "External footprint bodies are not embedded in these PCB sources; comparison does not independently prove the live 3D model or actual supplied component."
+    }
+  },
+  "sources": [
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\long-current.source.jsonl",
+      "sha256": "5eb60926f0544ea7aa55e0b3d274e967504dc89d7d3a8164c14049a4c5dd494d"
+    },
+    {
+      "path": "Z:\\Files\\我的项目\\Gridopoly\\PCB Files\\DesignAudit-2026-09-21\\long-pcb.source",
+      "sha256": "7844966d53d4c92e208744ed0814e1461b9a876a2a6efe5e279c2626b6e18456"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\corner-current.source.jsonl",
+      "sha256": "615d58e8a85cd7a4374f53b839b1d0672f55a4d97417fc5b6de69746be38d6bf"
+    },
+    {
+      "path": "Z:\\Files\\我的项目\\Gridopoly\\PCB Files\\DesignAudit-2026-09-21\\corner-pcb.source",
+      "sha256": "26b01e6244e7c1ca2e5bd7774c15f11749cc2a010c1375f319b773b5f04b8639"
+    }
+  ],
+  "parts": {
+    "JIN1": {
+      "mpn": "HX PZ2.54-1x6P WZ",
+      "supplierPart": "C32713265",
+      "archivedFootprintName": "HDR-TH_6P-P2.54-H-M-W10.3",
+      "archived3DTitle": "HDR-TH_6P-P2.54-M-WI-1X6P",
+      "archived3DTransform": "599.9988,409.448,0,180,0,0,0,190.945,-118.11",
+      "pitch_mm": 2.54,
+      "nominal_contact_center_above_seated_pcb_mm": 1.25,
+      "z_evidence": "Inferred from centered contact within 2.50 mm thick side section under flush plastic seating; drawings do not explicitly tolerance an assembled PCB datum. Latest user confirms physical coplanarity.",
+      "body_thickness_mm": 2.5,
+      "exposed_mating_pin_length_mm": 6,
+      "exposed_mating_pin_length_tolerance_mm": 0.2,
+      "bend_dimension_mm": 4.3,
+      "bend_is_not_z_height": true,
+      "body_row_length_nominal_mm": 15.04
+    },
+    "JIN3": {
+      "mpn": "PZ254R-11-03P",
+      "supplierPart": "C492411",
+      "archivedFootprintName": "HDR-TH_3P-P2.54-H-M-W10.4",
+      "archived3DTitle": "HDR-TH_3P-P2.54-M-WI-1X3P",
+      "archived3DTransform": "299.9994,409.448,0,0,0,0,0,-190.945,-118.11",
+      "pitch_mm": 2.54,
+      "nominal_contact_center_above_seated_pcb_mm": 1.25,
+      "z_evidence": "Inferred from centered contact within 2.50 mm thick side section under flush plastic seating; drawings do not explicitly tolerance an assembled PCB datum. Latest user confirms physical coplanarity.",
+      "body_thickness_mm": 2.5,
+      "exposed_mating_pin_length_mm": 6,
+      "exposed_mating_pin_length_tolerance_mm": 0.25,
+      "bend_dimension_mm": 4.4,
+      "bend_is_not_z_height": true,
+      "body_row_length_nominal_mm": 7.62
+    },
+    "JOUT1": {
+      "mpn": "LAIL-PM2.54-6P-W",
+      "supplierPart": "C54973819",
+      "archivedFootprintName": "HDR-TH_6P-P2.54-H-F-W10.0-N",
+      "archived3DTitle": "HDR-TH_6P-P2.54-H-F-W10.0-N",
+      "archived3DTransform": "619.684,401.574,0,0,0,0,0,-192.913,-125.984",
+      "pitch_mm": 2.54,
+      "nominal_contact_center_above_seated_pcb_mm": 1.25,
+      "z_evidence": "Inferred from centered contact within 2.50 mm thick side section under flush plastic seating; drawings do not explicitly tolerance an assembled PCB datum. Latest user confirms physical coplanarity.",
+      "body_thickness_mm": 2.5,
+      "housing_mating_axis_depth_mm": 8.5,
+      "housing_mating_axis_depth_tolerance_mm": 0.2,
+      "body_row_length_nominal_mm": 15.74
+    },
+    "JOUT3": {
+      "mpn": "LAIL-PM2.54-3P-W",
+      "supplierPart": "C54973822",
+      "archivedFootprintName": "HDR-TH_3P-P2.54-H-F-W10.3-N",
+      "archived3DTitle": "HDR-TH_3P-P2.54-H-F-W10.3-N",
+      "archived3DTransform": "315.7474,403.5425,0,0,0,0,0,-192.913,-125.984",
+      "pitch_mm": 2.54,
+      "nominal_contact_center_above_seated_pcb_mm": 1.25,
+      "z_evidence": "Inferred from centered contact within 2.50 mm thick side section under flush plastic seating; drawings do not explicitly tolerance an assembled PCB datum. Latest user confirms physical coplanarity.",
+      "body_thickness_mm": 2.5,
+      "housing_mating_axis_depth_mm": 8.5,
+      "housing_mating_axis_depth_tolerance_mm": 0.2,
+      "body_row_length_nominal_mm": 8.12
+    }
+  },
+  "manufacturer_sources": [
+    {
+      "name": "JIN1-C32713265",
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20250627/A98220D60208B80A167749D0E63EBB9E.pdf",
+      "bytes": 229397,
+      "sha256": "8f333b10f4f073aeec84c3842fa2a26b4ede0cc485d5bf7fd9e714948865b3d0",
+      "status": "downloaded_and_rendered"
+    },
+    {
+      "name": "JIN3-C492411",
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20240923/0BB0AE042338FD36B1C6C43771D9547C.pdf",
+      "bytes": 144048,
+      "sha256": "e73b28ac2c540f1ac3a6cbb7af32f6a68a52dd70d56fd71754f55682fad207a4",
+      "status": "downloaded_and_rendered"
+    },
+    {
+      "name": "JOUT1-C54973819",
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20260526/F72FB14A65EA7442DF2017F3AFC567A6.pdf",
+      "bytes": 57168,
+      "sha256": "ea011acb4631e9301752755bd0bbd51545740593286bf9960293b717f7f2b47d",
+      "status": "downloaded_and_rendered"
+    },
+    {
+      "name": "JOUT3-C54973822",
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20260526/B580BB038DF5DA78FDAB8C8BE61190BE.pdf",
+      "bytes": 56147,
+      "sha256": "a3809618784af9de6ad20024b51201d6d900115793c3d0714f109443debd9098",
+      "status": "downloaded_and_rendered"
+    }
+  ],
+  "geometry": {
+    "pin_pitch_mm": 2.54,
+    "group_center_spacing_mm": 13.462,
+    "long_output_3pin_axial_offset_relative_to_6pin_mm": 0.127,
+    "corner_output_3pin_axial_offset_relative_to_6pin_mm": 0,
+    "max_tangential_pin_error_mm": 0.0,
+    "tangential_checks": 36,
+    "pin_check_basis": "Repeat archived pad-coordinate nominal transform for long-long,long-corner,corner-long,corner-corner; current component positions and IDs unchanged.",
+    "input_padrow_to_edge_mm": 2.27786692,
+    "output_6pin_padrow_to_edge_mm": 2.31913176,
+    "gap_formula": "physical connector-zone board-edge gap g = mating 6-pin pad-row distance D - 4.59699868 mm. D must be measured from actual connected assembly or supported by combination mating drawing.",
+    "illustrative_old_D_mm": 14.5,
+    "illustrative_old_gap_mm": 9.903001320000001,
+    "old_gap_is_manufacturing_dimension": false
+  },
+  "history": {
+    "old_design": "2026-09-19 C92159 male / C22373927 female; historical inferred centers approx 4.18 mm vs 1.25 mm. Superseded in archived PCB and current saved source identifiers.",
+    "withdrawn_candidates": [
+      "C5242196",
+      "C5142236"
+    ],
+    "current_design_replacement_evidenced": true,
+    "current_actual_coplanarity": "Confirmed by user via parent on 2026-10-15; no longer an unresolved yes/no for the three present boards.",
+    "actual_fitted_mpn_identification": "Not independently confirmed by this review; current MPN mapping comes from archived schematic and unchanged current device/footprint IDs."
+  },
+  "mechanical_handoff": {
+    "shared_datum": "Use one PCB reference plane for all 2 long + 1 corner boards; do not step the PCB heights based on bottom-component table contact.",
+    "support": "Provide supports at qualified mounting/support areas and clearance below bottom-side parts; do not load connectors or component bodies as feet.",
+    "insertion": "JIN male points outward left in unrotated source; long JOUT female outward right, corner JOUT female outward top. Insert in the PCB plane; corner connections require two orthogonal access directions.",
+    "gap": "Keep assembly spacing parametric until actual connected pad-row/edge gap is measured. Do not use 14.5 mm historical illustrative row spacing as a release dimension.",
+    "service": "Allow axial withdrawal and a method to remove a middle board; rigid closed-loop mating requires an explicit assembly/service sequence. Free male pin length is 6 mm, not a guaranteed required insertion stroke."
+  }
+}

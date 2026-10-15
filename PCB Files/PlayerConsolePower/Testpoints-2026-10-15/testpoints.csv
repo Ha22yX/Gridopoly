@@ -1,0 +1,9 @@
+﻿Reference,Net / silkscreen,X mm from left,Y mm from top,Plated hole mm,Copper diameter mm,Fitted component
+TP7,GND,8,22.5,1,2.2,No
+TP3,5V_SCREEN,16,22.5,1,2.2,No
+TP4,SCREEN_IO3V3,24,22.5,1,2.2,No
+TP8,GND,32,22.5,1,2.2,No
+TP5,USB_VBUS,40,22.5,1,2.2,No
+TP2,SYS_RAW,48,22.5,1,2.2,No
+TP1,BAT_PACK,56,22.5,1,2.2,No
+TP6,POWER_EN,64,22.5,1,2.2,No

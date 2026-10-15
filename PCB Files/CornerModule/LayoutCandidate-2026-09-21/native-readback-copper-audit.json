@@ -1,0 +1,11 @@
+{
+  "disconnected_nets": [],
+  "shorts": [],
+  "clearances_under_4mil": [],
+  "counts": {
+    "pin": 759,
+    "via": 481,
+    "wire": 3994,
+    "pour": 42
+  }
+}

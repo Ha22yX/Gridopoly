@@ -1,0 +1,305 @@
+{
+  "revision": "Player Stand V2 R1",
+  "performed_at_date": "2026-10-15",
+  "source": "Exported binary STL, independent of Blender mesh QA",
+  "parts": [
+    {
+      "file": "01_Upper_CW47_5.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 2694,
+      "triangles": 5400,
+      "edges": 8100,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 96897.98588438143,
+      "surface_area_mm2": 23435.979001024396,
+      "bounds_mm": [
+        [
+          -47.0,
+          47.0
+        ],
+        [
+          -41.0,
+          41.0
+        ],
+        [
+          0.0,
+          45.864471435546875
+        ]
+      ],
+      "dimensions_mm": [
+        94.0,
+        82.0,
+        45.864471435546875
+      ],
+      "downward_triangles_above_bed": 1054,
+      "downward_area_above_bed_mm2": 1107.3806928269487,
+      "overhang_policy": "Upper retains legacy screen mating surfaces; their downward faces are reported, not automatically rejected.",
+      "sha256": "0dad5e90b4163b498691e30f43b2be23ba1b10828f87f4243cc8568f16ca59ff",
+      "3mf": {
+        "file": "01_Upper_CW47_5.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "stl_triangle_indices_unchanged": true,
+        "stl_vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          47.0,
+          41.0,
+          -0.0
+        ],
+        "metadata_geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "2f7228be4ca2fb92588452e8101b510d5320989ca9c501c8488aab051cf69c9b"
+      }
+    },
+    {
+      "file": "02_Battery_Tray.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_downward_faces_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 1465,
+      "triangles": 2942,
+      "edges": 4413,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 20774.08276414046,
+      "surface_area_mm2": 21566.024928891886,
+      "bounds_mm": [
+        [
+          -47.0,
+          47.0
+        ],
+        [
+          -41.0,
+          41.0
+        ],
+        [
+          0.0,
+          16.0
+        ]
+      ],
+      "dimensions_mm": [
+        94.0,
+        82.0,
+        16.0
+      ],
+      "downward_triangles_above_bed": 0,
+      "downward_area_above_bed_mm2": 0,
+      "overhang_policy": "All added tray/spacer faces above Z=0 checked; only vertical-wall angular noise <0.01 degree ignored.",
+      "sha256": "470f53ba9273ceb23d2b90dad0c6f6a2ffa3cba87065255fe4e4ae9d9240b3d9",
+      "3mf": {
+        "file": "02_Battery_Tray.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "stl_triangle_indices_unchanged": true,
+        "stl_vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          47.0,
+          41.0,
+          -0.0
+        ],
+        "metadata_geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "785c4d675a68230f90aa37ae7dc009a2efe64cf2828f53f62bb48704a2a8e099"
+      }
+    },
+    {
+      "file": "03_Spacer_8mm.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_downward_faces_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 256,
+      "triangles": 512,
+      "edges": 768,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 144.53215184554438,
+      "surface_area_mm2": 277.31046396284336,
+      "bounds_mm": [
+        [
+          -3.0,
+          3.0
+        ],
+        [
+          -3.0,
+          3.0
+        ],
+        [
+          0.0,
+          8.0
+        ]
+      ],
+      "dimensions_mm": [
+        6.0,
+        6.0,
+        8.0
+      ],
+      "downward_triangles_above_bed": 0,
+      "downward_area_above_bed_mm2": 0,
+      "overhang_policy": "All added tray/spacer faces above Z=0 checked; only vertical-wall angular noise <0.01 degree ignored.",
+      "sha256": "324530ba9d6946fca351b98fa1605229472ed83909c443fb0c81b5df959633f2",
+      "3mf": {
+        "file": "03_Spacer_8mm.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "stl_triangle_indices_unchanged": true,
+        "stl_vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          3.0,
+          3.0,
+          -0.0
+        ],
+        "metadata_geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "3b86de6b02e83dfbc898bd6651adff080286cac374c0f18016f3316f1f01c273"
+      }
+    },
+    {
+      "file": "03_Spacer_12mm.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_downward_faces_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 256,
+      "triangles": 512,
+      "edges": 768,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 216.7982277683169,
+      "surface_area_mm2": 397.8991769635725,
+      "bounds_mm": [
+        [
+          -3.0,
+          3.0
+        ],
+        [
+          -3.0,
+          3.0
+        ],
+        [
+          0.0,
+          12.0
+        ]
+      ],
+      "dimensions_mm": [
+        6.0,
+        6.0,
+        12.0
+      ],
+      "downward_triangles_above_bed": 0,
+      "downward_area_above_bed_mm2": 0,
+      "overhang_policy": "All added tray/spacer faces above Z=0 checked; only vertical-wall angular noise <0.01 degree ignored.",
+      "sha256": "32f31514414d42e424a80d04def910a3f981e44aada8afbc624d65dcec655089",
+      "3mf": {
+        "file": "03_Spacer_12mm.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "stl_triangle_indices_unchanged": true,
+        "stl_vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          3.0,
+          3.0,
+          -0.0
+        ],
+        "metadata_geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "62f131d5dc7d2d9010014e7acaf07cf718dd439f20d1756596a13044a3961727"
+      }
+    }
+  ],
+  "limitations": [
+    "No slicer toolpath review performed.",
+    "No physical print/fit/load/heat or actual battery/cable fit verified.",
+    "Legacy upper negative-Z faces are retained and reported; no unsupported claim that all screen mating surfaces are support-free.",
+    "3MFs contain individual print parts, not the stacked assembly. Four copies of either spacer height are needed; alternatives are not stacked together."
+  ],
+  "legacy_screen_interface_comparison": {
+    "source": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\Mechanical\\PlayerConsoleStand\\outputs\\models\\Gridopoly_Player_Console_Stand_CW47_5.stl",
+    "source_sha256": "45564e74a329e79ca2ecb9beb63ce78de9ca942397f3b1185495aec2e1ea70d7",
+    "region": "Surface clipped at z>=4.01mm in the printing coordinates; no new cut-plane cap added",
+    "method": "Compare all unique original vertices above plane at 1e-5mm precision; compare clipped surface area; bidirectional sampled point-to-triangle distance at all clipped vertices, edge midpoints and triangle centroids. Allows planar re-triangulation.",
+    "legacy_vertices_above_plane": 2004,
+    "new_vertices_above_plane": 2004,
+    "vertices_removed": 0,
+    "vertices_added": 0,
+    "legacy_clipped_surface_area_mm2": 10608.346331573204,
+    "new_clipped_surface_area_mm2": 10608.346278766308,
+    "surface_area_difference_mm2": 5.28068958374206e-05,
+    "sample_count_old_to_new": 12051,
+    "sample_count_new_to_old": 12051,
+    "maximum_sampled_surface_distance_mm": 9.013360583179153e-07,
+    "distance_tolerance_mm": 0.0002,
+    "surface_area_tolerance_mm2": 0.01,
+    "pass": true,
+    "scope": "Strong sampled geometric equivalence, not formal exact Boolean proof or physical fit validation."
+  },
+  "pass": true
+}

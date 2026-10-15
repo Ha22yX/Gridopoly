@@ -1,0 +1,53 @@
+{
+  "method": "OD6 full disc versus every bottom body+pad bounding box and top connector tail bounding box, each expanded0.5mm, same top-view coordinates",
+  "results": [
+    {
+      "board": "long",
+      "hole": "H1_TL",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 4.713763
+    },
+    {
+      "board": "long",
+      "hole": "H2_TR",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 3.951763
+    },
+    {
+      "board": "long",
+      "hole": "H3_BR",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 0.50063
+    },
+    {
+      "board": "long",
+      "hole": "H4_BL",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 8.739595
+    },
+    {
+      "board": "corner",
+      "hole": "H1_TL",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 9.357127
+    },
+    {
+      "board": "corner",
+      "hole": "H2_TR",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 8.598689
+    },
+    {
+      "board": "corner",
+      "hole": "H3_BR",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 9.612125
+    },
+    {
+      "board": "corner",
+      "hole": "H4_BL",
+      "bottom_bbox_intersections": [],
+      "minimum_disc_clearance_mm": 9.459726
+    }
+  ]
+}

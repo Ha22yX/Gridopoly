@@ -1,0 +1,1064 @@
+{
+  "schema": "gridopoly.mechanical-interface.v1",
+  "date": "2026-10-15",
+  "scope": "2 long +1 corner fixture interface, extendable perimeter assembly; no PCB modification",
+  "units": "mm",
+  "coordinate_system": {
+    "view": "top, component/LED face; both boards JIN left; long JOUT right; corner JOUT top; USB J1 down",
+    "origin": "upper-left of maximum board outline bounding box, including long tabs",
+    "x_positive": "right",
+    "y_positive": "down",
+    "z_origin": "PCB bottom laminate surface",
+    "z_positive": "toward top component face",
+    "source_unit": "mil",
+    "mm_per_source_unit": 0.0254,
+    "source_origin_mil": [
+      -114.6798,
+      -3.2735
+    ],
+    "transform": "x_mm=(x_mil+114.6798)*0.0254; y_mm=(-3.2735-y_mil)*0.0254",
+    "bottom_view_note": "Bottom clearances are projected in the same top view, NOT mirrored."
+  },
+  "user_evidence": {
+    "source_thread": "01a0f687-eeae-7d61-bbbb-cbb5a98a7b33",
+    "confirmed_by_read_thread": true,
+    "printer": "Bambu H2D",
+    "material": "PLA",
+    "coplanarity": "user_observed_natural_assembly",
+    "bottom_protrusion_mm": 8.1,
+    "thickness_mm": 1.6,
+    "measurement_class": "user_measured_approx",
+    "tolerance_mm": null
+  },
+  "boards": {
+    "long": {
+      "pcb_uuid": "7840864f79449b47",
+      "pcb_name": "PCB2_1",
+      "design_snapshot_status": "read_only_live_export_not_order_package",
+      "physical_revision_match": "not_hash_bound_to_this_manufacturing_batch; board dimensions should be checked against actual sample",
+      "source_file": "evidence/long-current.source.jsonl",
+      "source_sha256": "5eb60926f0544ea7aa55e0b3d274e967504dc89d7d3a8164c14049a4c5dd494d",
+      "native_export": "evidence/long-current.epro2",
+      "gerber_export": "evidence/long-current-Gerber.zip",
+      "component_count": 141,
+      "bottom_component_count": 48,
+      "nominal_outline": {
+        "width_mm": 54,
+        "height_mm": 80,
+        "outer_corner_radius_mm": 4,
+        "main_body_x_mm": [
+          3,
+          51
+        ],
+        "left_tab_x_mm": [
+          0,
+          3
+        ],
+        "right_tab_x_mm": [
+          51,
+          54
+        ],
+        "tab_y_mm": [
+          27,
+          53
+        ]
+      },
+      "outline_segments": [
+        {
+          "primitive_id": "94cdbf2e3ec9c8e0",
+          "type": "line",
+          "start_mm": [
+            6.9999987,
+            0.0
+          ],
+          "end_mm": [
+            46.99999998,
+            0.0
+          ]
+        },
+        {
+          "primitive_id": "c7a2c6fc33321b82",
+          "type": "arc",
+          "start_mm": [
+            6.9999987,
+            0.0
+          ],
+          "end_mm": [
+            2.99999908,
+            3.99969482
+          ],
+          "center_mm": [
+            6.99999988,
+            4.00000081
+          ],
+          "radius_mm": 4.00000081,
+          "sweep_deg_in_xy_down": -89.9956,
+          "source_mode": "CARC"
+        },
+        {
+          "primitive_id": "b05505eaf17dae9d",
+          "type": "line",
+          "start_mm": [
+            2.99999908,
+            3.99969482
+          ],
+          "end_mm": [
+            2.99999908,
+            26.99969454
+          ]
+        },
+        {
+          "primitive_id": "9982df44802b28b9",
+          "type": "line",
+          "start_mm": [
+            2.99999908,
+            26.99969454
+          ],
+          "end_mm": [
+            0.0,
+            26.99969454
+          ]
+        },
+        {
+          "primitive_id": "c2545240efb83608",
+          "type": "line",
+          "start_mm": [
+            0.0,
+            26.99969454
+          ],
+          "end_mm": [
+            0.0,
+            53.00000068
+          ]
+        },
+        {
+          "primitive_id": "e7f1308ccf001873",
+          "type": "line",
+          "start_mm": [
+            2.99999908,
+            53.00000068
+          ],
+          "end_mm": [
+            0.0,
+            53.00000068
+          ]
+        },
+        {
+          "primitive_id": "2a8304dae7b98b27",
+          "type": "line",
+          "start_mm": [
+            2.99999908,
+            76.0000004
+          ],
+          "end_mm": [
+            2.99999908,
+            53.00000068
+          ]
+        },
+        {
+          "primitive_id": "9899f0e5c9e5b9b2",
+          "type": "arc",
+          "start_mm": [
+            2.99995082,
+            76.0000004
+          ],
+          "end_mm": [
+            6.99964564,
+            80.00000002
+          ],
+          "center_mm": [
+            6.99995163,
+            75.99999922
+          ],
+          "radius_mm": 4.00000081,
+          "sweep_deg_in_xy_down": -89.9956,
+          "source_mode": "CARC"
+        },
+        {
+          "primitive_id": "dcf63eafaaeea44c",
+          "type": "line",
+          "start_mm": [
+            6.9999987,
+            80.00000002
+          ],
+          "end_mm": [
+            46.99999998,
+            80.00000002
+          ]
+        },
+        {
+          "primitive_id": "db86d96bce78cae7",
+          "type": "arc",
+          "start_mm": [
+            46.99999998,
+            80.00004828
+          ],
+          "end_mm": [
+            50.9999996,
+            76.00035346
+          ],
+          "center_mm": [
+            46.9999988,
+            76.00004747
+          ],
+          "radius_mm": 4.00000081,
+          "sweep_deg_in_xy_down": -89.9956,
+          "source_mode": "CARC"
+        },
+        {
+          "primitive_id": "2d7b444d74c3d592",
+          "type": "line",
+          "start_mm": [
+            50.9999996,
+            76.00004866
+          ],
+          "end_mm": [
+            50.9999996,
+            53.00004894
+          ]
+        },
+        {
+          "primitive_id": "a707462363bb2297",
+          "type": "line",
+          "start_mm": [
+            50.9999996,
+            53.00004894
+          ],
+          "end_mm": [
+            53.99999868,
+            53.00004894
+          ]
+        },
+        {
+          "primitive_id": "c8f6f3d8590d3fc7",
+          "type": "line",
+          "start_mm": [
+            53.99999868,
+            26.99999934
+          ],
+          "end_mm": [
+            53.99999868,
+            53.00004894
+          ]
+        },
+        {
+          "primitive_id": "900c6f3cd892a37f",
+          "type": "line",
+          "start_mm": [
+            50.9999996,
+            26.99999934
+          ],
+          "end_mm": [
+            53.99999868,
+            26.99999934
+          ]
+        },
+        {
+          "primitive_id": "022ee1ead9497561",
+          "type": "line",
+          "start_mm": [
+            50.9999996,
+            3.99999962
+          ],
+          "end_mm": [
+            50.9999996,
+            26.99999934
+          ]
+        },
+        {
+          "primitive_id": "18beb320c79ddc5f",
+          "type": "arc",
+          "start_mm": [
+            51.00004532,
+            3.99999962
+          ],
+          "end_mm": [
+            47.00035304,
+            0.0
+          ],
+          "center_mm": [
+            47.00004578,
+            3.99999953
+          ],
+          "radius_mm": 3.99999954,
+          "sweep_deg_in_xy_down": -89.9956,
+          "source_mode": "CARC"
+        }
+      ],
+      "mounting_holes": [
+        {
+          "id": "H1_TL",
+          "primitive_id": "0f27a56d42634446",
+          "center_mm": [
+            7.19099908,
+            4.191
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C43",
+            "distance_from_hole_center_mm": 7.713763,
+            "disc_edge_clearance_mm": 4.713763
+          },
+          "recommended_screw_location": false
+        },
+        {
+          "id": "H2_TR",
+          "primitive_id": "e00156a56519f928",
+          "center_mm": [
+            46.81499908,
+            4.191
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C49",
+            "distance_from_hole_center_mm": 6.951763,
+            "disc_edge_clearance_mm": 3.951763
+          },
+          "recommended_screw_location": true
+        },
+        {
+          "id": "H3_BR",
+          "primitive_id": "34b36badabea0ca5",
+          "center_mm": [
+            46.81499908,
+            75.83885264
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C202",
+            "distance_from_hole_center_mm": 3.50063,
+            "disc_edge_clearance_mm": 0.50063
+          },
+          "recommended_screw_location": false
+        },
+        {
+          "id": "H4_BL",
+          "primitive_id": "6b53d3d12776068b",
+          "center_mm": [
+            7.19099908,
+            75.83885264
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C46",
+            "distance_from_hole_center_mm": 11.739595,
+            "disc_edge_clearance_mm": 8.739595
+          },
+          "recommended_screw_location": true
+        }
+      ],
+      "connectors": [
+        {
+          "ref": "J1",
+          "component_anchor_mm": [
+            26.99999934,
+            76.327
+          ],
+          "source_rotation_ccw_deg": 0,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": [
+            0,
+            1
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        },
+        {
+          "ref": "J3",
+          "component_anchor_mm": [
+            7.00941956,
+            46.59477346
+          ],
+          "source_rotation_ccw_deg": -90,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": null,
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        },
+        {
+          "ref": "J4",
+          "component_anchor_mm": [
+            26.99999934,
+            11.2198531
+          ],
+          "source_rotation_ccw_deg": 180,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": null,
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        },
+        {
+          "ref": "JIN1",
+          "component_anchor_mm": [
+            2.27786692,
+            44.8748531
+          ],
+          "source_rotation_ccw_deg": 90,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            -1,
+            0
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 6,
+          "pitch_mm": 2.54,
+          "gender": "male",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "JOUT1",
+          "component_anchor_mm": [
+            51.68086692,
+            44.8748531
+          ],
+          "source_rotation_ccw_deg": 90,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            1,
+            0
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 6,
+          "pitch_mm": 2.54,
+          "gender": "female",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "JIN3",
+          "component_anchor_mm": [
+            2.27786692,
+            31.4128531
+          ],
+          "source_rotation_ccw_deg": -90,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            -1,
+            0
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 3,
+          "pitch_mm": 2.54,
+          "gender": "male",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "JOUT3",
+          "component_anchor_mm": [
+            51.80786692,
+            31.4128531
+          ],
+          "source_rotation_ccw_deg": 90,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            1,
+            0
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 3,
+          "pitch_mm": 2.54,
+          "gender": "female",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        }
+      ],
+      "pcb_thickness_mm": 1.6,
+      "pcb_thickness_evidence": "user_measured_approx; nominal design specification also1.6",
+      "pcb_cad_stack_sum_mm": 1.538351,
+      "pcb_stack_note": "CAD sum1.538351 does not replace user-reported physical1.6; not a measured manufacturing thickness.",
+      "max_bottom_protrusion_mm": 8.1,
+      "bottom_protrusion_evidence": "user_measured_approx",
+      "per_part_measured_height_mm": null,
+      "recommended_diagonal_pair": [
+        "H2_TR",
+        "H4_BL"
+      ],
+      "recommended_support_outer_diameter_mm": 6,
+      "bottom_clearance_data_file": "reviews/bottom-review/bottom-clearance.json",
+      "outline_source_vs_gerber_max_endpoint_gap_mm": 0.0003529999992992481,
+      "support_interface": {
+        "outer_diameter_mm": 6,
+        "inner_clearance_diameter_mm": 3.6,
+        "material": "insulating PLA or insulating washer",
+        "actual_copper_and_drill_review": "reviews/layout-review/mechanical-current-geometry.json",
+        "height_basis": "user_measured_approx bottom8.1mm, selected fixture height14mm; first-print fit required",
+        "screw_note": "NPTH3.5 permits nominal M3 clearance; thread belongs in replaceable PLA boss/nut, not PCB. Fastener head/washer contact OD must stay within reviewed6mm area unless separately checked."
+      },
+      "mechanical_primitive_comparison_to_2026_09_21": {
+        "compared_record_types": [
+          "COMPONENT",
+          "ATTR",
+          "PAD",
+          "PAD_NET",
+          "FILL",
+          "LINE",
+          "ARC",
+          "POLY",
+          "REGION",
+          "VIA"
+        ],
+        "difference_count": 0,
+        "difference_type_counts": {}
+      }
+    },
+    "corner": {
+      "pcb_uuid": "6f97d7be5a40dd66",
+      "pcb_name": "PCB2_5",
+      "design_snapshot_status": "read_only_live_export_not_order_package",
+      "physical_revision_match": "not_hash_bound_to_this_manufacturing_batch; board dimensions should be checked against actual sample",
+      "source_file": "evidence/corner-current.source.jsonl",
+      "source_sha256": "615d58e8a85cd7a4374f53b839b1d0672f55a4d97417fc5b6de69746be38d6bf",
+      "native_export": "evidence/corner-current.epro2",
+      "gerber_export": "evidence/corner-current-Gerber.zip",
+      "component_count": 152,
+      "bottom_component_count": 46,
+      "nominal_outline": {
+        "width_mm": 80,
+        "height_mm": 80,
+        "outer_corner_radius_mm": 4
+      },
+      "outline_segments": [
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "line",
+          "start_mm": [
+            3.99999962,
+            0.0
+          ],
+          "end_mm": [
+            76.0000004,
+            0.0
+          ]
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "arc",
+          "start_mm": [
+            76.0000004,
+            0.0
+          ],
+          "end_mm": [
+            80.00000002,
+            3.99999962
+          ],
+          "center_mm": [
+            76.0000004,
+            3.99999962
+          ],
+          "radius_mm": 3.99999962,
+          "sweep_deg_in_xy_down": 90,
+          "source_mode": "CARC"
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "line",
+          "start_mm": [
+            80.00000002,
+            3.99999962
+          ],
+          "end_mm": [
+            80.00000002,
+            76.0000004
+          ]
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "arc",
+          "start_mm": [
+            80.00000002,
+            76.0000004
+          ],
+          "end_mm": [
+            76.0000004,
+            80.00000002
+          ],
+          "center_mm": [
+            76.0000004,
+            76.0000004
+          ],
+          "radius_mm": 3.99999962,
+          "sweep_deg_in_xy_down": 90,
+          "source_mode": "CARC"
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "line",
+          "start_mm": [
+            76.0000004,
+            80.00000002
+          ],
+          "end_mm": [
+            3.99999962,
+            80.00000002
+          ]
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "arc",
+          "start_mm": [
+            3.99999962,
+            80.00000002
+          ],
+          "end_mm": [
+            0.0,
+            76.0000004
+          ],
+          "center_mm": [
+            3.99999962,
+            76.0000004
+          ],
+          "radius_mm": 3.99999962,
+          "sweep_deg_in_xy_down": 90,
+          "source_mode": "CARC"
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "line",
+          "start_mm": [
+            0.0,
+            76.0000004
+          ],
+          "end_mm": [
+            0.0,
+            3.99999962
+          ]
+        },
+        {
+          "primitive_id": "110890b6fd87adc7",
+          "type": "arc",
+          "start_mm": [
+            0.0,
+            3.99999962
+          ],
+          "end_mm": [
+            3.99999962,
+            0.0
+          ],
+          "center_mm": [
+            3.99999962,
+            3.99999962
+          ],
+          "radius_mm": 3.99999962,
+          "sweep_deg_in_xy_down": 90,
+          "source_mode": "CARC"
+        }
+      ],
+      "mounting_holes": [
+        {
+          "id": "H1_TL",
+          "primitive_id": "0f27a56d42634446",
+          "center_mm": [
+            3.99999962,
+            3.99999962
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C43",
+            "distance_from_hole_center_mm": 12.357127,
+            "disc_edge_clearance_mm": 9.357127
+          },
+          "recommended_screw_location": true
+        },
+        {
+          "id": "H2_TR",
+          "primitive_id": "e00156a56519f928",
+          "center_mm": [
+            76.0000004,
+            3.99999962
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C49",
+            "distance_from_hole_center_mm": 11.598689,
+            "disc_edge_clearance_mm": 8.598689
+          },
+          "recommended_screw_location": false
+        },
+        {
+          "id": "H3_BR",
+          "primitive_id": "34b36badabea0ca5",
+          "center_mm": [
+            76.0000004,
+            76.0000004
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C51",
+            "distance_from_hole_center_mm": 12.612125,
+            "disc_edge_clearance_mm": 9.612125
+          },
+          "recommended_screw_location": true
+        },
+        {
+          "id": "H4_BL",
+          "primitive_id": "6b53d3d12776068b",
+          "center_mm": [
+            3.99999962,
+            76.0000004
+          ],
+          "nominal_diameter_mm": 3.5,
+          "source_diameter_mm": 3.49999808,
+          "manufacturing_type": "NPTH",
+          "gerber_drill_diameter_mm": 3.499998,
+          "support_assessment": "OD6mm/ID3.6mm insulating annulus passes actual Gerber board/copper/mask/paste and library body+pad bbox(+0.5mm) check.",
+          "nearest_expanded_bottom_obstacle": {
+            "ref": "C45",
+            "distance_from_hole_center_mm": 12.459726,
+            "disc_edge_clearance_mm": 9.459726
+          },
+          "recommended_screw_location": false
+        }
+      ],
+      "connectors": [
+        {
+          "ref": "J1",
+          "component_anchor_mm": [
+            39.99999874,
+            76.327
+          ],
+          "source_rotation_ccw_deg": 0,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": [
+            0,
+            1
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        },
+        {
+          "ref": "J3",
+          "component_anchor_mm": [
+            20.00941896,
+            46.59477346
+          ],
+          "source_rotation_ccw_deg": -90,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": null,
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        },
+        {
+          "ref": "J4",
+          "component_anchor_mm": [
+            39.99999874,
+            11.2198531
+          ],
+          "source_rotation_ccw_deg": 180,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": null,
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        },
+        {
+          "ref": "JIN1",
+          "component_anchor_mm": [
+            2.27786692,
+            44.8748531
+          ],
+          "source_rotation_ccw_deg": 90,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            -1,
+            0
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 6,
+          "pitch_mm": 2.54,
+          "gender": "male",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "JOUT1",
+          "component_anchor_mm": [
+            44.8748531,
+            2.31913176
+          ],
+          "source_rotation_ccw_deg": 180,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            0,
+            -1
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 6,
+          "pitch_mm": 2.54,
+          "gender": "female",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "JIN3",
+          "component_anchor_mm": [
+            2.27786692,
+            31.4128531
+          ],
+          "source_rotation_ccw_deg": -90.00000000000001,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            -1,
+            0
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 3,
+          "pitch_mm": 2.54,
+          "gender": "male",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "JOUT3",
+          "component_anchor_mm": [
+            31.4128531,
+            2.31913176
+          ],
+          "source_rotation_ccw_deg": 180,
+          "mount_side": "top",
+          "is_board_interconnect": true,
+          "outward_vector_xy": [
+            0,
+            -1
+          ],
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable.",
+          "pins": 3,
+          "pitch_mm": 2.54,
+          "gender": "female",
+          "nominal_contact_center_above_top_mm": 1.25,
+          "contact_z_evidence": "drawing_inference_under_flush_seating; actual natural coplanarity user_observed"
+        },
+        {
+          "ref": "J301",
+          "component_anchor_mm": [
+            69.46086692,
+            46.5258531
+          ],
+          "source_rotation_ccw_deg": 180,
+          "mount_side": "top",
+          "is_board_interconnect": false,
+          "outward_vector_xy": null,
+          "z_body_above_pcb_mm": null,
+          "required_plug_grip_clearance_mm": null,
+          "required_withdrawal_stroke_mm": null,
+          "notes": "Anchor is library reference, not housing boundary. Cable/plug envelope must remain adjustable."
+        }
+      ],
+      "pcb_thickness_mm": 1.6,
+      "pcb_thickness_evidence": "user_measured_approx; nominal design specification also1.6",
+      "pcb_cad_stack_sum_mm": 1.538351,
+      "pcb_stack_note": "CAD sum1.538351 does not replace user-reported physical1.6; not a measured manufacturing thickness.",
+      "max_bottom_protrusion_mm": 8.1,
+      "bottom_protrusion_evidence": "user_measured_approx",
+      "per_part_measured_height_mm": null,
+      "recommended_diagonal_pair": [
+        "H1_TL",
+        "H3_BR"
+      ],
+      "recommended_support_outer_diameter_mm": 6,
+      "bottom_clearance_data_file": "reviews/bottom-review/bottom-clearance.json",
+      "outline_source_vs_gerber_max_endpoint_gap_mm": 8.881784197001252e-16,
+      "support_interface": {
+        "outer_diameter_mm": 6,
+        "inner_clearance_diameter_mm": 3.6,
+        "material": "insulating PLA or insulating washer",
+        "actual_copper_and_drill_review": "reviews/layout-review/mechanical-current-geometry.json",
+        "height_basis": "user_measured_approx bottom8.1mm, selected fixture height14mm; first-print fit required",
+        "screw_note": "NPTH3.5 permits nominal M3 clearance; thread belongs in replaceable PLA boss/nut, not PCB. Fastener head/washer contact OD must stay within reviewed6mm area unless separately checked."
+      },
+      "mechanical_primitive_comparison_to_2026_09_21": {
+        "compared_record_types": [
+          "COMPONENT",
+          "ATTR",
+          "PAD",
+          "PAD_NET",
+          "FILL",
+          "LINE",
+          "ARC",
+          "POLY",
+          "REGION",
+          "VIA"
+        ],
+        "difference_count": 0,
+        "difference_type_counts": {}
+      }
+    }
+  },
+  "assembly": {
+    "common_pcb_bottom_datum": true,
+    "inter_board_gap_mm": null,
+    "mating_pad_row_spacing_mm": null,
+    "gap_definition": "minimum opposing PCB edges at the connector tab; not long main-body edge",
+    "gap_formula": "gap_mm = six_pin_pad_row_spacing_mm - 4.59699868",
+    "legacy_14_5_mm_row_spacing": "illustration_only_do_not_freeze",
+    "corner_to_two_long_transforms": {
+      "corner": {
+        "matrix_xy": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "translation_mm": [
+          0,
+          0
+        ]
+      },
+      "upstream_long_on_left": {
+        "matrix_xy": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "translation_formula_mm": [
+          "-54-gap_left",
+          "0"
+        ],
+        "mating": "long JOUT -> corner JIN"
+      },
+      "downstream_long_above": {
+        "matrix_xy": [
+          [
+            0,
+            1
+          ],
+          [
+            -1,
+            0
+          ]
+        ],
+        "translation_formula_mm": [
+          "0",
+          "-gap_top"
+        ],
+        "mating": "corner JOUT -> long JIN"
+      }
+    },
+    "long_to_long_pitch_formula_mm": "54 + gap",
+    "square_perimeter_formula": {
+      "definition": "4 corners + n long boards per side; not a filled square matrix",
+      "module_count": "4+4*n",
+      "nominal_outside_span_mm": "160+54*n+(n+1)*gap"
+    },
+    "long_output_3pin_axial_offset_mm": 0.127,
+    "3pin_offset_is_z_error": false,
+    "assembly_order": "Join naturally with screws loose, adjust sliding bases to unstrained board positions, then secure; do not bend boards to meet fixture holes.",
+    "candidate_inter_board_gap_mm": 9,
+    "candidate_mating_pad_row_spacing_mm": 13.59699868,
+    "candidate_gap_evidence": "inferred_from_user_approx; user reported corner-long12mm / long-long15mm but measurement edges unspecified",
+    "candidate_gap_derivation": "If measured at main straight body edges, corner-long12 minus one3mm tab =9; long-long15 minus two3mm tabs =9. This is a conditional inference, not a measured pad-row distance.",
+    "candidate_slide_adjustment_each_axis_mm": [
+      -3,
+      3
+    ],
+    "candidate_slide_status": "3D first-print design choice; not measured connector insertion tolerance"
+  },
+  "fixture_candidate_parameters": {
+    "source": "3D task proposal, adjustable first-article dimensions, not manufacturer measurement",
+    "pcb_bottom_above_table_mm": 14,
+    "rib_height_above_table_mm": 3.5,
+    "nominal_bottom_clearance_over_rib_mm": 2.4,
+    "clearance_calculation": "14 -3.5 -8.1 =2.4; subtract real tolerances and any taller solder/lead tails",
+    "screws_per_board": 2,
+    "extra_unclamped_supports": "Use remaining hole areas only after support-ring review; avoid part bodies and joints.",
+    "bottom_bbox_clearance_check": "support-body-crosscheck.json"
+  },
+  "remaining_measurements": [
+    "Natural mated edge gap at each connector pair and allowable slider travel",
+    "Actual largest component/solder/lead-tail protrusion with tolerances",
+    "USB, DC power and display cable plug bodies and access",
+    "First-print fit and support/no-stress observation"
+  ],
+  "limitations": [
+    "This interface pack is not a PCB electrical or production release.",
+    "Current exports are not proven identical to actual order files.",
+    "Library body envelopes do not establish manufacturer maximum body dimensions or solder height."
+  ],
+  "status": "MECHANICAL_INTERFACE_FOR_ADJUSTABLE_FIRST_ARTICLE_NOT_AS_BUILT_TOLERANCE_RELEASE"
+}

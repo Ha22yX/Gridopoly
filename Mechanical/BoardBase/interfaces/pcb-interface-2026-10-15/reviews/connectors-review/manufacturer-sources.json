@@ -1,0 +1,30 @@
+[
+  {
+    "name": "JIN1-C32713265",
+    "url": "https://atta.szlcsc.com/upload/public/pdf/source/20250627/A98220D60208B80A167749D0E63EBB9E.pdf",
+    "bytes": 229397,
+    "sha256": "8f333b10f4f073aeec84c3842fa2a26b4ede0cc485d5bf7fd9e714948865b3d0",
+    "status": "downloaded_and_rendered"
+  },
+  {
+    "name": "JIN3-C492411",
+    "url": "https://atta.szlcsc.com/upload/public/pdf/source/20240923/0BB0AE042338FD36B1C6C43771D9547C.pdf",
+    "bytes": 144048,
+    "sha256": "e73b28ac2c540f1ac3a6cbb7af32f6a68a52dd70d56fd71754f55682fad207a4",
+    "status": "downloaded_and_rendered"
+  },
+  {
+    "name": "JOUT1-C54973819",
+    "url": "https://atta.szlcsc.com/upload/public/pdf/source/20260526/F72FB14A65EA7442DF2017F3AFC567A6.pdf",
+    "bytes": 57168,
+    "sha256": "ea011acb4631e9301752755bd0bbd51545740593286bf9960293b717f7f2b47d",
+    "status": "downloaded_and_rendered"
+  },
+  {
+    "name": "JOUT3-C54973822",
+    "url": "https://atta.szlcsc.com/upload/public/pdf/source/20260526/B580BB038DF5DA78FDAB8C8BE61190BE.pdf",
+    "bytes": 56147,
+    "sha256": "a3809618784af9de6ad20024b51201d6d900115793c3d0714f109443debd9098",
+    "status": "downloaded_and_rendered"
+  }
+]

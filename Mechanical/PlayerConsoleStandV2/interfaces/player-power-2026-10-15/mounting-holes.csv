@@ -1,0 +1,5 @@
+﻿id,xy_mm,drill_mm,plated,nominal_pad_diameter_mm,recommended_insulating_contact_outer_diameter_mm,recommended_clearance_bore_mm,nearest_body_distance_from_hole_center_mm,nearest_body_ref,nearest_other_pad_bbox_distance_from_hole_center_mm,nearest_pad_ref,actual_gerber_plated_drill_mm
+f9a94b3034632f7c,"[5.0, 5.0]",3.400001,True,5.0,6,3.6,32.049992,J3,16.509333,TP7,3.400001
+00d9744dbffe73b2,"[75.0, 5.0]",3.400001,True,5.0,6,3.6,19.241991,SW1,18.328765,SW1,3.400001
+4b7161c5a64c12ac,"[5.0, 75.0]",3.400001,True,5.0,6,3.6,11.500808,J2,11.326745,J2,3.400001
+f56972f555b0bb84,"[75.0, 75.0]",3.400001,True,5.0,6,3.6,5.70789,C11,5.405989,C11,3.400001

@@ -1,0 +1,48 @@
+{
+  "component_count": 218,
+  "fixed_components_unchanged": {
+    "J1": true,
+    "USB1": true,
+    "JIN1": true,
+    "JIN3": true,
+    "JOUT1": true,
+    "JOUT3": true,
+    "J4": true,
+    "U12": true,
+    "U13": true,
+    "U14": true,
+    "U15": true,
+    "U16": true,
+    "U17": true,
+    "U18": true,
+    "U19": true,
+    "U20": true,
+    "U21": true
+  },
+  "pin_net_differences": [],
+  "component_layer_counts": {
+    "1": 110,
+    "2": 108
+  },
+  "usb": {
+    "USB_DP": {
+      "total_branch_length_mm": 79.90359154377762,
+      "vias": 5,
+      "layers": [
+        1,
+        2
+      ]
+    },
+    "USB_DM": {
+      "total_branch_length_mm": 79.58686813074499,
+      "vias": 4,
+      "layers": [
+        1,
+        2,
+        17
+      ]
+    }
+  },
+  "pcb_uuid": "d03bb2d6c85bb69d",
+  "production_release": false
+}

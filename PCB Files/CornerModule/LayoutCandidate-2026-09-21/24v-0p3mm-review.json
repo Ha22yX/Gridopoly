@@ -1,0 +1,324 @@
+[
+  {
+    "a": "v1716",
+    "b": "6182a7f9c7488cce5",
+    "other": "5V_FROM_24",
+    "layer": "TopLayer",
+    "gap": 0.21504500000000293
+  },
+  {
+    "a": "33ca612b4a55d30e12",
+    "b": "f484b6cdb792b98e17",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.27990799999999955
+  },
+  {
+    "a": "00bb2b2d215767be15",
+    "b": "w401",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.2638450900423023
+  },
+  {
+    "a": "a25231d0efe9ab8e20",
+    "b": "v332",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.2217921999999904
+  },
+  {
+    "a": "a25231d0efe9ab8e20",
+    "b": "w1392",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.17592020000000683
+  },
+  {
+    "a": "a25231d0efe9ab8e20",
+    "b": "w1391",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.17592020000000683
+  },
+  {
+    "a": "a25231d0efe9ab8e20",
+    "b": "w1385",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.17592020000000683
+  },
+  {
+    "a": "a25231d0efe9ab8e20",
+    "b": "v1584",
+    "other": "PD_ORG",
+    "layer": "BottomLayer",
+    "gap": 0.2514023999999956
+  },
+  {
+    "a": "1318b8a0f665800e10",
+    "b": "w1579",
+    "other": "PD_ORG",
+    "layer": "BottomLayer",
+    "gap": 0.17592917713932552
+  },
+  {
+    "a": "1318b8a0f665800e10",
+    "b": "v1586",
+    "other": "PD_ORG",
+    "layer": "BottomLayer",
+    "gap": 0.1645090000000001
+  },
+  {
+    "a": "1318b8a0f665800e10",
+    "b": "w1384",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.15344140000000428
+  },
+  {
+    "a": "w1",
+    "b": "v1582",
+    "other": "PD_ORG",
+    "layer": "BottomLayer",
+    "gap": 0.1528237889690239
+  },
+  {
+    "a": "w1",
+    "b": "a25231d0efe9ab8e18",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.19972019999999566
+  },
+  {
+    "a": "w1",
+    "b": "a25231d0efe9ab8e19",
+    "other": "PD_ORG",
+    "layer": "BottomLayer",
+    "gap": 0.16736250651563556
+  },
+  {
+    "a": "w4",
+    "b": "w1384",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.21937939999999842
+  },
+  {
+    "a": "w5",
+    "b": "a25231d0efe9ab8e18",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.19821428818082076
+  },
+  {
+    "a": "w5",
+    "b": "a25231d0efe9ab8e17",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.19672651111321643
+  },
+  {
+    "a": "w9",
+    "b": "1318b8a0f665800e11",
+    "other": "PD_ORG",
+    "layer": "BottomLayer",
+    "gap": 0.15283179999999555
+  },
+  {
+    "a": "w9",
+    "b": "1318b8a0f665800e12",
+    "other": "PD24_RAW",
+    "layer": "BottomLayer",
+    "gap": 0.15283179999999555
+  },
+  {
+    "a": "w1714",
+    "b": "b39b813d0dfcd49e6",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.19992099019999923
+  },
+  {
+    "a": "w1714",
+    "b": "v1212",
+    "other": "HP_RUN",
+    "layer": "BottomLayer",
+    "gap": 0.2100528527180276
+  },
+  {
+    "a": "w1714",
+    "b": "v337",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.17500298779999893
+  },
+  {
+    "a": "w1714",
+    "b": "v339",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.17500298779999893
+  },
+  {
+    "a": "w1714",
+    "b": "v335",
+    "other": "GND",
+    "layer": "BottomLayer",
+    "gap": 0.17500298779999893
+  },
+  {
+    "a": "b288303d1098f24c31",
+    "b": "w710",
+    "other": "5V_IN",
+    "layer": "Inner2",
+    "gap": 0.15537103432816685
+  },
+  {
+    "a": "b288303d1098f24c32",
+    "b": "w710",
+    "other": "5V_IN",
+    "layer": "Inner2",
+    "gap": 0.16672560000000017
+  },
+  {
+    "a": "b288303d1098f24c33",
+    "b": "w710",
+    "other": "5V_IN",
+    "layer": "Inner2",
+    "gap": 0.1668526000000002
+  },
+  {
+    "a": "w30",
+    "b": "v1775",
+    "other": "BUS_A",
+    "layer": "Inner2",
+    "gap": 0.19699320000050743
+  },
+  {
+    "a": "w30",
+    "b": "v830",
+    "other": "BUS_B",
+    "layer": "Inner2",
+    "gap": 0.1541711999999962
+  },
+  {
+    "a": "w30",
+    "b": "v1776",
+    "other": "BUS_A",
+    "layer": "Inner2",
+    "gap": 0.2529831999993827
+  },
+  {
+    "a": "w0",
+    "b": "v617",
+    "other": "$4N232",
+    "layer": "Inner3",
+    "gap": 0.15287580000000087
+  },
+  {
+    "a": "w0",
+    "b": "v321",
+    "other": "GND",
+    "layer": "Inner3",
+    "gap": 0.17845979999999861
+  },
+  {
+    "a": "w0",
+    "b": "v679",
+    "other": "$4N253",
+    "layer": "Inner3",
+    "gap": 0.25642004423721243
+  },
+  {
+    "a": "w0",
+    "b": "v310",
+    "other": "GND",
+    "layer": "Inner3",
+    "gap": 0.2857885602207316
+  },
+  {
+    "a": "v16",
+    "b": "w1580",
+    "other": "PD_ORG",
+    "layer": "Inner3",
+    "gap": 0.1528247999999962
+  },
+  {
+    "a": "w23",
+    "b": "w1580",
+    "other": "PD_ORG",
+    "layer": "Inner3",
+    "gap": 0.15283179999999555
+  },
+  {
+    "a": "w41",
+    "b": "v1775",
+    "other": "BUS_A",
+    "layer": "Inner3",
+    "gap": 0.19699320000050743
+  },
+  {
+    "a": "w41",
+    "b": "v830",
+    "other": "BUS_B",
+    "layer": "Inner3",
+    "gap": 0.1541711999999962
+  },
+  {
+    "a": "w41",
+    "b": "v1776",
+    "other": "BUS_A",
+    "layer": "Inner3",
+    "gap": 0.2529831999993827
+  },
+  {
+    "a": "w1715",
+    "b": "v611",
+    "other": "5V_SELECTED",
+    "layer": "Inner3",
+    "gap": 0.17808818799999762
+  },
+  {
+    "a": "w1715",
+    "b": "v315",
+    "other": "GND",
+    "layer": "Inner3",
+    "gap": 0.2346731928000008
+  },
+  {
+    "a": "w1715",
+    "b": "v1031",
+    "other": "CURRENT_SDA",
+    "layer": "Inner3",
+    "gap": 0.22606939760000205
+  },
+  {
+    "a": "w1715",
+    "b": "v322",
+    "other": "GND",
+    "layer": "Inner3",
+    "gap": 0.271460449194126
+  },
+  {
+    "a": "w1715",
+    "b": "v306",
+    "other": "GND",
+    "layer": "Inner3",
+    "gap": 0.16552679819999738
+  },
+  {
+    "a": "w1715",
+    "b": "v320",
+    "other": "GND",
+    "layer": "Inner3",
+    "gap": 0.23658520320000156
+  },
+  {
+    "a": "v1716",
+    "b": "w613",
+    "other": "$4N232",
+    "layer": "Inner3",
+    "gap": 0.22360500000039837
+  }
+]

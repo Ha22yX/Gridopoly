@@ -1,0 +1,21 @@
+{
+  "component_count": 152,
+  "duplicate_designators": 0,
+  "duplicate_unique_ids": 0,
+  "matching_schematic_unique_ids": true,
+  "padnets_match": true,
+  "native_netlist_error_remaining": 0,
+  "removed_duplicates": 36,
+  "removed_old_pd": 6,
+  "reopened_save_verified": true,
+  "drc_summary": [
+    {
+      "type": "Clearance Error",
+      "count": 26
+    },
+    {
+      "type": "Connection Error",
+      "count": 51
+    }
+  ]
+}

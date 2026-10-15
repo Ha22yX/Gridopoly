@@ -1,0 +1,2811 @@
+{
+  "coordinateConvention": "PCB top view; origin at upper-left of maximum board-outline centerline bounding box, +X right, +Y down. Components face same direction and boards naturally coplanar, per user confirmation. All units mm.",
+  "scope": "Read-only current source and actual exported Gerber/drill geometry. No CAD/PCB changes. Bottom component height and solder-tail projection remain physical-measurement inputs.",
+  "boards": {
+    "long": {
+      "uuid": "7840864f79449b47",
+      "sourceFile": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\long-current.source.jsonl",
+      "gerberFile": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\long-current-Gerber.zip",
+      "sourceSha256": "5eb60926f0544ea7aa55e0b3d274e967504dc89d7d3a8164c14049a4c5dd494d",
+      "gerberSha256": "c5b2c5bcf044a33dac884a0fc196f5de1485d2d8003957b60a7a5555159aab0d",
+      "dimensionsMm": [
+        53.999998999999995,
+        80.000048
+      ],
+      "gerberCartesianOriginTopLeftMm": [
+        -2.912867,
+        -0.083147
+      ],
+      "outlineSegments": [
+        {
+          "start": [
+            6.999999,
+            0.0
+          ],
+          "end": [
+            47.0,
+            0.0
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            6.999999,
+            0.0
+          ],
+          "end": [
+            2.999999,
+            3.999695
+          ],
+          "type": "arc",
+          "center": [
+            7.0,
+            4.000001
+          ],
+          "radiusMm": 4.000001000000125,
+          "sweepDegreesYDown": -89.99560255003028
+        },
+        {
+          "start": [
+            2.999999,
+            3.999695
+          ],
+          "end": [
+            2.999999,
+            26.999694
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            2.999999,
+            26.999694
+          ],
+          "end": [
+            0.0,
+            26.999694
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            0.0,
+            26.999694
+          ],
+          "end": [
+            0.0,
+            53.000001
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            2.999999,
+            53.000001
+          ],
+          "end": [
+            0.0,
+            53.000001
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            2.999999,
+            76.0
+          ],
+          "end": [
+            2.999999,
+            53.000001
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            2.999951,
+            76.0
+          ],
+          "end": [
+            6.999646,
+            80.0
+          ],
+          "type": "arc",
+          "center": [
+            6.999952,
+            75.999999
+          ],
+          "radiusMm": 4.000001000000125,
+          "sweepDegreesYDown": -89.99560255003031
+        },
+        {
+          "start": [
+            6.999999,
+            80.0
+          ],
+          "end": [
+            47.0,
+            80.0
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            47.0,
+            80.000048
+          ],
+          "end": [
+            51.0,
+            76.000353
+          ],
+          "type": "arc",
+          "center": [
+            46.999999,
+            76.000047
+          ],
+          "radiusMm": 4.000001000000125,
+          "sweepDegreesYDown": -89.9956025500304
+        },
+        {
+          "start": [
+            51.0,
+            76.000049
+          ],
+          "end": [
+            51.0,
+            53.000049
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            51.0,
+            53.000049
+          ],
+          "end": [
+            53.999999,
+            53.000049
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            53.999999,
+            26.999999
+          ],
+          "end": [
+            53.999999,
+            53.000049
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            51.0,
+            26.999999
+          ],
+          "end": [
+            53.999999,
+            26.999999
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            51.0,
+            4.0
+          ],
+          "end": [
+            51.0,
+            26.999999
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            51.000045,
+            4.0
+          ],
+          "end": [
+            47.000353,
+            0.0
+          ],
+          "type": "arc",
+          "center": [
+            47.000045,
+            4.0
+          ],
+          "radiusMm": 4.0,
+          "sweepDegreesYDown": -89.99558822498626
+        }
+      ],
+      "maxOutlineSegmentEndpointGapMm": 0.0003529999992992481,
+      "mountingHoles": [
+        {
+          "label": "TL",
+          "centerMm": [
+            7.190999,
+            4.191
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 4.191,
+          "distanceCenterToTopCopperMm": 6.136482396940144,
+          "distanceCenterToBottomCopperMm": 6.63283055016158,
+          "distanceCenterToExposedTopCopperMm": 6.136482396940144,
+          "distanceCenterToExposedBottomCopperMm": 8.16511945367361,
+          "distanceCenterToBottomPasteMm": 8.216111946449427,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C43",
+              "distanceFromHoleCenterMm": 8.215052525995985
+            },
+            {
+              "reference": "R15",
+              "distanceFromHoleCenterMm": 8.865173445772678
+            },
+            {
+              "reference": "R14",
+              "distanceFromHoleCenterMm": 9.358370702875206
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C43",
+              "distanceFromHoleCenterMm": 8.215052525995985
+            },
+            {
+              "reference": "R15",
+              "distanceFromHoleCenterMm": 8.865173445772678
+            },
+            {
+              "reference": "R14",
+              "distanceFromHoleCenterMm": 9.358370702875206
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U21",
+              "distanceFromHoleCenterMm": 6.115723
+            },
+            {
+              "reference": "U12",
+              "distanceFromHoleCenterMm": 7.623037999999998
+            },
+            {
+              "reference": "U6",
+              "distanceFromHoleCenterMm": 7.732803545864397
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C43",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 7.713763000000001,
+                "supportEdgeGapMm": 4.713763000000001,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "R15",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 8.161640718852613,
+                "supportEdgeGapMm": 5.161696024911888,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "R14",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 8.65824354083627,
+                "supportEdgeGapMm": 5.658245978018226,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 4.713763000000001
+          }
+        },
+        {
+          "label": "TR",
+          "centerMm": [
+            46.814999,
+            4.191
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 4.185001000000001,
+          "distanceCenterToTopCopperMm": 4.884100896375092,
+          "distanceCenterToBottomCopperMm": 6.6544230989020345,
+          "distanceCenterToExposedTopCopperMm": 4.884100896375092,
+          "distanceCenterToExposedBottomCopperMm": 7.453472569887208,
+          "distanceCenterToBottomPasteMm": 7.453472569887208,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C49",
+              "distanceFromHoleCenterMm": 7.452411176197471
+            },
+            {
+              "reference": "R25",
+              "distanceFromHoleCenterMm": 9.508984402794706
+            },
+            {
+              "reference": "C47",
+              "distanceFromHoleCenterMm": 9.7847284499496
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C49",
+              "distanceFromHoleCenterMm": 7.452411176197471
+            },
+            {
+              "reference": "R25",
+              "distanceFromHoleCenterMm": 9.508984402794706
+            },
+            {
+              "reference": "C47",
+              "distanceFromHoleCenterMm": 9.7847284499496
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U7",
+              "distanceFromHoleCenterMm": 4.885568307025604
+            },
+            {
+              "reference": "U14",
+              "distanceFromHoleCenterMm": 6.143662999999999
+            },
+            {
+              "reference": "U13",
+              "distanceFromHoleCenterMm": 7.601722000000001
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C49",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 6.951763000000001,
+                "supportEdgeGapMm": 3.951763000000001,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "R25",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 8.87684963106805,
+                "supportEdgeGapMm": 5.876879009317563,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C47",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 9.281042,
+                "supportEdgeGapMm": 6.281041999999999,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 3.951763000000001
+          }
+        },
+        {
+          "label": "BR",
+          "centerMm": [
+            46.814999,
+            75.838853
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 4.161147,
+          "distanceCenterToTopCopperMm": 2.966587010323733,
+          "distanceCenterToBottomCopperMm": 3.9999951589072253,
+          "distanceCenterToExposedTopCopperMm": 4.246952698092041,
+          "distanceCenterToExposedBottomCopperMm": 3.9999951589072253,
+          "distanceCenterToBottomPasteMm": 3.9905955927827272,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C202",
+              "distanceFromHoleCenterMm": 4.000630000000001
+            },
+            {
+              "reference": "R202",
+              "distanceFromHoleCenterMm": 5.898195267691981
+            },
+            {
+              "reference": "R206",
+              "distanceFromHoleCenterMm": 7.309021568323913
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C202",
+              "distanceFromHoleCenterMm": 4.000630521138388
+            },
+            {
+              "reference": "R202",
+              "distanceFromHoleCenterMm": 5.898195267691981
+            },
+            {
+              "reference": "R206",
+              "distanceFromHoleCenterMm": 7.309021568323913
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "R205",
+              "distanceFromHoleCenterMm": 4.2432000000000025
+            },
+            {
+              "reference": "R204",
+              "distanceFromHoleCenterMm": 4.310383479754915
+            },
+            {
+              "reference": "U201",
+              "distanceFromHoleCenterMm": 5.957546169194214
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C202",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 3.500630000000001,
+                "supportEdgeGapMm": 0.5006300000000011,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "U201",
+                "zone": "top_component_pth_solder_zone_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 4.8958800000000045,
+                "supportEdgeGapMm": 1.8958800000000051,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "R202",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 5.2482964298736094,
+                "supportEdgeGapMm": 2.2483021197564046,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 0.5006300000000011
+          }
+        },
+        {
+          "label": "BL",
+          "centerMm": [
+            7.190999,
+            75.838853
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 4.161147,
+          "distanceCenterToTopCopperMm": 4.023935081278354,
+          "distanceCenterToBottomCopperMm": 4.023935081278354,
+          "distanceCenterToExposedTopCopperMm": 4.023935081278354,
+          "distanceCenterToExposedBottomCopperMm": 4.023935081278354,
+          "distanceCenterToBottomPasteMm": 12.44376009733497,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C46",
+              "distanceFromHoleCenterMm": 12.443202579628931
+            },
+            {
+              "reference": "C20",
+              "distanceFromHoleCenterMm": 12.491785198009287
+            },
+            {
+              "reference": "C14",
+              "distanceFromHoleCenterMm": 13.444011341314164
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C46",
+              "distanceFromHoleCenterMm": 12.443202579628931
+            },
+            {
+              "reference": "C20",
+              "distanceFromHoleCenterMm": 12.491785198009287
+            },
+            {
+              "reference": "C14",
+              "distanceFromHoleCenterMm": 13.444011341314164
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U18",
+              "distanceFromHoleCenterMm": 9.819810028183023
+            },
+            {
+              "reference": "R4",
+              "distanceFromHoleCenterMm": 9.884571804058282
+            },
+            {
+              "reference": "R5",
+              "distanceFromHoleCenterMm": 9.88617514257076
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C46",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 11.73959507128266,
+                "supportEdgeGapMm": 8.73963234520649,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C20",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 11.804317830065571,
+                "supportEdgeGapMm": 8.804328372632185,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C14",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 12.77563982528405,
+                "supportEdgeGapMm": 9.775649011763418,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 8.73963234520649
+          }
+        }
+      ],
+      "physicalLayerStackSource": [
+        {
+          "id": "[\"LAYER_PHYS\",1]",
+          "material": "Outer layer thickness 1oz",
+          "thickness": 1.378,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1000
+        },
+        {
+          "id": "[\"LAYER_PHYS\",361]",
+          "material": "3313 RC57% 4.2mil",
+          "thickness": 3.913,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1001
+        },
+        {
+          "id": "[\"LAYER_PHYS\",15]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1002
+        },
+        {
+          "id": "[\"LAYER_PHYS\",362]",
+          "material": "0.55mm H/H No copper",
+          "thickness": 21.654,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1003
+        },
+        {
+          "id": "[\"LAYER_PHYS\",16]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1004
+        },
+        {
+          "id": "[\"LAYER_PHYS\",363]",
+          "material": "2116 RC54% 4.9mil",
+          "thickness": 4.283,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1005
+        },
+        {
+          "id": "[\"LAYER_PHYS\",17]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1006
+        },
+        {
+          "id": "[\"LAYER_PHYS\",364]",
+          "material": "0.55mm H/H No copper",
+          "thickness": 21.654,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1007
+        },
+        {
+          "id": "[\"LAYER_PHYS\",18]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1008
+        },
+        {
+          "id": "[\"LAYER_PHYS\",365]",
+          "material": "3313 RC57% 4.2mil",
+          "thickness": 3.913,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1009
+        },
+        {
+          "id": "[\"LAYER_PHYS\",2]",
+          "material": "Outer layer thickness 1oz",
+          "thickness": 1.378,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 9000
+        }
+      ],
+      "nominalStackThicknessMm": 1.5383509999999998,
+      "bottomComponentCount": 48,
+      "bottomComponents": [
+        {
+          "reference": "C5",
+          "centerMm": [
+            14.75642,
+            56.881773
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            13.655797,
+            56.431853,
+            15.855437,
+            57.331013
+          ]
+        },
+        {
+          "reference": "C6",
+          "centerMm": [
+            13.99442,
+            53.833773
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            13.320517,
+            52.127823,
+            14.669257,
+            55.539043
+          ]
+        },
+        {
+          "reference": "C7",
+          "centerMm": [
+            8.467441,
+            53.250147
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            8.018267,
+            52.150683,
+            8.917427,
+            54.350323
+          ]
+        },
+        {
+          "reference": "C14",
+          "centerMm": [
+            14.882155,
+            63.126958
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            13.178277,
+            62.452923,
+            16.586957,
+            63.801663
+          ]
+        },
+        {
+          "reference": "C15",
+          "centerMm": [
+            14.824078,
+            61.017892
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            13.119857,
+            60.344723,
+            16.528537,
+            61.693463
+          ]
+        },
+        {
+          "reference": "C16",
+          "centerMm": [
+            14.824078,
+            58.928284
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            13.119857,
+            58.254303,
+            16.528537,
+            59.603043
+          ]
+        },
+        {
+          "reference": "C20",
+          "centerMm": [
+            14.882155,
+            64.777958
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            13.782797,
+            64.328713,
+            15.982437,
+            65.227873
+          ]
+        },
+        {
+          "reference": "C21",
+          "centerMm": [
+            6.119157,
+            19.336197
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            5.668767,
+            18.236603,
+            6.567927,
+            20.436243
+          ]
+        },
+        {
+          "reference": "C22",
+          "centerMm": [
+            10.437208,
+            23.908248
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            9.986767,
+            22.808603,
+            10.885927,
+            25.008243
+          ]
+        },
+        {
+          "reference": "C23",
+          "centerMm": [
+            15.925358,
+            12.319142
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            15.475707,
+            11.218583,
+            16.374867,
+            13.418223
+          ]
+        },
+        {
+          "reference": "C27",
+          "centerMm": [
+            35.993037,
+            18.766046
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            35.544247,
+            17.665103,
+            36.443407,
+            19.867283
+          ]
+        },
+        {
+          "reference": "C32",
+          "centerMm": [
+            47.295529,
+            18.893046
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8cfd06133a0d049d",
+          "padSpanBoundsMm": [
+            46.694847,
+            14.473593,
+            47.893727,
+            23.312793
+          ]
+        },
+        {
+          "reference": "C34",
+          "centerMm": [
+            44.441867,
+            30.523853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            43.992287,
+            29.422763,
+            44.891447,
+            31.624943
+          ]
+        },
+        {
+          "reference": "C42",
+          "centerMm": [
+            18.025867,
+            3.472853
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            16.924777,
+            3.023273,
+            19.126957,
+            3.922433
+          ]
+        },
+        {
+          "reference": "C43",
+          "centerMm": [
+            6.595867,
+            13.505853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            6.146287,
+            12.404763,
+            7.045447,
+            14.606943
+          ]
+        },
+        {
+          "reference": "C44",
+          "centerMm": [
+            6.468867,
+            35.222853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            6.019287,
+            34.121763,
+            6.918447,
+            36.323943
+          ]
+        },
+        {
+          "reference": "C45",
+          "centerMm": [
+            6.595867,
+            57.574853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            6.146287,
+            56.473763,
+            7.045447,
+            58.675943
+          ]
+        },
+        {
+          "reference": "C46",
+          "centerMm": [
+            17.898867,
+            67.480853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            16.797777,
+            67.031273,
+            18.999957,
+            67.930433
+          ]
+        },
+        {
+          "reference": "C47",
+          "centerMm": [
+            35.932867,
+            3.472853
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            34.831777,
+            3.023273,
+            37.033957,
+            3.922433
+          ]
+        },
+        {
+          "reference": "C48",
+          "centerMm": [
+            35.932867,
+            67.226853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            34.831777,
+            66.777273,
+            37.033957,
+            67.676433
+          ]
+        },
+        {
+          "reference": "C49",
+          "centerMm": [
+            47.362867,
+            12.743853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            46.913287,
+            11.642763,
+            47.812447,
+            13.844943
+          ]
+        },
+        {
+          "reference": "C50",
+          "centerMm": [
+            47.362867,
+            35.476853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            46.913287,
+            34.375763,
+            47.812447,
+            36.577943
+          ]
+        },
+        {
+          "reference": "C51",
+          "centerMm": [
+            47.616867,
+            57.447853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            47.167287,
+            56.346763,
+            48.066447,
+            58.548943
+          ]
+        },
+        {
+          "reference": "C54",
+          "centerMm": [
+            38.218867,
+            47.668853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "c6d345a009e97db2",
+          "padSpanBoundsMm": [
+            33.799267,
+            47.069413,
+            42.638467,
+            48.268293
+          ]
+        },
+        {
+          "reference": "D6",
+          "centerMm": [
+            44.695867,
+            50.589853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "b336b323f73b9fa7",
+          "padSpanBoundsMm": [
+            41.132247,
+            49.469713,
+            48.259487,
+            51.709993
+          ]
+        },
+        {
+          "reference": "FB1",
+          "centerMm": [
+            18.82042,
+            53.579773
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "6dd8b062a47ab176",
+          "padSpanBoundsMm": [
+            18.132547,
+            52.047813,
+            19.509227,
+            55.113593
+          ]
+        },
+        {
+          "reference": "L2",
+          "centerMm": [
+            35.043867,
+            54.018853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "1dc5cdcb9dec69ee",
+          "padSpanBoundsMm": [
+            32.324797,
+            51.269303,
+            37.762937,
+            56.768403
+          ]
+        },
+        {
+          "reference": "R1",
+          "centerMm": [
+            25.75911,
+            77.95943
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            25.328367,
+            76.802653,
+            26.191967,
+            79.116593
+          ]
+        },
+        {
+          "reference": "R2",
+          "centerMm": [
+            28.693867,
+            78.021853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            28.262067,
+            76.863613,
+            29.125667,
+            79.180093
+          ]
+        },
+        {
+          "reference": "R9",
+          "centerMm": [
+            13.61342,
+            47.610773
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "628f4d6adf5893f6",
+          "padSpanBoundsMm": [
+            11.885417,
+            43.903303,
+            15.342357,
+            51.317563
+          ]
+        },
+        {
+          "reference": "R12",
+          "centerMm": [
+            7.262208,
+            26.448248
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            6.829547,
+            25.291453,
+            7.693147,
+            27.605393
+          ]
+        },
+        {
+          "reference": "R13",
+          "centerMm": [
+            7.262208,
+            22.765248
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            6.829547,
+            21.608453,
+            7.693147,
+            23.922393
+          ]
+        },
+        {
+          "reference": "R14",
+          "centerMm": [
+            15.798358,
+            10.287142
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            14.640047,
+            9.855873,
+            16.956527,
+            10.719473
+          ]
+        },
+        {
+          "reference": "R15",
+          "centerMm": [
+            13.258358,
+            12.192142
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            12.826487,
+            11.034433,
+            13.690087,
+            13.348373
+          ]
+        },
+        {
+          "reference": "R16",
+          "centerMm": [
+            4.944867,
+            42.334853
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            3.786627,
+            41.903053,
+            6.103107,
+            42.766653
+          ]
+        },
+        {
+          "reference": "R25",
+          "centerMm": [
+            43.232037,
+            14.321046
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            42.801027,
+            13.162953,
+            43.664627,
+            15.479433
+          ]
+        },
+        {
+          "reference": "R28",
+          "centerMm": [
+            37.644037,
+            17.242046
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            37.213027,
+            16.083953,
+            38.076627,
+            18.400433
+          ]
+        },
+        {
+          "reference": "R31",
+          "centerMm": [
+            41.647867,
+            29.634853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "50abf6a702442fe0",
+          "padSpanBoundsMm": [
+            39.919397,
+            25.984873,
+            43.376337,
+            33.284833
+          ]
+        },
+        {
+          "reference": "R38",
+          "centerMm": [
+            12.183867,
+            20.236853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            11.752067,
+            19.078613,
+            12.615667,
+            21.395093
+          ]
+        },
+        {
+          "reference": "U8",
+          "centerMm": [
+            36.755037,
+            24.227046
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "99b57222a0e643fd",
+          "padSpanBoundsMm": [
+            34.563807,
+            20.951863,
+            38.947847,
+            27.502523
+          ]
+        },
+        {
+          "reference": "U24",
+          "centerMm": [
+            27.677867,
+            52.494853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "40901cdafa39999b",
+          "padSpanBoundsMm": [
+            25.027377,
+            48.195903,
+            30.328357,
+            56.793803
+          ]
+        },
+        {
+          "reference": "C2",
+          "centerMm": [
+            36.567867,
+            36.238853
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "2cf5ce4848c9f2dd",
+          "padSpanBoundsMm": [
+            34.232337,
+            35.375253,
+            38.903397,
+            37.102453
+          ]
+        },
+        {
+          "reference": "C40",
+          "centerMm": [
+            36.692873,
+            29.778109
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            35.593777,
+            29.327513,
+            37.793417,
+            30.226673
+          ]
+        },
+        {
+          "reference": "R36",
+          "centerMm": [
+            33.646867,
+            33.952853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            33.215067,
+            32.794613,
+            34.078667,
+            35.111093
+          ]
+        },
+        {
+          "reference": "U2",
+          "centerMm": [
+            37.964867,
+            34.079853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "739ae1834e1f177d",
+          "padSpanBoundsMm": [
+            36.913307,
+            33.230223,
+            39.016427,
+            34.929483
+          ]
+        },
+        {
+          "reference": "C202",
+          "centerMm": [
+            47.108867,
+            71.163853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "426dabcfe6a6ceff",
+          "padSpanBoundsMm": [
+            45.403257,
+            70.489483,
+            48.814477,
+            71.838223
+          ]
+        },
+        {
+          "reference": "R202",
+          "centerMm": [
+            44.060867,
+            69.258853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "5aa4f04a6bc72ca3",
+          "padSpanBoundsMm": [
+            43.629067,
+            68.100613,
+            44.492667,
+            70.417093
+          ]
+        },
+        {
+          "reference": "R206",
+          "centerMm": [
+            48.505867,
+            67.480853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "5aa4f04a6bc72ca3",
+          "padSpanBoundsMm": [
+            48.074067,
+            66.322613,
+            48.937667,
+            68.639093
+          ]
+        }
+      ],
+      "archiveComparison": {
+        "archiveFile": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\layout-review\\long-archived.source.jsonl",
+        "sameOutlineAndMountingHoleRecords": true,
+        "recordCount": 21
+      },
+      "degenerateGerberObjectsSkipped": {
+        "topCopper": 0,
+        "bottomCopper": 0,
+        "topMask": 0,
+        "bottomMask": 0,
+        "topSilk": 0,
+        "bottomSilk": 0,
+        "bottomPaste": 0
+      },
+      "preferredDiagonal": [
+        "TR",
+        "BL"
+      ],
+      "diagonalReason": "Avoids BR C202: compare nearest bottom component pad-span distance. TR/BL gives the larger minimum bottom component clearance.",
+      "nominalShapeSummary": "54 mm maximum width × 80 mm height; central body x=3..51 mm, side protrusions to x=0/54 over y≈27..53 mm; four nominal R4 mm corners. Source has submicron arc/endpoint discrepancies, retain native Gerber centerline for exact traceability.",
+      "recommendedSupport": {
+        "outerDiameterMm": 6.0,
+        "clearanceBoreMm": 3.6,
+        "material": "electrically insulating",
+        "recommendationStatus": "XY-compatible with actual copper/mask/paste and independent native body+pad / PTH zones expanded by 0.5 mm. Physical fit and Z tolerance remain required.",
+        "screwCount": 2,
+        "screwLocations": [
+          "TR",
+          "BL"
+        ],
+        "undersideVerticalClearance": "PCB bottom must stand above the maximum underside component/solder-tail projection plus assembly tolerance; do not place a continuous flat support directly against the populated underside.",
+        "independentBodyAndPadPlus0p5mmPassed": true
+      }
+    },
+    "corner": {
+      "uuid": "6f97d7be5a40dd66",
+      "sourceFile": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\corner-current.source.jsonl",
+      "gerberFile": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\corner-current-Gerber.zip",
+      "sourceSha256": "615d58e8a85cd7a4374f53b839b1d0672f55a4d97417fc5b6de69746be38d6bf",
+      "gerberSha256": "877882890fa636b38abff8727f65fb7b613e27aabbeeaf6edb1df6d6d8fb12a3",
+      "dimensionsMm": [
+        80.0,
+        80.0
+      ],
+      "gerberCartesianOriginTopLeftMm": [
+        -2.9128670000000003,
+        -0.083147
+      ],
+      "outlineSegments": [
+        {
+          "start": [
+            4.0,
+            0.0
+          ],
+          "end": [
+            76.0,
+            0.0
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            76.0,
+            0.0
+          ],
+          "end": [
+            80.0,
+            4.0
+          ],
+          "type": "arc",
+          "center": [
+            76.0,
+            4.0
+          ],
+          "radiusMm": 4.0,
+          "sweepDegreesYDown": 90.0
+        },
+        {
+          "start": [
+            80.0,
+            4.0
+          ],
+          "end": [
+            80.0,
+            76.0
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            80.0,
+            76.0
+          ],
+          "end": [
+            76.0,
+            80.0
+          ],
+          "type": "arc",
+          "center": [
+            76.0,
+            76.0
+          ],
+          "radiusMm": 4.0,
+          "sweepDegreesYDown": 90.0
+        },
+        {
+          "start": [
+            76.0,
+            80.0
+          ],
+          "end": [
+            4.0,
+            80.0
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            4.0,
+            80.0
+          ],
+          "end": [
+            0.0,
+            76.0
+          ],
+          "type": "arc",
+          "center": [
+            4.0,
+            76.0
+          ],
+          "radiusMm": 4.0,
+          "sweepDegreesYDown": 90.0
+        },
+        {
+          "start": [
+            0.0,
+            76.0
+          ],
+          "end": [
+            0.0,
+            4.0
+          ],
+          "type": "line"
+        },
+        {
+          "start": [
+            0.0,
+            4.0
+          ],
+          "end": [
+            4.0,
+            0.0
+          ],
+          "type": "arc",
+          "center": [
+            4.0,
+            4.0
+          ],
+          "radiusMm": 4.0,
+          "sweepDegreesYDown": 89.99999999999999
+        }
+      ],
+      "maxOutlineSegmentEndpointGapMm": 8.881784197001252e-16,
+      "mountingHoles": [
+        {
+          "label": "TL",
+          "centerMm": [
+            4.0,
+            4.0
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 3.9999811752383034,
+          "distanceCenterToTopCopperMm": 10.172538148818878,
+          "distanceCenterToBottomCopperMm": 10.172538148818878,
+          "distanceCenterToExposedTopCopperMm": 10.7168975,
+          "distanceCenterToExposedBottomCopperMm": 12.905661979100488,
+          "distanceCenterToBottomPasteMm": 12.905661979100488,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C43",
+              "distanceFromHoleCenterMm": 12.905109236875836
+            },
+            {
+              "reference": "C42",
+              "distanceFromHoleCenterMm": 14.889061247247861
+            },
+            {
+              "reference": "C21",
+              "distanceFromHoleCenterMm": 20.441266493267435
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C43",
+              "distanceFromHoleCenterMm": 12.905109236875836
+            },
+            {
+              "reference": "C42",
+              "distanceFromHoleCenterMm": 14.889061247247861
+            },
+            {
+              "reference": "C21",
+              "distanceFromHoleCenterMm": 20.441266493267435
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U21",
+              "distanceFromHoleCenterMm": 10.716163
+            },
+            {
+              "reference": "U12",
+              "distanceFromHoleCenterMm": 12.711416999999999
+            },
+            {
+              "reference": "U4",
+              "distanceFromHoleCenterMm": 19.35198203959527
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C43",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 12.357126462721743,
+                "supportEdgeGapMm": 9.357139133917473,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C42",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 14.351881926224799,
+                "supportEdgeGapMm": 11.35188200208522,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C21",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 19.73424145612843,
+                "supportEdgeGapMm": 16.73425961287261,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 9.357139133917473
+          }
+        },
+        {
+          "label": "TR",
+          "centerMm": [
+            76.0,
+            4.0
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 3.9999811752383,
+          "distanceCenterToTopCopperMm": 3.4233461523266913,
+          "distanceCenterToBottomCopperMm": 3.4233461523266913,
+          "distanceCenterToExposedTopCopperMm": 10.68879747935905,
+          "distanceCenterToExposedBottomCopperMm": 12.119872691558053,
+          "distanceCenterToBottomPasteMm": 12.15785478173781,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C49",
+              "distanceFromHoleCenterMm": 12.159181838664061
+            },
+            {
+              "reference": "C47",
+              "distanceFromHoleCenterMm": 15.130515762457604
+            },
+            {
+              "reference": "C32",
+              "distanceFromHoleCenterMm": 18.380080495847075
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C49",
+              "distanceFromHoleCenterMm": 12.159181838664061
+            },
+            {
+              "reference": "C47",
+              "distanceFromHoleCenterMm": 15.130515762457604
+            },
+            {
+              "reference": "C32",
+              "distanceFromHoleCenterMm": 18.380080495847075
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U14",
+              "distanceFromHoleCenterMm": 10.716163
+            },
+            {
+              "reference": "U13",
+              "distanceFromHoleCenterMm": 12.887862999999994
+            },
+            {
+              "reference": "R204",
+              "distanceFromHoleCenterMm": 18.623785549835404
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C49",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 11.598688157964158,
+                "supportEdgeGapMm": 8.59868996703873,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C47",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 14.593916240611291,
+                "supportEdgeGapMm": 11.593917516982692,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C32",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 15.510804345994865,
+                "supportEdgeGapMm": 12.51080649100644,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 8.59868996703873
+          }
+        },
+        {
+          "label": "BR",
+          "centerMm": [
+            76.0,
+            76.0
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 3.9999811752382977,
+          "distanceCenterToTopCopperMm": 3.6977738187325704,
+          "distanceCenterToBottomCopperMm": 3.6977738187325704,
+          "distanceCenterToExposedTopCopperMm": 10.883191499999995,
+          "distanceCenterToExposedBottomCopperMm": 13.15995231517386,
+          "distanceCenterToBottomPasteMm": 13.15995231517386,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C51",
+              "distanceFromHoleCenterMm": 13.159428847679449
+            },
+            {
+              "reference": "C48",
+              "distanceFromHoleCenterMm": 15.687581358515974
+            },
+            {
+              "reference": "C302",
+              "distanceFromHoleCenterMm": 15.70623047683365
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C51",
+              "distanceFromHoleCenterMm": 13.159428847679449
+            },
+            {
+              "reference": "C48",
+              "distanceFromHoleCenterMm": 15.687581358515974
+            },
+            {
+              "reference": "C302",
+              "distanceFromHoleCenterMm": 15.70623047683365
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U16",
+              "distanceFromHoleCenterMm": 10.882616999999996
+            },
+            {
+              "reference": "D302",
+              "distanceFromHoleCenterMm": 11.42038635656683
+            },
+            {
+              "reference": "U17",
+              "distanceFromHoleCenterMm": 12.921530405592748
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C51",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 12.61212423016591,
+                "supportEdgeGapMm": 9.612151468456327,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C302",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 15.002417998156764,
+                "supportEdgeGapMm": 12.002418759146392,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C48",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 15.10983914143556,
+                "supportEdgeGapMm": 12.10984677567977,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 9.612151468456327
+          }
+        },
+        {
+          "label": "BL",
+          "centerMm": [
+            4.0,
+            76.0
+          ],
+          "nominalDrillMm": 3.499998,
+          "plated": false,
+          "sourceRadiusMil": 68.8976,
+          "distanceCenterToBoardEdgeMm": 3.9999811752382994,
+          "distanceCenterToTopCopperMm": 10.716268956877894,
+          "distanceCenterToBottomCopperMm": 10.716268956877894,
+          "distanceCenterToExposedTopCopperMm": 10.883191499999995,
+          "distanceCenterToExposedBottomCopperMm": 13.006551266265777,
+          "distanceCenterToBottomPasteMm": 13.006551266265777,
+          "supportRingOD6ID3p6Mm": {
+            "outsideBoardAreaMm2": 0.0,
+            "exposedTopCopperOverlapMm2": 0.0,
+            "exposedBottomCopperOverlapMm2": 0.0,
+            "bottomPasteOverlapMm2": 0.0,
+            "bottomCopperUnderMaskOverlapMm2": 0.0
+          },
+          "nearestBottomComponentPadHull": [
+            {
+              "reference": "C45",
+              "distanceFromHoleCenterMm": 13.007343727800004
+            },
+            {
+              "reference": "C46",
+              "distanceFromHoleCenterMm": 14.956230122418482
+            },
+            {
+              "reference": "C20",
+              "distanceFromHoleCenterMm": 25.20082937046751
+            }
+          ],
+          "nearestBottomOrThroughHolePads": [
+            {
+              "reference": "C45",
+              "distanceFromHoleCenterMm": 13.007343727800004
+            },
+            {
+              "reference": "C46",
+              "distanceFromHoleCenterMm": 14.956230122418482
+            },
+            {
+              "reference": "JIN1",
+              "distanceFromHoleCenterMm": 23.888853209191474
+            }
+          ],
+          "nearestTopComponentPadHull": [
+            {
+              "reference": "U19",
+              "distanceFromHoleCenterMm": 10.882616999999994
+            },
+            {
+              "reference": "U18",
+              "distanceFromHoleCenterMm": 12.745550496694051
+            },
+            {
+              "reference": "TP5",
+              "distanceFromHoleCenterMm": 20.727129989337335
+            }
+          ],
+          "clearanceCaveat": "Pad hull is a conservative span across pads, not a manufacturer body/courtyard model. Tall/overhanging bodies and solder fillets require physical fit check.",
+          "independentNativeBodyAndPthCrosscheck": {
+            "nearest": [
+              {
+                "reference": "C45",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 12.459725793657663,
+                "supportEdgeGapMm": 9.4597462437891,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "C46",
+                "zone": "bottom_component_body_and_pad_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 14.3821763121837,
+                "supportEdgeGapMm": 11.38217663636201,
+                "supportOverlapMm2": 0.0
+              },
+              {
+                "reference": "JIN1",
+                "zone": "top_component_pth_solder_zone_plus_0.5mm",
+                "holeCenterDistanceToExpandedBoxMm": 23.376930672145516,
+                "supportEdgeGapMm": 20.376934493328843,
+                "supportOverlapMm2": 0.0
+              }
+            ],
+            "allZeroSupportOverlaps": true,
+            "minimumSupportEdgeGapMm": 9.4597462437891
+          }
+        }
+      ],
+      "physicalLayerStackSource": [
+        {
+          "id": "[\"LAYER_PHYS\",1]",
+          "material": "Outer layer thickness 1oz",
+          "thickness": 1.378,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1000
+        },
+        {
+          "id": "[\"LAYER_PHYS\",361]",
+          "material": "3313 RC57% 4.2mil",
+          "thickness": 3.913,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1001
+        },
+        {
+          "id": "[\"LAYER_PHYS\",15]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1002
+        },
+        {
+          "id": "[\"LAYER_PHYS\",362]",
+          "material": "0.55mm H/H No copper",
+          "thickness": 21.654,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1003
+        },
+        {
+          "id": "[\"LAYER_PHYS\",16]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1004
+        },
+        {
+          "id": "[\"LAYER_PHYS\",363]",
+          "material": "2116 RC54% 4.9mil",
+          "thickness": 4.283,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1005
+        },
+        {
+          "id": "[\"LAYER_PHYS\",17]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1006
+        },
+        {
+          "id": "[\"LAYER_PHYS\",364]",
+          "material": "0.55mm H/H No copper",
+          "thickness": 21.654,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1007
+        },
+        {
+          "id": "[\"LAYER_PHYS\",18]",
+          "material": "Inner layer thickness",
+          "thickness": 0.598,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1008
+        },
+        {
+          "id": "[\"LAYER_PHYS\",365]",
+          "material": "3313 RC57% 4.2mil",
+          "thickness": 3.913,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 1009
+        },
+        {
+          "id": "[\"LAYER_PHYS\",2]",
+          "material": "Outer layer thickness 1oz",
+          "thickness": 1.378,
+          "permittivity": 0,
+          "lossTangent": 0,
+          "isKeepIsland": true,
+          "zIndex": 9000
+        }
+      ],
+      "nominalStackThicknessMm": 1.5383509999999998,
+      "bottomComponentCount": 46,
+      "bottomComponents": [
+        {
+          "reference": "C5",
+          "centerMm": [
+            27.756419,
+            56.881773
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            26.655517,
+            56.431853,
+            28.857697,
+            57.331013
+          ]
+        },
+        {
+          "reference": "C6",
+          "centerMm": [
+            26.994419,
+            53.833773
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            26.320237,
+            52.127823,
+            27.668977,
+            55.539043
+          ]
+        },
+        {
+          "reference": "C7",
+          "centerMm": [
+            21.46744,
+            53.250147
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            21.017987,
+            52.150683,
+            21.917147,
+            54.350323
+          ]
+        },
+        {
+          "reference": "C14",
+          "centerMm": [
+            27.882154,
+            63.126958
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            26.177997,
+            62.452923,
+            29.586677,
+            63.801663
+          ]
+        },
+        {
+          "reference": "C15",
+          "centerMm": [
+            27.824077,
+            61.017892
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            26.119577,
+            60.344723,
+            29.528257,
+            61.693463
+          ]
+        },
+        {
+          "reference": "C16",
+          "centerMm": [
+            27.824077,
+            58.928284
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "34f4135c9c14d11a",
+          "padSpanBoundsMm": [
+            26.119577,
+            58.254303,
+            29.528257,
+            59.603043
+          ]
+        },
+        {
+          "reference": "C20",
+          "centerMm": [
+            27.882154,
+            64.777958
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            26.782517,
+            64.328713,
+            28.982157,
+            65.227873
+          ]
+        },
+        {
+          "reference": "C21",
+          "centerMm": [
+            19.119157,
+            19.336197
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            18.668487,
+            18.236603,
+            19.567647,
+            20.436243
+          ]
+        },
+        {
+          "reference": "C22",
+          "centerMm": [
+            23.437207,
+            23.908248
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            22.986487,
+            22.808603,
+            23.885647,
+            25.008243
+          ]
+        },
+        {
+          "reference": "C23",
+          "centerMm": [
+            28.925358,
+            12.319142
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            28.475427,
+            11.218583,
+            29.374587,
+            13.418223
+          ]
+        },
+        {
+          "reference": "C27",
+          "centerMm": [
+            48.993036,
+            18.766046
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            48.543967,
+            17.665103,
+            49.443127,
+            19.867283
+          ]
+        },
+        {
+          "reference": "C32",
+          "centerMm": [
+            60.295528,
+            18.893046
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8cfd06133a0d049d",
+          "padSpanBoundsMm": [
+            59.697107,
+            14.473593,
+            60.895987,
+            23.312793
+          ]
+        },
+        {
+          "reference": "C34",
+          "centerMm": [
+            57.441866,
+            30.523853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            56.992007,
+            29.422763,
+            57.891167,
+            31.624943
+          ]
+        },
+        {
+          "reference": "C42",
+          "centerMm": [
+            19.925241,
+            5.833707
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            18.824697,
+            5.382933,
+            21.024337,
+            6.282093
+          ]
+        },
+        {
+          "reference": "C43",
+          "centerMm": [
+            5.979767,
+            17.914699
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            5.529067,
+            16.814203,
+            6.428227,
+            19.013843
+          ]
+        },
+        {
+          "reference": "C44",
+          "centerMm": [
+            6.233767,
+            39.631699
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            5.783067,
+            38.531203,
+            6.682227,
+            40.730843
+          ]
+        },
+        {
+          "reference": "C45",
+          "centerMm": [
+            5.979767,
+            61.983701
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            5.529067,
+            60.883203,
+            6.428227,
+            63.082843
+          ]
+        },
+        {
+          "reference": "C46",
+          "centerMm": [
+            19.825228,
+            72.933628
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            18.725637,
+            72.484653,
+            20.925277,
+            73.383813
+          ]
+        },
+        {
+          "reference": "C47",
+          "centerMm": [
+            59.83224,
+            5.833707
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            58.733177,
+            5.382933,
+            60.932817,
+            6.282093
+          ]
+        },
+        {
+          "reference": "C48",
+          "centerMm": [
+            59.478228,
+            72.679628
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            58.377577,
+            72.230653,
+            60.577217,
+            73.129813
+          ]
+        },
+        {
+          "reference": "C49",
+          "centerMm": [
+            73.762192,
+            17.125711
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            73.311507,
+            16.026803,
+            74.210667,
+            18.226443
+          ]
+        },
+        {
+          "reference": "C50",
+          "centerMm": [
+            73.762192,
+            39.477711
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            73.311507,
+            38.378803,
+            74.210667,
+            40.578443
+          ]
+        },
+        {
+          "reference": "C51",
+          "centerMm": [
+            74.016192,
+            61.829714
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            73.565507,
+            60.730803,
+            74.464667,
+            62.930443
+          ]
+        },
+        {
+          "reference": "C54",
+          "centerMm": [
+            51.218866,
+            47.668853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "c6d345a009e97db2",
+          "padSpanBoundsMm": [
+            46.798987,
+            47.069413,
+            55.638187,
+            48.268293
+          ]
+        },
+        {
+          "reference": "D6",
+          "centerMm": [
+            57.695866,
+            50.589853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "b336b323f73b9fa7",
+          "padSpanBoundsMm": [
+            54.131967,
+            49.469713,
+            61.259207,
+            51.709993
+          ]
+        },
+        {
+          "reference": "FB1",
+          "centerMm": [
+            31.820419,
+            53.579773
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "6dd8b062a47ab176",
+          "padSpanBoundsMm": [
+            31.132267,
+            52.047813,
+            32.508947,
+            55.113593
+          ]
+        },
+        {
+          "reference": "L2",
+          "centerMm": [
+            48.043866,
+            54.018853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "1dc5cdcb9dec69ee",
+          "padSpanBoundsMm": [
+            45.324517,
+            51.269303,
+            50.762657,
+            56.768403
+          ]
+        },
+        {
+          "reference": "R1",
+          "centerMm": [
+            38.75911,
+            77.95943
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            38.328087,
+            76.802653,
+            39.191687,
+            79.116593
+          ]
+        },
+        {
+          "reference": "R2",
+          "centerMm": [
+            41.693866,
+            78.021853
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            41.261787,
+            76.863613,
+            42.125387,
+            79.180093
+          ]
+        },
+        {
+          "reference": "R9",
+          "centerMm": [
+            26.613419,
+            47.610773
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "628f4d6adf5893f6",
+          "padSpanBoundsMm": [
+            24.885137,
+            43.903303,
+            28.342077,
+            51.317563
+          ]
+        },
+        {
+          "reference": "R12",
+          "centerMm": [
+            20.262207,
+            26.448248
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            19.829267,
+            25.291453,
+            20.692867,
+            27.605393
+          ]
+        },
+        {
+          "reference": "R13",
+          "centerMm": [
+            20.262207,
+            22.765248
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            19.829267,
+            21.608453,
+            20.692867,
+            23.922393
+          ]
+        },
+        {
+          "reference": "R14",
+          "centerMm": [
+            28.798358,
+            10.287142
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            27.642307,
+            9.855873,
+            29.956247,
+            10.719473
+          ]
+        },
+        {
+          "reference": "R15",
+          "centerMm": [
+            26.258358,
+            12.192142
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            25.826207,
+            11.034433,
+            26.689807,
+            13.348373
+          ]
+        },
+        {
+          "reference": "R16",
+          "centerMm": [
+            17.944866,
+            42.334853
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            16.788887,
+            41.903053,
+            19.102827,
+            42.766653
+          ]
+        },
+        {
+          "reference": "R25",
+          "centerMm": [
+            56.232036,
+            14.321046
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            55.800747,
+            13.162953,
+            56.664347,
+            15.479433
+          ]
+        },
+        {
+          "reference": "R28",
+          "centerMm": [
+            50.644036,
+            17.242046
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            50.212747,
+            16.083953,
+            51.076347,
+            18.400433
+          ]
+        },
+        {
+          "reference": "R31",
+          "centerMm": [
+            54.647866,
+            29.634853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "50abf6a702442fe0",
+          "padSpanBoundsMm": [
+            52.919117,
+            25.984873,
+            56.376057,
+            33.284833
+          ]
+        },
+        {
+          "reference": "R38",
+          "centerMm": [
+            25.183866,
+            20.236853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            24.751787,
+            19.078613,
+            25.615387,
+            21.395093
+          ]
+        },
+        {
+          "reference": "U8",
+          "centerMm": [
+            49.755036,
+            24.227046
+          ],
+          "rotationDegrees": 90,
+          "footprintUuid": "99b57222a0e643fd",
+          "padSpanBoundsMm": [
+            47.563527,
+            20.951863,
+            51.947567,
+            27.502523
+          ]
+        },
+        {
+          "reference": "U24",
+          "centerMm": [
+            52.361866,
+            41.191853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "40901cdafa39999b",
+          "padSpanBoundsMm": [
+            48.062637,
+            38.541363,
+            56.660537,
+            43.842343
+          ]
+        },
+        {
+          "reference": "C2",
+          "centerMm": [
+            49.567866,
+            36.238853
+          ],
+          "rotationDegrees": 0,
+          "footprintUuid": "2cf5ce4848c9f2dd",
+          "padSpanBoundsMm": [
+            47.232057,
+            35.375253,
+            51.903117,
+            37.102453
+          ]
+        },
+        {
+          "reference": "C40",
+          "centerMm": [
+            49.692873,
+            29.778109
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "8090690cf4805845",
+          "padSpanBoundsMm": [
+            48.593497,
+            29.327513,
+            50.793137,
+            30.226673
+          ]
+        },
+        {
+          "reference": "R36",
+          "centerMm": [
+            46.646866,
+            33.952853
+          ],
+          "rotationDegrees": 270,
+          "footprintUuid": "9aa616540964aada",
+          "padSpanBoundsMm": [
+            46.214787,
+            32.794613,
+            47.078387,
+            35.111093
+          ]
+        },
+        {
+          "reference": "U2",
+          "centerMm": [
+            50.964866,
+            34.079853
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "739ae1834e1f177d",
+          "padSpanBoundsMm": [
+            49.915567,
+            33.230223,
+            52.016147,
+            34.929483
+          ]
+        },
+        {
+          "reference": "C302",
+          "centerMm": [
+            64.888867,
+            63.447714
+          ],
+          "rotationDegrees": 180,
+          "footprintUuid": "100749ec02c3d857",
+          "padSpanBoundsMm": [
+            63.787777,
+            62.997753,
+            65.989957,
+            63.896913
+          ]
+        }
+      ],
+      "archiveComparison": {
+        "archiveFile": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\layout-review\\corner-archived.source.jsonl",
+        "sameOutlineAndMountingHoleRecords": true,
+        "recordCount": 6
+      },
+      "degenerateGerberObjectsSkipped": {
+        "topCopper": 0,
+        "bottomCopper": 0,
+        "topMask": 0,
+        "bottomMask": 0,
+        "topSilk": 0,
+        "bottomSilk": 0,
+        "bottomPaste": 0
+      },
+      "preferredDiagonal": [
+        "TL",
+        "BR"
+      ],
+      "diagonalReason": "Both diagonals clear for a 6 mm insulating support. TL/BR is a consistent default; use TR/BL if fixture seam/wiring requires it without moving PCB holes.",
+      "nominalShapeSummary": "80×80 mm rounded rectangle; corner radius 4 mm; hole centers 4 mm in from bounding-box edges.",
+      "recommendedSupport": {
+        "outerDiameterMm": 6.0,
+        "clearanceBoreMm": 3.6,
+        "material": "electrically insulating",
+        "recommendationStatus": "XY-compatible with actual copper/mask/paste and independent native body+pad / PTH zones expanded by 0.5 mm. Physical fit and Z tolerance remain required.",
+        "screwCount": 2,
+        "screwLocations": [
+          "TL",
+          "BR"
+        ],
+        "undersideVerticalClearance": "PCB bottom must stand above the maximum underside component/solder-tail projection plus assembly tolerance; do not place a continuous flat support directly against the populated underside.",
+        "independentBodyAndPadPlus0p5mmPassed": true
+      }
+    }
+  },
+  "independentBottomBodyCrosscheck": {
+    "file": "C:\\Users\\kicof\\AppData\\Local\\Temp\\gridopoly-mechanical-20261015\\bottom-review\\bottom-clearance.json",
+    "sha256": "27fb3658e3107f58e0c3ac8a53f8ee0d606baf9c65b4ca17563445fb74e5fa42",
+    "method": "Independent bottom-body extraction supplies current native layer48 body plus actual pad union bounding boxes; check the proposed 6 mm support against those boxes expanded by its explicit 0.5 mm XY allowance, plus top-component PTH tail/solder zones."
+  },
+  "physicalThickness": {
+    "approxMm": 1.6,
+    "evidence": "User physical approximate measurement confirmed by parent; separate from current CAD layer-stack arithmetic."
+  },
+  "undersideZ": {
+    "physical_pcb_coplanar": "user_confirmed",
+    "pcb_thickness_mm": 1.6,
+    "pcb_thickness_evidence": "user_measured_approx",
+    "max_bottom_protrusion_mm": {
+      "long": 8.1,
+      "corner": 8.1
+    },
+    "max_bottom_protrusion_evidence": "user_measured_approx; each complete assembled board, not assigned per component",
+    "proposed_pcb_bottom_above_table_mm": 14.0,
+    "proposed_bottom_rib_top_above_table_mm": 3.5,
+    "nominal_remaining_clearance_mm": 2.4,
+    "clearance_status": "nominal arithmetic only; tolerances, protrusion datum and any future pin/tail changes still require fit check"
+  }
+}

@@ -1,0 +1,1507 @@
+{
+  "scope": "Final single-row TP static netlist/preservation/BOM review; geometry accepted from separate hashed Gerber audit, not API pad getters.",
+  "input_sha256": {
+    "PCB1-netlist-after.json": "ca25100bde5b7544f238bed47d494ea69b2a26ca619c06c6916a86c9172d8274",
+    "schematic-netlist-after.json": "b2975ff741c12e4b56c4b22f44840c5f9ed68cfa6a619ff0226aa5fd6cc86aa1",
+    "PCB1-netlist.json": "7fee63bcac5412992a08d29fca70b60ab0c1b5f33aa76a67780f44741f8a7125",
+    "schematic-netlist.json": "d9e4665240d30dd23e839e6bb02fd68e9e5dcf05a7ec9245d7a2b428de0e7098",
+    "snapshot-after.json": "de7d6dc07bea206705a804aa6891aea413b85838c7d0c6b5f0a2bc0b81ff5e73",
+    "current-snapshot.json": "2006d798cba283166d97a86f2aed1ff352c790254a1fcf745c624c8145f2f266",
+    "drc-after.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "schematic-drc-after.json": "febe00fce4656376f7323703efd4cda2d736da68472362926a1bf39cc2020bfc",
+    "current-Gerber.zip": "bff4f65a4de8f07b44090f04ccfda05d3c57241564201dea600e5bc1f85e09d3",
+    "independent-testpoint-manufacturing-review.json": "4c025b5d755fe638cd6e29e7992e9544221a36a37589f10d47da0df9c54b2098",
+    "BOM-native.tsv": "a12637a5315d24663a266d47c7ef5ad68380d7945cd17dd61a07d29dacc5d371",
+    "CPL-native.tsv": "95da29a06a07b7f5071e9ef9adac888033bfb6040bcafe1b501084b1b970fde0"
+  },
+  "status": "PASS",
+  "counts": {
+    "PCB_components": 76,
+    "SCH_components": 76,
+    "pin_endpoints": 251,
+    "original_components": 68,
+    "new_testpoints": 8,
+    "lines": 555,
+    "vias": 84
+  },
+  "issues": [],
+  "local_footprint_id_exceptions": [
+    {
+      "ref": "TP1",
+      "PCB": "847ec1f4dfc5086a_cf84ac8a14a8cf74",
+      "SCH": "217839e496899ffc"
+    },
+    {
+      "ref": "TP4",
+      "PCB": "847ec1f4dfc5086a_a9474bda811a6d60",
+      "SCH": "217839e496899ffc"
+    },
+    {
+      "ref": "TP6",
+      "PCB": "847ec1f4dfc5086a_77eaca4f7bb66818",
+      "SCH": "217839e496899ffc"
+    },
+    {
+      "ref": "TP7",
+      "PCB": "847ec1f4dfc5086a_3ad315000bebc71f",
+      "SCH": "217839e496899ffc"
+    }
+  ],
+  "netlist_property_differences": [
+    {
+      "ref": "U1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "85e06ead7927f8d4"
+        ],
+        "Name": [
+          "BQ24074RGTR",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C4",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R3",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "8a603ae0ebf47614"
+        ],
+        "Name": [
+          "715kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R4",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C5",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "137393fd5d282100"
+        ],
+        "Name": [
+          "10nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R5",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R6",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "Q1",
+      "differences": {
+        "Name": [
+          "2N7002",
+          "={Manufacturer Part}"
+        ],
+        "Symbol": [
+          "<missing>",
+          "b3ba8d319d89823d"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R7",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C6",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "SW1",
+      "differences": {
+        "Name": [
+          "TS-1187A-B-A-B",
+          "={Manufacturer Part}"
+        ],
+        "Symbol": [
+          "<missing>",
+          "c18e47f8de176427"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U2",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "ef754b8591f3f002"
+        ],
+        "Name": [
+          "TPS61023DRLR",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R8",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "L1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "d9384e6bc4570127"
+        ],
+        "Name": [
+          "1uH",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C7",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "19adf0198bca893b"
+        ],
+        "Name": [
+          "10uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C8",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "19adf0198bca893b"
+        ],
+        "Name": [
+          "10uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C9",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "19adf0198bca893b"
+        ],
+        "Name": [
+          "10uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C10",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R9",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9ebe7755886b6889"
+        ],
+        "Name": [
+          "732kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R10",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U5",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "8d312bf184ce230e"
+        ],
+        "Name": [
+          "TUSB320LAIRWBR",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "J1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "cec4f0ee02e33bc4"
+        ],
+        "Name": [
+          "TYPE-C-31-M-12",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U3",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "dc4dd82bd4a07b2b"
+        ],
+        "Name": [
+          "MAX16054AZT+T",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U6",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "a38e1e8843ef0c71"
+        ],
+        "Name": [
+          "AP2112K-3.3TRG1",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "Q2",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "202a7ba1da5ad5dc"
+        ],
+        "Name": [
+          "MMBT3906 2A(RANGE:100-300)",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "D1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "06e84b4ff2135243"
+        ],
+        "Name": [
+          "USBLC6-2SC6",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U7",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "13bc656b15ee9d90"
+        ],
+        "Name": [
+          "TS3USB221ARSER",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U8",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "a38e1e8843ef0c71"
+        ],
+        "Name": [
+          "AP2112K-3.3TRG1",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U4",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "dcc37a504cc89126"
+        ],
+        "Name": [
+          "TPS3808G01DBVR",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "Q3",
+      "differences": {
+        "Name": [
+          "2N7002",
+          "={Manufacturer Part}"
+        ],
+        "Symbol": [
+          "<missing>",
+          "b3ba8d319d89823d"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R11",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "0480621a82f9eae0"
+        ],
+        "Name": [
+          "300kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R12",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "0480621a82f9eae0"
+        ],
+        "Name": [
+          "300kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R13",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "0480621a82f9eae0"
+        ],
+        "Name": [
+          "300kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R14",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R15",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R16",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R17",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C11",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9ac8100b04853480"
+        ],
+        "Name": [
+          "1uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9ac8100b04853480"
+        ],
+        "Name": [
+          "1uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C12",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9ac8100b04853480"
+        ],
+        "Name": [
+          "1uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C13",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C14",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9ac8100b04853480"
+        ],
+        "Name": [
+          "1uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C15",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9ac8100b04853480"
+        ],
+        "Name": [
+          "1uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C16",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R18",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R19",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "5b37ec41a64a1a3c"
+        ],
+        "Name": [
+          "100kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C17",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "SW2",
+      "differences": {
+        "Name": [
+          "TS-1187A-B-A-B",
+          "={Manufacturer Part}"
+        ],
+        "Symbol": [
+          "<missing>",
+          "c18e47f8de176427"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "J2",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c3895dcae274e1f3"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C2",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "19adf0198bca893b"
+        ],
+        "Name": [
+          "10uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "J3",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "e3e60cf01f59b547"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R20",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "823530aa9dcb7fe1"
+        ],
+        "Name": [
+          "68kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C3",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "19adf0198bca893b"
+        ],
+        "Name": [
+          "10uF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "3d9cd7811521c288"
+        ],
+        "Name": [
+          "1.78kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R2",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "9e43de489fa18322"
+        ],
+        "Name": [
+          "1.8kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C18",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C19",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "C20",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "11237c4b5e7c0020"
+        ],
+        "Name": [
+          "100nF",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R21",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R22",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "0d6527bb8fe187d3"
+        ],
+        "Name": [
+          "4.7kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R23",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "0d6527bb8fe187d3"
+        ],
+        "Name": [
+          "4.7kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R24",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R25",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R26",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R27",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "R28",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "4f5ab99e1110b7de"
+        ],
+        "Name": [
+          "10kΩ",
+          "={Value}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP1",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "Footprint": [
+          "847ec1f4dfc5086a_cf84ac8a14a8cf74",
+          "217839e496899ffc"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP2",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP3",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP4",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "Footprint": [
+          "847ec1f4dfc5086a_a9474bda811a6d60",
+          "217839e496899ffc"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP5",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP6",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "Footprint": [
+          "847ec1f4dfc5086a_77eaca4f7bb66818",
+          "217839e496899ffc"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP7",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "Footprint": [
+          "847ec1f4dfc5086a_3ad315000bebc71f",
+          "217839e496899ffc"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "TP8",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "c1d011c303f804a3"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U10",
+      "differences": {
+        "Name": [
+          "MAX17048G+T10",
+          "={Manufacturer Part}"
+        ],
+        "Symbol": [
+          "<missing>",
+          "39a9d1641560f2ee"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    },
+    {
+      "ref": "U9",
+      "differences": {
+        "Symbol": [
+          "<missing>",
+          "f867d9c6d2a648a9"
+        ],
+        "Name": [
+          "SC18IM704PWJ",
+          "={Manufacturer Part}"
+        ],
+        "PCB Layer": [
+          "TopLayer",
+          "<missing>"
+        ]
+      }
+    }
+  ],
+  "original_component_net_changes": [],
+  "original_component_placement_changes": [],
+  "geometry_proof_sha_matches_current_exports": true,
+  "native_PCB_DRC": [],
+  "native_SCH_DRC": [
+    {
+      "type": "warn",
+      "count": 43
+    }
+  ],
+  "BOM_component_count": 68,
+  "BOM_quantity_sum": 68,
+  "native_CPL_rows": 76,
+  "native_CPL_TPs": [
+    "TP1",
+    "TP2",
+    "TP3",
+    "TP4",
+    "TP5",
+    "TP6",
+    "TP7",
+    "TP8"
+  ],
+  "production_CPL_status": "PASS: final comma CSV excludes exactly TP1..TP8 and preserves every original 68 row value",
+  "production_CSV_validation_sha256": "ec7c8edee1ad7eeb0e9b6dd714d19709c3026c0349bf8e074b168a5e96e449ad",
+  "testpoints": [
+    {
+      "ref": "TP1",
+      "net": "BAT_PACK",
+      "xMm": 56.001920000000005,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "PCB_footprint": "847ec1f4dfc5086a_cf84ac8a14a8cf74",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP2",
+      "net": "SYS_RAW",
+      "xMm": 48.000919999999994,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "PCB_footprint": "217839e496899ffc",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP3",
+      "net": "5V_SCREEN",
+      "xMm": 15.99946,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "PCB_footprint": "217839e496899ffc",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP4",
+      "net": "SCREEN_IO3V3",
+      "xMm": 23.997919999999997,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "PCB_footprint": "847ec1f4dfc5086a_a9474bda811a6d60",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP5",
+      "net": "USB_VBUS",
+      "xMm": 39.999919999999996,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "PCB_footprint": "217839e496899ffc",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP6",
+      "net": "POWER_EN",
+      "xMm": 64.00037999999999,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "PCB_footprint": "847ec1f4dfc5086a_77eaca4f7bb66818",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP7",
+      "net": "GND",
+      "xMm": 8.001,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "PCB_footprint": "847ec1f4dfc5086a_3ad315000bebc71f",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    },
+    {
+      "ref": "TP8",
+      "net": "GND",
+      "xMm": 31.99892,
+      "yDownMm": 22.499319999999997,
+      "platedHoleMm": 1.000001,
+      "copperMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "PCB_footprint": "217839e496899ffc",
+      "SCH_footprint": "217839e496899ffc",
+      "BOM": "no",
+      "convert_to_PCB": "yes",
+      "description": "Bare plated test pad, 1.0mm hole / 2.2mm copper; both sides exposed; no paste; no fitted component"
+    }
+  ]
+}

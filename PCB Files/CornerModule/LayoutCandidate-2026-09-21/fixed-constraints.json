@@ -1,0 +1,321 @@
+{
+  "J1": {
+    "id": "ab8e521eaa674f43",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 1460.1233,
+    "y": -3008.2735,
+    "angle": 0,
+    "attrs": {
+      "3D Model": "d6783d3a2268456b863f42d3286191d0",
+      "Connector Type": "",
+      "Protocol Standard": "",
+      "Gender": "",
+      "Mounting Type": "",
+      "Number of Contacts": "",
+      "Number of Ports": "",
+      "Current Rating-Power": "",
+      "Connect-Disconnect Life": "",
+      "Supplementary Features": "",
+      "Center Height": "",
+      "Length": "",
+      "Detection color": "",
+      "Description": "",
+      "Unique ID": "gge2",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I6",
+      "Convert to PCB": "yes",
+      "Symbol": "1ff09c7c4e7a4980b99e980c286104de"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "USB1": {
+    "id": "a3237e226c578e36",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 2890,
+    "y": -1965,
+    "angle": 90,
+    "attrs": {
+      "Name": "TYPE-C 20V/5A",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I589",
+      "Unique ID": "gge170"
+    },
+    "locked": false,
+    "zIndex": -1
+  },
+  "JIN1": {
+    "id": "b288303d1098f24c",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": -25,
+    "y": -1770,
+    "angle": 90,
+    "attrs": {
+      "Unique ID": "gge166",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I571"
+    },
+    "locked": false,
+    "zIndex": -1
+  },
+  "JIN3": {
+    "id": "76bd4f63d901ec65",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": -25,
+    "y": -1240,
+    "angle": -90,
+    "attrs": {
+      "Unique ID": "gge168",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I586"
+    },
+    "locked": false,
+    "zIndex": -1
+  },
+  "JOUT1": {
+    "id": "fc5c19566c73f16b",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 1652.0467,
+    "y": -94.5779,
+    "angle": 180,
+    "attrs": {
+      "Unique ID": "gge167",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I573"
+    },
+    "locked": false,
+    "zIndex": -1
+  },
+  "JOUT3": {
+    "id": "0b3ee5170b9ea8d6",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 1122.0467,
+    "y": -94.5779,
+    "angle": 180,
+    "attrs": {
+      "Unique ID": "gge169",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I587"
+    },
+    "locked": false,
+    "zIndex": -1
+  },
+  "J4": {
+    "id": "50e57bb319b162ab",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 1460.1233,
+    "y": -445,
+    "angle": 180,
+    "attrs": {
+      "Holes Structure": "",
+      "Pitch": "",
+      "Row Spacing": "",
+      "Mounting Type": "",
+      "Number of Rows": "",
+      "Number of Positions": "",
+      "Current Rating": "",
+      "Voltage Rating (Max)": "",
+      "Holes Direction": "",
+      "Insulation Height": "",
+      "Contact Material": "",
+      "Contact Plating": "",
+      "Description": "",
+      "Unique ID": "gge15",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I484"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U12": {
+    "id": "17c5dc1f572c8a68",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 669.2913,
+    "y": -236.2205,
+    "angle": 0,
+    "attrs": {
+      "Unique ID": "gge120",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I403"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U13": {
+    "id": "7834a15f9e7132d9",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 2244.0945,
+    "y": -236.2205,
+    "angle": 0,
+    "attrs": {
+      "Unique ID": "gge120_0",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I409"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U14": {
+    "id": "eefc815c3e3468a6",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 2795.2756,
+    "y": -708.6614,
+    "angle": -90,
+    "attrs": {
+      "Unique ID": "gge120_1",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I442"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U15": {
+    "id": "c4e3004fef9831dc",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 2795.2756,
+    "y": -1574.8031,
+    "angle": -90,
+    "attrs": {
+      "Unique ID": "gge120_2",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I446"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U16": {
+    "id": "3aeed9d399ca298b",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 2795.2756,
+    "y": -2440.9449,
+    "angle": -90,
+    "attrs": {
+      "Unique ID": "gge120_3",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I450"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U17": {
+    "id": "bc646b9f8b6bd382",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 2244.0945,
+    "y": -2874.0157,
+    "angle": 180,
+    "attrs": {
+      "Unique ID": "gge120_4",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I458"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U18": {
+    "id": "1b3479a14f7c939d",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 669.2913,
+    "y": -2874.0157,
+    "angle": 180,
+    "attrs": {
+      "Unique ID": "gge120_5",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I459"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U19": {
+    "id": "ebffec9eb7ad23f7",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 118.1102,
+    "y": -2440.9449,
+    "angle": 90,
+    "attrs": {
+      "Unique ID": "gge120_6",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I460"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U20": {
+    "id": "7e700a4b56f770a6",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 118.1102,
+    "y": -1574.8031,
+    "angle": 90,
+    "attrs": {
+      "Unique ID": "gge120_7",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I461"
+    },
+    "locked": true,
+    "zIndex": -1
+  },
+  "U21": {
+    "id": "50ff5017aca51913",
+    "partitionId": "",
+    "groupId": 0,
+    "layerId": 1,
+    "x": 118.1102,
+    "y": -708.6614,
+    "angle": 90,
+    "attrs": {
+      "Unique ID": "gge120_8",
+      "Reuse Block": "",
+      "Group ID": "",
+      "Channel ID": "$4I474"
+    },
+    "locked": true,
+    "zIndex": -1
+  }
+}

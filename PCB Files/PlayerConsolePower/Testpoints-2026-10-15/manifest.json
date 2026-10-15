@@ -1,0 +1,34 @@
+{
+  "revision": "PLAYER POWER R1 RC6-TP",
+  "createdAtUtc": "2026-10-15T04:36:41.516118+00:00",
+  "scope": "8 single-row plated through-hole test pads and their measurement branches; existing function circuitry unchanged",
+  "status": "TESTPOINT_INCREMENT_VERIFIED; PRODUCTION_RELEASE_HOLD; NO_PHYSICAL_VALIDATION",
+  "nativePcbDrc": [],
+  "schematicDrc": [
+    {
+      "type": "warn",
+      "count": 43
+    }
+  ],
+  "counts": {
+    "components": 76,
+    "fittedComponents": 68,
+    "bareTestPads": 8,
+    "componentPads": 251,
+    "lineSegments": 555,
+    "vias": 84,
+    "namedNets": 41
+  },
+  "gerberSha256": "bff4f65a4de8f07b44090f04ccfda05d3c57241564201dea600e5bc1f85e09d3",
+  "schematicPages": [
+    "443216bbada87fe6",
+    "9eb230ca6fd4b303"
+  ],
+  "pcbUuid": "847ec1f4dfc5086a",
+  "frozenBaseline": "../ProductionReadiness-2026-10-14/",
+  "notes": [
+    "Native P1 and P2 exports are separate page files, not a complete whole-project archive. The complete live project remains Gridopoly.eprj2.",
+    "TP1/TP4/TP6/TP7 have local footprint instance IDs; each exported physical hole/ring was independently checked.",
+    "Do not manufacture intermediate snapshots from the temporary working directory."
+  ]
+}

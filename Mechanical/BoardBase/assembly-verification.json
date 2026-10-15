@@ -1,0 +1,35 @@
+{
+  "revision": "R2_PRINT_FRIENDLY",
+  "method": "Blender MANIFOLD Boolean intersection against three PCB laminates with mounting holes",
+  "checks": [
+    {
+      "pcb": "R2_Corner_PCB_REFERENCE",
+      "intersection_volume_mm3": 3.019806626980426e-14
+    },
+    {
+      "pcb": "R2_Incoming_Long_PCB_REFERENCE",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "pcb": "R2_Outgoing_Long_PCB_REFERENCE",
+      "intersection_volume_mm3": 7.697835424647081e-15
+    }
+  ],
+  "pass_threshold_mm3": 0.001,
+  "passed": true,
+  "scope_limit": "No cable-motion, detailed electronic body or physical fit verification.",
+  "independent_stl_section_review": {
+    "base_sections_z_0_1_and_2_5_mm": "single solid outline; no nut cavities",
+    "post_section_z_5_99_mm": "12 solid circles",
+    "post_section_z_6_01_to_14_79_mm": "6 active pilot holes diameter2.5",
+    "post_section_z_14_81_to_15_9_mm": "active guides diameter3.6",
+    "post_centers_match_frozen_interface": 12,
+    "active_diagonal_locations_match": 6,
+    "coupon_pilots_mm": [
+      2.4,
+      2.5,
+      2.6
+    ],
+    "physical_print_verified": false
+  }
+}

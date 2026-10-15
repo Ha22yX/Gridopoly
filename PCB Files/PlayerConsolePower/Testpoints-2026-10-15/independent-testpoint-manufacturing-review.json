@@ -1,0 +1,894 @@
+{
+  "gerberSha256": "bff4f65a4de8f07b44090f04ccfda05d3c57241564201dea600e5bc1f85e09d3",
+  "snapshotSha256": "de7d6dc07bea206705a804aa6891aea413b85838c7d0c6b5f0a2bc0b81ff5e73",
+  "testpoints": [
+    {
+      "ref": "TP1",
+      "net": "BAT_PACK",
+      "xMm": 56.001920000000005,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 56.001181,
+          "y": -22.49998,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.30124
+        ],
+        "bottomMask": [
+          2.30124
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.7006315368457353,
+        "bottomSilk": 0.7009375188549035
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP2",
+      "net": "SYS_RAW",
+      "xMm": 48.000919999999994,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 48.000001,
+          "y": -22.500001,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.301601
+        ],
+        "bottomMask": [
+          2.301601
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.7350792208968904,
+        "bottomSilk": 0.7354590953070161
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP3",
+      "net": "5V_SCREEN",
+      "xMm": 15.99946,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 16.000001,
+          "y": -22.500001,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.301601
+        ],
+        "bottomMask": [
+          2.301601
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.6945198530977408,
+        "bottomSilk": 0.6944866629607036
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP4",
+      "net": "SCREEN_IO3V3",
+      "xMm": 23.997919999999997,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 23.998801,
+          "y": -22.50042,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.30124
+        ],
+        "bottomMask": [
+          2.30124
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.6948574921117407,
+        "bottomSilk": 0.6950316924707131
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP5",
+      "net": "USB_VBUS",
+      "xMm": 39.999919999999996,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 39.999999,
+          "y": -22.500001,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.301601
+        ],
+        "bottomMask": [
+          2.301601
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.6996886901246421,
+        "bottomSilk": 0.699676100299442
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP6",
+      "net": "POWER_EN",
+      "xMm": 64.00037999999999,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 63.999138,
+          "y": -22.49966,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.30124
+        ],
+        "bottomMask": [
+          2.30124
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.6955040562352536,
+        "bottomSilk": 0.6954713372834699
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP7",
+      "net": "GND",
+      "xMm": 8.001,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 8.001198,
+          "y": -22.49998,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.19964
+        ],
+        "bottomCu": [
+          2.19964
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.30124
+        ],
+        "bottomMask": [
+          2.30124
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.6999018530811528,
+        "bottomSilk": 0.6997423288403339
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    },
+    {
+      "ref": "TP8",
+      "net": "GND",
+      "xMm": 31.99892,
+      "yDownMm": 22.499319999999997,
+      "platedDrill": [
+        {
+          "x": 32.0,
+          "y": -22.500001,
+          "diameter": 1.000001
+        }
+      ],
+      "npthAtCenter": [],
+      "copperDiametersMm": {
+        "topCu": [
+          2.200001
+        ],
+        "bottomCu": [
+          2.200001
+        ]
+      },
+      "maskOpeningDiametersMm": {
+        "topMask": [
+          2.301601
+        ],
+        "bottomMask": [
+          2.301601
+        ]
+      },
+      "pasteOverlapMm2": {
+        "topPaste": 0.0,
+        "bottomPaste": 0.0
+      },
+      "silkToOpeningGapMm": {
+        "topSilk": 0.6997360339277338,
+        "bottomSilk": 0.6999080683113151
+      },
+      "silkOverlapOpeningMm2": {
+        "topSilk": 0.0,
+        "bottomSilk": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "preservation": {
+    "components": {
+      "oldCount": 68,
+      "newCount": 76,
+      "missing": [],
+      "changed": []
+    },
+    "vias": {
+      "oldCount": 82,
+      "newCount": 84,
+      "missing": [],
+      "changed": []
+    },
+    "traces": {
+      "oldCount": 536,
+      "newCount": 555,
+      "sameIdUnchanged": 533,
+      "removedIds": [
+        "9927761594f685aa",
+        "4de01c2391dbcd32",
+        "208e754038512c63"
+      ],
+      "newIds": [
+        "d599876ded6801b0",
+        "01fb00524d826f07",
+        "3f89799008b168aa",
+        "59aad64f0cb4c157",
+        "b7a94d8b09c7b3d2",
+        "3b3d8ddd17af4a78",
+        "3fb114cb71e13f3b",
+        "9133b92553b33f50",
+        "45ff86217caaf790",
+        "60e5439b5374fc64",
+        "2f8a4972bedb7c04",
+        "d0670119f1ecc594",
+        "92aa65e390d3384b",
+        "b049749fa4e64e7d",
+        "0894a39b9dc9768d",
+        "126731bc16859dd7",
+        "4e24b2cdf3ae0a20",
+        "d91fe366a4b18a5c",
+        "41ccd246e90f0c64",
+        "4c985a1b8e9610c0",
+        "28934c08a7ae080e",
+        "81cd1784d9e6c68e"
+      ],
+      "lostOldGeometry": [],
+      "note": "Original segments at SCREEN_IO3V3, BAT_PACK and 5V_SCREEN branch junctions are split into collinear pieces. Every original centerline, width, layer and net remains covered."
+    },
+    "outlineAndFreePads": [
+      {
+        "type": "LAYER",
+        "id": "[\"LAYER\",11]",
+        "same": true
+      },
+      {
+        "type": "PAD",
+        "id": "f9a94b3034632f7c",
+        "same": true
+      },
+      {
+        "type": "PAD",
+        "id": "00d9744dbffe73b2",
+        "same": true
+      },
+      {
+        "type": "PAD",
+        "id": "f56972f555b0bb84",
+        "same": true
+      },
+      {
+        "type": "PAD",
+        "id": "4b7161c5a64c12ac",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "b8208d3ea2dd2f19",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "ae163ec3a455a225",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "bec5c689d3f50120",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "749dbf306485a018",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "1f9462dff4361149",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "3cd9a7b6b1ee6257",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "965b2b65a3f524b7",
+        "same": true
+      },
+      {
+        "type": "POLY",
+        "id": "c6d1124ab05ecb2a",
+        "same": true
+      }
+    ]
+  },
+  "testpointSilkscreen": [
+    {
+      "id": "ab4628be5c524633",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 2204.7244,
+      "y": -972.4409,
+      "text": "BAT_PACK",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "e10db8f1637f82f7",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 2204.7244,
+      "y": -972.4409,
+      "text": "BAT_PACK",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "8aba156bd9ba0096",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 1889.7638,
+      "y": -972.4409,
+      "text": "SYS_RAW",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "a65db4070434c935",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 1889.7638,
+      "y": -972.4409,
+      "text": "SYS_RAW",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "acf25367611cf35e",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 629.9213,
+      "y": -972.4409,
+      "text": "5V_SCREEN",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "118c25a39c61e328",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 629.9213,
+      "y": -972.4409,
+      "text": "5V_SCREEN",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "07d1ed1dd72fcb49",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 944.8819,
+      "y": -972.4409,
+      "text": "SCREEN_IO3V3",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "9f624b1db92cb50f",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 944.8819,
+      "y": -972.4409,
+      "text": "SCREEN_IO3V3",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "3174c7521f71b794",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 1574.8031,
+      "y": -972.4409,
+      "text": "USB_VBUS",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "6d6a3720805f1977",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 1574.8031,
+      "y": -972.4409,
+      "text": "USB_VBUS",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "77f5e6c423ef59f3",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 2519.685,
+      "y": -972.4409,
+      "text": "POWER_EN",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "8dce78982770b48b",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 2519.685,
+      "y": -972.4409,
+      "text": "POWER_EN",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "3b54ecb682ad3eb1",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 314.9606,
+      "y": -972.4409,
+      "text": "GND",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "9688d05ea249d877",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 314.9606,
+      "y": -972.4409,
+      "text": "GND",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "f5446e3ca467e9a3",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 3,
+      "x": 1259.8425,
+      "y": -972.4409,
+      "text": "GND",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    },
+    {
+      "id": "53a84dd89ca4a32e",
+      "partitionId": "",
+      "groupId": 0,
+      "layerId": 4,
+      "x": 1259.8425,
+      "y": -972.4409,
+      "text": "GND",
+      "fontFamily": "default",
+      "fontSize": 35.4331,
+      "strokeWidth": 5.9055,
+      "bold": 0,
+      "italic": 0,
+      "origin": "CENTER_MIDDLE",
+      "angle": 0,
+      "reverse": false,
+      "expansion": 0,
+      "mirror": false,
+      "locked": false,
+      "zIndex": -1,
+      "specialColor": "#000000"
+    }
+  ],
+  "parserSkippedDegenerateObjects": {
+    "topCu": 0,
+    "bottomCu": 0,
+    "topMask": 0,
+    "bottomMask": 0,
+    "topPaste": 0,
+    "topSilk": 8,
+    "bottomSilk": 0,
+    "outline": 0
+  },
+  "method": "Actual exported Gerber circular flashes, polygon operations (1um arc approximation) and metric plated drill tool/coordinates; source comparison only for placement/preservation and text properties. Getter pad/hole dimensions not relied on.",
+  "limitations": [
+    "Manufactured hole tolerance, plating, print and solder quality require physical inspection.",
+    "Actual export shape verifies existence/clearance of labels; rendering visually inspected separately."
+  ],
+  "testpointLabelChecks": {
+    "netNameCountCorrect": true,
+    "bottomMirrorPropertyCorrect": true,
+    "visibleDesignators": []
+  },
+  "newViaChecks": [
+    {
+      "net": "USB_VBUS",
+      "xMm": 43.000000359999994,
+      "yDownMm": 50.999999599999995,
+      "platedDrill": [
+        {
+          "x": 43.0,
+          "y": -51.0,
+          "diameter": 0.3
+        }
+      ],
+      "copperDiametersMm": {
+        "topCu": [
+          0.6
+        ],
+        "bottomCu": [
+          0.6
+        ]
+      },
+      "maskOpeningAreaMm2": {
+        "topMask": 0.0,
+        "bottomMask": 0.0
+      },
+      "passed": true
+    },
+    {
+      "net": "USB_VBUS",
+      "xMm": 43.000000359999994,
+      "yDownMm": 58.49999984,
+      "platedDrill": [
+        {
+          "x": 43.0,
+          "y": -58.5,
+          "diameter": 0.3
+        }
+      ],
+      "copperDiametersMm": {
+        "topCu": [
+          0.6
+        ],
+        "bottomCu": [
+          0.6
+        ]
+      },
+      "maskOpeningAreaMm2": {
+        "topMask": 0.0,
+        "bottomMask": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

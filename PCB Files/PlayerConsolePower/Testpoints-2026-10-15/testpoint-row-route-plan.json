@@ -1,0 +1,602 @@
+{
+  "coordinateConvention": "mm from upper left board; x right, y down; EDA x/0.0254,-y/0.0254",
+  "plans": [
+    {
+      "ref": "TP7",
+      "net": "GND",
+      "xy": [
+        8,
+        22.5
+      ],
+      "segments": [],
+      "silkscreen": {
+        "text": "GND",
+        "centerMm": [
+          8,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP3",
+      "net": "5V_SCREEN",
+      "xy": [
+        16,
+        22.5
+      ],
+      "segments": [
+        {
+          "layer": 1,
+          "widthMm": 0.3,
+          "path": [
+            [
+              16,
+              22.5
+            ],
+            [
+              16,
+              39.692807679999994
+            ],
+            [
+              19,
+              42.692807679999994
+            ]
+          ]
+        }
+      ],
+      "endpointPrimitive": "9927761594f685aa",
+      "silkscreen": {
+        "text": "5V_SCREEN",
+        "centerMm": [
+          16,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP4",
+      "net": "SCREEN_IO3V3",
+      "xy": [
+        24,
+        22.5
+      ],
+      "segments": [
+        {
+          "layer": 1,
+          "widthMm": 0.3,
+          "path": [
+            [
+              24,
+              22.5
+            ],
+            [
+              28.5,
+              27
+            ],
+            [
+              28.5,
+              47.200004660000005
+            ]
+          ]
+        }
+      ],
+      "endpointPrimitive": "208e754038512c63 (now collinear split 9191bc13a056950a / 5937fc7dd12310ba)",
+      "silkscreen": {
+        "text": "SCREEN_IO3V3",
+        "centerMm": [
+          24,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP8",
+      "net": "GND",
+      "xy": [
+        32,
+        22.5
+      ],
+      "segments": [],
+      "silkscreen": {
+        "text": "GND",
+        "centerMm": [
+          32,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP5",
+      "net": "USB_VBUS",
+      "xy": [
+        40,
+        22.5
+      ],
+      "segments": [
+        {
+          "layer": 2,
+          "widthMm": 0.3,
+          "path": [
+            [
+              40,
+              22.5
+            ],
+            [
+              43,
+              25.5
+            ],
+            [
+              43,
+              51
+            ]
+          ]
+        },
+        {
+          "layer": 1,
+          "widthMm": 0.3,
+          "path": [
+            [
+              43,
+              51
+            ],
+            [
+              43,
+              58.5
+            ]
+          ]
+        },
+        {
+          "layer": 2,
+          "widthMm": 0.3,
+          "path": [
+            [
+              43,
+              58.5
+            ],
+            [
+              43,
+              68.79997452
+            ],
+            [
+              41.65001576,
+              70.14995876
+            ]
+          ]
+        }
+      ],
+      "newVias": [
+        {
+          "xy": [
+            43,
+            51
+          ],
+          "diameterMm": 0.6,
+          "drillMm": 0.3,
+          "net": "USB_VBUS",
+          "mask": "tented both sides"
+        },
+        {
+          "xy": [
+            43,
+            58.5
+          ],
+          "diameterMm": 0.6,
+          "drillMm": 0.3,
+          "net": "USB_VBUS",
+          "mask": "tented both sides"
+        }
+      ],
+      "endpointVia": "c92497e2f2d064a3",
+      "silkscreen": {
+        "text": "USB_VBUS",
+        "centerMm": [
+          40,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP2",
+      "net": "SYS_RAW",
+      "xy": [
+        48,
+        22.5
+      ],
+      "segments": [
+        {
+          "layer": 2,
+          "widthMm": 0.3,
+          "path": [
+            [
+              48,
+              22.5
+            ],
+            [
+              48,
+              30.1000358
+            ],
+            [
+              55.799987460000004,
+              37.900023260000005
+            ]
+          ]
+        }
+      ],
+      "endpointVia": "15976c888b497e32",
+      "silkscreen": {
+        "text": "SYS_RAW",
+        "centerMm": [
+          48,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP1",
+      "net": "BAT_PACK",
+      "xy": [
+        56,
+        22.5
+      ],
+      "segments": [
+        {
+          "layer": 2,
+          "widthMm": 0.3,
+          "path": [
+            [
+              56,
+              22.5
+            ],
+            [
+              56,
+              24.609158299999997
+            ]
+          ]
+        }
+      ],
+      "endpointPrimitive": "4de01c2391dbcd32",
+      "silkscreen": {
+        "text": "BAT_PACK",
+        "centerMm": [
+          56,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    },
+    {
+      "ref": "TP6",
+      "net": "POWER_EN",
+      "xy": [
+        64,
+        22.5
+      ],
+      "segments": [
+        {
+          "layer": 1,
+          "widthMm": 0.3,
+          "path": [
+            [
+              64,
+              22.5
+            ],
+            [
+              64,
+              27.7
+            ],
+            [
+              64.3,
+              28
+            ],
+            [
+              65.9,
+              28
+            ]
+          ]
+        }
+      ],
+      "endpointPrimitive": "a42bf17ed8472de3",
+      "silkscreen": {
+        "text": "POWER_EN",
+        "centerMm": [
+          64,
+          24.7
+        ],
+        "heightMm": 0.9,
+        "lineWidthMm": 0.15,
+        "rotation": 0,
+        "topAndBottom": true,
+        "bottomMirrorProperty": false,
+        "hideAllDesignatorAttributes": true
+      }
+    }
+  ],
+  "newViaCount": 2,
+  "branchLineCount": 15,
+  "pad": {
+    "platedHoleMm": 1.0,
+    "copperDiameterMm": 2.2,
+    "bothSidesSolderMaskOpening": true,
+    "paste": false
+  },
+  "geometryClearance": [
+    {
+      "ref": "TP7",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 5.800000000000001,
+      "nearestRef": "TP3",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP7",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 5.800000000000001,
+      "nearestRef": "TP3",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP3",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP4",
+      "nearestNet": "SCREEN_IO3V3"
+    },
+    {
+      "ref": "TP3",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP4",
+      "nearestNet": "SCREEN_IO3V3"
+    },
+    {
+      "ref": "TP3",
+      "kind": "branch",
+      "layer": 1,
+      "clearanceMm": 4.117141382294742,
+      "nearestRef": "U8.4",
+      "nearestNet": ""
+    },
+    {
+      "ref": "TP4",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP3",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP4",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP3",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP4",
+      "kind": "branch",
+      "layer": 1,
+      "clearanceMm": 1.2494700000000023,
+      "nearestRef": "C14.1",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP8",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 4.406854249492378,
+      "nearestRef": "TP4",
+      "nearestNet": "SCREEN_IO3V3"
+    },
+    {
+      "ref": "TP8",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP4",
+      "nearestNet": "SCREEN_IO3V3"
+    },
+    {
+      "ref": "TP5",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP8",
+      "nearestNet": "GND"
+    },
+    {
+      "ref": "TP5",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP8",
+      "nearestNet": "GND"
+    },
+    {
+      "ref": "TP5",
+      "kind": "branch",
+      "layer": 2,
+      "clearanceMm": 3.055782809067242,
+      "nearestRef": "1acf98f080465f19",
+      "nearestNet": "CHG_N"
+    },
+    {
+      "ref": "TP5",
+      "kind": "branch",
+      "layer": 1,
+      "clearanceMm": 1.671675266041058,
+      "nearestRef": "12be3b04804cbc51",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP5",
+      "kind": "branch",
+      "layer": 2,
+      "clearanceMm": 0.6034549339214793,
+      "nearestRef": "563632f7f238847f",
+      "nearestNet": "GND"
+    },
+    {
+      "ref": "TP5",
+      "kind": "newVia",
+      "layer": 1,
+      "clearanceMm": 1.5216752660410586,
+      "nearestRef": "12be3b04804cbc51",
+      "nearestNet": "5V_SCREEN"
+    },
+    {
+      "ref": "TP5",
+      "kind": "newVia",
+      "layer": 2,
+      "clearanceMm": 2.905782809067234,
+      "nearestRef": "1acf98f080465f19",
+      "nearestNet": "CHG_N"
+    },
+    {
+      "ref": "TP5",
+      "kind": "newVia",
+      "layer": 1,
+      "clearanceMm": 2.3559899774156,
+      "nearestRef": "R8.2",
+      "nearestNet": "GND"
+    },
+    {
+      "ref": "TP5",
+      "kind": "newVia",
+      "layer": 2,
+      "clearanceMm": 0.4892111603939976,
+      "nearestRef": "59c6f56fffd1529e",
+      "nearestNet": "SCREEN_RST"
+    },
+    {
+      "ref": "TP2",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP5",
+      "nearestNet": "USB_VBUS"
+    },
+    {
+      "ref": "TP2",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 0.6845513909379454,
+      "nearestRef": "941f7f18f607cc68",
+      "nearestNet": "BAT_PACK"
+    },
+    {
+      "ref": "TP2",
+      "kind": "branch",
+      "layer": 2,
+      "clearanceMm": 0.8459434728103766,
+      "nearestRef": "b0183053c84ccc67",
+      "nearestNet": "POWER_EN"
+    },
+    {
+      "ref": "TP1",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP2",
+      "nearestNet": "SYS_RAW"
+    },
+    {
+      "ref": "TP1",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 5.799999999999997,
+      "nearestRef": "TP2",
+      "nearestNet": "SYS_RAW"
+    },
+    {
+      "ref": "TP1",
+      "kind": "branch",
+      "layer": 2,
+      "clearanceMm": 6.75,
+      "nearestRef": "TP2",
+      "nearestNet": "SYS_RAW"
+    },
+    {
+      "ref": "TP6",
+      "kind": "TPpad",
+      "layer": 1,
+      "clearanceMm": 3.3319567672239696,
+      "nearestRef": "U3.4",
+      "nearestNet": ""
+    },
+    {
+      "ref": "TP6",
+      "kind": "TPpad",
+      "layer": 2,
+      "clearanceMm": 0.7091588999999949,
+      "nearestRef": "4de01c2391dbcd32",
+      "nearestNet": "BAT_PACK"
+    },
+    {
+      "ref": "TP6",
+      "kind": "branch",
+      "layer": 1,
+      "clearanceMm": 0.3995999999999995,
+      "nearestRef": "C6.1",
+      "nearestNet": "SYS_RAW"
+    }
+  ],
+  "minimumClearanceMm": 0.3995999999999995,
+  "passedAtQuarterMm": true,
+  "oldRoutes": {
+    "original536Preserved": true,
+    "note": "Original SCREEN_IO3V3 segment is already split into two collinear segments; preserve them. All original geometry must remain unchanged. Previously added 10 spur segments should be deleted, not the collinear pair."
+  },
+  "instructions": [
+    "TP7 and TP8 GND connect through top/bottom GND pours; refill both layers.",
+    "Use bare test pads without BOM/CPL fitted components.",
+    "Two new USB_VBUS vias plus 15 branch line segments; no other new vias required.",
+    "Do not use these thin branches as load power connectors; they are diagnostic measurement/test nodes.",
+    "Final DRC and exported-Gerber continuity/manufacturing verification remain required."
+  ]
+}

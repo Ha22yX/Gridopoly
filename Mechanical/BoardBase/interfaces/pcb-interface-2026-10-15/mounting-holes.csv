@@ -1,0 +1,9 @@
+﻿board,hole,x_mm,y_mm,diameter_mm,plated
+long,H1_TL,7.19099908,4.191,3.5,False
+long,H4_BL,7.19099908,75.83885264,3.5,False
+long,H3_BR,46.81499908,75.83885264,3.5,False
+long,H2_TR,46.81499908,4.191,3.5,False
+corner,H1_TL,3.99999962,3.99999962,3.5,False
+corner,H4_BL,3.99999962,76.0000004,3.5,False
+corner,H3_BR,76.0000004,76.0000004,3.5,False
+corner,H2_TR,76.0000004,3.99999962,3.5,False

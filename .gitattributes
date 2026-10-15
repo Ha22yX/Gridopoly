@@ -1,0 +1,7 @@
+# Preserve exact bytes in frozen delivery/evidence archives and their hash records.
+"PCB Files/PlayerConsolePower/Testpoints-2026-10-15/**" -text
+Mechanical/BoardBase/** -text
+Mechanical/PlayerConsoleStandV2/** -text
+"PCB Files/CornerModule/DC24-2026-09-21/input-bom-stock.csv" -text
+"PCB Files/CornerModule/DC24-2026-09-21/SyncRepair/**" -text
+"PCB Files/CornerModule/LayoutCandidate-2026-09-21/**" -text
