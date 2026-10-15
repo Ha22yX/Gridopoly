@@ -3,8 +3,8 @@ import hashlib,json,shutil
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[3]
-OLD=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60')
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED')
+OLD=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED')
 OUT.mkdir(parents=True,exist_ok=True)
 unchanged=['01_Connection_Plate_R2','03_Battery_Cradle_R2','04_Battery_Lid_R2','05_Spacer_6mm_R2']
 for name in unchanged:

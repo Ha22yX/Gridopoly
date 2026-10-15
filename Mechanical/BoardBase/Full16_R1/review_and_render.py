@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 from mathutils import Vector
 
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_BoardBase_Full16_R1')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1')
 ROOT=Path(__file__).resolve().parent
 scene=bpy.context.scene
 assert scene.name.startswith('Gridopoly Full16 R1')

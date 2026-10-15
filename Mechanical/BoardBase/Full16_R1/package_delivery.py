@@ -6,7 +6,7 @@ import shutil
 import zipfile
 
 ROOT=Path(__file__).resolve().parent
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_BoardBase_Full16_R1')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1')
 ZIP=OUT.with_suffix('.zip')
 
 

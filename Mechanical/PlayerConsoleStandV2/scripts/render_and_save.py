@@ -3,7 +3,7 @@ import bpy
 import json
 from mathutils import Vector
 scene=bpy.context.scene
-out='C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1/'
+out='Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/'
 cam=scene.camera
 def render(name,loc,target,scale):
     cam.location=loc

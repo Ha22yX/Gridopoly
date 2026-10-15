@@ -6,7 +6,7 @@ import zipfile
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1')
 shutil.copy2(ROOT/'README.md',OUT/'README.md')
 for name in ('verification-report.json','assembly-verification.json'):
     (ROOT/'outputs').mkdir(exist_ok=True)

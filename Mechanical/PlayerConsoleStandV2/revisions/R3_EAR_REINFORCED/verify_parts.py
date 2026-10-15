@@ -16,8 +16,8 @@ import zipfile
 
 HERE = Path(__file__).resolve().parent
 R2_SCRIPT = HERE.parent / "R2_FPC60/verify_parts.py"
-R2_OUT = Path("C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60")
-OUT = Path("C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED")
+R2_OUT = Path("Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60")
+OUT = Path("Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED")
 INTERFACE_PART = "02_Screen_Support_CW47_5_R3.stl"
 EXPECTED = {
     "01_Connection_Plate_R2.stl": (116., 111., 4.),

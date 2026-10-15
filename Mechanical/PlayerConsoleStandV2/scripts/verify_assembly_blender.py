@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from mathutils import Vector
 
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1')
 scene=bpy.context.scene
 assert scene.name.startswith('Player Stand V2 R1')
 keep=set(scene.objects)

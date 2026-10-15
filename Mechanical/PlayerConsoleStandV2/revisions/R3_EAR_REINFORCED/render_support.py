@@ -2,8 +2,8 @@
 import bpy,math
 from pathlib import Path
 from mathutils import Vector
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED')
-OLD=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED')
+OLD=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60')
 scene=bpy.context.scene
 keep=set(scene.objects)
 for s in list(bpy.data.scenes):

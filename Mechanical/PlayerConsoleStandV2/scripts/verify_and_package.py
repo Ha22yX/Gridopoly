@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[3]
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1')
 LEGACY=ROOT/'Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl'
 NS='http://schemas.microsoft.com/3dmanufacturing/core/2015/02'
 EXPECTED={

@@ -1,0 +1,145 @@
+{
+  "checked_utc": "2026-10-15T23:03:31.270960+00:00",
+  "status": "PASS",
+  "archived_file_count": 165,
+  "archived_bytes": 1756231888,
+  "initial_copy_sha256_verified": true,
+  "final_file_presence_and_size_check": true,
+  "document_local_links_checked": 119,
+  "broken_links": [],
+  "modified_python_syntax_checked": 30,
+  "regenerated_geometry": false,
+  "source_downloads_preserved": true,
+  "large_files_over_50_MiB": [
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_Working.blend",
+      "bytes": 291637113,
+      "MiB": 278.13,
+      "over_100_MiB": true,
+      "kind": "editable_working_checkpoint"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm.blend",
+      "bytes": 291626525,
+      "MiB": 278.12,
+      "over_100_MiB": true,
+      "kind": "editable_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.blend",
+      "bytes": 100255492,
+      "MiB": 95.61,
+      "over_100_MiB": false,
+      "kind": "editable_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.blend",
+      "bytes": 97199231,
+      "MiB": 92.7,
+      "over_100_MiB": false,
+      "kind": "editable_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.blend",
+      "bytes": 96913574,
+      "MiB": 92.42,
+      "over_100_MiB": false,
+      "kind": "editable_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.blend",
+      "bytes": 94381085,
+      "MiB": 90.01,
+      "over_100_MiB": false,
+      "kind": "editable_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.stl",
+      "bytes": 82581484,
+      "MiB": 78.76,
+      "over_100_MiB": false,
+      "kind": "print_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.stl",
+      "bytes": 77164884,
+      "MiB": 73.59,
+      "over_100_MiB": false,
+      "kind": "print_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.stl",
+      "bytes": 76853384,
+      "MiB": 73.29,
+      "over_100_MiB": false,
+      "kind": "print_model"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm_Print.zip",
+      "bytes": 75015620,
+      "MiB": 71.54,
+      "over_100_MiB": false,
+      "kind": "duplicate_print_bundle"
+    },
+    {
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.stl",
+      "bytes": 71636784,
+      "MiB": 68.32,
+      "over_100_MiB": false,
+      "kind": "print_model"
+    }
+  ],
+  "large_file_count_over_100_MiB": 2,
+  "selected_hashes_rechecked": {
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf": "7b0e46071d452e26ab985766fbfee0fd17e8bb84ea0c6ce7b47b5f6eaa25fa62",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip": "a53e49f96728a5a599b9d9f58acf080ced5d289ea7b18482faafa261bdc868d1",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip": "4853d19975a7ea492aa121c104e5aa4d5f8d5e2a55a0872389e01e3f5bc9ae82"
+  },
+  "git_index_modified": false,
+  "small_source_files_changed_this_archive": [
+    "Mechanical/BoardBase/Full16_R1/package_delivery.py",
+    "Mechanical/BoardBase/Full16_R1/prepare.py",
+    "Mechanical/BoardBase/Full16_R1/review_and_render.py",
+    "Mechanical/BoardBase/Full16_R1/verify_parts.py",
+    "Mechanical/BoardBase/scripts/package_fixture.py",
+    "Mechanical/BoardBase/scripts/prepare_fixture.py",
+    "Mechanical/PlayerConsoleStandV2/scripts/package_delivery.py",
+    "Mechanical/PlayerConsoleStandV2/scripts/prepare_model.py",
+    "Mechanical/PlayerConsoleStandV2/scripts/render_and_save.py",
+    "Mechanical/PlayerConsoleStandV2/scripts/verify_and_package.py",
+    "Mechanical/PlayerConsoleStandV2/scripts/verify_assembly_blender.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/package_delivery.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/prepare.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/render_views.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/verify_assembly.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/verify_parts.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/package_delivery.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/prepare.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/render_support.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/update_assembly.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/verify_ear_roots.py",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/verify_parts.py",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/edit_in_blender.py",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/inspect_blender.py",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/render_result.py",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/edit_2.py",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/edit_3.py",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/edit_5.py",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/save_individual_blend.py",
+    "Mechanical/README.md",
+    "Mechanical/PlayerTokens/README.md",
+    "Mechanical/BoardBase/README.md",
+    "Mechanical/BoardBase/Full16_R1/README.md",
+    "Mechanical/PlayerConsoleStandV2/README.md",
+    "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/README.md",
+    "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/README.md",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/README.md",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/README.md",
+    "Docs/mechanical/README.md",
+    "Mechanical/AGENTS.md",
+    "Mechanical/model-assets-inventory.json",
+    "Mechanical/model-path-updates.json",
+    "Mechanical/tools/consolidate_model_assets.py"
+  ],
+  "reference_photos_added": 3
+}

@@ -6,7 +6,7 @@ import math
 
 ROOT = Path(__file__).resolve().parents[1]
 INTERFACE = ROOT / 'interfaces/pcb-interface-2026-10-15/mechanical-interface.json'
-OUT = Path('C:/Users/kicof/Downloads/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY')
+OUT = Path('Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY')
 JOB_DIR = Path('C:/Users/kicof/AppData/Local/Temp/gridopoly-board-base')
 
 

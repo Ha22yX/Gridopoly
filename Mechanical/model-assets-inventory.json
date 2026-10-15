@@ -1,0 +1,1256 @@
+{
+  "created_utc": "2026-10-15T22:55:58.489380+00:00",
+  "project_root": "Z:/Files/我的项目/Gridopoly",
+  "status": "ALL_COPIED_BYTES_VERIFIED",
+  "source_files_preserved": true,
+  "source_and_target_sha256_verified": true,
+  "copied_file_count": 165,
+  "total_bytes": 1756231888,
+  "project_model_file_count": 81,
+  "entries": [
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\Corner_TEST_R0.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Corner_TEST_R0.stl",
+      "bytes": 199484,
+      "sha256": "2c8a67655607dd060a81acf65e2520f51412e7157c67da362a69b3b3dd95358c",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\fixture-config.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/fixture-config.json",
+      "bytes": 30878,
+      "sha256": "ec1f424306d77029349015964ffa38e24cd85de5e9b49e48d60f174d92bf7c11",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\fixture_assembled.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/fixture_assembled.png",
+      "bytes": 1685749,
+      "sha256": "83b42850de292dfed81fb6231cc08a588269a1d7eedf8cd696a62ab763face06",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\fixture_frame.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/fixture_frame.png",
+      "bytes": 1770868,
+      "sha256": "980806bdcf6799f367c75bc7c537fb5ef53a658afe7cab6587c5e021e96d31bb",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\Gridopoly_Corner_Test_R0.blend",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Gridopoly_Corner_Test_R0.blend",
+      "bytes": 357186,
+      "sha256": "21a463afe23663152ee4332993818ddb1b2ed486b48d42fd68d2485072196d4a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\Incoming_Long_TEST_R0.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Incoming_Long_TEST_R0.stl",
+      "bytes": 251984,
+      "sha256": "a176ea1e534bbde3d0b1f7bd6b011b2feb2b9c28767843e0e6a27c3d22986b85",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\Outgoing_Long_TEST_R0.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Outgoing_Long_TEST_R0.stl",
+      "bytes": 247884,
+      "sha256": "827c2f8145f8cc76a5e7d731fb7c0bc7e0e754b492480b9c84141aab2a504681",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\rebuild_in_blender.py",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/rebuild_in_blender.py",
+      "bytes": 26584,
+      "sha256": "ccebbedcf1feb8f2cf2c8414dc1e3824baa663fb3c2d7bb1dc92d08c10d9c2df",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R0\\SUPERSEDED_DO_NOT_PRINT.txt",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/SUPERSEDED_DO_NOT_PRINT.txt",
+      "bytes": 200,
+      "sha256": "9f8f9c7bd034bcaa0a2ea590116bc9a0c83f6205edee6f40b5e6b7d68bfe4a59",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\assembly-verification.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/assembly-verification.json",
+      "bytes": 688,
+      "sha256": "67d7d70aad05aee0285193769619c42ba039afecf2b2e88fba27170f7b087868",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\design-requirements.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/design-requirements.json",
+      "bytes": 17543,
+      "sha256": "f1967e2acf8b36905d5f555835f43684fa7f12b16a7e891d5cf4784d248ef696",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\fixture-config.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/fixture-config.json",
+      "bytes": 30210,
+      "sha256": "ab02547a624eb83a86677e8c655e6b023bef566b8b32347ff67e6d1af16aed98",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\fixture_assembled.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/fixture_assembled.png",
+      "bytes": 1937723,
+      "sha256": "e7ad58b6cb3b985094ab02a48a0bb3c8fde5e8dce8352327e1228ce6ae7a3fe4",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\fixture_frame.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/fixture_frame.png",
+      "bytes": 1926081,
+      "sha256": "4fc7ef65bc75c2184946beb8fe6df4f8b71f663b4ecf835c928fad8b53dd071b",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\Gridopoly_OnePiece_Corner_Test_R1.blend",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/Gridopoly_OnePiece_Corner_Test_R1.blend",
+      "bytes": 286620,
+      "sha256": "a9b8c102589e0cb4d233814ca69f34fc2eb72dbd6f7001836f1cfe42b2e3bf9f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\Gridopoly_OnePiece_Corner_Test_R1.blend1",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/Gridopoly_OnePiece_Corner_Test_R1.blend1",
+      "bytes": 281949,
+      "sha256": "b8a4b2dd2765e343ede2fbbfa0736c3879ef52fa203483a1b98192d235fb85ff",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\ONE_PIECE_Corner_Test_R1.3mf",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/ONE_PIECE_Corner_Test_R1.3mf",
+      "bytes": 82441,
+      "sha256": "d2721dd2fb06c4688fc621c5e2c406653f9115147f07c75fa286b5add2c04c1d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\ONE_PIECE_Corner_Test_R1.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/ONE_PIECE_Corner_Test_R1.stl",
+      "bytes": 425884,
+      "sha256": "fb8c6e1b987478771bbd27c255cae1c9e668b2d7e42ed19ebb302bd96fb8a7c2",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\README.md",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/README.md",
+      "bytes": 8051,
+      "sha256": "f286cdc5fb4f4738494fa6258f4a78f03cf60049cf2dc2bb24cb915b18105a9e",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\rebuild_in_blender.py",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/rebuild_in_blender.py",
+      "bytes": 25536,
+      "sha256": "6b35d99f21b5fc9cd020d67448621613102ffc9110383b300ce7a8080e6047fa",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\SHA256SUMS.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/SHA256SUMS.json",
+      "bytes": 1084,
+      "sha256": "cf509a6b1b6b2673eb6b191e8e4bff90ce2ff4f2252465b4b1e98c418f86a989",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE\\verification-report.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/verification-report.json",
+      "bytes": 1632,
+      "sha256": "97fccc58b089f80bab8e86582a34dc6714d893a28e561140a3bc56629a46acf5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R1_ONE_PIECE.zip",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE.zip",
+      "bytes": 4352337,
+      "sha256": "8d6a59e3a01f885754a46b13a5fb6720e6999af3eebf21adb37b850b7acf4590",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\assembly-verification.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/assembly-verification.json",
+      "bytes": 1157,
+      "sha256": "192b86092820315be63535eac717ed5dd5b2b700d87beae853b87be4af4651f4",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\design-requirements.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/design-requirements.json",
+      "bytes": 23770,
+      "sha256": "2382389284fbb01053d57326f123eb1a882e2271c238531d58e3fa55f4273e74",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\fixture-config.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/fixture-config.json",
+      "bytes": 30576,
+      "sha256": "64e07044bb3c576a4bee1b6bdab77cce5cc47a6fa0c82e64699b5ff30b4fa5ab",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\fixture_assembled.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/fixture_assembled.png",
+      "bytes": 1937748,
+      "sha256": "2f955560c8e463b8478fefe8c9c1aa633de3f3712f3b8768f1024e9be32a33d4",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\fixture_frame.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/fixture_frame.png",
+      "bytes": 1926599,
+      "sha256": "3c4e469dcacdf716ce32a61b26e4d836a79800cb2ba2fd1f54a80f4083f1c674",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\Gridopoly_OnePiece_Corner_Test_R2.blend",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Gridopoly_OnePiece_Corner_Test_R2.blend",
+      "bytes": 438752,
+      "sha256": "b9556052e15f8921402f2a00444cebb181765805f9cdf05ce2046b7bfe3632c7",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\mounting_post_section.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/mounting_post_section.png",
+      "bytes": 1185128,
+      "sha256": "24b14d1b756326d533e3bcd1c44a0b00a0c2c59e442e54776ce049f33a56ef57",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\ONE_PIECE_Corner_Test_R2.3mf",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.3mf",
+      "bytes": 95770,
+      "sha256": "6368145f7cc50e049c4edf11f4377d656fe494df8a0eb85ac8d419c6830deeb5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\ONE_PIECE_Corner_Test_R2.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.stl",
+      "bytes": 494284,
+      "sha256": "73fc697ded0568f2a538dded4f091c5967b1cf053c343de166dee7ebb6297d9f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\README.md",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/README.md",
+      "bytes": 9269,
+      "sha256": "7841e909febc3176a8542e93221be277cc5d75bd248605418920b81791b365bd",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\rebuild_in_blender.py",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/rebuild_in_blender.py",
+      "bytes": 28315,
+      "sha256": "ab5acebd7f75c9d62910143002481c2627f7670d6ecad86dd5ed61eacc6b4009",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\Screw_Fit_Coupon_R2.3mf",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.3mf",
+      "bytes": 26276,
+      "sha256": "f160631df9fb9c53ce6ea82db6180daaaa2e63ea0c959f56bc7cd7a226ea5597",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\Screw_Fit_Coupon_R2.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.stl",
+      "bytes": 136484,
+      "sha256": "4f19f79d58d9124505dd8d37754cbd30c40eaa931a4a7d507335d1b5a5051da2",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\SHA256SUMS.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/SHA256SUMS.json",
+      "bytes": 1380,
+      "sha256": "8cb83a662fe64155b43c49cf4f5b9aa50ae0f4bdedc65361439625e2c8bd624d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY\\verification-report.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/verification-report.json",
+      "bytes": 3586,
+      "sha256": "cdd1e5f1d825459fc534608355b55acbe9d41063fa247748e345e04093e5262a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY.zip",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY.zip",
+      "bytes": 5771173,
+      "sha256": "1425196f800cab817e5808024a9fc37e459edca9d0b05c211d2756c8c8ab7d13",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\01_full_frame.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_full_frame.png",
+      "bytes": 2333398,
+      "sha256": "596deabc3ac8fa6ce20f10417fc2691f4953da58f549e9cab1e4a02f58ead6cd",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\01_L_Quarter_PRINT_4.3mf",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.3mf",
+      "bytes": 175147,
+      "sha256": "1d004ec0b2ae1b9a626360e9ce32b7dfa269359f475b38445505068f08f5c262",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\01_L_Quarter_PRINT_4.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.stl",
+      "bytes": 815984,
+      "sha256": "106204a6cd02ce4a5727619349d61e098255bf33e9c3a49b69b928ba2743c1ae",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\02_Splice_Bridge_PRINT_8.3mf",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.3mf",
+      "bytes": 13880,
+      "sha256": "0b784b5ecf0e42a4fb260ac91f4b76f2ef63c70a97c97a3b8dfc66f4c62b0487",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\02_Splice_Bridge_PRINT_8.stl",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.stl",
+      "bytes": 65884,
+      "sha256": "9763a895a197c22dbeddb6dc0c550ef8c82876e63e657784e4e440839dad4bbc",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\02_with_16_pcbs_reference.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_with_16_pcbs_reference.png",
+      "bytes": 2412437,
+      "sha256": "fcee1883ec910b0ad31875063a399aa9d5c569d87fafff3a9adc088519eb2dc6",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\03_top_layout.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/03_top_layout.png",
+      "bytes": 2401107,
+      "sha256": "ffb7ad46197686f0baa834c3f3c08533c45de76c8c0cb0c02dbd11494e40d0e3",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\04_single_quarter_print_4.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/04_single_quarter_print_4.png",
+      "bytes": 2234021,
+      "sha256": "ca977a04a3aadb81893f26002fae4e65340c0b35ec92733acb72781c03c1339f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\05_joint_detail.png",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/05_joint_detail.png",
+      "bytes": 2333886,
+      "sha256": "831bce5e6b9ec6ffcb3ea5cfdec14fbe04662c213b86130c5ea923996293e9ae",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\assembly-verification.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/assembly-verification.json",
+      "bytes": 2235,
+      "sha256": "5be6c425fccaeba1ffcb9d80cf8d7aa61e1c41ac8f024ccd9ebef34b84b84d31",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\config.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/config.json",
+      "bytes": 42853,
+      "sha256": "262dd1010271e45e3f72390756a5219f936ab45c59081e333899ff2c5e3c716d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\delivery-manifest.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/delivery-manifest.json",
+      "bytes": 2715,
+      "sha256": "dc33c2eae4af37c544e1ac1635210671cf679bb77e38b76e1783f135c2b24481",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\Gridopoly_Full16_R1.blend",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend",
+      "bytes": 1439187,
+      "sha256": "971482bc4a05ce069b694f12cf9df1cb3ea41e4196af2751689a8a4d96d4085a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\Gridopoly_Full16_R1.blend1",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend1",
+      "bytes": 1550697,
+      "sha256": "353c331f5b902aefbe9c2b2f8992dd2bc7ca1197f9601d0bdc06a058acaa6570",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\layout-audit.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/layout-audit.json",
+      "bytes": 36739,
+      "sha256": "bd9fbbaf6ff478452310ccfbd3be5772a8df27cfaab049619fb0efb7b4a0f12f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\parts-verification.json",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/parts-verification.json",
+      "bytes": 10059,
+      "sha256": "20f27c70b166aec6785958f07b1fc7f26db1ca03e35076464a147ad813510480",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\README.md",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/README.md",
+      "bytes": 6347,
+      "sha256": "2999029deabbd160b054c8172c39777173879b3f4b1d8bc851e04aca8679c4c2",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1\\rebuild_in_blender.py",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/rebuild_in_blender.py",
+      "bytes": 36788,
+      "sha256": "4da55557172370c2788324c3c6f358e6698e9fbf19f76a6ec919123e8cf946b8",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_BoardBase_Full16_R1.zip",
+      "project_path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip",
+      "bytes": 13574754,
+      "sha256": "4853d19975a7ea492aa121c104e5aa4d5f8d5e2a55a0872389e01e3f5bc9ae82",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\01_Assembly.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Assembly.png",
+      "bytes": 2321349,
+      "sha256": "38b7bdd8cc670c25e19ea68bf13e213ba9299d45b765c68cd03e0d27adc9294a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\01_Upper_CW47_5.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Upper_CW47_5.3mf",
+      "bytes": 71701,
+      "sha256": "2f7228be4ca2fb92588452e8101b510d5320989ca9c501c8488aab051cf69c9b",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\01_Upper_CW47_5.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Upper_CW47_5.stl",
+      "bytes": 270084,
+      "sha256": "0dad5e90b4163b498691e30f43b2be23ba1b10828f87f4243cc8568f16ca59ff",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\02_Battery_Tray.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Battery_Tray.3mf",
+      "bytes": 29084,
+      "sha256": "785c4d675a68230f90aa37ae7dc009a2efe64cf2828f53f62bb48704a2a8e099",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\02_Battery_Tray.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Battery_Tray.stl",
+      "bytes": 147184,
+      "sha256": "470f53ba9273ceb23d2b90dad0c6f6a2ffa3cba87065255fe4e4ae9d9240b3d9",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\02_Open_Battery.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Open_Battery.png",
+      "bytes": 2284882,
+      "sha256": "c32ec544cfb240f2610d93291bafcb888bdd85f633141f0996f8062e508f8aa8",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\03_Spacer_12mm.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_12mm.3mf",
+      "bytes": 5977,
+      "sha256": "62f131d5dc7d2d9010014e7acaf07cf718dd439f20d1756596a13044a3961727",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\03_Spacer_12mm.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_12mm.stl",
+      "bytes": 25684,
+      "sha256": "32f31514414d42e424a80d04def910a3f981e44aada8afbc624d65dcec655089",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\03_Spacer_8mm.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_8mm.3mf",
+      "bytes": 5963,
+      "sha256": "3b86de6b02e83dfbc898bd6651adff080286cac374c0f18016f3316f1f01c273",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\03_Spacer_8mm.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_8mm.stl",
+      "bytes": 25684,
+      "sha256": "324530ba9d6946fca351b98fa1605229472ed83909c443fb0c81b5df959633f2",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\03_Tray_Access.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Tray_Access.png",
+      "bytes": 2267966,
+      "sha256": "ddf364ddfce47739ba5ad7f6ded7760f8506241866020a6707ef0818a09bc2c2",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\04_PCB_Access.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/04_PCB_Access.png",
+      "bytes": 2196942,
+      "sha256": "84ac35db91edaaa49ceaedaed5e38965479cc866862f5e65e583221fc3fd46e5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\assembly-verification.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/assembly-verification.json",
+      "bytes": 64061,
+      "sha256": "9449acaa506b7a655f0373d58bc3b766f26aac4e1ec09a13733e0b612a4def82",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\design-parameters.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/design-parameters.json",
+      "bytes": 95565,
+      "sha256": "d7acdf94924ecf6a20441417298e9af1d575bcefc6086e1f73ca0fd4c1cd813a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\Gridopoly_Player_Stand_V2_R1.blend",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/Gridopoly_Player_Stand_V2_R1.blend",
+      "bytes": 347901,
+      "sha256": "b716cada32ea8d063c32fab474990aed99ea5532d960f18e7caae36e5e5425fa",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\Gridopoly_Player_Stand_V2_R1.blend1",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/Gridopoly_Player_Stand_V2_R1.blend1",
+      "bytes": 790879,
+      "sha256": "d509fbd48a870ea5f8bbc0c3f978b67f30edc98f97bb040df382f855189d7a05",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\manifest.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/manifest.json",
+      "bytes": 1838,
+      "sha256": "4efddc953f8e05d98721459ce5a255da1264af39ab24c1ad2808eb12d109541f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\README.md",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/README.md",
+      "bytes": 9224,
+      "sha256": "c642c7283630367552aa1d040b0dec168c0e5dfc99c3616b5ce7b0653dccfa8c",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1\\verification-report.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/verification-report.json",
+      "bytes": 10693,
+      "sha256": "4e74e1c009b933ca50a2c699c27ed83b7f0f9e2fdfc60498993878269b04d876",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R1.zip",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1.zip",
+      "bytes": 9702219,
+      "sha256": "6a990f137abd7e299e5a29c362010bede4b99bd517f83860a417cc16b2c16644",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\01_Connection_Plate_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.3mf",
+      "bytes": 22747,
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\01_Connection_Plate_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.stl",
+      "bytes": 112984,
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\02_Screen_Support_CW47_5_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.3mf",
+      "bytes": 67074,
+      "sha256": "ecbe837c7d8ce0c0b356e8fc676900825a3fee9ab8661dd71e28dd028697a43e",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\02_Screen_Support_CW47_5_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.stl",
+      "bytes": 245084,
+      "sha256": "11787f915adbf812320ce1327995a6526942aa8a832a906ebe291776f7c2d4e9",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\03_Battery_Cradle_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.3mf",
+      "bytes": 14542,
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\03_Battery_Cradle_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.stl",
+      "bytes": 69684,
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\04_Battery_Lid_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.3mf",
+      "bytes": 6370,
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\04_Battery_Lid_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.stl",
+      "bytes": 27084,
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\05_Spacer_6mm_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.3mf",
+      "bytes": 6001,
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\05_Spacer_6mm_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.stl",
+      "bytes": 25684,
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\assembly-verification.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/assembly-verification.json",
+      "bytes": 185575,
+      "sha256": "8862568a26e6589a54abb9c047c132d72c4bf8fb6b6fedcf5c152fbdecf1f148",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\delivery-manifest.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/delivery-manifest.json",
+      "bytes": 3598,
+      "sha256": "7f1327b897dfb25f7c656c3b656d14b7221760b235948ff1886d990e0255fab8",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\Gridopoly_Player_Stand_V2_R2_FPC60.blend",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/Gridopoly_Player_Stand_V2_R2_FPC60.blend",
+      "bytes": 373158,
+      "sha256": "a1022324e5d52d634e2b85313012ea524d453e8cb8d3b5f39efeddfdb2111bb0",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\parameters.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/parameters.json",
+      "bytes": 753144,
+      "sha256": "caf3bb4b742cc5240f1503fa828f0ffb5a2579b8bff0cdf9dd914f28f42de8ed",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\parts-verification.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/parts-verification.json",
+      "bytes": 18211,
+      "sha256": "291a4c760718e2a0fb66ced22368b6582dbb89a006f5a9cdfd2f9b517cadd076",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\preview-assembly.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-assembly.png",
+      "bytes": 2290790,
+      "sha256": "1787917957fe7db26e60a5f95199c45f7c291ddf09b0c91f0fe1dc2c6af90bad",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\preview-battery-exploded.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-battery-exploded.png",
+      "bytes": 2233224,
+      "sha256": "a196bf5a998d5edf25bf93520c17c956af33ccea8d013a6e7f76a616f32879ea",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\preview-fpc-route.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-fpc-route.png",
+      "bytes": 2367981,
+      "sha256": "22d5426386576f536ae70228c4cf1bdaae17c4b98f5c92b9bf0d3366e932af2e",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\preview-print-parts.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-print-parts.png",
+      "bytes": 2270900,
+      "sha256": "f561ce8efc39b04f9b24381da923a17c9699b7955cd4cade4466a2d6e341ff62",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\README.md",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/README.md",
+      "bytes": 6812,
+      "sha256": "03626ccd7b6248c4c595ab100d11fc0dd185d53b112fd9a930540a11d9a96714",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60.zip",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60.zip",
+      "bytes": 9923544,
+      "sha256": "e9423d0cfea4763f37fc5e61b87f293a546d00b152c9d93a735560699073b4d3",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\01_Connection_Plate_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.3mf",
+      "bytes": 22747,
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\01_Connection_Plate_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.stl",
+      "bytes": 112984,
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\02_Screen_Support_CW47_5_R3.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.3mf",
+      "bytes": 72048,
+      "sha256": "7e1650cada0f74a46c671af807b0863fdac632661b390337671e03be98d7dfe6",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\02_Screen_Support_CW47_5_R3.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.stl",
+      "bytes": 262884,
+      "sha256": "5dd8170bb763a626bd4563f1bf3350669010b70857196ac8b3be50718ec34061",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\03_Battery_Cradle_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.3mf",
+      "bytes": 14542,
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\03_Battery_Cradle_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.stl",
+      "bytes": 69684,
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\04_Battery_Lid_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.3mf",
+      "bytes": 6370,
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\04_Battery_Lid_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.stl",
+      "bytes": 27084,
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\05_Spacer_6mm_R2.3mf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.3mf",
+      "bytes": 6001,
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\05_Spacer_6mm_R2.stl",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.stl",
+      "bytes": 25684,
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\assembly-verification.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/assembly-verification.json",
+      "bytes": 185956,
+      "sha256": "b41cace3d9eef137a790d495bb0b5dab7ffbb106f315f3c42fa382fbef4a56b7",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\Assembly_Instructions_R2.md",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Assembly_Instructions_R2.md",
+      "bytes": 7181,
+      "sha256": "e4e9c8395168a32b973c28680d4a09da3590f602b6aed9f4849f281abd914c30",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\delivery-manifest.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/delivery-manifest.json",
+      "bytes": 4108,
+      "sha256": "19732f34acc9e144932c1b4a549b3734f044236fb1018228b2362833a528e204",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\ear-root-verification.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/ear-root-verification.json",
+      "bytes": 12789,
+      "sha256": "5dbe47f18682ae2fffb25b35c44d719e72cc62bf215b5f754e9a82b0d35e58b6",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend",
+      "bytes": 387497,
+      "sha256": "4cc5ed288e4d8527e9c07c260af5340676c656f1f0ffea721bf9fc1370858c91",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend1",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend1",
+      "bytes": 387499,
+      "sha256": "45770021b9674ff719ef7969d57c911b9fc35f7f5694fb0dfa1eeee6b54f9278",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\parameters.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/parameters.json",
+      "bytes": 1088,
+      "sha256": "c17caf7c222249a34a700218ab7a422fa295d48a70a9ef95b5b94164523e2e84",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\parts-verification.json",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/parts-verification.json",
+      "bytes": 21791,
+      "sha256": "e6d0f79282b1d9c43f029e9323fd1113087fc4d07878fa110ac097f2ea21ee6a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\preview-assembly.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-assembly.png",
+      "bytes": 996665,
+      "sha256": "995a2ff61a1f5e7ee45c298c2b0956f4f06be66a9caf497d5638e98c00f11f0b",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\preview-left-foot-R2-before.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-left-foot-R2-before.png",
+      "bytes": 1525808,
+      "sha256": "7613a96516e36ad9c089b6dfc94cb56012673097efe55251ed743dd719510093",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\preview-left-foot-R3-after.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-left-foot-R3-after.png",
+      "bytes": 1554573,
+      "sha256": "68e35d61ffb6707b179a1af239d06c14e7bf9a8f25c894453c9591c429a49955",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\preview-support-R3.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-support-R3.png",
+      "bytes": 1565252,
+      "sha256": "326b78bd6f847a878d26f8d7b330abf0ea60b8dc45ea22f350477a74474c73f1",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\preview-support-underside-R3.png",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-support-underside-R3.png",
+      "bytes": 1524605,
+      "sha256": "f79e81e12c85c54f6d5838d21675e000a8998b4f3d2dedeba9a15e7ec64c78a2",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\README.md",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/README.md",
+      "bytes": 4184,
+      "sha256": "bc9a9b3e37d7225b06c820be4543bba54e321f0bdc1ed41b64e9f8d9b20f86b8",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\Screen_Support_R3_Working.blend",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Screen_Support_R3_Working.blend",
+      "bytes": 3587843,
+      "sha256": "a703f3da6b33e03a24da8ce8fa01a95baf8eac5a541bf78cb99a4a88330f45b7",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\Screen_Support_R3_Working.blend1",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Screen_Support_R3_Working.blend1",
+      "bytes": 3481489,
+      "sha256": "2f052a43779fd3f5da64f496c19b5d908e554997ffb2e645e1198ba31a0881b5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip",
+      "project_path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip",
+      "bytes": 7844357,
+      "sha256": "a53e49f96728a5a599b9d9f58acf080ced5d289ea7b18482faafa261bdc868d1",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\Hi3D_30mm.3mf",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.3mf",
+      "bytes": 24883084,
+      "sha256": "cd8df7f6f857af53cdfa2d0352d94bffde3ae575c4d468db19d49f8a0a85d961",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\Hi3D_30mm.blend",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.blend",
+      "bytes": 96913574,
+      "sha256": "d33941b56a72365c68a8d3a14e89f2dd6611a3982209d1a27b804aad98f41901",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\Hi3D_30mm.stl",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.stl",
+      "bytes": 77164884,
+      "sha256": "081042eb3c2785793dc5ac910e28c21955c1761a3f301e11c4b115fb002ec813",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\Hi3D_30mm_bottom.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm_bottom.png",
+      "bytes": 818570,
+      "sha256": "61c0623bc53672b3114b1e55c4e95cce515edd866fd7b5d3a115b266a3b2d4b5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\Hi3D_30mm_preview.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm_preview.png",
+      "bytes": 1064341,
+      "sha256": "5a3e2513976bc7f6362ed201d22fcd48fe96775cd2dcc870ff0c6186d3416596",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\independent_mesh_check.json",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/independent_mesh_check.json",
+      "bytes": 1737,
+      "sha256": "a2f60d66d1ffcc35a19b89cec4b0d12e6ced85c0b3e15f9095a083d45be502de",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D_30mm\\README.md",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/README.md",
+      "bytes": 1826,
+      "sha256": "0bcab10af08025cdcb5f00b0be92dddb524918783cd2f5cff89f3c8ffb348fb6",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Beaver_30mm.3mf",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.3mf",
+      "bytes": 23624752,
+      "sha256": "c38fc6e85079771cca7e43fba87670b08048480d3638666d4bce9a94cf8687bc",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Beaver_30mm.blend",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.blend",
+      "bytes": 94381085,
+      "sha256": "6fbff3c7226b136d1de999457888ae61927be60fc79e8230ee1e95c993e3701a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Beaver_30mm.stl",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.stl",
+      "bytes": 71636784,
+      "sha256": "5c2d4add781f3aae6502cb48353999da7812408c88397366175775e4c4433a4b",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Beaver_30mm_bottom.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm_bottom.png",
+      "bytes": 534804,
+      "sha256": "5988a074dd1dbb695eb2d9fda5867a7a35fb3a799f8dd97a84490efad41786c7",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Beaver_30mm_mesh_check.json",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm_mesh_check.json",
+      "bytes": 1702,
+      "sha256": "db6c84cfb5da0977fc4225503ae9cf8285f817f8b159b4aee70d3dff02fdb043",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Beaver_30mm_preview.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm_preview.png",
+      "bytes": 767204,
+      "sha256": "0c7b1531eb4b95d9e29125f01e6405fb057f749eee3bd18804bcf2be101bbe8c",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Gridopoly_Three_Tokens_30mm.blend",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm.blend",
+      "bytes": 291626525,
+      "sha256": "4e5a7744efff247ea35c52c61f171248a790f83f5006724f6d091f2ddad6efcc",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Gridopoly_Three_Tokens_30mm_Print.zip",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm_Print.zip",
+      "bytes": 75015620,
+      "sha256": "43dc30ad909893703039c2ac500db09d7ea37badf564617e82196e1cf6928e4a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Gridopoly_Three_Tokens_Working.blend",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_Working.blend",
+      "bytes": 291637113,
+      "sha256": "cae06b5d829a2594c24921ee3a664e58ddf514a1d50670c8578aff2c899f8ad5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Owl_30mm.3mf",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.3mf",
+      "bytes": 26663487,
+      "sha256": "a7322b8b6c1e31a7c337a0bd213ef5da8668289b9b5b3a9aa9e4820bce0ffb8d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Owl_30mm.blend",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.blend",
+      "bytes": 100255492,
+      "sha256": "3ef35433416dac99ae3c4de9a4166fd8142b25f20d269bde6e0375a4d193780b",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Owl_30mm.stl",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.stl",
+      "bytes": 82581484,
+      "sha256": "d444832c9a14b66619986f540a36a94b226f2527ffa395ed8ecc5a517a932e68",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Owl_30mm_bottom.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm_bottom.png",
+      "bytes": 532659,
+      "sha256": "712127a871cb85febc2a35db5afe33566380135d346e2ba061f53a94e33195e5",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Owl_30mm_mesh_check.json",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm_mesh_check.json",
+      "bytes": 1700,
+      "sha256": "0a75a2fd8a2f0f56346f372e2a603dde23bef891db550cbcaa7a89ba25ed7f23",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Owl_30mm_preview.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm_preview.png",
+      "bytes": 781492,
+      "sha256": "4a52f1b74aa70eedaabfb91149e3f530c4b1c3f8a0850ea857db493cb6c4f114",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\README.md",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/README.md",
+      "bytes": 2043,
+      "sha256": "02b8a3363ff08b0540914b402e21f55b888895cbb10691d846445b158c0354dc",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Three_Tokens_Blender_Overview.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Three_Tokens_Blender_Overview.png",
+      "bytes": 248250,
+      "sha256": "0b00ebf025127d78b07107e5a947049953c97be4b6fac619de3e1b29e6c21b2a",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Turtle_30mm.3mf",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.3mf",
+      "bytes": 24719422,
+      "sha256": "c95dda7f1c87853978967184ba565159965af858dbe6c97f52cb46cf888933eb",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Turtle_30mm.blend",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.blend",
+      "bytes": 97199231,
+      "sha256": "fa5648fa9ba319ed6736cca676df4eabce7c857f2f4ceb07f241dc126d36ec03",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Turtle_30mm.stl",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.stl",
+      "bytes": 76853384,
+      "sha256": "a76d6a3d17dc3ed2e5b6aca5b8715eeacea33c0780582d960e2a15fb725bfa6e",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Turtle_30mm_bottom.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm_bottom.png",
+      "bytes": 533827,
+      "sha256": "9d673cc9cc5793d3974fa1deb46fdcd4ca97ffa8be25eee5ecf393ef7d7d1215",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Turtle_30mm_mesh_check.json",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm_mesh_check.json",
+      "bytes": 1702,
+      "sha256": "5da4b0f61055ded039d50cc6406cbbd8fd66a5a9590a4db822f1bae58b052e32",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_30mm_Remaining\\Turtle_30mm_preview.png",
+      "project_path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm_preview.png",
+      "bytes": 791227,
+      "sha256": "60e2404077d1b529adddec5a00187747341866bf7750cb80102d7a35c724a16d",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D.3mf",
+      "project_path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D.3mf",
+      "bytes": 32294751,
+      "sha256": "416b46176e5286be2bd3acf91db77569f91822ed1d717cf09cfcfcc5f2f263cc",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D(2).3mf",
+      "project_path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(2).3mf",
+      "bytes": 32710807,
+      "sha256": "235586cd28aad82d748cc284f6e259c2669dd8f0580619f9df076907f1b05c4f",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D(3).3mf",
+      "project_path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(3).3mf",
+      "bytes": 32644583,
+      "sha256": "62575e3c3da368eb3b6986e7e38ef3b59f7820c0a53c8f5e4e6657a91a90d360",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D(4).3mf",
+      "project_path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(4).3mf",
+      "bytes": 32644583,
+      "sha256": "62575e3c3da368eb3b6986e7e38ef3b59f7820c0a53c8f5e4e6657a91a90d360",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Hi3D(5).3mf",
+      "project_path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(5).3mf",
+      "bytes": 32852897,
+      "sha256": "978571ab7ef4ccfc18fcd85ddcfa71d06b8dce06815cfedd0559764a03ce5ca7",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf",
+      "project_path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf",
+      "bytes": 6156949,
+      "sha256": "7b0e46071d452e26ab985766fbfee0fd17e8bb84ea0c6ce7b47b5f6eaa25fa62",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\.codex\\codex-remote-attachments\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\890BC5E9-ACBC-4AC0-99E8-13FF07F7B8C9\\1-Photo-1.jpg",
+      "project_path": "Mechanical/BoardBase/references/fit-photos-2026-10-15/1-Photo-1.jpg",
+      "bytes": 1620992,
+      "sha256": "f85115661de8f383066eeb3fe09fb1bdfae20f8d742b988a217394024a764185",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\.codex\\codex-remote-attachments\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\890BC5E9-ACBC-4AC0-99E8-13FF07F7B8C9\\2-Photo-2.jpg",
+      "project_path": "Mechanical/BoardBase/references/fit-photos-2026-10-15/2-Photo-2.jpg",
+      "bytes": 1936301,
+      "sha256": "08aa048dd222cec92c4747712b8dac2572162c92a7b920503718ecfbdf41b516",
+      "action": "copied"
+    },
+    {
+      "source": "C:\\Users\\kicof\\.codex\\codex-remote-attachments\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\890BC5E9-ACBC-4AC0-99E8-13FF07F7B8C9\\3-Photo-3.jpg",
+      "project_path": "Mechanical/BoardBase/references/fit-photos-2026-10-15/3-Photo-3.jpg",
+      "bytes": 1172255,
+      "sha256": "472d23d647b460fc4478fd6c5d60d018dc17e1fa8aab6a2423fe5831819382eb",
+      "action": "copied"
+    }
+  ],
+  "existing_models": [
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.3mf",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.3mf",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend1",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Corner_TEST_R0.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Gridopoly_Corner_Test_R0.blend",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Incoming_Long_TEST_R0.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Outgoing_Long_TEST_R0.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/Gridopoly_OnePiece_Corner_Test_R1.blend",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/Gridopoly_OnePiece_Corner_Test_R1.blend1",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/ONE_PIECE_Corner_Test_R1.3mf",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/ONE_PIECE_Corner_Test_R1.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Gridopoly_OnePiece_Corner_Test_R2.blend",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.3mf",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.stl",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.3mf",
+    "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.blend",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW50.blend",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW50.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_M4_Pin_Down.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.blend",
+    "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.blend1",
+    "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Upper_CW47_5.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Upper_CW47_5.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Battery_Tray.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Battery_Tray.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_12mm.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_12mm.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_8mm.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_8mm.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/Gridopoly_Player_Stand_V2_R1.blend",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/Gridopoly_Player_Stand_V2_R1.blend1",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/Gridopoly_Player_Stand_V2_R2_FPC60.blend",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.3mf",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.stl",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend1",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Screen_Support_R3_Working.blend",
+    "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Screen_Support_R3_Working.blend1",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.3mf",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.blend",
+    "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.stl",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.3mf",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.blend",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.stl",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm.blend",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_Working.blend",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.3mf",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.blend",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.stl",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.3mf",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.blend",
+    "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.stl",
+    "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(2).3mf",
+    "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(3).3mf",
+    "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(4).3mf",
+    "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(5).3mf",
+    "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D.3mf"
+  ],
+  "notes": [
+    "Historical manifests retain their original paths as provenance.",
+    "Blender .blend1 files are retained for recovery, not designated printing releases.",
+    "No geometry, frozen ZIP, electrical design or physical-validation status was changed."
+  ],
+  "updated_utc": "2026-10-15T23:03:31.270960+00:00"
+}

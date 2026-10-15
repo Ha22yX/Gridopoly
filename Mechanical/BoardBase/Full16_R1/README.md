@@ -6,16 +6,18 @@
 
 ## 打印哪些文件
 
-交付目录：`C:/Users/kicof/Downloads/Gridopoly_BoardBase_Full16_R1/`。
+项目内交付目录：Gridopoly_BoardBase_Full16_R1（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1`）；完整归档ZIP（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip`）。实际位置为 `Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/`。后续打印模型、可编辑工程和装配资料也应保存在项目内，Downloads仅作为可选分发副本。冻结包中的旧路径保留用于追溯生成过程。
 
 | 文件 | 数量 | 名义尺寸 |
 |---|---:|---|
-| `01_L_Quarter_PRINT_4.stl` 或同名 `.3mf` | 4 | 171.35×234.35×16.8 mm |
-| `02_Splice_Bridge_PRINT_8.stl` 或同名 `.3mf` | 8 | 20×36×3 mm |
+| L形主件：3MF（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.3mf`） / STL（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.stl`） | 4 | 171.35×234.35×16.8 mm |
+| 连接片：3MF（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.3mf`） / STL（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.stl`） | 8 | 20×36×3 mm |
 
 两种格式二选一，避免重复导入。每个3MF只包含一个零件的毫米几何，**没有打印机、耗材或切片预设**。四个L主件完全相同，仅在装配时依次旋转90°；每块固定一角三长。八片连接片也完全相同，每条拼接缝内外各一片。
 
-`Gridopoly_Full16_R1.blend`为可编辑装配场景；其中PCB、螺钉和垫片只是参考对象，不打印。五张图片依次为 `01_full_frame.png`、`02_with_16_pcbs_reference.png`、`03_top_layout.png`、`04_single_quarter_print_4.png`、`05_joint_detail.png`，用于核对总装、方向、单件及接头。
+Gridopoly_Full16_R1.blend（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend`）为可编辑装配场景；其中PCB、螺钉和垫片只是参考对象，不打印。五张图片依次为 总框架（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_full_frame.png`）、装板参考（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_with_16_pcbs_reference.png`）、顶视布局（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/03_top_layout.png`）、单个主件（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/04_single_quarter_print_4.png`）、拼接处（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/05_joint_detail.png`），用于核对总装、方向、单件及接头。
+
+已实装的三模块R2及历史R0/R1入口见[底板版本索引](../README.md#项目内模型与历史归档)。R0、R1只保留作历史记录；本Full16 R1虽沿用R2孔位与结构基线，完整16模块仍待实装。
 
 ## 尺寸与紧固件
 

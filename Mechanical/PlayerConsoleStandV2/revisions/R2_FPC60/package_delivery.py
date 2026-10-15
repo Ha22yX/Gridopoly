@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,hashlib,shutil,zipfile
 ROOT=Path(__file__).resolve().parent
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60')
 parts=json.loads((OUT/'parts-verification.json').read_text(encoding='utf-8'))
 assembly=json.loads((OUT/'assembly-verification.json').read_text(encoding='utf-8'))
 assert parts['pass']

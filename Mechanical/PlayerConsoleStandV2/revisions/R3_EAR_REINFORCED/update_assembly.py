@@ -3,7 +3,7 @@ import bpy,json
 from pathlib import Path
 from mathutils import Vector
 HERE=Path(__file__).resolve().parent
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED')
 scene=bpy.context.scene
 assert scene.name.startswith('Player Stand V2 R2')
 old=next(o for o in scene.objects if o.name.startswith('R2_02_'))

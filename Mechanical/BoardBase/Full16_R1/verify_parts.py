@@ -17,7 +17,7 @@ import zipfile
 
 
 ROOT = Path(__file__).resolve().parent
-OUT = Path('C:/Users/kicof/Downloads/Gridopoly_BoardBase_Full16_R1')
+OUT = Path('Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1')
 REVISION = 'FULL16_R1'
 NS = 'http://schemas.microsoft.com/3dmanufacturing/core/2015/02'
 PARTS = (

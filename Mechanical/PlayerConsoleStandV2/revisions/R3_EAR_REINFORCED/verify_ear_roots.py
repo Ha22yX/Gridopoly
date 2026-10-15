@@ -19,7 +19,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[3]
-DOWNLOADS = Path('C:/Users/kicof/Downloads')
+DELIVERABLES = REPO / 'Mechanical/PlayerConsoleStandV2/deliverables'
 
 
 def load_stl(path):
@@ -170,8 +170,8 @@ def hole_audit(part, xy):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--old', type=Path, default=DOWNLOADS/'Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.stl')
-    parser.add_argument('--new', type=Path, default=DOWNLOADS/'Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.stl')
+    parser.add_argument('--old', type=Path, default=DELIVERABLES/'Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.stl')
+    parser.add_argument('--new', type=Path, default=DELIVERABLES/'Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.stl')
     parser.add_argument('--legacy', type=Path, default=REPO/'Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl')
     parser.add_argument('--report', type=Path, default=ROOT/'outputs/ear-root-verification.json')
     parser.add_argument('--steps', type=int, default=12000)

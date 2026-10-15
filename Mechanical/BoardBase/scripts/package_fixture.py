@@ -9,7 +9,7 @@ import zipfile
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = Path('C:/Users/kicof/Downloads/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY')
+OUT = Path('Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY')
 NS = 'http://schemas.microsoft.com/3dmanufacturing/core/2015/02'
 
 

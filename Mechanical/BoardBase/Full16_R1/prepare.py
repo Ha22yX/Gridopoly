@@ -6,7 +6,7 @@ import json
 
 ROOT = Path(__file__).resolve().parent
 BASE = ROOT.parent
-OUT = Path('C:/Users/kicof/Downloads/Gridopoly_BoardBase_Full16_R1')
+OUT = Path('Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1')
 JOB = Path('C:/Users/kicof/AppData/Local/Temp/gridopoly-board16')
 
 
@@ -45,7 +45,7 @@ def main():
         bridges_canonical=[{'xy':[92,210.5],'rotation_deg':0},{'xy':[-12,210.5],'rotation_deg':0}],
         h2d_single_nozzle_build_mm=[325,320,325],
         h2d_source='https://cdn1.bambulab.com/documentation/h2d/en/H2D_Laser_Full_Combo_20250305.pdf',
-        source_photos=[f'C:/Users/kicof/.codex/codex-remote-attachments/01a0f687-eeae-7d61-bbbb-cbb5a98a7b33/890BC5E9-ACBC-4AC0-99E8-13FF07F7B8C9/{n}-Photo-{n}.jpg' for n in (1,2,3)])
+        source_photos=[(BASE/'references/fit-photos-2026-10-15'/f'{n}-Photo-{n}.jpg').as_posix() for n in (1,2,3)])
     fourth = copy.deepcopy(cfg['boards'][2])
     fourth['name']='Outgoing_Long_2'
     fourth['outline']=[[x,y+63] for x,y in fourth['outline']]

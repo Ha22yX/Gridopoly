@@ -3,7 +3,7 @@ import bpy,bmesh,json,math
 from pathlib import Path
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60')
 scene=bpy.context.scene
 assert scene.name.startswith('Player Stand V2 R2')
 keep=set(scene.objects)

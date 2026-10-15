@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 PROJECT=ROOT.parents[3]
 V2=ROOT.parents[1]
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60')
 TEMP=Path('C:/Users/kicof/AppData/Local/Temp/gridopoly-player-stand-r2')
 for p in (OUT,TEMP,ROOT/'outputs'):p.mkdir(parents=True,exist_ok=True)
 route=json.loads((ROOT/'route/fpc60-route.json').read_text(encoding='utf-8'))

@@ -1,0 +1,10 @@
+{
+  "pdf": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf",
+  "pages": 6,
+  "bytes": 6156949,
+  "sha256": "7b0e46071d452e26ab985766fbfee0fd17e8bb84ea0c6ce7b47b5f6eaa25fa62",
+  "page_size": "A4",
+  "visual_review": "All six pages rendered and inspected; page 5 ring label refined after independent review",
+  "sources": "Frozen R3 assembly; no geometry or existing ZIP modification",
+  "limitations": "Illustrated assembly reference; physical assembly and FPC contact orientation remain unverified"
+}

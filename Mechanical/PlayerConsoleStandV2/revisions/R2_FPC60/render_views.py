@@ -2,7 +2,7 @@
 import bpy
 from mathutils import Vector
 from pathlib import Path
-OUT=Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60')
+OUT=Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60')
 s=bpy.context.scene
 assert s.name.startswith('Player Stand V2 R2')
 s.render.resolution_percentage=100

@@ -17,9 +17,11 @@
 
 ## 需要打印哪个文件
 
-下载目录：`C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/`。
+项目交付目录：Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED`）。可直接打开完整 Blender 装配（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend`）或下载归档 ZIP（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip`）。
 
-- **只替换一件：`02_Screen_Support_CW47_5_R3.3mf`或同名STL，数量1。**外形74×50×41.8645mm。
+图文装配参考：[6 页中文 PDF](assembly_guide/Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf)。PDF 与本次模型均已保存项目内，原下载副本保留。
+
+- **只替换一件：02_Screen_Support_CW47_5_R3.3mf（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.3mf`）或同名STL，数量1。**外形74×50×41.8645mm。
 - 01连接板、03电池仓、04仓盖、05隔柱与R2原文件逐字节相同；已经打印的无需重打。
 - `Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend`为完整可编辑装配；PCB、屏幕、电池、线缆及螺丝是参考件，不打印。
 - 3MF仅含毫米单位的单零件几何，不含打印机、耗材或支撑设置。按100%比例导入H2D，**平底脚朝下**，不要按装配斜面旋转贴床。

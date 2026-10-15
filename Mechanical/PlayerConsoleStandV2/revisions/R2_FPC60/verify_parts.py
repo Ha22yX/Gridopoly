@@ -18,7 +18,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
-OUT = Path("C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R2_FPC60")
+OUT = Path("Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60")
 LEGACY = ROOT / "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl"
 EXPECTED = {
     "01_Connection_Plate_R2.stl": (116., 111., 4.),

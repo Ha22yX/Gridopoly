@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-OUT = Path('C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1')
+OUT = Path('Z:/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1')
 TEMP = Path('C:/Users/kicof/AppData/Local/Temp/gridopoly-player-stand-v2')
 for p in (OUT, TEMP, ROOT/'outputs'):
     p.mkdir(parents=True, exist_ok=True)

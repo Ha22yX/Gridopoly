@@ -4,9 +4,20 @@
 
 2026-10-15，用户提供三张实装照片，确认原三模块角落底板“完美兼容”；同时明确中央留空，允许分成两块或四块打印后稳固拼合。本轮采用 **4 个相同 L 形主件＋8 片连接片**，保持原 R2 孔位、16 mm 板底高度与底面平整设计。每主件承载一角三长；完整环为四角十二长，每边含共享角落共五块。
 
-完整打印及装配说明见 [Full16_R1/README.md](Full16_R1/README.md)。输出目录为 `C:/Users/kicof/Downloads/Gridopoly_BoardBase_Full16_R1/`。主框 366 mm 见方，包含外侧连接耳的最大尺寸 406 mm 见方；每个主件 171.35 × 234.35 × 16.8 mm。中央名义 190 mm 见方开口，内侧连接耳局部伸入开口。
+完整打印及装配说明见 [Full16_R1/README.md](Full16_R1/README.md)。模型现存放在项目内的 Full16 R1 交付目录（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1`），可直接打开 L形主件3MF（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.3mf`）、连接片3MF（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.3mf`）、可编辑Blender工程（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend`）或完整归档ZIP（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip`）。主框 366 mm 见方，包含外侧连接耳的最大尺寸 406 mm 见方；每个主件 171.35 × 234.35 × 16.8 mm。中央名义 190 mm 见方开口，内侧连接耳局部伸入开口。
 
 三模块实装反馈与新整盘状态分别记录：**原角落首件配合已由用户确认；新整盘的长—长接缝、整圈闭合及拼接承载仍待实装**。历史 R2 检查报告保留其生成时的未打印标志，不回写成新的实测数据。以下为已通过角落试装的 R2 几何与紧固件基线。
+
+## 项目内模型与历史归档
+
+全部底板设计、打印文件、可编辑工程和说明应保存在 `Z:/Files/我的项目/Gridopoly/Mechanical/BoardBase/` 内；后续版本也按此规则保存，Downloads只作为可选分发副本。以下归档从原交付逐文件复制并核对，原模型、ZIP及冻结检查记录保持不变；包内旧Downloads路径仅记录当时的生成位置。
+
+| 版本 | 项目内入口 | 使用状态 |
+|---|---|---|
+| Full16 R1 | 目录（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1`） · ZIP（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip`） | 当前16模块方案；全环打印、试装及拼接承载待验证 |
+| 三模块R2 | 目录（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY`） · ZIP（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY.zip`） | 用户已确认角落实装兼容的基线 |
+| 三模块R1 | 历史目录（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE`） · 历史ZIP（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE.zip`） | 旧底面螺母槽方案，已被R2取代，不作为当前打印依据 |
+| R0 | 历史目录（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0`） | 已废弃的独立模块底座，不打印 |
 
 ## 三模块首件 R2 基线
 
@@ -16,13 +27,13 @@
 
 ## 交付文件
 
-输出目录：`C:/Users/kicof/Downloads/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/`
+项目内交付目录：Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY`）；完整归档ZIP（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY.zip`）。
 
 | 文件 | 用途 |
 |---|---|
-| `ONE_PIECE_Corner_Test_R2.3mf` / `.stl` | 整体底板打印模型，毫米单位、100% 比例；3MF 不含打印机或耗材预设 |
-| `Screw_Fit_Coupon_R2.3mf` / `.stl` | 可选的螺钉试孔片，先用实际 PLA 与螺钉选择孔径；不是单模块底座 |
-| `Gridopoly_OnePiece_Corner_Test_R2.blend` | 可编辑场景；默认仅显示打印底板，PCB 参考对象隐藏，可在 Outliner 中取消隐藏；参考对象不打印 |
+| 整体底板：3MF（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.3mf`） / STL（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.stl`） | 整体底板打印模型，毫米单位、100% 比例；3MF 不含打印机或耗材预设 |
+| 试孔片：3MF（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.3mf`） / STL（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.stl`） | 可选的螺钉试孔片，先用实际 PLA 与螺钉选择孔径；不是单模块底座 |
+| Gridopoly_OnePiece_Corner_Test_R2.blend（本地 `Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Gridopoly_OnePiece_Corner_Test_R2.blend`） | 可编辑场景；默认仅显示打印底板，PCB 参考对象隐藏，可在 Outliner 中取消隐藏；参考对象不打印 |
 | `fixture_frame.png` / `fixture_assembled.png` | 底板及装板示意 |
 | `mounting_post_section.png` | 实际模型柱截面，说明顶开盲孔和实心底部；仅供查看 |
 | `fixture-config.json` / `rebuild_in_blender.py` | 参数及重建来源；重建时新建 R2 场景，保留原有 R1 场景 |
