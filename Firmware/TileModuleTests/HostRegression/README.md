@@ -46,3 +46,15 @@ ctest --test-dir C:/GridopolyBuilds/tile-native -C Debug --output-on-failure
 The normal ESP32 build remains required before deploying firmware.
 Debug is sufficient for these deterministic host checks and avoids the long
 MSVC Release optimization of the header-only decoder fixture.
+
+The WS2812 suite uses the production encoder, maintenance parser/state and
+transmission controller. It checks all byte values against the exact
+WS2812B-B-V6 timing table, GRB/MSB ordering across ten pixels, buffer bounds,
+dim single-channel/off commands, invalid input, permanent expiry across clock
+wrap, and rejection of an overlong serial line with an otherwise valid prefix.
+Fault injection covers wrong counter clock, initialization/write/completion
+errors, retained stop errors and refusal to retry after a failed transmission.
+The firmware-boundary suite also exercises the actual render path restoring
+the current movement scene after maintenance expires without changing the
+network snapshot. These checks do not measure GPIO21, the level shifter, DIN,
+LED current, or visible color. A driver completion is not optical acceptance.

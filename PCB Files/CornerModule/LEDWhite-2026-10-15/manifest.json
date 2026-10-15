@@ -1,0 +1,85 @@
+{
+  "recordDate": "2026-10-15",
+  "timeZone": "America/New_York",
+  "scope": "read-only archive and existing evidence review; no serial, hardware, PCB or firmware action",
+  "faultBoard": {
+    "port": "COM19",
+    "mac": "a4:cb:8f:c6:26:24",
+    "appPrefixReported": "761bd36f",
+    "stateReported": "white persists after complete power removal and independent USB restart; isolated"
+  },
+  "replacementReported": {
+    "port": "COM10",
+    "mac": "a4:cb:8f:c1:e1:34",
+    "stateAtHandoff": "PnP identified; awaiting candidate review/flash; not proof original board repaired"
+  },
+  "inputs": [
+    {
+      "path": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\PCB Files\\DesignAudit-2026-09-21\\corner-pinmap.json",
+      "sha256": "1e26e7473acc0d1a29885cfb3d5724b547254a793046d3b22c33537d6a847580",
+      "purpose": "archived design, not actual fitted BOM"
+    },
+    {
+      "path": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\PCB Files\\DesignAudit-2026-09-21\\long-pinmap.json",
+      "sha256": "3452d2539ff235183da6d4d956161690b68f97fadcbab81fc99906238295d4e0",
+      "purpose": "archived design, not actual fitted BOM"
+    },
+    {
+      "path": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\PCB Files\\CornerModule\\DC24-2026-09-21\\SyncRepair\\fixed-schematic.net",
+      "sha256": "63c47fe8e557dd2e07d68bb5b36063b73ed984224917a683a8f047caed304681",
+      "purpose": "archived design, not actual fitted BOM"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-COM19-serial.jsonl",
+      "sha256": "481f70f6adac4038a75f4eccd819bdeb96c48097a5540c00d21774ae0c9ac893",
+      "purpose": "existing telemetry; not calibrated instrument measurements"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-COM19-white-led-status.jsonl",
+      "sha256": "a720494572b848168f7a69d3b707a4e9ca002b279ff8e6a4783ceb57d0489d72",
+      "purpose": "existing telemetry; not calibrated instrument measurements"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-COM16-serial.jsonl",
+      "sha256": "b57e2928bd7b0305e7940bd2acf6e82b5b25a7e14fc71bd156df1b3c5bc99762",
+      "purpose": "existing telemetry; not calibrated instrument measurements"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-COM17-serial.jsonl",
+      "sha256": "bab5d4a86f1505e5bca9e4a83781dc1e8de34fb00620c5aee2cfa9ab93e3a3fe",
+      "purpose": "existing telemetry; not calibrated instrument measurements"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-COM18-serial.jsonl",
+      "sha256": "d6b3b4afb3d084a9ba7879f89ac8dc4d921a774a7b9dcdae4a4c2c28e6593821",
+      "purpose": "existing telemetry; not calibrated instrument measurements"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-COM19-white-led-capture.json",
+      "sha256": "91011fb4e27100758387f7554fd59c711e88c61b404692aecd095ace6e4a56f8",
+      "purpose": "existing capture / identity metadata"
+    },
+    {
+      "path": "C:\\Users\\kicof\\AppData\\Local\\GridopolyTileTools\\trial-16-20261015\\batch02-corner-identity.json",
+      "sha256": "b0490257648a4bc3b1582e3a9c26d1e9a98375c806382bbdffccf68564754fd8",
+      "purpose": "existing capture / identity metadata"
+    }
+  ],
+  "manufacturerSources": [
+    {
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20251224/2F6ED8FFFF9D3044AED3CCAA3E4BF0D9.pdf",
+      "file": "WS2812B-B-V6-manufacturer.pdf",
+      "keyPage": 4,
+      "sha256": "a3fd8855415d1f94e099c18d8b781ead6c1e3bf5a3b146895f91a77eb63ec14e"
+    },
+    {
+      "url": "https://assets.nexperia.com/documents/data-sheet/74HC_HCT125.pdf",
+      "keyPage": 3,
+      "access": "read through web tool; direct local download returned HTTP 403; no local PDF claimed"
+    }
+  ],
+  "report": {
+    "path": "../../../Docs/hardware/corner-led-white-2026-10-15.md",
+    "sha256": "f02b2b95653b12a0f754e7d8e46875b04594f39dc8bd9dc318761f5b234e49c9"
+  }
+}

@@ -1,0 +1,398 @@
+{
+  "batch02-COM19-serial.jsonl": {
+    "samples": [
+      {
+        "epochMs": 1792039524913,
+        "rawLine": "[POWER] 4.105V 609.0mA 2.500W peak=649.5mA",
+        "voltageV": 4.105,
+        "currentmA": 609.0,
+        "powerW": 2.5,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039530062,
+        "rawLine": "[POWER] 4.120V 591.3mA 2.438W peak=649.5mA",
+        "voltageV": 4.12,
+        "currentmA": 591.3,
+        "powerW": 2.438,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039535172,
+        "rawLine": "[POWER] 4.125V 591.5mA 2.440W peak=649.5mA",
+        "voltageV": 4.125,
+        "currentmA": 591.5,
+        "powerW": 2.44,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039540293,
+        "rawLine": "[POWER] 4.122V 592.3mA 2.443W peak=649.5mA",
+        "voltageV": 4.122,
+        "currentmA": 592.3,
+        "powerW": 2.443,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039545397,
+        "rawLine": "[POWER] 4.116V 592.5mA 2.440W peak=649.5mA",
+        "voltageV": 4.116,
+        "currentmA": 592.5,
+        "powerW": 2.44,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039550488,
+        "rawLine": "[POWER] 4.124V 592.5mA 2.443W peak=649.5mA",
+        "voltageV": 4.124,
+        "currentmA": 592.5,
+        "powerW": 2.443,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039555653,
+        "rawLine": "[POWER] 4.131V 592.5mA 2.447W peak=649.5mA",
+        "voltageV": 4.131,
+        "currentmA": 592.5,
+        "powerW": 2.447,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039560785,
+        "rawLine": "[POWER] 4.122V 599.0mA 2.470W peak=649.5mA",
+        "voltageV": 4.122,
+        "currentmA": 599.0,
+        "powerW": 2.47,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039565969,
+        "rawLine": "[POWER] 4.130V 593.3mA 2.450W peak=649.5mA",
+        "voltageV": 4.13,
+        "currentmA": 593.3,
+        "powerW": 2.45,
+        "peakmA": 649.5
+      }
+    ],
+    "voltageRangeV": [
+      4.105,
+      4.131
+    ],
+    "currentRangemA": [
+      591.3,
+      609.0
+    ]
+  },
+  "batch02-COM19-white-led-status.jsonl": {
+    "samples": [
+      {
+        "epochMs": 1792039786498,
+        "rawLine": "[POWER] 4.071V 597.5mA 2.432W peak=649.5mA",
+        "voltageV": 4.071,
+        "currentmA": 597.5,
+        "powerW": 2.432,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039791467,
+        "rawLine": "[POWER] 4.054V 610.0mA 2.473W peak=649.5mA",
+        "voltageV": 4.054,
+        "currentmA": 610.0,
+        "powerW": 2.473,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039791686,
+        "rawLine": "[POWER] 4.061V 608.3mA 2.470W peak=649.5mA",
+        "voltageV": 4.061,
+        "currentmA": 608.3,
+        "powerW": 2.47,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039796840,
+        "rawLine": "[POWER] 4.080V 597.0mA 2.438W peak=649.5mA",
+        "voltageV": 4.08,
+        "currentmA": 597.0,
+        "powerW": 2.438,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039801902,
+        "rawLine": "[POWER] 4.071V 612.3mA 2.493W peak=649.5mA",
+        "voltageV": 4.071,
+        "currentmA": 612.3,
+        "powerW": 2.493,
+        "peakmA": 649.5
+      },
+      {
+        "epochMs": 1792039807000,
+        "rawLine": "[POWER] 4.077V 596.8mA 2.435W peak=649.5mA",
+        "voltageV": 4.077,
+        "currentmA": 596.8,
+        "powerW": 2.435,
+        "peakmA": 649.5
+      }
+    ],
+    "voltageRangeV": [
+      4.054,
+      4.08
+    ],
+    "currentRangemA": [
+      596.8,
+      612.3
+    ]
+  },
+  "batch02-COM16-serial.jsonl": {
+    "samples": [
+      {
+        "epochMs": 1792039524894,
+        "rawLine": "[POWER] 4.275V 123.8mA 0.530W peak=161.3mA",
+        "voltageV": 4.275,
+        "currentmA": 123.8,
+        "powerW": 0.53,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039530063,
+        "rawLine": "[POWER] 4.275V 130.8mA 0.558W peak=161.3mA",
+        "voltageV": 4.275,
+        "currentmA": 130.8,
+        "powerW": 0.558,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039535172,
+        "rawLine": "[POWER] 4.275V 139.3mA 0.595W peak=161.3mA",
+        "voltageV": 4.275,
+        "currentmA": 139.3,
+        "powerW": 0.595,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039540293,
+        "rawLine": "[POWER] 4.286V 136.5mA 0.585W peak=161.3mA",
+        "voltageV": 4.286,
+        "currentmA": 136.5,
+        "powerW": 0.585,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039545397,
+        "rawLine": "[POWER] 4.285V 125.0mA 0.538W peak=161.3mA",
+        "voltageV": 4.285,
+        "currentmA": 125.0,
+        "powerW": 0.538,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039550497,
+        "rawLine": "[POWER] 4.289V 125.0mA 0.535W peak=161.3mA",
+        "voltageV": 4.289,
+        "currentmA": 125.0,
+        "powerW": 0.535,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039555654,
+        "rawLine": "[POWER] 4.294V 132.5mA 0.570W peak=161.3mA",
+        "voltageV": 4.294,
+        "currentmA": 132.5,
+        "powerW": 0.57,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039560785,
+        "rawLine": "[POWER] 4.290V 140.8mA 0.605W peak=161.3mA",
+        "voltageV": 4.29,
+        "currentmA": 140.8,
+        "powerW": 0.605,
+        "peakmA": 161.3
+      },
+      {
+        "epochMs": 1792039565955,
+        "rawLine": "[POWER] 4.289V 135.5mA 0.582W peak=161.3mA",
+        "voltageV": 4.289,
+        "currentmA": 135.5,
+        "powerW": 0.582,
+        "peakmA": 161.3
+      }
+    ],
+    "voltageRangeV": [
+      4.275,
+      4.294
+    ],
+    "currentRangemA": [
+      123.8,
+      140.8
+    ]
+  },
+  "batch02-COM17-serial.jsonl": {
+    "samples": [
+      {
+        "epochMs": 1792039524872,
+        "rawLine": "[POWER] 4.240V 131.3mA 0.558W peak=166.5mA",
+        "voltageV": 4.24,
+        "currentmA": 131.3,
+        "powerW": 0.558,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039529985,
+        "rawLine": "[POWER] 4.251V 125.3mA 0.533W peak=166.5mA",
+        "voltageV": 4.251,
+        "currentmA": 125.3,
+        "powerW": 0.533,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039535135,
+        "rawLine": "[POWER] 4.251V 120.8mA 0.512W peak=166.5mA",
+        "voltageV": 4.251,
+        "currentmA": 120.8,
+        "powerW": 0.512,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039540264,
+        "rawLine": "[POWER] 4.254V 128.8mA 0.548W peak=166.5mA",
+        "voltageV": 4.254,
+        "currentmA": 128.8,
+        "powerW": 0.548,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039545387,
+        "rawLine": "[POWER] 4.253V 134.5mA 0.572W peak=166.5mA",
+        "voltageV": 4.253,
+        "currentmA": 134.5,
+        "powerW": 0.572,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039550489,
+        "rawLine": "[POWER] 4.255V 130.3mA 0.555W peak=166.5mA",
+        "voltageV": 4.255,
+        "currentmA": 130.3,
+        "powerW": 0.555,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039555654,
+        "rawLine": "[POWER] 4.261V 121.8mA 0.520W peak=166.5mA",
+        "voltageV": 4.261,
+        "currentmA": 121.8,
+        "powerW": 0.52,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039560785,
+        "rawLine": "[POWER] 4.256V 121.8mA 0.520W peak=166.5mA",
+        "voltageV": 4.256,
+        "currentmA": 121.8,
+        "powerW": 0.52,
+        "peakmA": 166.5
+      },
+      {
+        "epochMs": 1792039565955,
+        "rawLine": "[POWER] 4.259V 130.0mA 0.553W peak=166.5mA",
+        "voltageV": 4.259,
+        "currentmA": 130.0,
+        "powerW": 0.553,
+        "peakmA": 166.5
+      }
+    ],
+    "voltageRangeV": [
+      4.24,
+      4.261
+    ],
+    "currentRangemA": [
+      120.8,
+      134.5
+    ]
+  },
+  "batch02-COM18-serial.jsonl": {
+    "samples": [
+      {
+        "epochMs": 1792039530060,
+        "rawLine": "[POWER] 4.235V 126.0mA 0.533W peak=157.3mA",
+        "voltageV": 4.235,
+        "currentmA": 126.0,
+        "powerW": 0.533,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039530062,
+        "rawLine": "[POWER] 4.250V 114.8mA 0.488W peak=157.3mA",
+        "voltageV": 4.25,
+        "currentmA": 114.8,
+        "powerW": 0.488,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039535172,
+        "rawLine": "[POWER] 4.246V 110.8mA 0.470W peak=157.3mA",
+        "voltageV": 4.246,
+        "currentmA": 110.8,
+        "powerW": 0.47,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039540294,
+        "rawLine": "[POWER] 4.251V 113.3mA 0.482W peak=157.3mA",
+        "voltageV": 4.251,
+        "currentmA": 113.3,
+        "powerW": 0.482,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039545397,
+        "rawLine": "[POWER] 4.250V 117.3mA 0.498W peak=157.3mA",
+        "voltageV": 4.25,
+        "currentmA": 117.3,
+        "powerW": 0.498,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039550489,
+        "rawLine": "[POWER] 4.246V 125.3mA 0.533W peak=157.3mA",
+        "voltageV": 4.246,
+        "currentmA": 125.3,
+        "powerW": 0.533,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039555653,
+        "rawLine": "[POWER] 4.254V 113.8mA 0.485W peak=157.3mA",
+        "voltageV": 4.254,
+        "currentmA": 113.8,
+        "powerW": 0.485,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039560782,
+        "rawLine": "[POWER] 4.250V 110.8mA 0.472W peak=157.3mA",
+        "voltageV": 4.25,
+        "currentmA": 110.8,
+        "powerW": 0.472,
+        "peakmA": 157.3
+      },
+      {
+        "epochMs": 1792039565954,
+        "rawLine": "[POWER] 4.255V 113.3mA 0.482W peak=157.3mA",
+        "voltageV": 4.255,
+        "currentmA": 113.3,
+        "powerW": 0.482,
+        "peakmA": 157.3
+      }
+    ],
+    "voltageRangeV": [
+      4.235,
+      4.255
+    ],
+    "currentRangemA": [
+      110.8,
+      126.0
+    ]
+  }
+}

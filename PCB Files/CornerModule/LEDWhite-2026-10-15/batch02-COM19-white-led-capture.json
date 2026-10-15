@@ -1,0 +1,15 @@
+{
+  "startedUtc": "2026-10-15T04:49:46.282208+00:00",
+  "finishedUtc": "2026-10-15T04:50:11.702133+00:00",
+  "port": "COM19",
+  "expectedMac": "a4:cb:8f:c6:26:24",
+  "durationSeconds": 25,
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "reset": false,
+  "flashWrite": false,
+  "commands": [
+    "STATUS"
+  ]
+}

@@ -1,0 +1,3844 @@
+{
+  "corner": {
+    "R31": {
+      "uid": "gge101",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "407ab03d051fa677",
+        "Designator": "R31",
+        "Device": "63f0e412a8d115d3",
+        "Unique ID": "gge101",
+        "Footprint": "50abf6a702442fe0",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I350",
+        "LCSC Part Name": "10mΩ ±1% 2W",
+        "Supplier Part": "C346923",
+        "Manufacturer": "SEI(Stackpole Electronics Inc.)",
+        "Manufacturer Part": "CSSH2512FT10L0",
+        "Supplier Footprint": "2512",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/CSSH2512FT10L0/323589.html",
+        "Supplier": "LCSC",
+        "Type": "采样电阻",
+        "Value": "10mΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "2W",
+        "Temperature Coefficient": "±25ppm/℃",
+        "Description": "电阻类型:采样电阻;阻值:10mΩ;精度:±1%;功率:2W;温度系数:±25ppm/℃;",
+        "DeviceName": "CSSH2512FT10L0",
+        "FootprintName": "RES-SMD_L6.3-W3.2"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "5V_SELECTED"
+        },
+        "2": {
+          "name": "2",
+          "net": "5V_IN"
+        }
+      }
+    },
+    "R38": {
+      "uid": "gge121",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "c27e0a43264984ea",
+        "Designator": "R38",
+        "Device": "90779714b80e9d90",
+        "Unique ID": "gge121",
+        "Footprint": "9aa616540964aada",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I430",
+        "LCSC Part Name": "330Ω ±1% 100mW 厚膜电阻",
+        "Supplier Part": "C2933198",
+        "Manufacturer": "FOJAN(富捷)",
+        "Manufacturer Part": "FRC0603F3300TS",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/FRC0603F3300TS/3279300.html",
+        "Supplier": "LCSC",
+        "3D Model": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "R0603",
+        "3D Model Transform": "31.8897,63.7794,0,90,0,0,0,0,0",
+        "Type": "厚膜电阻",
+        "Value": "330Ω",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:330Ω;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+        "DeviceName": "FRC0603F3300TS",
+        "FootprintName": "R0603"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "LED_DATA_01"
+        },
+        "2": {
+          "name": "2",
+          "net": "LED_DATA_5V_RAW"
+        }
+      }
+    },
+    "TP1": {
+      "uid": "gge12",
+      "props": {
+        "Add into BOM": "no",
+        "Convert to PCB": "yes",
+        "Designator": "TP1",
+        "Symbol": "3a7a60a5aa720377",
+        "Device": "730d3efcefa26ff2",
+        "Unique ID": "gge12",
+        "Name": "5V_IN",
+        "Footprint": "ad4fe83f2a67a3ac",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I60",
+        "Manufacturer": "",
+        "Manufacturer Part": "",
+        "Supplier": "",
+        "Supplier Part": "",
+        "3D Model": "",
+        "3D Model Title": "",
+        "3D Model Transform": "",
+        "Description": "Test Point 测试点",
+        "DeviceName": "Test-Point",
+        "FootprintName": "Test-Point-0.5mm"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "5V_IN"
+        }
+      }
+    },
+    "U10": {
+      "uid": "gge100",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "94db35705c22ccdd",
+        "Designator": "U10",
+        "Device": "6f9de15eb975f8f8",
+        "Unique ID": "gge100",
+        "Footprint": "b4cbc9f0e25daf99",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I349",
+        "LCSC Part Name": "高侧/低侧测量双向电流/功率监视器，具有I²C兼容接口",
+        "Supplier Part": "C49851",
+        "Manufacturer": "TI(德州仪器)",
+        "Manufacturer Part": "INA226AIDGSR",
+        "Supplier Footprint": "VSSOP-10",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://www.ti.com/cn/lit/ds/symlink/ina226.pdf",
+        "Supplier": "LCSC",
+        "3D Model": "b42a31f9e1fa4643bc7ea573b9bba7ed|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "MSOP-10_L3.0-W3.0-H1.1-LS5.0-P0.50",
+        "3D Model Transform": "118.11,196.85,0,0,0,0,0,0,0",
+        "Number of Channels": "-",
+        "Vcm - Common Mode Voltage": "0V~36V",
+        "Gain": "-",
+        "Bandwidth": "-",
+        "Ib - Input Bias Current": "100pA",
+        "Vos - Input Offset Voltage": "2.5uV",
+        "Operating Temperature": "-40℃~+125℃",
+        "Differential Voltage": "±40V",
+        "Single Supply": "2.7V~5.5V",
+        "Dual Supply": "-",
+        "Quiescent Current": "330uA",
+        "Output Current": "-",
+        "Input Offset Voltage Drift(Vos TC)": "0.1uV/℃",
+        "Gain Error": "-",
+        "Slew Rate": "-",
+        "Common Mode Rejection Ratio (CMRR)": "140dB",
+        "Noise density(eN)": "-",
+        "Features": "可编程阈值告警；使能/关断功能；双向检测；数字输出接口；高边检测；低边检测；功率监控",
+        "Description": "放大器数:-;共模电压:0V~36V;增益:-;带宽(-3db):-;",
+        "DeviceName": "INA226AIDGSR",
+        "FootprintName": "MSOP-10_L3.0-W3.0-P0.50-LS5.0-BL"
+      },
+      "pins": {
+        "1": {
+          "name": "A1",
+          "net": "GND"
+        },
+        "2": {
+          "name": "A0",
+          "net": "GND"
+        },
+        "3": {
+          "name": "Alert",
+          "net": ""
+        },
+        "4": {
+          "name": "SDA",
+          "net": "CURRENT_SDA"
+        },
+        "5": {
+          "name": "SCL",
+          "net": "CURRENT_SCL"
+        },
+        "6": {
+          "name": "VS+",
+          "net": "3V3_SYS"
+        },
+        "7": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "8": {
+          "name": "VBUS",
+          "net": "5V_IN"
+        },
+        "9": {
+          "name": "VIN-",
+          "net": "5V_IN"
+        },
+        "10": {
+          "name": "VIN+",
+          "net": "5V_SELECTED"
+        }
+      }
+    },
+    "U12": {
+      "uid": "gge120",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U12",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I403",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_02"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_01"
+        }
+      }
+    },
+    "U13": {
+      "uid": "gge120_0",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U13",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_0",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I409",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_03"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_02"
+        }
+      }
+    },
+    "U14": {
+      "uid": "gge120_1",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U14",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_1",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I442",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_04"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_03"
+        }
+      }
+    },
+    "U15": {
+      "uid": "gge120_2",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U15",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_2",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I446",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_05"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_04"
+        }
+      }
+    },
+    "U16": {
+      "uid": "gge120_3",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U16",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_3",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I450",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_06"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_05"
+        }
+      }
+    },
+    "U17": {
+      "uid": "gge120_4",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U17",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_4",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I458",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_07"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_06"
+        }
+      }
+    },
+    "U18": {
+      "uid": "gge120_5",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U18",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_5",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I459",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_08"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_07"
+        }
+      }
+    },
+    "U19": {
+      "uid": "gge120_6",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U19",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_6",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I460",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_09"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_08"
+        }
+      }
+    },
+    "U20": {
+      "uid": "gge120_7",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U20",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_7",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I461",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_10"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_09"
+        }
+      }
+    },
+    "U21": {
+      "uid": "gge120_8",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U21",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_8",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I474",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": ""
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_10"
+        }
+      }
+    },
+    "U3": {
+      "uid": "gge16",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "3fc7e9928aa1f961",
+        "Designator": "U3",
+        "Device": "6c7251afb21578c5",
+        "Unique ID": "gge16",
+        "Footprint": "600e9154c43e6fda",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I71",
+        "LCSC Part Name": "不带固件 通用型Wi-Fi+低功耗蓝牙MCU模组",
+        "Supplier Part": "C2913202",
+        "Manufacturer": "ESPRESSIF(乐鑫)",
+        "Manufacturer Part": "ESP32-S3-WROOM-1-N16R8",
+        "Supplier Footprint": "SMD,25.5x18mm",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/ESP32-S3-WROOM-1-N16R8/3198300.html",
+        "Supplier": "LCSC",
+        "3D Model": "481f5bdfc076422c9bb3c23c3ada9c17|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "WIRELM-SMD_ESP32-S3-WROOM-1",
+        "3D Model Transform": "708.73866,1003.97437,0,0,0,0,0,143.7,0",
+        "Utilized IC / Part": "ESP32-S3R8",
+        "Interface Type": "I2C；GPIO；UART；SPI；USB；I2S",
+        "Value": "2.4GHz",
+        "Antenna Type": "板载PCB天线",
+        "Output Power": "20.5dBm",
+        "Voltage - Supply": "3V~3.6V",
+        "Receive  Current": "95mA",
+        "Send  Current": "355mA",
+        "Sensitivity": "-103.5dBm",
+        "Operating Temperature": "-40℃~+65℃",
+        "Description": "核心芯片:ESP32-S3R8;频率:2.4GHz;天线形式:板载PCB天线;发射功率:20.5dBm;接收灵敏度:-103.5dBm;",
+        "DeviceName": "ESP32-S3-WROOM-1-N16R8",
+        "FootprintName": "WIRELM-SMD_ESP32-S3-WROOM-1"
+      },
+      "pins": {
+        "1": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "2": {
+          "name": "3V3",
+          "net": "3V3_SYS"
+        },
+        "3": {
+          "name": "EN",
+          "net": "MCU_EN"
+        },
+        "4": {
+          "name": "IO4",
+          "net": "LCD_RST"
+        },
+        "5": {
+          "name": "IO5",
+          "net": "LCD_DC"
+        },
+        "6": {
+          "name": "IO6",
+          "net": "LCD_MOSI"
+        },
+        "7": {
+          "name": "IO7",
+          "net": "LCD_SCLK"
+        },
+        "8": {
+          "name": "IO15",
+          "net": "LCD_CS"
+        },
+        "9": {
+          "name": "IO16",
+          "net": "LCD_BL_PWM"
+        },
+        "10": {
+          "name": "IO17",
+          "net": "ESP_RFID_SCLK"
+        },
+        "11": {
+          "name": "IO18",
+          "net": "ESP_RFID_DIN"
+        },
+        "12": {
+          "name": "IO8",
+          "net": "ESP_RFID_DOUT"
+        },
+        "13": {
+          "name": "IO19",
+          "net": "USB_DM_MCU"
+        },
+        "14": {
+          "name": "IO20",
+          "net": "USB_DP_MCU"
+        },
+        "15": {
+          "name": "IO3",
+          "net": ""
+        },
+        "16": {
+          "name": "IO46",
+          "net": ""
+        },
+        "17": {
+          "name": "IO9",
+          "net": "ESP_ORDER_IN"
+        },
+        "18": {
+          "name": "IO10",
+          "net": "ESP_ORDER_OUT"
+        },
+        "19": {
+          "name": "IO11",
+          "net": "CURRENT_SCL"
+        },
+        "20": {
+          "name": "IO12",
+          "net": "CURRENT_SDA"
+        },
+        "21": {
+          "name": "IO13",
+          "net": ""
+        },
+        "22": {
+          "name": "IO14",
+          "net": "RS485_DIR"
+        },
+        "23": {
+          "name": "IO21",
+          "net": "ESP_LED_DATA_3V3"
+        },
+        "24": {
+          "name": "IO47",
+          "net": ""
+        },
+        "25": {
+          "name": "IO48",
+          "net": ""
+        },
+        "26": {
+          "name": "IO45",
+          "net": ""
+        },
+        "27": {
+          "name": "IO0",
+          "net": "MCU_BOOT"
+        },
+        "28": {
+          "name": "IO35",
+          "net": ""
+        },
+        "29": {
+          "name": "IO36",
+          "net": ""
+        },
+        "30": {
+          "name": "IO37",
+          "net": ""
+        },
+        "31": {
+          "name": "IO38",
+          "net": ""
+        },
+        "32": {
+          "name": "IO39",
+          "net": ""
+        },
+        "33": {
+          "name": "IO40",
+          "net": ""
+        },
+        "34": {
+          "name": "IO41",
+          "net": ""
+        },
+        "35": {
+          "name": "IO42",
+          "net": ""
+        },
+        "36": {
+          "name": "RXD0",
+          "net": "U3_RXD0"
+        },
+        "37": {
+          "name": "TXD0",
+          "net": "U3_TXD0"
+        },
+        "38": {
+          "name": "IO2",
+          "net": ""
+        },
+        "39": {
+          "name": "IO1",
+          "net": ""
+        },
+        "40": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "41": {
+          "name": "GND",
+          "net": "GND"
+        }
+      }
+    },
+    "U5": {
+      "uid": "gge47",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "a7b76bf17cb2f475",
+        "Designator": "U5",
+        "Device": "5745d2f33d9c40d5",
+        "Unique ID": "gge47",
+        "Footprint": "fc9e7bd39bf64ef3",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I199",
+        "Manufacturer": "Nexperia(安世)",
+        "Manufacturer Part": "74HCT125D,653",
+        "Supplier": "LCSC",
+        "Supplier Part": "C5962",
+        "LCSC Part Name": "三态输出，四路缓冲器/线路驱动器",
+        "Supplier Footprint": "SOIC-14",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/74HCT125D%252C653/6428.html",
+        "Input type": "",
+        "output type": "",
+        "Voltage - Supply": "4.5V~5.5V",
+        "Number of Elements": "",
+        "Number of Bits per Element": "",
+        "Channel Type": "",
+        "Current - Output Low(IOL)": "",
+        "Current - Output High(IOH)": "",
+        "Logic Family": "",
+        "Operating Temperature": "-40℃~+125℃",
+        "Quiescent Current": "",
+        "Propagation Delay": "",
+        "Description": "",
+        "3D Model": "8dbf5b715d42428c85558507ae5a252b|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "SOIC-14_L8.6-W3.9-H1.8-LS6.0-P1.27",
+        "3D Model Transform": "338.583,236.22,0,0,0,0,0,0.001,0",
+        "DeviceName": "74HCT125D,653",
+        "FootprintName": "SOIC-14_L8.7-W3.9-P1.27-LS6.0-BL"
+      },
+      "pins": {
+        "1": {
+          "name": "1OE#",
+          "net": "GND"
+        },
+        "2": {
+          "name": "1A",
+          "net": "ESP_RFID_SCLK"
+        },
+        "3": {
+          "name": "1Y",
+          "net": "HTRC_SCLK"
+        },
+        "4": {
+          "name": "2OE#",
+          "net": "GND"
+        },
+        "5": {
+          "name": "2A",
+          "net": "ESP_RFID_DIN"
+        },
+        "6": {
+          "name": "2Y",
+          "net": "HTRC_DIN"
+        },
+        "7": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "8": {
+          "name": "3Y",
+          "net": "LED_DATA_5V_RAW"
+        },
+        "9": {
+          "name": "3A",
+          "net": "ESP_LED_DATA_3V3"
+        },
+        "10": {
+          "name": "3OE#",
+          "net": "GND"
+        },
+        "11": {
+          "name": "4Y",
+          "net": ""
+        },
+        "12": {
+          "name": "4A",
+          "net": "GND"
+        },
+        "13": {
+          "name": "4OE#",
+          "net": "5V_IN"
+        },
+        "14": {
+          "name": "VCC",
+          "net": "5V_IN"
+        }
+      }
+    },
+    "U7": {
+      "uid": "gge91",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "e1a334054b71ea2d",
+        "Designator": "U7",
+        "Device": "05963c83a2935155",
+        "Unique ID": "gge91",
+        "Footprint": "99b57222a0e643fd",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I326",
+        "LCSC Part Name": "16V 3A 2016自恢复",
+        "Supplier Part": "C315902",
+        "Manufacturer": "Littelfuse(美国力特)",
+        "Manufacturer Part": "2016L300/16MR",
+        "Supplier Footprint": "2016",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/2016L300%252F16MR/297537.html",
+        "Supplier": "LCSC",
+        "3D Model": "c1c84971a6844e548b6608984676b088|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "F2016",
+        "3D Model Transform": "214.1728,174.4091,0,0,0,0,0,0,0",
+        "Voltage - Max": "16V",
+        "Current - Max": "40A",
+        "Hold Current": "3A",
+        "Trip Current": "5A",
+        "Power Dissipation": "1.6W",
+        "Resistance - Initial (Ri) (Min)": "15mΩ",
+        "Resistance - Post Trip (R1) (Max)": "48mΩ",
+        "Time to Trip(Max)": "10s",
+        "Operating Temperature": "-40℃~+85℃",
+        "Length": "-",
+        "Width": "-",
+        "Height": "-",
+        "Pitch": "-",
+        "Description": "耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;",
+        "DeviceName": "2016L300/16MR",
+        "FootprintName": "F2016"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "$4N237"
+        },
+        "2": {
+          "name": "2",
+          "net": "USB_VBUS"
+        }
+      }
+    },
+    "U9": {
+      "uid": "gge70",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "a8d6fd386398dee8",
+        "Designator": "U9",
+        "Device": "e6b8c72679422a76",
+        "Unique ID": "gge70",
+        "Footprint": "43cfe5a94f00c39a",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I290",
+        "LCSC Part Name": "TPS2121RUXR",
+        "Supplier Part": "C485916",
+        "Manufacturer": "TI(德州仪器)",
+        "Manufacturer Part": "TPS2121RUXR",
+        "Supplier Footprint": "VQFN-HR-12(2x2.5)",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://www.ti.com/cn/lit/gpn/tps2121",
+        "Supplier": "LCSC",
+        "3D Model": "23ed45b0241644698956addf625daed0|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "VQFN-HR-12_L2.5-W2.0-H1.0-P0.50-BL",
+        "3D Model Transform": "78.74,98.425,0,90,0,0,-0.004,0.002,0",
+        "Description": "TPS2121 支持无缝切换的 2.7V 至 22V、56mΩ、4.5A 电源多路复用器",
+        "DeviceName": "TPS2121RUXR",
+        "FootprintName": "VQFN-HR-12_L2.5-W2.0-P0.50-BL"
+      },
+      "pins": {
+        "1": {
+          "name": "OUT",
+          "net": "5V_SELECTED"
+        },
+        "2": {
+          "name": "IN2",
+          "net": "$4N237"
+        },
+        "3": {
+          "name": "CP2",
+          "net": "$4N244"
+        },
+        "4": {
+          "name": "OV2",
+          "net": "$4N253"
+        },
+        "5": {
+          "name": "OV1",
+          "net": "$4N251"
+        },
+        "6": {
+          "name": "PR1",
+          "net": "$4N242"
+        },
+        "7": {
+          "name": "IN1",
+          "net": "$4N232"
+        },
+        "8": {
+          "name": "OUT",
+          "net": "5V_SELECTED"
+        },
+        "9": {
+          "name": "ST",
+          "net": "$4N246"
+        },
+        "10": {
+          "name": "ILM",
+          "net": "$4N256"
+        },
+        "11": {
+          "name": "SS",
+          "net": "PWRMUX_SS"
+        },
+        "12": {
+          "name": "GND",
+          "net": "GND"
+        }
+      }
+    }
+  },
+  "long": {
+    "R31": {
+      "uid": "gge101",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "407ab03d051fa677",
+        "Designator": "R31",
+        "Device": "63f0e412a8d115d3",
+        "Unique ID": "gge101",
+        "Footprint": "50abf6a702442fe0",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I350",
+        "LCSC Part Name": "10mΩ ±1% 2W",
+        "Supplier Part": "C346923",
+        "Manufacturer": "SEI(Stackpole Electronics Inc.)",
+        "Manufacturer Part": "CSSH2512FT10L0",
+        "Supplier Footprint": "2512",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/CSSH2512FT10L0/323589.html",
+        "Supplier": "LCSC",
+        "Type": "采样电阻",
+        "Value": "10mΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "2W",
+        "Temperature Coefficient": "±25ppm/℃",
+        "Description": "电阻类型:采样电阻;阻值:10mΩ;精度:±1%;功率:2W;温度系数:±25ppm/℃;",
+        "DeviceName": "CSSH2512FT10L0",
+        "FootprintName": "RES-SMD_L6.3-W3.2"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "5V_SELECTED"
+        },
+        "2": {
+          "name": "2",
+          "net": "5V_IN"
+        }
+      }
+    },
+    "R38": {
+      "uid": "gge121",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "c27e0a43264984ea",
+        "Designator": "R38",
+        "Device": "90779714b80e9d90",
+        "Unique ID": "gge121",
+        "Footprint": "9aa616540964aada",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I430",
+        "LCSC Part Name": "330Ω ±1% 100mW 厚膜电阻",
+        "Supplier Part": "C2933198",
+        "Manufacturer": "FOJAN(富捷)",
+        "Manufacturer Part": "FRC0603F3300TS",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/FRC0603F3300TS/3279300.html",
+        "Supplier": "LCSC",
+        "3D Model": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "R0603",
+        "3D Model Transform": "31.8897,63.7794,0,90,0,0,0,0,0",
+        "Type": "厚膜电阻",
+        "Value": "330Ω",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:330Ω;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+        "DeviceName": "FRC0603F3300TS",
+        "FootprintName": "R0603"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "LED_DATA_01"
+        },
+        "2": {
+          "name": "2",
+          "net": "LED_DATA_5V_RAW"
+        }
+      }
+    },
+    "U10": {
+      "uid": "gge100",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "94db35705c22ccdd",
+        "Designator": "U10",
+        "Device": "6f9de15eb975f8f8",
+        "Unique ID": "gge100",
+        "Footprint": "b4cbc9f0e25daf99",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I349",
+        "LCSC Part Name": "高侧/低侧测量双向电流/功率监视器，具有I²C兼容接口",
+        "Supplier Part": "C49851",
+        "Manufacturer": "TI(德州仪器)",
+        "Manufacturer Part": "INA226AIDGSR",
+        "Supplier Footprint": "VSSOP-10",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://www.ti.com/cn/lit/ds/symlink/ina226.pdf",
+        "Supplier": "LCSC",
+        "3D Model": "b42a31f9e1fa4643bc7ea573b9bba7ed|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "MSOP-10_L3.0-W3.0-H1.1-LS5.0-P0.50",
+        "3D Model Transform": "118.11,196.85,0,0,0,0,0,0,0",
+        "Number of Channels": "-",
+        "Vcm - Common Mode Voltage": "0V~36V",
+        "Gain": "-",
+        "Bandwidth": "-",
+        "Ib - Input Bias Current": "100pA",
+        "Vos - Input Offset Voltage": "2.5uV",
+        "Operating Temperature": "-40℃~+125℃",
+        "Differential Voltage": "±40V",
+        "Single Supply": "2.7V~5.5V",
+        "Dual Supply": "-",
+        "Quiescent Current": "330uA",
+        "Output Current": "-",
+        "Input Offset Voltage Drift(Vos TC)": "0.1uV/℃",
+        "Gain Error": "-",
+        "Slew Rate": "-",
+        "Common Mode Rejection Ratio (CMRR)": "140dB",
+        "Noise density(eN)": "-",
+        "Features": "可编程阈值告警；使能/关断功能；双向检测；数字输出接口；高边检测；低边检测；功率监控",
+        "Description": "放大器数:-;共模电压:0V~36V;增益:-;带宽(-3db):-;",
+        "DeviceName": "INA226AIDGSR",
+        "FootprintName": "MSOP-10_L3.0-W3.0-P0.50-LS5.0-BL"
+      },
+      "pins": {
+        "1": {
+          "name": "A1",
+          "net": "GND"
+        },
+        "2": {
+          "name": "A0",
+          "net": "GND"
+        },
+        "3": {
+          "name": "Alert",
+          "net": ""
+        },
+        "4": {
+          "name": "SDA",
+          "net": "CURRENT_SDA"
+        },
+        "5": {
+          "name": "SCL",
+          "net": "CURRENT_SCL"
+        },
+        "6": {
+          "name": "VS+",
+          "net": "3V3_SYS"
+        },
+        "7": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "8": {
+          "name": "VBUS",
+          "net": "5V_IN"
+        },
+        "9": {
+          "name": "VIN-",
+          "net": "5V_IN"
+        },
+        "10": {
+          "name": "VIN+",
+          "net": "5V_SELECTED"
+        }
+      }
+    },
+    "U12": {
+      "uid": "gge120",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U12",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I403",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_02"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_01"
+        }
+      }
+    },
+    "U13": {
+      "uid": "gge120_0",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U13",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_0",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I409",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_03"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_02"
+        }
+      }
+    },
+    "U14": {
+      "uid": "gge120_1",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U14",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_1",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I442",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_04"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_03"
+        }
+      }
+    },
+    "U15": {
+      "uid": "gge120_2",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U15",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_2",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I446",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_05"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_04"
+        }
+      }
+    },
+    "U16": {
+      "uid": "gge120_3",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U16",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_3",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I450",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_06"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_05"
+        }
+      }
+    },
+    "U17": {
+      "uid": "gge120_4",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U17",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_4",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I458",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_07"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_06"
+        }
+      }
+    },
+    "U18": {
+      "uid": "gge120_5",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U18",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_5",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I459",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_08"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_07"
+        }
+      }
+    },
+    "U19": {
+      "uid": "gge120_6",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U19",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_6",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I460",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_09"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_08"
+        }
+      }
+    },
+    "U20": {
+      "uid": "gge120_7",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U20",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_7",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I461",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": "LED_DATA_10"
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_09"
+        }
+      }
+    },
+    "U21": {
+      "uid": "gge120_8",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U21",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_8",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I474",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pins": {
+        "1": {
+          "name": "VDD",
+          "net": "5V_IN"
+        },
+        "2": {
+          "name": "DOUT",
+          "net": ""
+        },
+        "3": {
+          "name": "VSS",
+          "net": "GND"
+        },
+        "4": {
+          "name": "DIN",
+          "net": "LED_DATA_10"
+        }
+      }
+    },
+    "U3": {
+      "uid": "gge16",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "3fc7e9928aa1f961",
+        "Designator": "U3",
+        "Device": "6c7251afb21578c5",
+        "Unique ID": "gge16",
+        "Footprint": "600e9154c43e6fda",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I71",
+        "LCSC Part Name": "不带固件 通用型Wi-Fi+低功耗蓝牙MCU模组",
+        "Supplier Part": "C2913202",
+        "Manufacturer": "ESPRESSIF(乐鑫)",
+        "Manufacturer Part": "ESP32-S3-WROOM-1-N16R8",
+        "Supplier Footprint": "SMD,25.5x18mm",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/ESP32-S3-WROOM-1-N16R8/3198300.html",
+        "Supplier": "LCSC",
+        "3D Model": "481f5bdfc076422c9bb3c23c3ada9c17|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "WIRELM-SMD_ESP32-S3-WROOM-1",
+        "3D Model Transform": "708.73866,1003.97437,0,0,0,0,0,143.7,0",
+        "Utilized IC / Part": "ESP32-S3R8",
+        "Interface Type": "I2C；GPIO；UART；SPI；USB；I2S",
+        "Value": "2.4GHz",
+        "Antenna Type": "板载PCB天线",
+        "Output Power": "20.5dBm",
+        "Voltage - Supply": "3V~3.6V",
+        "Receive  Current": "95mA",
+        "Send  Current": "355mA",
+        "Sensitivity": "-103.5dBm",
+        "Operating Temperature": "-40℃~+65℃",
+        "Description": "核心芯片:ESP32-S3R8;频率:2.4GHz;天线形式:板载PCB天线;发射功率:20.5dBm;接收灵敏度:-103.5dBm;",
+        "DeviceName": "ESP32-S3-WROOM-1-N16R8",
+        "FootprintName": "WIRELM-SMD_ESP32-S3-WROOM-1"
+      },
+      "pins": {
+        "1": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "2": {
+          "name": "3V3",
+          "net": "3V3_SYS"
+        },
+        "3": {
+          "name": "EN",
+          "net": "MCU_EN"
+        },
+        "4": {
+          "name": "IO4",
+          "net": "LCD_RST"
+        },
+        "5": {
+          "name": "IO5",
+          "net": "LCD_DC"
+        },
+        "6": {
+          "name": "IO6",
+          "net": "LCD_MOSI"
+        },
+        "7": {
+          "name": "IO7",
+          "net": "LCD_SCLK"
+        },
+        "8": {
+          "name": "IO15",
+          "net": "LCD_CS"
+        },
+        "9": {
+          "name": "IO16",
+          "net": "LCD_BL_PWM"
+        },
+        "10": {
+          "name": "IO17",
+          "net": "ESP_RFID_SCLK"
+        },
+        "11": {
+          "name": "IO18",
+          "net": "ESP_RFID_DIN"
+        },
+        "12": {
+          "name": "IO8",
+          "net": "ESP_RFID_DOUT"
+        },
+        "13": {
+          "name": "IO19",
+          "net": "USB_DM_MCU"
+        },
+        "14": {
+          "name": "IO20",
+          "net": "USB_DP_MCU"
+        },
+        "15": {
+          "name": "IO3",
+          "net": ""
+        },
+        "16": {
+          "name": "IO46",
+          "net": ""
+        },
+        "17": {
+          "name": "IO9",
+          "net": "ESP_ORDER_IN"
+        },
+        "18": {
+          "name": "IO10",
+          "net": "ESP_ORDER_OUT"
+        },
+        "19": {
+          "name": "IO11",
+          "net": "CURRENT_SCL"
+        },
+        "20": {
+          "name": "IO12",
+          "net": "CURRENT_SDA"
+        },
+        "21": {
+          "name": "IO13",
+          "net": ""
+        },
+        "22": {
+          "name": "IO14",
+          "net": "RS485_DIR"
+        },
+        "23": {
+          "name": "IO21",
+          "net": "ESP_LED_DATA_3V3"
+        },
+        "24": {
+          "name": "IO47",
+          "net": ""
+        },
+        "25": {
+          "name": "IO48",
+          "net": ""
+        },
+        "26": {
+          "name": "IO45",
+          "net": ""
+        },
+        "27": {
+          "name": "IO0",
+          "net": "MCU_BOOT"
+        },
+        "28": {
+          "name": "IO35",
+          "net": ""
+        },
+        "29": {
+          "name": "IO36",
+          "net": ""
+        },
+        "30": {
+          "name": "IO37",
+          "net": ""
+        },
+        "31": {
+          "name": "IO38",
+          "net": ""
+        },
+        "32": {
+          "name": "IO39",
+          "net": ""
+        },
+        "33": {
+          "name": "IO40",
+          "net": ""
+        },
+        "34": {
+          "name": "IO41",
+          "net": ""
+        },
+        "35": {
+          "name": "IO42",
+          "net": ""
+        },
+        "36": {
+          "name": "RXD0",
+          "net": "U3_RXD0"
+        },
+        "37": {
+          "name": "TXD0",
+          "net": "U3_TXD0"
+        },
+        "38": {
+          "name": "IO2",
+          "net": ""
+        },
+        "39": {
+          "name": "IO1",
+          "net": ""
+        },
+        "40": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "41": {
+          "name": "GND",
+          "net": "GND"
+        }
+      }
+    },
+    "U5": {
+      "uid": "gge47",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "a7b76bf17cb2f475",
+        "Designator": "U5",
+        "Device": "5745d2f33d9c40d5",
+        "Unique ID": "gge47",
+        "Footprint": "fc9e7bd39bf64ef3",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I199",
+        "Manufacturer": "Nexperia(安世)",
+        "Manufacturer Part": "74HCT125D,653",
+        "Supplier": "LCSC",
+        "Supplier Part": "C5962",
+        "LCSC Part Name": "三态输出，四路缓冲器/线路驱动器",
+        "Supplier Footprint": "SOIC-14",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/74HCT125D%252C653/6428.html",
+        "Input type": "",
+        "output type": "",
+        "Voltage - Supply": "4.5V~5.5V",
+        "Number of Elements": "",
+        "Number of Bits per Element": "",
+        "Channel Type": "",
+        "Current - Output Low(IOL)": "",
+        "Current - Output High(IOH)": "",
+        "Logic Family": "",
+        "Operating Temperature": "-40℃~+125℃",
+        "Quiescent Current": "",
+        "Propagation Delay": "",
+        "Description": "",
+        "3D Model": "8dbf5b715d42428c85558507ae5a252b|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "SOIC-14_L8.6-W3.9-H1.8-LS6.0-P1.27",
+        "3D Model Transform": "338.583,236.22,0,0,0,0,0,0.001,0",
+        "DeviceName": "74HCT125D,653",
+        "FootprintName": "SOIC-14_L8.7-W3.9-P1.27-LS6.0-BL"
+      },
+      "pins": {
+        "1": {
+          "name": "1OE#",
+          "net": "GND"
+        },
+        "2": {
+          "name": "1A",
+          "net": "ESP_RFID_SCLK"
+        },
+        "3": {
+          "name": "1Y",
+          "net": "HTRC_SCLK"
+        },
+        "4": {
+          "name": "2OE#",
+          "net": "GND"
+        },
+        "5": {
+          "name": "2A",
+          "net": "ESP_RFID_DIN"
+        },
+        "6": {
+          "name": "2Y",
+          "net": "HTRC_DIN"
+        },
+        "7": {
+          "name": "GND",
+          "net": "GND"
+        },
+        "8": {
+          "name": "3Y",
+          "net": "LED_DATA_5V_RAW"
+        },
+        "9": {
+          "name": "3A",
+          "net": "ESP_LED_DATA_3V3"
+        },
+        "10": {
+          "name": "3OE#",
+          "net": "GND"
+        },
+        "11": {
+          "name": "4Y",
+          "net": ""
+        },
+        "12": {
+          "name": "4A",
+          "net": "GND"
+        },
+        "13": {
+          "name": "4OE#",
+          "net": "5V_IN"
+        },
+        "14": {
+          "name": "VCC",
+          "net": "5V_IN"
+        }
+      }
+    },
+    "U7": {
+      "uid": "gge91",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "e1a334054b71ea2d",
+        "Designator": "U7",
+        "Device": "05963c83a2935155",
+        "Unique ID": "gge91",
+        "Footprint": "99b57222a0e643fd",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I326",
+        "LCSC Part Name": "16V 3A 2016自恢复",
+        "Supplier Part": "C315902",
+        "Manufacturer": "Littelfuse(美国力特)",
+        "Manufacturer Part": "2016L300/16MR",
+        "Supplier Footprint": "2016",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/2016L300%252F16MR/297537.html",
+        "Supplier": "LCSC",
+        "3D Model": "c1c84971a6844e548b6608984676b088|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "F2016",
+        "3D Model Transform": "214.1728,174.4091,0,0,0,0,0,0,0",
+        "Voltage - Max": "16V",
+        "Current - Max": "40A",
+        "Hold Current": "3A",
+        "Trip Current": "5A",
+        "Power Dissipation": "1.6W",
+        "Resistance - Initial (Ri) (Min)": "15mΩ",
+        "Resistance - Post Trip (R1) (Max)": "48mΩ",
+        "Time to Trip(Max)": "10s",
+        "Operating Temperature": "-40℃~+85℃",
+        "Length": "-",
+        "Width": "-",
+        "Height": "-",
+        "Pitch": "-",
+        "Description": "耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;",
+        "DeviceName": "2016L300/16MR",
+        "FootprintName": "F2016"
+      },
+      "pins": {
+        "1": {
+          "name": "1",
+          "net": "$4N237"
+        },
+        "2": {
+          "name": "2",
+          "net": "USB_VBUS"
+        }
+      }
+    },
+    "U9": {
+      "uid": "gge70",
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "a8d6fd386398dee8",
+        "Designator": "U9",
+        "Device": "e6b8c72679422a76",
+        "Unique ID": "gge70",
+        "Footprint": "43cfe5a94f00c39a",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I290",
+        "LCSC Part Name": "TPS2121RUXR",
+        "Supplier Part": "C485916",
+        "Manufacturer": "TI(德州仪器)",
+        "Manufacturer Part": "TPS2121RUXR",
+        "Supplier Footprint": "VQFN-HR-12(2x2.5)",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://www.ti.com/cn/lit/gpn/tps2121",
+        "Supplier": "LCSC",
+        "3D Model": "23ed45b0241644698956addf625daed0|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "VQFN-HR-12_L2.5-W2.0-H1.0-P0.50-BL",
+        "3D Model Transform": "78.74,98.425,0,90,0,0,-0.004,0.002,0",
+        "Description": "TPS2121 支持无缝切换的 2.7V 至 22V、56mΩ、4.5A 电源多路复用器",
+        "DeviceName": "TPS2121RUXR",
+        "FootprintName": "VQFN-HR-12_L2.5-W2.0-P0.50-BL"
+      },
+      "pins": {
+        "1": {
+          "name": "OUT",
+          "net": "5V_SELECTED"
+        },
+        "2": {
+          "name": "IN2",
+          "net": "$4N237"
+        },
+        "3": {
+          "name": "CP2",
+          "net": "$4N244"
+        },
+        "4": {
+          "name": "OV2",
+          "net": "$4N253"
+        },
+        "5": {
+          "name": "OV1",
+          "net": "$4N251"
+        },
+        "6": {
+          "name": "PR1",
+          "net": "$4N242"
+        },
+        "7": {
+          "name": "IN1",
+          "net": "$4N232"
+        },
+        "8": {
+          "name": "OUT",
+          "net": "5V_SELECTED"
+        },
+        "9": {
+          "name": "ST",
+          "net": "$4N246"
+        },
+        "10": {
+          "name": "ILM",
+          "net": "$4N256"
+        },
+        "11": {
+          "name": "SS",
+          "net": "PWRMUX_SS"
+        },
+        "12": {
+          "name": "GND",
+          "net": "GND"
+        }
+      }
+    }
+  },
+  "corner_dc24_syncrepair": {
+    "TP1": {
+      "props": {
+        "Add into BOM": "no",
+        "Convert to PCB": "yes",
+        "Designator": "TP1",
+        "Symbol": "3a7a60a5aa720377",
+        "Device": "730d3efcefa26ff2",
+        "Unique ID": "gge12",
+        "Name": "5V_IN",
+        "Footprint": "ad4fe83f2a67a3ac",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I60",
+        "Manufacturer": "",
+        "Manufacturer Part": "",
+        "Supplier": "",
+        "Supplier Part": "",
+        "3D Model": "",
+        "3D Model Title": "",
+        "3D Model Transform": "",
+        "Description": "Test Point 测试点",
+        "DeviceName": "Test-Point",
+        "FootprintName": "Test-Point-0.5mm"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "1",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        }
+      }
+    },
+    "U3": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "3fc7e9928aa1f961",
+        "Designator": "U3",
+        "Device": "6c7251afb21578c5",
+        "Unique ID": "gge16",
+        "Footprint": "600e9154c43e6fda",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I71",
+        "LCSC Part Name": "不带固件 通用型Wi-Fi+低功耗蓝牙MCU模组",
+        "Supplier Part": "C2913202",
+        "Manufacturer": "ESPRESSIF(乐鑫)",
+        "Manufacturer Part": "ESP32-S3-WROOM-1-N16R8",
+        "Supplier Footprint": "SMD,25.5x18mm",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/ESP32-S3-WROOM-1-N16R8/3198300.html",
+        "Supplier": "LCSC",
+        "3D Model": "481f5bdfc076422c9bb3c23c3ada9c17|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "WIRELM-SMD_ESP32-S3-WROOM-1",
+        "3D Model Transform": "708.73866,1003.97437,0,0,0,0,0,143.7,0",
+        "Utilized IC / Part": "ESP32-S3R8",
+        "Interface Type": "I2C；GPIO；UART；SPI；USB；I2S",
+        "Value": "2.4GHz",
+        "Antenna Type": "板载PCB天线",
+        "Output Power": "20.5dBm",
+        "Voltage - Supply": "3V~3.6V",
+        "Receive  Current": "95mA",
+        "Send  Current": "355mA",
+        "Sensitivity": "-103.5dBm",
+        "Operating Temperature": "-40℃~+65℃",
+        "Description": "核心芯片:ESP32-S3R8;频率:2.4GHz;天线形式:板载PCB天线;发射功率:20.5dBm;接收灵敏度:-103.5dBm;",
+        "DeviceName": "ESP32-S3-WROOM-1-N16R8",
+        "FootprintName": "WIRELM-SMD_ESP32-S3-WROOM-1"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "GND",
+          "number": "1",
+          "net": "GND",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "3V3",
+          "number": "2",
+          "net": "3V3_SYS",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "EN",
+          "number": "3",
+          "net": "MCU_EN",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "IO4",
+          "number": "4",
+          "net": "LCD_RST",
+          "props": {
+            "Pin Number": "4"
+          }
+        },
+        "5": {
+          "name": "IO5",
+          "number": "5",
+          "net": "LCD_DC",
+          "props": {
+            "Pin Number": "5"
+          }
+        },
+        "6": {
+          "name": "IO6",
+          "number": "6",
+          "net": "LCD_MOSI",
+          "props": {
+            "Pin Number": "6"
+          }
+        },
+        "7": {
+          "name": "IO7",
+          "number": "7",
+          "net": "LCD_SCLK",
+          "props": {
+            "Pin Number": "7"
+          }
+        },
+        "8": {
+          "name": "IO15",
+          "number": "8",
+          "net": "LCD_CS",
+          "props": {
+            "Pin Number": "8"
+          }
+        },
+        "9": {
+          "name": "IO16",
+          "number": "9",
+          "net": "LCD_BL_PWM",
+          "props": {
+            "Pin Number": "9"
+          }
+        },
+        "10": {
+          "name": "IO17",
+          "number": "10",
+          "net": "ESP_RFID_SCLK",
+          "props": {
+            "Pin Number": "10"
+          }
+        },
+        "11": {
+          "name": "IO18",
+          "number": "11",
+          "net": "ESP_RFID_DIN",
+          "props": {
+            "Pin Number": "11"
+          }
+        },
+        "12": {
+          "name": "IO8",
+          "number": "12",
+          "net": "ESP_RFID_DOUT",
+          "props": {
+            "Pin Number": "12"
+          }
+        },
+        "13": {
+          "name": "IO19",
+          "number": "13",
+          "net": "USB_DM_MCU",
+          "props": {
+            "Pin Number": "13"
+          }
+        },
+        "14": {
+          "name": "IO20",
+          "number": "14",
+          "net": "USB_DP_MCU",
+          "props": {
+            "Pin Number": "14"
+          }
+        },
+        "15": {
+          "name": "IO3",
+          "number": "15",
+          "net": "",
+          "props": {
+            "Pin Number": "15"
+          }
+        },
+        "16": {
+          "name": "IO46",
+          "number": "16",
+          "net": "",
+          "props": {
+            "Pin Number": "16"
+          }
+        },
+        "17": {
+          "name": "IO9",
+          "number": "17",
+          "net": "ESP_ORDER_IN",
+          "props": {
+            "Pin Number": "17"
+          }
+        },
+        "18": {
+          "name": "IO10",
+          "number": "18",
+          "net": "ESP_ORDER_OUT",
+          "props": {
+            "Pin Number": "18"
+          }
+        },
+        "19": {
+          "name": "IO11",
+          "number": "19",
+          "net": "CURRENT_SCL",
+          "props": {
+            "Pin Number": "19"
+          }
+        },
+        "20": {
+          "name": "IO12",
+          "number": "20",
+          "net": "CURRENT_SDA",
+          "props": {
+            "Pin Number": "20"
+          }
+        },
+        "21": {
+          "name": "IO13",
+          "number": "21",
+          "net": "",
+          "props": {
+            "Pin Number": "21"
+          }
+        },
+        "22": {
+          "name": "IO14",
+          "number": "22",
+          "net": "RS485_DIR",
+          "props": {
+            "Pin Number": "22"
+          }
+        },
+        "23": {
+          "name": "IO21",
+          "number": "23",
+          "net": "ESP_LED_DATA_3V3",
+          "props": {
+            "Pin Number": "23"
+          }
+        },
+        "24": {
+          "name": "IO47",
+          "number": "24",
+          "net": "",
+          "props": {
+            "Pin Number": "24"
+          }
+        },
+        "25": {
+          "name": "IO48",
+          "number": "25",
+          "net": "",
+          "props": {
+            "Pin Number": "25"
+          }
+        },
+        "26": {
+          "name": "IO45",
+          "number": "26",
+          "net": "",
+          "props": {
+            "Pin Number": "26"
+          }
+        },
+        "27": {
+          "name": "IO0",
+          "number": "27",
+          "net": "MCU_BOOT",
+          "props": {
+            "Pin Number": "27"
+          }
+        },
+        "28": {
+          "name": "IO35",
+          "number": "28",
+          "net": "",
+          "props": {
+            "Pin Number": "28"
+          }
+        },
+        "29": {
+          "name": "IO36",
+          "number": "29",
+          "net": "",
+          "props": {
+            "Pin Number": "29"
+          }
+        },
+        "30": {
+          "name": "IO37",
+          "number": "30",
+          "net": "",
+          "props": {
+            "Pin Number": "30"
+          }
+        },
+        "31": {
+          "name": "IO38",
+          "number": "31",
+          "net": "",
+          "props": {
+            "Pin Number": "31"
+          }
+        },
+        "32": {
+          "name": "IO39",
+          "number": "32",
+          "net": "",
+          "props": {
+            "Pin Number": "32"
+          }
+        },
+        "33": {
+          "name": "IO40",
+          "number": "33",
+          "net": "",
+          "props": {
+            "Pin Number": "33"
+          }
+        },
+        "34": {
+          "name": "IO41",
+          "number": "34",
+          "net": "",
+          "props": {
+            "Pin Number": "34"
+          }
+        },
+        "35": {
+          "name": "IO42",
+          "number": "35",
+          "net": "",
+          "props": {
+            "Pin Number": "35"
+          }
+        },
+        "36": {
+          "name": "RXD0",
+          "number": "36",
+          "net": "U3_RXD0",
+          "props": {
+            "Pin Number": "36"
+          }
+        },
+        "37": {
+          "name": "TXD0",
+          "number": "37",
+          "net": "U3_TXD0",
+          "props": {
+            "Pin Number": "37"
+          }
+        },
+        "38": {
+          "name": "IO2",
+          "number": "38",
+          "net": "",
+          "props": {
+            "Pin Number": "38"
+          }
+        },
+        "39": {
+          "name": "IO1",
+          "number": "39",
+          "net": "",
+          "props": {
+            "Pin Number": "39"
+          }
+        },
+        "40": {
+          "name": "GND",
+          "number": "40",
+          "net": "GND",
+          "props": {
+            "Pin Number": "40"
+          }
+        },
+        "41": {
+          "name": "GND",
+          "number": "41",
+          "net": "GND",
+          "props": {
+            "Pin Number": "41"
+          }
+        }
+      }
+    },
+    "U5": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "a7b76bf17cb2f475",
+        "Designator": "U5",
+        "Device": "5745d2f33d9c40d5",
+        "Unique ID": "gge47",
+        "Footprint": "fc9e7bd39bf64ef3",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I199",
+        "Manufacturer": "Nexperia(安世)",
+        "Manufacturer Part": "74HCT125D,653",
+        "Supplier": "LCSC",
+        "Supplier Part": "C5962",
+        "LCSC Part Name": "三态输出，四路缓冲器/线路驱动器",
+        "Supplier Footprint": "SOIC-14",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/74HCT125D%252C653/6428.html",
+        "Input type": "",
+        "output type": "",
+        "Voltage - Supply": "4.5V~5.5V",
+        "Number of Elements": "",
+        "Number of Bits per Element": "",
+        "Channel Type": "",
+        "Current - Output Low(IOL)": "",
+        "Current - Output High(IOH)": "",
+        "Logic Family": "",
+        "Operating Temperature": "-40℃~+125℃",
+        "Quiescent Current": "",
+        "Propagation Delay": "",
+        "Description": "",
+        "3D Model": "8dbf5b715d42428c85558507ae5a252b|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "SOIC-14_L8.6-W3.9-H1.8-LS6.0-P1.27",
+        "3D Model Transform": "338.583,236.22,0,0,0,0,0,0.001,0",
+        "DeviceName": "74HCT125D,653",
+        "FootprintName": "SOIC-14_L8.7-W3.9-P1.27-LS6.0-BL"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "1OE#",
+          "number": "1",
+          "net": "GND",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "1A",
+          "number": "2",
+          "net": "ESP_RFID_SCLK",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "1Y",
+          "number": "3",
+          "net": "HTRC_SCLK",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "2OE#",
+          "number": "4",
+          "net": "GND",
+          "props": {
+            "Pin Number": "4"
+          }
+        },
+        "5": {
+          "name": "2A",
+          "number": "5",
+          "net": "ESP_RFID_DIN",
+          "props": {
+            "Pin Number": "5"
+          }
+        },
+        "6": {
+          "name": "2Y",
+          "number": "6",
+          "net": "HTRC_DIN",
+          "props": {
+            "Pin Number": "6"
+          }
+        },
+        "7": {
+          "name": "GND",
+          "number": "7",
+          "net": "GND",
+          "props": {
+            "Pin Number": "7"
+          }
+        },
+        "8": {
+          "name": "3Y",
+          "number": "8",
+          "net": "LED_DATA_5V_RAW",
+          "props": {
+            "Pin Number": "8"
+          }
+        },
+        "9": {
+          "name": "3A",
+          "number": "9",
+          "net": "ESP_LED_DATA_3V3",
+          "props": {
+            "Pin Number": "9"
+          }
+        },
+        "10": {
+          "name": "3OE#",
+          "number": "10",
+          "net": "GND",
+          "props": {
+            "Pin Number": "10"
+          }
+        },
+        "11": {
+          "name": "4Y",
+          "number": "11",
+          "net": "",
+          "props": {
+            "Pin Number": "11"
+          }
+        },
+        "12": {
+          "name": "4A",
+          "number": "12",
+          "net": "GND",
+          "props": {
+            "Pin Number": "12"
+          }
+        },
+        "13": {
+          "name": "4OE#",
+          "number": "13",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "13"
+          }
+        },
+        "14": {
+          "name": "VCC",
+          "number": "14",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "14"
+          }
+        }
+      }
+    },
+    "U9": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "a8d6fd386398dee8",
+        "Designator": "U9",
+        "Device": "e6b8c72679422a76",
+        "Unique ID": "gge70",
+        "Footprint": "43cfe5a94f00c39a",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I290",
+        "LCSC Part Name": "TPS2121RUXR",
+        "Supplier Part": "C485916",
+        "Manufacturer": "TI(德州仪器)",
+        "Manufacturer Part": "TPS2121RUXR",
+        "Supplier Footprint": "VQFN-HR-12(2x2.5)",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://www.ti.com/cn/lit/gpn/tps2121",
+        "Supplier": "LCSC",
+        "3D Model": "23ed45b0241644698956addf625daed0|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "VQFN-HR-12_L2.5-W2.0-H1.0-P0.50-BL",
+        "3D Model Transform": "78.74,98.425,0,90,0,0,-0.004,0.002,0",
+        "Description": "TPS2121 支持无缝切换的 2.7V 至 22V、56mΩ、4.5A 电源多路复用器",
+        "DeviceName": "TPS2121RUXR",
+        "FootprintName": "VQFN-HR-12_L2.5-W2.0-P0.50-BL"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "OUT",
+          "number": "1",
+          "net": "5V_SELECTED",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "IN2",
+          "number": "2",
+          "net": "$4N237",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "CP2",
+          "number": "3",
+          "net": "$4N244",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "OV2",
+          "number": "4",
+          "net": "$4N253",
+          "props": {
+            "Pin Number": "4"
+          }
+        },
+        "5": {
+          "name": "OV1",
+          "number": "5",
+          "net": "$4N251",
+          "props": {
+            "Pin Number": "5"
+          }
+        },
+        "6": {
+          "name": "PR1",
+          "number": "6",
+          "net": "$4N242",
+          "props": {
+            "Pin Number": "6"
+          }
+        },
+        "7": {
+          "name": "IN1",
+          "number": "7",
+          "net": "$4N232",
+          "props": {
+            "Pin Number": "7"
+          }
+        },
+        "8": {
+          "name": "OUT",
+          "number": "8",
+          "net": "5V_SELECTED",
+          "props": {
+            "Pin Number": "8"
+          }
+        },
+        "9": {
+          "name": "ST",
+          "number": "9",
+          "net": "$4N246",
+          "props": {
+            "Pin Number": "9"
+          }
+        },
+        "10": {
+          "name": "ILM",
+          "number": "10",
+          "net": "$4N256",
+          "props": {
+            "Pin Number": "10"
+          }
+        },
+        "11": {
+          "name": "SS",
+          "number": "11",
+          "net": "PWRMUX_SS",
+          "props": {
+            "Pin Number": "11"
+          }
+        },
+        "12": {
+          "name": "GND",
+          "number": "12",
+          "net": "GND",
+          "props": {
+            "Pin Number": "12"
+          }
+        }
+      }
+    },
+    "U7": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "e1a334054b71ea2d",
+        "Designator": "U7",
+        "Device": "05963c83a2935155",
+        "Unique ID": "gge91",
+        "Footprint": "99b57222a0e643fd",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I326",
+        "LCSC Part Name": "16V 3A 2016自恢复",
+        "Supplier Part": "C315902",
+        "Manufacturer": "Littelfuse(美国力特)",
+        "Manufacturer Part": "2016L300/16MR",
+        "Supplier Footprint": "2016",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/2016L300%252F16MR/297537.html",
+        "Supplier": "LCSC",
+        "3D Model": "c1c84971a6844e548b6608984676b088|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "F2016",
+        "3D Model Transform": "214.1728,174.4091,0,0,0,0,0,0,0",
+        "Voltage - Max": "16V",
+        "Current - Max": "40A",
+        "Hold Current": "3A",
+        "Trip Current": "5A",
+        "Power Dissipation": "1.6W",
+        "Resistance - Initial (Ri) (Min)": "15mΩ",
+        "Resistance - Post Trip (R1) (Max)": "48mΩ",
+        "Time to Trip(Max)": "10s",
+        "Operating Temperature": "-40℃~+85℃",
+        "Length": "-",
+        "Width": "-",
+        "Height": "-",
+        "Pitch": "-",
+        "Description": "耐压(Vmax):16V;最大电流(Imax):40A;保持电流(Ihold):3A;跳闸电流(Itrip):5A;",
+        "DeviceName": "2016L300/16MR",
+        "FootprintName": "F2016"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "1",
+          "number": "1",
+          "net": "$4N237",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "2",
+          "number": "2",
+          "net": "USB_VBUS",
+          "props": {
+            "Pin Number": "2"
+          }
+        }
+      }
+    },
+    "U10": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "94db35705c22ccdd",
+        "Designator": "U10",
+        "Device": "6f9de15eb975f8f8",
+        "Unique ID": "gge100",
+        "Footprint": "b4cbc9f0e25daf99",
+        "Name": "={Manufacturer Part}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I349",
+        "LCSC Part Name": "高侧/低侧测量双向电流/功率监视器，具有I²C兼容接口",
+        "Supplier Part": "C49851",
+        "Manufacturer": "TI(德州仪器)",
+        "Manufacturer Part": "INA226AIDGSR",
+        "Supplier Footprint": "VSSOP-10",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://www.ti.com/cn/lit/ds/symlink/ina226.pdf",
+        "Supplier": "LCSC",
+        "3D Model": "b42a31f9e1fa4643bc7ea573b9bba7ed|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "MSOP-10_L3.0-W3.0-H1.1-LS5.0-P0.50",
+        "3D Model Transform": "118.11,196.85,0,0,0,0,0,0,0",
+        "Number of Channels": "-",
+        "Vcm - Common Mode Voltage": "0V~36V",
+        "Gain": "-",
+        "Bandwidth": "-",
+        "Ib - Input Bias Current": "100pA",
+        "Vos - Input Offset Voltage": "2.5uV",
+        "Operating Temperature": "-40℃~+125℃",
+        "Differential Voltage": "±40V",
+        "Single Supply": "2.7V~5.5V",
+        "Dual Supply": "-",
+        "Quiescent Current": "330uA",
+        "Output Current": "-",
+        "Input Offset Voltage Drift(Vos TC)": "0.1uV/℃",
+        "Gain Error": "-",
+        "Slew Rate": "-",
+        "Common Mode Rejection Ratio (CMRR)": "140dB",
+        "Noise density(eN)": "-",
+        "Features": "可编程阈值告警；使能/关断功能；双向检测；数字输出接口；高边检测；低边检测；功率监控",
+        "Description": "放大器数:-;共模电压:0V~36V;增益:-;带宽(-3db):-;",
+        "DeviceName": "INA226AIDGSR",
+        "FootprintName": "MSOP-10_L3.0-W3.0-P0.50-LS5.0-BL"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "A1",
+          "number": "1",
+          "net": "GND",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "A0",
+          "number": "2",
+          "net": "GND",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "Alert",
+          "number": "3",
+          "net": "",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "SDA",
+          "number": "4",
+          "net": "CURRENT_SDA",
+          "props": {
+            "Pin Number": "4"
+          }
+        },
+        "5": {
+          "name": "SCL",
+          "number": "5",
+          "net": "CURRENT_SCL",
+          "props": {
+            "Pin Number": "5"
+          }
+        },
+        "6": {
+          "name": "VS+",
+          "number": "6",
+          "net": "3V3_SYS",
+          "props": {
+            "Pin Number": "6"
+          }
+        },
+        "7": {
+          "name": "GND",
+          "number": "7",
+          "net": "GND",
+          "props": {
+            "Pin Number": "7"
+          }
+        },
+        "8": {
+          "name": "VBUS",
+          "number": "8",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "8"
+          }
+        },
+        "9": {
+          "name": "VIN-",
+          "number": "9",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "9"
+          }
+        },
+        "10": {
+          "name": "VIN+",
+          "number": "10",
+          "net": "5V_SELECTED",
+          "props": {
+            "Pin Number": "10"
+          }
+        }
+      }
+    },
+    "R31": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "407ab03d051fa677",
+        "Designator": "R31",
+        "Device": "63f0e412a8d115d3",
+        "Unique ID": "gge101",
+        "Footprint": "50abf6a702442fe0",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I350",
+        "LCSC Part Name": "10mΩ ±1% 2W",
+        "Supplier Part": "C346923",
+        "Manufacturer": "SEI(Stackpole Electronics Inc.)",
+        "Manufacturer Part": "CSSH2512FT10L0",
+        "Supplier Footprint": "2512",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/CSSH2512FT10L0/323589.html",
+        "Supplier": "LCSC",
+        "Type": "采样电阻",
+        "Value": "10mΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "2W",
+        "Temperature Coefficient": "±25ppm/℃",
+        "Description": "电阻类型:采样电阻;阻值:10mΩ;精度:±1%;功率:2W;温度系数:±25ppm/℃;",
+        "DeviceName": "CSSH2512FT10L0",
+        "FootprintName": "RES-SMD_L6.3-W3.2"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "1",
+          "number": "1",
+          "net": "5V_SELECTED",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "2",
+          "number": "2",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "2"
+          }
+        }
+      }
+    },
+    "U12": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U12",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I403",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_02",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_01",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U13": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U13",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_0",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I409",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_03",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_02",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "R38": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "c27e0a43264984ea",
+        "Designator": "R38",
+        "Device": "90779714b80e9d90",
+        "Unique ID": "gge121",
+        "Footprint": "9aa616540964aada",
+        "Name": "={Value}",
+        "Reuse Block": "",
+        "Group ID": "",
+        "Channel ID": "$4I430",
+        "LCSC Part Name": "330Ω ±1% 100mW 厚膜电阻",
+        "Supplier Part": "C2933198",
+        "Manufacturer": "FOJAN(富捷)",
+        "Manufacturer Part": "FRC0603F3300TS",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/FRC0603F3300TS/3279300.html",
+        "Supplier": "LCSC",
+        "3D Model": "fc143cca1e79419f9cd78b61e9279f08|0819f05c4eef4c71ace90d822a990e87",
+        "3D Model Title": "R0603",
+        "3D Model Transform": "31.8897,63.7794,0,90,0,0,0,0,0",
+        "Type": "厚膜电阻",
+        "Value": "330Ω",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:330Ω;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+        "DeviceName": "FRC0603F3300TS",
+        "FootprintName": "R0603"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "1",
+          "number": "1",
+          "net": "LED_DATA_01",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "2",
+          "number": "2",
+          "net": "LED_DATA_5V_RAW",
+          "props": {
+            "Pin Number": "2"
+          }
+        }
+      }
+    },
+    "U14": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U14",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_1",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I442",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_04",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_03",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U15": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U15",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_2",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I446",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_05",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_04",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U16": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U16",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_3",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I450",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_06",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_05",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U17": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U17",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_4",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I458",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_07",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_06",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U18": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U18",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_5",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I459",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_08",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_07",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U19": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U19",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_6",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I460",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_09",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_08",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U20": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U20",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_7",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I461",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "LED_DATA_10",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_09",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    },
+    "U21": {
+      "props": {
+        "Add into BOM": "yes",
+        "Convert to PCB": "yes",
+        "Symbol": "ed7934560f1fc5a4",
+        "Designator": "U21",
+        "Device": "ab23ce9299d04af1",
+        "LCSC Part Name": "WS2812B-B-V6",
+        "Supplier Part": "C52941391",
+        "Manufacturer": "worldsemi",
+        "Manufacturer Part": "WS2812B-B-V6",
+        "Supplier Footprint": "SMD5050-4P",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/WS2812B-B-V6/55856754.html",
+        "Supplier": "LCSC",
+        "Footprint": "a30d88edf5bb632a",
+        "Name": "={Manufacturer Part}",
+        "Description": "WS2812B-B/W和WS2812B-B/T升级版本，黑色支架，无需外围元器件，不分方向，DIN/DOUT自由互换，任意拼接，超低静态功耗，3.3V完全恒流，上电零闪，EMC和控制信号再升级",
+        "Unique ID": "gge120_8",
+        "3D Model": "2c6a1b3297474cdcb336803b50e4fa2e",
+        "3D Model Title": "LED-SMD_4P-L5.0-W5.0-H1.57-TL_WS2812B-B",
+        "3D Model Transform": "212.598,196.85,0,0,0,0,0,0,0",
+        "Group ID": "",
+        "Channel ID": "$4I474",
+        "Reuse Block": "",
+        "DeviceName": "WS2812B-B-V6",
+        "FootprintName": "LED-SMD_4P-L5.0-W5.0-TL_WS2812B-B"
+      },
+      "pinInfoMap": {
+        "1": {
+          "name": "VDD",
+          "number": "1",
+          "net": "5V_IN",
+          "props": {
+            "Pin Number": "1"
+          }
+        },
+        "2": {
+          "name": "DOUT",
+          "number": "2",
+          "net": "",
+          "props": {
+            "Pin Number": "2"
+          }
+        },
+        "3": {
+          "name": "VSS",
+          "number": "3",
+          "net": "GND",
+          "props": {
+            "Pin Number": "3"
+          }
+        },
+        "4": {
+          "name": "DIN",
+          "number": "4",
+          "net": "LED_DATA_10",
+          "props": {
+            "Pin Number": "4"
+          }
+        }
+      }
+    }
+  }
+}
