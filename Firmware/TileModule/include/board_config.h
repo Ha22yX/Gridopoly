@@ -57,6 +57,9 @@ inline std::uint32_t displaySpiFrequencyForDevice(const char *device_id) {
 }
 inline constexpr std::uint32_t kSerialBaud = 115'200;
 inline constexpr std::uint8_t kBacklightDuty = 150;
-inline constexpr std::uint8_t kMaximumLedChannel = 64;
+// Scene amplitudes are one quarter of V0.34; all sends (including maintenance)
+// also pass the independent absolute channel ceiling.
+inline constexpr std::uint16_t kLedSceneScaleDivisor = 4;
+inline constexpr std::uint8_t kMaximumLedChannel = 16;
 
 }  // namespace gridopoly::tile::board

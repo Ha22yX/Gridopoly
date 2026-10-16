@@ -66,7 +66,17 @@ void renderPage() {
   TEST_ASSERT_FALSE(gDiagnosticPage);
   displayRenderOrder = ++displayEvents;
 }
-void showPixels() { ++frames; }
+struct PixelTransmitter {
+  Rgb sent[kWs2812Count]{};
+  bool send_ok = true;
+  ws2812::SendStatus last_status{};
+  bool send(const Rgb (&pixels)[kWs2812Count]) {
+    ++frames;
+    std::copy(std::begin(pixels), std::end(pixels), std::begin(sent));
+    return send_ok;
+  }
+  const ws2812::SendStatus &status() const { return last_status; }
+} gLedTransmitter;
 const TileState& currentTileState() { return gNetworkSnapshot.tile; }
 #include "firmware_fixture.inc"
 
@@ -76,6 +86,9 @@ void setUp() {
   denyLock = false;
   testMillis = 1000;
   gLedMaintenance = {};
+  gLedTransmitter = {};
+  gLedReady = true;
+  std::fill(std::begin(gPixels), std::end(gPixels), Rgb{});
   gTagScanEvidence = {};
   gScanPairingRoom = gScanPairingSession = 0;
   gTagStatus = TagStatus::Scanning;
@@ -87,6 +100,7 @@ void setUp() {
   gNetworkSnapshot = {};
   gNetworkSnapshot.assigned = true;
   gMovementCueStartedMs = 1000;
+  gPairingCueStartedMs = 1000;
   frames = 0;
 }
 void tearDown() {}
@@ -154,6 +168,104 @@ void assertWholeRing() {
     TEST_ASSERT_LESS_OR_EQUAL_UINT8(kMaximumLedChannel, pixel.blue);
   }
 }
+void assertSentColor(Rgb expected) {
+  for (unsigned i = 0; i < kWs2812Count; ++i) {
+    TEST_ASSERT_EQUAL_UINT8(expected.red, gLedTransmitter.sent[i].red);
+    TEST_ASSERT_EQUAL_UINT8(expected.green, gLedTransmitter.sent[i].green);
+    TEST_ASSERT_EQUAL_UINT8(expected.blue, gLedTransmitter.sent[i].blue);
+  }
+  assertWholeRing();
+}
+void test_final_send_caps_every_pixel_without_compounding() {
+  // Direct, unscaled pixels must not escape the common send boundary.
+  for (unsigned i = 0; i < kWs2812Count; ++i)
+    gPixels[i] = {static_cast<std::uint8_t>(i == 0 ? 0 : 255), 17, 8};
+  showPixels();
+  for (unsigned i = 0; i < kWs2812Count; ++i) {
+    TEST_ASSERT_EQUAL_UINT8(i == 0 ? 0 : 16, gLedTransmitter.sent[i].red);
+    TEST_ASSERT_EQUAL_UINT8(16, gLedTransmitter.sent[i].green);
+    TEST_ASSERT_EQUAL_UINT8(8, gLedTransmitter.sent[i].blue);
+  }
+  Rgb sent[kWs2812Count];
+  std::copy(std::begin(gLedTransmitter.sent), std::end(gLedTransmitter.sent), sent);
+  showPixels();
+  TEST_ASSERT_EQUAL_MEMORY(sent, gLedTransmitter.sent, sizeof(sent));
+  TEST_ASSERT_EQUAL_UINT(2, frames);
+}
+void test_every_connection_state_is_dim_and_keeps_breath_period() {
+  gNetworkSnapshot.assigned = false;
+  // Peaks are the V0.34 wire RGB divided by four, rounded down.
+  const Rgb peaks[]{{3,5,8}, {3,5,8}, {8,6,2}, {2,7,6},
+                    {2,7,6}, {2,7,6}, {8,3,3}};
+  for (unsigned state = 0; state < 7; ++state) {
+    gNetworkSnapshot.link = static_cast<TileNetworkLink>(state);
+    renderLedScene(0);
+    const auto low = gPixels[0];
+    for (std::uint32_t now = 0; now < 1600; ++now) {
+      renderLedScene(now);
+      assertWholeRing();
+      for (const auto &pixel : gLedTransmitter.sent) {
+        TEST_ASSERT_LESS_OR_EQUAL_UINT8(8, pixel.red);
+        TEST_ASSERT_LESS_OR_EQUAL_UINT8(8, pixel.green);
+        TEST_ASSERT_LESS_OR_EQUAL_UINT8(8, pixel.blue);
+      }
+    }
+    renderLedScene(800);
+    assertSentColor(peaks[state]);
+    renderLedScene(1600);
+    assertSentColor(low);
+  }
+}
+void test_all_pairing_states_share_dimming_including_success() {
+  auto &pair = gNetworkSnapshot.pairing;
+  pair.active = true; pair.room_id = 1; pair.session_id = 2;
+  pair.received_ms = 1000; pair.lease_ms = 5000;
+  gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
+  for (unsigned state = 1; state <= 10; ++state) {
+    pair.state = static_cast<TilePairingState>(state);
+    const bool success = pair.state == TilePairingState::SuccessRemove ||
+                         pair.state == TilePairingState::Complete;
+    const bool waiting = pair.state == TilePairingState::WaitingReader ||
+                         pair.state == TilePairingState::AwaitingTag;
+    renderLedScene(1000);
+    const auto low = gPixels[0];
+    for (std::uint32_t elapsed = 0; elapsed < 1400; ++elapsed) {
+      renderLedScene(1000 + elapsed);
+      assertWholeRing();
+      if (success) assertSentColor({2,13,5});
+    }
+    renderLedScene(1700);
+    assertSentColor(success ? Rgb{2,13,5} : waiting ? Rgb{4,6,15} : Rgb{15,6,2});
+    renderLedScene(2400);
+    assertSentColor(low);
+  }
+}
+void test_idle_owned_and_occupied_scenes_are_dim() {
+  auto &tile = gNetworkSnapshot.tile;
+  tile.accent = {255,128,64};
+  tile.owner_player = 0; tile.occupied_players = 0;
+  renderLedScene(0);
+  assertSentColor({4,2,1});
+  tile.occupied_players = 1;
+  renderLedScene(0);
+  assertSentColor({7,3,1});
+  renderLedScene(600);
+  assertSentColor({14,7,3});
+  renderLedScene(1200);
+  assertSentColor({7,3,1});
+  for (std::uint8_t owner = 1; owner <= kMaximumPlayers; ++owner) {
+    tile.owner_player = owner;
+    for (std::uint32_t now = 0; now < 1200; ++now) {
+      renderLedScene(now);
+      assertWholeRing();
+      const auto &pixel = gLedTransmitter.sent[0];
+      TEST_ASSERT_TRUE(pixel.red != 0 || pixel.green != 0 || pixel.blue != 0);
+      TEST_ASSERT_LESS_OR_EQUAL_UINT8(14, pixel.red);
+      TEST_ASSERT_LESS_OR_EQUAL_UINT8(14, pixel.green);
+      TEST_ASSERT_LESS_OR_EQUAL_UINT8(14, pixel.blue);
+    }
+  }
+}
 void test_destination_double_flash_and_departure_breath() {
   gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
   for (std::uint32_t elapsed = 0; elapsed < 1800; ++elapsed) {
@@ -161,10 +273,12 @@ void test_destination_double_flash_and_departure_breath() {
     assertWholeRing();
     const auto phase = elapsed % 900;
     if (phase < 180 || (phase >= 300 && phase < 480)) {
-      TEST_ASSERT_GREATER_THAN_UINT8(50, gPixels[0].green);
+      TEST_ASSERT_EQUAL_UINT8(5, gPixels[0].red);
+      TEST_ASSERT_EQUAL_UINT8(15, gPixels[0].green);
+      TEST_ASSERT_EQUAL_UINT8(12, gPixels[0].blue);
       TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].red, gPixels[0].green);
     } else {
-      TEST_ASSERT_LESS_OR_EQUAL_UINT8(2, gPixels[0].green);
+      TEST_ASSERT_EQUAL_UINT8(0, gPixels[0].green);
     }
   }
   gNetworkSnapshot.movement.mode = TileMovementCue::Departure;
@@ -172,6 +286,9 @@ void test_destination_double_flash_and_departure_breath() {
   const auto low = gPixels[0].red;
   renderLedScene(1800);
   const auto high = gPixels[0].red;
+  TEST_ASSERT_EQUAL_UINT8(14, high);
+  TEST_ASSERT_EQUAL_UINT8(8, gPixels[0].green);
+  TEST_ASSERT_EQUAL_UINT8(4, gPixels[0].blue);
   TEST_ASSERT_GREATER_THAN_UINT8(low, high);
   TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].green, gPixels[0].red);
   renderLedScene(2600);
@@ -195,7 +312,7 @@ void test_heartbeat_resync_preserves_animation_origin() {
   snapshot.tile.accent = {255, 0, 0};
   consumeMovement(snapshot, 6000);
   renderLedScene(6000);
-  TEST_ASSERT_EQUAL_UINT8(18, gPixels[0].red);
+  TEST_ASSERT_EQUAL_UINT8(4, gPixels[0].red);
   TEST_ASSERT_EQUAL_UINT8(0, gPixels[0].green);
   assertWholeRing();
 }
@@ -309,18 +426,17 @@ void test_pairing_priority_clear_and_lease_rollover() {
 void test_led_maintenance_expires_into_current_game_scene() {
   gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
   const auto before = gNetworkSnapshot;
-  gLedMaintenance.apply(ws2812::parseCommand("LED RED 1"), 1000);
-  renderLedScene(1999);
-  for (const auto &pixel : gPixels) {
-    TEST_ASSERT_EQUAL_UINT8(8, pixel.red);
-    TEST_ASSERT_EQUAL_UINT8(0, pixel.green);
-    TEST_ASSERT_EQUAL_UINT8(0, pixel.blue);
+  const char *commands[]{"LED RED 1", "LED GREEN 1", "LED BLUE 1", "LED OFF 1"};
+  const Rgb colors[]{{8,0,0}, {0,8,0}, {0,0,8}, {0,0,0}};
+  for (unsigned i = 0; i < 4; ++i) {
+    gLedMaintenance.apply(ws2812::parseCommand(commands[i]), 1000);
+    renderLedScene(1999);
+    assertSentColor(colors[i]);  // Fixed physical 8/255, not quartered to two.
+    renderLedScene(2000);  // Destination is illuminated at this phase.
+    assertSentColor({5,15,12});
+    TEST_ASSERT_EQUAL(ws2812::Mode::Scene, gLedMaintenance.mode(1001));
+    TEST_ASSERT_EQUAL_MEMORY(&before, &gNetworkSnapshot, sizeof(before));
   }
-  renderLedScene(2000);  // Current destination is illuminated at this phase.
-  TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].red, gPixels[0].green);
-  TEST_ASSERT_EQUAL(ws2812::Mode::Scene, gLedMaintenance.mode(1001));
-  TEST_ASSERT_EQUAL_MEMORY(&before, &gNetworkSnapshot, sizeof(before));
-  assertWholeRing();
 }
 
 int main() {
@@ -328,6 +444,10 @@ int main() {
   RUN_TEST(test_failed_publish_retries_identical_local_inventory);
   RUN_TEST(test_retry_publishes_latest_complete_state);
   RUN_TEST(test_full_inventory_and_overflow_remain_consistent);
+  RUN_TEST(test_final_send_caps_every_pixel_without_compounding);
+  RUN_TEST(test_every_connection_state_is_dim_and_keeps_breath_period);
+  RUN_TEST(test_all_pairing_states_share_dimming_including_success);
+  RUN_TEST(test_idle_owned_and_occupied_scenes_are_dim);
   RUN_TEST(test_destination_double_flash_and_departure_breath);
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);

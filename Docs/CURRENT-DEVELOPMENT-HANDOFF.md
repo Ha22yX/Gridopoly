@@ -43,6 +43,8 @@ ALFA AWUS036ACM已作为独立USB热点运行，16格＋4屏共20台同时关联
 
 ## 问题与验收边界
 
+- **格子灯环过亮（最新用户反馈）**：整盘亮度明显高于LCD，V0.35已完成代码、27项回归和双角色构建，正常驱动幅值为旧版四分之一、最终每通道16/255上限。现役16板仍V0.34；先单板写验/目视后再批量，不能把早期无纯白故障反馈当作亮度舒适度通过。[调整记录](firmware/tile-led-brightness-2026-10-15.md)。
+
 - **16格重开后部分WAITING FOR TILE**：用户复测及后续确认正常，约5分钟150组观察和230次真实心跳均完整正确。未改源码/部署，首次根因未定，不能称修复完成。服务端`stateCopy`与`roomId`分开获取的并发风险单独待复现，不据此推断本次原因。[观察记录](firmware/newgame16-assignment-observation-2026-10-15.md)。
 - **RFID围屏**：现16板通过抬高线圈恢复识别；同平面围LCD的电磁/背光影响仍是旧条件下的独立问题。COM8额外测试板为unknown角色、V0.34基础stage2诊断`4fe2e35a…`，不属计划16板；窗口结束恢复亮度150、Strict门控，彼时正常扫描仍Fault，未重新读取其现况。[调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)。
 - **玩家显示/性能**：COM29旧16MHz失败、12MHz静止等待页通过分别保留。core1历史Retarget最大57ms仍超过42ms门槛，不能继承已撤回core0的性能PASS。[显示](firmware/player-com29-display-progress-2026-10-15.md)、[验收标准](player-console/player-console-acceptance-tests.md)。

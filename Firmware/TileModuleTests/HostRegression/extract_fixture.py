@@ -39,6 +39,7 @@ pieces += [routine(main, "void recordTagScan("),
            routine(main, "void restoreSafeDisplay("),
            routine(main, "Rgb playerColor("),
            routine(main, "Rgb scaleColor("),
+           routine(main, "void showPixels("),
            routine(main, "void renderLedScene(")]
 start = main.index("    const bool page_changed =")
 end = main.index("    const bool movement_changed =", start)

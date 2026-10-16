@@ -257,10 +257,13 @@ const TileState &currentTileState() {
 }
 
 Rgb scaleColor(Rgb color, std::uint8_t maximum_channel) {
+  // Scale every game/connection/pairing scene once, retaining its original
+  // color ratios and animation phase. Maintenance retains its fixed 8/255.
+  constexpr std::uint16_t denominator = 255U * kLedSceneScaleDivisor;
   return {
-      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.red) * maximum_channel / 255U),
-      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.green) * maximum_channel / 255U),
-      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.blue) * maximum_channel / 255U),
+      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.red) * maximum_channel / denominator),
+      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.green) * maximum_channel / denominator),
+      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.blue) * maximum_channel / denominator),
   };
 }
 
@@ -1720,6 +1723,15 @@ void scanHitagTag() {
 void showPixels() {
   if (!gLedReady) {
     return;
+  }
+  static_assert(ws2812::kDiagnosticLevel <= kMaximumLedChannel,
+                "Maintenance level must fit the absolute LED ceiling");
+  // Final common boundary: even maintenance or a future direct pixel path
+  // cannot bypass the cap. Clamping is idempotent, never repeated dimming.
+  for (auto &pixel : gPixels) {
+    pixel.red = std::min(pixel.red, kMaximumLedChannel);
+    pixel.green = std::min(pixel.green, kMaximumLedChannel);
+    pixel.blue = std::min(pixel.blue, kMaximumLedChannel);
   }
   if (!gLedTransmitter.send(gPixels)) {
     gLedReady = false;

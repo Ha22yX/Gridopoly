@@ -18,6 +18,13 @@ the first two cases. LED cases cover all ten pixels, channel limits, green
 double flashes, orange breathing, unchanged movement through a resync, and
 return to the normal tile color.
 
+V0.35 also extracts the actual `showPixels` send boundary. Cases exercise all
+connection and pairing states (including success), idle/owner/occupied colors,
+unchanged pulse periods, and the lower destination/departure RGB amplitudes.
+Direct oversized pixels are capped at 16 on all ten LEDs without cumulative
+dimming. The fixed 8/255 maintenance RGB/off commands reach that same boundary
+and expire into the current scene without changing the network snapshot.
+
 The ORDER suite drives the production V1 transmitter/receiver at 1 ms intervals
 with both 16 and 32 independent links. It checks direct neighbors, one broken
 wire expiring without stopping other transmitters, reconnection with a newer
