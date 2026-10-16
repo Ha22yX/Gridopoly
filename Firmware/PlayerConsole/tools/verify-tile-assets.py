@@ -101,7 +101,7 @@ def main() -> None:
             "kRemoteTileCacheCapacity == 20" not in remote_policy or
             "6u * kRemoteAvatarFinalBytes" not in remote_policy):
         fail("normal gameplay tile and final-avatar caches must share one strict 1 MiB budget")
-    if "remoteTileCacheSelectLru" not in remote_cache or "pinnedIndex" not in remote_cache:
+    if "slot.leases == 0" not in remote_cache or "slot.lastUsed < oldest" not in remote_cache:
         fail("remote cache must evict by LRU without releasing the displayed image")
     avatar_contract = (
         '"assets/avatar-components/v1/%s/%c%u.gavc"',

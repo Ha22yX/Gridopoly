@@ -1,17 +1,18 @@
 #pragma once
-
 #include <lvgl.h>
+#include "remote_artwork_request.h"
 
-#include "grid_city_visual_catalog.h"
-
-// Starts the low-priority HTTP loader. Artwork remains in PSRAM until reboot.
+// One worker, twenty buffers including the in-flight image, RAM only.
 void remoteTileCacheBegin();
-
-// Queues artwork without pinning it as the currently displayed image.
-void remoteTileCachePrefetch(GridCityArtwork artwork, const char *key);
-
-// Returns a ready descriptor or nullptr while the asset is queued/downloading.
-const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork artwork, const char *key);
-
-// Consumes a cache publication edge so the UI can rebuild with the real image.
+// Update each UI frame, including pages without artwork. Only the visible
+// request and roll target may download; new room/map rejects in-flight results.
+void remoteTileCacheSetView(uint32_t room, uint8_t boardSize, GridCityArtwork artwork,
+                           const char *key, uint8_t level = kArtworkLevelUnknown);
+void remoteTileCachePrefetch(GridCityArtwork artwork, const char *key,
+                            uint8_t level = kArtworkLevelUnknown);
+// Each successful acquire owns a lease. Release on LV_EVENT_DELETE or object
+// creation failure, on the LVGL task under its normal lock.
+const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork artwork, const char *key,
+                                      uint8_t level = kArtworkLevelUnknown);
+void remoteTileCacheReleaseImage(const lv_img_dsc_t *image);
 bool remoteTileCacheConsumeUpdate();

@@ -4,6 +4,7 @@
 #include "../../ui_renderer.cpp"
 #include "../../touch_input_filter.h"
 #include "handwriting-fixtures.h"
+#include <gridopoly/core/BoardCatalog.h>
 
 void remoteAvatarCacheBegin() {}
 void remoteAvatarCachePreload(const TransportAvatarRecipe &) {}
@@ -17,8 +18,23 @@ const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &) { return 
 const lv_img_dsc_t *remoteAvatarFinal(uint32_t, uint8_t, uint16_t, uint64_t) { return nullptr; }
 bool remoteAvatarCacheConsumeUpdate() { return false; }
 void remoteTileCacheBegin() {}
-void remoteTileCachePrefetch(GridCityArtwork, const char *) {}
-const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork, const char *) { return nullptr; }
+RemoteArtworkRequest selectedArtwork{}, prefetchedArtwork{}, acquiredArtwork{};
+unsigned artAcquires = 0, artReleases = 0;
+bool artReady = false;
+static uint8_t testArtPixels[32768]{};
+static lv_img_dsc_t testArtImage{};
+void remoteTileCacheSetView(uint32_t, uint8_t, GridCityArtwork art, const char *key, uint8_t level) {
+    selectedArtwork = artworkRequest(art, key, level);
+}
+void remoteTileCacheReleaseImage(const lv_img_dsc_t *image) { if (image == &testArtImage) ++artReleases; }
+void remoteTileCachePrefetch(GridCityArtwork art, const char *key, uint8_t level) {
+    prefetchedArtwork = artworkRequest(art, key, level);
+}
+const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork art, const char *key, uint8_t level) {
+    acquiredArtwork = artworkRequest(art, key, level);
+    if (!artReady) return nullptr;
+    ++artAcquires; return &testArtImage;
+}
 bool remoteTileCacheConsumeUpdate() { return false; }
 
 int main() {
@@ -415,6 +431,88 @@ int main() {
     uiRendererRender(waitingState, 83001);
     check(uiRendererGetTestStats().rebuildRenders == 0 && lv_disp_get_default()->inv_p == 0,
           "repeated unchanged Syncing status also leaves the waiting screen clean");
+
+    // Exercise the real renderer and real DELETE events with authoritative levels.
+    testArtImage.header.cf = LV_IMG_CF_TRUE_COLOR;
+    testArtImage.header.w = testArtImage.header.h = 128;
+    testArtImage.data_size = sizeof(testArtPixels); testArtImage.data = testArtPixels;
+    artReady = true;
+    AppState developed{}; appInit(developed, 90000, true);
+    developed.authorityRoomId = 700; developed.boardSize = 16;
+    developed.authorityOnline = developed.hasAuthoritativeState = developed.fullAuthoritySnapshotValid = true;
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(16);
+    developed.authorityAssetCount = board->assetCount;
+    uint8_t property = 0xFF, pos = 0xFF;
+    for (uint8_t i = 0; i < board->assetCount; ++i)
+        if (strcmp(board->assets[i].id, "A1") == 0) property = i;
+    for (uint8_t i = 0; i < board->tileCount; ++i)
+        if (board->tiles[i].assetIndex == property) pos = i;
+    check(property != 0xFF && pos != 0xFF, "development fixture resolves property through current board map");
+    developed.selectedAsset = developed.tileAssetIndex = developed.auctionAssetIndex = property;
+    developed.position = developed.rollTarget = pos;
+    developed.authorityAssets[property].buildingLevel = 3;
+    developed.revision = waitingState.revision + 1;
+    auto renderPage = [&](ScreenPage page) {
+        developed.page = developed.nav.current.page = page;
+        ++developed.revision; uiRendererRender(developed, 90000 + developed.revision);
+    };
+    for (ScreenPage page : {ScreenPage::Home, ScreenPage::AssetDetail, ScreenPage::Purchase,
+                            ScreenPage::MoveGuide, ScreenPage::Auction}) {
+        renderPage(page);
+        check(selectedArtwork.level == 3 && acquiredArtwork.level == 3 &&
+              sameArtwork(selectedArtwork, acquiredArtwork), "real page passes current authority level to cache and image");
+    }
+    check(artAcquires == artReleases + 1, "real page deletion releases every previous image lease");
+    renderPage(ScreenPage::AssetDetail);
+    for (uint8_t level : {uint8_t(5), uint8_t(4), uint8_t(0)}) {
+        developed.authorityAssets[property].buildingLevel = level;
+        renderPage(ScreenPage::AssetDetail);
+        check(acquiredArtwork.level == level && selectedArtwork.level == level &&
+              (level != 0 || acquiredArtwork.catalog == 0), "build hotel downgrade and sell-all replace old level image");
+    }
+    developed.fullAuthoritySnapshotValid = false;
+    renderPage(ScreenPage::AssetDetail);
+    check(acquiredArtwork.level == kArtworkLevelUnknown && acquiredArtwork.catalog == 0,
+          "missing authoritative level uses default art without inferring demo buildings");
+    developed.authoritySnapshotValid = true;
+    developed.tileBuildingLevel = 4;
+    renderPage(ScreenPage::AssetDetail);
+    check(acquiredArtwork.level == 4, "compact snapshot level applies to its explicitly named tile");
+    renderPage(ScreenPage::Home);
+    const auto beforeCompactFocus = artAcquires;
+    developed.tileBuildingLevel = 2;
+    developed.focus = developed.nav.current.focus = 1;
+    renderPage(ScreenPage::Home);
+    check(acquiredArtwork.level == 2 && artAcquires > beforeCompactFocus,
+          "simultaneous focus and compact level change replaces stale home artwork");
+    developed.tileAssetIndex = 0xFF;
+    renderPage(ScreenPage::AssetDetail);
+    check(acquiredArtwork.level == kArtworkLevelUnknown, "compact level cannot leak onto another asset");
+    developed.tileAssetIndex = property;
+    developed.boardCatalogCompatible = false;
+    renderPage(ScreenPage::AssetDetail);
+    check(acquiredArtwork.level == kArtworkLevelUnknown, "incompatible map does not guess development artwork");
+    developed.boardCatalogCompatible = true;
+    developed.fullAuthoritySnapshotValid = true;
+    developed.authorityAssets[property].buildingLevel = 255;
+    renderPage(ScreenPage::AssetDetail);
+    check(acquiredArtwork.level == kArtworkLevelUnknown, "invalid authority level is unknown");
+    developed.authorityAssets[property].buildingLevel = 2;
+    developed.rollResolved = true; renderPage(ScreenPage::MoveGuide);
+    check(prefetchedArtwork.level == 2, "move target prefetch receives known level");
+    developed.authorityAssets[property].buildingLevel = 1;
+    renderPage(ScreenPage::MoveGuide);
+    check(prefetchedArtwork.level == 1, "same target prefetch updates after downgrade");
+    developed.authorityRoomId = 701;
+    const auto beforeRoom = artAcquires;
+    renderPage(ScreenPage::AssetDetail);
+    check(artAcquires > beforeRoom && artAcquires == artReleases + 1,
+          "new room rebuild cannot retain old image object");
+    developed.rollResolved = false;
+    renderPage(ScreenPage::WaitingForGame);
+    check(!selectedArtwork.valid() && !prefetchedArtwork.valid() && artAcquires == artReleases,
+          "leaving artwork pages cancels demand and releases final LVGL image");
+    artReady = false;
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;
 }

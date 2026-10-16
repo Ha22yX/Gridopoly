@@ -3655,6 +3655,28 @@ uint8_t appAssetBuildingLevel(const AppState &state, uint8_t assetIndex)
     return assetIndex < kAssetCount ? kAssets[assetIndex].buildingLevel : 0;
 }
 
+uint8_t appAssetArtworkLevel(const AppState &state, uint8_t assetIndex)
+{
+    const auto *asset = authorityAssetDefinition(state, assetIndex);
+    if (!asset || !state.boardCatalogCompatible) return 0xFF;
+    if (state.fullAuthoritySnapshotValid && assetIndex < state.authorityAssetCount) {
+        const uint8_t level = state.authorityAssets[assetIndex].buildingLevel;
+        return level <= 5 ? level : 0xFF;
+    }
+    // Compact snapshots explicitly identify one tile; never apply its level to
+    // another asset or use the legacy demo defaults as authoritative artwork.
+    if (state.authoritySnapshotValid && state.tileAssetIndex == assetIndex &&
+        state.tileBuildingLevel <= 5) return state.tileBuildingLevel;
+    return 0xFF;
+}
+
+uint8_t appTileArtworkLevel(const AppState &state, uint8_t position)
+{
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.boardSize);
+    if (!board || position >= board->tileCount) return 0xFF;
+    return appAssetArtworkLevel(state, board->tiles[position].assetIndex);
+}
+
 bool appAssetMortgaged(const AppState &state, uint8_t assetIndex)
 {
     if (state.fullAuthoritySnapshotValid) {

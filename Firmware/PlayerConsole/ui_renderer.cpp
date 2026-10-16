@@ -309,7 +309,25 @@ const GridCityVisualDefinition &visualOrFallback(const GridCityVisualDefinition 
     return visual == nullptr ? gridCityFallbackVisual() : *visual;
 }
 
-lv_obj_t *drawArtwork(UiRect rect, const GridCityVisualDefinition &visual)
+void releaseArtworkOnDelete(lv_event_t *event)
+{
+    remoteTileCacheReleaseImage(static_cast<const lv_img_dsc_t *>(lv_event_get_user_data(event)));
+}
+
+bool attachArtwork(lv_obj_t *art, const lv_img_dsc_t *source)
+{
+    if (art == nullptr) { remoteTileCacheReleaseImage(source); return false; }
+    if (lv_obj_add_event_cb(art, releaseArtworkOnDelete, LV_EVENT_DELETE,
+                          const_cast<lv_img_dsc_t *>(source)) == nullptr) {
+        remoteTileCacheReleaseImage(source);
+        lv_obj_del(art);
+        return false;
+    }
+    lv_img_set_src(art, source);
+    return true;
+}
+
+lv_obj_t *drawArtwork(UiRect rect, const GridCityVisualDefinition &visual, uint8_t level)
 {
     lv_obj_t *frame = uiBox(root, rect, kPanel, visual.accent, 8);
     if (frame == nullptr) return nullptr;
@@ -317,7 +335,7 @@ lv_obj_t *drawArtwork(UiRect rect, const GridCityVisualDefinition &visual)
     lv_obj_clear_flag(frame, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_clear_flag(frame, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
 
-    const lv_img_dsc_t *source = gridCityArtworkImage(visual);
+    const lv_img_dsc_t *source = gridCityArtworkImage(visual, level);
     if (source == nullptr) {
         lv_obj_t *spinner = lv_spinner_create(frame, 780, 88);
         if (spinner != nullptr) {
@@ -335,8 +353,7 @@ lv_obj_t *drawArtwork(UiRect rect, const GridCityVisualDefinition &visual)
     }
 
     lv_obj_t *art = lv_img_create(frame);
-    if (art == nullptr) return frame;
-    lv_img_set_src(art, source);
+    if (!attachArtwork(art, source)) return frame;
     const uint16_t available = static_cast<uint16_t>(
         (rect.w < rect.h ? rect.w : rect.h) - 10
     );
@@ -350,6 +367,31 @@ lv_obj_t *drawArtwork(UiRect rect, const GridCityVisualDefinition &visual)
     return frame;
 }
 
+void selectVisibleArtwork(const AppState &state)
+{
+    const GridCityVisualDefinition *visual = nullptr;
+    uint8_t level = kArtworkLevelUnknown;
+    uint8_t asset = 0xFF, position = 0xFF;
+    switch (state.page) {
+        case ScreenPage::Home: position = state.position; break;
+        case ScreenPage::AssetDetail: asset = state.selectedAsset; break;
+        case ScreenPage::Purchase: asset = state.tileAssetIndex; break;
+        case ScreenPage::Auction:
+            asset = state.auctionPresentation == AuctionPresentationPhase::Result
+                ? state.auctionResultAssetIndex : state.auctionAssetIndex; break;
+        case ScreenPage::MoveGuide: position = state.rollTarget; break;
+        case ScreenPage::CardReveal:
+            if (state.cardPresentation == CardPresentationPhase::Drawing) position = state.rollTarget;
+            break;
+        default: break;
+    }
+    if (asset != 0xFF) { visual = appAssetVisual(state, asset); level = appAssetArtworkLevel(state, asset); }
+    else if (position != 0xFF) { visual = appTileVisual(state, position); level = appTileArtworkLevel(state, position); }
+    remoteTileCacheSetView(state.authorityRoomId, state.boardSize,
+        visual ? visual->artwork : GridCityArtwork::Fallback,
+        visual ? gridCityArtworkAssetKey(visual->artwork) : nullptr, level);
+}
+
 void prefetchRollTargetArtwork(const AppState &state)
 {
     const bool rollFlowActive = state.rollAnimating || state.rollResolved ||
@@ -357,14 +399,22 @@ void prefetchRollTargetArtwork(const AppState &state)
         state.page == ScreenPage::MoveGuide;
     if (!rollFlowActive || state.rollTarget == 0xFF) {
         prefetchedRollTarget = 0xFF;
+        remoteTileCachePrefetch(GridCityArtwork::Fallback, nullptr);
         return;
     }
-    if (prefetchedRollTarget == state.rollTarget) return;
     const GridCityVisualDefinition *visual = appTileVisual(state, state.rollTarget);
-    if (visual == nullptr) return;
-    gridCityArtworkPrefetch(*visual);
+    if (visual == nullptr) {
+        remoteTileCachePrefetch(GridCityArtwork::Fallback, nullptr);
+        return;
+    }
+    const uint8_t level = appTileArtworkLevel(state, state.rollTarget);
+    gridCityArtworkPrefetch(*visual, level);
+    static RemoteArtworkRequest previousRequest{};
+    const auto request = artworkRequest(visual->artwork, gridCityArtworkAssetKey(visual->artwork), level);
+    if (prefetchedRollTarget != state.rollTarget || !sameArtwork(previousRequest, request))
+        ++rendererTestStats.artworkPrefetches;
+    previousRequest = request;
     prefetchedRollTarget = state.rollTarget;
-    ++rendererTestStats.artworkPrefetches;
 }
 
 void setTurnReminderOpacity(void *object, int32_t value)
@@ -573,6 +623,8 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
     const bool tradeAssetFocusOnly = state.page == ScreenPage::TradeAssetSelect;
     const bool demoFocusOnly = state.page == ScreenPage::DemoLab;
     return state.page == rendered.page &&
+           state.authorityRoomId == rendered.authorityRoomId &&
+           state.boardSize == rendered.boardSize &&
            appPresentedHomePhase(state) == appPresentedHomePhase(rendered) &&
            state.endTurnPresentation == rendered.endTurnPresentation &&
            state.endTurnPresentationStartedMs == rendered.endTurnPresentationStartedMs &&
@@ -609,6 +661,9 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
            state.turnsUntilYou == rendered.turnsUntilYou &&
            state.authorityOnline == rendered.authorityOnline &&
            state.joinStatus == rendered.joinStatus &&
+           state.authoritySnapshotValid == rendered.authoritySnapshotValid &&
+           state.tileAssetIndex == rendered.tileAssetIndex &&
+           state.tileBuildingLevel == rendered.tileBuildingLevel &&
            state.fullAuthoritySnapshotValid == rendered.fullAuthoritySnapshotValid &&
            state.rosterSnapshotValid == rendered.rosterSnapshotValid &&
            state.playerDetail.loadState == rendered.playerDetail.loadState &&
@@ -1400,7 +1455,7 @@ void drawHome(const AppState &state, uint32_t nowMs)
             UiRect{140, 108, 200, 20}, &lv_font_montserrat_12, kGreen);
         startTurnReminder(turnReminderLabel);
     }
-    drawArtwork(kHomeArtwork, tileVisual);
+    drawArtwork(kHomeArtwork, tileVisual, appTileArtworkLevel(state, state.position));
     uiLabel(root, "AVAILABLE CASH", kHomeCashLabel, &lv_font_montserrat_14, kMuted);
     char money[24];
     snprintf(money, sizeof(money), "$ %ld", static_cast<long>(state.money));
@@ -1470,7 +1525,7 @@ void drawAssetDetail(const AppState &state)
         snprintf(category, sizeof(category), "%s", visual.category);
     }
     drawHeader(assetName, category);
-    drawArtwork(kAssetDetailArtwork, visual);
+    drawArtwork(kAssetDetailArtwork, visual, appAssetArtworkLevel(state, state.selectedAsset));
     char groupProgress[48];
     uint8_t ownedInGroup = 0;
     uint8_t totalInGroup = 0;
@@ -2163,7 +2218,7 @@ void drawMoveGuide(const AppState &state)
     );
     drawOuterRing(visual.accent);
     drawHeader("ARRIVAL CHECK", "MOVE YOUR TOKEN");
-    drawArtwork(UiRect{176, 94, 128, 128}, visual);
+    drawArtwork(UiRect{176, 94, 128, 128}, visual, appTileArtworkLevel(state, state.rollTarget));
     char location[48];
     snprintf(location, sizeof(location), "TILE %u  /  %u SPACES",
              state.rollTarget, state.rolledSteps);
@@ -2331,12 +2386,13 @@ void drawCardReveal(const AppState &state, uint32_t nowMs)
             const GridCityVisualDefinition &visual = visualOrFallback(
                 appTileVisual(state, state.rollTarget)
             );
-            const lv_img_dsc_t *source = gridCityArtworkImage(visual);
+            const lv_img_dsc_t *source = gridCityArtworkImage(visual, appTileArtworkLevel(state, state.rollTarget));
             if (source != nullptr) {
                 lv_obj_t *art = lv_img_create(cardObject);
-                lv_img_set_src(art, source);
-                lv_img_set_zoom(art, 246);
-                lv_obj_align(art, LV_ALIGN_TOP_MID, 0, 12);
+                if (attachArtwork(art, source)) {
+                    lv_img_set_zoom(art, 246);
+                    lv_obj_align(art, LV_ALIGN_TOP_MID, 0, 12);
+                }
             }
             uiLabel(cardObject, deckName, UiRect{10, 174, 170, 24},
                     &lv_font_montserrat_14, accent);
@@ -2412,7 +2468,7 @@ void drawPurchase(const AppState &state)
     drawOuterRing(visual.accent);
     drawHeader("PROPERTY AVAILABLE", "PURCHASE DECISION");
     const char *asset = appAssetDisplayName(state, state.tileAssetIndex);
-    drawArtwork(UiRect{176, 94, 128, 128}, visual);
+    drawArtwork(UiRect{176, 94, 128, 128}, visual, appAssetArtworkLevel(state, state.tileAssetIndex));
     uiLabel(root, asset, UiRect{80, 225, 320, 28}, &lv_font_montserrat_20, kText);
     drawMoneyMetric("PURCHASE PRICE", appAssetValue(state, state.tileAssetIndex),
                     UiRect{68, 258, 168, 16}, UiRect{68, 277, 168, 30}, kYellow);
@@ -2461,7 +2517,7 @@ void drawAuction(const AppState &state)
     else if (opening) drawAuctionHeader("WAITING FOR PLAYERS", openingProgress);
     else drawAuctionHeader("LIVE AUCTION", "CITY AUCTION");
 
-    drawArtwork(UiRect{72, 116, 112, 112}, visual);
+    drawArtwork(UiRect{72, 116, 112, 112}, visual, appAssetArtworkLevel(state, assetIndex));
     auctionLabel(appAssetDisplayName(state, assetIndex), UiRect{198, 116, 210, 24},
                  &lv_font_montserrat_16, kText);
     auctionLabel("UP FOR AUCTION", UiRect{198, 144, 210, 16},
@@ -3466,6 +3522,7 @@ bool uiRendererBegin()
 void uiRendererRender(const AppState &state, uint32_t nowMs)
 {
     if (root == nullptr) return;
+    selectVisibleArtwork(state);
     prefetchRollTargetArtwork(state);
     // Network revisions and draft-label updates belong to the same writing
     // session. Rebuilding this page would delete its canvas and cancel ink.

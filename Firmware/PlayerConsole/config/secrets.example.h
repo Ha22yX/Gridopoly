@@ -9,3 +9,6 @@
 
 // Optional ESP-NOW fallback credential.
 #define GRIDOPOLY_ESPNOW_TEST_PSK "replace-with-at-least-16-random-characters"
+
+// Optional HTTP artwork host (hostname or IP, with optional :port; no scheme).
+// #define GRIDOPOLY_ARTWORK_HOST "10.42.0.1"

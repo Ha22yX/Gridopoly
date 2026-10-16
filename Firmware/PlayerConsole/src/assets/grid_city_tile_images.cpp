@@ -48,16 +48,16 @@ const char *gridCityArtworkAssetKey(GridCityArtwork artwork)
     return nullptr;
 }
 
-const lv_img_dsc_t *gridCityArtworkImage(const GridCityVisualDefinition &visual)
+const lv_img_dsc_t *gridCityArtworkImage(const GridCityVisualDefinition &visual, uint8_t level)
 {
     const char *key = gridCityArtworkAssetKey(visual.artwork);
     if (key == nullptr) return &asset_property_neon_harbor;
-    return remoteTileCacheImage(visual.artwork, key);
+    return remoteTileCacheImage(visual.artwork, key, level);
 }
 
-void gridCityArtworkPrefetch(const GridCityVisualDefinition &visual)
+void gridCityArtworkPrefetch(const GridCityVisualDefinition &visual, uint8_t level)
 {
     remoteTileCachePrefetch(
-        visual.artwork, gridCityArtworkAssetKey(visual.artwork)
+        visual.artwork, gridCityArtworkAssetKey(visual.artwork), level
     );
 }

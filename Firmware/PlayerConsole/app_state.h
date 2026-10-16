@@ -81,6 +81,9 @@ int32_t appAssetRent(const AppState &state, uint8_t assetIndex);
 int32_t appAssetMortgageValue(const AppState &state, uint8_t assetIndex);
 int32_t appAssetBuildingCost(const AppState &state, uint8_t assetIndex);
 uint8_t appAssetBuildingLevel(const AppState &state, uint8_t assetIndex);
+// Artwork must not infer development from legacy demo defaults. 0xFF = unknown.
+uint8_t appAssetArtworkLevel(const AppState &state, uint8_t assetIndex);
+uint8_t appTileArtworkLevel(const AppState &state, uint8_t position);
 bool appAssetMortgaged(const AppState &state, uint8_t assetIndex);
 bool appDiceResultVisible(const AppState &state, uint32_t nowMs);
 ArrivalKind appArrivalKind(const AppState &state);

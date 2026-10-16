@@ -15,8 +15,10 @@ const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &) { return 
 const lv_img_dsc_t *remoteAvatarFinal(uint32_t, uint8_t, uint16_t, uint64_t) { return nullptr; }
 bool remoteAvatarCacheConsumeUpdate() { return false; }
 void remoteTileCacheBegin() {}
-void remoteTileCachePrefetch(GridCityArtwork, const char *) {}
-const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork, const char *) { return nullptr; }
+void remoteTileCacheSetView(uint32_t, uint8_t, GridCityArtwork, const char *, uint8_t) {}
+void remoteTileCacheReleaseImage(const lv_img_dsc_t *) {}
+void remoteTileCachePrefetch(GridCityArtwork, const char *, uint8_t) {}
+const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork, const char *, uint8_t) { return nullptr; }
 bool remoteTileCacheConsumeUpdate() { return false; }
 
 namespace {
