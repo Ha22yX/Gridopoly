@@ -71,7 +71,7 @@ That idea became **Gridopoly**. It's grown into my own hardware and software pro
 | Board order and map assignment | A real 16-module ORDER ring has been detected, with automatic tile assignment and the four corners aligned correctly. |
 | Physical pieces | All 16 modules have successfully recognized tags with the coils mounted slightly above the displays. |
 | Local wireless network | 16 tiles + four player consoles have connected together through the Raspberry Pi's ALFA USB Wi-Fi adapter. The server and hotspot start automatically. |
-| Tile screens and lighting | All 16 tiles are on **V0.36**. Screen orientation, displayed content, and the reduced LED brightness have been checked on every module. |
+| Tile screens and lighting | All 16 tiles passed the **V0.36** orientation and lower-brightness check. Eight tiles now run **V0.37**, adding house/hotel artwork downloaded into RAM; the first board passed all five artwork levels, cache reuse, and reboot clearing. |
 | Game software | Player discovery, bot seats, tag pairing, avatar/name setup, transactions, and game-state persistence are implemented. |
 
 I'm now working toward a complete four-player hardware playtest, smoother player-screen interactions, the final printed assembly, and expansion to **32 tiles + four controllers**. Those are the next checks; the 16-space milestone doesn't mean every future configuration has already been tested.

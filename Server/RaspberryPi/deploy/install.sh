@@ -13,6 +13,7 @@ fi
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 PROJECT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/../../.." && pwd)
 TILE_STAGER="$PROJECT_DIR/Server/RaspberryPi/tools/stage-web-tile-assets.py"
+DEVELOPMENT_STAGER="$PROJECT_DIR/Server/RaspberryPi/tools/stage-development-assets.py"
 AVATAR_LAYER_PACK="$PROJECT_DIR/Assets/GridCity/Avatars/V1/runtime/avatar-v1.layers"
 AVATAR_COMPONENT_SOURCE="$PROJECT_DIR/Assets/GridCity/Avatars/V1/runtime/components-v1"
 AVATAR_COMPONENT_VERIFIER="$PROJECT_DIR/Server/RaspberryPi/tools/verify-avatar-components.py"
@@ -38,6 +39,11 @@ if [ ! -d "$AVATAR_COMPONENT_SOURCE" ] || [ ! -f "$AVATAR_COMPONENT_VERIFIER" ] 
   exit 3
 fi
 python3 "$AVATAR_COMPONENT_VERIFIER"
+# A released URL version may only be reinstalled with identical content.
+# Check before replacing the game binary or any existing asset directory.
+if [ -e "$TILE_TARGET/development/v1" ] || [ -L "$TILE_TARGET/development/v1" ]; then
+  python3 "$DEVELOPMENT_STAGER" --verify-existing "$TILE_TARGET/development/v1"
+fi
 if ! getent group gridopoly >/dev/null; then groupadd --system gridopoly; fi
 if ! id gridopoly >/dev/null 2>&1; then
   useradd --system --gid gridopoly --home-dir /var/lib/gridopoly --shell /usr/sbin/nologin gridopoly
@@ -50,8 +56,10 @@ install -d -o root -g root -m 0755 "$TILE_PARENT"
 rm -rf "$TILE_STAGE" "$TILE_OLD"
 install -d -o root -g root -m 0755 "$TILE_STAGE"
 python3 "$TILE_STAGER" "$TILE_STAGE"
-find "$TILE_STAGE" -maxdepth 1 -type f -exec chown root:root {} +
-find "$TILE_STAGE" -maxdepth 1 -type f -exec chmod 0644 {} +
+find "$TILE_STAGE" -type d -exec chown root:root {} +
+find "$TILE_STAGE" -type d -exec chmod 0755 {} +
+find "$TILE_STAGE" -type f -exec chown root:root {} +
+find "$TILE_STAGE" -type f -exec chmod 0644 {} +
 PNG_COUNT=$(find "$TILE_STAGE" -maxdepth 1 -type f -name '*.png' | wc -l | tr -d ' ')
 RGB565_COUNT=$(find "$TILE_STAGE" -maxdepth 1 -type f -name '*.rgb565' | wc -l | tr -d ' ')
 FILE_COUNT=$(find "$TILE_STAGE" -maxdepth 1 -type f | wc -l | tr -d ' ')

@@ -24,6 +24,7 @@
 #include "hitag_s_protocol.h"
 #include "tag_presence_filter.h"
 #include "tile_artwork.h"
+#include "development_artwork.h"
 #include "tile_connection_view.h"
 #include "tile_model.h"
 #include "tile_network.h"
@@ -1901,7 +1902,11 @@ void drawArtwork(const TileState &state, std::uint16_t accent) {
   displaySurface().drawRoundRect(kFrameX + 1, kFrameY + 1, kFrameSize - 2,
                          kFrameSize - 2, kArtworkRadius - 1, accent);
 
-  const TileArtwork *artwork = tileArtwork(state.artwork);
+  // The lease pins RAM until the last row is copied. Worker writes only staging;
+  // publication and LRU eviction run on this display task between render calls.
+  auto remote = acquireDevelopmentArtwork(state);
+  const TileArtwork developed{160, 160, remote.pixels()};
+  const TileArtwork *artwork = remote.pixels() ? &developed : tileArtwork(state.artwork);
   if (artwork != nullptr && artwork->pixels != nullptr &&
       artwork->width == kImageSize && artwork->height == kImageSize) {
     if (gSubmittedFrame == nullptr) {
@@ -2188,10 +2193,29 @@ void drawPairingPage() {
   drawPowerFooter();
 }
 
+void drawArtworkProbePage(const TileState &preview) {
+  displaySurface().fillScreen(kBackground);
+  centeredText("TEST ARTWORK - 30 SEC", 10, 1, kYellow, kBackground);
+  drawArtwork(preview, kYellow);
+  centeredText(preview.display_name, 218, 1, kMuted, kBackground);
+  char level[32];
+  std::snprintf(level, sizeof(level), "LEVEL %u  %s", preview.building_level,
+                preview.building_level == 5 ? "HOTEL" : "HOUSES");
+  centeredText(level, 235, 1, kYellow, kBackground);
+  drawBuildingBadges(preview, 92, 252, kYellow);
+  auto image = acquireDevelopmentArtwork(preview);
+  centeredText(image.pixels() ? "RAM IMAGE READY" : "L0 FALLBACK / DOWNLOADING",
+               270, 1, image.pixels() ? kGreen : kMuted, kBackground);
+  drawPowerFooter();
+}
+
 void renderPage() {
+  TileState preview;
   if (gDiagnosticPage) {
     drawDiagnosticPage();
     Serial.println(F("[DISPLAY] page=DIAGNOSTIC"));
+  } else if (developmentArtworkPreview(preview)) {
+    drawArtworkProbePage(preview);
   } else if (pairingVisible(gNetworkSnapshot.pairing, millis())) {
     drawPairingPage();
     Serial.printf("[DISPLAY] page=PAIRING state=%s player=%u\r\n",
@@ -2296,6 +2320,7 @@ void printLedStatus() {
 void printStatus() {
   Serial.println(F("[RFID-DIAG] build=stage2 strict=YES probe=EXPLICIT_ONCE"));
   printLedStatus();
+  printDevelopmentArtworkStatus();
   Serial.printf("[PAIRING] active=%s state=%s room=%lu session=%lu revision=%lu player=%u scan_seq=%lu fresh=%s\r\n",
                 pairingVisible(gNetworkSnapshot.pairing, millis()) ? "YES" : "NO",
                 tilePairingStateLabel(gNetworkSnapshot.pairing.state),
@@ -2382,6 +2407,8 @@ void printHelp() {
   Serial.println(F("  LED OFF|RED|GREEN|BLUE seconds  local override, 1..30 s, level 8"));
   Serial.println(F("  LED AUTO          restore normal game lighting immediately"));
   Serial.println(F("  STATUS            print current state and power"));
+  Serial.println(F("  ART PROBE key 1..5  local artwork preview, expires after 30 s"));
+  Serial.println(F("  ART STOP|STATUS   restore authoritative page / RAM cache status"));
   Serial.println(F("  RFID DEBUG ON|OFF 30s bounded RFID stage diagnostics"));
   Serial.println(F("  RFID PROBE ONCE   local read-only ANTFAIL probe; 60s cooldown"));
   Serial.println(F("  HELP              print this list"));
@@ -2399,7 +2426,13 @@ void processCommand(char *command) {
     ++command;
   }
   uppercase(command);
-  if (std::strncmp(command, "LED", 3) == 0) {
+  if (std::strncmp(command, "ART", 3) == 0) {
+    if (developmentArtworkCommand(command, millis())) {
+      gDiagnosticPage = false;
+      serviceDevelopmentArtwork(gNetworkSnapshot.assigned ? &currentTileState() : nullptr, millis());
+      renderPage();
+    }
+  } else if (std::strncmp(command, "LED", 3) == 0) {
     const auto led_command = ws2812::parseCommand(command);
     if (!led_command.valid) {
       Serial.println(F("ERR: LED STATUS, LED AUTO, or LED OFF|RED|GREEN|BLUE 1..30"));
@@ -2506,6 +2539,7 @@ void setup() {
   const std::uint32_t now = millis();
   gLastTagScanMs = now - kTagSearchPeriodMs;
   gNetwork.begin();
+  beginDevelopmentArtwork();
   const bool order_ready = initializeOrderLink();
   Serial.printf("[ORDER] timer=%s period_ms=6000 ttl_ms=15000 gate=LOW_RELEASE\r\n",
                 order_ready ? "OK" : "FAIL");
@@ -2606,6 +2640,10 @@ void loop() {
     gLastUiRefreshMs = now;
     if (gDiagnosticPage) {
       drawDiagnosticPage();
+    } else if (developmentArtworkProbeActive()) {
+      // An unassigned module still has a complete TEST preview; do not draw
+      // the connection-page progress stripe over its artwork.
+      drawPowerFooter();
     } else if (!gNetworkSnapshot.assigned &&
                !pairingVisible(gNetworkSnapshot.pairing, now)) {
       // The connection page is fully redrawn only when its semantic network
@@ -2622,6 +2660,8 @@ void loop() {
     gLastLedFrameMs = now;
     renderLedScene(now);
   }
+  if (serviceDevelopmentArtwork(gNetworkSnapshot.assigned ? &currentTileState() : nullptr, millis()) &&
+      !gDiagnosticPage) renderPage();
   presentPage();
   delay(1);
 }

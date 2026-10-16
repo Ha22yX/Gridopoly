@@ -31,6 +31,11 @@ def export_candidate(source, target, env):
     inherited = project.parent / "PlayerConsole/config/secrets.local.h"
     if inherited.exists():
         files.append(inherited)
+    # Header-only asset catalog/policy are real build inputs, without linking
+    # the rest of GridopolyCore into the tile firmware.
+    asset_headers = project.parent / "libraries/GridopolyCore/src/gridopoly/assets"
+    files += [asset_headers / "DevelopmentArtworkCatalog.h",
+              asset_headers / "RemoteArtworkPolicy.h"]
     sources = {str(f.relative_to(project.parent).as_posix()): digest(f)
                for f in sorted(files)}
     source_bytes = json.dumps(sources, sort_keys=True, separators=(",", ":")).encode()
@@ -54,6 +59,8 @@ def export_candidate(source, target, env):
                         (project / "include/module_profile.h").read_text(encoding="utf-8"))
     if version is None:
         raise ValueError("Firmware version is missing from module_profile.h")
+    main_source = (project / "src/main.cpp").read_text(encoding="utf-8")
+    rfid_diagnostic = "rfid_diagnostics.h" in main_source
     revision = subprocess.check_output(
         ["git", "-c", "safe.directory=*", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
     manifest = {
@@ -64,7 +71,11 @@ def export_candidate(source, target, env):
         "flashFrequency": env.subst("${__get_board_f_image(__env__)}"),
         "gitRevision": revision, "sourceDigest": hashlib.sha256(source_bytes).hexdigest(),
         "sourceManifest": str(build / "candidate-sources.json"), "segments": segments,
-        "normalFirmware": True, "displayDefaultHz": 8000000,
+        "normalFirmware": not rfid_diagnostic, "displayDefaultHz": 8000000,
+        "rfidDiagnostic": "stage2" if rfid_diagnostic else "none",
+        "displayRotation": 2, "displayRotationDegrees": 180,
+        "developmentArtwork": {"catalog": "v1", "storage": "RAM_ONLY",
+                               "readyLimit": 5, "stagingLimit": 1, "maximumBytes": 307200},
         "role": "long" if profiles[environment] == "tile-long" else "corner",
         "validation": "Candidate only; no device deployment, LED optical or full-board acceptance implied",
     }

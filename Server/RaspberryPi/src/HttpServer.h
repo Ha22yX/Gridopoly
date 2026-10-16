@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "AuthorityService.h"
+#include "DevelopmentAssetLimiter.h"
 #include "TileDebugAssignments.h"
 #include "UdpPlayerServer.h"
 
@@ -43,6 +44,7 @@ class HttpServer {
   void stop();
   std::uint16_t port() const { return port_; }
   Diagnostics diagnostics() const;
+  DevelopmentAssetLimiter::Stats developmentAssetStats() const { return developmentAssets_.stats(); }
 
  private:
   struct Request {
@@ -61,6 +63,8 @@ class HttpServer {
     std::string cacheControl{"no-store"};
     std::string contentEncoding{};
     std::string etag{};
+    std::uint32_t retryAfterSeconds{};
+    std::shared_ptr<DevelopmentAssetLimiter::Permit> developmentPermit{};
   };
 
   struct PendingClient {
@@ -74,6 +78,7 @@ class HttpServer {
   std::uint16_t port_{};
   std::string serviceIp_;
   std::size_t workerCount_{};
+  DevelopmentAssetLimiter developmentAssets_;
   std::filesystem::path assetDirectory_{};
   int listenSocket_{-1};
   std::atomic<bool> running_{};

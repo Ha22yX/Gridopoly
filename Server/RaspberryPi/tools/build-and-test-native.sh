@@ -50,6 +50,7 @@ TILE_DEBUG_SOURCES=(
 mkdir -p "$BUILD_DIR"
 
 python3 "$ROOT/Server/RaspberryPi/tools/test-stage-web-tile-assets.py"
+python3 "$ROOT/Server/RaspberryPi/tools/test-stage-development-assets.py"
 python3 "$ROOT/Server/RaspberryPi/tools/verify-avatar-components.py"
 python3 "$ROOT/Server/RaspberryPi/tools/test-stage-avatar-components.py"
 
@@ -61,6 +62,10 @@ build_and_run()
   "$CXX" "${COMMON_FLAGS[@]}" "$@" -o "$BUILD_DIR/$name"
   "$BUILD_DIR/$name"
 }
+
+build_and_run gridopoly_development_artwork_tests \
+  -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \
+  "$ROOT/tests/host/development_artwork_tests.cpp"
 
 build_and_run gridopoly_core_tests \
   "${CORE_SOURCES[@]}" \

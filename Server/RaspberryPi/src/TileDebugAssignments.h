@@ -96,6 +96,7 @@ struct TileModuleDebugState {
   std::uint8_t ownerPlayerId{};
   std::string ownerDisplayName{};
   std::uint32_t ownerRgb{};
+  std::uint8_t buildingLevel{};
   TileDebugAssignmentSource source{TileDebugAssignmentSource::None};
   std::uint64_t revision{};
   std::uint64_t updatedAtMs{};

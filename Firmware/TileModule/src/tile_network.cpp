@@ -18,13 +18,7 @@
 #include "order_link_io.h"
 #include "module_profile.h"
 #include "tile_pairing_json.h"
-
-#if __has_include("config/secrets.local.h")
-#include "config/secrets.local.h"
-#elif __has_include("../../PlayerConsole/config/secrets.local.h")
-// Reuse the ignored local AP credentials already used by PlayerConsole.
-#include "../../PlayerConsole/config/secrets.local.h"
-#endif
+#include "tile_http_endpoint.h"
 
 #ifndef GRIDOPOLY_TILE_WIFI_SSID
 #ifdef GRIDOPOLY_WIFI_UDP_SSID
@@ -46,14 +40,6 @@
 #endif
 #endif
 
-
-#ifndef GRIDOPOLY_TILE_HTTP_HOST
-#define GRIDOPOLY_TILE_HTTP_HOST "10.42.0.1"
-#endif
-
-#ifndef GRIDOPOLY_TILE_HTTP_PORT
-#define GRIDOPOLY_TILE_HTTP_PORT 80
-#endif
 
 namespace gridopoly::tile {
 namespace {
@@ -728,6 +714,11 @@ bool TileNetworkClient::parsePayload(const char *payload,
            item["artworkKey"] | "");
   assignment.purchase_price = item["purchase_price"] | 0U;
   assignment.owner_player = item["owner_player"] | 0U;
+  // Old servers omit this field (L0). Reject invalid integers before narrowing.
+  const JsonVariantConst building_level = item["buildingLevel"];
+  if (!building_level.isNull() &&
+      (!building_level.is<unsigned>() || building_level.as<unsigned>() > 5U)) return false;
+  assignment.building_level = building_level | 0U;
   copyText(assignment.owner_display_name,
            sizeof(assignment.owner_display_name),
            item["owner_display_name"] | "");

@@ -17,6 +17,7 @@ struct TileAssignmentDto {
   char artwork_key[40]{};
   std::uint16_t purchase_price = 0;
   std::uint8_t owner_player = 0;
+  std::uint8_t building_level = 0;
   char owner_display_name[21]{};
   std::uint32_t owner_rgb = 0;
   std::uint64_t revision = 0;

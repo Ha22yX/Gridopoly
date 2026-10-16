@@ -1,6 +1,7 @@
 #include "TileOrderJson.h"
 #include "HttpServer.h"
 #include "JsonObjectFields.h"
+#include "DevelopmentAssetFile.h"
 
 #include <arpa/inet.h>
 #include <algorithm>
@@ -313,6 +314,7 @@ void appendTileDebugAssignmentJson(std::ostringstream& body,
        << ",\"owner_player\":" << static_cast<unsigned>(assignment.ownerPlayerId)
        << ",\"owner_display_name\":\"" << jsonEscape(assignment.ownerDisplayName)
        << "\",\"owner_color\":" << assignment.ownerRgb
+       << ",\"buildingLevel\":" << static_cast<unsigned>(assignment.buildingLevel)
        << ",\"revision\":" << assignment.revision
        << ",\"updatedAtMs\":" << assignment.updatedAtMs
        << ",\"orderAnchorModuleId\":\"" << jsonEscape(assignment.orderAnchorModuleId)
@@ -510,6 +512,7 @@ HttpServer::HttpServer(AuthorityService& authority, UdpPlayerServer& udp,
                        std::filesystem::path assetDirectory)
     : authority_(authority), udp_(udp), port_(port), serviceIp_(std::move(serviceIp)),
       workerCount_(std::max<std::size_t>(2, workerCount)),
+      developmentAssets_(workerCount_),
       assetDirectory_(std::move(assetDirectory)) {}
 
 HttpServer::~HttpServer() { stop(); }
@@ -653,8 +656,15 @@ void HttpServer::handleClient(int descriptor) {
     Request request{};
     if (!readRequest(descriptor, request, handled == 0)) return;
     const auto remaining = kMaxRequestsPerConnection - handled - 1;
-    const bool keepAlive = request.keepAlive && remaining != 0;
-    if (!sendResponse(descriptor, route(request), keepAlive, remaining)) return;
+    const bool development = request.path.rfind("/assets/development/", 0) == 0;
+    const bool keepAlive = request.keepAlive && remaining != 0 && !development;
+    const auto response = route(request);
+    if (response.developmentPermit) {
+      // Bound queued bytes too, so slow receivers retain their admission slot.
+      const int bytes = 8192;
+      ::setsockopt(descriptor, SOL_SOCKET, SO_SNDBUF, &bytes, sizeof(bytes));
+    }
+    if (!sendResponse(descriptor, response, keepAlive, remaining)) return;
     if (!keepAlive) return;
   }
 }
@@ -767,6 +777,7 @@ HttpServer::Response HttpServer::route(const Request& request) {
   }
   if (request.method == "GET" && request.path == "/health") {
     const auto http = diagnostics();
+    const auto development = developmentAssets_.stats();
     const auto udp = udp_.diagnostics();
     const auto uptime = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - startedAt_).count();
@@ -783,6 +794,9 @@ HttpServer::Response HttpServer::route(const Request& request) {
          << ",\"queued\":" << http.queued << ",\"timeouts\":" << http.readTimeouts
          << ",\"sendErrors\":" << http.sendErrors
          << ",\"keepAlivePreemptions\":" << http.keepAlivePreemptions
+         << "},\"developmentAssets\":{\"active\":" << development.active
+         << ",\"peak\":" << development.peak << ",\"limit\":" << development.limit
+         << ",\"admitted\":" << development.admitted << ",\"rejected\":" << development.rejected
          << "},\"udp\":{\"rx\":" << udp.rxDatagrams
          << ",\"valid\":" << udp.validDatagrams << ",\"authFailures\":" << udp.authFailures
          << ",\"replayDrops\":" << udp.replayDrops << ",\"tx\":" << udp.txDatagrams
@@ -1210,6 +1224,51 @@ HttpServer::Response HttpServer::route(const Request& request) {
     return {200, rgb565 ? "application/octet-stream" : "image/png", std::move(body),
             "public, max-age=31536000, immutable", {}, etag};
   }
+  if (request.path.rfind("/assets/development/", 0) == 0) {
+    if (request.method != "GET") {
+      return {405, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"method_not_allowed\"}", "no-store", {}, {}};
+    }
+    DevelopmentAssetFile file;
+    if (!developmentAssetFile(request.path, file)) {
+      return {404, "application/json; charset=utf-8",
+              "{\"ok\":false,\"error\":\"development_asset_not_found\"}", "no-store", {}, {}};
+    }
+    Response response;
+    response.developmentPermit = developmentAssets_.acquire();
+    if (!response.developmentPermit) {
+      response.status = 503;
+      response.retryAfterSeconds = 1;
+      response.body = "{\"ok\":false,\"error\":\"development_asset_busy\"}";
+      return response;
+    }
+    if (!readDevelopmentAsset(assetDirectory_, file, response.body)) {
+      response.status = 404;
+      response.body = "{\"ok\":false,\"error\":\"development_asset_not_found\"}";
+      return response;
+    }
+    response.contentType = file.png ? "image/png" : "application/octet-stream";
+    response.cacheControl = "public, max-age=31536000, immutable";
+    response.etag = strongEtag(fnv64(reinterpret_cast<const std::uint8_t*>(response.body.data()), response.body.size()));
+    const auto found = request.headers.find("if-none-match");
+    if (found != request.headers.end()) {
+      std::istringstream values(found->second);
+      std::string value;
+      while (std::getline(values, value, ',')) {
+        const auto begin = value.find_first_not_of(" \t");
+        if (begin == std::string::npos) continue;
+        value = value.substr(begin, value.find_last_not_of(" \t") - begin + 1);
+        if (value == "*" || value == response.etag || value == "W/" + response.etag) {
+          response.status = 304;
+          response.body.clear();
+          std::lock_guard<std::mutex> lock(diagnosticsMutex_);
+          ++diagnostics_.notModified;
+          break;
+        }
+      }
+    }
+    return response;
+  }
   constexpr std::string_view tileAssetPrefix = "/assets/tiles/";
   if (request.method == "GET" && request.path.rfind(tileAssetPrefix, 0) == 0) {
     const auto name = request.path.substr(tileAssetPrefix.size());
@@ -1333,7 +1392,13 @@ bool HttpServer::sendResponse(int descriptor, const Response& response, bool kee
   if (!response.cacheControl.empty()) header << "Cache-Control: " << response.cacheControl << "\r\n";
   if (!response.contentEncoding.empty()) header << "Content-Encoding: " << response.contentEncoding << "\r\n";
   if (!response.etag.empty()) header << "ETag: " << response.etag << "\r\n";
-  header << "Content-Length: " << response.body.size() << "\r\n\r\n";
+  if (response.retryAfterSeconds) header << "Retry-After: " << response.retryAfterSeconds << "\r\n";
+  // A 304 has no body; if it carries Content-Length it must describe the 200
+  // representation, not zero. Omit it for conditional development responses.
+  if (!(response.status == 304 && response.developmentPermit)) {
+    header << "Content-Length: " << response.body.size() << "\r\n";
+  }
+  header << "\r\n";
   const auto headerText = header.str();
   std::array<std::pair<const char*, std::size_t>, 2> parts{{
       {headerText.data(), headerText.size()}, {response.body.data(), response.body.size()}}};

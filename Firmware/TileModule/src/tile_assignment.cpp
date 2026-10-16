@@ -113,6 +113,9 @@ bool applyTileAssignment(const TileAssignmentDto &assignment, TileState &state) 
   state.accent = rgbFromPacked(assignment.accent_rgb);
   state.purchase_price = assignment.purchase_price;
   state.owner_player = assignment.owner_player;
+  state.building_level = kind == TileKind::Property && assignment.owner_player != 0 &&
+                                 assignment.building_level <= 5
+                             ? assignment.building_level : 0;
   copyTileText(state.owner_display_name, sizeof(state.owner_display_name),
                assignment.owner_display_name);
   state.owner_color = rgbFromPacked(assignment.owner_rgb);

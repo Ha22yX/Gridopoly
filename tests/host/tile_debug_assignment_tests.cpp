@@ -448,6 +448,40 @@ void verifyTagAggregationAndMovementCues() {
   assert(service.snapshot(800, state).modules.empty());
 }
 
+void verifyBuildingLevelProjection() {
+  std::uint64_t now = 1000;
+  TileDebugAssignments service([&now] { return now; });
+  auto state = makeState(32);
+  const auto index = assetIndexFor(state, "A1");
+  assert(service.heartbeat(9100, state, "development", "development-device").result);
+  assert(service.set(9100, state, "development", "development-device", "A1"));
+  state.assets[index].ownerId = 1;
+  auto last = service.heartbeat(9100, state, "development", "development-device");
+  assert(last.assignment.buildingLevel == 0);
+  for (const auto level : {1, 2, 3, 4, 5, 4, 0}) {
+    state.assets[index].buildingLevel = static_cast<std::uint8_t>(level);
+    const auto current = service.heartbeat(9100, state, "development", "development-device");
+    assert(current.assignment.buildingLevel == level);
+    assert(current.serverRevision == last.serverRevision + 1);
+    assert(current.assignment.revision == current.serverRevision);
+    assert(current.assignment.ownerPlayerId == 1 && current.assignment.tileId == "A1");
+    assert(service.heartbeat(9100, state, "development", "development-device").serverRevision == current.serverRevision);
+    last = current;
+  }
+  // No stale hotel after bankruptcy/unowned state, invalid levels, or remap.
+  state.assets[index].buildingLevel = 5;
+  state.assets[index].ownerId = 0;
+  assert(service.heartbeat(9100, state, "development", "development-device").assignment.buildingLevel == 0);
+  state.assets[index].ownerId = 1;
+  state.assets[index].buildingLevel = 255;
+  assert(service.heartbeat(9100, state, "development", "development-device").assignment.buildingLevel == 0);
+  state.assets[index].buildingLevel = 5;
+  assert(service.heartbeat(9100, state, "development", "development-device").assignment.buildingLevel == 5);
+  assert(service.set(9100, state, "development", "development-device", "CORNER-START"));
+  assert(service.heartbeat(9100, state, "development", "development-device").assignment.buildingLevel == 0);
+  assert(state.stateVersion == 77); // Projection never changes authority.
+}
+
 }  // namespace
 
 #include "tile_order_tests.h"
@@ -460,6 +494,7 @@ int main() {
   verifyCatalogAndColors();
   verifyAutomaticAndManualAssignments();
   verifyAuthoritativeOwnershipRefresh();
+  verifyBuildingLevelProjection();
   verifyLeaseBoundaryAndReclamation();
   verifyRoomReassignmentOrder();
   verifyConcurrentRegistration();

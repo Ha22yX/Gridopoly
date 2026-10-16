@@ -67,6 +67,10 @@ def main() -> None:
             f"deployment set mismatch: missing={sorted(expected_names - actual_names)} "
             f"extra={sorted(actual_names - expected_names)}"
         )
+        development = output / "development/v1"
+        assert len(list(development.rglob("*.rgb565"))) == 220
+        assert len(list(development.rglob("*.png"))) == 110
+        assert len([path for path in output.rglob("*") if path.is_file()]) == 402
 
         for asset in assets:
             key = asset["key"]

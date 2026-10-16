@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -86,7 +87,9 @@ def main() -> None:
             f"extra={sorted(actual - expected)}"
         )
 
-    print("GRIDOPOLY_WEB_TILE_STAGING_PASS png=36 rgb565=36 files=72")
+    subprocess.run([sys.executable, str(Path(__file__).with_name("stage-development-assets.py")),
+                    str(output / "development/v1")], check=True)
+    print("GRIDOPOLY_WEB_TILE_STAGING_PASS png=36 rgb565=36 legacy_files=72 development_files=330")
 
 
 if __name__ == "__main__":

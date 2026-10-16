@@ -108,6 +108,7 @@ bool assignmentsEqual(const TileModuleDebugState& left,
       left.purchasePrice == right.purchasePrice &&
       left.ownerPlayerId == right.ownerPlayerId &&
       left.ownerDisplayName == right.ownerDisplayName && left.ownerRgb == right.ownerRgb &&
+      left.buildingLevel == right.buildingLevel &&
       left.source == right.source &&
       left.orderAnchorModuleId == right.orderAnchorModuleId &&
       left.orderOffset == right.orderOffset && left.orderEpoch == right.orderEpoch;
@@ -232,6 +233,8 @@ TileModuleDebugState TileDebugAssignments::projectAssignment(
           const auto owner = projectPlayer(state, ownerPlayerId);
           output.ownerDisplayName = owner.displayName;
           output.ownerRgb = owner.rgb;
+          const auto level = state.assets[definition->assetIndex].buildingLevel;
+          if (definition->kind == TileKind::Property && level <= 5) output.buildingLevel = level;
         }
       }
     }
@@ -251,12 +254,14 @@ bool TileDebugAssignments::refreshAuthorityProjectionLocked(
                                              assignment.source);
     if (assignment.ownerPlayerId == projected.ownerPlayerId &&
         assignment.ownerDisplayName == projected.ownerDisplayName &&
-        assignment.ownerRgb == projected.ownerRgb) {
+        assignment.ownerRgb == projected.ownerRgb &&
+        assignment.buildingLevel == projected.buildingLevel) {
       continue;
     }
     assignment.ownerPlayerId = projected.ownerPlayerId;
     assignment.ownerDisplayName = projected.ownerDisplayName;
     assignment.ownerRgb = projected.ownerRgb;
+    assignment.buildingLevel = projected.buildingLevel;
     changed.push_back(&assignment);
   }
   if (changed.empty()) return false;

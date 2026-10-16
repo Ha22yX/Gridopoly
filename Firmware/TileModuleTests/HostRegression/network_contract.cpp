@@ -134,10 +134,53 @@ void unassigned_pairing_survives_and_suppresses_movement_for_every_state() {
   }
 }
 
+void building_levels_round_trip_through_real_server_json_and_tile_projection() {
+  auto response = assignment(16, 1);  // A1; stable artwork key, not board offset.
+  response.assignment.ownerPlayerId = 1;
+  tile::TileNetworkSnapshot previous;
+  for (unsigned level : {0U, 1U, 2U, 3U, 4U, 5U, 0U}) {
+    response.assignment.buildingLevel = static_cast<std::uint8_t>(level);
+    tile::TileNetworkSnapshot current;
+    TEST_ASSERT_TRUE(parse(response, current));
+    TEST_ASSERT_EQUAL_UINT8(level, current.tile.building_level);
+    TEST_ASSERT_EQUAL(tile::ArtworkId::RivetRow, current.tile.artwork);
+    if (level != previous.tile.building_level)
+      TEST_ASSERT_NOT_EQUAL(0, std::memcmp(&previous.tile, &current.tile, sizeof(tile::TileState)));
+    previous = current;
+  }
+  response.assignment.ownerPlayerId = 0; response.assignment.buildingLevel = 5;
+  TEST_ASSERT_TRUE(parse(response, previous));
+  TEST_ASSERT_EQUAL_UINT8(0, previous.tile.building_level);
+  response = assignment(16, 0);
+  response.assignment.ownerPlayerId = 1; response.assignment.buildingLevel = 5;
+  TEST_ASSERT_TRUE(parse(response, previous));
+  TEST_ASSERT_EQUAL_UINT8(0, previous.tile.building_level);
+}
+
+void legacy_missing_level_defaults_zero_and_malformed_levels_are_rejected() {
+  auto response = assignment(16, 1); response.assignment.ownerPlayerId = 1;
+  const std::string payload = pi::tileModuleHeartbeatJson(response, "tile-test",
+                                                        "11:22:33:44:55:66", {});
+  const std::string field = ",\"buildingLevel\":0";
+  const auto offset = payload.find(field);
+  TEST_ASSERT_NOT_EQUAL(std::string::npos, offset);
+  tile::TileNetworkClient client; tile::TileNetworkSnapshot snapshot;
+  std::string legacy = payload; legacy.erase(offset, field.size());
+  TEST_ASSERT_TRUE(client.parsePayload(legacy.c_str(), snapshot, false));
+  TEST_ASSERT_EQUAL_UINT8(0, snapshot.tile.building_level);
+  for (const char *bad : {"-1", "6", "256", "1.5", "\"3\"", "true"}) {
+    std::string invalid = payload;
+    invalid.replace(offset, field.size(), std::string(",\"buildingLevel\":") + bad);
+    TEST_ASSERT_FALSE(client.parsePayload(invalid.c_str(), snapshot, false));
+  }
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(all_sixteen_assignments_round_trip_with_artwork_and_economy);
   RUN_TEST(reanchor_then_revoke_and_recover_cannot_keep_old_tile_or_cue);
   RUN_TEST(unassigned_pairing_survives_and_suppresses_movement_for_every_state);
+  RUN_TEST(building_levels_round_trip_through_real_server_json_and_tile_projection);
+  RUN_TEST(legacy_missing_level_defaults_zero_and_malformed_levels_are_rejected);
   return UNITY_END();
 }

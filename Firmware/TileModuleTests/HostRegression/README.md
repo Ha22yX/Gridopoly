@@ -35,6 +35,18 @@ order. These hardware-call fakes do not emulate rotation or prove optical output
 the fixed Adafruit driver implementation is reviewed separately. The existing
 `display_diff` suite still covers changed spans, full refresh and retry behavior.
 
+V0.37 adds `development_artwork`, which compiles the production cache and
+streaming downloader against bounded transport/allocation boundaries and real
+RGB565 files. Eleven cases cover exact length/CRC/LE pixels, truncation, wrong
+encoding, timeouts, 503/429, offline and Retry-After across assignment changes,
+L0/non-property exclusion, one in-flight request, stale generations including
+A-B-A, five-ready/one-staging capacity, pinned LRU entries, failed allocation,
+millis rollover, fresh boot state and bounded probe commands. A real host thread
+downloads into staging while the display owner holds a lease and changes the
+selection. `network_contract` also runs real server serialization through tile
+parsing for levels 0-5, downgrade, missing legacy fields and invalid types. These
+tests do not claim ESP scheduling/heap measurements or physical image acceptance.
+
 The ORDER suite drives the production V1 transmitter/receiver at 1 ms intervals
 with both 16 and 32 independent links. It checks direct neighbors, one broken
 wire expiring without stopping other transmitters, reconnection with a newer

@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 
 #include <algorithm>
+#include <atomic>
 #include <array>
 #include <cassert>
 #include <chrono>
@@ -11,6 +12,7 @@
 #include <iomanip>
 #include <iostream>
 #include <map>
+#include <netinet/tcp.h>
 #include <sstream>
 #include <string>
 #include <sys/socket.h>
@@ -19,9 +21,11 @@
 #include <thread>
 
 #include "settlement_assertions.h"
+#include <gridopoly/core/BoardCatalog.h>
 #include "../../Server/RaspberryPi/src/AuthorityService.h"
 #include "../../Server/RaspberryPi/src/FileStateStore.h"
 #include "../../Server/RaspberryPi/src/HttpServer.h"
+#include "../../Server/RaspberryPi/src/DevelopmentAssetFile.h"
 #include "../../Server/RaspberryPi/src/UdpPlayerServer.h"
 
 #ifndef GRIDOPOLY_SOURCE_DIR
@@ -103,8 +107,12 @@ HttpResponse request(std::uint16_t port, const std::string& method,
     cursor = end + 2;
   }
   response.body.assign(headerEnd + delimiter.size(), raw.end());
-  assert(response.headers.count("content-length") == 1);
-  assert(std::stoull(response.headers.at("content-length")) == response.body.size());
+  if (response.status == 304) {
+    assert(response.body.empty());
+  } else {
+    assert(response.headers.count("content-length") == 1);
+    assert(std::stoull(response.headers.at("content-length")) == response.body.size());
+  }
   return response;
 }
 
@@ -139,6 +147,8 @@ std::vector<std::uint8_t> readBytes(const std::filesystem::path& path) {
   std::ifstream input(path, std::ios::binary);
   return {std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
 }
+
+#include "development_asset_http_tests.h"
 
 }  // namespace
 
@@ -803,6 +813,7 @@ int main() {
   assert(authority.stateVersion() == beforeOrder.stateVersion);
 
   http.stop();
+  verifyDevelopmentAssets(source, temporary, authority, udp);
   std::filesystem::remove_all(temporary);
   std::cout << "GRIDOPOLY_HTTP_ASSET_INTEGRATION_TESTS_PASS\n";
   return 0;
