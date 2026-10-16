@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_utc": "2026-10-16T09:58:19.426401+00:00",
-  "publication_status": "PREPARED_PENDING_COORDINATOR_UPLOAD_AND_REMOTE_VERIFICATION",
+  "publication_status": "REMOTE_LFS_BYTES_VERIFIED",
   "summary": {
     "payload_files": 336,
     "payload_bytes": 1497038916,
@@ -2677,5 +2677,14 @@
     "Byte and CRC verification does not constitute physical print/assembly validation.",
     "Generated metadata excludes its own hashes to avoid recursive checksums.",
     "Root README, LFS configuration, commits, upload and remote verification belong to the coordinator."
-  ]
+  ],
+  "remote_verification": {
+    "verified_utc": "2026-10-16T10:06:41.299878+00:00",
+    "payload_commit": "5b260e38104f1e7a407b2d6d051e6c012116666d",
+    "unique_lfs_objects": 73,
+    "lfs_file_paths": 84,
+    "total_object_bytes": 1365369470,
+    "sha256_and_size": "ALL_MATCH",
+    "report": "Docs/mechanical/model-publication-2026-10-16.md"
+  }
 }

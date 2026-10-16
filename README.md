@@ -85,7 +85,7 @@ The project includes the code for both kinds of module and the server, along wit
 | What you want to explore | Files and starting points |
 | --- | --- |
 | **PCB designs** | [Hardware guide](Docs/hardware/README.md) · [Board revisions](Docs/hardware/pcb-variants.md) · [EasyEDA project](PCB%20Files/Gridopoly-current.epro2) · [Design files](PCB%20Files/) — tile boards, corner boards, and the player power board, with schematics and revision-specific manufacturing files. |
-| **3D-print models** | [Model library](Mechanical/README.md) — board bases, player-console stands, and tagged pieces; current versions, historical designs, editable models, and assembly guides. |
+| **3D-print models** | [Model library](Mechanical/README.md) — board bases, player-console stands, and tagged pieces; STL/3MF files, editable Blender projects, current and historical versions, and assembly guides. |
 | **Smart-tile firmware** | [TileModule](Firmware/TileModule/README.md) — ESP32-S3 display, LEDs, RFID, ORDER discovery, and server communication. |
 | **Player-console firmware** | [PlayerConsole](Firmware/PlayerConsole/README.md) — round-screen UI, rotary/touch input, avatars, handwriting, and player actions. |
 | **Server and web panel** | [Raspberry Pi server](Server/RaspberryPi/README.md) — C++ game authority, web controls, device discovery, persistence, and deployment scripts. |

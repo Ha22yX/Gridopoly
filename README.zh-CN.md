@@ -85,7 +85,7 @@
 | 想看什么 | 文件与入口 |
 | --- | --- |
 | **PCB设计** | [硬件说明](Docs/hardware/README.md) · [板型与版本](Docs/hardware/pcb-variants.md) · [嘉立创EDA工程](PCB%20Files/Gridopoly-current.epro2) · [设计文件](PCB%20Files/)：长边、角落和玩家供电板，包含原理图及对应版本的制造资料。 |
-| **3D打印模型** | [模型库](Mechanical/README.md)：棋盘底板、玩家屏幕底座和棋子，含当前版、历史版、可编辑模型及装配说明。 |
+| **3D打印模型** | [模型库](Mechanical/README.md)：棋盘底板、玩家屏幕底座和棋子，含STL/3MF、可编辑Blender工程、当前版、历史版及装配说明。 |
 | **格子模块完整程序** | [TileModule](Firmware/TileModule/README.md)：ESP32-S3屏幕、LED、RFID、ORDER检测和服务器通信。 |
 | **玩家屏完整程序** | [PlayerConsole](Firmware/PlayerConsole/README.md)：圆屏UI、旋钮与触摸、外貌、手写姓名和玩家操作。 |
 | **服务器与网页面板** | [Raspberry Pi服务器](Server/RaspberryPi/README.md)：C++游戏中控、网页操作、设备发现、状态保存和部署脚本。 |
