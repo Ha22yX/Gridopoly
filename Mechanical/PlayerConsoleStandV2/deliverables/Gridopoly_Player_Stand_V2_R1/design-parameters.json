@@ -1,0 +1,3789 @@
+{
+  "revision": "V2 R1 - FIRST FIT",
+  "out": "C:/Users/kicof/Downloads/Gridopoly_Player_Stand_V2_R1",
+  "legacy_stl": "//Z425-2K4V/sata11-135XXXX3888/Files/我的项目/Gridopoly/Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl",
+  "legacy_fit": "User confirmed printed CW47.5 fits on 2026-10-15",
+  "board": {
+    "schema_version": 1,
+    "interface_status": "SOURCE_GEOMETRY_VERIFIED / AS_BUILT_Z_AND_FIT_PENDING",
+    "board": {
+      "name": "Player power board",
+      "revision": "PLAYER POWER R1 RC6-TP",
+      "pcb_uuid": "847ec1f4dfc5086a",
+      "source_date": "2026-10-15",
+      "width_mm": 80,
+      "height_mm": 80,
+      "corner_radius_mm": 5,
+      "thickness_nominal_mm": 1.6,
+      "thickness_status": "Design nominal; not physical measurement",
+      "copper_layers": 2,
+      "populated_top_components": 68,
+      "populated_bottom_components": 0,
+      "bare_testpoints": 8
+    },
+    "coordinates": {
+      "xy_view": "Top/component face, USB at bottom; left upper board outline origin; x right, y down",
+      "z": "PCB top surface z=0; positive up; PCB bottom nominal z=-1.6",
+      "native_conversion": "x_mm=x_mil*0.0254; y_mm=-y_mil*0.0254",
+      "bounding_boxes": "[xmin,ymin,xmax,ymax]"
+    },
+    "sources": [
+      {
+        "path": "PCB Files/PlayerConsolePower/Testpoints-2026-10-15/PCB1-after.source.jsonl",
+        "sha256": "a74c4b39da0878d5263d221bb63d7233a967670b0ce55db2f9d26cdc3c01a68e"
+      },
+      {
+        "path": "PCB Files/PlayerConsolePower/Testpoints-2026-10-15/snapshot-after.json",
+        "sha256": "de7d6dc07bea206705a804aa6891aea413b85838c7d0c6b5f0a2bc0b81ff5e73"
+      },
+      {
+        "path": "PCB Files/PlayerConsolePower/Testpoints-2026-10-15/PlayerPower-R1-RC6-TP-20261015.epro2",
+        "sha256": "27702df125f0dbc23899b2ffed8e20d88de4b8dba63150cfb532e46ad34fbdfc"
+      },
+      {
+        "path": "PCB Files/PlayerConsolePower/Testpoints-2026-10-15/current-Gerber.zip",
+        "sha256": "bff4f65a4de8f07b44090f04ccfda05d3c57241564201dea600e5bc1f85e09d3"
+      }
+    ],
+    "outline_native": [
+      {
+        "id": "b8208d3ea2dd2f19",
+        "path_mil": [
+          196.8504,
+          0,
+          "CARC",
+          90,
+          0,
+          -196.8504
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "ae163ec3a455a225",
+        "path_mil": [
+          3149.6063,
+          -196.8504,
+          "CARC",
+          90,
+          2952.7559,
+          0
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "bec5c689d3f50120",
+        "path_mil": [
+          2952.7559,
+          -3149.6063,
+          "CARC",
+          90,
+          3149.6063,
+          -2952.7559
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "749dbf306485a018",
+        "path_mil": [
+          0,
+          -2952.7559,
+          "CARC",
+          90,
+          196.8504,
+          -3149.6063
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "1f9462dff4361149",
+        "path_mil": [
+          196.8504,
+          0,
+          "L",
+          2952.7559,
+          0
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "3cd9a7b6b1ee6257",
+        "path_mil": [
+          3149.6063,
+          -196.8504,
+          "L",
+          3149.6063,
+          -2952.7559
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "965b2b65a3f524b7",
+        "path_mil": [
+          2952.7559,
+          -3149.6063,
+          "L",
+          196.8504,
+          -3149.6063
+        ],
+        "width_mil": 10
+      },
+      {
+        "id": "c6d1124ab05ecb2a",
+        "path_mil": [
+          0,
+          -2952.7559,
+          "L",
+          0,
+          -196.8504
+        ],
+        "width_mil": 10
+      }
+    ],
+    "mounting_holes": [
+      {
+        "id": "f9a94b3034632f7c",
+        "xy_mm": [
+          5.0,
+          5.0
+        ],
+        "drill_mm": 3.400001,
+        "plated": true,
+        "nominal_pad_diameter_mm": 5.0,
+        "recommended_insulating_contact_outer_diameter_mm": 6,
+        "recommended_clearance_bore_mm": 3.6,
+        "designed_keepout_radius_mm": 4,
+        "nearest_body_distance_from_hole_center_mm": 32.049992,
+        "nearest_body_ref": "J3",
+        "nearest_other_pad_bbox_distance_from_hole_center_mm": 16.509333,
+        "nearest_pad_ref": "TP7",
+        "nearest_trace_edge_distance_from_hole_center_mm": 20.520028,
+        "nearest_via_edge_distance_from_hole_center_mm": 47.3631,
+        "contact_scope": "OD6 insulating annulus fits native R4 keepout and clears source component bodies/pads/traces/vias. Mounting pad has no assigned net and exposed metal; use insulating contact. Actual pour/mask geometry not separately recomputed here.",
+        "actual_gerber_plated_drill_mm": 3.400001
+      },
+      {
+        "id": "00d9744dbffe73b2",
+        "xy_mm": [
+          75.0,
+          5.0
+        ],
+        "drill_mm": 3.400001,
+        "plated": true,
+        "nominal_pad_diameter_mm": 5.0,
+        "recommended_insulating_contact_outer_diameter_mm": 6,
+        "recommended_clearance_bore_mm": 3.6,
+        "designed_keepout_radius_mm": 4,
+        "nearest_body_distance_from_hole_center_mm": 19.241991,
+        "nearest_body_ref": "SW1",
+        "nearest_other_pad_bbox_distance_from_hole_center_mm": 18.328765,
+        "nearest_pad_ref": "SW1",
+        "nearest_trace_edge_distance_from_hole_center_mm": 18.754955,
+        "nearest_via_edge_distance_from_hole_center_mm": 25.006439,
+        "contact_scope": "OD6 insulating annulus fits native R4 keepout and clears source component bodies/pads/traces/vias. Mounting pad has no assigned net and exposed metal; use insulating contact. Actual pour/mask geometry not separately recomputed here.",
+        "actual_gerber_plated_drill_mm": 3.400001
+      },
+      {
+        "id": "4b7161c5a64c12ac",
+        "xy_mm": [
+          5.0,
+          75.0
+        ],
+        "drill_mm": 3.400001,
+        "plated": true,
+        "nominal_pad_diameter_mm": 5.0,
+        "recommended_insulating_contact_outer_diameter_mm": 6,
+        "recommended_clearance_bore_mm": 3.6,
+        "designed_keepout_radius_mm": 4,
+        "nearest_body_distance_from_hole_center_mm": 11.500808,
+        "nearest_body_ref": "J2",
+        "nearest_other_pad_bbox_distance_from_hole_center_mm": 11.326745,
+        "nearest_pad_ref": "J2",
+        "nearest_trace_edge_distance_from_hole_center_mm": 12.406771,
+        "nearest_via_edge_distance_from_hole_center_mm": 14.099316,
+        "contact_scope": "OD6 insulating annulus fits native R4 keepout and clears source component bodies/pads/traces/vias. Mounting pad has no assigned net and exposed metal; use insulating contact. Actual pour/mask geometry not separately recomputed here.",
+        "actual_gerber_plated_drill_mm": 3.400001
+      },
+      {
+        "id": "f56972f555b0bb84",
+        "xy_mm": [
+          75.0,
+          75.0
+        ],
+        "drill_mm": 3.400001,
+        "plated": true,
+        "nominal_pad_diameter_mm": 5.0,
+        "recommended_insulating_contact_outer_diameter_mm": 6,
+        "recommended_clearance_bore_mm": 3.6,
+        "designed_keepout_radius_mm": 4,
+        "nearest_body_distance_from_hole_center_mm": 5.70789,
+        "nearest_body_ref": "C11",
+        "nearest_other_pad_bbox_distance_from_hole_center_mm": 5.405989,
+        "nearest_pad_ref": "C11",
+        "nearest_trace_edge_distance_from_hole_center_mm": 7.033989,
+        "nearest_via_edge_distance_from_hole_center_mm": 16.131856,
+        "contact_scope": "OD6 insulating annulus fits native R4 keepout and clears source component bodies/pads/traces/vias. Mounting pad has no assigned net and exposed metal; use insulating contact. Actual pour/mask geometry not separately recomputed here.",
+        "actual_gerber_plated_drill_mm": 3.400001
+      }
+    ],
+    "interfaces": [
+      {
+        "ref": "J1",
+        "side": "TOP",
+        "source_footprint_uuid": "71bc3fa66c4da62e",
+        "footprint_name": "USB-C_SMD-TYPE-C-31-M-12_1",
+        "anchor_mm": [
+          39.999999,
+          75.438
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              35.52998,
+              80.531894
+            ],
+            [
+              35.52998,
+              73.181896
+            ],
+            [
+              44.469992,
+              73.181896
+            ],
+            [
+              44.469992,
+              80.531894
+            ],
+            [
+              35.52998,
+              80.531894
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          35.52998,
+          73.181896,
+          44.469992,
+          80.531894
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "Local manufacturer drawing j1-library-linked.png: shell face 2.57±0.05 mm; use 5 mm enclosure reserve, not measured assembled height.",
+        "function": "USB-C charging/data",
+        "access_direction_xy": [
+          0,
+          1
+        ],
+        "datum": "TOP mounted; opening faces +Y",
+        "design_service_bbox_xy_mm": [
+          32,
+          70,
+          48,
+          95
+        ],
+        "design_height_reserve_above_top_mm": 5
+      },
+      {
+        "ref": "J2",
+        "side": "TOP",
+        "source_footprint_uuid": "30ee92e656c169b2",
+        "footprint_name": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
+        "anchor_mm": [
+          3.81,
+          58.801
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              -0.324841,
+              54.101009
+            ],
+            [
+              4.795164,
+              54.101009
+            ],
+            [
+              4.795164,
+              63.501016
+            ],
+            [
+              -0.324841,
+              63.501016
+            ],
+            [
+              -0.324841,
+              54.101009
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          -0.324841,
+          54.101009,
+          4.795164,
+          63.501016
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "Body height not independently confirmed here; 6 mm is design access reserve, not measured part height. Cable bend path requires actual free length.",
+        "function": "Screen FPC 10pin 0.5mm bottom-contact",
+        "access_direction_xy": [
+          -1,
+          0
+        ],
+        "datum": "Insertion from -X; leave latch/finger room above",
+        "design_service_bbox_xy_mm": [
+          -12,
+          51,
+          9,
+          67
+        ],
+        "design_height_reserve_above_top_mm": 6
+      },
+      {
+        "ref": "J3",
+        "side": "TOP",
+        "source_footprint_uuid": "7ce0217ca3d16eb3",
+        "footprint_name": "CONN-TH_B2B-PH-K-S",
+        "anchor_mm": [
+          39.999999,
+          5.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              42.94998,
+              3.300004
+            ],
+            [
+              42.94998,
+              7.799995
+            ],
+            [
+              37.049992,
+              7.799995
+            ],
+            [
+              37.049992,
+              3.300004
+            ],
+            [
+              42.94998,
+              3.300004
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          37.049992,
+          3.300004,
+          42.94998,
+          7.799995
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "JST official PH drawing p1: mated top-entry height 8 mm; additional 7 mm chosen for wire bend/service. Unmating motion requires unobstructed access.",
+        "function": "Battery JST PH 2pin top entry",
+        "access_direction_xyz": [
+          0,
+          0,
+          1
+        ],
+        "datum": "Pin1 left black/GND; pin2 right red/BAT_PACK",
+        "design_service_bbox_xy_mm": [
+          33,
+          0,
+          47,
+          13
+        ],
+        "design_height_reserve_above_top_mm": 15
+      },
+      {
+        "ref": "SW1",
+        "side": "TOP",
+        "source_footprint_uuid": "bf3c9b3102ad4c64",
+        "footprint_name": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+        "anchor_mm": [
+          75.311,
+          26.791999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              74.011028,
+              29.342006
+            ],
+            [
+              72.761018,
+              28.091996
+            ],
+            [
+              72.761043,
+              25.492001
+            ],
+            [
+              74.011028,
+              24.241991
+            ],
+            [
+              76.611023,
+              24.241991
+            ],
+            [
+              77.861033,
+              25.492001
+            ],
+            [
+              77.861033,
+              28.091996
+            ],
+            [
+              76.611023,
+              29.341981
+            ],
+            [
+              74.011028,
+              29.342006
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          72.761018,
+          24.241991,
+          77.861033,
+          29.342006
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "Footprint name H1.5 is a library indication only. Finger/service envelope is design assumption.",
+        "function": "POWER",
+        "access_direction_xyz": [
+          0,
+          0,
+          1
+        ],
+        "datum": "Top-press switch, not side-actuated",
+        "design_service_bbox_xy_mm": [
+          70,
+          21.5,
+          80,
+          32
+        ],
+        "design_height_reserve_above_top_mm": 10
+      },
+      {
+        "ref": "SW2",
+        "side": "TOP",
+        "source_footprint_uuid": "bf3c9b3102ad4c64",
+        "footprint_name": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+        "anchor_mm": [
+          75.311,
+          53.207999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              74.011028,
+              55.758006
+            ],
+            [
+              72.761018,
+              54.507996
+            ],
+            [
+              72.761043,
+              51.908001
+            ],
+            [
+              74.011028,
+              50.657991
+            ],
+            [
+              76.611023,
+              50.657991
+            ],
+            [
+              77.861033,
+              51.908001
+            ],
+            [
+              77.861033,
+              54.507996
+            ],
+            [
+              76.611023,
+              55.757981
+            ],
+            [
+              74.011028,
+              55.758006
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          72.761018,
+          50.657991,
+          77.861033,
+          55.758006
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "Footprint name H1.5 is a library indication only. Finger/service envelope is design assumption.",
+        "function": "RST",
+        "access_direction_xyz": [
+          0,
+          0,
+          1
+        ],
+        "datum": "Top-press switch, not side-actuated",
+        "design_service_bbox_xy_mm": [
+          70,
+          48,
+          80,
+          58.5
+        ],
+        "design_height_reserve_above_top_mm": 10
+      }
+    ],
+    "components": [
+      {
+        "ref": "C1",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          51.249999,
+          67.5
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              50.85,
+              66.700001
+            ],
+            [
+              51.649998,
+              66.700001
+            ],
+            [
+              51.649998,
+              68.299998
+            ],
+            [
+              50.85,
+              68.299998
+            ],
+            [
+              50.85,
+              66.700001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          50.85,
+          66.700001,
+          51.649998,
+          68.299998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C2",
+        "side": "TOP",
+        "source_footprint_uuid": "426dabcfe6a6ceff",
+        "footprint_name": "C0805",
+        "anchor_mm": [
+          56.0,
+          62.499999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              56.624992,
+              63.499997
+            ],
+            [
+              55.375007,
+              63.499997
+            ],
+            [
+              55.375007,
+              61.500001
+            ],
+            [
+              56.624992,
+              61.500001
+            ],
+            [
+              56.624992,
+              63.499997
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          55.375007,
+          61.500001,
+          56.624992,
+          63.499997
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C3",
+        "side": "TOP",
+        "source_footprint_uuid": "426dabcfe6a6ceff",
+        "footprint_name": "C0805",
+        "anchor_mm": [
+          47.399999,
+          63.899999
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              46.775007,
+              62.900001
+            ],
+            [
+              48.024992,
+              62.900001
+            ],
+            [
+              48.024992,
+              64.899997
+            ],
+            [
+              46.775007,
+              64.899997
+            ],
+            [
+              46.775007,
+              62.900001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          46.775007,
+          62.900001,
+          48.024992,
+          64.899997
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C4",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          56.499999,
+          35.999999
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              55.7,
+              36.399998
+            ],
+            [
+              55.7,
+              35.6
+            ],
+            [
+              57.299997,
+              35.6
+            ],
+            [
+              57.299997,
+              36.399998
+            ],
+            [
+              55.7,
+              36.399998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          55.7,
+          35.6,
+          57.299997,
+          36.399998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C5",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          54.000001,
+          39.5
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              53.600002,
+              38.700001
+            ],
+            [
+              54.4,
+              38.700001
+            ],
+            [
+              54.4,
+              40.299998
+            ],
+            [
+              53.600002,
+              40.299998
+            ],
+            [
+              53.600002,
+              38.700001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          53.600002,
+          38.700001,
+          54.4,
+          40.299998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C6",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          63.5,
+          29.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              64.299998,
+              28.600001
+            ],
+            [
+              64.299998,
+              29.4
+            ],
+            [
+              62.700002,
+              29.4
+            ],
+            [
+              62.700002,
+              28.600001
+            ],
+            [
+              64.299998,
+              28.600001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          62.700002,
+          28.600001,
+          64.299998,
+          29.4
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C7",
+        "side": "TOP",
+        "source_footprint_uuid": "426dabcfe6a6ceff",
+        "footprint_name": "C0805",
+        "anchor_mm": [
+          48.5,
+          53.5
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              49.499998,
+              52.875007
+            ],
+            [
+              49.499998,
+              54.124992
+            ],
+            [
+              47.500002,
+              54.124992
+            ],
+            [
+              47.500002,
+              52.875007
+            ],
+            [
+              49.499998,
+              52.875007
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          47.500002,
+          52.875007,
+          49.499998,
+          54.124992
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C8",
+        "side": "TOP",
+        "source_footprint_uuid": "426dabcfe6a6ceff",
+        "footprint_name": "C0805",
+        "anchor_mm": [
+          54.999999,
+          53.000001
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              54.375007,
+              52.000003
+            ],
+            [
+              55.624992,
+              52.000003
+            ],
+            [
+              55.624992,
+              53.999999
+            ],
+            [
+              54.375007,
+              53.999999
+            ],
+            [
+              54.375007,
+              52.000003
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          54.375007,
+          52.000003,
+          55.624992,
+          53.999999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C9",
+        "side": "TOP",
+        "source_footprint_uuid": "426dabcfe6a6ceff",
+        "footprint_name": "C0805",
+        "anchor_mm": [
+          57.499999,
+          53.000001
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              56.875007,
+              52.000003
+            ],
+            [
+              58.124992,
+              52.000003
+            ],
+            [
+              58.124992,
+              53.999999
+            ],
+            [
+              56.875007,
+              53.999999
+            ],
+            [
+              56.875007,
+              52.000003
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          56.875007,
+          52.000003,
+          58.124992,
+          53.999999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C10",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          59.8,
+          53.000001
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              59.400001,
+              52.200002
+            ],
+            [
+              60.199999,
+              52.200002
+            ],
+            [
+              60.199999,
+              53.799999
+            ],
+            [
+              59.400001,
+              53.799999
+            ],
+            [
+              59.400001,
+              52.200002
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          59.400001,
+          52.200002,
+          60.199999,
+          53.799999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C11",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          68.5,
+          74.300001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              67.700002,
+              74.7
+            ],
+            [
+              67.700002,
+              73.900002
+            ],
+            [
+              69.299999,
+              73.900002
+            ],
+            [
+              69.299999,
+              74.7
+            ],
+            [
+              67.700002,
+              74.7
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          67.700002,
+          73.900002,
+          69.299999,
+          74.7
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C12",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          60.500001,
+          72.999999
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              59.700003,
+              73.399998
+            ],
+            [
+              59.700003,
+              72.6
+            ],
+            [
+              61.299999,
+              72.6
+            ],
+            [
+              61.299999,
+              73.399998
+            ],
+            [
+              59.700003,
+              73.399998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          59.700003,
+          72.6,
+          61.299999,
+          73.399998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C13",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          57.0,
+          68.300001
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              57.399999,
+              69.099999
+            ],
+            [
+              56.600001,
+              69.099999
+            ],
+            [
+              56.600001,
+              67.500002
+            ],
+            [
+              57.399999,
+              67.500002
+            ],
+            [
+              57.399999,
+              69.099999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          56.600001,
+          67.500002,
+          57.399999,
+          69.099999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C14",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          25.999999,
+          40.5
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              26.799997,
+              40.100001
+            ],
+            [
+              26.799997,
+              40.899999
+            ],
+            [
+              25.2,
+              40.899999
+            ],
+            [
+              25.2,
+              40.100001
+            ],
+            [
+              26.799997,
+              40.100001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          25.2,
+          40.100001,
+          26.799997,
+          40.899999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C15",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          24.950001,
+          47.800001
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              24.550002,
+              47.000003
+            ],
+            [
+              25.35,
+              47.000003
+            ],
+            [
+              25.35,
+              48.599999
+            ],
+            [
+              24.550002,
+              48.599999
+            ],
+            [
+              24.550002,
+              47.000003
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          24.550002,
+          47.000003,
+          25.35,
+          48.599999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C16",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          24.800001,
+          61.499999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              25.6,
+              61.1
+            ],
+            [
+              25.6,
+              61.899998
+            ],
+            [
+              24.000003,
+              61.899998
+            ],
+            [
+              24.000003,
+              61.1
+            ],
+            [
+              25.6,
+              61.1
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          24.000003,
+          61.1,
+          25.6,
+          61.899998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C17",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          43.0,
+          68.000001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              42.200002,
+              68.4
+            ],
+            [
+              42.200002,
+              67.600002
+            ],
+            [
+              43.799999,
+              67.600002
+            ],
+            [
+              43.799999,
+              68.4
+            ],
+            [
+              42.200002,
+              68.4
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          42.200002,
+          67.600002,
+          43.799999,
+          68.4
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "D1",
+        "side": "TOP",
+        "source_footprint_uuid": "4ca675f264780723",
+        "footprint_name": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+        "anchor_mm": [
+          39.5,
+          69.500001
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              40.963014,
+              70.313029
+            ],
+            [
+              38.037036,
+              70.313029
+            ],
+            [
+              38.037036,
+              68.687023
+            ],
+            [
+              40.963014,
+              68.687023
+            ],
+            [
+              40.963014,
+              70.313029
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          38.037036,
+          68.687023,
+          40.963014,
+          70.313029
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "J1",
+        "side": "TOP",
+        "source_footprint_uuid": "71bc3fa66c4da62e",
+        "footprint_name": "USB-C_SMD-TYPE-C-31-M-12_1",
+        "anchor_mm": [
+          39.999999,
+          75.438
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              35.52998,
+              80.531894
+            ],
+            [
+              35.52998,
+              73.181896
+            ],
+            [
+              44.469992,
+              73.181896
+            ],
+            [
+              44.469992,
+              80.531894
+            ],
+            [
+              35.52998,
+              80.531894
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          35.52998,
+          73.181896,
+          44.469992,
+          80.531894
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "L1",
+        "side": "TOP",
+        "source_footprint_uuid": "2998f79f0f82def9",
+        "footprint_name": "IND-SMD_L4.4-W4.2",
+        "anchor_mm": [
+          51.0,
+          57.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              53.199995,
+              54.900005
+            ],
+            [
+              53.199995,
+              59.099996
+            ],
+            [
+              48.800004,
+              59.099996
+            ],
+            [
+              48.800004,
+              54.900005
+            ],
+            [
+              53.199995,
+              54.900005
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          48.800004,
+          54.900005,
+          53.199995,
+          59.099996
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "Q1",
+        "side": "TOP",
+        "source_footprint_uuid": "420f07ee53e2eb3d",
+        "footprint_name": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+        "anchor_mm": [
+          67.000001,
+          35.000001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              66.349989,
+              36.450011
+            ],
+            [
+              66.349989,
+              33.549991
+            ],
+            [
+              67.650012,
+              33.549991
+            ],
+            [
+              67.650012,
+              36.450011
+            ],
+            [
+              66.349989,
+              36.450011
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          66.349989,
+          33.549991,
+          67.650012,
+          36.450011
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "Q2",
+        "side": "TOP",
+        "source_footprint_uuid": "420f07ee53e2eb3d",
+        "footprint_name": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+        "anchor_mm": [
+          63.000001,
+          66.499999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              63.650012,
+              65.049989
+            ],
+            [
+              63.650012,
+              67.950009
+            ],
+            [
+              62.34999,
+              67.950009
+            ],
+            [
+              62.34999,
+              65.049989
+            ],
+            [
+              63.650012,
+              65.049989
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          62.34999,
+          65.049989,
+          63.650012,
+          67.950009
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "Q3",
+        "side": "TOP",
+        "source_footprint_uuid": "420f07ee53e2eb3d",
+        "footprint_name": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+        "anchor_mm": [
+          29.0,
+          72.999999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              30.45001,
+              73.65001
+            ],
+            [
+              27.549991,
+              73.65001
+            ],
+            [
+              27.549991,
+              72.349987
+            ],
+            [
+              30.45001,
+              72.349987
+            ],
+            [
+              30.45001,
+              73.65001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          27.549991,
+          72.349987,
+          30.45001,
+          73.65001
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R1",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          54.4,
+          68.200001
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              55.199999,
+              67.800002
+            ],
+            [
+              55.199999,
+              68.6
+            ],
+            [
+              53.600002,
+              68.6
+            ],
+            [
+              53.600002,
+              67.800002
+            ],
+            [
+              55.199999,
+              67.800002
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          53.600002,
+          67.800002,
+          55.199999,
+          68.6
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R2",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          44.5,
+          64.75
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              45.299998,
+              64.350001
+            ],
+            [
+              45.299998,
+              65.149999
+            ],
+            [
+              43.700001,
+              65.149999
+            ],
+            [
+              43.700001,
+              64.350001
+            ],
+            [
+              45.299998,
+              64.350001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          43.700001,
+          64.350001,
+          45.299998,
+          65.149999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R3",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          54.000001,
+          32.500001
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              54.4,
+              33.299999
+            ],
+            [
+              53.600002,
+              33.299999
+            ],
+            [
+              53.600002,
+              31.700003
+            ],
+            [
+              54.4,
+              31.700003
+            ],
+            [
+              54.4,
+              33.299999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          53.600002,
+          31.700003,
+          54.4,
+          33.299999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R4",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          54.000001,
+          35.999999
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              53.600002,
+              35.200001
+            ],
+            [
+              54.4,
+              35.200001
+            ],
+            [
+              54.4,
+              36.799998
+            ],
+            [
+              53.600002,
+              36.799998
+            ],
+            [
+              53.600002,
+              35.200001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          53.600002,
+          35.200001,
+          54.4,
+          36.799998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R5",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          63.999999,
+          35.999999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              64.399998,
+              36.799998
+            ],
+            [
+              63.6,
+              36.799998
+            ],
+            [
+              63.6,
+              35.200001
+            ],
+            [
+              64.399998,
+              35.200001
+            ],
+            [
+              64.399998,
+              36.799998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          63.6,
+          35.200001,
+          64.399998,
+          36.799998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R6",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          58.000001,
+          30.999999
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              57.600002,
+              30.200001
+            ],
+            [
+              58.4,
+              30.200001
+            ],
+            [
+              58.4,
+              31.799997
+            ],
+            [
+              57.600002,
+              31.799997
+            ],
+            [
+              57.600002,
+              30.200001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          57.600002,
+          30.200001,
+          58.4,
+          31.799997
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R7",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          68.000001,
+          39.000001
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              67.600002,
+              38.200002
+            ],
+            [
+              68.4,
+              38.200002
+            ],
+            [
+              68.4,
+              39.799999
+            ],
+            [
+              67.600002,
+              39.799999
+            ],
+            [
+              67.600002,
+              38.200002
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          67.600002,
+          38.200002,
+          68.4,
+          39.799999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R8",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          46.299999,
+          56.499999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              47.099997,
+              56.1
+            ],
+            [
+              47.099997,
+              56.899998
+            ],
+            [
+              45.5,
+              56.899998
+            ],
+            [
+              45.5,
+              56.1
+            ],
+            [
+              47.099997,
+              56.1
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          45.5,
+          56.1,
+          47.099997,
+          56.899998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R9",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          52.800001,
+          49.999999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              53.599999,
+              49.6
+            ],
+            [
+              53.599999,
+              50.399998
+            ],
+            [
+              52.000003,
+              50.399998
+            ],
+            [
+              52.000003,
+              49.6
+            ],
+            [
+              53.599999,
+              49.6
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          52.000003,
+          49.6,
+          53.599999,
+          50.399998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R10",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          49.6,
+          49.999999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              50.399998,
+              49.6
+            ],
+            [
+              50.399998,
+              50.399998
+            ],
+            [
+              48.800001,
+              50.399998
+            ],
+            [
+              48.800001,
+              49.6
+            ],
+            [
+              50.399998,
+              49.6
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          48.800001,
+          49.6,
+          50.399998,
+          50.399998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R11",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          48.000001,
+          76.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              48.799999,
+              75.600001
+            ],
+            [
+              48.799999,
+              76.4
+            ],
+            [
+              47.200002,
+              76.4
+            ],
+            [
+              47.200002,
+              75.600001
+            ],
+            [
+              48.799999,
+              75.600001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          47.200002,
+          75.600001,
+          48.799999,
+          76.4
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R12",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          51.500001,
+          76.0
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              50.700003,
+              76.4
+            ],
+            [
+              50.700003,
+              75.600001
+            ],
+            [
+              52.3,
+              75.600001
+            ],
+            [
+              52.3,
+              76.4
+            ],
+            [
+              50.700003,
+              76.4
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          50.700003,
+          75.600001,
+          52.3,
+          76.4
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R13",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          53.000001,
+          73.5
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              53.4,
+              74.299999
+            ],
+            [
+              52.600001,
+              74.299999
+            ],
+            [
+              52.600001,
+              72.700002
+            ],
+            [
+              53.4,
+              72.700002
+            ],
+            [
+              53.4,
+              74.299999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          52.600001,
+          72.700002,
+          53.4,
+          74.299999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R14",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          59.5,
+          68.5
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              58.700002,
+              68.899999
+            ],
+            [
+              58.700002,
+              68.100001
+            ],
+            [
+              60.299999,
+              68.100001
+            ],
+            [
+              60.299999,
+              68.899999
+            ],
+            [
+              58.700002,
+              68.899999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          58.700002,
+          68.100001,
+          60.299999,
+          68.899999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R15",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          63.000001,
+          69.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              62.200003,
+              69.9
+            ],
+            [
+              62.200003,
+              69.100001
+            ],
+            [
+              63.799999,
+              69.100001
+            ],
+            [
+              63.799999,
+              69.9
+            ],
+            [
+              62.200003,
+              69.9
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          62.200003,
+          69.100001,
+          63.799999,
+          69.9
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R16",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          66.499999,
+          67.000001
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              66.899998,
+              67.799999
+            ],
+            [
+              66.1,
+              67.799999
+            ],
+            [
+              66.1,
+              66.200002
+            ],
+            [
+              66.899998,
+              66.200002
+            ],
+            [
+              66.899998,
+              67.799999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          66.1,
+          66.200002,
+          66.899998,
+          67.799999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R17",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          66.499999,
+          63.5
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              66.1,
+              62.700002
+            ],
+            [
+              66.899998,
+              62.700002
+            ],
+            [
+              66.899998,
+              64.299998
+            ],
+            [
+              66.1,
+              64.299998
+            ],
+            [
+              66.1,
+              62.700002
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          66.1,
+          62.700002,
+          66.899998,
+          64.299998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R18",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          35.999999,
+          69.199999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              36.399998,
+              69.999997
+            ],
+            [
+              35.6,
+              69.999997
+            ],
+            [
+              35.6,
+              68.4
+            ],
+            [
+              36.399998,
+              68.4
+            ],
+            [
+              36.399998,
+              69.999997
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          35.6,
+          68.4,
+          36.399998,
+          69.999997
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R19",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          29.0,
+          70.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              29.799999,
+              69.6
+            ],
+            [
+              29.799999,
+              70.399999
+            ],
+            [
+              28.200002,
+              70.399999
+            ],
+            [
+              28.200002,
+              69.6
+            ],
+            [
+              29.799999,
+              69.6
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          28.200002,
+          69.6,
+          29.799999,
+          70.399999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R20",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          48.000001,
+          67.5
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              48.4,
+              68.299998
+            ],
+            [
+              47.600001,
+              68.299998
+            ],
+            [
+              47.600001,
+              66.700001
+            ],
+            [
+              48.4,
+              66.700001
+            ],
+            [
+              48.4,
+              68.299998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          47.600001,
+          66.700001,
+          48.4,
+          68.299998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R21",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          57.0,
+          65.700001
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              57.799999,
+              65.300001
+            ],
+            [
+              57.799999,
+              66.1
+            ],
+            [
+              56.200002,
+              66.1
+            ],
+            [
+              56.200002,
+              65.300001
+            ],
+            [
+              57.799999,
+              65.300001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          56.200002,
+          65.300001,
+          57.799999,
+          66.1
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R22",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          30.000001,
+          56.499999
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              29.200003,
+              56.899998
+            ],
+            [
+              29.200003,
+              56.1
+            ],
+            [
+              30.799999,
+              56.1
+            ],
+            [
+              30.799999,
+              56.899998
+            ],
+            [
+              29.200003,
+              56.899998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          29.200003,
+          56.1,
+          30.799999,
+          56.899998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R23",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          30.000001,
+          54.000001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              29.200003,
+              54.4
+            ],
+            [
+              29.200003,
+              53.600002
+            ],
+            [
+              30.799999,
+              53.600002
+            ],
+            [
+              30.799999,
+              54.4
+            ],
+            [
+              29.200003,
+              54.4
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          29.200003,
+          53.600002,
+          30.799999,
+          54.4
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R24",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          27.500001,
+          51.0
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              26.700002,
+              51.399999
+            ],
+            [
+              26.700002,
+              50.6
+            ],
+            [
+              28.299999,
+              50.6
+            ],
+            [
+              28.299999,
+              51.399999
+            ],
+            [
+              26.700002,
+              51.399999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          26.700002,
+          50.6,
+          28.299999,
+          51.399999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R25",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          30.5,
+          51.0
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              29.700002,
+              51.399999
+            ],
+            [
+              29.700002,
+              50.6
+            ],
+            [
+              31.299998,
+              50.6
+            ],
+            [
+              31.299998,
+              51.399999
+            ],
+            [
+              29.700002,
+              51.399999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          29.700002,
+          50.6,
+          31.299998,
+          51.399999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R26",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          15.0,
+          57.0
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              14.600001,
+              56.200002
+            ],
+            [
+              15.4,
+              56.200002
+            ],
+            [
+              15.4,
+              57.799999
+            ],
+            [
+              14.600001,
+              57.799999
+            ],
+            [
+              14.600001,
+              56.200002
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          14.600001,
+          56.200002,
+          15.4,
+          57.799999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R27",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          15.0,
+          49.000001
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              15.4,
+              49.799999
+            ],
+            [
+              14.600001,
+              49.799999
+            ],
+            [
+              14.600001,
+              48.200003
+            ],
+            [
+              15.4,
+              48.200003
+            ],
+            [
+              15.4,
+              49.799999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          14.600001,
+          48.200003,
+          15.4,
+          49.799999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "R28",
+        "side": "TOP",
+        "source_footprint_uuid": "5aa4f04a6bc72ca3",
+        "footprint_name": "R0603",
+        "anchor_mm": [
+          11.5,
+          51.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              10.700001,
+              51.9
+            ],
+            [
+              10.700001,
+              51.100002
+            ],
+            [
+              12.299998,
+              51.100002
+            ],
+            [
+              12.299998,
+              51.9
+            ],
+            [
+              10.700001,
+              51.9
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          10.700001,
+          51.100002,
+          12.299998,
+          51.9
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "SW1",
+        "side": "TOP",
+        "source_footprint_uuid": "bf3c9b3102ad4c64",
+        "footprint_name": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+        "anchor_mm": [
+          75.311,
+          26.791999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              74.011028,
+              29.342006
+            ],
+            [
+              72.761018,
+              28.091996
+            ],
+            [
+              72.761043,
+              25.492001
+            ],
+            [
+              74.011028,
+              24.241991
+            ],
+            [
+              76.611023,
+              24.241991
+            ],
+            [
+              77.861033,
+              25.492001
+            ],
+            [
+              77.861033,
+              28.091996
+            ],
+            [
+              76.611023,
+              29.341981
+            ],
+            [
+              74.011028,
+              29.342006
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          72.761018,
+          24.241991,
+          77.861033,
+          29.342006
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "SW2",
+        "side": "TOP",
+        "source_footprint_uuid": "bf3c9b3102ad4c64",
+        "footprint_name": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+        "anchor_mm": [
+          75.311,
+          53.207999
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              74.011028,
+              55.758006
+            ],
+            [
+              72.761018,
+              54.507996
+            ],
+            [
+              72.761043,
+              51.908001
+            ],
+            [
+              74.011028,
+              50.657991
+            ],
+            [
+              76.611023,
+              50.657991
+            ],
+            [
+              77.861033,
+              51.908001
+            ],
+            [
+              77.861033,
+              54.507996
+            ],
+            [
+              76.611023,
+              55.757981
+            ],
+            [
+              74.011028,
+              55.758006
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          72.761018,
+          50.657991,
+          77.861033,
+          55.758006
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U1",
+        "side": "TOP",
+        "source_footprint_uuid": "e606f41dfe07167e",
+        "footprint_name": "QFN-16_L3.0-W3.0-P0.50-TL-EP1.7",
+        "anchor_mm": [
+          52.0,
+          63.999999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              53.500073,
+              65.500072
+            ],
+            [
+              50.500079,
+              65.500072
+            ],
+            [
+              50.500079,
+              62.500078
+            ],
+            [
+              53.500073,
+              62.500078
+            ],
+            [
+              53.500073,
+              65.500072
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          50.500079,
+          62.500078,
+          53.500073,
+          65.500072
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U2",
+        "side": "TOP",
+        "source_footprint_uuid": "56e9aeccc024626d",
+        "footprint_name": "SOT-563_L1.6-W1.2-P0.50-LS1.6-BR",
+        "anchor_mm": [
+          52.0,
+          53.000001
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              52.60005,
+              52.199926
+            ],
+            [
+              52.60005,
+              53.799923
+            ],
+            [
+              51.400052,
+              53.799923
+            ],
+            [
+              51.400052,
+              52.199926
+            ],
+            [
+              52.60005,
+              52.199926
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          51.400052,
+          52.199926,
+          52.60005,
+          53.799923
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U3",
+        "side": "TOP",
+        "source_footprint_uuid": "ae67c434211e503a",
+        "footprint_name": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-TL",
+        "anchor_mm": [
+          67.000001,
+          28.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              67.80005,
+              26.54999
+            ],
+            [
+              67.80005,
+              29.449984
+            ],
+            [
+              66.200053,
+              29.449984
+            ],
+            [
+              66.200053,
+              26.54999
+            ],
+            [
+              67.80005,
+              26.54999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          66.200053,
+          26.54999,
+          67.80005,
+          29.449984
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U4",
+        "side": "TOP",
+        "source_footprint_uuid": "c4e5010902297a9e",
+        "footprint_name": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+        "anchor_mm": [
+          59.999999,
+          35.000001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              59.200001,
+              36.449998
+            ],
+            [
+              59.200001,
+              33.550004
+            ],
+            [
+              60.799998,
+              33.550004
+            ],
+            [
+              60.799998,
+              36.449998
+            ],
+            [
+              59.200001,
+              36.449998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          59.200001,
+          33.550004,
+          60.799998,
+          36.449998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U5",
+        "side": "TOP",
+        "source_footprint_uuid": "eb335d0eb6dfc4ee",
+        "footprint_name": "X2QFN-12_L1.6-W1.6-P0.40-TL",
+        "anchor_mm": [
+          57.0,
+          71.0
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              56.199951,
+              70.199976
+            ],
+            [
+              57.799923,
+              70.199976
+            ],
+            [
+              57.799923,
+              71.799973
+            ],
+            [
+              56.199951,
+              71.799973
+            ],
+            [
+              56.199951,
+              70.199976
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          56.199951,
+          70.199976,
+          57.799923,
+          71.799973
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U6",
+        "side": "TOP",
+        "source_footprint_uuid": "dbf6b629cde46ba9",
+        "footprint_name": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+        "anchor_mm": [
+          65.0,
+          72.999999
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              63.54971,
+              73.799997
+            ],
+            [
+              63.54971,
+              72.2
+            ],
+            [
+              66.449705,
+              72.2
+            ],
+            [
+              66.449705,
+              73.799997
+            ],
+            [
+              63.54971,
+              73.799997
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          63.54971,
+          72.2,
+          66.449705,
+          73.799997
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U7",
+        "side": "TOP",
+        "source_footprint_uuid": "453e2d2585c813d0",
+        "footprint_name": "UQFN-10_L2.0-W1.5-P0.50-BL",
+        "anchor_mm": [
+          25.000001,
+          63.999999
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              24.24999,
+              63.000001
+            ],
+            [
+              25.750012,
+              63.000001
+            ],
+            [
+              25.750012,
+              64.999997
+            ],
+            [
+              24.24999,
+              64.999997
+            ],
+            [
+              24.24999,
+              63.000001
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          24.24999,
+          63.000001,
+          25.750012,
+          64.999997
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U8",
+        "side": "TOP",
+        "source_footprint_uuid": "dbf6b629cde46ba9",
+        "footprint_name": "SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL",
+        "anchor_mm": [
+          24.0,
+          44.000001
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              25.450289,
+              43.200002
+            ],
+            [
+              25.450289,
+              44.799999
+            ],
+            [
+              22.550295,
+              44.799999
+            ],
+            [
+              22.550295,
+              43.200002
+            ],
+            [
+              25.450289,
+              43.200002
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          22.550295,
+          43.200002,
+          25.450289,
+          44.799999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U9",
+        "side": "TOP",
+        "source_footprint_uuid": "d8a1db0b4d29f75d",
+        "footprint_name": "TSSOP-16_L5.0-W4.4-P0.65-LS6.4-BL",
+        "anchor_mm": [
+          21.000001,
+          53.000001
+        ],
+        "source_rotation_deg_ccw": 90,
+        "body_polygons_xy_mm": [
+          [
+            [
+              23.199997,
+              55.499996
+            ],
+            [
+              18.800006,
+              55.499996
+            ],
+            [
+              18.800006,
+              50.500006
+            ],
+            [
+              23.199997,
+              50.500006
+            ],
+            [
+              23.199997,
+              55.499996
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          18.800006,
+          50.500006,
+          23.199997,
+          55.499996
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "U10",
+        "side": "TOP",
+        "source_footprint_uuid": "5572444fbc3faca9",
+        "footprint_name": "TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2",
+        "anchor_mm": [
+          58.999999,
+          47.0
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              58.000001,
+              47.999998
+            ],
+            [
+              59.999997,
+              47.999998
+            ],
+            [
+              59.999997,
+              46.000002
+            ],
+            [
+              58.000001,
+              46.000002
+            ],
+            [
+              58.000001,
+              47.999998
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          58.000001,
+          46.000002,
+          59.999997,
+          47.999998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C18",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          15.0,
+          52.699999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              15.799999,
+              52.3
+            ],
+            [
+              15.799999,
+              53.099998
+            ],
+            [
+              14.200002,
+              53.099998
+            ],
+            [
+              14.200002,
+              52.3
+            ],
+            [
+              15.799999,
+              52.3
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          14.200002,
+          52.3,
+          15.799999,
+          53.099998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C19",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          58.999999,
+          49.5
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [
+          [
+            [
+              58.2,
+              49.899999
+            ],
+            [
+              58.2,
+              49.100001
+            ],
+            [
+              59.799997,
+              49.100001
+            ],
+            [
+              59.799997,
+              49.899999
+            ],
+            [
+              58.2,
+              49.899999
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          58.2,
+          49.100001,
+          59.799997,
+          49.899999
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "C20",
+        "side": "TOP",
+        "source_footprint_uuid": "100749ec02c3d857",
+        "footprint_name": "C0603",
+        "anchor_mm": [
+          28.0,
+          58.799999
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              28.799998,
+              58.4
+            ],
+            [
+              28.799998,
+              59.199998
+            ],
+            [
+              27.200001,
+              59.199998
+            ],
+            [
+              27.200001,
+              58.4
+            ],
+            [
+              28.799998,
+              58.4
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          27.200001,
+          58.4,
+          28.799998,
+          59.199998
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "J2",
+        "side": "TOP",
+        "source_footprint_uuid": "30ee92e656c169b2",
+        "footprint_name": "FPC-SMD_10P-P0.50_XUNPU_FPC-05F-10PH20",
+        "anchor_mm": [
+          3.81,
+          58.801
+        ],
+        "source_rotation_deg_ccw": -90.00000000000001,
+        "body_polygons_xy_mm": [
+          [
+            [
+              -0.324841,
+              54.101009
+            ],
+            [
+              4.795164,
+              54.101009
+            ],
+            [
+              4.795164,
+              63.501016
+            ],
+            [
+              -0.324841,
+              63.501016
+            ],
+            [
+              -0.324841,
+              54.101009
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          -0.324841,
+          54.101009,
+          4.795164,
+          63.501016
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "J3",
+        "side": "TOP",
+        "source_footprint_uuid": "7ce0217ca3d16eb3",
+        "footprint_name": "CONN-TH_B2B-PH-K-S",
+        "anchor_mm": [
+          39.999999,
+          5.0
+        ],
+        "source_rotation_deg_ccw": 180,
+        "body_polygons_xy_mm": [
+          [
+            [
+              42.94998,
+              3.300004
+            ],
+            [
+              42.94998,
+              7.799995
+            ],
+            [
+              37.049992,
+              7.799995
+            ],
+            [
+              37.049992,
+              3.300004
+            ],
+            [
+              42.94998,
+              3.300004
+            ]
+          ]
+        ],
+        "body_bbox_xy_mm": [
+          37.049992,
+          3.300004,
+          42.94998,
+          7.799995
+        ],
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP1",
+        "side": "TOP",
+        "source_footprint_uuid": "847ec1f4dfc5086a_cf84ac8a14a8cf74",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          56.0,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP2",
+        "side": "TOP",
+        "source_footprint_uuid": "217839e496899ffc",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          48.000001,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP3",
+        "side": "TOP",
+        "source_footprint_uuid": "217839e496899ffc",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          16.000001,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP4",
+        "side": "TOP",
+        "source_footprint_uuid": "847ec1f4dfc5086a_a9474bda811a6d60",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          24.0,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP5",
+        "side": "TOP",
+        "source_footprint_uuid": "217839e496899ffc",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          39.999999,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP6",
+        "side": "TOP",
+        "source_footprint_uuid": "847ec1f4dfc5086a_77eaca4f7bb66818",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          63.999999,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP7",
+        "side": "TOP",
+        "source_footprint_uuid": "847ec1f4dfc5086a_3ad315000bebc71f",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          7.999999,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      },
+      {
+        "ref": "TP8",
+        "side": "TOP",
+        "source_footprint_uuid": "217839e496899ffc",
+        "footprint_name": "GRIDOPOLY_TEST_PAD_PTH_1MM",
+        "anchor_mm": [
+          31.999999,
+          22.500001
+        ],
+        "source_rotation_deg_ccw": 0,
+        "body_polygons_xy_mm": [],
+        "body_bbox_xy_mm": null,
+        "height_above_pcb_top_mm": null,
+        "height_evidence": "No assembled height in source; individual data-sheet values below are separate."
+      }
+    ],
+    "testpoint_row": {
+      "y_mm": 22.5,
+      "x_mm": [
+        8,
+        16,
+        24,
+        32,
+        40,
+        48,
+        56,
+        64
+      ],
+      "keep_accessible": "Do not fill through holes with plastic; top probing needs cover removal or access."
+    },
+    "height_evidence": {
+      "maximum_top_assembled_component_height_mm": null,
+      "maximum_bottom_assembled_protrusion_mm": null,
+      "j3_mated_height_above_pcb_top_mm": 8,
+      "j3_height_source": "ProductionReadiness-2026-10-14/JST-PH-official.pdf p1",
+      "j3_untrimmed_lead_length_from_seating_plane_mm": 3.4,
+      "j3_lead_evidence": "JST PH drawing p3; nominal leads imply ~1.8 mm below 1.6 mm PCB before solder; actual trimming and solder height unknown.",
+      "L1_height_mm": 1.8,
+      "L1_height_tolerance_mm": 0.2,
+      "L1_source": "ProductionReadiness-2026-10-14/power-datasheets/mwsa.pdf MWSA0402S table",
+      "do_not_reuse": "8.1 mm underside height from tile/corner PCBs is unrelated to this PCB."
+    },
+    "battery": {
+      "purchased_model": "EEMB LP103454 1S 2000mAh",
+      "cell_datasheet_max_xyz_mm": [
+        56,
+        34.5,
+        10.3
+      ],
+      "source": "PCB Files/PlayerConsolePower/ProductionReadiness-2026-10-14/power-datasheets/eemb-lp103454.pdf p3",
+      "finished_pack_dimensions_confirmed": false,
+      "note": "Cell dimensional data does not bind actual protected pack, tape, wire bend or swelling allowance. Do not substitute old 103450 52x34x10 dimensions."
+    },
+    "mechanical_limits": [
+      "No live EDA manipulation or PCB modification.",
+      "No physical height measurements; service envelopes are provisional design reserves.",
+      "Insulating OD6 support contact only; keep screw/washer heads within OD6 until actual hardware clearance checked.",
+      "Do not claim entire assembled electronics passed from mechanical source checks.",
+      "Real repaired PCB may be older batch; user reports operation but exact as-built revision/height not tied to this archive."
+    ],
+    "battery_tray_lowering_candidate": {
+      "outer_xy_bbox_mm": [
+        10,
+        10,
+        70,
+        48
+      ],
+      "floor_underside_z_above_pcb_top_mm": 4,
+      "floor_thickness_mm": 2,
+      "status": "DESIGN_CANDIDATE_NOT_MEASURED",
+      "clear_of_tall_interface_bodies": [
+        "J1",
+        "J2",
+        "J3",
+        "SW1",
+        "SW2",
+        "L1"
+      ],
+      "overlapped_body_refs": [
+        "C4",
+        "C5",
+        "C6",
+        "C14",
+        "C15",
+        "Q1",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "U3",
+        "U4",
+        "U8",
+        "U10"
+      ],
+      "conditions": [
+        "Actual component/solder maxima under tray must be <=3 mm to retain 1 mm gap.",
+        "Keep J3 local upward wiring clearance separate; do not extend tray north across J3.",
+        "This bounds the 60x38 tray footprint only, not confirmation that a nominal 60x38 internal cavity plus walls fits the same envelope.",
+        "Probe row lies under tray; allow disassembly to access testpoints.",
+        "Battery must not bear directly on electronics; retain insulating floor."
+      ]
+    }
+  },
+  "feet_mm": 8.0,
+  "board_thickness_mm": 1.6,
+  "spacer_mm": 8.0,
+  "tray_floor_mm": 2.0,
+  "battery_cavity_height_mm": 14.0,
+  "battery_envelope_mm": [
+    56.0,
+    34.5,
+    10.6
+  ],
+  "battery_cavity_xy": [
+    -33.0,
+    -8.0,
+    27.0,
+    30.0
+  ],
+  "battery_xy": [
+    -3.0,
+    11.0
+  ],
+  "holes_xy": [
+    [
+      -35,
+      -35
+    ],
+    [
+      -35,
+      35
+    ],
+    [
+      35,
+      -35
+    ],
+    [
+      35,
+      35
+    ]
+  ],
+  "printed_hole_mm": 3.6,
+  "source_pcb_hole_mm": 3.4,
+  "fastener": {
+    "screw": "M3 x 35 mm",
+    "washer_thickness_mm": 0.5,
+    "foot": "round OD6, M3 through-thread female, 8 mm long insulating spacer",
+    "thread_engagement_mm": 4.9
+  },
+  "optional_raised_stack": {
+    "spacer_mm": 12,
+    "screw": "M3 x 40 mm",
+    "thread_engagement_mm": 5.9
+  },
+  "openings": {
+    "fpc": [
+      -48,
+      -27,
+      -29,
+      -12
+    ],
+    "power": [
+      29.5,
+      6.2,
+      48,
+      20.2
+    ],
+    "reset": [
+      29.5,
+      -20.2,
+      48,
+      -6.2
+    ],
+    "battery_service": [
+      -9,
+      33,
+      9,
+      42
+    ]
+  },
+  "status": "New assembly not yet sliced or physically fitted; cable length pending"
+}

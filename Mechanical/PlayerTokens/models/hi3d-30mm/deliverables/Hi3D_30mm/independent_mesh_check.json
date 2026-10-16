@@ -1,0 +1,75 @@
+{
+  "file": "C:/Users/kicof/Downloads/Hi3D_30mm/Hi3D_30mm.stl",
+  "stl_bytes": 77164884,
+  "triangle_count": 1543296,
+  "unique_vertex_count": 771642,
+  "bbox_min_mm": [
+    -15.13329792022705,
+    -15.0,
+    0.0
+  ],
+  "bbox_max_mm": [
+    15.0,
+    15.0,
+    47.71007537841797
+  ],
+  "dimensions_mm": [
+    30.13329792022705,
+    30.0,
+    47.71007537841797
+  ],
+  "boundary_edges": 0,
+  "nonmanifold_edges": 0,
+  "degenerate_triangles_area_le_1e_12_mm2": 0,
+  "surface_area_mm2": 5010.603918876433,
+  "signed_volume_mm3": 12788.994324622085,
+  "connected_components": 1,
+  "component_vertex_counts": [
+    771642
+  ],
+  "bottom": {
+    "z_tolerance_mm": 1e-06,
+    "flat_triangles": 718,
+    "vertices": 720,
+    "outline_vertices": 720,
+    "z_range_mm": [
+      0.0,
+      0.0
+    ],
+    "xy_bbox_min_mm": [
+      -15.0,
+      -15.0
+    ],
+    "xy_bbox_max_mm": [
+      15.0,
+      15.0
+    ],
+    "radius_min_mm": 14.999999159320865,
+    "radius_max_mm": 15.000000766815793,
+    "radius_error_max_mm": 8.406791351944776e-07,
+    "all_normals_down": true
+  },
+  "inconsistent_winding_edges": 0,
+  "euler_characteristic": -6,
+  "minimum_x_vertex_mm": [
+    -15.13329792022705,
+    1.1572544574737549,
+    11.564432144165039
+  ],
+  "vertices_beyond_base_radius": {
+    "count": 2807,
+    "z_min_mm": 9.358264923095703,
+    "z_max_mm": 13.640382766723633,
+    "maximum_radius_mm": 15.227401171106592
+  },
+  "export_3mf": {
+    "path": "C:/Users/kicof/Downloads/Hi3D_30mm/Hi3D_30mm.3mf",
+    "bytes": 24883084,
+    "unit": "millimeter",
+    "objects": 1,
+    "vertices": 771642,
+    "triangles": 1543296,
+    "crc_valid": true,
+    "slicer_settings": false
+  }
+}

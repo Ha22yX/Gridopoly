@@ -1,0 +1,312 @@
+{
+  "revision": "FULL16_R1",
+  "checked_at_utc": "2026-10-15T22:14:21.348934+00:00",
+  "status": "PASS",
+  "print_direction": "+Z; flat base on print bed",
+  "parts": {
+    "01_L_Quarter_PRINT_4": {
+      "revision": "FULL16_R1",
+      "status": "PASS",
+      "checks": {
+        "single_connected_component": true,
+        "every_edge_has_exactly_two_faces": true,
+        "consistent_edge_winding": true,
+        "no_degenerate_triangles": true,
+        "no_duplicate_triangles": true,
+        "positive_outward_volume": true,
+        "dimensions_match_within_0_001_mm": true,
+        "bottom_at_z_zero": true,
+        "nonzero_flat_bed_contact": true,
+        "no_downward_surface_above_bed": true
+      },
+      "vertices": 8161,
+      "triangles": 16318,
+      "edges": 24477,
+      "connected_components": 1,
+      "boundary_edges": 0,
+      "edges_not_shared_by_two_faces": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "euler_characteristic": 2,
+      "signed_volume_mm3": 110002.47290634314,
+      "bounds_mm": [
+        [
+          -67.3499984741211,
+          104.0
+        ],
+        [
+          -24.0,
+          210.35000610351562
+        ],
+        [
+          0.0,
+          16.799999237060547
+        ]
+      ],
+      "dimensions_mm": [
+        171.3499984741211,
+        234.35000610351562,
+        16.799999237060547
+      ],
+      "expected_dimensions_mm": [
+        171.35,
+        234.35,
+        16.8
+      ],
+      "flat_bed_contact_surface_area_mm2": 25862.146775793943,
+      "downward_surface_triangles_above_bed": 0,
+      "downward_surface_area_above_bed_mm2": 0.0,
+      "vertical_wall_angular_noise_tolerance_deg": 0.01,
+      "method": "Independent binary STL parsing; exact-coordinate vertex welding; calculated face normals",
+      "stl_sha256": "106204a6cd02ce4a5727619349d61e098255bf33e9c3a49b69b928ba2743c1ae",
+      "recommended_print_copies": 4,
+      "3mf": {
+        "revision": "FULL16_R1",
+        "status": "PASS",
+        "object_count": 1,
+        "build_item_count": 1,
+        "units": "millimeter",
+        "zip_crc_ok": true,
+        "triangles_equal_to_stl": true,
+        "vertices_match_stl_after_translation_within_1e_8_mm": true,
+        "vertex_translation_from_stl_mm": [
+          67.3499984741211,
+          24.0,
+          -0.0
+        ],
+        "independent_readback_mesh_checks": {
+          "revision": "FULL16_R1",
+          "status": "PASS",
+          "checks": {
+            "single_connected_component": true,
+            "every_edge_has_exactly_two_faces": true,
+            "consistent_edge_winding": true,
+            "no_degenerate_triangles": true,
+            "no_duplicate_triangles": true,
+            "positive_outward_volume": true,
+            "dimensions_match_within_0_001_mm": true,
+            "bottom_at_z_zero": true,
+            "nonzero_flat_bed_contact": true,
+            "no_downward_surface_above_bed": true
+          },
+          "vertices": 8161,
+          "triangles": 16318,
+          "edges": 24477,
+          "connected_components": 1,
+          "boundary_edges": 0,
+          "edges_not_shared_by_two_faces": 0,
+          "inconsistent_edge_winding": 0,
+          "degenerate_triangles": 0,
+          "duplicate_triangles": 0,
+          "euler_characteristic": 2,
+          "signed_volume_mm3": 110002.47290690297,
+          "bounds_mm": [
+            [
+              0.0,
+              171.349998474
+            ],
+            [
+              0.0,
+              234.350006104
+            ],
+            [
+              0.0,
+              16.7999992371
+            ]
+          ],
+          "dimensions_mm": [
+            171.349998474,
+            234.350006104,
+            16.7999992371
+          ],
+          "expected_dimensions_mm": [
+            171.35,
+            234.35,
+            16.8
+          ],
+          "flat_bed_contact_surface_area_mm2": 25862.146775833022,
+          "downward_surface_triangles_above_bed": 0,
+          "downward_surface_area_above_bed_mm2": 0.0,
+          "vertical_wall_angular_noise_tolerance_deg": 0.01
+        },
+        "recommended_print_copies": 4,
+        "printer_settings_included": false,
+        "opened_in_slicer": false,
+        "sha256": "1d004ec0b2ae1b9a626360e9ce32b7dfa269359f475b38445505068f08f5c262"
+      }
+    },
+    "02_Splice_Bridge_PRINT_8": {
+      "revision": "FULL16_R1",
+      "status": "PASS",
+      "checks": {
+        "single_connected_component": true,
+        "every_edge_has_exactly_two_faces": true,
+        "consistent_edge_winding": true,
+        "no_degenerate_triangles": true,
+        "no_duplicate_triangles": true,
+        "positive_outward_volume": true,
+        "dimensions_match_within_0_001_mm": true,
+        "bottom_at_z_zero": true,
+        "nonzero_flat_bed_contact": true,
+        "no_downward_surface_above_bed": true
+      },
+      "vertices": 652,
+      "triangles": 1316,
+      "edges": 1974,
+      "connected_components": 1,
+      "boundary_edges": 0,
+      "edges_not_shared_by_two_faces": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "euler_characteristic": -6,
+      "signed_volume_mm3": 2040.486704874203,
+      "bounds_mm": [
+        [
+          -10.0,
+          10.0
+        ],
+        [
+          -18.0,
+          18.0
+        ],
+        [
+          0.0,
+          3.0
+        ]
+      ],
+      "dimensions_mm": [
+        20.0,
+        36.0,
+        3.0
+      ],
+      "expected_dimensions_mm": [
+        20.0,
+        36.0,
+        3.0
+      ],
+      "flat_bed_contact_surface_area_mm2": 680.162234956292,
+      "downward_surface_triangles_above_bed": 0,
+      "downward_surface_area_above_bed_mm2": 0.0,
+      "vertical_wall_angular_noise_tolerance_deg": 0.01,
+      "method": "Independent binary STL parsing; exact-coordinate vertex welding; calculated face normals",
+      "stl_sha256": "9763a895a197c22dbeddb6dc0c550ef8c82876e63e657784e4e440839dad4bbc",
+      "recommended_print_copies": 8,
+      "3mf": {
+        "revision": "FULL16_R1",
+        "status": "PASS",
+        "object_count": 1,
+        "build_item_count": 1,
+        "units": "millimeter",
+        "zip_crc_ok": true,
+        "triangles_equal_to_stl": true,
+        "vertices_match_stl_after_translation_within_1e_8_mm": true,
+        "vertex_translation_from_stl_mm": [
+          10.0,
+          18.0,
+          -0.0
+        ],
+        "independent_readback_mesh_checks": {
+          "revision": "FULL16_R1",
+          "status": "PASS",
+          "checks": {
+            "single_connected_component": true,
+            "every_edge_has_exactly_two_faces": true,
+            "consistent_edge_winding": true,
+            "no_degenerate_triangles": true,
+            "no_duplicate_triangles": true,
+            "positive_outward_volume": true,
+            "dimensions_match_within_0_001_mm": true,
+            "bottom_at_z_zero": true,
+            "nonzero_flat_bed_contact": true,
+            "no_downward_surface_above_bed": true
+          },
+          "vertices": 652,
+          "triangles": 1316,
+          "edges": 1974,
+          "connected_components": 1,
+          "boundary_edges": 0,
+          "edges_not_shared_by_two_faces": 0,
+          "inconsistent_edge_winding": 0,
+          "degenerate_triangles": 0,
+          "duplicate_triangles": 0,
+          "euler_characteristic": -6,
+          "signed_volume_mm3": 2040.4867048734561,
+          "bounds_mm": [
+            [
+              0.0,
+              20.0
+            ],
+            [
+              0.0,
+              36.0
+            ],
+            [
+              0.0,
+              3.0
+            ]
+          ],
+          "dimensions_mm": [
+            20.0,
+            36.0,
+            3.0
+          ],
+          "expected_dimensions_mm": [
+            20.0,
+            36.0,
+            3.0
+          ],
+          "flat_bed_contact_surface_area_mm2": 680.162234956047,
+          "downward_surface_triangles_above_bed": 0,
+          "downward_surface_area_above_bed_mm2": 0.0,
+          "vertical_wall_angular_noise_tolerance_deg": 0.01
+        },
+        "recommended_print_copies": 8,
+        "printer_settings_included": false,
+        "opened_in_slicer": false,
+        "sha256": "0b784b5ecf0e42a4fb260ac91f4b76f2ef63c70a97c97a3b8dfc66f4c62b0487"
+      }
+    }
+  },
+  "scope_limit": "Independent exported mesh topology, dimensions and downward-face checks, plus 3MF container/geometry readback. Does not prove absence of self-intersection, assembly collision, real slicing/toolpaths, physical fit, PLA screw strength or structural loads. The prior three-module physical fit does not validate the full 16-module assembly.",
+  "expected_assembly_parameters_mm": {
+    "base_plate_thickness": 3.5,
+    "ear_top_z": 10,
+    "assembled_bridge_z_range": [
+      10,
+      13
+    ],
+    "pcb_bottom_z": 16,
+    "pcb_thickness": 1.6,
+    "max_underside_projection": 8.1,
+    "nominal_underside_clearance_to_base": 4.4,
+    "ear_pilot_diameter": 2.5,
+    "ear_pilot_depth": 8,
+    "ear_pilot_bottom_z": 2,
+    "ear_guide_diameter": 3.6,
+    "ear_guide_depth": 1.2,
+    "bridge_screw_clearance_diameter": 3.6,
+    "bridge_screw_y_centers": [
+      -10,
+      10
+    ],
+    "locator_pin_diameter": 2.8,
+    "locator_y_centers": [
+      -4,
+      4
+    ],
+    "bridge_locator_clearance_diameter": 3.2,
+    "plastic_join_screw_nominal_diameter": 3,
+    "plastic_join_screw_length": 10,
+    "join_washer_thickness": 1,
+    "nominal_join_screw_insertion": 6,
+    "nominal_join_screw_tip_to_pilot_floor": 2
+  },
+  "assembly_parameters_are_design_contract_not_stl_feature_measurement": true,
+  "assembly_quantities": {
+    "l_quarters": 4,
+    "bridge_plates": 8,
+    "join_screws": 16
+  }
+}

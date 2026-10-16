@@ -1,0 +1,102 @@
+{
+  "revision": "FULL16_R1",
+  "checks": [
+    {
+      "category": "quarter_to_quarter",
+      "pair_count": 6,
+      "boolean_pairs": 0,
+      "maximum_intersection_mm3": 0,
+      "overlaps": []
+    },
+    {
+      "category": "bridge_to_quarter",
+      "pair_count": 32,
+      "boolean_pairs": 16,
+      "maximum_intersection_mm3": 0,
+      "overlaps": []
+    },
+    {
+      "category": "pcb_to_plastic",
+      "pair_count": 192,
+      "boolean_pairs": 16,
+      "maximum_intersection_mm3": 4.052314039881821e-15,
+      "overlaps": []
+    },
+    {
+      "category": "bridge_to_bridge",
+      "pair_count": 28,
+      "boolean_pairs": 0,
+      "maximum_intersection_mm3": 0,
+      "overlaps": []
+    }
+  ],
+  "method": "Separate background Blender reopens saved assembly; world-space bounds prune, MANIFOLD solid Boolean intersection for touching boxes.",
+  "quarter_count": 4,
+  "bridge_count": 8,
+  "reference_pcb_count": 16,
+  "quarter_world_bounds_mm": [
+    [
+      [
+        -67.3499984741211,
+        104.0
+      ],
+      [
+        -24.0,
+        210.35000610351562
+      ],
+      [
+        0.0,
+        16.799999237060547
+      ]
+    ],
+    [
+      [
+        -130.35000610351562,
+        104.0
+      ],
+      [
+        210.64999389648438,
+        382.0
+      ],
+      [
+        0.0,
+        16.799999237060547
+      ]
+    ],
+    [
+      [
+        -302.0,
+        -130.6499786376953
+      ],
+      [
+        147.6499786376953,
+        382.0
+      ],
+      [
+        0.0,
+        16.799999237060547
+      ]
+    ],
+    [
+      [
+        -302.0,
+        -67.64999389648438
+      ],
+      [
+        -24.0,
+        147.35000610351562
+      ],
+      [
+        0.0,
+        16.799999237060547
+      ]
+    ]
+  ],
+  "nominal_underside_component_to_plate_mm": 4.4,
+  "rib_top_mm": 6.5,
+  "underside_component_lowest_z_mm": 7.9,
+  "actual_component_3d_geometry_included": false,
+  "limits": "Checks PCB substrate with mounting holes and plastic parts. Exact connector bodies, cable plugs, real print shrink, screw thread forces and structural loads are not simulated.",
+  "physical_full16_fit_verified": false,
+  "actually_sliced": false
+}

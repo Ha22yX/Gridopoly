@@ -1,0 +1,7964 @@
+{
+  "revision": "V2 R2 FPC60 MODULAR",
+  "status": "MODEL_CHECKS_PASS",
+  "spacers_count": 4,
+  "spacer_positions_pass": true,
+  "assembled_bounds_mm": [
+    [
+      -69.0,
+      47.0
+    ],
+    [
+      -53.44552230834961,
+      64.80000305175781
+    ],
+    [
+      0.0,
+      87.46871185302734
+    ]
+  ],
+  "assembled_dimensions_mm": [
+    116.0,
+    118.24552536010742,
+    87.46871185302734
+  ],
+  "collision_tolerance_mm3": 0.001,
+  "collisions": [],
+  "solid_pairs": [
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_01_CONNECTION_PLATE_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_03_BATTERY_CRADLE_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_04_BATTERY_LID_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0.0004794496239384216
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_02_SCREEN_SUPPORT_PRINT",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_03_BATTERY_CRADLE_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_04_BATTERY_LID_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_01_CONNECTION_PLATE_PRINT",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_04_BATTERY_LID_PRINT",
+      "overlap_mm3": 4.774847184307873e-12
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_03_BATTERY_CRADLE_PRINT",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_04_BATTERY_LID_PRINT",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.001",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.002",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_05_SPACER_6MM_PRINT.003",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN0",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN0",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_SCREEN1",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_SCREEN1",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE0",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE0",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_SCREW_CRADLE1",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_EXTRA_NUT_CRADLE1",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    }
+  ],
+  "fpc_envelope_pairs": [
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_02_SCREEN_SUPPORT_PRINT",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_01_CONNECTION_PLATE_PRINT",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_03_BATTERY_CRADLE_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_04_BATTERY_LID_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_plus_Z_UNCONFIRMED.006",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_02_SCREEN_SUPPORT_PRINT",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_01_CONNECTION_PLATE_PRINT",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_03_BATTERY_CRADLE_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_04_BATTERY_LID_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_COMPONENT_J3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_J3_PLUG.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_BATTERY_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_FPC_end_normal_minus_Z_UNCONFIRMED.006",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0
+    }
+  ],
+  "battery_wire_pairs": [
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_02_SCREEN_SUPPORT_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_01_CONNECTION_PLATE_PRINT",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_03_BATTERY_CRADLE_PRINT",
+      "overlap_mm3": 0.0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_04_BATTERY_LID_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_05_SPACER_6MM_PRINT",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_05_SPACER_6MM_PRINT.001",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_05_SPACER_6MM_PRINT.002",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_05_SPACER_6MM_PRINT.003",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_PCB_REFERENCE.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_D1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_J1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_L1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_Q1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_Q2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_Q3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R11.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R12.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R13.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R14.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R15.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R16.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R17.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R21.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R22.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R23.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R24.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R25.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R26.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R27.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_R28.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_SW1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_SW2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U5.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U6.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U7.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U8.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U9.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_U10.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C18.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C19.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_C20.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_COMPONENT_J2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_FOOT_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_M3x18_1.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_FOOT_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_M3x18_2.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_FOOT_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_M3x18_3.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_FOOT_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_M3x18_4.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_SCREW_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_NUT_SCREEN0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_SCREW_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_NUT_SCREEN1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_SCREW_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_NUT_CRADLE0",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_SCREW_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_EXTRA_NUT_CRADLE1",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_SCREEN_BODY.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_SCREEN_GLASS.006",
+      "overlap_mm3": 0
+    },
+    {
+      "a": "R2_BATTERY_WIRE_REFERENCE.006",
+      "b": "R2_SOFT_STRAP_REFERENCE.004",
+      "overlap_mm3": 0.0
+    }
+  ],
+  "limitations": [
+    "FPC outlet, insertion, contact side, strain and bend limits are unmeasured; both ribbon directions are conditional.",
+    "FPC and wire envelopes exclude their intended connector insertion; screen boss holes omitted from simplified screen reference.",
+    "Component heights are illustrative, not measured. Actual PCB clearance remains to be fitted.",
+    "No physical print, slicing, stability or thermal testing has been completed."
+  ]
+}

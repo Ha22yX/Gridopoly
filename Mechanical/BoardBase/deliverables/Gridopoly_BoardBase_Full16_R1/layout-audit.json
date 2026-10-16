@@ -1,0 +1,1640 @@
+{
+  "status": "PASS",
+  "config_sha256": "262dd1010271e45e3f72390756a5219f936ab45c59081e333899ff2c5e3c716d",
+  "audit_script_sha256": "38ecd41bc72248d62f03fc588b9d5cabb19dadc53477734c996a727f16ad3a6e",
+  "method": "Independent stdlib coordinate, polygon-segment distance, transform and fastener dimension-chain audit",
+  "checks": [
+    {
+      "name": "frozen_interface_hash",
+      "passed": true,
+      "sha256": "e78d4cbc840f58c6564f7e6513c5992925e54811c4d39e5e01467c7390e53df6"
+    },
+    {
+      "name": "baseline_config_hash",
+      "passed": true,
+      "sha256": "64e07044bb3c576a4bee1b6bdab77cce5cc47a6fa0c82e64699b5ff30b4fa5ab"
+    },
+    {
+      "name": "baseline_hole_roles_Corner",
+      "passed": true
+    },
+    {
+      "name": "baseline_hole_roles_Incoming_Long",
+      "passed": true
+    },
+    {
+      "name": "baseline_hole_roles_Outgoing_Long",
+      "passed": true
+    },
+    {
+      "name": "three_test_boards_preserved",
+      "passed": true,
+      "max_coordinate_error_mm": 0.0
+    },
+    {
+      "name": "added_long_is_translation_63mm",
+      "passed": true,
+      "max_coordinate_error_mm": 0.0
+    },
+    {
+      "name": "source_hole_transforms",
+      "passed": true,
+      "max_coordinate_error_mm": 2.842170943040401e-14
+    },
+    {
+      "name": "four_proper_quarter_rotations",
+      "passed": true,
+      "rotation_determinants": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "note": "Native XY-down is first converted to XY-up; no PCB mirror or backside flip is applied."
+    },
+    {
+      "name": "board_and_hole_counts",
+      "passed": true,
+      "total": 16,
+      "corner": 4,
+      "long": 12,
+      "holes": 64,
+      "active": 32,
+      "passive": 32
+    },
+    {
+      "name": "bare_pcb_span_358mm",
+      "passed": true,
+      "bounds_mm": [
+        -4.8279999816713826e-05,
+        -4.8279999816713826e-05,
+        358.0000482799998,
+        358.0000482799998
+      ],
+      "nominal_tolerance_mm": 0.001
+    },
+    {
+      "name": "side_bottom",
+      "passed": true,
+      "nominal_tolerance_mm": 0.001,
+      "side": "bottom",
+      "boards": [
+        "Q270_Corner",
+        "Q270_Outgoing_Long",
+        "Q270_Outgoing_Long_2",
+        "Q0_Incoming_Long",
+        "Q0_Corner"
+      ],
+      "envelope_gaps_mm": [
+        9.0,
+        9.000001319999996,
+        9.000001319999996,
+        9.000001320000024
+      ],
+      "main_body_gaps_mm": [
+        12.0,
+        15.000001319999996,
+        15.000001319999996,
+        12.000001320000024
+      ]
+    },
+    {
+      "name": "side_right",
+      "passed": true,
+      "nominal_tolerance_mm": 0.001,
+      "side": "right",
+      "boards": [
+        "Q0_Corner",
+        "Q0_Outgoing_Long",
+        "Q0_Outgoing_Long_2",
+        "Q90_Incoming_Long",
+        "Q90_Corner"
+      ],
+      "envelope_gaps_mm": [
+        9.0,
+        9.000001319999996,
+        9.000001319999996,
+        9.000001320000024
+      ],
+      "main_body_gaps_mm": [
+        12.0,
+        15.000001319999996,
+        15.000001319999996,
+        12.000001320000024
+      ]
+    },
+    {
+      "name": "side_top",
+      "passed": true,
+      "nominal_tolerance_mm": 0.001,
+      "side": "top",
+      "boards": [
+        "Q180_Corner",
+        "Q180_Incoming_Long",
+        "Q90_Outgoing_Long_2",
+        "Q90_Outgoing_Long",
+        "Q90_Corner"
+      ],
+      "envelope_gaps_mm": [
+        9.000001319999996,
+        9.000001319999996,
+        9.000001319999996,
+        9.0
+      ],
+      "main_body_gaps_mm": [
+        12.000001319999996,
+        15.000001319999996,
+        15.000001319999996,
+        12.0
+      ]
+    },
+    {
+      "name": "side_left",
+      "passed": true,
+      "nominal_tolerance_mm": 0.001,
+      "side": "left",
+      "boards": [
+        "Q270_Corner",
+        "Q270_Incoming_Long",
+        "Q180_Outgoing_Long_2",
+        "Q180_Outgoing_Long",
+        "Q180_Corner"
+      ],
+      "envelope_gaps_mm": [
+        9.000001319999996,
+        9.000001319999996,
+        9.000001319999996,
+        9.0
+      ],
+      "main_body_gaps_mm": [
+        12.000001319999996,
+        15.000001319999996,
+        15.000001319999996,
+        12.0
+      ]
+    },
+    {
+      "name": "all_sixteen_connector_pairs_tangentially_aligned",
+      "passed": true,
+      "group_pairs": 32,
+      "max_lateral_error_mm": 0.0,
+      "axial_anchor_distance_range_mm": [
+        13.46999999999997,
+        13.597000000000037
+      ],
+      "limitation": "Anchor alignment is not insertion-depth, electrical polarity or full plug-envelope validation."
+    },
+    {
+      "name": "rib_rectangles_match_actual_builder",
+      "passed": true,
+      "actual_rib_boxes_mm": [
+        [
+          [
+            -67.35,
+            -3.5,
+            3.49
+          ],
+          [
+            78,
+            -1.1,
+            6.5
+          ]
+        ],
+        [
+          [
+            81.1,
+            2,
+            3.49
+          ],
+          [
+            83.5,
+            210.35,
+            6.5
+          ]
+        ],
+        [
+          [
+            -3.5,
+            90,
+            3.49
+          ],
+          [
+            -1.1,
+            210.35,
+            6.5
+          ]
+        ],
+        [
+          [
+            -67.35,
+            81.1,
+            3.49
+          ],
+          [
+            -10,
+            83.5,
+            6.5
+          ]
+        ]
+      ],
+      "builder_sha256": "3847f0e5bb1cacad7b11a9650e48a3adc460cf16ea844625afdcaf8fd7cedb31"
+    },
+    {
+      "name": "eight_bridges_sixteen_ears_one_to_one",
+      "passed": true,
+      "bridge_count": 8,
+      "ear_count": 16,
+      "matched_screw_count": 16,
+      "matched_pin_count": 16,
+      "max_feature_center_error_mm": 0.0
+    },
+    {
+      "name": "ears_outside_all_pcb_projections",
+      "passed": true,
+      "pair_count": 256,
+      "minimum": {
+        "feature": "Q0_out_outer",
+        "board": "Q0_Outgoing_Long_2",
+        "distance_mm": 0.4999517200001833
+      },
+      "zero_clearance_count": 0
+    },
+    {
+      "name": "bridges_outside_all_pcb_projections",
+      "passed": true,
+      "pair_count": 128,
+      "minimum": {
+        "feature": "Q0_B0",
+        "board": "Q0_Outgoing_Long_2",
+        "distance_mm": 1.9999517200001833
+      },
+      "zero_clearance_count": 0
+    },
+    {
+      "name": "ribs_outside_all_pcb_projections",
+      "passed": true,
+      "pair_count": 256,
+      "minimum": {
+        "feature": "Q0_rib0",
+        "board": "Q0_Incoming_Long",
+        "distance_mm": 1.0999517200001776
+      },
+      "zero_clearance_count": 0
+    },
+    {
+      "name": "frame_and_tab_spans",
+      "passed": true,
+      "frame_bounds_mm": [
+        -4,
+        -4.0,
+        362,
+        362
+      ],
+      "overall_with_tabs_bounds_mm": [
+        -24.0,
+        -24.0,
+        382.0,
+        382.0
+      ]
+    },
+    {
+      "name": "quarter_split_clearance",
+      "passed": true,
+      "base_polygon_adjacent_distances_mm": [
+        0.30000000000001137,
+        0.30000000000001137,
+        0.30000000000001137,
+        0.30000000000001137
+      ]
+    },
+    {
+      "name": "single_print_xy_fits_configured_bed",
+      "passed": true,
+      "part_bbox_mm": [
+        -67.35,
+        -24,
+        104,
+        210.35
+      ],
+      "part_size_xy_mm": [
+        171.35,
+        234.35
+      ],
+      "bed_xy_mm": [
+        325,
+        320
+      ]
+    },
+    {
+      "name": "nominal_screw_lengths_do_not_bottom",
+      "passed": true,
+      "pcb_screw_entry_mm": 7.4,
+      "bridge_screw_entry_mm": 6.0,
+      "pcb_blind_floor_clearance_mm": 2.5999999999999996,
+      "ear_blind_floor_clearance_mm": 2.0
+    },
+    {
+      "name": "unchanged_pcb_height_and_clearance",
+      "passed": true,
+      "pcb_bottom_z_mm": 16.0,
+      "base_top_z_mm": 3.5,
+      "bottom_component_assumed_z_mm": 7.9,
+      "nominal_component_to_flat_base_clearance_mm": 4.4
+    }
+  ],
+  "boards": [
+    {
+      "name": "Q0_Corner",
+      "kind": "corner",
+      "angle_deg": 0,
+      "canonical_name": "Corner",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            281.99999962,
+            76.00000038
+          ],
+          "active": true
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            354.0000004,
+            76.00000038
+          ],
+          "active": false
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            354.0000004,
+            3.9999995999999953
+          ],
+          "active": true
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            281.99999962,
+            3.9999995999999953
+          ],
+          "active": false
+        }
+      ],
+      "bounds": [
+        278.0,
+        -2.0000015865662135e-08,
+        358.00000002,
+        80.0
+      ]
+    },
+    {
+      "name": "Q0_Incoming_Long",
+      "kind": "long",
+      "angle_deg": 0,
+      "canonical_name": "Incoming_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            222.19099907999998,
+            75.809
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            261.81499908,
+            75.809
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            261.81499908,
+            4.161147360000001
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            222.19099907999998,
+            4.161147360000001
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        215.0,
+        -4.8279999816713826e-05,
+        268.99999868,
+        80.0
+      ]
+    },
+    {
+      "name": "Q0_Outgoing_Long",
+      "kind": "long",
+      "angle_deg": 0,
+      "canonical_name": "Outgoing_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            282.19100000000003,
+            96.19099908
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            282.19100000000003,
+            135.81499908
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            353.83885264,
+            135.81499908
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            353.83885264,
+            96.19099908
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        278.0,
+        89.0,
+        358.0000482799998,
+        142.99999868
+      ]
+    },
+    {
+      "name": "Q0_Outgoing_Long_2",
+      "kind": "long",
+      "angle_deg": 0,
+      "canonical_name": "Outgoing_Long_2",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            282.19100000000003,
+            159.19099907999998
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            282.19100000000003,
+            198.81499908
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            353.83885264,
+            198.81499908
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            353.83885264,
+            159.19099907999998
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        278.0,
+        152.0,
+        358.0000482799998,
+        205.99999868
+      ]
+    },
+    {
+      "name": "Q90_Corner",
+      "kind": "corner",
+      "angle_deg": 90,
+      "canonical_name": "Corner",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            281.99999962,
+            281.99999962
+          ],
+          "active": true
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            281.99999962,
+            354.0000004
+          ],
+          "active": false
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            354.0000004,
+            354.0000004
+          ],
+          "active": true
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            354.0000004,
+            281.99999962
+          ],
+          "active": false
+        }
+      ],
+      "bounds": [
+        278.0,
+        278.0,
+        358.00000002,
+        358.00000002
+      ]
+    },
+    {
+      "name": "Q90_Incoming_Long",
+      "kind": "long",
+      "angle_deg": 90,
+      "canonical_name": "Incoming_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            282.19100000000003,
+            222.19099907999998
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            282.19100000000003,
+            261.81499908
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            353.83885264,
+            261.81499908
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            353.83885264,
+            222.19099907999998
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        278.0,
+        215.0,
+        358.0000482799998,
+        268.99999868
+      ]
+    },
+    {
+      "name": "Q90_Outgoing_Long",
+      "kind": "long",
+      "angle_deg": 90,
+      "canonical_name": "Outgoing_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            261.80900092,
+            282.19100000000003
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            222.18500092,
+            282.19100000000003
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            222.18500092,
+            353.83885264
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            261.80900092,
+            353.83885264
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        215.00000132,
+        278.0,
+        269.0,
+        358.0000482799998
+      ]
+    },
+    {
+      "name": "Q90_Outgoing_Long_2",
+      "kind": "long",
+      "angle_deg": 90,
+      "canonical_name": "Outgoing_Long_2",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            198.80900092000002,
+            282.19100000000003
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            159.18500092,
+            282.19100000000003
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            159.18500092,
+            353.83885264
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            198.80900092000002,
+            353.83885264
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        152.00000132,
+        278.0,
+        206.0,
+        358.0000482799998
+      ]
+    },
+    {
+      "name": "Q180_Corner",
+      "kind": "corner",
+      "angle_deg": 180,
+      "canonical_name": "Corner",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            76.00000038000002,
+            281.99999962
+          ],
+          "active": true
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            3.9999996000000237,
+            281.99999962
+          ],
+          "active": false
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            3.9999996000000237,
+            354.0000004
+          ],
+          "active": true
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            76.00000038000002,
+            354.0000004
+          ],
+          "active": false
+        }
+      ],
+      "bounds": [
+        -2.0000015865662135e-08,
+        278.0,
+        80.0,
+        358.00000002
+      ]
+    },
+    {
+      "name": "Q180_Incoming_Long",
+      "kind": "long",
+      "angle_deg": 180,
+      "canonical_name": "Incoming_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            135.80900092000002,
+            282.19100000000003
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            96.18500092,
+            282.19100000000003
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            96.18500092,
+            353.83885264
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            135.80900092000002,
+            353.83885264
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        89.00000132,
+        278.0,
+        143.0,
+        358.0000482799998
+      ]
+    },
+    {
+      "name": "Q180_Outgoing_Long",
+      "kind": "long",
+      "angle_deg": 180,
+      "canonical_name": "Outgoing_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            75.809,
+            261.80900092
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            75.809,
+            222.18500092
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            4.161147359999973,
+            222.18500092
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            4.161147359999973,
+            261.80900092
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        -4.8279999816713826e-05,
+        215.00000132,
+        80.0,
+        269.0
+      ]
+    },
+    {
+      "name": "Q180_Outgoing_Long_2",
+      "kind": "long",
+      "angle_deg": 180,
+      "canonical_name": "Outgoing_Long_2",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            75.809,
+            198.80900092000002
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            75.809,
+            159.18500092
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            4.161147359999973,
+            159.18500092
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            4.161147359999973,
+            198.80900092000002
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        -4.8279999816713826e-05,
+        152.00000132,
+        80.0,
+        206.0
+      ]
+    },
+    {
+      "name": "Q270_Corner",
+      "kind": "corner",
+      "angle_deg": 270,
+      "canonical_name": "Corner",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            76.00000038000002,
+            76.00000038
+          ],
+          "active": true
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            76.00000038000002,
+            3.9999995999999953
+          ],
+          "active": false
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            3.9999996000000237,
+            3.9999995999999953
+          ],
+          "active": true
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            3.9999996000000237,
+            76.00000038
+          ],
+          "active": false
+        }
+      ],
+      "bounds": [
+        -2.0000015865662135e-08,
+        -2.0000015865662135e-08,
+        80.0,
+        80.0
+      ]
+    },
+    {
+      "name": "Q270_Incoming_Long",
+      "kind": "long",
+      "angle_deg": 270,
+      "canonical_name": "Incoming_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            75.809,
+            135.80900092000002
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            75.809,
+            96.18500092
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            4.161147359999973,
+            96.18500092
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            4.161147359999973,
+            135.80900092000002
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        -4.8279999816713826e-05,
+        89.00000132,
+        80.0,
+        143.0
+      ]
+    },
+    {
+      "name": "Q270_Outgoing_Long",
+      "kind": "long",
+      "angle_deg": 270,
+      "canonical_name": "Outgoing_Long",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            96.19099907999998,
+            75.809
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            135.81499908,
+            75.809
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            135.81499908,
+            4.161147360000001
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            96.19099907999998,
+            4.161147360000001
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        89.0,
+        -4.8279999816713826e-05,
+        142.99999868,
+        80.0
+      ]
+    },
+    {
+      "name": "Q270_Outgoing_Long_2",
+      "kind": "long",
+      "angle_deg": 270,
+      "canonical_name": "Outgoing_Long_2",
+      "holes": [
+        {
+          "id": "H1_TL",
+          "xy": [
+            159.19099907999998,
+            75.809
+          ],
+          "active": false
+        },
+        {
+          "id": "H2_TR",
+          "xy": [
+            198.81499908,
+            75.809
+          ],
+          "active": true
+        },
+        {
+          "id": "H3_BR",
+          "xy": [
+            198.81499908,
+            4.161147360000001
+          ],
+          "active": false
+        },
+        {
+          "id": "H4_BL",
+          "xy": [
+            159.19099907999998,
+            4.161147360000001
+          ],
+          "active": true
+        }
+      ],
+      "bounds": [
+        152.0,
+        -4.8279999816713826e-05,
+        205.99999868,
+        80.0
+      ]
+    }
+  ],
+  "bridge_feature_matches": [
+    {
+      "bridge": "Q0_B0",
+      "feature": "screw",
+      "point_mm": [
+        370.0,
+        200.5
+      ],
+      "ear": "Q0_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B0",
+      "feature": "screw",
+      "point_mm": [
+        370.0,
+        220.5
+      ],
+      "ear": "Q90_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B0",
+      "feature": "pin",
+      "point_mm": [
+        370.0,
+        206.5
+      ],
+      "ear": "Q0_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B0",
+      "feature": "pin",
+      "point_mm": [
+        370.0,
+        214.5
+      ],
+      "ear": "Q90_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B1",
+      "feature": "screw",
+      "point_mm": [
+        266.0,
+        200.5
+      ],
+      "ear": "Q0_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B1",
+      "feature": "screw",
+      "point_mm": [
+        266.0,
+        220.5
+      ],
+      "ear": "Q90_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B1",
+      "feature": "pin",
+      "point_mm": [
+        266.0,
+        206.5
+      ],
+      "ear": "Q0_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q0_B1",
+      "feature": "pin",
+      "point_mm": [
+        266.0,
+        214.5
+      ],
+      "ear": "Q90_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B0",
+      "feature": "screw",
+      "point_mm": [
+        157.5,
+        370.0
+      ],
+      "ear": "Q90_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B0",
+      "feature": "screw",
+      "point_mm": [
+        137.5,
+        370.0
+      ],
+      "ear": "Q180_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B0",
+      "feature": "pin",
+      "point_mm": [
+        151.5,
+        370.0
+      ],
+      "ear": "Q90_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B0",
+      "feature": "pin",
+      "point_mm": [
+        143.5,
+        370.0
+      ],
+      "ear": "Q180_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B1",
+      "feature": "screw",
+      "point_mm": [
+        157.5,
+        266.0
+      ],
+      "ear": "Q90_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B1",
+      "feature": "screw",
+      "point_mm": [
+        137.5,
+        266.0
+      ],
+      "ear": "Q180_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B1",
+      "feature": "pin",
+      "point_mm": [
+        151.5,
+        266.0
+      ],
+      "ear": "Q90_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q90_B1",
+      "feature": "pin",
+      "point_mm": [
+        143.5,
+        266.0
+      ],
+      "ear": "Q180_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B0",
+      "feature": "screw",
+      "point_mm": [
+        -12.0,
+        157.5
+      ],
+      "ear": "Q180_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B0",
+      "feature": "screw",
+      "point_mm": [
+        -12.0,
+        137.5
+      ],
+      "ear": "Q270_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B0",
+      "feature": "pin",
+      "point_mm": [
+        -12.0,
+        151.5
+      ],
+      "ear": "Q180_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B0",
+      "feature": "pin",
+      "point_mm": [
+        -12.0,
+        143.5
+      ],
+      "ear": "Q270_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B1",
+      "feature": "screw",
+      "point_mm": [
+        92.0,
+        157.5
+      ],
+      "ear": "Q180_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B1",
+      "feature": "screw",
+      "point_mm": [
+        92.0,
+        137.5
+      ],
+      "ear": "Q270_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B1",
+      "feature": "pin",
+      "point_mm": [
+        92.0,
+        151.5
+      ],
+      "ear": "Q180_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q180_B1",
+      "feature": "pin",
+      "point_mm": [
+        92.0,
+        143.5
+      ],
+      "ear": "Q270_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B0",
+      "feature": "screw",
+      "point_mm": [
+        200.5,
+        -12.0
+      ],
+      "ear": "Q270_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B0",
+      "feature": "screw",
+      "point_mm": [
+        220.5,
+        -12.0
+      ],
+      "ear": "Q0_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B0",
+      "feature": "pin",
+      "point_mm": [
+        206.5,
+        -12.0
+      ],
+      "ear": "Q270_out_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B0",
+      "feature": "pin",
+      "point_mm": [
+        214.5,
+        -12.0
+      ],
+      "ear": "Q0_in_outer",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B1",
+      "feature": "screw",
+      "point_mm": [
+        200.5,
+        92.0
+      ],
+      "ear": "Q270_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B1",
+      "feature": "screw",
+      "point_mm": [
+        220.5,
+        92.0
+      ],
+      "ear": "Q0_in_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B1",
+      "feature": "pin",
+      "point_mm": [
+        206.5,
+        92.0
+      ],
+      "ear": "Q270_out_inner",
+      "center_error_mm": 0.0
+    },
+    {
+      "bridge": "Q270_B1",
+      "feature": "pin",
+      "point_mm": [
+        214.5,
+        92.0
+      ],
+      "ear": "Q0_in_inner",
+      "center_error_mm": 0.0
+    }
+  ],
+  "connector_anchor_comparisons": [
+    {
+      "from_board": "Q0_Corner",
+      "to_board": "Q0_Outgoing_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998679999999
+    },
+    {
+      "from_board": "Q0_Corner",
+      "to_board": "Q0_Outgoing_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998679999999
+    },
+    {
+      "from_board": "Q0_Outgoing_Long",
+      "to_board": "Q0_Outgoing_Long_2",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q0_Outgoing_Long",
+      "to_board": "Q0_Outgoing_Long_2",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q0_Outgoing_Long_2",
+      "to_board": "Q90_Incoming_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q0_Outgoing_Long_2",
+      "to_board": "Q90_Incoming_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q90_Incoming_Long",
+      "to_board": "Q90_Corner",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000037
+    },
+    {
+      "from_board": "Q90_Incoming_Long",
+      "to_board": "Q90_Corner",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.46999999999997
+    },
+    {
+      "from_board": "Q90_Corner",
+      "to_board": "Q90_Outgoing_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998680000013
+    },
+    {
+      "from_board": "Q90_Corner",
+      "to_board": "Q90_Outgoing_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998680000013
+    },
+    {
+      "from_board": "Q90_Outgoing_Long",
+      "to_board": "Q90_Outgoing_Long_2",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q90_Outgoing_Long",
+      "to_board": "Q90_Outgoing_Long_2",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q90_Outgoing_Long_2",
+      "to_board": "Q180_Incoming_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q90_Outgoing_Long_2",
+      "to_board": "Q180_Incoming_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q180_Incoming_Long",
+      "to_board": "Q180_Corner",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q180_Incoming_Long",
+      "to_board": "Q180_Corner",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q180_Corner",
+      "to_board": "Q180_Outgoing_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998680000013
+    },
+    {
+      "from_board": "Q180_Corner",
+      "to_board": "Q180_Outgoing_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998680000013
+    },
+    {
+      "from_board": "Q180_Outgoing_Long",
+      "to_board": "Q180_Outgoing_Long_2",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q180_Outgoing_Long",
+      "to_board": "Q180_Outgoing_Long_2",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q180_Outgoing_Long_2",
+      "to_board": "Q270_Incoming_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q180_Outgoing_Long_2",
+      "to_board": "Q270_Incoming_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q270_Incoming_Long",
+      "to_board": "Q270_Corner",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596999999999994
+    },
+    {
+      "from_board": "Q270_Incoming_Long",
+      "to_board": "Q270_Corner",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999985
+    },
+    {
+      "from_board": "Q270_Corner",
+      "to_board": "Q270_Outgoing_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998680000013
+    },
+    {
+      "from_board": "Q270_Corner",
+      "to_board": "Q270_Outgoing_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.596998680000013
+    },
+    {
+      "from_board": "Q270_Outgoing_Long",
+      "to_board": "Q270_Outgoing_Long_2",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q270_Outgoing_Long",
+      "to_board": "Q270_Outgoing_Long_2",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q270_Outgoing_Long_2",
+      "to_board": "Q0_Incoming_Long",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000008
+    },
+    {
+      "from_board": "Q270_Outgoing_Long_2",
+      "to_board": "Q0_Incoming_Long",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.469999999999999
+    },
+    {
+      "from_board": "Q0_Incoming_Long",
+      "to_board": "Q0_Corner",
+      "group": 1,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.597000000000037
+    },
+    {
+      "from_board": "Q0_Incoming_Long",
+      "to_board": "Q0_Corner",
+      "group": 3,
+      "lateral_error_mm": 0.0,
+      "axial_anchor_distance_mm": 13.46999999999997
+    }
+  ],
+  "assumptions_and_limits": [
+    "R2 three-module physical fit accepted from user report and photos; this script does not remeasure photographs.",
+    "Full sixteen-module fit, long-long mating, four-part joint strength and actual PLA screw holding remain untested.",
+    "Ear/bridge/rib PCB clearance uses conservative unrounded rectangular projections and frozen sampled PCB outlines, not component or plug envelopes.",
+    "Rib rectangles are independently audited from root design specification because config contains only rib top/width/clearance scalars.",
+    "No final Blender/STL mesh verification is performed here; separate mesh and Z collision reports remain required.",
+    "Outer tab span 406 mm includes tabs, while PCB span is 358 mm and plain perimeter frame span is 366 mm.",
+    "PCB below-board protrusion is the user approximate 8.1 mm bound, not component-by-component measured Z."
+  ]
+}

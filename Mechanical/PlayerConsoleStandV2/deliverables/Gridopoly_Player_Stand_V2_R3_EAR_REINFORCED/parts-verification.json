@@ -1,0 +1,521 @@
+{
+  "revision": "Player Stand V2 R3 EAR REINFORCED",
+  "parts": [
+    {
+      "file": "01_Connection_Plate_R2.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_overhang_steeper_than_45deg_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 1113,
+      "triangles": 2258,
+      "edges": 3387,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 44230.73410866349,
+      "surface_area_mm2": 25042.11711116672,
+      "bounds_mm": [
+        [
+          -69.0,
+          47.0
+        ],
+        [
+          -47.0,
+          64.0
+        ],
+        [
+          0.0,
+          4.0
+        ]
+      ],
+      "dimensions_mm": [
+        116.0,
+        111.0,
+        4.0
+      ],
+      "downward_triangles_above_bed": 6,
+      "downward_area_above_bed_mm2": 209.94547812365573,
+      "overhang_policy": "Unchanged R2 part; report geometry and retain45deg geometric screening, not a no-support printing guarantee.",
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "overhang_geometry": {
+        "classification": "Geometric screening only, not an actual sliced-support verdict",
+        "angle_definition": "Outward overhang angle from a vertical wall: asin(-unit_normal_z); horizontal downward roof=90deg",
+        "downward_faces_above_bed": 6,
+        "maximum_outward_overhang_angle_from_vertical_deg": 27.001469705787624,
+        "faces_steeper_than_45deg_above_bed": 0,
+        "steep_overhang_area_mm2": 0.0,
+        "horizontal_downward_roof_faces_above_bed": 0,
+        "horizontal_downward_roof_area_mm2": 0.0
+      },
+      "3mf": {
+        "file": "01_Connection_Plate_R2.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "triangle_indices_unchanged": true,
+        "vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          69.0,
+          47.0,
+          -0.0
+        ],
+        "metadata": {
+          "Title": "01_Connection_Plate_R2",
+          "Description": "Gridopoly Player Stand V2 R2 FPC60 FIRST FIT. GEOMETRY ONLY: one printable part; no printer, material, support, toolpath or process settings. New assembly and 60mm cable fit remain unverified."
+        },
+        "geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+        "retained_r2_binary_copy": true,
+        "r2_source_sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+        "metadata_revision": "Retained R2 original"
+      }
+    },
+    {
+      "file": "02_Screen_Support_CW47_5_R3.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 2626,
+      "triangles": 5256,
+      "edges": 7884,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 68601.20267970463,
+      "surface_area_mm2": 13986.029556960078,
+      "bounds_mm": [
+        [
+          -62.0,
+          12.0
+        ],
+        [
+          -27.0,
+          23.0
+        ],
+        [
+          0.0,
+          41.864471435546875
+        ]
+      ],
+      "dimensions_mm": [
+        74.0,
+        50.0,
+        41.864471435546875
+      ],
+      "downward_triangles_above_bed": 1091,
+      "downward_area_above_bed_mm2": 1396.216222126312,
+      "overhang_policy": "Report all screen-support overhang geometry; retained sloping interface and new ear roots require separate layer/support review.",
+      "sha256": "5dd8170bb763a626bd4563f1bf3350669010b70857196ac8b3be50718ec34061",
+      "overhang_geometry": {
+        "classification": "Geometric screening only, not an actual sliced-support verdict",
+        "angle_definition": "Outward overhang angle from a vertical wall: asin(-unit_normal_z); horizontal downward roof=90deg",
+        "downward_faces_above_bed": 1091,
+        "maximum_outward_overhang_angle_from_vertical_deg": 44.445890882948895,
+        "faces_steeper_than_45deg_above_bed": 0,
+        "steep_overhang_area_mm2": 0.0,
+        "horizontal_downward_roof_faces_above_bed": 0,
+        "horizontal_downward_roof_area_mm2": 0.0
+      },
+      "3mf": {
+        "file": "02_Screen_Support_CW47_5_R3.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "triangle_indices_unchanged": true,
+        "vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          62.0,
+          27.0,
+          -0.0
+        ],
+        "metadata": {
+          "Title": "02_Screen_Support_CW47_5_R3",
+          "Description": "Gridopoly Player Stand V2 R3 EAR REINFORCED FIRST FIT. GEOMETRY ONLY: one printable screen support; no printer, material, support, toolpath or process settings. Reinforced mounting ears, print strength, installed clearances and physical fit remain unverified."
+        },
+        "geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "7e1650cada0f74a46c671af807b0863fdac632661b390337671e03be98d7dfe6",
+        "metadata_revision": "V2 R3 EAR REINFORCED FIRST FIT",
+        "newly_generated": true
+      }
+    },
+    {
+      "file": "03_Battery_Cradle_R2.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_overhang_steeper_than_45deg_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 694,
+      "triangles": 1392,
+      "edges": 2088,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 12562.180566431682,
+      "surface_area_mm2": 13044.50274451878,
+      "bounds_mm": [
+        [
+          -42.0,
+          42.0
+        ],
+        [
+          44.0,
+          61.0
+        ],
+        [
+          0.0,
+          39.0
+        ]
+      ],
+      "dimensions_mm": [
+        84.0,
+        17.0,
+        39.0
+      ],
+      "downward_triangles_above_bed": 0,
+      "downward_area_above_bed_mm2": 0,
+      "overhang_policy": "Unchanged R2 part; report geometry and retain45deg geometric screening, not a no-support printing guarantee.",
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "overhang_geometry": {
+        "classification": "Geometric screening only, not an actual sliced-support verdict",
+        "angle_definition": "Outward overhang angle from a vertical wall: asin(-unit_normal_z); horizontal downward roof=90deg",
+        "downward_faces_above_bed": 0,
+        "maximum_outward_overhang_angle_from_vertical_deg": 0.0,
+        "faces_steeper_than_45deg_above_bed": 0,
+        "steep_overhang_area_mm2": 0.0,
+        "horizontal_downward_roof_faces_above_bed": 0,
+        "horizontal_downward_roof_area_mm2": 0.0
+      },
+      "3mf": {
+        "file": "03_Battery_Cradle_R2.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "triangle_indices_unchanged": true,
+        "vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          42.0,
+          -44.0,
+          -0.0
+        ],
+        "metadata": {
+          "Title": "03_Battery_Cradle_R2",
+          "Description": "Gridopoly Player Stand V2 R2 FPC60 FIRST FIT. GEOMETRY ONLY: one printable part; no printer, material, support, toolpath or process settings. New assembly and 60mm cable fit remain unverified."
+        },
+        "geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+        "retained_r2_binary_copy": true,
+        "r2_source_sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+        "metadata_revision": "Retained R2 original"
+      }
+    },
+    {
+      "file": "04_Battery_Lid_R2.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_overhang_steeper_than_45deg_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 272,
+      "triangles": 540,
+      "edges": 810,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 3719.2900002062734,
+      "surface_area_mm2": 4072.5867510368407,
+      "bounds_mm": [
+        [
+          -34.5,
+          34.5
+        ],
+        [
+          -11.0,
+          11.0
+        ],
+        [
+          0.0,
+          4.0
+        ]
+      ],
+      "dimensions_mm": [
+        69.0,
+        22.0,
+        4.0
+      ],
+      "downward_triangles_above_bed": 0,
+      "downward_area_above_bed_mm2": 0,
+      "overhang_policy": "Unchanged R2 part; report geometry and retain45deg geometric screening, not a no-support printing guarantee.",
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "overhang_geometry": {
+        "classification": "Geometric screening only, not an actual sliced-support verdict",
+        "angle_definition": "Outward overhang angle from a vertical wall: asin(-unit_normal_z); horizontal downward roof=90deg",
+        "downward_faces_above_bed": 0,
+        "maximum_outward_overhang_angle_from_vertical_deg": 0.0,
+        "faces_steeper_than_45deg_above_bed": 0,
+        "steep_overhang_area_mm2": 0.0,
+        "horizontal_downward_roof_faces_above_bed": 0,
+        "horizontal_downward_roof_area_mm2": 0.0
+      },
+      "3mf": {
+        "file": "04_Battery_Lid_R2.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "triangle_indices_unchanged": true,
+        "vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          34.5,
+          11.0,
+          -0.0
+        ],
+        "metadata": {
+          "Title": "04_Battery_Lid_R2",
+          "Description": "Gridopoly Player Stand V2 R2 FPC60 FIRST FIT. GEOMETRY ONLY: one printable part; no printer, material, support, toolpath or process settings. New assembly and 60mm cable fit remain unverified."
+        },
+        "geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+        "retained_r2_binary_copy": true,
+        "r2_source_sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+        "metadata_revision": "Retained R2 original"
+      }
+    },
+    {
+      "file": "05_Spacer_6mm_R2.stl",
+      "checks": {
+        "exact_vertex_topology_one_component": true,
+        "closed_two_faces_each_edge": true,
+        "consistent_oriented_edges": true,
+        "nonzero_area_triangles": true,
+        "no_duplicate_triangles": true,
+        "outward_positive_signed_volume": true,
+        "stored_normals_not_opposed": true,
+        "expected_dimensions": true,
+        "flat_bottom_z_zero": true,
+        "no_overhang_steeper_than_45deg_above_bed": true
+      },
+      "pass": true,
+      "units_interpreted": "millimeter, bound to model parameter dimensions; STL itself is unitless",
+      "vertices": 256,
+      "triangles": 512,
+      "edges": 768,
+      "connected_components": 1,
+      "non_manifold_or_boundary_edges": 0,
+      "inconsistent_edge_winding": 0,
+      "degenerate_triangles": 0,
+      "duplicate_triangles": 0,
+      "opposed_stored_normals": 0,
+      "signed_volume_mm3": 108.39911388415845,
+      "surface_area_mm2": 217.01610746247934,
+      "bounds_mm": [
+        [
+          -3.0,
+          3.0
+        ],
+        [
+          -3.0,
+          3.0
+        ],
+        [
+          0.0,
+          6.0
+        ]
+      ],
+      "dimensions_mm": [
+        6.0,
+        6.0,
+        6.0
+      ],
+      "downward_triangles_above_bed": 0,
+      "downward_area_above_bed_mm2": 0,
+      "overhang_policy": "Unchanged R2 part; report geometry and retain45deg geometric screening, not a no-support printing guarantee.",
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "overhang_geometry": {
+        "classification": "Geometric screening only, not an actual sliced-support verdict",
+        "angle_definition": "Outward overhang angle from a vertical wall: asin(-unit_normal_z); horizontal downward roof=90deg",
+        "downward_faces_above_bed": 0,
+        "maximum_outward_overhang_angle_from_vertical_deg": 0.0,
+        "faces_steeper_than_45deg_above_bed": 0,
+        "steep_overhang_area_mm2": 0.0,
+        "horizontal_downward_roof_faces_above_bed": 0,
+        "horizontal_downward_roof_area_mm2": 0.0
+      },
+      "3mf": {
+        "file": "05_Spacer_6mm_R2.3mf",
+        "single_print_object": true,
+        "unit": "millimeter",
+        "zip_crc_pass": true,
+        "triangle_indices_unchanged": true,
+        "vertices_equal_after_translation": true,
+        "translation_from_stl_mm": [
+          3.0,
+          3.0,
+          -0.0
+        ],
+        "metadata": {
+          "Title": "05_Spacer_6mm_R2",
+          "Description": "Gridopoly Player Stand V2 R2 FPC60 FIRST FIT. GEOMETRY ONLY: one printable part; no printer, material, support, toolpath or process settings. New assembly and 60mm cable fit remain unverified."
+        },
+        "geometry_only": true,
+        "slicer_project": false,
+        "printer_settings_included": false,
+        "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+        "retained_r2_binary_copy": true,
+        "r2_source_sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+        "metadata_revision": "Retained R2 original"
+      }
+    }
+  ],
+  "source": "Independent final exported-STL QA; imported R2 algorithms with no R2 source edits",
+  "reused_algorithm_script": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\Mechanical\\PlayerConsoleStandV2\\revisions\\R2_FPC60\\verify_parts.py",
+  "reused_algorithm_script_sha256": "8f980aaa66bc3751b7dde704e4498032892d27d155b4ecefb36d44cd0de7e97c",
+  "frozen_r2_report": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\parts-verification.json",
+  "frozen_r2_report_sha256": "291a4c760718e2a0fb66ced22368b6582dbb89a006f5a9cdfd2f9b517cadd076",
+  "unchanged_r2_part_identity": [
+    {
+      "file": "01_Connection_Plate_R2.stl",
+      "r2_stl_sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "r3_copy_sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "frozen_r2_report_sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "binary_equal": true,
+      "source_matches_frozen_r2_report": true,
+      "pass": true
+    },
+    {
+      "file": "03_Battery_Cradle_R2.stl",
+      "r2_stl_sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "r3_copy_sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "frozen_r2_report_sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "binary_equal": true,
+      "source_matches_frozen_r2_report": true,
+      "pass": true
+    },
+    {
+      "file": "04_Battery_Lid_R2.stl",
+      "r2_stl_sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "r3_copy_sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "frozen_r2_report_sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "binary_equal": true,
+      "source_matches_frozen_r2_report": true,
+      "pass": true
+    },
+    {
+      "file": "05_Spacer_6mm_R2.stl",
+      "r2_stl_sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "r3_copy_sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "frozen_r2_report_sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "binary_equal": true,
+      "source_matches_frozen_r2_report": true,
+      "pass": true
+    }
+  ],
+  "limitations": [
+    "No actual H2D/PLA slicing, layer preview, printing, load/ear fatigue or physical assembly test.",
+    "New ear roots, screw clearances and FPC assembly interference are evaluated separately by the main modelling task.",
+    "Retained CW47.5 surfaces are verified geometrically, not re-certified for support-free printing.",
+    "Cable contact face/pin order, true installed length and allowable bend strain remain physical checks.",
+    "3MFs are single geometry objects with no print settings; four copies of the retained6mm spacer are required.",
+    "Edge topology, signed volume and sampled interface equivalence are not a full self-intersection or structural-strength proof."
+  ],
+  "legacy_screen_interface_comparison": {
+    "source": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\Mechanical\\PlayerConsoleStand\\outputs\\models\\Gridopoly_Player_Console_Stand_CW47_5.stl",
+    "source_sha256": "45564e74a329e79ca2ecb9beb63ce78de9ca942397f3b1185495aec2e1ea70d7",
+    "comparison_part": "02_Screen_Support_CW47_5_R3.stl",
+    "new_inverse_xyz_translation_mm": [
+      25.0,
+      9.0,
+      4.0
+    ],
+    "region": "Legacy mating-plane radius<=20mm and normal distance n>=0; not the entire old z>4 region",
+    "mating_center_legacy_xyz_mm": [
+      0,
+      3,
+      28
+    ],
+    "plane_tilt_deg": 35,
+    "area_clip": {
+      "shape": "inscribed regular 1024-gon of circumradius20, intersected with n>=0",
+      "maximum_radial_inset_mm": 9.412380847617641e-05,
+      "nominal_plane_float_noise_snap_mm": 2e-05,
+      "no_added_cap_surfaces": true,
+      "boundary_coverage": "Exact original radius20-region vertices additionally sampled, including excluded polygon slivers"
+    },
+    "method": "Bidirectional point-to-triangle distances at clipped vertices, centroids, quarter/mid/three-quarter edge points and exact original protected-region vertices; compare clipped surface areas. Expanded triangle AABBs accelerate exact sub-tolerance candidates; unresolved points use the full evaluator. Planar retriangulation permitted.",
+    "legacy_protected_original_vertices": 1729,
+    "new_protected_original_vertices": 1701,
+    "legacy_clipped_triangles": 4114,
+    "new_clipped_triangles": 4163,
+    "legacy_clipped_surface_area_mm2": 2793.3361485610767,
+    "new_clipped_surface_area_mm2": 2793.3197215934933,
+    "surface_area_difference_mm2": 0.0164269675833566,
+    "sample_count_old_to_new": 27549,
+    "sample_count_new_to_old": 27958,
+    "maximum_old_to_new_sampled_distance_mm": 3.86229858642609e-06,
+    "maximum_new_to_old_sampled_distance_mm": 3.867128206215338e-06,
+    "maximum_sampled_surface_distance_mm": 3.867128206215338e-06,
+    "distance_tolerance_mm": 0.0002,
+    "surface_area_tolerance_mm2": 0.02,
+    "pass": true,
+    "scope": "Strong sampled geometric equivalence within the protected interface; not a formal exact-surface proof or new physical fit acceptance."
+  },
+  "pass": true
+}

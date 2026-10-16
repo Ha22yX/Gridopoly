@@ -1,14 +1,14 @@
 # Hi3D 狐狸棋子：30 mm 圆形平底
 
-已通过 Blender 5.2.2 的 Blender MCP 导入并编辑用户提供的 Hi3D.3mf。原文件保留，现已归档至项目原始输入（本地 `Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D.3mf`）。
+已通过 Blender 5.2.2 的 Blender MCP 导入并编辑用户提供的 Hi3D.3mf。原文件保留，现已归档至[项目原始输入](../../sources/hi3d-originals/Hi3D.3mf)。
 
 ## 文件
 
-- Hi3D_30mm.blend：可编辑 Blender 工程，打开后使用 Hi3D_30mm_EDIT 场景；可见打印对象为 Fox_30mm_Print。隐藏对象 REFERENCE_Original_Hi3D 保留原始几何参考；原来的 Blender 场景也保留。
-- Hi3D_30mm.3mf：单对象、毫米单位、无预设切片参数的打印模型。
-- Hi3D_30mm.stl：毫米坐标的打印模型，导入切片软件时按 mm、100% 比例。
-- Hi3D_30mm_preview.png / Hi3D_30mm_bottom.png：结果预览。
-- independent_mesh_check.json：从最终 STL 独立测量的检查结果。
+- [Hi3D_30mm.blend](deliverables/Hi3D_30mm/Hi3D_30mm.blend)：可编辑 Blender 工程，打开后使用 Hi3D_30mm_EDIT 场景；可见打印对象为 Fox_30mm_Print。隐藏对象 REFERENCE_Original_Hi3D 保留原始几何参考；原来的 Blender 场景也保留。
+- [Hi3D_30mm.3mf](deliverables/Hi3D_30mm/Hi3D_30mm.3mf)：单对象、毫米单位、无预设切片参数的打印模型。
+- [Hi3D_30mm.stl](deliverables/Hi3D_30mm/Hi3D_30mm.stl)：毫米坐标的打印模型，导入切片软件时按 mm、100% 比例。
+- [正面预览](deliverables/Hi3D_30mm/Hi3D_30mm_preview.png) / [底面预览](deliverables/Hi3D_30mm/Hi3D_30mm_bottom.png)：结果预览。
+- [independent_mesh_check.json](deliverables/Hi3D_30mm/independent_mesh_check.json)：从最终 STL 独立测量的检查结果。
 
 ## 改动和尺寸
 
@@ -27,4 +27,9 @@
 
 ## 本目录脚本
 
-inspect_blender.py 用于后台导入与原始模型观察；edit_in_blender.py 记录通过实时MCP执行的修改；render_result.py 为最终模型输出预览。正式交付文件位于项目内 Hi3D_30mm（本地 `Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm`），包含 Blender、3MF、STL 和预览。2026-10-15 仅补齐旧交付的项目归档，没有重新设计或新增实物验收；原下载副本保留。
+inspect_blender.py 用于后台导入与原始模型观察；edit_in_blender.py 记录通过实时MCP执行的修改；render_result.py 为最终模型输出预览。正式交付文件位于[项目内 Hi3D_30mm 目录](deliverables/Hi3D_30mm/)，包含 Blender、3MF、STL 和预览。2026-10-15 仅补齐旧交付的项目归档，没有重新设计或新增实物验收；原下载副本保留。
+
+
+## 下载入口
+
+[四角色总览](../../README.md)与[3D模型公开入口](../../../README.md)提供全部当前和历史文件。2026-10-16仅整理既有模型的下载入口，没有重新设计狐狸模型。Git LFS文件在GitHub文件页使用 **Download raw file**，或克隆后执行 `git lfs pull`；不要保存以 `version https://git-lfs.github.com/spec/v1` 开头的指针文本作为模型。本说明不表示远端上传或下载验收已完成。

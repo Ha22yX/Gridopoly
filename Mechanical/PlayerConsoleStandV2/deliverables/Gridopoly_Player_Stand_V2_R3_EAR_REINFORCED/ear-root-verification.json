@@ -1,0 +1,451 @@
+{
+  "status": "INDEPENDENT_GEOMETRIC_SECTION_AUDIT_NOT_LOAD_TEST",
+  "method": "Independent STL section audit of the R2/R3 mounting ears (millimetres).\n\nThe original wedge wall is X=-52 (left) / X=2 (right). A section of the\ndelivered part just OUTSIDE that wall identifies material supplied by the\near. Intersect it with the original CW47.5 core just INSIDE the wall, after\nthe documented rigid translation and FPC chute subtraction. This avoids\ncounting all of the wedge, or the ear bridge occupying the chute, as a root.\nNo Blender, Boolean engine, source-design mesh connectivity or Git is used.\nArea is integrated from independently intersected STL scanlines, and a\nsecond wall offset checks convergence. This is a geometry audit, not FEA.\n",
+  "sources": {
+    "R2": {
+      "path": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R2_FPC60\\02_Screen_Support_CW47_5_R2.stl",
+      "sha256": "11787f915adbf812320ce1327995a6526942aa8a832a906ebe291776f7c2d4e9",
+      "triangles": 4900,
+      "bounds_mm": [
+        [
+          -62.0,
+          -27.0,
+          0.0
+        ],
+        [
+          12.0,
+          23.0,
+          41.864471435546875
+        ]
+      ]
+    },
+    "R3": {
+      "path": "C:\\Users\\kicof\\Downloads\\Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED\\02_Screen_Support_CW47_5_R3.stl",
+      "sha256": "5dd8170bb763a626bd4563f1bf3350669010b70857196ac8b3be50718ec34061",
+      "triangles": 5256,
+      "bounds_mm": [
+        [
+          -62.0,
+          -27.0,
+          0.0
+        ],
+        [
+          12.0,
+          23.0,
+          41.864471435546875
+        ]
+      ]
+    },
+    "legacy_core": {
+      "path": "\\\\Z425-2K4V\\sata11-135XXXX3888\\Files\\我的项目\\Gridopoly\\Mechanical\\PlayerConsoleStand\\outputs\\models\\Gridopoly_Player_Console_Stand_CW47_5.stl",
+      "sha256": "45564e74a329e79ca2ecb9beb63ce78de9ca942397f3b1185495aec2e1ea70d7",
+      "triangles": 4188,
+      "bounds_mm": [
+        [
+          -47.0,
+          -41.0,
+          0.0
+        ],
+        [
+          47.0,
+          41.0,
+          45.864471435546875
+        ]
+      ]
+    }
+  },
+  "coordinate_system": "Delivered print STL coordinates, PCB-centered XY, support print floor Z=0; assembled floor Z=19.6 mm",
+  "limitations": [
+    "Section area is not a strength rating or physical load validation.",
+    "Core/ear separation uses documented original wedge walls and chute geometry; total wedge area is excluded.",
+    "STL source coordinates are float32; one-sided wall offsets and integration errors are reported.",
+    "Hole check validates the requested centers and bore passage; it does not certify screw-tool or FPC clearance."
+  ],
+  "roots": {
+    "left": {
+      "R2": {
+        "wall_x_mm": -52.0,
+        "one_sided_offset_mm": 0.0001,
+        "root_y_window_mm": [
+          -23.0,
+          2.0
+        ],
+        "print_z_window_mm": [
+          0,
+          4
+        ],
+        "area_mm2": 0.017650965084602843,
+        "minimum_width_over_full_4mm_thickness_mm": 0.0,
+        "maximum_root_width_mm": 0.15710507202518897,
+        "connected_z_extent_approx_mm": [
+          3.775333333333333,
+          4.0
+        ],
+        "width_probes_mm": [
+          {
+            "print_z_mm": 1e-05,
+            "root_y_width_mm": 0
+          },
+          {
+            "print_z_mm": 0.5,
+            "root_y_width_mm": 0
+          },
+          {
+            "print_z_mm": 1.0,
+            "root_y_width_mm": 0
+          },
+          {
+            "print_z_mm": 2.0,
+            "root_y_width_mm": 0
+          },
+          {
+            "print_z_mm": 3.0,
+            "root_y_width_mm": 0
+          },
+          {
+            "print_z_mm": 3.75,
+            "root_y_width_mm": 0
+          },
+          {
+            "print_z_mm": 3.9,
+            "root_y_width_mm": 0.08720101946058101
+          },
+          {
+            "print_z_mm": 3.99999,
+            "root_y_width_mm": 0.15721477120617067
+          }
+        ],
+        "integration_step_mm": 0.0003333333333333333
+      },
+      "R3": {
+        "wall_x_mm": -52.0,
+        "one_sided_offset_mm": 0.0001,
+        "root_y_window_mm": [
+          -23.0,
+          2.0
+        ],
+        "print_z_window_mm": [
+          0,
+          4
+        ],
+        "area_mm2": 55.02722678744854,
+        "minimum_width_over_full_4mm_thickness_mm": 12.356508321699081,
+        "maximum_root_width_mm": 15.157105072025189,
+        "connected_z_extent_approx_mm": [
+          0.0,
+          4.0
+        ],
+        "width_probes_mm": [
+          {
+            "print_z_mm": 1e-05,
+            "root_y_width_mm": 12.356398622518098
+          },
+          {
+            "print_z_mm": 0.5,
+            "root_y_width_mm": 12.706495389547571
+          },
+          {
+            "print_z_mm": 1.0,
+            "root_y_width_mm": 13.056599158652427
+          },
+          {
+            "print_z_mm": 2.0,
+            "root_y_width_mm": 13.756806696862137
+          },
+          {
+            "print_z_mm": 3.0,
+            "root_y_width_mm": 14.457014235071846
+          },
+          {
+            "print_z_mm": 3.75,
+            "root_y_width_mm": 14.982169888729127
+          },
+          {
+            "print_z_mm": 3.9,
+            "root_y_width_mm": 15.087201019460581
+          },
+          {
+            "print_z_mm": 3.99999,
+            "root_y_width_mm": 15.15721477120617
+          }
+        ],
+        "integration_step_mm": 0.0003333333333333333
+      },
+      "R3_finer_check": {
+        "wall_x_mm": -52.0,
+        "one_sided_offset_mm": 2e-05,
+        "root_y_window_mm": [
+          -23.0,
+          2.0
+        ],
+        "print_z_window_mm": [
+          0,
+          4
+        ],
+        "area_mm2": 55.02752838326686,
+        "minimum_width_over_full_4mm_thickness_mm": 12.356525370025482,
+        "maximum_root_width_mm": 15.15723882160795,
+        "connected_z_extent_approx_mm": [
+          0.0,
+          4.0
+        ],
+        "width_probes_mm": [
+          {
+            "print_z_mm": 1e-05,
+            "root_y_width_mm": 12.356474021472676
+          },
+          {
+            "print_z_mm": 0.5,
+            "root_y_width_mm": 12.706570788502152
+          },
+          {
+            "print_z_mm": 1.0,
+            "root_y_width_mm": 13.056674557607005
+          },
+          {
+            "print_z_mm": 2.0,
+            "root_y_width_mm": 13.756882095816714
+          },
+          {
+            "print_z_mm": 3.0,
+            "root_y_width_mm": 14.457089634026426
+          },
+          {
+            "print_z_mm": 3.75,
+            "root_y_width_mm": 14.982245287683707
+          },
+          {
+            "print_z_mm": 3.9,
+            "root_y_width_mm": 15.08727641841516
+          },
+          {
+            "print_z_mm": 3.99999,
+            "root_y_width_mm": 15.157290170160753
+          }
+        ],
+        "integration_step_mm": 0.00016666666666666666
+      },
+      "new_to_old_area_ratio": 3117.519440081465,
+      "convergence_area_difference_mm2": 0.00030159581832123195
+    },
+    "right": {
+      "R2": {
+        "wall_x_mm": 2.0,
+        "one_sided_offset_mm": 0.0001,
+        "root_y_window_mm": [
+          8.0,
+          22.0
+        ],
+        "print_z_window_mm": [
+          0,
+          4
+        ],
+        "area_mm2": 40.0,
+        "minimum_width_over_full_4mm_thickness_mm": 10.0,
+        "maximum_root_width_mm": 10.0,
+        "connected_z_extent_approx_mm": [
+          0.0,
+          4.0
+        ],
+        "width_probes_mm": [
+          {
+            "print_z_mm": 1e-05,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 0.5,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 1.0,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 2.0,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 3.0,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 3.75,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 3.9,
+            "root_y_width_mm": 10.0
+          },
+          {
+            "print_z_mm": 3.99999,
+            "root_y_width_mm": 10.0
+          }
+        ],
+        "integration_step_mm": 0.0003333333333333333
+      },
+      "R3": {
+        "wall_x_mm": 2.0,
+        "one_sided_offset_mm": 0.0001,
+        "root_y_window_mm": [
+          8.0,
+          22.0
+        ],
+        "print_z_window_mm": [
+          0,
+          4
+        ],
+        "area_mm2": 56.0,
+        "minimum_width_over_full_4mm_thickness_mm": 14.0,
+        "maximum_root_width_mm": 14.0,
+        "connected_z_extent_approx_mm": [
+          0.0,
+          4.0
+        ],
+        "width_probes_mm": [
+          {
+            "print_z_mm": 1e-05,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 0.5,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 1.0,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 2.0,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.0,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.75,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.9,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.99999,
+            "root_y_width_mm": 14.0
+          }
+        ],
+        "integration_step_mm": 0.0003333333333333333
+      },
+      "R3_finer_check": {
+        "wall_x_mm": 2.0,
+        "one_sided_offset_mm": 2e-05,
+        "root_y_window_mm": [
+          8.0,
+          22.0
+        ],
+        "print_z_window_mm": [
+          0,
+          4
+        ],
+        "area_mm2": 56.0,
+        "minimum_width_over_full_4mm_thickness_mm": 14.0,
+        "maximum_root_width_mm": 14.0,
+        "connected_z_extent_approx_mm": [
+          0.0,
+          4.0
+        ],
+        "width_probes_mm": [
+          {
+            "print_z_mm": 1e-05,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 0.5,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 1.0,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 2.0,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.0,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.75,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.9,
+            "root_y_width_mm": 14.0
+          },
+          {
+            "print_z_mm": 3.99999,
+            "root_y_width_mm": 14.0
+          }
+        ],
+        "integration_step_mm": 0.00016666666666666666
+      },
+      "new_to_old_area_ratio": 1.4,
+      "convergence_area_difference_mm2": 0.0
+    }
+  },
+  "holes": {
+    "(-57, -18)": {
+      "specified_center_xy_mm": [
+        -57,
+        -18
+      ],
+      "radial_center_check": "32 radial rays at each of three through-height sections",
+      "sections": [
+        {
+          "z_mm": 0.250017,
+          "minimum_diameter_mm": 3.5975131429731846,
+          "maximum_diameter_mm": 3.597518775612116
+        },
+        {
+          "z_mm": 2.000017,
+          "minimum_diameter_mm": 3.5975141040980816,
+          "maximum_diameter_mm": 3.597518775612116
+        },
+        {
+          "z_mm": 3.750017,
+          "minimum_diameter_mm": 3.5975141040980816,
+          "maximum_diameter_mm": 3.5975186191499233
+        }
+      ],
+      "pass": true
+    },
+    "(7, 15)": {
+      "specified_center_xy_mm": [
+        7,
+        15
+      ],
+      "radial_center_check": "32 radial rays at each of three through-height sections",
+      "sections": [
+        {
+          "z_mm": 0.250017,
+          "minimum_diameter_mm": 3.59751408174634,
+          "maximum_diameter_mm": 3.597518417984247
+        },
+        {
+          "z_mm": 2.000017,
+          "minimum_diameter_mm": 3.597513858228922,
+          "maximum_diameter_mm": 3.597518417984247
+        },
+        {
+          "z_mm": 3.750017,
+          "minimum_diameter_mm": 3.5975145287811756,
+          "maximum_diameter_mm": 3.597518417984247
+        }
+      ],
+      "pass": true
+    }
+  },
+  "geometry_checks_pass": true
+}

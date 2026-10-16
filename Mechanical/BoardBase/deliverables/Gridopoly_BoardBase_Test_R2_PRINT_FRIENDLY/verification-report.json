@@ -1,0 +1,118 @@
+{
+  "revision": "R2_PRINT_FRIENDLY",
+  "method": "Independent binary STL parsing; exact-coordinate vertex welding",
+  "vertices": 4944,
+  "triangles": 9884,
+  "edges": 14826,
+  "connected_components": 1,
+  "edges_not_shared_by_two_faces": 0,
+  "inconsistent_edge_winding": 0,
+  "degenerate_triangles": 0,
+  "signed_volume_mm3": 69966.97401475198,
+  "bounds_mm": [
+    [
+      -67.0,
+      84.0
+    ],
+    [
+      -4.0,
+      147.0
+    ],
+    [
+      0.0,
+      16.799999237060547
+    ]
+  ],
+  "dimensions_mm": [
+    151.0,
+    151.0,
+    16.799999237060547
+  ],
+  "print_direction": "+Z, flat bottom on bed",
+  "downward_surface_triangles_above_bed": 0,
+  "downward_surface_area_above_bed_mm2": 0.0,
+  "vertical_wall_angular_noise_tolerance_deg": 0.01,
+  "stl_sha256": "73fc697ded0568f2a538dded4f091c5967b1cf053c343de166dee7ebb6297d9f",
+  "scope_limit": "Topology, size and geometric overhang verification only; not physical fitting, structural load, full collision, actual layer toolpaths or slicer validation.",
+  "3mf": {
+    "object_count": 1,
+    "units": "millimeter",
+    "zip_crc_ok": true,
+    "triangles_equal_to_stl": true,
+    "vertex_translation_from_stl_mm": [
+      67.0,
+      4.0,
+      -0.0
+    ],
+    "sha256": "6368145f7cc50e049c4edf11f4377d656fe494df8a0eb85ac8d419c6830deeb5",
+    "printer_settings_included": false,
+    "opened_in_slicer": false
+  },
+  "optional_screw_fit_coupon": {
+    "revision": "R2_PRINT_FRIENDLY",
+    "method": "Independent binary STL parsing; exact-coordinate vertex welding",
+    "vertices": 1366,
+    "triangles": 2728,
+    "edges": 4092,
+    "connected_components": 1,
+    "edges_not_shared_by_two_faces": 0,
+    "inconsistent_edge_winding": 0,
+    "degenerate_triangles": 0,
+    "signed_volume_mm3": 2589.7779860604705,
+    "bounds_mm": [
+      [
+        0.0,
+        34.0
+      ],
+      [
+        0.0,
+        14.0
+      ],
+      [
+        0.0,
+        16.0
+      ]
+    ],
+    "dimensions_mm": [
+      34.0,
+      14.0,
+      16.0
+    ],
+    "print_direction": "+Z, flat bottom on bed",
+    "downward_surface_triangles_above_bed": 0,
+    "downward_surface_area_above_bed_mm2": 0.0,
+    "vertical_wall_angular_noise_tolerance_deg": 0.01,
+    "stl_sha256": "4f19f79d58d9124505dd8d37754cbd30c40eaa931a4a7d507335d1b5a5051da2",
+    "scope_limit": "Topology, size and geometric overhang verification only; not physical fitting, structural load, full collision, actual layer toolpaths or slicer validation.",
+    "3mf": {
+      "object_count": 1,
+      "units": "millimeter",
+      "zip_crc_ok": true,
+      "triangles_equal_to_stl": true,
+      "vertex_translation_from_stl_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "sha256": "f160631df9fb9c53ce6ea82db6180daaaa2e63ea0c959f56bc7cd7a226ea5597",
+      "printer_settings_included": false,
+      "opened_in_slicer": false
+    }
+  },
+  "geometry_parameters": {
+    "plate_thickness_mm": 3.5,
+    "pcb_bottom_above_table_mm": 16.0,
+    "nominal_component_clearance_over_plate_mm": 4.4,
+    "mounting_screws": 6,
+    "integral_posts": 12,
+    "fixed_gap_g_mm": 9,
+    "pilot_diameter_candidate_mm": 2.5,
+    "pilot_bottom_z_mm": 6.0,
+    "top_guide_diameter_mm": 3.6,
+    "top_guide_depth_mm": 1.2,
+    "screw_insertion_into_post_mm": 7.4,
+    "screw_tip_to_blind_floor_clearance_mm": 2.5999999999999996,
+    "hole_positions_source_sha256": "e78d4cbc840f58c6564f7e6513c5992925e54811c4d39e5e01467c7390e53df6",
+    "physical_print_and_fit_verified": false
+  }
+}

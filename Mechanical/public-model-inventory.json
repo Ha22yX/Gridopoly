@@ -1,0 +1,2681 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-16T09:58:19.426401+00:00",
+  "publication_status": "PREPARED_PENDING_COORDINATOR_UPLOAD_AND_REMOTE_VERIFICATION",
+  "summary": {
+    "payload_files": 336,
+    "payload_bytes": 1497038916,
+    "model_files": 73,
+    "stl_files": 30,
+    "three_mf_files": 28,
+    "original_input_files": 5,
+    "editable_blend_files": 15,
+    "frozen_zip_files": 11,
+    "ignored_formal_files": 13,
+    "staging_paths": 340,
+    "archive_baseline_files_sha256_unchanged": 165
+  },
+  "files": [
+    {
+      "path": "Docs/mechanical/README.md",
+      "bytes": 12646,
+      "sha256": "e47942d269b3f170fea162e9d9914f6b78e9fc21be843f93e7b31c7ee9eb0f52",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/AGENTS.md",
+      "bytes": 1378,
+      "sha256": "bcb47b2e1f9e941fc006a0c17fc28ca1da98d2ce9549c96e3e7fc4f3d5cbd88c",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/README.md",
+      "bytes": 7614,
+      "sha256": "ffb09dffd31ea9025d0f9b9597ddf4d504626a72b264c17333d35820056225f2",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/assembly-verification.json",
+      "bytes": 2235,
+      "sha256": "5be6c425fccaeba1ffcb9d80cf8d7aa61e1c41ac8f024ccd9ebef34b84b84d31",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/audit_layout.py",
+      "bytes": 16280,
+      "sha256": "38ecd41bc72248d62f03fc588b9d5cabb19dadc53477734c996a727f16ad3a6e",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/build.py",
+      "bytes": 10584,
+      "sha256": "3847f0e5bb1cacad7b11a9650e48a3adc460cf16ea844625afdcaf8fd7cedb31",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/config.json",
+      "bytes": 42853,
+      "sha256": "262dd1010271e45e3f72390756a5219f936ab45c59081e333899ff2c5e3c716d",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/delivery-manifest.json",
+      "bytes": 2715,
+      "sha256": "dc33c2eae4af37c544e1ac1635210671cf679bb77e38b76e1783f135c2b24481",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/delivery-package.json",
+      "bytes": 386,
+      "sha256": "4607ca6ba3dfc8bd83b0cafefc5a5177e02a6599185d95806b5af15d6801bac4",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/layout-audit.json",
+      "bytes": 36739,
+      "sha256": "bd9fbbaf6ff478452310ccfbd3be5772a8df27cfaab049619fb0efb7b4a0f12f",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/package_delivery.py",
+      "bytes": 2738,
+      "sha256": "b3d49330fc83ecd941363a60b0b8fa5a0a95d33d268eef365c90842887a6516c",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/parts-verification.json",
+      "bytes": 10059,
+      "sha256": "20f27c70b166aec6785958f07b1fc7f26db1ca03e35076464a147ad813510480",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/prepare.py",
+      "bytes": 4533,
+      "sha256": "10f57b6dbbec6c42e58f4d1319e84bf7be4db47a81d3c47fb2ffabeeb0486b0d",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/review_and_render.py",
+      "bytes": 6604,
+      "sha256": "87c9ca962c593eac5540b3a7520216486f339a737eebf396289ca51659dccdb9",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/Full16_R1/verify_parts.py",
+      "bytes": 12439,
+      "sha256": "74f6572681938c740e313f070a7885915dde34e6d69318d15e571d4c3e922ccb",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/README.md",
+      "bytes": 12901,
+      "sha256": "4657d0633aed0d14c331f8b81bb3e11099c6656a2de2d2b36ddc6868f62c6e45",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/assembly-verification.json",
+      "bytes": 1157,
+      "sha256": "192b86092820315be63535eac717ed5dd5b2b700d87beae853b87be4af4651f4",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip",
+      "bytes": 13574754,
+      "sha256": "4853d19975a7ea492aa121c104e5aa4d5f8d5e2a55a0872389e01e3f5bc9ae82",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.3mf",
+      "bytes": 175147,
+      "sha256": "1d004ec0b2ae1b9a626360e9ce32b7dfa269359f475b38445505068f08f5c262",
+      "role": "print_model",
+      "revision_status": "current_full16_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_L_Quarter_PRINT_4.stl",
+      "bytes": 815984,
+      "sha256": "106204a6cd02ce4a5727619349d61e098255bf33e9c3a49b69b928ba2743c1ae",
+      "role": "print_model",
+      "revision_status": "current_full16_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/01_full_frame.png",
+      "bytes": 2333398,
+      "sha256": "596deabc3ac8fa6ce20f10417fc2691f4953da58f549e9cab1e4a02f58ead6cd",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.3mf",
+      "bytes": 13880,
+      "sha256": "0b784b5ecf0e42a4fb260ac91f4b76f2ef63c70a97c97a3b8dfc66f4c62b0487",
+      "role": "print_model",
+      "revision_status": "current_full16_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_Splice_Bridge_PRINT_8.stl",
+      "bytes": 65884,
+      "sha256": "9763a895a197c22dbeddb6dc0c550ef8c82876e63e657784e4e440839dad4bbc",
+      "role": "print_model",
+      "revision_status": "current_full16_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/02_with_16_pcbs_reference.png",
+      "bytes": 2412437,
+      "sha256": "fcee1883ec910b0ad31875063a399aa9d5c569d87fafff3a9adc088519eb2dc6",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/03_top_layout.png",
+      "bytes": 2401107,
+      "sha256": "ffb7ad46197686f0baa834c3f3c08533c45de76c8c0cb0c02dbd11494e40d0e3",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/04_single_quarter_print_4.png",
+      "bytes": 2234021,
+      "sha256": "ca977a04a3aadb81893f26002fae4e65340c0b35ec92733acb72781c03c1339f",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/05_joint_detail.png",
+      "bytes": 2333886,
+      "sha256": "831bce5e6b9ec6ffcb3ea5cfdec14fbe04662c213b86130c5ea923996293e9ae",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend",
+      "bytes": 1439187,
+      "sha256": "971482bc4a05ce069b694f12cf9df1cb3ea41e4196af2751689a8a4d96d4085a",
+      "role": "editable_design",
+      "revision_status": "current_full16_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/README.md",
+      "bytes": 6347,
+      "sha256": "2999029deabbd160b054c8172c39777173879b3f4b1d8bc851e04aca8679c4c2",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/assembly-verification.json",
+      "bytes": 2235,
+      "sha256": "5be6c425fccaeba1ffcb9d80cf8d7aa61e1c41ac8f024ccd9ebef34b84b84d31",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/config.json",
+      "bytes": 42853,
+      "sha256": "262dd1010271e45e3f72390756a5219f936ab45c59081e333899ff2c5e3c716d",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/delivery-manifest.json",
+      "bytes": 2715,
+      "sha256": "dc33c2eae4af37c544e1ac1635210671cf679bb77e38b76e1783f135c2b24481",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/layout-audit.json",
+      "bytes": 36739,
+      "sha256": "bd9fbbaf6ff478452310ccfbd3be5772a8df27cfaab049619fb0efb7b4a0f12f",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/parts-verification.json",
+      "bytes": 10059,
+      "sha256": "20f27c70b166aec6785958f07b1fc7f26db1ca03e35076464a147ad813510480",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/rebuild_in_blender.py",
+      "bytes": 36788,
+      "sha256": "4da55557172370c2788324c3c6f358e6698e9fbf19f76a6ec919123e8cf946b8",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Corner_TEST_R0.stl",
+      "bytes": 199484,
+      "sha256": "2c8a67655607dd060a81acf65e2520f51412e7157c67da362a69b3b3dd95358c",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Gridopoly_Corner_Test_R0.blend",
+      "bytes": 357186,
+      "sha256": "21a463afe23663152ee4332993818ddb1b2ed486b48d42fd68d2485072196d4a",
+      "role": "editable_design",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Incoming_Long_TEST_R0.stl",
+      "bytes": 251984,
+      "sha256": "a176ea1e534bbde3d0b1f7bd6b011b2feb2b9c28767843e0e6a27c3d22986b85",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/Outgoing_Long_TEST_R0.stl",
+      "bytes": 247884,
+      "sha256": "827c2f8145f8cc76a5e7d731fb7c0bc7e0e754b492480b9c84141aab2a504681",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/SUPERSEDED_DO_NOT_PRINT.txt",
+      "bytes": 200,
+      "sha256": "9f8f9c7bd034bcaa0a2ea590116bc9a0c83f6205edee6f40b5e6b7d68bfe4a59",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/fixture-config.json",
+      "bytes": 30878,
+      "sha256": "ec1f424306d77029349015964ffa38e24cd85de5e9b49e48d60f174d92bf7c11",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/fixture_assembled.png",
+      "bytes": 1685749,
+      "sha256": "83b42850de292dfed81fb6231cc08a588269a1d7eedf8cd696a62ab763face06",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/fixture_frame.png",
+      "bytes": 1770868,
+      "sha256": "980806bdcf6799f367c75bc7c537fb5ef53a658afe7cab6587c5e021e96d31bb",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R0/rebuild_in_blender.py",
+      "bytes": 26584,
+      "sha256": "ccebbedcf1feb8f2cf2c8414dc1e3824baa663fb3c2d7bb1dc92d08c10d9c2df",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE.zip",
+      "bytes": 4352337,
+      "sha256": "8d6a59e3a01f885754a46b13a5fb6720e6999af3eebf21adb37b850b7acf4590",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/Gridopoly_OnePiece_Corner_Test_R1.blend",
+      "bytes": 286620,
+      "sha256": "a9b8c102589e0cb4d233814ca69f34fc2eb72dbd6f7001836f1cfe42b2e3bf9f",
+      "role": "editable_design",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/ONE_PIECE_Corner_Test_R1.3mf",
+      "bytes": 82441,
+      "sha256": "d2721dd2fb06c4688fc621c5e2c406653f9115147f07c75fa286b5add2c04c1d",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/ONE_PIECE_Corner_Test_R1.stl",
+      "bytes": 425884,
+      "sha256": "fb8c6e1b987478771bbd27c255cae1c9e668b2d7e42ed19ebb302bd96fb8a7c2",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/README.md",
+      "bytes": 8051,
+      "sha256": "f286cdc5fb4f4738494fa6258f4a78f03cf60049cf2dc2bb24cb915b18105a9e",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/SHA256SUMS.json",
+      "bytes": 1084,
+      "sha256": "cf509a6b1b6b2673eb6b191e8e4bff90ce2ff4f2252465b4b1e98c418f86a989",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/assembly-verification.json",
+      "bytes": 688,
+      "sha256": "67d7d70aad05aee0285193769619c42ba039afecf2b2e88fba27170f7b087868",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/design-requirements.json",
+      "bytes": 17543,
+      "sha256": "f1967e2acf8b36905d5f555835f43684fa7f12b16a7e891d5cf4784d248ef696",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/fixture-config.json",
+      "bytes": 30210,
+      "sha256": "ab02547a624eb83a86677e8c655e6b023bef566b8b32347ff67e6d1af16aed98",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/fixture_assembled.png",
+      "bytes": 1937723,
+      "sha256": "e7ad58b6cb3b985094ab02a48a0bb3c8fde5e8dce8352327e1228ce6ae7a3fe4",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/fixture_frame.png",
+      "bytes": 1926081,
+      "sha256": "4fc7ef65bc75c2184946beb8fe6df4f8b71f663b4ecf835c928fad8b53dd071b",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/rebuild_in_blender.py",
+      "bytes": 25536,
+      "sha256": "6b35d99f21b5fc9cd020d67448621613102ffc9110383b300ce7a8080e6047fa",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/verification-report.json",
+      "bytes": 1632,
+      "sha256": "97fccc58b089f80bab8e86582a34dc6714d893a28e561140a3bc56629a46acf5",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY.zip",
+      "bytes": 5771173,
+      "sha256": "1425196f800cab817e5808024a9fc37e459edca9d0b05c211d2756c8c8ab7d13",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Gridopoly_OnePiece_Corner_Test_R2.blend",
+      "bytes": 438752,
+      "sha256": "b9556052e15f8921402f2a00444cebb181765805f9cdf05ce2046b7bfe3632c7",
+      "role": "editable_design",
+      "revision_status": "fitted_three_module_reference"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.3mf",
+      "bytes": 95770,
+      "sha256": "6368145f7cc50e049c4edf11f4377d656fe494df8a0eb85ac8d419c6830deeb5",
+      "role": "print_model",
+      "revision_status": "fitted_three_module_reference"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/ONE_PIECE_Corner_Test_R2.stl",
+      "bytes": 494284,
+      "sha256": "73fc697ded0568f2a538dded4f091c5967b1cf053c343de166dee7ebb6297d9f",
+      "role": "print_model",
+      "revision_status": "fitted_three_module_reference"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/README.md",
+      "bytes": 9269,
+      "sha256": "7841e909febc3176a8542e93221be277cc5d75bd248605418920b81791b365bd",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/SHA256SUMS.json",
+      "bytes": 1380,
+      "sha256": "8cb83a662fe64155b43c49cf4f5b9aa50ae0f4bdedc65361439625e2c8bd624d",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.3mf",
+      "bytes": 26276,
+      "sha256": "f160631df9fb9c53ce6ea82db6180daaaa2e63ea0c959f56bc7cd7a226ea5597",
+      "role": "print_model",
+      "revision_status": "fitted_three_module_reference"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/Screw_Fit_Coupon_R2.stl",
+      "bytes": 136484,
+      "sha256": "4f19f79d58d9124505dd8d37754cbd30c40eaa931a4a7d507335d1b5a5051da2",
+      "role": "print_model",
+      "revision_status": "fitted_three_module_reference"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/assembly-verification.json",
+      "bytes": 1157,
+      "sha256": "192b86092820315be63535eac717ed5dd5b2b700d87beae853b87be4af4651f4",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/design-requirements.json",
+      "bytes": 23770,
+      "sha256": "2382389284fbb01053d57326f123eb1a882e2271c238531d58e3fa55f4273e74",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/fixture-config.json",
+      "bytes": 30576,
+      "sha256": "64e07044bb3c576a4bee1b6bdab77cce5cc47a6fa0c82e64699b5ff30b4fa5ab",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/fixture_assembled.png",
+      "bytes": 1937748,
+      "sha256": "2f955560c8e463b8478fefe8c9c1aa633de3f3712f3b8768f1024e9be32a33d4",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/fixture_frame.png",
+      "bytes": 1926599,
+      "sha256": "3c4e469dcacdf716ce32a61b26e4d836a79800cb2ba2fd1f54a80f4083f1c674",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/mounting_post_section.png",
+      "bytes": 1185128,
+      "sha256": "24b14d1b756326d533e3bcd1c44a0b00a0c2c59e442e54776ce049f33a56ef57",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/rebuild_in_blender.py",
+      "bytes": 28315,
+      "sha256": "ab5acebd7f75c9d62910143002481c2627f7670d6ecad86dd5ed61eacc6b4009",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY/verification-report.json",
+      "bytes": 3586,
+      "sha256": "cdd1e5f1d825459fc534608355b55acbe9d41063fa247748e345e04093e5262a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/design-requirements.json",
+      "bytes": 23770,
+      "sha256": "2382389284fbb01053d57326f123eb1a882e2271c238531d58e3fa55f4273e74",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/fixture-config.json",
+      "bytes": 30576,
+      "sha256": "64e07044bb3c576a4bee1b6bdab77cce5cc47a6fa0c82e64699b5ff30b4fa5ab",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/README.md",
+      "bytes": 6784,
+      "sha256": "99716615b9c57b1c207b2766e6feaeb5014e02acd5af4fa6aaa1a9c52cc02668",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/SHA256SUMS.txt",
+      "bytes": 3356,
+      "sha256": "b8756b477c162d1e0ecea91edb3522be194f9e1098eea75262842108e1d9447a",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/bottom-exclusions.csv",
+      "bytes": 12233,
+      "sha256": "125c8eb8d207402d8a9e86865cf859458b7b0c8a39159d05af255554fc2b8a81",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/connector-anchors.csv",
+      "bytes": 705,
+      "sha256": "12ca917533b5f679f705b010b887828350c09814608a551904cf851b25b33c58",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/corner-current-Gerber.zip",
+      "bytes": 203469,
+      "sha256": "877882890fa636b38abff8727f65fb7b613e27aabbeeaf6edb1df6d6d8fb12a3",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/corner-current-snapshot.json",
+      "bytes": 456516,
+      "sha256": "57ec1e65a1f453ec468365a8477664c91f85d3088809db571898997c0050f799",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/corner-current.epro2",
+      "bytes": 410494,
+      "sha256": "66c6d8cbbfb79a0d514717a360b24d113da94f45af8e4c6671e7b5ffca1fad03",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/corner-current.source.jsonl",
+      "bytes": 785585,
+      "sha256": "615d58e8a85cd7a4374f53b839b1d0672f55a4d97417fc5b6de69746be38d6bf",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/long-current-Gerber.zip",
+      "bytes": 200337,
+      "sha256": "c5b2c5bcf044a33dac884a0fc196f5de1485d2d8003957b60a7a5555159aab0d",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/long-current-snapshot.json",
+      "bytes": 437746,
+      "sha256": "ec8186459a8bbf4ac563210e7d643d21a0e00c843c931cfec9dd7591104b4582",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/long-current.epro2",
+      "bytes": 358850,
+      "sha256": "107da9ad8ecbe6bb311a92566422595fb5c15d46bdc56bbd685815a0edc42cd3",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/long-current.source.jsonl",
+      "bytes": 774974,
+      "sha256": "5eb60926f0544ea7aa55e0b3d274e967504dc89d7d3a8164c14049a4c5dd494d",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/manifest.json",
+      "bytes": 5933,
+      "sha256": "de1b9b69d224f28aa1fe13ea37249b60fc4185caadcc049f70478b5797f694de",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/mechanical-interface.json",
+      "bytes": 35424,
+      "sha256": "e78d4cbc840f58c6564f7e6513c5992925e54811c4d39e5e01467c7390e53df6",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/mounting-holes.csv",
+      "bytes": 398,
+      "sha256": "ab8714aea1cd88a4f09aca802f0eaa2742cc7c446ef1ea3754be67056aab944f",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/bottom-review/README.md",
+      "bytes": 5818,
+      "sha256": "b9496f339ee474d8e2e79b3d62b044d302286656c4bdcac588eabebb38a698e3",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/bottom-review/bottom-clearance.json",
+      "bytes": 261566,
+      "sha256": "27fb3658e3107f58e0c3ac8a53f8ee0d606baf9c65b4ca17563445fb74e5fa42",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/bottom-review/bottom-component-envelopes.csv",
+      "bytes": 19077,
+      "sha256": "0b81f6a8edd2926e07eed35e98ab6294e3af524fe37d1927d4c3bae23106fe80",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/bottom-review/corner-bottom-projection.svg",
+      "bytes": 20393,
+      "sha256": "f22fec5ca998b20aa2a52dd85395e66cf9954c45fcaa68c3eec8e3cc5ce92998",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/bottom-review/long-bottom-projection.svg",
+      "bytes": 20441,
+      "sha256": "9cdb3be85775ef75bdaa13c802637d77f68d702002349fca21bf863bcc71c234",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/JIN1-C32713265.pdf",
+      "bytes": 229397,
+      "sha256": "8f333b10f4f073aeec84c3842fa2a26b4ede0cc485d5bf7fd9e714948865b3d0",
+      "role": "reference_document",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/JIN3-C492411.pdf",
+      "bytes": 144048,
+      "sha256": "e73b28ac2c540f1ac3a6cbb7af32f6a68a52dd70d56fd71754f55682fad207a4",
+      "role": "reference_document",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/JOUT1-C54973819.pdf",
+      "bytes": 57168,
+      "sha256": "ea011acb4631e9301752755bd0bbd51545740593286bf9960293b717f7f2b47d",
+      "role": "reference_document",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/JOUT3-C54973822.pdf",
+      "bytes": 56147,
+      "sha256": "a3809618784af9de6ad20024b51201d6d900115793c3d0714f109443debd9098",
+      "role": "reference_document",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/connectors-review.json",
+      "bytes": 12512,
+      "sha256": "2349f81ac97fbaa60e2bd4cfd66d57b4f7b0d68cacadf52acbb19da9e47fbb5f",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/connectors-review.md",
+      "bytes": 6788,
+      "sha256": "f8bc51c8f06c0720c8ad5167539a0f81a3e23aab3c5ac7bc88062ad51170dfba",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/connectors-review/manufacturer-sources.json",
+      "bytes": 1193,
+      "sha256": "16d6f1b615632dae7bec2e6a65dd536e55f12f6906744f45625ace810fee3e39",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/layout-review/corner-actual-bottom-support-map.png",
+      "bytes": 66395,
+      "sha256": "e0c88e1ff566eed91582e73deaac25da72711a5e216d09370aa1dcb1d9038ae1",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/layout-review/long-actual-bottom-support-map.png",
+      "bytes": 64226,
+      "sha256": "6a25565881db60538256fcfe706fbb67bab38e88c8c40e74a67b24f2cc867afe",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/layout-review/mechanical-current-geometry.json",
+      "bytes": 81284,
+      "sha256": "1506fd9279787ecad5b228af66106b1fce6e937c41f108b936006c00664023ca",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/reviews/layout-review/mechanical-layout-review.md",
+      "bytes": 3811,
+      "sha256": "0641bd52fd14dbf6f095fa62f6eced35c9a643a38e427d2b50e9705d39a1c746",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/support-body-crosscheck.json",
+      "bytes": 1372,
+      "sha256": "32d95beb0c31a3c2ba5ca24fa9eb11150e68adf204413027be520da32d45ef9f",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/verify-interface.py",
+      "bytes": 2173,
+      "sha256": "14f8475f2a592ee63fda1acf35527a461edae4a07181d3cf8213bf2d5bc60aad",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/references/fit-photos-2026-10-15/1-Photo-1.jpg",
+      "bytes": 1620992,
+      "sha256": "f85115661de8f383066eeb3fe09fb1bdfae20f8d742b988a217394024a764185",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/references/fit-photos-2026-10-15/2-Photo-2.jpg",
+      "bytes": 1936301,
+      "sha256": "08aa048dd222cec92c4747712b8dac2572162c92a7b920503718ecfbdf41b516",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/references/fit-photos-2026-10-15/3-Photo-3.jpg",
+      "bytes": 1172255,
+      "sha256": "472d23d647b460fc4478fd6c5d60d018dc17e1fa8aab6a2423fe5831819382eb",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/scripts/build_fixture_blender.py",
+      "bytes": 12689,
+      "sha256": "49a0d255322a9050ec8c30c3aee647014fc9b272dbc84a3dbcc68aa8a688c87c",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/scripts/package_fixture.py",
+      "bytes": 9011,
+      "sha256": "e96c7da898a58cce6c2acb83956add8819eb0d17311dc8a1bea10757fd42a23b",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/scripts/prepare_fixture.py",
+      "bytes": 5743,
+      "sha256": "7db46112474fddf3725ef24e4973abd5ae79517f4b2edb50955d661a6661184a",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/scripts/verify_assembly_blender.py",
+      "bytes": 1374,
+      "sha256": "d2796e42d2fb900411593d54a670adaf27aa39004c3ea61683c3c525f7dc7742",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/BoardBase/verification-report.json",
+      "bytes": 3586,
+      "sha256": "cdd1e5f1d825459fc534608355b55acbe9d41063fa247748e345e04093e5262a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/.gitignore",
+      "bytes": 144,
+      "sha256": "c688b04372bf4fdb9f476079f9ce9cd3480f306f670beb44f1f340b443efd94a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/README.md",
+      "bytes": 5379,
+      "sha256": "531a8281097b5234ebaf53bc400c14e4cae795f204fc527a3f3d279c1fd457f4",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/docs/superpowers/plans/2026-08-02-round-display-stand-c-ring-implementation.md",
+      "bytes": 18179,
+      "sha256": "7c23cfd049c0eb3478b549330e46593ca86408cb732f8095ec027b8aa8598ba6",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/docs/superpowers/plans/2026-08-02-round-display-stand-implementation.md",
+      "bytes": 14367,
+      "sha256": "0cb5f38eefd67411a4be27c639f71194b017b08d9148df32313e3ab4db40d933",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/docs/superpowers/specs/2026-08-02-round-display-stand-c-ring-design.md",
+      "bytes": 3353,
+      "sha256": "770baec7123fd76d27d70470b61de5320c7d334336d317cbb281f7065d0555ca",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/docs/superpowers/specs/2026-08-02-round-display-stand-design.md",
+      "bytes": 5292,
+      "sha256": "87ac7a151ce7ea5a03bd4f20d0d9c2de5a7c3c1ab469ddab50b5a1570815464e",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.blend",
+      "bytes": 178243,
+      "sha256": "2a7c0c22188f0ed0ce5c72aa480c805cdd2abe19124f21b61eeb8994a8d8fcd6",
+      "role": "editable_design",
+      "revision_status": "fitted_screen_interface_reference"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl",
+      "bytes": 209484,
+      "sha256": "45564e74a329e79ca2ecb9beb63ce78de9ca942397f3b1185495aec2e1ea70d7",
+      "role": "print_model",
+      "revision_status": "fitted_screen_interface_reference"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW50.blend",
+      "bytes": 178669,
+      "sha256": "53cb00c3ce02f5b7667edcebb3eac53825a957c2a899e0fe3289d581fd07d361",
+      "role": "editable_design",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW50.stl",
+      "bytes": 210084,
+      "sha256": "11be8bf9063d931cfb2f2b4d3505f45d6d8fa115d9b923c231074676305bba57",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_M4_Pin_Down.stl",
+      "bytes": 210284,
+      "sha256": "f499cbc55ea38e0522c40cf8b33ab75c804ff77c715f442b3a218a27f506fa86",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.blend",
+      "bytes": 178243,
+      "sha256": "2a7c0c22188f0ed0ce5c72aa480c805cdd2abe19124f21b61eeb8994a8d8fcd6",
+      "role": "editable_design",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.stl",
+      "bytes": 209484,
+      "sha256": "45564e74a329e79ca2ecb9beb63ce78de9ca942397f3b1185495aec2e1ea70d7",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/renders/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/renders/Gridopoly_Player_Console_Stand_CW47_5_interface.png",
+      "bytes": 1022268,
+      "sha256": "bdda877140a0da2775cfddb781efedd04cb90b86ae55240bec27de4de53e0555",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/renders/Gridopoly_Player_Console_Stand_CW50_interface.png",
+      "bytes": 1022666,
+      "sha256": "23e895d908bf4b92017800f7c345ce6f1ae5c14799e70566cf212cd1564c77d9",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/renders/stand_assembled.png",
+      "bytes": 1003767,
+      "sha256": "0d962abc060c6991cda730a8a5ffee715bec279ef7c10a0b0fa8a586cce002a1",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/renders/stand_print.png",
+      "bytes": 1022268,
+      "sha256": "bdda877140a0da2775cfddb781efedd04cb90b86ae55240bec27de4de53e0555",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/reports/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/reports/cw47_5_ccw2_5_delivery.md",
+      "bytes": 3465,
+      "sha256": "84d5fa5dc1c014e3f7fbfc80f3e446733a5f5b16f20d3b38fa79178132887c02",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/reports/cw50_ccw10_delivery.md",
+      "bytes": 2376,
+      "sha256": "d6282d24e931865d4342b8f3d588af9f246afac8d0abe3f3913759aeba6c07ed",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/reports/dimensions.json",
+      "bytes": 4297,
+      "sha256": "7ecbc3c99e84fbb6a86aaa42204dadbb8a709b90019f27cb062bdd2ed344ab15",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/reports/dimensions.txt",
+      "bytes": 1448,
+      "sha256": "0aa23706955f0bcb3ea8e10f7af34c226573775a43662f459f434047468d6da7",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/build_stand.py",
+      "bytes": 33959,
+      "sha256": "ebb3d28aefa6ec7d6905f5ae1cfac87d8801c1c0c5cad840a0617bfaf19c6bcc",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/render_stand.py",
+      "bytes": 6995,
+      "sha256": "37bdf16643e54719f75fd4e61d66e5b33fb8b417a8849c086aac88804a1bfce9",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/stand_parameters.py",
+      "bytes": 4029,
+      "sha256": "6924f34e4cddc0ff0d623fb5cffd5b615d9d848ae13ed760ddc3f2561e8c6f2d",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/verify_stand.py",
+      "bytes": 37605,
+      "sha256": "6e702f8b683a9aa4d44e92814340007b9e80fd8e9bef013fb5d151f8bae1d37f",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/test_build_contract.py",
+      "bytes": 4043,
+      "sha256": "d4e53fda6711763fef88ed3509893345ddbbee3b0386953b8ba81867572d03af",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/test_geometry_build.py",
+      "bytes": 8961,
+      "sha256": "b6d3bc39c8a9092c96e9321a2c3137ce4046c2e846ae22bfe90463ffccf05e9a",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/test_render_outputs.py",
+      "bytes": 2034,
+      "sha256": "0659d0b5c21decdc3932eadd0112b8669933fef5ff990a005588ea9ead1a65b2",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/test_stand_parameters.py",
+      "bytes": 7582,
+      "sha256": "c76b13dd1e3c4a3c058632e5cdb534f8eb5a3752bf5c264be9321fa8620dae61",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/test_verify_stand.py",
+      "bytes": 12344,
+      "sha256": "9d0d1ae6407d14ddd7dd9055f15907d324eacfa7ab6046cb1abb25f8214f833d",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/README.md",
+      "bytes": 10391,
+      "sha256": "3e55112787f88676b07b912bf6b95739d814694ead6d64beab87caf285135bdc",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1.zip",
+      "bytes": 9702219,
+      "sha256": "6a990f137abd7e299e5a29c362010bede4b99bd517f83860a417cc16b2c16644",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Assembly.png",
+      "bytes": 2321349,
+      "sha256": "38b7bdd8cc670c25e19ea68bf13e213ba9299d45b765c68cd03e0d27adc9294a",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Upper_CW47_5.3mf",
+      "bytes": 71701,
+      "sha256": "2f7228be4ca2fb92588452e8101b510d5320989ca9c501c8488aab051cf69c9b",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/01_Upper_CW47_5.stl",
+      "bytes": 270084,
+      "sha256": "0dad5e90b4163b498691e30f43b2be23ba1b10828f87f4243cc8568f16ca59ff",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Battery_Tray.3mf",
+      "bytes": 29084,
+      "sha256": "785c4d675a68230f90aa37ae7dc009a2efe64cf2828f53f62bb48704a2a8e099",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Battery_Tray.stl",
+      "bytes": 147184,
+      "sha256": "470f53ba9273ceb23d2b90dad0c6f6a2ffa3cba87065255fe4e4ae9d9240b3d9",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/02_Open_Battery.png",
+      "bytes": 2284882,
+      "sha256": "c32ec544cfb240f2610d93291bafcb888bdd85f633141f0996f8062e508f8aa8",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_12mm.3mf",
+      "bytes": 5977,
+      "sha256": "62f131d5dc7d2d9010014e7acaf07cf718dd439f20d1756596a13044a3961727",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_12mm.stl",
+      "bytes": 25684,
+      "sha256": "32f31514414d42e424a80d04def910a3f981e44aada8afbc624d65dcec655089",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_8mm.3mf",
+      "bytes": 5963,
+      "sha256": "3b86de6b02e83dfbc898bd6651adff080286cac374c0f18016f3316f1f01c273",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Spacer_8mm.stl",
+      "bytes": 25684,
+      "sha256": "324530ba9d6946fca351b98fa1605229472ed83909c443fb0c81b5df959633f2",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/03_Tray_Access.png",
+      "bytes": 2267966,
+      "sha256": "ddf364ddfce47739ba5ad7f6ded7760f8506241866020a6707ef0818a09bc2c2",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/04_PCB_Access.png",
+      "bytes": 2196942,
+      "sha256": "84ac35db91edaaa49ceaedaed5e38965479cc866862f5e65e583221fc3fd46e5",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/Gridopoly_Player_Stand_V2_R1.blend",
+      "bytes": 347901,
+      "sha256": "b716cada32ea8d063c32fab474990aed99ea5532d960f18e7caae36e5e5425fa",
+      "role": "editable_design",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/README.md",
+      "bytes": 9224,
+      "sha256": "c642c7283630367552aa1d040b0dec168c0e5dfc99c3616b5ce7b0653dccfa8c",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/assembly-verification.json",
+      "bytes": 64061,
+      "sha256": "9449acaa506b7a655f0373d58bc3b766f26aac4e1ec09a13733e0b612a4def82",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/design-parameters.json",
+      "bytes": 95565,
+      "sha256": "d7acdf94924ecf6a20441417298e9af1d575bcefc6086e1f73ca0fd4c1cd813a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/manifest.json",
+      "bytes": 1838,
+      "sha256": "4efddc953f8e05d98721459ce5a255da1264af39ab24c1ad2808eb12d109541f",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/verification-report.json",
+      "bytes": 10693,
+      "sha256": "4e74e1c009b933ca50a2c699c27ed83b7f0f9e2fdfc60498993878269b04d876",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60.zip",
+      "bytes": 9923544,
+      "sha256": "e9423d0cfea4763f37fc5e61b87f293a546d00b152c9d93a735560699073b4d3",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.3mf",
+      "bytes": 22747,
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.stl",
+      "bytes": 112984,
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.3mf",
+      "bytes": 67074,
+      "sha256": "ecbe837c7d8ce0c0b356e8fc676900825a3fee9ab8661dd71e28dd028697a43e",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/02_Screen_Support_CW47_5_R2.stl",
+      "bytes": 245084,
+      "sha256": "11787f915adbf812320ce1327995a6526942aa8a832a906ebe291776f7c2d4e9",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.3mf",
+      "bytes": 14542,
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.stl",
+      "bytes": 69684,
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.3mf",
+      "bytes": 6370,
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.stl",
+      "bytes": 27084,
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.3mf",
+      "bytes": 6001,
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.stl",
+      "bytes": 25684,
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "role": "print_model",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/Gridopoly_Player_Stand_V2_R2_FPC60.blend",
+      "bytes": 373158,
+      "sha256": "a1022324e5d52d634e2b85313012ea524d453e8cb8d3b5f39efeddfdb2111bb0",
+      "role": "editable_design",
+      "revision_status": "historical_revision_not_default_print_choice"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/README.md",
+      "bytes": 6812,
+      "sha256": "03626ccd7b6248c4c595ab100d11fc0dd185d53b112fd9a930540a11d9a96714",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/assembly-verification.json",
+      "bytes": 185575,
+      "sha256": "8862568a26e6589a54abb9c047c132d72c4bf8fb6b6fedcf5c152fbdecf1f148",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/delivery-manifest.json",
+      "bytes": 3598,
+      "sha256": "7f1327b897dfb25f7c656c3b656d14b7221760b235948ff1886d990e0255fab8",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/parameters.json",
+      "bytes": 753144,
+      "sha256": "caf3bb4b742cc5240f1503fa828f0ffb5a2579b8bff0cdf9dd914f28f42de8ed",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/parts-verification.json",
+      "bytes": 18211,
+      "sha256": "291a4c760718e2a0fb66ced22368b6582dbb89a006f5a9cdfd2f9b517cadd076",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-assembly.png",
+      "bytes": 2290790,
+      "sha256": "1787917957fe7db26e60a5f95199c45f7c291ddf09b0c91f0fe1dc2c6af90bad",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-battery-exploded.png",
+      "bytes": 2233224,
+      "sha256": "a196bf5a998d5edf25bf93520c17c956af33ccea8d013a6e7f76a616f32879ea",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-fpc-route.png",
+      "bytes": 2367981,
+      "sha256": "22d5426386576f536ae70228c4cf1bdaae17c4b98f5c92b9bf0d3366e932af2e",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/preview-print-parts.png",
+      "bytes": 2270900,
+      "sha256": "f561ce8efc39b04f9b24381da923a17c9699b7955cd4cade4466a2d6e341ff62",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip",
+      "bytes": 7844357,
+      "sha256": "a53e49f96728a5a599b9d9f58acf080ced5d289ea7b18482faafa261bdc868d1",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.3mf",
+      "bytes": 22747,
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.stl",
+      "bytes": 112984,
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.3mf",
+      "bytes": 72048,
+      "sha256": "7e1650cada0f74a46c671af807b0863fdac632661b390337671e03be98d7dfe6",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/02_Screen_Support_CW47_5_R3.stl",
+      "bytes": 262884,
+      "sha256": "5dd8170bb763a626bd4563f1bf3350669010b70857196ac8b3be50718ec34061",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.3mf",
+      "bytes": 14542,
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.stl",
+      "bytes": 69684,
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.3mf",
+      "bytes": 6370,
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.stl",
+      "bytes": 27084,
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.3mf",
+      "bytes": 6001,
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.stl",
+      "bytes": 25684,
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "role": "print_model",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Assembly_Instructions_R2.md",
+      "bytes": 7181,
+      "sha256": "e4e9c8395168a32b973c28680d4a09da3590f602b6aed9f4849f281abd914c30",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend",
+      "bytes": 387497,
+      "sha256": "4cc5ed288e4d8527e9c07c260af5340676c656f1f0ffea721bf9fc1370858c91",
+      "role": "editable_design",
+      "revision_status": "current_player_R3_candidate_physical_fit_pending"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/README.md",
+      "bytes": 4184,
+      "sha256": "bc9a9b3e37d7225b06c820be4543bba54e321f0bdc1ed41b64e9f8d9b20f86b8",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/assembly-verification.json",
+      "bytes": 185956,
+      "sha256": "b41cace3d9eef137a790d495bb0b5dab7ffbb106f315f3c42fa382fbef4a56b7",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/delivery-manifest.json",
+      "bytes": 4108,
+      "sha256": "19732f34acc9e144932c1b4a549b3734f044236fb1018228b2362833a528e204",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/ear-root-verification.json",
+      "bytes": 12789,
+      "sha256": "5dbe47f18682ae2fffb25b35c44d719e72cc62bf215b5f754e9a82b0d35e58b6",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/parameters.json",
+      "bytes": 1088,
+      "sha256": "c17caf7c222249a34a700218ab7a422fa295d48a70a9ef95b5b94164523e2e84",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/parts-verification.json",
+      "bytes": 21791,
+      "sha256": "e6d0f79282b1d9c43f029e9323fd1113087fc4d07878fa110ac097f2ea21ee6a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-assembly.png",
+      "bytes": 996665,
+      "sha256": "995a2ff61a1f5e7ee45c298c2b0956f4f06be66a9caf497d5638e98c00f11f0b",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-left-foot-R2-before.png",
+      "bytes": 1525808,
+      "sha256": "7613a96516e36ad9c089b6dfc94cb56012673097efe55251ed743dd719510093",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-left-foot-R3-after.png",
+      "bytes": 1554573,
+      "sha256": "68e35d61ffb6707b179a1af239d06c14e7bf9a8f25c894453c9591c429a49955",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-support-R3.png",
+      "bytes": 1565252,
+      "sha256": "326b78bd6f847a878d26f8d7b330abf0ea60b8dc45ea22f350477a74474c73f1",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/preview-support-underside-R3.png",
+      "bytes": 1524605,
+      "sha256": "f79e81e12c85c54f6d5838d21675e000a8998b4f3d2dedeba9a15e7ec64c78a2",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/design-parameters.json",
+      "bytes": 95565,
+      "sha256": "d7acdf94924ecf6a20441417298e9af1d575bcefc6086e1f73ca0fd4c1cd813a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/README.md",
+      "bytes": 5483,
+      "sha256": "05c1ce1158d3d590d4ad49a327a6cdfa897b1384c2d12a6c2f16b570e8851f4a",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/extract-mechanical.py",
+      "bytes": 13041,
+      "sha256": "cdabc069801a3c6830db332a544735fcd422b1ea1eddf5815a4ab84b3139be08",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/interface-anchors.csv",
+      "bytes": 928,
+      "sha256": "f979932991bffe0783d31b838e2316fb6438dce6a8f00e4ac29996ea05af08c2",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/jst-ph-p3-reference.png",
+      "bytes": 315318,
+      "sha256": "b2700d0d1e2dd6439028c4bbd0c773ceb1c90b62fc02fd92c1cb8a1b5430f09c",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/mechanical-interface.json",
+      "bytes": 86537,
+      "sha256": "5e6a9fa3adc2a608cf18544f6184efc0088348eabf9dc6117179a2862d38624a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/interfaces/player-power-2026-10-15/mounting-holes.csv",
+      "bytes": 655,
+      "sha256": "dcb7775369380e791ea4e4021b652ff699ff4e00fa19efbb99d20f89460720fe",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/outputs/assembly-verification.json",
+      "bytes": 64061,
+      "sha256": "9449acaa506b7a655f0373d58bc3b766f26aac4e1ec09a13733e0b612a4def82",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/outputs/delivery-manifest.json",
+      "bytes": 247,
+      "sha256": "81124963132c20952ff13a22f8d7e9045ce3c3685ad50905df55e4958434de7d",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/outputs/verification-report.json",
+      "bytes": 10693,
+      "sha256": "4e74e1c009b933ca50a2c699c27ed83b7f0f9e2fdfc60498993878269b04d876",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/README.md",
+      "bytes": 7306,
+      "sha256": "2e48da9dcdca136ec6a8ece2e4f5239a95f6f3431865be47043763bd10006254",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/geometry.py",
+      "bytes": 10620,
+      "sha256": "e4010cc19c9349e30e64ba7a53a0a8a22b3201829c4db9fbe007fe99aedd25e8",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/outputs/assembly-verification.json",
+      "bytes": 185575,
+      "sha256": "8862568a26e6589a54abb9c047c132d72c4bf8fb6b6fedcf5c152fbdecf1f148",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/outputs/delivery-manifest.json",
+      "bytes": 3835,
+      "sha256": "56f2ddecfdb26f4135e79a07c1604c55e91a8cfda2da05985d04ded8b3c7324b",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/outputs/parts-verification.json",
+      "bytes": 18211,
+      "sha256": "291a4c760718e2a0fb66ced22368b6582dbb89a006f5a9cdfd2f9b517cadd076",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/package_delivery.py",
+      "bytes": 2473,
+      "sha256": "6825519e62ec79cbc88309ae5678c63b8d6a7120f395a2468d11a1d0d696472f",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/parameters.json",
+      "bytes": 753144,
+      "sha256": "caf3bb4b742cc5240f1503fa828f0ffb5a2579b8bff0cdf9dd914f28f42de8ed",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/prepare.py",
+      "bytes": 3427,
+      "sha256": "c1cf3d93db7f19b38082c4bd1639eb63ab1486a4a7776a0fb4acf69de975bb25",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/render_views.py",
+      "bytes": 1994,
+      "sha256": "2ffcbf6fb8ffe4ae22894046623b484ce7373c8ce35d03f73e16450ffafa0d75",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/route/README.md",
+      "bytes": 4429,
+      "sha256": "4443b61d8f3c59a2beed2dfbb1f1457a6e00fee5870fc2247036745e58912056",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/route/build_fpc_route.py",
+      "bytes": 13900,
+      "sha256": "c0500e17ef9e79d3a56e18a1f7eb6eadcdba31928bdb548bcc72660f76b1933c",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/route/fpc60-route.json",
+      "bytes": 612525,
+      "sha256": "7c9c891c7b8130d5b26812470ecf0e8d26bc894cd00190362e5bdabaa05a7d24",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/verify_assembly.py",
+      "bytes": 4961,
+      "sha256": "7b38900398a479dad890a492272f4b82c7411a63aa44da365f6dfce6580c45c0",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R2_FPC60/verify_parts.py",
+      "bytes": 20347,
+      "sha256": "15741cc611e86692c003ef91387ade8560800b7557ef84e4568038cf1a69f077",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/README.md",
+      "bytes": 4754,
+      "sha256": "cf8fa59765b6c5ed828aeb606057b05b9945837f24659870cbcd95cdd4f0aabc",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf",
+      "bytes": 6156949,
+      "sha256": "7b0e46071d452e26ab985766fbfee0fd17e8bb84ea0c6ce7b47b5f6eaa25fa62",
+      "role": "assembly_guide",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/assets/00_assembled.png",
+      "bytes": 1690366,
+      "sha256": "41a53aace06385d2fc09cca07873e73a8fb4632ac88e400b5a77cc1a7a9e3226",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/assets/01_upper_mounts.png",
+      "bytes": 1425769,
+      "sha256": "24e9369ac33ad375b563faa58efb27c95951c2996af1b70970b46978c87a9cca",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/assets/02_pcb_stack.png",
+      "bytes": 1226890,
+      "sha256": "298c83348f6267a1c09ecba90e69b61eee86572391653dc49ee07f190c4d53af",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/assets/03_fpc_route.png",
+      "bytes": 2059862,
+      "sha256": "730300ec4eaeee8bfa11a0501a6156a88abd1a756d738496e52bf3c17194f0d5",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/assets/04_battery.png",
+      "bytes": 1416628,
+      "sha256": "054e1b5cffbd59f8fb22cbe8f34d8b9e9e54a3012bd937eee6495af00bcb8f62",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/assets/diagram-points.json",
+      "bytes": 7651,
+      "sha256": "3d6876843a34c6848058855e2f0742bc37c4bf0856d6eafc611ba8c70cf8c825",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/build_pdf.py",
+      "bytes": 12948,
+      "sha256": "becfc8e2dcf5b8d3c6a90dd6c04fd63fee4e9dd5381438718353162ef572294d",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/delivery-check.json",
+      "bytes": 539,
+      "sha256": "3fb6462daf6ca90addae4d9692df0faf82265ee2cb538921340edcf6b741ea73",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/layout-check.json",
+      "bytes": 213,
+      "sha256": "6c9361a05eae8af894c3993e5a3470f7b611de34d1758b4f279c3bf80798ebe3",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/assembly_guide/render_diagrams.py",
+      "bytes": 6584,
+      "sha256": "9cc4186797f279c010b9ebf4c3f4f9416895d5a05c68ba7373c3333efaed2878",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/geometry.py",
+      "bytes": 3335,
+      "sha256": "cff4719858b1fe8dfec7caebabb6b1c17a6f5b9204e7f66994dfe5d83f9c9fbd",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/outputs/assembly-verification.json",
+      "bytes": 185956,
+      "sha256": "b41cace3d9eef137a790d495bb0b5dab7ffbb106f315f3c42fa382fbef4a56b7",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/outputs/delivery-manifest.json",
+      "bytes": 4354,
+      "sha256": "f542af0380cc5e522791583877a9f9b982321b44b93034e29ef91984ac52e8f3",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/outputs/ear-root-verification.json",
+      "bytes": 12789,
+      "sha256": "5dbe47f18682ae2fffb25b35c44d719e72cc62bf215b5f754e9a82b0d35e58b6",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/outputs/parts-verification.json",
+      "bytes": 21791,
+      "sha256": "e6d0f79282b1d9c43f029e9323fd1113087fc4d07878fa110ac097f2ea21ee6a",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/package_delivery.py",
+      "bytes": 3323,
+      "sha256": "e9048ee0696016df34a9d789a689bb6406a1cff9eb20cc0831333762f7e8dae3",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/parameters.json",
+      "bytes": 1088,
+      "sha256": "c17caf7c222249a34a700218ab7a422fa295d48a70a9ef95b5b94164523e2e84",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/prepare.py",
+      "bytes": 2104,
+      "sha256": "33e62bb824f54d9ef54466e3e7db894f85dd0f193fd44b7f316fb11c47eaa659",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/render_support.py",
+      "bytes": 1670,
+      "sha256": "6c6bdfa476110f6d49a545b653b20176328d6ba5ac896d02cdc8e0507e33735c",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/update_assembly.py",
+      "bytes": 2668,
+      "sha256": "7d4cb8c8e75b1ddd5a9ed92cb42f61c3be0680d88a1746d287477108a299e18d",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/verify_ear_roots.py",
+      "bytes": 10775,
+      "sha256": "ab87ad3f6ed6d4a4b2a0885816304276a3eabd7b8322882c49e0959cc5743db3",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/revisions/R3_EAR_REINFORCED/verify_parts.py",
+      "bytes": 10607,
+      "sha256": "ecc72f4ad8bdb2f5a4932cd6e8723ee449385885b65cb4e40db8aec450f2b428",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/scripts/build_model_blender.py",
+      "bytes": 11741,
+      "sha256": "fe896369dd689ca8fe6eaeb99cf52d2b164940ecc19cdc69d556e6e7b1a9f07c",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/scripts/package_delivery.py",
+      "bytes": 2317,
+      "sha256": "acc16b10a0ca8c7783bf27bc619747220eb8f47dac5d61eff84496e1c12e2881",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/scripts/prepare_model.py",
+      "bytes": 2479,
+      "sha256": "b2229086c908f517c7f6d4256114901da94d37bc0a196b27370b4f71737aea21",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/scripts/render_and_save.py",
+      "bytes": 1962,
+      "sha256": "dcf5c72ca05010f8c8b7355061ea6d0a7911d6b6e31e88ca6eb6144372ae8de7",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/scripts/verify_and_package.py",
+      "bytes": 12476,
+      "sha256": "6f65ed589c208f0b16ae15627bc995d1da0c66415ac14b505ff4672bc6451764",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/scripts/verify_assembly_blender.py",
+      "bytes": 3652,
+      "sha256": "d2e3f5261799f25f854642449d0db1314afece14d3e1bce83e3395ca58246a04",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/README.md",
+      "bytes": 2935,
+      "sha256": "7de94e522d26277ed068d7793eb9ee6bc5e913466fabdb3447d730ba4e33ae47",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/README.md",
+      "bytes": 3014,
+      "sha256": "6911ac2b72c023698b1699c311b9b9263e05a7ea36ec861e29331c1fd512367f",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.3mf",
+      "bytes": 24883084,
+      "sha256": "cd8df7f6f857af53cdfa2d0352d94bffde3ae575c4d468db19d49f8a0a85d961",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.blend",
+      "bytes": 96913574,
+      "sha256": "d33941b56a72365c68a8d3a14e89f2dd6611a3982209d1a27b804aad98f41901",
+      "role": "editable_design",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm.stl",
+      "bytes": 77164884,
+      "sha256": "081042eb3c2785793dc5ac910e28c21955c1761a3f301e11c4b115fb002ec813",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm_bottom.png",
+      "bytes": 818570,
+      "sha256": "61c0623bc53672b3114b1e55c4e95cce515edd866fd7b5d3a115b266a3b2d4b5",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/Hi3D_30mm_preview.png",
+      "bytes": 1064341,
+      "sha256": "5a3e2513976bc7f6362ed201d22fcd48fe96775cd2dcc870ff0c6186d3416596",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/README.md",
+      "bytes": 1826,
+      "sha256": "0bcab10af08025cdcb5f00b0be92dddb524918783cd2f5cff89f3c8ffb348fb6",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/deliverables/Hi3D_30mm/independent_mesh_check.json",
+      "bytes": 1737,
+      "sha256": "a2f60d66d1ffcc35a19b89cec4b0d12e6ced85c0b3e15f9095a083d45be502de",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/edit_in_blender.py",
+      "bytes": 3324,
+      "sha256": "1053a75ed66b4649d09e6fe393d3aafc647c85109b1934948573e49117799b29",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/independent_mesh_check.json",
+      "bytes": 1737,
+      "sha256": "a2f60d66d1ffcc35a19b89cec4b0d12e6ced85c0b3e15f9095a083d45be502de",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/inspect_blender.py",
+      "bytes": 3046,
+      "sha256": "d6fc45417df611a37614a8a99b3035d74542eb221493fbd40a957402f98e5459",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-30mm/render_result.py",
+      "bytes": 1533,
+      "sha256": "a69c8183441683b64825da5001ed775e889f0a977a8832d94a0f1baf72d0bb85",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/Beaver_30mm_mesh_check.json",
+      "bytes": 1702,
+      "sha256": "db6c84cfb5da0977fc4225503ae9cf8285f817f8b159b4aee70d3dff02fdb043",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/Owl_30mm_mesh_check.json",
+      "bytes": 1700,
+      "sha256": "0a75a2fd8a2f0f56346f372e2a603dde23bef891db550cbcaa7a89ba25ed7f23",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/README.md",
+      "bytes": 3928,
+      "sha256": "bd979858d6f4f39e2d7cc65e0de39bb5b59ed70938905fc86f0ebaeb952c90bc",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/Turtle_30mm_mesh_check.json",
+      "bytes": 1702,
+      "sha256": "5da4b0f61055ded039d50cc6406cbbd8fd66a5a9590a4db822f1bae58b052e32",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.3mf",
+      "bytes": 23624752,
+      "sha256": "c38fc6e85079771cca7e43fba87670b08048480d3638666d4bce9a94cf8687bc",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.blend",
+      "bytes": 94381085,
+      "sha256": "6fbff3c7226b136d1de999457888ae61927be60fc79e8230ee1e95c993e3701a",
+      "role": "editable_design",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm.stl",
+      "bytes": 71636784,
+      "sha256": "5c2d4add781f3aae6502cb48353999da7812408c88397366175775e4c4433a4b",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm_bottom.png",
+      "bytes": 534804,
+      "sha256": "5988a074dd1dbb695eb2d9fda5867a7a35fb3a799f8dd97a84490efad41786c7",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm_mesh_check.json",
+      "bytes": 1702,
+      "sha256": "db6c84cfb5da0977fc4225503ae9cf8285f817f8b159b4aee70d3dff02fdb043",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Beaver_30mm_preview.png",
+      "bytes": 767204,
+      "sha256": "0c7b1531eb4b95d9e29125f01e6405fb057f749eee3bd18804bcf2be101bbe8c",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm.blend",
+      "bytes": 291626525,
+      "sha256": "4e5a7744efff247ea35c52c61f171248a790f83f5006724f6d091f2ddad6efcc",
+      "role": "editable_design",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm_Print.zip",
+      "bytes": 75015620,
+      "sha256": "43dc30ad909893703039c2ac500db09d7ea37badf564617e82196e1cf6928e4a",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.3mf",
+      "bytes": 26663487,
+      "sha256": "a7322b8b6c1e31a7c337a0bd213ef5da8668289b9b5b3a9aa9e4820bce0ffb8d",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.blend",
+      "bytes": 100255492,
+      "sha256": "3ef35433416dac99ae3c4de9a4166fd8142b25f20d269bde6e0375a4d193780b",
+      "role": "editable_design",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm.stl",
+      "bytes": 82581484,
+      "sha256": "d444832c9a14b66619986f540a36a94b226f2527ffa395ed8ecc5a517a932e68",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm_bottom.png",
+      "bytes": 532659,
+      "sha256": "712127a871cb85febc2a35db5afe33566380135d346e2ba061f53a94e33195e5",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm_mesh_check.json",
+      "bytes": 1700,
+      "sha256": "0a75a2fd8a2f0f56346f372e2a603dde23bef891db550cbcaa7a89ba25ed7f23",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Owl_30mm_preview.png",
+      "bytes": 781492,
+      "sha256": "4a52f1b74aa70eedaabfb91149e3f530c4b1c3f8a0850ea857db493cb6c4f114",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/README.md",
+      "bytes": 2043,
+      "sha256": "02b8a3363ff08b0540914b402e21f55b888895cbb10691d846445b158c0354dc",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Three_Tokens_Blender_Overview.png",
+      "bytes": 248250,
+      "sha256": "0b00ebf025127d78b07107e5a947049953c97be4b6fac619de3e1b29e6c21b2a",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.3mf",
+      "bytes": 24719422,
+      "sha256": "c95dda7f1c87853978967184ba565159965af858dbe6c97f52cb46cf888933eb",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.blend",
+      "bytes": 97199231,
+      "sha256": "fa5648fa9ba319ed6736cca676df4eabce7c857f2f4ceb07f241dc126d36ec03",
+      "role": "editable_design",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm.stl",
+      "bytes": 76853384,
+      "sha256": "a76d6a3d17dc3ed2e5b6aca5b8715eeacea33c0780582d960e2a15fb725bfa6e",
+      "role": "print_model",
+      "revision_status": "current_30mm_tokens_print_validation_pending"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm_bottom.png",
+      "bytes": 533827,
+      "sha256": "9d673cc9cc5793d3974fa1deb46fdcd4ca97ffa8be25eee5ecf393ef7d7d1215",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm_mesh_check.json",
+      "bytes": 1702,
+      "sha256": "5da4b0f61055ded039d50cc6406cbbd8fd66a5a9590a4db822f1bae58b052e32",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Turtle_30mm_preview.png",
+      "bytes": 791227,
+      "sha256": "60e2404077d1b529adddec5a00187747341866bf7750cb80102d7a35c724a16d",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/edit_2.py",
+      "bytes": 3452,
+      "sha256": "a66864da7c28c5da11cb160c8dfe38bd384e0335bd5988913cde1003d8ae6981",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/edit_3.py",
+      "bytes": 3426,
+      "sha256": "f06f922bcf2820c4c2da114f61d4b8beca07170812ad0159d37c0546f3184c8b",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/edit_5.py",
+      "bytes": 3448,
+      "sha256": "576eaf3ea3cbbb7edc06d1d90e824e5313ad05693064c8f873fdeef94f704439",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/measured_parameters.json",
+      "bytes": 7174,
+      "sha256": "db67387858984633e58ac5a4d2db95fdc6827faf1bcbdeba42d2d16dc866ece6",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/save_individual_blend.py",
+      "bytes": 909,
+      "sha256": "6e51559df8a1cb9022ee01b4a5e7d7d2e01ef0f21f37bca32b8ec1865e22220f",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-monochrome-v2/01-fox-trader.png",
+      "bytes": 1341196,
+      "sha256": "1abf92bed729b87d5570c5b1dd08ea0a2c319a03cd489e3b425fb395860b0529",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-monochrome-v2/02-beaver-builder.png",
+      "bytes": 1422454,
+      "sha256": "62fa421c4be5587c125af00b102455ec34c7ca1afe3d082a829851adbd7797f6",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-monochrome-v2/03-owl-planner.png",
+      "bytes": 1476116,
+      "sha256": "4e4f067b8f58bb4593f66110f5eaa328ac07eb397864ffbeefab4313d4f6a9f0",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-monochrome-v2/04-turtle-gardener.png",
+      "bytes": 1400772,
+      "sha256": "c3ec9f90f76dd5ff6436d7b1612a9f9aacfb7e8a3fb10796c3ffa9dd77ef2d09",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-monochrome-v2/README.md",
+      "bytes": 1205,
+      "sha256": "03e12d0c43d43bd5fdf1ddf7752ff4bbc8673c552259d2ae361d2d89ed6cdc4f",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-monochrome-v2/prompts.json",
+      "bytes": 8674,
+      "sha256": "9b40699d6a05ab053657c51b086369cb5a905a571e4844c3d0ebb578fffc4d32",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-v1/01-fox-trader.png",
+      "bytes": 1187167,
+      "sha256": "d3728389c92d66c521f6cd908fcdd5b6c9ad00cb083f6cc84e6a8e7e7ca0506f",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-v1/02-beaver-builder.png",
+      "bytes": 1250869,
+      "sha256": "57d684ea8f541fc07f1cacfd37c1a62f61d1a7d96e3d18f2ae59dd23a66a6758",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-v1/03-owl-planner.png",
+      "bytes": 1407330,
+      "sha256": "38d46fd698686930be8f4ddfba5cef8c261a1cc6728e74f6f4739d9d906e630b",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-v1/04-turtle-gardener.png",
+      "bytes": 1221162,
+      "sha256": "7f8804357092ef32d0e2c62767de86957c30abfe32eceb5618bdb0eafedea243",
+      "role": "reference_or_preview",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-v1/README.md",
+      "bytes": 1882,
+      "sha256": "e3650acd7885f87931c0e56427197646044edc143724f3e3c62e165ae85095da",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/animal-team-v1/prompts.json",
+      "bytes": 12807,
+      "sha256": "79dd3700e47fc41c48150533becbbe1c5164d1ec06ffa37faf444083a39013d9",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/gridopoly-four-token-monochrome-v2.zip",
+      "bytes": 5593447,
+      "sha256": "a407491c87b4c3f1e0e231dee80a2df96211cb7d5179148f7b6c6dc0f754ef40",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/gridopoly-four-token-references-v1.zip",
+      "bytes": 5019989,
+      "sha256": "beb0eb909031a4587bfeb6a4e98d6ca26e2d9bbe73a59953b50209845c20665f",
+      "role": "frozen_bundle",
+      "revision_status": "historical_frozen_bytes_preserved"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(2).3mf",
+      "bytes": 32710807,
+      "sha256": "235586cd28aad82d748cc284f6e259c2669dd8f0580619f9df076907f1b05c4f",
+      "role": "original_input",
+      "revision_status": "original_not_ready_to_print"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(3).3mf",
+      "bytes": 32644583,
+      "sha256": "62575e3c3da368eb3b6986e7e38ef3b59f7820c0a53c8f5e4e6657a91a90d360",
+      "role": "original_input",
+      "revision_status": "original_not_ready_to_print"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(4).3mf",
+      "bytes": 32644583,
+      "sha256": "62575e3c3da368eb3b6986e7e38ef3b59f7820c0a53c8f5e4e6657a91a90d360",
+      "role": "original_input",
+      "revision_status": "original_not_ready_to_print"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(5).3mf",
+      "bytes": 32852897,
+      "sha256": "978571ab7ef4ccfc18fcd85ddcfa71d06b8dce06815cfedd0559764a03ce5ca7",
+      "role": "original_input",
+      "revision_status": "original_not_ready_to_print"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D.3mf",
+      "bytes": 32294751,
+      "sha256": "416b46176e5286be2bd3acf91db77569f91822ed1d717cf09cfcfcc5f2f263cc",
+      "role": "original_input",
+      "revision_status": "original_not_ready_to_print"
+    },
+    {
+      "path": "Mechanical/README.md",
+      "bytes": 5801,
+      "sha256": "16ecccb2179d5cec1d0dcc705f98653a8990fa1fc4aad1a2d3af508d531d45db",
+      "role": "documentation",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/model-archive-check.json",
+      "bytes": 6729,
+      "sha256": "107b740df22bc5ec51fb2447c10cf6be16536df96142075d4e2ec8527bc480de",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/model-assets-inventory.json",
+      "bytes": 72115,
+      "sha256": "3f731e5793155d9a3a05f8c8966affc786c84fe45ade85f3a65b48a2c78f0510",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/model-path-updates.json",
+      "bytes": 4539,
+      "sha256": "c3d60b96904391e54848cef53f64c18b1763d7fd555d55d549ce0f40333620e1",
+      "role": "parameters_or_evidence",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/tools/build_publication_inventory.py",
+      "bytes": 10949,
+      "sha256": "dd456c9276ac958995af3928609c20881919dcdf1fd3b0318b5d2e73d36f887a",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    },
+    {
+      "path": "Mechanical/tools/consolidate_model_assets.py",
+      "bytes": 4768,
+      "sha256": "10b69aa6b56a00545dedda70312a2831882a8e037c5ceaca5a4a6ba388c9e7d2",
+      "role": "source_or_validation_script",
+      "revision_status": "supporting_material"
+    }
+  ],
+  "same_bytes_groups": [
+    {
+      "sha256": "2a7c0c22188f0ed0ce5c72aa480c805cdd2abe19124f21b61eeb8994a8d8fcd6",
+      "paths": [
+        "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.blend",
+        "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.blend"
+      ]
+    },
+    {
+      "sha256": "45564e74a329e79ca2ecb9beb63ce78de9ca942397f3b1185495aec2e1ea70d7",
+      "paths": [
+        "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl",
+        "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.stl"
+      ]
+    },
+    {
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.3mf",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.3mf"
+      ]
+    },
+    {
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/01_Connection_Plate_R2.stl",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/01_Connection_Plate_R2.stl"
+      ]
+    },
+    {
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.3mf",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.3mf"
+      ]
+    },
+    {
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/03_Battery_Cradle_R2.stl",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/03_Battery_Cradle_R2.stl"
+      ]
+    },
+    {
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.3mf",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.3mf"
+      ]
+    },
+    {
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/04_Battery_Lid_R2.stl",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/04_Battery_Lid_R2.stl"
+      ]
+    },
+    {
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.3mf",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.3mf"
+      ]
+    },
+    {
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732",
+      "paths": [
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60/05_Spacer_6mm_R2.stl",
+        "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/05_Spacer_6mm_R2.stl"
+      ]
+    },
+    {
+      "sha256": "62575e3c3da368eb3b6986e7e38ef3b59f7820c0a53c8f5e4e6657a91a90d360",
+      "paths": [
+        "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(3).3mf",
+        "Mechanical/PlayerTokens/sources/hi3d-originals/Hi3D(4).3mf"
+      ]
+    }
+  ],
+  "excluded_files": [
+    {
+      "path": "Mechanical/.gitattributes",
+      "bytes": 13,
+      "reason": "coordinator_managed_git_attributes_not_in_this_staging_list"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1/Gridopoly_Full16_R1.blend1",
+      "bytes": 1550697,
+      "reason": "automatic_recovery_backup; corresponding final Blender design is included",
+      "sha256": "353c331f5b902aefbe9c2b2f8992dd2bc7ca1197f9601d0bdc06a058acaa6570"
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE/Gridopoly_OnePiece_Corner_Test_R1.blend1",
+      "bytes": 281949,
+      "reason": "automatic_recovery_backup; corresponding final Blender design is included",
+      "sha256": "b8a4b2dd2765e343ede2fbbfa0736c3879ef52fa203483a1b98192d235fb85ff"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.blend1",
+      "bytes": 178669,
+      "reason": "automatic_recovery_backup; corresponding final Blender design is included",
+      "sha256": "53cb00c3ce02f5b7667edcebb3eac53825a957c2a899e0fe3289d581fd07d361"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/__pycache__/build_stand.cpython-313.pyc",
+      "bytes": 44930,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/__pycache__/render_stand.cpython-313.pyc",
+      "bytes": 12819,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/__pycache__/stand_parameters.cpython-313.pyc",
+      "bytes": 6962,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/__pycache__/stand_parameters.cpython-314.pyc",
+      "bytes": 9520,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/scripts/__pycache__/verify_stand.cpython-313.pyc",
+      "bytes": 46048,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_build_contract.cpython-313.pyc",
+      "bytes": 6997,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_build_contract.cpython-314-pytest-8.4.2.pyc",
+      "bytes": 7434,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_geometry_build.cpython-313.pyc",
+      "bytes": 17397,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_geometry_build.cpython-314-pytest-8.4.2.pyc",
+      "bytes": 17927,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_render_outputs.cpython-313.pyc",
+      "bytes": 4584,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_render_outputs.cpython-314-pytest-8.4.2.pyc",
+      "bytes": 4801,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_stand_parameters.cpython-313.pyc",
+      "bytes": 13058,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_stand_parameters.cpython-314-pytest-8.4.2.pyc",
+      "bytes": 14460,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_stand_parameters.cpython-314.pyc",
+      "bytes": 13687,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_verify_stand.cpython-313.pyc",
+      "bytes": 19368,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStand/tests/__pycache__/test_verify_stand.cpython-314-pytest-8.4.2.pyc",
+      "bytes": 20586,
+      "reason": "runtime_cache"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1/Gridopoly_Player_Stand_V2_R1.blend1",
+      "bytes": 790879,
+      "reason": "automatic_recovery_backup; corresponding final Blender design is included",
+      "sha256": "d509fbd48a870ea5f8bbc0c3f978b67f30edc98f97bb040df382f855189d7a05"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend1",
+      "bytes": 387499,
+      "reason": "automatic_recovery_backup; corresponding final Blender design is included",
+      "sha256": "45770021b9674ff719ef7969d57c911b9fc35f7f5694fb0dfa1eeee6b54f9278"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Screen_Support_R3_Working.blend",
+      "bytes": 3587843,
+      "reason": "intermediate_checkpoint; corresponding final Blender design is included",
+      "sha256": "a703f3da6b33e03a24da8ce8fa01a95baf8eac5a541bf78cb99a4a88330f45b7"
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED/Screen_Support_R3_Working.blend1",
+      "bytes": 3481489,
+      "reason": "automatic_recovery_backup; corresponding final Blender design is included",
+      "sha256": "2f052a43779fd3f5da64f496c19b5d908e554997ffb2e645e1198ba31a0881b5"
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_Working.blend",
+      "bytes": 291637113,
+      "reason": "intermediate_checkpoint; corresponding final Blender design is included",
+      "sha256": "cae06b5d829a2594c24921ee3a664e58ddf514a1d50670c8578aff2c899f8ad5"
+    }
+  ],
+  "zip_crc_checks": [
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Full16_R1.zip",
+      "entries": 17,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R1_ONE_PIECE.zip",
+      "entries": 12,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/BoardBase/deliverables/Gridopoly_BoardBase_Test_R2_PRINT_FRIENDLY.zip",
+      "entries": 15,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/corner-current-Gerber.zip",
+      "entries": 20,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/evidence/long-current-Gerber.zip",
+      "entries": 20,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1.zip",
+      "entries": 22,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60.zip",
+      "entries": 20,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip",
+      "entries": 23,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/PlayerTokens/models/hi3d-remaining-30mm/deliverables/Gridopoly_30mm_Remaining/Gridopoly_Three_Tokens_30mm_Print.zip",
+      "entries": 7,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/gridopoly-four-token-monochrome-v2.zip",
+      "entries": 6,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    },
+    {
+      "path": "Mechanical/PlayerTokens/references/gridopoly-four-token-references-v1.zip",
+      "entries": 6,
+      "crc": "PASS",
+      "backups_inside_frozen_bundle": []
+    }
+  ],
+  "generated_metadata_files": [
+    "Mechanical/PUBLICATION.md",
+    "Mechanical/public-model-inventory.json",
+    "Mechanical/publish-ignored-paths.txt",
+    "Mechanical/publish-paths.txt"
+  ],
+  "ignored_formal_paths": [
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.blend",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW50.blend",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_CW50.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/Gridopoly_Player_Console_Stand_M4_Pin_Down.stl",
+    "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.blend",
+    "Mechanical/PlayerConsoleStand/outputs/models/round_display_test_stand.stl",
+    "Mechanical/PlayerConsoleStand/outputs/renders/Gridopoly_Player_Console_Stand_CW47_5_interface.png",
+    "Mechanical/PlayerConsoleStand/outputs/renders/Gridopoly_Player_Console_Stand_CW50_interface.png",
+    "Mechanical/PlayerConsoleStand/outputs/renders/stand_assembled.png",
+    "Mechanical/PlayerConsoleStand/outputs/renders/stand_print.png",
+    "Mechanical/PlayerConsoleStand/outputs/reports/dimensions.json",
+    "Mechanical/PlayerConsoleStand/outputs/reports/dimensions.txt"
+  ],
+  "limits": [
+    "No CAD rebuild, geometry edits, repackaging, license changes or Git writes.",
+    "Byte and CRC verification does not constitute physical print/assembly validation.",
+    "Generated metadata excludes its own hashes to avoid recursive checksums.",
+    "Root README, LFS configuration, commits, upload and remote verification belong to the coordinator."
+  ]
+}

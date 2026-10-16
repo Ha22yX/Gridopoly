@@ -2,7 +2,7 @@
 
 **当前候选：2026-10-15 [R3安装耳加固版](revisions/R3_EAR_REINFORCED/README.md)。** R3修复用户在切片中发现的左安装耳几乎断开问题：仅替换02屏幕支架，01连接板、03电池仓、04仓盖和05隔柱与R2原件完全相同。约60mm排线、10.3mm电池厚度及四个PCB原孔沿用R2；实际打印与整机试装仍待确认。[R2说明](revisions/R2_FPC60/README.md)保留作为其余零件和装配步骤参考。
 
-正式交付已归档至项目：R3 全部模型与 Blender 工程（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED`）、R3 ZIP（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip`）、[6 页中文图文装配 PDF](revisions/R3_EAR_REINFORCED/assembly_guide/Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf)。全部版本（本地 `Mechanical/PlayerConsoleStandV2/deliverables`）保留 R1/R2/R3；后续文件默认保存项目，Downloads 仅作为额外副本。
+正式交付已归档至项目：R3 全部模型与 Blender [工程](deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED)、R3 [ZIP](deliverables/Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.zip)、[6 页中文图文装配 PDF](revisions/R3_EAR_REINFORCED/assembly_guide/Gridopoly_Player_Stand_R3_Assembly_Guide_CN.pdf)。[全部版本](deliverables)保留 R1/R2/R3；全部公开范围与下载方式见[机械总入口](../README.md)；后续文件默认保存项目。
 
 以下为**R1历史记录**。其较高夹层结构不适合当前60mm排线，不要混用R1隔柱、M3×35螺丝或排线路径作为R2装配依据；R1文件和归档包保留。
 
@@ -14,7 +14,7 @@
 
 ## 模型和资料
 
-历史 R1 项目交付目录：Gridopoly_Player_Stand_V2_R1（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R1`）。
+历史 R1 项目交付目录：[Gridopoly_Player_Stand_V2_R1](deliverables/Gridopoly_Player_Stand_V2_R1)。
 
 | 文件 | 用途 | 数量 |
 | --- | --- | --- |

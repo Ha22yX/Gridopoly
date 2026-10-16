@@ -1,0 +1,47 @@
+{
+  "mode": "built-in imagegen edit",
+  "jobs": [
+    {
+      "name": "01-fox-trader",
+      "path": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-v1/01-fox-trader.png",
+      "prompt": "Use case: precise-object-edit. Input image is the edit target: preserve this exact animal character, pose, broad proportions, accessory, circular base, camera angle, framing and white background. Convert the entire figurine, INCLUDING eyes, pupils, nose, clothes, accessory and base, to ONE uniform light neutral-gray matte resin material, as an unpainted single-material 3D printed sculpture. This must not merely be a grayscale photograph: eliminate every painted dark/light color patch and every contrasting material. No black eyes or white eyes, no painted highlights, no separate metallic parts. Express the friendly eyes and face using simple shallow sculpted relief and recesses in the SAME gray material; all visible tonal differences must come only from lighting on geometry. Retain bold geometric recognition features. Smooth solid surfaces with no simulated print layer lines. Keep accessories thick and joined to body, feet joined to the attached circular pedestal, whole sculpture as a visually continuous one-piece form. White seamless background, soft directional studio light revealing the relief, faint contact shadow. One complete single figure only, no text, no annotations, no extra views. Reference for image-to-3D modeling; conceptual base diameter 30 mm, flat underside, no tag visible. Preserve the overall existing geometry except small relief adjustments necessary for a single-color face.\n\nPreserve the fox ears, muzzle, thick tail resting on the base, short jacket and tablet held against belly. Inner ears may be shallow inset shapes, eyes simple sculpted ovals; nose and tablet also same matte gray."
+    },
+    {
+      "name": "02-beaver-builder",
+      "path": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-v1/02-beaver-builder.png",
+      "prompt": "Use case: precise-object-edit. Input image is the edit target: preserve this exact animal character, pose, broad proportions, accessory, circular base, camera angle, framing and white background. Convert the entire figurine, INCLUDING eyes, pupils, nose, clothes, accessory and base, to ONE uniform light neutral-gray matte resin material, as an unpainted single-material 3D printed sculpture. This must not merely be a grayscale photograph: eliminate every painted dark/light color patch and every contrasting material. No black eyes or white eyes, no painted highlights, no separate metallic parts. Express the friendly eyes and face using simple shallow sculpted relief and recesses in the SAME gray material; all visible tonal differences must come only from lighting on geometry. Retain bold geometric recognition features. Smooth solid surfaces with no simulated print layer lines. Keep accessories thick and joined to body, feet joined to the attached circular pedestal, whole sculpture as a visually continuous one-piece form. White seamless background, soft directional studio light revealing the relief, faint contact shadow. One complete single figure only, no text, no annotations, no extra views. Reference for image-to-3D modeling; conceptual base diameter 30 mm, flat underside, no tag visible. Preserve the overall existing geometry except small relief adjustments necessary for a single-color face.\n\nPreserve the beaver hardhat, broad front teeth with center groove, work vest, hugged building block and flat broad tail. Teeth and hat also the very same matte gray. Keep hat brim thick and attached."
+    },
+    {
+      "name": "03-owl-planner",
+      "path": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-v1/03-owl-planner.png",
+      "prompt": "Use case: precise-object-edit. Input image is the edit target: preserve this exact animal character, pose, broad proportions, accessory, circular base, camera angle, framing and white background. Convert the entire figurine, INCLUDING eyes, pupils, nose, clothes, accessory and base, to ONE uniform light neutral-gray matte resin material, as an unpainted single-material 3D printed sculpture. This must not merely be a grayscale photograph: eliminate every painted dark/light color patch and every contrasting material. No black eyes or white eyes, no painted highlights, no separate metallic parts. Express the friendly eyes and face using simple shallow sculpted relief and recesses in the SAME gray material; all visible tonal differences must come only from lighting on geometry. Retain bold geometric recognition features. Smooth solid surfaces with no simulated print layer lines. Keep accessories thick and joined to body, feet joined to the attached circular pedestal, whole sculpture as a visually continuous one-piece form. White seamless background, soft directional studio light revealing the relief, faint contact shadow. One complete single figure only, no text, no annotations, no extra views. Reference for image-to-3D modeling; conceptual base diameter 30 mm, flat underside, no tag visible. Preserve the overall existing geometry except small relief adjustments necessary for a single-color face.\n\nPreserve owl facial discs, short beak, short ear tufts, compact folded wings and chunky rolled map. Eyes and map must be sculpted in the same gray material. Simplify the roll end to shallow spiral relief rather than a deep opening."
+    },
+    {
+      "name": "04-turtle-gardener",
+      "path": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-v1/04-turtle-gardener.png",
+      "prompt": "Use case: precise-object-edit. Input image is the edit target: preserve this exact animal character, pose, broad proportions, accessory, circular base, camera angle, framing and white background. Convert the entire figurine, INCLUDING eyes, pupils, nose, clothes, accessory and base, to ONE uniform light neutral-gray matte resin material, as an unpainted single-material 3D printed sculpture. This must not merely be a grayscale photograph: eliminate every painted dark/light color patch and every contrasting material. No black eyes or white eyes, no painted highlights, no separate metallic parts. Express the friendly eyes and face using simple shallow sculpted relief and recesses in the SAME gray material; all visible tonal differences must come only from lighting on geometry. Retain bold geometric recognition features. Smooth solid surfaces with no simulated print layer lines. Keep accessories thick and joined to body, feet joined to the attached circular pedestal, whole sculpture as a visually continuous one-piece form. White seamless background, soft directional studio light revealing the relief, faint contact shadow. One complete single figure only, no text, no annotations, no extra views. Reference for image-to-3D modeling; conceptual base diameter 30 mm, flat underside, no tag visible. Preserve the overall existing geometry except small relief adjustments necessary for a single-color face.\n\nPreserve turtle rounded head, domed shell, belly panels, short limbs and three rounded shell leaves. Shell, belly, eyes, leaves and base all exactly the same gray material. Keep leaves thick with broad attachment to shell."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "01-fox-trader",
+      "source": "C:\\Users\\kicof\\.codex\\generated_images\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\exec-d56576a2-37ae-47a0-bc0b-aef720b080b8.png",
+      "destination": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-monochrome-v2/01-fox-trader.png"
+    },
+    {
+      "name": "02-beaver-builder",
+      "source": "C:\\Users\\kicof\\.codex\\generated_images\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\exec-c8cdde6f-d63c-437d-b423-9bac4512dbf5.png",
+      "destination": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-monochrome-v2/02-beaver-builder.png"
+    },
+    {
+      "name": "03-owl-planner",
+      "source": "C:\\Users\\kicof\\.codex\\generated_images\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\exec-91b91849-cbc7-43d8-aeeb-abefb0b3e70f.png",
+      "destination": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-monochrome-v2/03-owl-planner.png"
+    },
+    {
+      "name": "04-turtle-gardener",
+      "source": "C:\\Users\\kicof\\.codex\\generated_images\\01a0f687-eeae-7d61-bbbb-cbb5a98a7b33\\exec-16523c28-4aba-48a2-a6e5-4a9d130ebb2c.png",
+      "destination": "Z:/Files/我的项目/Gridopoly/Mechanical/PlayerTokens/references/animal-team-monochrome-v2/04-turtle-gardener.png"
+    }
+  ]
+}

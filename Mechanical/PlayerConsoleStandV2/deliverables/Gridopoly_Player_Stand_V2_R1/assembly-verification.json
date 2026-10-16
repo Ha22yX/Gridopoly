@@ -1,0 +1,2485 @@
+{
+  "status": "PASS for modelled envelopes; actual cable and component heights still require fitting",
+  "scene_count": 1,
+  "collision_pairs_checked": 489,
+  "overlap_tolerance_mm3": 0.001,
+  "collisions": [],
+  "assembled_bounds_including_screen_reference_mm": [
+    [
+      -47.0,
+      47.0
+    ],
+    [
+      -44.44552230834961,
+      41.0
+    ],
+    [
+      0.0,
+      105.46871948242188
+    ]
+  ],
+  "assembled_size_including_screen_reference_mm": [
+    94.0,
+    85.44552230834961,
+    105.46871948242188
+  ],
+  "pcb_to_tray_gap_mm": 8.0,
+  "spacer_count": 4,
+  "battery_floor_padding_space_mm": 0.5,
+  "battery_lid_clearance_mm": 2.9,
+  "default_screw_engagement_mm": 4.9,
+  "optional_12mm_spacer_screw": "M3 x 40; 5.9 mm engagement",
+  "limits": [
+    "Component reference heights are illustrative, not measured; XY source geometry verified.",
+    "Screen cylinder is an envelope; original pins enter manufacturer holes omitted from this reference.",
+    "Cable guide is not full-width FPC geometry; physical cable length and bend fit pending.",
+    "No slicing, printing, thermal/load testing or physical assembly done in this verification."
+  ],
+  "pairs": [
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "02_BATTERY_TRAY_PRINT.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.004",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.005",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.006",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.007",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_REFERENCE_80x80.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_D1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_J1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_L1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_Q1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_Q2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_Q3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R21_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R22_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R23_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R24_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R25_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R26_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R27_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_R28_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_SW1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_SW2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_U10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_C20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_J2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "PCB_J3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "J3_PLUG_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "BATTERY_LP103454_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "M3x35_SCREW_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "M3x35_SCREW_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "M3x35_SCREW_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "01_UPPER_CW47_5_PRINT.001",
+      "b": "M3x35_SCREW_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.004",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.005",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.006",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "03_SPACER_8MM_PRINT.007",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_REFERENCE_80x80.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_D1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_J1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_L1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_Q1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_Q2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_Q3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R21_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R22_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R23_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R24_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R25_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R26_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R27_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_R28_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_SW1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_SW2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_U10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_C20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_J2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "PCB_J3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "J3_PLUG_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "BATTERY_LP103454_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "M3x35_SCREW_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "M3x35_SCREW_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "M3x35_SCREW_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "NYLON_FEMALE_FOOT_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "02_BATTERY_TRAY_PRINT.001",
+      "b": "M3x35_SCREW_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "03_SPACER_8MM_PRINT.005",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "03_SPACER_8MM_PRINT.006",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "03_SPACER_8MM_PRINT.007",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_REFERENCE_80x80.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_D1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_J1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_L1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_Q1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_Q2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_Q3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R21_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R22_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R23_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R24_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R25_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R26_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R27_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_R28_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_SW1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_SW2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_U10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_C20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_J2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "PCB_J3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "J3_PLUG_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "BATTERY_LP103454_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "NYLON_FEMALE_FOOT_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "M3x35_SCREW_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "NYLON_FEMALE_FOOT_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "M3x35_SCREW_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "NYLON_FEMALE_FOOT_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "M3x35_SCREW_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "NYLON_FEMALE_FOOT_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.004",
+      "b": "M3x35_SCREW_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "03_SPACER_8MM_PRINT.006",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "03_SPACER_8MM_PRINT.007",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_REFERENCE_80x80.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_D1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_J1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_L1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_Q1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_Q2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_Q3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R21_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R22_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R23_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R24_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R25_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R26_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R27_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_R28_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_SW1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_SW2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_U10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_C20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_J2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "PCB_J3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "J3_PLUG_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "BATTERY_LP103454_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "NYLON_FEMALE_FOOT_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "M3x35_SCREW_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "NYLON_FEMALE_FOOT_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "M3x35_SCREW_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "NYLON_FEMALE_FOOT_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "M3x35_SCREW_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "NYLON_FEMALE_FOOT_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.005",
+      "b": "M3x35_SCREW_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "03_SPACER_8MM_PRINT.007",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_REFERENCE_80x80.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_D1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_J1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_L1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_Q1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_Q2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_Q3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R21_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R22_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R23_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R24_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R25_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R26_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R27_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_R28_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_SW1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_SW2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_U10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_C20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_J2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "PCB_J3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "J3_PLUG_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "BATTERY_LP103454_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "NYLON_FEMALE_FOOT_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "M3x35_SCREW_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "NYLON_FEMALE_FOOT_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "M3x35_SCREW_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "NYLON_FEMALE_FOOT_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "M3x35_SCREW_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "NYLON_FEMALE_FOOT_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.006",
+      "b": "M3x35_SCREW_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_REFERENCE_80x80.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_D1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_J1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_L1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_Q1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_Q2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_Q3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R11_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R12_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R13_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R14_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R15_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R16_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R17_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R21_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R22_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R23_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R24_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R25_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R26_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R27_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_R28_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_SW1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_SW2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U1_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U4_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U5_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U6_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U7_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U8_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U9_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_U10_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C18_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C19_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_C20_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_J2_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "PCB_J3_ENVELOPE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "J3_PLUG_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "BATTERY_LP103454_REFERENCE.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "NYLON_FEMALE_FOOT_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "M3x35_SCREW_1.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "NYLON_FEMALE_FOOT_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "M3x35_SCREW_2.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "NYLON_FEMALE_FOOT_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "M3x35_SCREW_3.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "NYLON_FEMALE_FOOT_4.001",
+      "intersection_volume_mm3": 0.0
+    },
+    {
+      "a": "03_SPACER_8MM_PRINT.007",
+      "b": "M3x35_SCREW_4.001",
+      "intersection_volume_mm3": 0.0
+    }
+  ]
+}

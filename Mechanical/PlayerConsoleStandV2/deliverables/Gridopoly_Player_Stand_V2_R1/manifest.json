@@ -1,0 +1,25 @@
+{
+  "revision": "Player Stand V2 R1 first fit",
+  "legacy_interface_user_fit_passed": true,
+  "new_assembly_printed_or_fitted": false,
+  "fpc_actual_length_confirmed": false,
+  "files": {
+    "README.md": "c642c7283630367552aa1d040b0dec168c0e5dfc99c3616b5ce7b0653dccfa8c",
+    "design-parameters.json": "d7acdf94924ecf6a20441417298e9af1d575bcefc6086e1f73ca0fd4c1cd813a",
+    "verification-report.json": "4e74e1c009b933ca50a2c699c27ed83b7f0f9e2fdfc60498993878269b04d876",
+    "assembly-verification.json": "9449acaa506b7a655f0373d58bc3b766f26aac4e1ec09a13733e0b612a4def82",
+    "Gridopoly_Player_Stand_V2_R1.blend": "b716cada32ea8d063c32fab474990aed99ea5532d960f18e7caae36e5e5425fa",
+    "01_Assembly.png": "38b7bdd8cc670c25e19ea68bf13e213ba9299d45b765c68cd03e0d27adc9294a",
+    "02_Open_Battery.png": "c32ec544cfb240f2610d93291bafcb888bdd85f633141f0996f8062e508f8aa8",
+    "03_Tray_Access.png": "ddf364ddfce47739ba5ad7f6ded7760f8506241866020a6707ef0818a09bc2c2",
+    "04_PCB_Access.png": "84ac35db91edaaa49ceaedaed5e38965479cc866862f5e65e583221fc3fd46e5",
+    "01_Upper_CW47_5.stl": "0dad5e90b4163b498691e30f43b2be23ba1b10828f87f4243cc8568f16ca59ff",
+    "01_Upper_CW47_5.3mf": "2f7228be4ca2fb92588452e8101b510d5320989ca9c501c8488aab051cf69c9b",
+    "02_Battery_Tray.stl": "470f53ba9273ceb23d2b90dad0c6f6a2ffa3cba87065255fe4e4ae9d9240b3d9",
+    "02_Battery_Tray.3mf": "785c4d675a68230f90aa37ae7dc009a2efe64cf2828f53f62bb48704a2a8e099",
+    "03_Spacer_8mm.stl": "324530ba9d6946fca351b98fa1605229472ed83909c443fb0c81b5df959633f2",
+    "03_Spacer_8mm.3mf": "3b86de6b02e83dfbc898bd6651adff080286cac374c0f18016f3316f1f01c273",
+    "03_Spacer_12mm.stl": "32f31514414d42e424a80d04def910a3f981e44aada8afbc624d65dcec655089",
+    "03_Spacer_12mm.3mf": "62f131d5dc7d2d9010014e7acaf07cf718dd439f20d1756596a13044a3961727"
+  }
+}

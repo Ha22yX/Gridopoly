@@ -5,6 +5,13 @@ One-piece, 35-degree desktop stand for the Viewe/SpotPear ESP32-S3
 uses printed locating pins and does not use screws or retain the display for
 carrying.
 
+This directory preserves the original standalone test stand. The user has
+physically fitted the **CW47.5 screen interface** successfully. CW50 and
+M4_Pin_Down are earlier orientation variants, retained as history rather than
+recommended replacements. For the current screen/PCB/battery assembly, use the
+[PlayerConsoleStandV2 guide](../PlayerConsoleStandV2/README.md); successful fit of
+this legacy interface does not validate the newer complete assembly.
+
 ## Main dimensions
 
 - Display reference diameter: 80.13 mm
@@ -35,23 +42,28 @@ rigid mating interface. Firmware content is rendered at the panel's native
 zero-degree orientation; confirm final visual trim on the physical printed
 fixture.
 
-## Generated files
+## Model files and historical versions
 
-The delivered `ScreenStand` folder contains these artifacts. They are ignored
-by Git because the scripts recreate them; run the commands below after a clean
-checkout.
+The [model directory](outputs/models/) contains the saved printable models and
+editable Blender scenes. The links below are relative to this repository;
+rebuilding is optional when using a saved model. These legacy files remain
+available for reference and reproduction, with the version status shown here.
+Keep future design files and their documentation inside the project, alongside
+their generating scripts.
 
-- `outputs/models/round_display_test_stand.stl`: printable stand only
-- `outputs/models/Gridopoly_Player_Console_Stand_M4_Pin_Down.stl`: named printable delivery with M4 pin 3 at six o'clock
-- `outputs/models/Gridopoly_Player_Console_Stand_CW50.stl`: prior named printable CW50 delivery
-- `outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl`: named printable CW47.5 delivery
-- `outputs/models/round_display_test_stand.blend`: stand and reference assembly
-- `outputs/models/Gridopoly_Player_Console_Stand_CW50.blend`: prior named CW50 source assembly
-- `outputs/models/Gridopoly_Player_Console_Stand_CW47_5.blend`: named CW47.5 source assembly
-- `outputs/renders/stand_print.png`: printable-part preview
-- `outputs/renders/stand_assembled.png`: assembled reference preview
-- `outputs/reports/dimensions.txt`: human-readable verification report
-- `outputs/reports/dimensions.json`: machine-readable verification report
+| Version | Printable model | Editable scene | Status |
+|---|---|---|---|
+| CW47.5 | [STL](outputs/models/Gridopoly_Player_Console_Stand_CW47_5.stl?raw=true) | [BLEND](outputs/models/Gridopoly_Player_Console_Stand_CW47_5.blend?raw=true) | User-confirmed legacy screen-interface fit |
+| CW50 | [STL](outputs/models/Gridopoly_Player_Console_Stand_CW50.stl?raw=true) | [BLEND](outputs/models/Gridopoly_Player_Console_Stand_CW50.blend?raw=true) | Earlier orientation, historical |
+| M4_Pin_Down | [STL](outputs/models/Gridopoly_Player_Console_Stand_M4_Pin_Down.stl?raw=true) | — | Earlier orientation with pin 3 at six o'clock, historical |
+| Generic working output | [STL](outputs/models/round_display_test_stand.stl?raw=true) | [BLEND](outputs/models/round_display_test_stand.blend?raw=true) | Script output; use the named CW47.5 files for the preserved interface baseline |
+
+References: [print preview](outputs/renders/stand_print.png),
+[assembled preview](outputs/renders/stand_assembled.png),
+[CW47.5 mating interface](outputs/renders/Gridopoly_Player_Console_Stand_CW47_5_interface.png),
+[human-readable dimensions](outputs/reports/dimensions.txt), and
+[machine-readable dimensions](outputs/reports/dimensions.json).
+These references describe the legacy fixture, not the newer PCB/battery stand.
 
 ## Recommended FDM settings
 

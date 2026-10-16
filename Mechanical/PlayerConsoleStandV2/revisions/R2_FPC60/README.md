@@ -8,7 +8,7 @@ R1较高的夹层电池结构不适合当前60 mm排线，保留作历史记录�
 
 ## 打印哪些零件
 
-项目历史交付：R2 模型目录（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60`）、R2 ZIP（本地 `Mechanical/PlayerConsoleStandV2/deliverables/Gridopoly_Player_Stand_V2_R2_FPC60.zip`）。02 支架须使用 [R3 加固版](../R3_EAR_REINFORCED/README.md)，本目录保留其余零件和原装配记录。每个STL都有一个毫米单位的独立3MF，保持100%比例；3MF只有零件几何，没有打印机、耗材、支撑或切片设置。
+项目历史交付：R2 [模型目录](../../deliverables/Gridopoly_Player_Stand_V2_R2_FPC60)、R2 [ZIP](../../deliverables/Gridopoly_Player_Stand_V2_R2_FPC60.zip)。02 支架须使用 [R3 加固版](../R3_EAR_REINFORCED/README.md)，本目录保留其余零件和原装配记录。每个STL都有一个毫米单位的独立3MF，保持100%比例；3MF只有零件几何，没有打印机、耗材、支撑或切片设置。
 
 | 文件 | 数量 | 尺寸mm | 打印朝向 |
 | --- | ---: | --- | --- |

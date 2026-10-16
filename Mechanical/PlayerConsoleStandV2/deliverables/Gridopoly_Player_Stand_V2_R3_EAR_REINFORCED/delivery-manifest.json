@@ -1,0 +1,125 @@
+{
+  "revision": "V2 R3 EAR REINFORCED",
+  "date": "2026-10-15",
+  "replace_only": "02_Screen_Support_CW47_5_R3",
+  "status": "STL, interface, root-section and assembly-envelope checks passed; slicing, print and physical fit pending",
+  "quantities": {
+    "01_Connection_Plate_R2": 1,
+    "02_Screen_Support_CW47_5_R3": 1,
+    "03_Battery_Cradle_R2": 1,
+    "04_Battery_Lid_R2": 1,
+    "05_Spacer_6mm_R2": 4
+  },
+  "files": [
+    {
+      "file": "01_Connection_Plate_R2.stl",
+      "bytes": 112984,
+      "sha256": "33ed1b733fdb8f3f69d892d04034d303abd28320565b0e7e98a4f3d214502d4f"
+    },
+    {
+      "file": "01_Connection_Plate_R2.3mf",
+      "bytes": 22747,
+      "sha256": "36c1bb176ffccc758b5b71ca0a39230051a5193a37bdd13bcbf46502898d7e2d"
+    },
+    {
+      "file": "02_Screen_Support_CW47_5_R3.stl",
+      "bytes": 262884,
+      "sha256": "5dd8170bb763a626bd4563f1bf3350669010b70857196ac8b3be50718ec34061"
+    },
+    {
+      "file": "02_Screen_Support_CW47_5_R3.3mf",
+      "bytes": 72048,
+      "sha256": "7e1650cada0f74a46c671af807b0863fdac632661b390337671e03be98d7dfe6"
+    },
+    {
+      "file": "03_Battery_Cradle_R2.stl",
+      "bytes": 69684,
+      "sha256": "f991b7c696627fa982a881960703a03c691e5852c6b2e6956503a319f449da4e"
+    },
+    {
+      "file": "03_Battery_Cradle_R2.3mf",
+      "bytes": 14542,
+      "sha256": "1fa1b38aaf7877154cf04f24d6f9786ff77f17aafc0666a93e19a95acea80174"
+    },
+    {
+      "file": "04_Battery_Lid_R2.stl",
+      "bytes": 27084,
+      "sha256": "a550771b37b2b39b481610eb8890dedb8f1fe85eda12e3070c9106df2539a584"
+    },
+    {
+      "file": "04_Battery_Lid_R2.3mf",
+      "bytes": 6370,
+      "sha256": "06ca01dc9bb709b941fee61ec9ba8e91f6ff7807ed0c459998a9acd43d3c2594"
+    },
+    {
+      "file": "05_Spacer_6mm_R2.stl",
+      "bytes": 25684,
+      "sha256": "9464be6b81019fcdd9e39e0e0a39663d784d126a8a8b52ed25c22ffd001e3732"
+    },
+    {
+      "file": "05_Spacer_6mm_R2.3mf",
+      "bytes": 6001,
+      "sha256": "c4f604d2628c506c78d291ebe88332079efbd5087f5507210a5b2e3aab1bbf9c"
+    },
+    {
+      "file": "Gridopoly_Player_Stand_V2_R3_EAR_REINFORCED.blend",
+      "bytes": 387497,
+      "sha256": "4cc5ed288e4d8527e9c07c260af5340676c656f1f0ffea721bf9fc1370858c91"
+    },
+    {
+      "file": "preview-assembly.png",
+      "bytes": 996665,
+      "sha256": "995a2ff61a1f5e7ee45c298c2b0956f4f06be66a9caf497d5638e98c00f11f0b"
+    },
+    {
+      "file": "preview-support-R3.png",
+      "bytes": 1565252,
+      "sha256": "326b78bd6f847a878d26f8d7b330abf0ea60b8dc45ea22f350477a74474c73f1"
+    },
+    {
+      "file": "preview-left-foot-R2-before.png",
+      "bytes": 1525808,
+      "sha256": "7613a96516e36ad9c089b6dfc94cb56012673097efe55251ed743dd719510093"
+    },
+    {
+      "file": "preview-left-foot-R3-after.png",
+      "bytes": 1554573,
+      "sha256": "68e35d61ffb6707b179a1af239d06c14e7bf9a8f25c894453c9591c429a49955"
+    },
+    {
+      "file": "preview-support-underside-R3.png",
+      "bytes": 1524605,
+      "sha256": "f79e81e12c85c54f6d5838d21675e000a8998b4f3d2dedeba9a15e7ec64c78a2"
+    },
+    {
+      "file": "README.md",
+      "bytes": 4184,
+      "sha256": "bc9a9b3e37d7225b06c820be4543bba54e321f0bdc1ed41b64e9f8d9b20f86b8"
+    },
+    {
+      "file": "Assembly_Instructions_R2.md",
+      "bytes": 7181,
+      "sha256": "e4e9c8395168a32b973c28680d4a09da3590f602b6aed9f4849f281abd914c30"
+    },
+    {
+      "file": "parameters.json",
+      "bytes": 1088,
+      "sha256": "c17caf7c222249a34a700218ab7a422fa295d48a70a9ef95b5b94164523e2e84"
+    },
+    {
+      "file": "parts-verification.json",
+      "bytes": 21791,
+      "sha256": "e6d0f79282b1d9c43f029e9323fd1113087fc4d07878fa110ac097f2ea21ee6a"
+    },
+    {
+      "file": "assembly-verification.json",
+      "bytes": 185956,
+      "sha256": "b41cace3d9eef137a790d495bb0b5dab7ffbb106f315f3c42fa382fbef4a56b7"
+    },
+    {
+      "file": "ear-root-verification.json",
+      "bytes": 12789,
+      "sha256": "5dbe47f18682ae2fffb25b35c44d719e72cc62bf215b5f754e9a82b0d35e58b6"
+    }
+  ]
+}

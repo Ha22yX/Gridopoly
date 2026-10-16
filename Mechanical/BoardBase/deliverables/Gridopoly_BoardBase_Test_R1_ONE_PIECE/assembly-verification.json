@@ -1,0 +1,21 @@
+{
+  "revision": "R1_ONE_PIECE",
+  "method": "Blender MANIFOLD Boolean intersection of base against each PCB laminate reference with actual mounting holes",
+  "checks": [
+    {
+      "pcb": "Corner_PCB_REFERENCE",
+      "intersection_volume_mm3": 2.6645352591003757e-14
+    },
+    {
+      "pcb": "Incoming_Long_PCB_REFERENCE",
+      "intersection_volume_mm3": 1.7763568394002505e-14
+    },
+    {
+      "pcb": "Outgoing_Long_PCB_REFERENCE",
+      "intersection_volume_mm3": 6.010036218695447e-14
+    }
+  ],
+  "pass_threshold_mm3": 0.001,
+  "passed": true,
+  "scope_limit": "No cable-motion, detailed electronics-body, screw-tolerance or physical fitting verification."
+}

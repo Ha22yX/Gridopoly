@@ -1,0 +1,13 @@
+{
+  "ONE_PIECE_Corner_Test_R1.3mf": "d2721dd2fb06c4688fc621c5e2c406653f9115147f07c75fa286b5add2c04c1d",
+  "ONE_PIECE_Corner_Test_R1.stl": "fb8c6e1b987478771bbd27c255cae1c9e668b2d7e42ed19ebb302bd96fb8a7c2",
+  "Gridopoly_OnePiece_Corner_Test_R1.blend": "a9b8c102589e0cb4d233814ca69f34fc2eb72dbd6f7001836f1cfe42b2e3bf9f",
+  "fixture_frame.png": "4fc7ef65bc75c2184946beb8fe6df4f8b71f663b4ecf835c928fad8b53dd071b",
+  "fixture_assembled.png": "e7ad58b6cb3b985094ab02a48a0bb3c8fde5e8dce8352327e1228ce6ae7a3fe4",
+  "fixture-config.json": "ab02547a624eb83a86677e8c655e6b023bef566b8b32347ff67e6d1af16aed98",
+  "rebuild_in_blender.py": "6b35d99f21b5fc9cd020d67448621613102ffc9110383b300ce7a8080e6047fa",
+  "verification-report.json": "97fccc58b089f80bab8e86582a34dc6714d893a28e561140a3bc56629a46acf5",
+  "assembly-verification.json": "67d7d70aad05aee0285193769619c42ba039afecf2b2e88fba27170f7b087868",
+  "design-requirements.json": "f1967e2acf8b36905d5f555835f43684fa7f12b16a7e891d5cf4784d248ef696",
+  "README.md": "f286cdc5fb4f4738494fa6258f4a78f03cf60049cf2dc2bb24cb915b18105a9e"
+}

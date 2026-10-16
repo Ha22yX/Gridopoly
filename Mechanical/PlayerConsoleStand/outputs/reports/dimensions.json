@@ -1,0 +1,208 @@
+{
+  "blender_version": "5.2.0 LTS",
+  "c_ring": {
+    "height_mm": 7.6,
+    "inner_diameter_mm": 34.5,
+    "opening_width_mm": 9.0,
+    "outer_diameter_mm": 40.0
+  },
+  "design": "ESP32-S3 Round Display Test Stand",
+  "display_orientation": {
+    "mechanical_rotation_clockwise_deg": 47.5,
+    "nominal_firmware_rotation_deg": 0.0,
+    "six_oclock_pin_index": 3,
+    "six_oclock_pin_local_mm": [
+      1.9479565254429252,
+      -8.7866640640794
+    ]
+  },
+  "female_holes": {
+    "count": 2,
+    "depth_mm": 4.0,
+    "diameters_mm": [
+      3.1,
+      4.1
+    ],
+    "local_centers_mm": [
+      [
+        -6.755902076156603,
+        7.372773368101241
+      ],
+      [
+        6.755902076156603,
+        -7.372773368101241
+      ]
+    ],
+    "pcd_mm": 20.0
+  },
+  "fpc_groove": {
+    "depth_mm": 2.0,
+    "v_range_mm": [
+      -28.0,
+      2.0
+    ],
+    "width_mm": 9.0
+  },
+  "male_pins": {
+    "count": 3,
+    "diameter_mm": 2.9,
+    "height_mm": 3.0,
+    "local_centers_mm": [
+      [
+        6.635496031291117,
+        6.080311868540942
+      ],
+      [
+        -8.583452556734041,
+        2.706352195538458
+      ],
+      [
+        1.9479565254429252,
+        -8.7866640640794
+      ]
+    ],
+    "pcd_mm": 18.0
+  },
+  "mating_angle_deg": 35.0,
+  "mating_center_mm": [
+    0.0,
+    3.0,
+    28.0
+  ],
+  "measured_geometry": {
+    "c_ring": {
+      "height_mm": 7.6,
+      "inner_diameter_mm": 34.5,
+      "opening_width_mm": 9.000001,
+      "opening_width_samples_mm": [
+        {
+          "normal_mm": 0.05,
+          "width_mm": 9.000002
+        },
+        {
+          "normal_mm": 3.8,
+          "width_mm": 9.000001
+        },
+        {
+          "normal_mm": 7.55,
+          "width_mm": 9.0
+        }
+      ],
+      "outer_diameter_mm": 40.0
+    },
+    "female_holes": [
+      {
+        "center_local_mm": [
+          -6.755902,
+          7.372772
+        ],
+        "depth_mm": 4.000001,
+        "diameter_u_mm": 3.1,
+        "diameter_v_mm": 3.1
+      },
+      {
+        "center_local_mm": [
+          6.755902,
+          -7.372774
+        ],
+        "depth_mm": 4.0,
+        "diameter_u_mm": 4.1,
+        "diameter_v_mm": 4.1
+      }
+    ],
+    "fpc_groove": {
+      "pad_depth_mm": 2.050001,
+      "pad_width_mm": 9.000004,
+      "transition_floor_normal_mm": -3.065625,
+      "wedge_depth_mm": 2.05,
+      "wedge_width_mm": 9.0
+    },
+    "male_pins": [
+      {
+        "center_local_mm": [
+          6.635382,
+          6.080725
+        ],
+        "diameter_mm": 2.9,
+        "height_mm": 3.000002
+      },
+      {
+        "center_local_mm": [
+          -8.582709,
+          2.706466
+        ],
+        "diameter_mm": 2.899999,
+        "height_mm": 3.0
+      },
+      {
+        "center_local_mm": [
+          1.948515,
+          -8.783604
+        ],
+        "diameter_mm": 2.89999,
+        "height_mm": 3.000001
+      }
+    ],
+    "mating_angle_deg": 34.999987,
+    "mating_plane_normal": [
+      -0.0,
+      -0.573576,
+      0.819152
+    ],
+    "mating_plane_sample_offsets_mm": [
+      -1e-06,
+      -0.0,
+      -1e-06
+    ]
+  },
+  "measured_geometry_source": "exported_stl",
+  "mesh_component_count": 1,
+  "module_clearance_above_base_mm": 1.01966,
+  "module_clearance_mm": 5.01966,
+  "non_manifold_edge_count": 0,
+  "stand_bounds": {
+    "dimensions_mm": [
+      94.0,
+      82.0,
+      45.864471
+    ],
+    "maximum_mm": [
+      47.0,
+      41.0,
+      45.864471
+    ],
+    "minimum_mm": [
+      -47.0,
+      -41.0,
+      0.0
+    ]
+  },
+  "stl_bounds": {
+    "degenerate_triangle_count": 0,
+    "dimensions_mm": [
+      94.0,
+      82.0,
+      45.864471
+    ],
+    "maximum_mm": [
+      47.0,
+      41.0,
+      45.864471
+    ],
+    "mesh_component_count": 1,
+    "minimum_mm": [
+      -47.0,
+      -41.0,
+      0.0
+    ],
+    "non_manifold_edge_count": 0,
+    "path": "C:\\Users\\Administrator\\Desktop\\Gridopoly\\Mechanical\\PlayerConsoleStand\\outputs\\models\\round_display_test_stand.stl",
+    "triangle_count": 4188
+  },
+  "units": {
+    "length_unit": "MILLIMETERS",
+    "scale_length": 0.0010000000474974513,
+    "system": "METRIC"
+  },
+  "uses_screws": false
+}

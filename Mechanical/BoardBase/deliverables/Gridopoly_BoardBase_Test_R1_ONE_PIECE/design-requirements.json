@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "project": "Gridopoly",
+  "artifact": "board_base_design_requirements",
+  "updated_local_date": "2026-10-15",
+  "timezone": "America/New_York",
+  "units": "mm",
+  "status": "R1_one_piece_fixed_positions_candidate_not_print_verified",
+  "revision": "R1_ONE_PIECE",
+  "latest_user_correction": {
+    "statement": "16个模块使用一个整体底板，每个模块有固定位置；3模块测试件也必须是同一个底板。",
+    "priority": "覆盖此前关于独立模块底座、滑块及装配滑移的方案。",
+    "independent_module_bases_allowed": false,
+    "adjustable_sliders_allowed": false,
+    "base_joining_screws_allowed": false,
+    "user_approved_split_base": false
+  },
+  "delivery_revision": {
+    "current_directory": "C:/Users/kicof/Downloads/Gridopoly_BoardBase_Test_R1_ONE_PIECE",
+    "current_model_status": "R1原生mesh及导出STL的独立几何复核均通过，导出物为一个连通封闭实体；实打印与试装尚未验证。",
+    "superseded_revision": "R0",
+    "superseded_status": "废弃，不作为当前制造或装配依据。"
+  },
+  "scope": {
+    "first_fixture": {
+      "description": "用一块连续L形实心底板，在固定孔柱位置安装一个角落模块及与它对应的两个相邻长边模块。",
+      "base_piece_count": 1,
+      "integral_post_count": 12,
+      "fixed_module_positions": true,
+      "nominal_bounding_size_mm": [151.0, 151.0],
+      "bounding_size_status": "R1候选尺寸，基于g=9mm装配参数，待首件验证。",
+      "corner_pcb_count": 1,
+      "long_pcb_count": 2,
+      "pcb_mounting_screws_per_module": 2,
+      "pcb_mounting_screw_pattern": "diagonal_existing_pcb_holes",
+      "pcb_mounting_screw_total": 6
+    },
+    "full_board": {
+      "topology": "perimeter_ring",
+      "module_count": 16,
+      "corner_pcb_count": 4,
+      "long_pcb_count": 12,
+      "long_modules_per_side": 3,
+      "corner_positions_along_ring": [0, 4, 8, 12],
+      "interpretation": "用户所说完整4×4/16格按当前项目的16模块周边环实现，并非铺满的4×4矩阵。",
+      "required_base_piece_count": 1,
+      "fixed_module_positions": true,
+      "candidate_pcb_span_mm": 358.0,
+      "candidate_base_span_including_margins_mm": 366.0,
+      "span_status": "g=9mm候选下，裸板span=2×80+3×54+4×9=358mm；计两侧各4mm边缘后约366mm。",
+      "single_piece_print_feasibility": "约366mm整体底板超出H2D平放范围；制造方式待三模块首件验证后确定。整体固定底板要求保留，不自动改成独立模块底座或分块底板。"
+    }
+  },
+  "user_confirmed_constraints": {
+    "printer": "Bambu Lab H2D",
+    "material": "PLA",
+    "pcb_underside_has_components": true,
+    "pcb_thickness_mm": 1.6,
+    "pcb_thickness_evidence": "user_report",
+    "maximum_underside_protrusion": {
+      "corner_mm": 8.1,
+      "long_mm": 8.1,
+      "approximate": true,
+      "reference_surface": "PCB底面，不包含板厚",
+      "evidence_type": "user_measurement_report"
+    },
+    "three_pcbs_coplanar_after_natural_mating": {
+      "confirmed": true,
+      "evidence_type": "user_report",
+      "statement": "三板自然对插后处于同一平面；单板不能直接平放，是底面较高元件造成。",
+      "handling": "作为本测试件共面装配基准，不再列为未解决的必问项；不能将该反馈扩大为已实测全部接口尺寸、公差或全环装配。"
+    },
+    "per_module_fixing": "仅用两个对角安装孔上螺丝固定，另设无螺丝支撑不增加PCB锁紧点。",
+    "allowed_fasteners": ["machine_screws", "self_tapping_screws"],
+    "preserve_existing_pcbs": "不为底板调整PCB孔位或强压PCB改变连接器配合。"
+  },
+  "selected_structure": {
+    "first_fixture_form": "single_continuous_L_shaped_solid_base_with_integral_fixed_posts",
+    "purpose": "三块PCB在同一块底板上的固定位置安装，12个一体柱同时提供六处锁紧及六处无螺丝支撑。",
+    "base_thickness_mm": 3.5,
+    "height_reference": "PCB底面名义距桌面16mm；相对初始14mm方案提高2mm，以增加底面元件余量。",
+    "standoffs": {
+      "type": "integral_fixed_PLA_posts",
+      "total_count": 12,
+      "clamping_post_count": 6,
+      "non_clamping_support_post_count": 6,
+      "height_mm": 12.5,
+      "height_reference": "底板顶面距桌面3.5mm，主要柱顶距桌面16mm，柱高16−3.5=12.5mm。",
+      "height_status": "first_fixture_design_choice_not_print_verified",
+      "diameter_mm": 6.0,
+      "screw_clearance_hole_diameter_mm": 3.6,
+      "freeze_condition": "R1使用固定一体柱，孔周接触及间距需首件验证；修改须改模型后重新打印，不使用滑块或可调柱改变PCB位置。"
+    },
+    "xy_location": {
+      "corner": "作为装配参考模块。",
+      "long_modules": "两块长边分别固定在对应邻接位置，安装孔柱一体成型。",
+      "adjustment_range_mm": 0.0,
+      "method": "所有PCB安装位置固定；不使用独立模块底座、滑块或±3mm滑移。",
+      "candidate_assembly_gap_g_mm": 9.0,
+      "gap_g_reference": "相邻PCB最大板框边界的候选间距；结合长边主体相对最大板框内缩3mm形成主体直边间距。",
+      "gap_inference": "从用户测得主体直边间距约12mm及15mm推断g=9mm。",
+      "gap_status": "候选推断，需三模块首件试装验证，不能当作已实测确认的精确对插尺寸。"
+    },
+    "additional_support": {
+      "type": "integral_non_clamping_support_at_other_mounting_hole_annuli",
+      "count_per_module": 2,
+      "total_count": 6,
+      "principle": "每板两个对角锁紧柱与第三点支撑处于同一名义平面；第四点一体支撑低0.2mm，无调节机构。",
+      "fourth_point_lower_by_mm": 0.2,
+      "fourth_point_top_above_table_mm": 15.8,
+      "screw_count_unchanged": true,
+      "contact_constraint": "支撑只接触PCB任务确认可承压且无器件、焊点干涉的孔周环面。"
+    },
+    "fasteners": {
+      "preferred": "六颗M3×18mm普通机螺钉、六片内径3.2mm、外径不超过6mm且厚1.0mm的垫片，以及六颗普通M3螺母；轻锁紧。",
+      "nominal_thread": "M3",
+      "selection_status": "R1_candidate_hardware_not_fit_verified",
+      "length_mm": 18.0,
+      "screw_count": 6,
+      "washer_count": 6,
+      "washer_inner_diameter_mm": 3.2,
+      "washer_maximum_outer_diameter_mm": 6.0,
+      "washer_thickness_mm": 1.0,
+      "washer_revision_reason": "独立审查后将垫片增厚至1.0mm，M3×18螺钉保持不变。",
+      "nut_type": "ordinary_M3_hex_nut",
+      "nut_count": 6,
+      "base_joining_screw_count": 0,
+      "nominal_screw_bottom_clearance_mm": 0.6,
+      "nominal_thread_overlap_with_nut_mm": 2.0,
+      "tightening": "轻锁紧，不用拧紧力补偿板弯或安装位置差异；名义余量和螺纹重叠仍需首件实配核对。",
+      "freeze_condition": "PCB安装孔3.500mm、打印柱通孔3.6mm；孔周接触、螺钉有效咬合及底部不突出由首件试装核对。",
+      "constraint": "螺丝不抵住板底元件，不突出底座接触桌面，不靠继续拧紧消除装配高度差。"
+    },
+    "underside_clearance": {
+      "maximum_component_and_solder_protrusion_mm": 8.1,
+      "measurement_approximate": true,
+      "measurement_status": "user_reports_approximately_8.1mm_for_both_pcb_types",
+      "pcb_bottom_above_table_mm": 16.0,
+      "solid_base_top_above_table_mm": 3.5,
+      "nominal_component_clearance_above_base_mm": 4.4,
+      "nominal_component_clearance_above_table_mm": 7.9,
+      "clearance_calculation": "底板余量=16.0−8.1−3.5=4.4mm；桌面高度余量=16.0−8.1=7.9mm。",
+      "design_status": "first_fixture_design_choice_based_on_approximate_user_measurement_not_print_verified",
+      "constraint": "必须检查连续底板、一体柱、螺钉和螺母与底面元件的空间；4.4mm为基于约8.1mm用户测量的名义计算余量，不是打印实测。"
+    }
+  },
+  "received_pcb_geometry_summary": {
+    "source": "已读取并核验PCB聊天从live工程、原生封装及本次Gerber导出的冻结机械接口包。",
+    "status": "frozen_interface_received_and_hash_verified",
+    "interface_file": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/mechanical-interface.json",
+    "interface_sha256": "e78d4cbc840f58c6564f7e6513c5992925e54811c4d39e5e01467c7390e53df6",
+    "scope_of_adoption": "采用板框、孔位/对角点、支撑环和底面XY排除区等PCB几何证据；包内14mm高度、开底/可换柱、可调滑移等旧首件选项已被本文件R1整体固定底板约束覆盖。",
+    "coordinate_system": "各板顶视图左上原点，x向右、y向下，单位mm。",
+    "bottom_coordinate_note": "底面排除区也投影在相同顶视坐标内，不镜像；接口Z=0为PCB底面，正向朝顶面。",
+    "mounting_hole_diameter_mm": 3.5,
+    "mounting_hole_source_type": "Gerber_DRILL_confirmed_NPTH",
+    "mounting_hole_export_diameter_mm": 3.499998,
+    "physical_revision_match": "当前live导出及Gerber尚未与用户实物批次对应制造文件哈希绑定，首件仍需核对实际配合。",
+    "corner": {
+      "pcb_name": "PCB2_5",
+      "pcb_uuid": "6f97d7be5a40dd66",
+      "bounding_size_mm": [80.0, 80.0],
+      "outer_corner_radius_mm": 4.0,
+      "hole_centers_order": ["top_left", "top_right", "bottom_right", "bottom_left"],
+      "hole_centers_mm": [[4.0, 4.0], [76.0, 4.0], [76.0, 76.0], [4.0, 76.0]],
+      "recommended_diagonal_pair": ["H1_TL", "H3_BR"],
+      "bottom_component_count": 46
+    },
+    "long": {
+      "pcb_name": "PCB2_1",
+      "pcb_uuid": "7840864f79449b47",
+      "maximum_bounding_size_mm": [54.0, 80.0],
+      "outer_corner_radius_mm": 4.0,
+      "main_body_x_range_mm": [3.0, 51.0],
+      "hole_centers_order": ["top_left", "top_right", "bottom_right", "bottom_left"],
+      "hole_centers_mm": [[7.191, 4.191], [46.815, 4.191], [46.815, 75.83885], [7.191, 75.83885]],
+      "recommended_diagonal_pair": ["H2_TR", "H4_BL"],
+      "bottom_component_count": 48
+    },
+    "safe_support_annuli_status": "all_8_mounting_holes_reviewed_pass_OD6_ID3.6_insulating_annulus",
+    "support_review_evidence": "8处OD6mm/ID3.6mm绝缘接触环通过本次实际Gerber板框/铜/阻焊/钢网核查；完整OD6圆盘另经底面库本体、焊盘及插件尾脚包围框加0.5mm横向余量检查，无相交。OD6为已核对建议值，不是任意放大许可。",
+    "bottom_exclusions": {
+      "status": "received",
+      "file": "Mechanical/BoardBase/interfaces/pcb-interface-2026-10-15/bottom-exclusions.csv",
+      "count": 111,
+      "xy_margin_included_mm": 0.5,
+      "scope": "底面器件及插件尾脚XY包围框，来自当前库实体层投影和实际焊盘几何。",
+      "limitation": "库XY包络不等于厂家最大实体尺寸；逐件Z和焊点/裁脚高度仍未知，统一约8.1mm高度来自用户近似量测。"
+    }
+  },
+  "required_interface_data_before_geometry_freeze": [
+    {
+      "item": "实际使用的角落及长边PCB版本、板框多段线/圆角、板厚、统一坐标系与器件面方向",
+      "owner": "pcb_chat",
+      "status": "received_in_frozen_interface_physical_batch_traceability_unconfirmed"
+    },
+    {
+      "item": "安装孔中心坐标、孔径、选定对角孔、孔周上下表面可承压环面与禁止接触区域",
+      "owner": "pcb_chat",
+      "status": "received_holes_diagonal_pairs_and_OD6_ID3.6_safe_annuli_reviewed"
+    },
+    {
+      "item": "模块自然对插时的板间节距/接缝、装配方向、连接器壳体包络和插拔行程",
+      "owner": "pcb_chat_with_user_measurement_if_needed",
+      "status": "fixed_gap_g9_candidate_from_user_body_gaps_first_fixture_validation_pending",
+      "note": "用户已确认三板自然共面；R1固定g=9mm由主体直边12/15mm反馈推断，需首件验证，不使用滑块补偿。"
+    },
+    {
+      "item": "底面器件与焊点的XY包络及相对PCB底面的最大Z突出，包含装配差异",
+      "owner": "pcb_chat_and_user",
+      "status": "received_111_XY_exclusions_and_user_approximate_8.1mm_maximum_Z_individual_Z_unknown"
+    },
+    {
+      "item": "USB/DC等边缘接口伸出和插拔、螺丝刀进入、屏幕/线束的避让空间",
+      "owner": "pcb_chat",
+      "status": "connector_anchors_received_full_plug_and_operating_space_requires_physical_fit_check",
+      "note": "冻结接口的连接器锚点不是插头外壳边界或插拔净空；完整操作空间仍需试装。"
+    }
+  ],
+  "dimension_policy": {
+    "unknown_dimensions": "用null及待确认状态保存，收到接口数据后才冻结，不用猜测填充。",
+    "historical_dimensions": "旧文档的近似板框只能用于方案理解；14.5mm示意对插排距不得作为制造尺寸。",
+    "interface_source_owner": "PCB聊天负责Mechanical/BoardBase/interfaces内的冻结机械接口数据，本任务已接收并核验SHA256；本文件不替代其原始几何证据。",
+    "conflicting_evidence": "最新用户整体底板及固定位置约束优先，旧R0方案废弃；新用户反馈和与当前实物匹配的尺寸优先，历史跨厂家接头高度疑点不再单独作为三板共面阻塞。"
+  },
+  "responsibilities": {
+    "pcb_chat": {
+      "title": "Gridopoly · PCB设计",
+      "thread_id": "01a0b83c-0e95-7a92-8bab-8f746f76d9a9",
+      "scope": "提供并标注实际PCB版本的板框、孔位、接口、底面元件与禁入区证据，区分实测、图纸值和未知值。"
+    },
+    "modeling_root": {
+      "title": "Gridopoly · 3D建模开发",
+      "thread_id": "01a0f687-eeae-7d61-bbbb-cbb5a98a7b33",
+      "scope": "按整体底板及固定孔柱要求建立R1首件，检查几何和装配空间并交付；根据试装反馈继续开发一个整体的16模块固定底板，制造方式不得自行改为分块或独立模块底座。"
+    },
+    "user": {
+      "scope": "已提供两类板底最大突出约8.1mm和板厚1.6mm；用H2D和PLA打印、试装，反馈配合、干涉、平整度与操作空间，并补充仍缺的实物尺寸。"
+    },
+    "git": "本分任务不暂存、不提交；共享索引由项目主任务统一管理。"
+  },
+  "stage_acceptance": [
+    {
+      "stage": "requirements_and_interface",
+      "status": "in_progress",
+      "criteria": [
+        "记录用户约束及三板自然共面反馈。",
+        "收到与当前实板对应的板框、孔位、接口节距和底面避空数据；未确认值显式保留。"
+      ]
+    },
+    {
+      "stage": "first_fixture_model",
+      "status": "native_mesh_and_exported_STL_independent_geometry_review_passed_physical_fit_pending",
+      "criteria": [
+        "一块连续L形实心底板，12个固定一体柱；一角两长方向正确，每板仅两颗对角螺丝，共六颗；另六柱无螺丝支撑。",
+        "候选g=9mm固定，不存在滑块、装配滑移或底座拼接螺丝；接口未知或推断范围明确记录。",
+        "连续底板、一体柱、螺钉及螺母不侵入已知元件或插拔区域。",
+        "打印实体闭合，打印方向及最终外形适合用户H2D和PLA，交付明确的尺寸与待实测范围。"
+      ]
+    },
+    {
+      "stage": "physical_first_fixture",
+      "status": "not_printed_or_fit_verified",
+      "criteria": [
+        "三个模块自然对插后可落在支撑面上；轻锁六颗螺丝无需掰弯或强压PCB。",
+        "无明显摇摆、板底器件接触、螺丝干涉，必要接口和工具操作空间可用。",
+        "记录用户实打印件和试装反馈，再据实修订模型。"
+      ]
+    },
+    {
+      "stage": "full_16_module_base",
+      "status": "pending_first_fixture_feedback",
+      "criteria": [
+        "按4角12长、每边3长扩展，沿用通过首件反馈修订后的支撑与接口关系。",
+        "保留一个整体底板及每模块固定位置要求；约366mm候选外形超出H2D平放范围，制造方式待首件后确定，不将分块视作用户已同意。",
+        "完整16模块实装反馈通过后，才记录对应版本的全盘装配验收。"
+      ]
+    }
+  ],
+  "evidence_limits": {
+    "physical_print_completed": false,
+    "physical_fit_validated": false,
+    "full_board_assembly_validated": false,
+    "statement": "需求记录、参数化模型或几何检查不等于实打印、实板试装或全盘功能已经验证。"
+  },
+  "exported_STL_independent_review": {
+    "status": "passed",
+    "evidence_source": "3D根任务报告的导出STL独立复核结果。",
+    "connected_closed_solid_count": 1,
+    "triangle_count": 8516,
+    "vertex_count": 4248,
+    "boundary_edge_count": 0,
+    "non_manifold_edge_count": 0,
+    "inconsistent_orientation_count": 0,
+    "degenerate_triangle_count": 0,
+    "bounding_size_mm": [151.0, 151.0, 16.8],
+    "hole_post_positions_checked": 12,
+    "maximum_hole_post_position_error_vs_frozen_interface_mm": 0.0,
+    "correct_diagonal_fastening_position_count": 6,
+    "scope_limit": "只证明导出几何、拓扑及孔柱映射检查通过，不证明打印收缩、实际接缝、实板版本或装配功能已验证。"
+  },
+  "reference_documents": [
+    "AGENTS.md",
+    "Docs/CURRENT-DEVELOPMENT-HANDOFF.md",
+    "Docs/hardware/pcb-variants.md",
+    "Docs/hardware/interconnect-audit-2026-09-21.md",
+    "Docs/hardware/module-interconnect-5wire.md"
+  ]
+}

@@ -1,0 +1,19 @@
+ESP32-S3 Round Display Test Stand
+
+Stand bounds (mm): [94.0, 82.0, 45.864471]
+STL triangles: 4188
+STL connected components: 1
+STL non-manifold edges: 0
+STL degenerate triangles: 0
+BLEND connected components: 1
+BLEND non-manifold edges: 0
+Mating angle (deg): 35.0
+Conservative module clearance (mm): 5.01966
+Male pins: {'count': 3, 'diameter_mm': 2.9, 'height_mm': 3.0, 'pcd_mm': 18.0, 'local_centers_mm': [[6.635496031291117, 6.080311868540942], [-8.583452556734041, 2.706352195538458], [1.9479565254429252, -8.7866640640794]]}
+Female holes: {'count': 2, 'diameters_mm': [3.1, 4.1], 'depth_mm': 4.0, 'pcd_mm': 20.0, 'local_centers_mm': [[-6.755902076156603, 7.372773368101241], [6.755902076156603, -7.372773368101241]]}
+C-ring: {'inner_diameter_mm': 34.5, 'outer_diameter_mm': 40.0, 'height_mm': 7.6, 'opening_width_mm': 9.0}
+Measured geometry source: exported_stl
+Measured C-ring: {'inner_diameter_mm': 34.5, 'outer_diameter_mm': 40.0, 'height_mm': 7.6, 'opening_width_mm': 9.000001, 'opening_width_samples_mm': [{'normal_mm': 0.05, 'width_mm': 9.000002}, {'normal_mm': 3.8, 'width_mm': 9.000001}, {'normal_mm': 7.55, 'width_mm': 9.0}]}
+FPC groove: {'width_mm': 9.0, 'depth_mm': 2.0, 'v_range_mm': [-28.0, 2.0]}
+Display orientation: {'mechanical_rotation_clockwise_deg': 47.5, 'six_oclock_pin_index': 3, 'six_oclock_pin_local_mm': [1.9479565254429252, -8.7866640640794], 'nominal_firmware_rotation_deg': 0.0}
+Uses screws: False

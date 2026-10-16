@@ -1,0 +1,58 @@
+{
+  "revision": "R1_ONE_PIECE",
+  "method": "Independent binary STL parsing; exact-coordinate vertex welding",
+  "vertices": 4248,
+  "triangles": 8516,
+  "edges": 12774,
+  "connected_components": 1,
+  "edges_not_shared_by_two_faces": 0,
+  "inconsistent_edge_winding": 0,
+  "degenerate_triangles": 0,
+  "signed_volume_mm3": 69027.37408344857,
+  "bounds_mm": [
+    [
+      -67.0,
+      84.0
+    ],
+    [
+      -4.0,
+      147.0
+    ],
+    [
+      0.0,
+      16.799999237060547
+    ]
+  ],
+  "dimensions_mm": [
+    151.0,
+    151.0,
+    16.799999237060547
+  ],
+  "stl_sha256": "fb8c6e1b987478771bbd27c255cae1c9e668b2d7e42ed19ebb302bd96fb8a7c2",
+  "scope_limit": "Topology and size verification only; not physical fitting, structural load, full collision or slicer validation.",
+  "3mf": {
+    "object_count": 1,
+    "units": "millimeter",
+    "zip_crc_ok": true,
+    "triangles_equal_to_stl": true,
+    "vertex_translation_from_stl_mm": [
+      67.0,
+      4.0,
+      -0.0
+    ],
+    "sha256": "d2721dd2fb06c4688fc621c5e2c406653f9115147f07c75fa286b5add2c04c1d",
+    "printer_settings_included": false,
+    "opened_in_slicer": false
+  },
+  "geometry_parameters": {
+    "plate_thickness_mm": 3.5,
+    "pcb_bottom_above_table_mm": 16.0,
+    "nominal_component_clearance_over_plate_mm": 4.4,
+    "mounting_screws": 6,
+    "integral_posts": 12,
+    "fixed_gap_g_mm": 9,
+    "screw_tip_above_table_nominal_mm": 0.6000000000000014,
+    "hole_positions_source_sha256": "e78d4cbc840f58c6564f7e6513c5992925e54811c4d39e5e01467c7390e53df6",
+    "physical_print_and_fit_verified": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "ONE_PIECE_Corner_Test_R2.3mf": "6368145f7cc50e049c4edf11f4377d656fe494df8a0eb85ac8d419c6830deeb5",
+  "ONE_PIECE_Corner_Test_R2.stl": "73fc697ded0568f2a538dded4f091c5967b1cf053c343de166dee7ebb6297d9f",
+  "Screw_Fit_Coupon_R2.3mf": "f160631df9fb9c53ce6ea82db6180daaaa2e63ea0c959f56bc7cd7a226ea5597",
+  "Screw_Fit_Coupon_R2.stl": "4f19f79d58d9124505dd8d37754cbd30c40eaa931a4a7d507335d1b5a5051da2",
+  "Gridopoly_OnePiece_Corner_Test_R2.blend": "b9556052e15f8921402f2a00444cebb181765805f9cdf05ce2046b7bfe3632c7",
+  "fixture_frame.png": "3c4e469dcacdf716ce32a61b26e4d836a79800cb2ba2fd1f54a80f4083f1c674",
+  "fixture_assembled.png": "2f955560c8e463b8478fefe8c9c1aa633de3f3712f3b8768f1024e9be32a33d4",
+  "mounting_post_section.png": "24b14d1b756326d533e3bcd1c44a0b00a0c2c59e442e54776ce049f33a56ef57",
+  "fixture-config.json": "64e07044bb3c576a4bee1b6bdab77cce5cc47a6fa0c82e64699b5ff30b4fa5ab",
+  "rebuild_in_blender.py": "ab5acebd7f75c9d62910143002481c2627f7670d6ecad86dd5ed61eacc6b4009",
+  "verification-report.json": "cdd1e5f1d825459fc534608355b55acbe9d41063fa247748e345e04093e5262a",
+  "assembly-verification.json": "192b86092820315be63535eac717ed5dd5b2b700d87beae853b87be4af4651f4",
+  "design-requirements.json": "2382389284fbb01053d57326f123eb1a882e2271c238531d58e3fa55f4273e74",
+  "README.md": "7841e909febc3176a8542e93221be277cc5d75bd248605418920b81791b365bd"
+}

@@ -5,3 +5,13 @@ Mechanical/PlayerConsoleStandV2/** -text
 "PCB Files/CornerModule/DC24-2026-09-21/input-bom-stock.csv" -text
 "PCB Files/CornerModule/DC24-2026-09-21/SyncRepair/**" -text
 "PCB Files/CornerModule/LayoutCandidate-2026-09-21/**" -text
+
+# Keep model-library manifests consistent with exact downloaded file bytes.
+Mechanical/** -text
+Docs/mechanical/README.md -text
+
+# Publish mechanical models through Git LFS; preserve the original binary bytes.
+Mechanical/**/*.stl filter=lfs diff=lfs merge=lfs -text
+Mechanical/**/*.3mf filter=lfs diff=lfs merge=lfs -text
+Mechanical/**/*.blend filter=lfs diff=lfs merge=lfs -text
+Mechanical/**/*.zip filter=lfs diff=lfs merge=lfs -text
