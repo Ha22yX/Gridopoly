@@ -1,0 +1,180 @@
+{
+  "catalog_id": "grid-city-development-v1",
+  "schema_version": 1,
+  "status": "complete-assets-not-deployed",
+  "requested_at": "2026-10-16",
+  "properties": [
+    {
+      "key": "a1-rivet-row",
+      "name": "Rivet Row",
+      "group": "A",
+      "house": "warm riveted copper brick cottages with sawtooth roof ridges",
+      "hotel": "a three-storey heritage brick courtyard hotel with a distinctive sawtooth roof parapet and copper canopy"
+    },
+    {
+      "key": "a2-copper-lane",
+      "name": "Copper Lane",
+      "group": "A",
+      "house": "copper-and-brick cottages with dark pitched roofs and cream trim",
+      "hotel": "a handsome four-storey copper-brick hotel with arched entrance and broad dark mansard roof"
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "house": "pale stone cottages with light blue hipped roofs and tiny square porch lamps",
+      "hotel": "a pale stone waterfront hotel with blue hipped roofs and paired lantern-like rooftop pavilions"
+    },
+    {
+      "key": "b2-tideway-drive",
+      "name": "Tideway Drive",
+      "group": "B",
+      "house": "pale coastal cottages with light blue gable roofs and rounded porch openings",
+      "hotel": "a curved-front seaside hotel with stacked light-blue balcony bands and one sweeping roof"
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "house": "pale waterfront cottages with light-blue roofs and small single chimney",
+      "hotel": "a stepped pale-stone hotel with a central beacon-inspired roof cupola and blue vertical trim"
+    },
+    {
+      "key": "c1-canvas-street",
+      "name": "Canvas Street",
+      "group": "C",
+      "house": "cream artist cottages with pink sawtooth roof accents and large studio windows",
+      "hotel": "a pink-and-cream gallery hotel with broad geometric facade panels and a sculptural stepped roof"
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "house": "pink and cream cottages with small arched bay windows and curved roofs",
+      "hotel": "a gracious pink boutique hotel with curved balconies, arched entrance and simple integrated pink flower planters"
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "house": "cream art-deco cottages with pink rounded corner parapets",
+      "hotel": "a streamlined art-deco hotel with pink horizontal bands, rounded corner and tall central stepped crown"
+    },
+    {
+      "key": "d1-archive-way",
+      "name": "Archive Way",
+      "group": "D",
+      "house": "warm limestone cottages with amber gabled porticoes and dark roofs",
+      "hotel": "a dignified limestone heritage hotel with amber cornices and a broad classical columned entrance"
+    },
+    {
+      "key": "d2-forum-drive",
+      "name": "Forum Drive",
+      "group": "D",
+      "house": "limestone cottages with amber brick trim and simple square porches",
+      "hotel": "an amber civic hotel arranged as one continuous U-shaped building around a shallow entry court with short colonnade"
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "house": "limestone cottages with amber square pilasters and symmetrical hipped roofs",
+      "hotel": "a symmetrical limestone grand hotel with a central elevated pavilion and amber pilasters"
+    },
+    {
+      "key": "e1-pulse-street",
+      "name": "Pulse Street",
+      "group": "E",
+      "house": "compact charcoal-and-cream modern homes with coral-red vertical fins and distinct pitched roofs",
+      "hotel": "a contemporary urban hotel with coral rhythmic vertical fins and a bold inset entrance"
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "house": "cream modern houses with coral-red angular gable trim and faceted bay windows",
+      "hotel": "a crisp faceted urban hotel with coral-red angled facade panels and a single asymmetrical roofline"
+    },
+    {
+      "key": "e3-nova-avenue",
+      "name": "Nova Avenue",
+      "group": "E",
+      "house": "cream and charcoal modern homes with coral-red rounded dormers",
+      "hotel": "a streamlined futuristic hotel with a central circular roof pavilion and coral-red horizontal facade accents"
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "house": "cream technical cottages with solar-yellow pitched roof trim and dark rectangular solar panels",
+      "hotel": "a stepped solar hotel with broad terraces, solar-yellow frames and dark rooftop solar panels"
+    },
+    {
+      "key": "f2-helix-way",
+      "name": "Helix Way",
+      "group": "F",
+      "house": "cream technical houses with yellow round-corner roofs and subtle horizontal metal bands",
+      "hotel": "a rounded research-district hotel with spiral-like yellow exterior balcony bands as one coherent building"
+    },
+    {
+      "key": "f3-horizon-drive",
+      "name": "Horizon Drive",
+      "group": "F",
+      "house": "cream research cottages with solar-yellow gable accents and wide horizontal windows",
+      "hotel": "a wide contemporary hotel with offset horizontal cream volumes, yellow edges and long dark glazing bands"
+    },
+    {
+      "key": "g1-canopy-lane",
+      "name": "Canopy Lane",
+      "group": "G",
+      "house": "cream eco cottages with green pitched planted roofs and small attached planters",
+      "hotel": "a compact eco hotel with a broad green planted canopy roof and integrated terrace planters"
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "house": "cream eco cottages with green gable trim and inset planted porch roofs",
+      "hotel": "a terraced cream hotel with clear green planted balconies and a central recessed entrance"
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "house": "cream alpine cottages with green steep pitched roofs and dark timber framing",
+      "hotel": "a mountain-lodge-inspired hotel with one prominent green gabled roof, pale walls and timber balcony structure"
+    },
+    {
+      "key": "h1-crown-promenade",
+      "name": "Crown Promenade",
+      "group": "H",
+      "house": "pale premium villas with deep blue hipped roofs and minimal gold trim",
+      "hotel": "a dignified luxury hotel with deep blue mansard roofs, pale stone facade and a crown-shaped central roof pavilion"
+    },
+    {
+      "key": "h2-grand-meridian",
+      "name": "Grand Meridian",
+      "group": "H",
+      "house": "pale premium villas with deep-blue gable roofs and tall symmetrical windows",
+      "hotel": "a grand stepped luxury hotel with a deep-blue central tower, broad lower wings and restrained gold entrance trim"
+    }
+  ],
+  "levels": {
+    "0": "undeveloped; original service shell does not count",
+    "1": "one house in front-left slot",
+    "2": "two houses in front row",
+    "3": "front row plus rear-left house",
+    "4": "four houses in two by two slots",
+    "5": "one hotel replacing four houses"
+  },
+  "runtime_integration": "not changed in this asset-generation task",
+  "generated_state_count": 110,
+  "total_state_count": 132,
+  "records": "generation-records.json",
+  "prompt_record_counts": {
+    "recorded": 98,
+    "reconstructed-from-template": 11,
+    "not-recorded": 1
+  },
+  "provenance_note": "Final generated masters are retained verbatim. Some early prompt records were reconstructed from the design template after interrupted persistence; the first pilot prompt was not retained. Each record labels its prompt provenance explicitly."
+}

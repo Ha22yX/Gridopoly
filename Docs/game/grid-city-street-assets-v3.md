@@ -15,7 +15,7 @@ The four corner tiles are outside this production batch.
 
 ## Property Meaning
 
-A property image represents ownership of a street parcel at development level zero. It includes one small unfinished starter shell at the rear of the parcel. This shell explains the base rent but does not count as a built house. The foreground remains a clear development pad. Level 1-4 houses and the final landmark are separate overlays selected by the current building level.
+A property image represents ownership of a street parcel at development level zero. It includes one small unfinished starter shell at the rear of the parcel. This shell explains the base rent but does not count as a built house. The foreground remains a clear development pad. Separate overlays for levels 1-4 and the final landmark were an earlier plan, not delivered artwork. The [Development V1 design](property-development-art-v1.md) now supplies complete state images for 1-4 houses and one hotel; its [asset catalog](../../Assets/GridCity/DevelopmentV1/README.md) records generation and validation status. Runtime integration is separate; StreetV3 remains the existing level-zero source.
 
 ## Shared Rendering Rules
 

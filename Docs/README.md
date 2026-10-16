@@ -43,6 +43,7 @@
 | 详情/交易 | [详情查询](firmware/player-detail-query-protocol.md)、[交易](firmware/trade-protocol.md) |
 | 游戏 | [规则](game/game-rules.md)、[状态机](game/game-state-machine.md)、[地图经济](game/map-economy-spec.md)、[内容](game/game-content-catalog.md) |
 | 视觉 | [视觉规范](player-console/grid-city-visual-guide.md)、[Demo场景](player-console/player-console-demo-scenarios.md) |
+| 地产建房与旅馆美术 | [22块地产六级设计](game/property-development-art-v1.md)、[DevelopmentV1素材与互动图鉴](../Assets/GridCity/DevelopmentV1/README.md)；132状态及离线检查已完成，尚未接入运行时 |
 | 玩家电池 | [底板](hardware/player-usbc-battery-base-2026-09-27.md)、[UART约定](hardware/player-battery-telemetry-interface-2026-09-27.md)、[GPIO证据](hardware/player-screen-uart-gpio-evidence-2026-09-27.md) |
 
 ## 版本沿革与历史效力

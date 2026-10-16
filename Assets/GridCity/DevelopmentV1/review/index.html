@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gridopoly · 地产升级图鉴</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1013;color:#edf3f2;font:16px/1.6 system-ui,sans-serif}
+main{max-width:1260px;margin:auto;padding:40px 24px}.eyebrow{color:#7ad9c1;letter-spacing:.15em;font-size:12px;font-weight:700}
+header{max-width:850px;margin-bottom:26px}h1{font-size:clamp(30px,5vw,50px);line-height:1.2;margin:12px 0 18px}p{color:#a9bcc3}
+nav{position:sticky;top:0;z-index:1;background:#0b1013f2;padding:16px 0;border-bottom:1px solid #2b3b43}.controls{display:flex;flex-wrap:wrap;gap:8px}
+button,select{font:inherit;color:#dce6e7;background:#18242c;border:1px solid #3e515e;padding:9px 15px;border-radius:8px;cursor:pointer}button[aria-pressed=true]{background:#7ad9c1;color:#102822;border-color:#7ad9c1}select{margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:24px}article{background:#121c22;border:1px solid #2b3b43;border-top:3px solid var(--accent);border-radius:12px;padding:18px}article[hidden]{display:none}
+.meta{font-size:11px;color:var(--accent);letter-spacing:.08em}.meta span{float:right;color:#8b9da5}h2{font-size:20px;margin:10px 0 16px}.master{display:block;background:#080c0e;aspect-ratio:1;border-radius:8px}.master img{width:100%;height:100%;object-fit:contain}.state{margin-top:13px;color:var(--accent);font-weight:600}.note{font-size:13px}footer{margin-top:30px;color:#8399a4}.actual .master{width:160px;height:160px;margin:auto}.actual .master img{width:160px;height:160px}
+@media(max-width:520px){main{padding:24px 16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}article{padding:10px}h2{font-size:15px;min-height:48px}.meta span{display:none}button,select{font-size:13px;padding:8px}.state{font-size:13px}.actual .grid{grid-template-columns:1fr}}
+</style>
+<main><header><div class="eyebrow">GRIDOPOLY · DEVELOPMENT ART V1</div><h1>从第一栋房屋，<br>到一座街区旅馆。</h1><p>22块地产 · 8种街区建筑语言 · 每块6个开发状态。切换等级，看看同一座城市怎样逐渐生长。</p><p class="note">空地后部的小型未完工建筑属于原始地块，不计入玩家建造的房屋。点击图片可查看原始大图。当前为素材预览，尚未改动运行中的固件与服务器。</p></header>
+<nav><div class="controls"><button data-level="0" aria-pressed="true">空地</button><button data-level="1">1栋房屋</button><button data-level="2">2栋房屋</button><button data-level="3">3栋房屋</button><button data-level="4">4栋房屋</button><button data-level="5">旅馆</button><button id="actual" aria-pressed="false">160px实尺寸</button><select id="district" aria-label="街区筛选"><option value="all">全部街区</option></select></div></nav>
+<section class="grid"></section><footer id="summary"></footer></main>
+<script src="catalog.js"></script><script>
+const manifest=window.GRIDOPOLY_ART;
+const colors={A:"#C97852",B:"#63C6E8",C:"#D970AD",D:"#EE9B47",E:"#E85D63",F:"#E7C64B",G:"#54BB78",H:"#5F80D8"};
+const districtNames={A:"铸造街区",B:"滨水街区",C:"艺术街区",D:"市政街区",E:"脉动街区",F:"太阳街区",G:"绿荫街区",H:"子午街区"};
+const labels=["空地","1栋房屋","2栋房屋","3栋房屋","4栋房屋","1座旅馆"];
+const grouped=new Map();for(const r of manifest.assets){if(!grouped.has(r.key))grouped.set(r.key,[]);grouped.get(r.key).push(r)}
+for(const [group,name] of Object.entries(districtNames)){const option=document.createElement("option");option.value=group;option.textContent=group+" · "+name;document.querySelector("select").append(option)}
+for(const [key,records] of grouped){const p=records[0];const c=document.createElement("article");c.dataset.group=p.group;c.dataset.key=key;c.style.setProperty("--accent",colors[p.group]);
+const meta=document.createElement("div");meta.className="meta";meta.textContent=p.group+" / "+districtNames[p.group];const count=document.createElement("span");count.textContent=records.length+"/6";meta.append(count);c.append(meta);
+const heading=document.createElement("h2");heading.textContent=p.name;c.append(heading);const a=document.createElement("a");a.className="master";a.target="_blank";a.rel="noopener";const img=document.createElement("img");img.loading="lazy";img.width=160;img.height=160;a.append(img);c.append(a);
+const s=document.createElement("div");s.className="state";c.append(s);document.querySelector(".grid").append(c)}
+function show(level){document.querySelectorAll("[data-level]").forEach(b=>b.setAttribute("aria-pressed",String(Number(b.dataset.level)===level)));document.querySelectorAll("article").forEach(c=>{const records=grouped.get(c.dataset.key);const selected=records.find(r=>r.level===level);const r=selected||records[0];const img=c.querySelector("img");img.src="../"+r.files.tile_png.path;img.alt=r.name+" · "+labels[r.level];c.querySelector("a").href="../"+r.files.master.path;c.querySelector(".state").textContent=selected?labels[level]:"此状态待生成"})}
+document.querySelectorAll("[data-level]").forEach(b=>b.addEventListener("click",()=>show(Number(b.dataset.level))));
+document.querySelector("select").addEventListener("change",e=>document.querySelectorAll("article").forEach(c=>c.hidden=e.target.value!=="all"&&c.dataset.group!==e.target.value));
+document.querySelector("#actual").addEventListener("click",e=>{const actual=document.body.classList.toggle("actual");e.target.setAttribute("aria-pressed",String(actual))});
+document.querySelector("#summary").textContent=manifest.state_count+" / 132个状态 · 160px格子屏PNG / 128px玩家屏PNG / RGB565-LE";
+show(0);
+</script></html>

@@ -1,0 +1,5305 @@
+{
+  "schema_version": 1,
+  "catalog_id": "grid-city-development-v1",
+  "status": "complete-assets-not-deployed",
+  "property_count": 22,
+  "expected_state_count": 132,
+  "state_count": 132,
+  "new_state_count": 110,
+  "missing": [],
+  "formats": {
+    "tile_png": [
+      160,
+      160
+    ],
+    "player_png": [
+      128,
+      128
+    ],
+    "tile_rgb565": "160x160 RGB565 LE; 51200 bytes",
+    "player_rgb565": "128x128 RGB565 LE; 32768 bytes"
+  },
+  "runtime_integrated": false,
+  "assets": [
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "group": "A",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/a1-rivet-row-l0.png",
+          "bytes": 1009179,
+          "sha256": "6357f1d0ecb5df397e53983c501d93d1c9191c1564eaa8d849d06ef7710ff84d"
+        },
+        "tile_png": {
+          "path": "device/a1-rivet-row-l0.png",
+          "bytes": 24989,
+          "sha256": "cb3118b259b31d2dd8f76eb94697d549aa1401f9059d561c7937f41eb0d97411"
+        },
+        "player_png": {
+          "path": "player/a1-rivet-row-l0.png",
+          "bytes": 15424,
+          "sha256": "f5a6199698034a345c677d9dd367a47be50f6c880faf44c2e7c907eb0b7490b3"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a1-rivet-row-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "2665a4665490ece1f9737f4ca09763016629c65b930ed6c621018e63520d828e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a1-rivet-row-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "07fb11141cde4916f609fc3176b10eb18b7d591f798d95c75d516a6811dd6634"
+        }
+      }
+    },
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "group": "A",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a1-rivet-row-l1.png",
+          "bytes": 1847223,
+          "sha256": "3b07da97b6102aea31e3da8561eb0d50c2520c803d634a04c90aa41b7e607946"
+        },
+        "tile_png": {
+          "path": "device/a1-rivet-row-l1.png",
+          "bytes": 31760,
+          "sha256": "6a05d959ae54f617e77295e43b4cb8860920b43b689896270e8628d74038c17f"
+        },
+        "player_png": {
+          "path": "player/a1-rivet-row-l1.png",
+          "bytes": 20953,
+          "sha256": "130b44cb06b57caa98f4d29639041fea268e6e02a468a5cf963db7c0c49dc790"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a1-rivet-row-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "2667d819436a955b861c7605d0ad76b56d6017496ff856328620288fc7a960af"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a1-rivet-row-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "e25217a5df155feeb1bd4932be221e37ea5ca293499c578fc363f94b20f03222"
+        }
+      }
+    },
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "group": "A",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a1-rivet-row-l2.png",
+          "bytes": 1866004,
+          "sha256": "edb5e3e826a1c160ce1f8a845eb0d6ca278615fd448f548f2214675edb2743c9"
+        },
+        "tile_png": {
+          "path": "device/a1-rivet-row-l2.png",
+          "bytes": 32390,
+          "sha256": "6f3e1124dbe839c82578fb84e1613d70e9b978bc5abfea61fa5b357d576c5e34"
+        },
+        "player_png": {
+          "path": "player/a1-rivet-row-l2.png",
+          "bytes": 21391,
+          "sha256": "6d6dce47dc0efc97312298a5b630b190c325120c51e06a0955a6219b617b2458"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a1-rivet-row-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "8b36272dec0b81fa27ae909d6d0b608e0198739ad423c22092386e693b87548f"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a1-rivet-row-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "8043bc2bf8d825c69bfb345b6dd95189de40b9cde9da7b96da2c9696c1b28c04"
+        }
+      }
+    },
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "group": "A",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a1-rivet-row-l3.png",
+          "bytes": 1964097,
+          "sha256": "37223f09540ecf3b63dfc7d94e44103a342a039171bea22884bcccd2d9b0b9b1"
+        },
+        "tile_png": {
+          "path": "device/a1-rivet-row-l3.png",
+          "bytes": 30899,
+          "sha256": "23f5ba9e16e4684c5bb96c4f59d7ba8ec0072ef4f6f8ae6965d1d004c7cfb918"
+        },
+        "player_png": {
+          "path": "player/a1-rivet-row-l3.png",
+          "bytes": 20178,
+          "sha256": "2bb381f5025325c07b62fbf2b1fca278dad9f595bd30f522e0143f7256e35f07"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a1-rivet-row-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "7dad1315601d255af72626a63f4002a9a2fac57ed54fc6c7773b4e553b2015e0"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a1-rivet-row-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "234382da884ff9667f87170a24f75f7daddb50d71c23956fb44d3224f366d175"
+        }
+      }
+    },
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "group": "A",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a1-rivet-row-l4.png",
+          "bytes": 2013882,
+          "sha256": "0291188452ac99c8c121059838e2455963168346070119fc3b2b617f61e832d8"
+        },
+        "tile_png": {
+          "path": "device/a1-rivet-row-l4.png",
+          "bytes": 31167,
+          "sha256": "e32490180b75bcb8df8e192a4d9f71362f9e3488d3cc41ef12ec6af213c527e9"
+        },
+        "player_png": {
+          "path": "player/a1-rivet-row-l4.png",
+          "bytes": 20328,
+          "sha256": "2871bbded8505aa52185d64b94be4cc1023e2558699ede8f34e8bdc7362c4d1b"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a1-rivet-row-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "3410555b1f1c9f226c43e2854429bcfbede143cd6d52dfccb79682ba8ea55584"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a1-rivet-row-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "f65ef4396fd470fdf5265e0b584b82174dc7ccdec661e5ce32d521fb010861c8"
+        }
+      }
+    },
+    {
+      "key": "a1-rivet-row",
+      "tile_id": "A1",
+      "name": "Rivet Row",
+      "group": "A",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a1-rivet-row-l5.png",
+          "bytes": 2034269,
+          "sha256": "2a73f5c23a3fc4459407211d8c54778d063aa285f60cadabad525a538b71a818"
+        },
+        "tile_png": {
+          "path": "device/a1-rivet-row-l5.png",
+          "bytes": 32063,
+          "sha256": "7742a156276f4f843759564496a0615697eb5d34247e99511c01e8e3fa4947e4"
+        },
+        "player_png": {
+          "path": "player/a1-rivet-row-l5.png",
+          "bytes": 20982,
+          "sha256": "06c0916c5e94d9d66fd4e8128eaa0252fcb013717e1297a720176351c1be87d2"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a1-rivet-row-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "8f52c80e7dd08736811cfb590295e6f84fd6d2d227f8e15f8f5a6dbd86687a47"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a1-rivet-row-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "2e4d6fd25e1179dca1cb57433cf070da681b1e906619b83fb2ef82dc2bde87cc"
+        }
+      }
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "group": "A",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/a2-copper-lane-l0.png",
+          "bytes": 1064800,
+          "sha256": "9504b87a34f8e70606f413b7bb7dfec3abed90af121423596c8a00250f3a275a"
+        },
+        "tile_png": {
+          "path": "device/a2-copper-lane-l0.png",
+          "bytes": 29038,
+          "sha256": "14e168d3e6100f9c38dcea6d95a55b3a8aad426c93d18ae3bd79c39721282033"
+        },
+        "player_png": {
+          "path": "player/a2-copper-lane-l0.png",
+          "bytes": 18545,
+          "sha256": "f28cad37a072d911f3f465784c754b535dc604f595e919f6f49fbaaef30250e5"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a2-copper-lane-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "00a52e8ec3d7986e669846c0c55b642c50c068deb24d935c3751e0a72c4af9c9"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a2-copper-lane-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "8ea99e10eb2fec0214a7242bcf6c4081467444f47b222c26adbacd546b4ae98a"
+        }
+      }
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "group": "A",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a2-copper-lane-l1.png",
+          "bytes": 1861585,
+          "sha256": "e7b4ba50fca0446aa1f216fa9cf2ad2e2785d83ef3d52ff52eda518919800751"
+        },
+        "tile_png": {
+          "path": "device/a2-copper-lane-l1.png",
+          "bytes": 32261,
+          "sha256": "d2d2fd455ca821df39f507296c6d48195cfe418b9050abf3a6accce461fca0f1"
+        },
+        "player_png": {
+          "path": "player/a2-copper-lane-l1.png",
+          "bytes": 21149,
+          "sha256": "70fe5bbe22740f45e59bd7966dffaf23db79a6a2c61e50928ba7f60e81a610ab"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a2-copper-lane-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "f6d8651460535b2cfcf55982f46dacd54be4ff26b20996811889f524aca324b8"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a2-copper-lane-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "8439310eb0b0cea7e09af2dcbbccc717fb3c4d7f65be81fda7a14d6489b491f3"
+        }
+      }
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "group": "A",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a2-copper-lane-l2.png",
+          "bytes": 1893312,
+          "sha256": "3ca8d95c5f19281e5661673352aad6167dd24ad3841a691193c7b8c8befdcdaf"
+        },
+        "tile_png": {
+          "path": "device/a2-copper-lane-l2.png",
+          "bytes": 33710,
+          "sha256": "d715fd994ddd82b5ab66fb737bbb538f42b5c6e8ecb407ae523fbd1a593557b4"
+        },
+        "player_png": {
+          "path": "player/a2-copper-lane-l2.png",
+          "bytes": 22206,
+          "sha256": "978abc189c8e21abf0748cb0cc9c57037924176f3d094e9eea5e70e16447548c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a2-copper-lane-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "303502cf407b9113f8e1ebe8bfc68a782c88e44e12d2f9c7a9bbc30bb6873fcc"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a2-copper-lane-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "ad494ec020989ce33c5fc19c02a9f2c68bcf5deb44afc9af343f6f42236d7df5"
+        }
+      }
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "group": "A",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a2-copper-lane-l3.png",
+          "bytes": 1900166,
+          "sha256": "fbac6d3571c77f35dafc809ba5488ce125477cb423862f136c6397b563db27f5"
+        },
+        "tile_png": {
+          "path": "device/a2-copper-lane-l3.png",
+          "bytes": 32201,
+          "sha256": "ec2be601be9c7564842ae3b3658e4443a4d69f0a5bdc221a2af60e6c459164a5"
+        },
+        "player_png": {
+          "path": "player/a2-copper-lane-l3.png",
+          "bytes": 20959,
+          "sha256": "640774e0e7c8f15bae3de71a83367f02d67294260ed0af153123fb50c1758800"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a2-copper-lane-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "14435e6b5ee77fd527e516fa4ad3453e71fbb5fd8a80dbf5374833e6c9356c0e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a2-copper-lane-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "a02d216915fc8dab4b4d8957f7f51b45a96e5a4c30e64d7bc8a9aefc9a659687"
+        }
+      }
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "group": "A",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a2-copper-lane-l4.png",
+          "bytes": 1999879,
+          "sha256": "e5777c19ea4994fce9c680c70b532aefe3589f56bcb646073dff773d8b3aef69"
+        },
+        "tile_png": {
+          "path": "device/a2-copper-lane-l4.png",
+          "bytes": 35212,
+          "sha256": "a6b096dcc9dbea51ebe27025b8828dbab49bf8e9cd0de418804b0a403e7d4051"
+        },
+        "player_png": {
+          "path": "player/a2-copper-lane-l4.png",
+          "bytes": 23120,
+          "sha256": "3f5ff947189eb935480c0fb2895aa32e8248c3409abe17ba197028e138f8c402"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a2-copper-lane-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "6d0543280c42ba39c2cfec9f10b643a0a090fb4a0f754c83cf0c5af9bdda6ae7"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a2-copper-lane-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "92114b5b5002c0434bd59a343ecc98d27e948d59b9ab72904c9acad324219c11"
+        }
+      }
+    },
+    {
+      "key": "a2-copper-lane",
+      "tile_id": "A2",
+      "name": "Copper Lane",
+      "group": "A",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/a2-copper-lane-l5.png",
+          "bytes": 2131845,
+          "sha256": "70fdc1bc6afd22e8c4c316027d2516a6482c39895fe4a672752dc03bc4df57a5"
+        },
+        "tile_png": {
+          "path": "device/a2-copper-lane-l5.png",
+          "bytes": 34911,
+          "sha256": "bfe3f4b30b40cf1dc61e889d6706a39eb0855c2031918d4db12d3affb24e09ae"
+        },
+        "player_png": {
+          "path": "player/a2-copper-lane-l5.png",
+          "bytes": 22898,
+          "sha256": "62237e9e6369cdce79f0d32c320964e0a915b98a84f42886efa8e6362e004412"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/a2-copper-lane-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "eb72527bdfc16626c6cdefeef9192595901c310bcc06d74bf9419f4b6712d028"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/a2-copper-lane-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "08f3a716d4349c060a05e26f53c904a8746d2eb283ee87299e48727ff7226f72"
+        }
+      }
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/b1-lantern-avenue-l0.png",
+          "bytes": 994853,
+          "sha256": "32a3e8d84a14ecc8d65a87ac52e3f7ef68c0a107b83ea2b9b30d0ea6174cf74b"
+        },
+        "tile_png": {
+          "path": "device/b1-lantern-avenue-l0.png",
+          "bytes": 29556,
+          "sha256": "103c1132476e0ccf1d6cd90e6d3d7baf992d3c10ce3f94520a4d2735ea9d71cc"
+        },
+        "player_png": {
+          "path": "player/b1-lantern-avenue-l0.png",
+          "bytes": 19229,
+          "sha256": "304c1199ff14f4d383baeb11736e56631ceab3e746d8a0b33e74bb336827b979"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b1-lantern-avenue-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "f4aab565131f3a22a7232bf2edb25068cc8d0b61fc3572d8804c5488cafe7d67"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b1-lantern-avenue-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "0ed4dd5bff27d4b1d69f4ce9d9229ffc6a345616452076a6cb0b8e38af47e787"
+        }
+      }
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b1-lantern-avenue-l1.png",
+          "bytes": 1802214,
+          "sha256": "f7897f1075cf0af4aba843bdb6f82573d3f20db6ac30274cccbaa094c5005d32"
+        },
+        "tile_png": {
+          "path": "device/b1-lantern-avenue-l1.png",
+          "bytes": 30364,
+          "sha256": "2d9771119f0895d66cee9c332f51996e251368b9f456bd01016a529d41262545"
+        },
+        "player_png": {
+          "path": "player/b1-lantern-avenue-l1.png",
+          "bytes": 19872,
+          "sha256": "e525ec69c2e1afb11f0aaa6311d91c80526c007ce8c8b12f29a6561737bf6e7a"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b1-lantern-avenue-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "2c23b8ed8e1ba693bafd8169c075371f46f1a740ff76387b4cd17090bef51594"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b1-lantern-avenue-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "4f37b4198d8c3e7e1bf19db24b19c1c3fe9b80daf22a603f3e1bad91e19e657d"
+        }
+      }
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b1-lantern-avenue-l2.png",
+          "bytes": 1869619,
+          "sha256": "7164a9c06d7331c656596d0a4c30a44646c40fa8b2ecff453ea182ad130ce6fe"
+        },
+        "tile_png": {
+          "path": "device/b1-lantern-avenue-l2.png",
+          "bytes": 31542,
+          "sha256": "f0fa5da3ca8d954f92ad397ab67cd5820ec098ada9ff56e4e435580c7c131a3f"
+        },
+        "player_png": {
+          "path": "player/b1-lantern-avenue-l2.png",
+          "bytes": 20771,
+          "sha256": "e04f4a8ad9e760a0b57101c7024f54d9f9521aa690dc93ed1af542429cca8e84"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b1-lantern-avenue-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "d8971da797b2744ae6badd2fc277c1d9a3806adbc3aa54c9b55d928ecad2cde3"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b1-lantern-avenue-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "9ebce690e05f107720c423f811a1d28d361e9496fbb24c6a5763b2af5ae4962f"
+        }
+      }
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b1-lantern-avenue-l3.png",
+          "bytes": 1859682,
+          "sha256": "b2b82a373f1c1c0c7049c92837fe9672d43d928c642251ec4f7669a635d4c3d7"
+        },
+        "tile_png": {
+          "path": "device/b1-lantern-avenue-l3.png",
+          "bytes": 32277,
+          "sha256": "bb111ccb5c14e7658603dd735a3b19fb1b92e6660a281de9cd2060d0bc242166"
+        },
+        "player_png": {
+          "path": "player/b1-lantern-avenue-l3.png",
+          "bytes": 21253,
+          "sha256": "8c72341d292bc8c928b1e418b44ccf783f38c800b90d887598ea144a8c611f7c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b1-lantern-avenue-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "f35406103afa8c4d3ee68103e79a4c9bcf26ea167e8032102b08578a0e795cad"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b1-lantern-avenue-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "83dd6fb3de45b42b439832939b9cdf755c8d6ee3c290ae5a45491af39db00c61"
+        }
+      }
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b1-lantern-avenue-l4.png",
+          "bytes": 1942237,
+          "sha256": "15a19b8f942b6fdc098b931ad8cf809fb47b85315bdae0c9a358a5af7bf8910e"
+        },
+        "tile_png": {
+          "path": "device/b1-lantern-avenue-l4.png",
+          "bytes": 32315,
+          "sha256": "e749a49fb1819db03294b36b504b5fa5e512969aa34de6900b76e335c08aa0a6"
+        },
+        "player_png": {
+          "path": "player/b1-lantern-avenue-l4.png",
+          "bytes": 20970,
+          "sha256": "7a0a0e7f03bff15c072bea0dbc11bb65868f05b37fb17e237181b3a24ae33b42"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b1-lantern-avenue-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "ea277a5f817e946f2e9345e5f099a148c9ed3c19135615dea5ffc934b64e252c"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b1-lantern-avenue-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "9d5c366f4a788d71bc38cc8f043b9dfa85ff7402685220e2d9d7ef563577d055"
+        }
+      }
+    },
+    {
+      "key": "b1-lantern-avenue",
+      "tile_id": "B1",
+      "name": "Lantern Avenue",
+      "group": "B",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b1-lantern-avenue-l5.png",
+          "bytes": 1945376,
+          "sha256": "c940cb094986d6606c4710c28491af514622b6ed21c53840cfc4d30dabbee0a6"
+        },
+        "tile_png": {
+          "path": "device/b1-lantern-avenue-l5.png",
+          "bytes": 33950,
+          "sha256": "8d1a57b9385d779437bb5051f1cb2e6469c6981d05a9c47f6e91048c9ab99357"
+        },
+        "player_png": {
+          "path": "player/b1-lantern-avenue-l5.png",
+          "bytes": 22114,
+          "sha256": "86ebf86411e325e55a447b17136e74cd61a6f6f60b4667bfae60ab7bf40d207c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b1-lantern-avenue-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "dd99cdecbe4a760dd7040d634508a2eb18938990c5a95ab2d09af112a8a8589e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b1-lantern-avenue-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "72a49b88441d79078318a7b249735d573998c409474b5ce8e564be4e9c930a97"
+        }
+      }
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "group": "B",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/b2-tideway-drive-l0.png",
+          "bytes": 917677,
+          "sha256": "b0441041c4717e5c1ee87a62adc4c1546263f5b77fba0b6a16f177543c4fbca7"
+        },
+        "tile_png": {
+          "path": "device/b2-tideway-drive-l0.png",
+          "bytes": 28002,
+          "sha256": "dffdd7288fddec98347228835feeec2408adcf957ed1d87a6bb5024e0679a805"
+        },
+        "player_png": {
+          "path": "player/b2-tideway-drive-l0.png",
+          "bytes": 18162,
+          "sha256": "fafe0622a3fc66a0a07efd2bc441ad6333999b71b5fadc4a605b07a4d4f96afb"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b2-tideway-drive-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "d0205ceb1028e4f669b6fdf50b088d980636d5c0b6502022f4b6861324f809de"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b2-tideway-drive-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "5e71657fcbee2554a3c4abb5bbba143e8888928794dd6c7a51b367daaedb9812"
+        }
+      }
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "group": "B",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b2-tideway-drive-l1.png",
+          "bytes": 1767645,
+          "sha256": "12c1e8751ee9d22d61a26dfd033e27dce2ef7d4286c875850b696ccd4eaa4fda"
+        },
+        "tile_png": {
+          "path": "device/b2-tideway-drive-l1.png",
+          "bytes": 30595,
+          "sha256": "aeea70bb398a8213b004f5d40b82b3fceac0efd4409b4c1288efcad2db7b7bcc"
+        },
+        "player_png": {
+          "path": "player/b2-tideway-drive-l1.png",
+          "bytes": 20124,
+          "sha256": "a36ecf1ca2681f5c9be68726f7dbe63eab65e8f0421a026c9d89d9696a0deb27"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b2-tideway-drive-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "fa8b1208fcc71308779bc98f37dc2352694e6a6a2c42e704965b6b26288ce526"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b2-tideway-drive-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "e42713c30e33807b6f6225e01b4968b21012cf6379403a0422f3e606ec0bdffe"
+        }
+      }
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "group": "B",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b2-tideway-drive-l2.png",
+          "bytes": 1773097,
+          "sha256": "e4e5e78d4633b4d257fd495083a7c754ec4d0902962d8cc77ffd8dabc5df6856"
+        },
+        "tile_png": {
+          "path": "device/b2-tideway-drive-l2.png",
+          "bytes": 31610,
+          "sha256": "d7cb51bc4b241cbb464e9c383dada6a935b3fad4e1697aca0c2d515f21c052a6"
+        },
+        "player_png": {
+          "path": "player/b2-tideway-drive-l2.png",
+          "bytes": 20735,
+          "sha256": "ec7d812318f635c79b2d4b1af6be34a94455b3c91d9c76e4e7028be67e3ffdd9"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b2-tideway-drive-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "cdb812b21f3d7fd2d36cdeaba453352638405f5d7232ef31df038cddd0d8a7f9"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b2-tideway-drive-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "e027091dcd1adb370b89689a4a685cae8d49370d7d2f587cf8865d4853229695"
+        }
+      }
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "group": "B",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b2-tideway-drive-l3.png",
+          "bytes": 1826408,
+          "sha256": "185102ae942849aa9303606634c681539f46f6105d0a8c7239fba362c9eb4350"
+        },
+        "tile_png": {
+          "path": "device/b2-tideway-drive-l3.png",
+          "bytes": 33157,
+          "sha256": "8d6e472b71c1f9db631cbad25d0483a84d5bcf2506752ab908c354753fbbf7b9"
+        },
+        "player_png": {
+          "path": "player/b2-tideway-drive-l3.png",
+          "bytes": 21766,
+          "sha256": "597cd0fbdce4469b33a27d0155595c1942b03aff7efd4bdae556e21294fd49d2"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b2-tideway-drive-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "cad143ee117e198277b2893b6b5a66474f323bfec88b630a17a60f7a697a2aa2"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b2-tideway-drive-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "ca59ca9fdd9c2a59606c66ac3527a14b91f724541a9a1b88adbe1b995e77e248"
+        }
+      }
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "group": "B",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b2-tideway-drive-l4.png",
+          "bytes": 1857483,
+          "sha256": "9c2edcfdc42fe0ba8cd3030a27517f78b586a5c2e0bf48f9f174fe1c62a85a31"
+        },
+        "tile_png": {
+          "path": "device/b2-tideway-drive-l4.png",
+          "bytes": 34256,
+          "sha256": "81fcef9eafa6eeaf25904322bd37b0d47eb8e78bf9e78706660e277de487b147"
+        },
+        "player_png": {
+          "path": "player/b2-tideway-drive-l4.png",
+          "bytes": 22505,
+          "sha256": "80c5c4894f65b2c41312eb3d72d0694fca69958284c67a74f887ab5bf65232bf"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b2-tideway-drive-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "f61c118ff6f1539ed7c275bffcc27a9fe2e4d3ce6fd21fd1a8b26b6e8311b908"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b2-tideway-drive-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "c4909ea4e867d167a69d92e4273c74dc21288693410c1813bb85572faa3441dd"
+        }
+      }
+    },
+    {
+      "key": "b2-tideway-drive",
+      "tile_id": "B2",
+      "name": "Tideway Drive",
+      "group": "B",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b2-tideway-drive-l5.png",
+          "bytes": 1778855,
+          "sha256": "47a38de19a99b9f7e5a558e148bd05fd3875011106af8c5de9a3b64d336a7df0"
+        },
+        "tile_png": {
+          "path": "device/b2-tideway-drive-l5.png",
+          "bytes": 31011,
+          "sha256": "f56be7d161c70e84824af9eaa70a9a98fc9a1c311470d65a06b3645a2574c432"
+        },
+        "player_png": {
+          "path": "player/b2-tideway-drive-l5.png",
+          "bytes": 20409,
+          "sha256": "a2320d7a3ebd972a89c54823379ef6ce61f3a42732cf28b356f883f6a53b36ae"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b2-tideway-drive-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "dd10fe61ef06f2b25ea7cd566cac3d02914a2fcd2f40eb972992061cad196e59"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b2-tideway-drive-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "7b604ad44353e0af5c53153beac485bc30e1330d2bf2be03a8394298a6f7cf64"
+        }
+      }
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/b3-beacon-boulevard-l0.png",
+          "bytes": 894267,
+          "sha256": "7af1faeeda6dc16b8928228f25e08bb3ffd3ee64279b3d2f11c34372af9d7333"
+        },
+        "tile_png": {
+          "path": "device/b3-beacon-boulevard-l0.png",
+          "bytes": 26677,
+          "sha256": "06f5554f47130781ba82da8b455333d579ea48618b8aab570b598d901b9f0434"
+        },
+        "player_png": {
+          "path": "player/b3-beacon-boulevard-l0.png",
+          "bytes": 17535,
+          "sha256": "68ca7022c8c334a57c3e2dd9a59b010740f53d1e3c6f803b3abbd5cc9008cd90"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b3-beacon-boulevard-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "e3776fe0ff588a8369cb8111a40ae75820e500fcf442edacc31c222caaf1b18a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b3-beacon-boulevard-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "a428ba57f5795e7831d0ecd2a4774587cb1c2ee7b6b6cd9c0b039bb080c23387"
+        }
+      }
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b3-beacon-boulevard-l1.png",
+          "bytes": 1809564,
+          "sha256": "2064128af9b923a7952e744d273d798fbe03a00326aa51936a92b2bdf343b4f1"
+        },
+        "tile_png": {
+          "path": "device/b3-beacon-boulevard-l1.png",
+          "bytes": 31972,
+          "sha256": "f304f817d10d2c50313b35dd48aff4c2ae143bfc2a17c74fe267e248d244923b"
+        },
+        "player_png": {
+          "path": "player/b3-beacon-boulevard-l1.png",
+          "bytes": 21380,
+          "sha256": "394c089d4a69979efa6dd41cd96eff40ca43ae8bb7ff6321c98afe5b1e7fa8a3"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b3-beacon-boulevard-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "ca46d3b7d1e5442ed54151e28d54fd29cdb37bdd94c6deb4d35b71298c796c23"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b3-beacon-boulevard-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "376a845f1c22b5f74d8dbf2a9349c892d03464213cbafaa71fc4b01e193fde67"
+        }
+      }
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b3-beacon-boulevard-l2.png",
+          "bytes": 1844179,
+          "sha256": "ef8c491ae9d95aa432efa53db237f3e787edbba18f6579fbaa4f3c518d1bc4e4"
+        },
+        "tile_png": {
+          "path": "device/b3-beacon-boulevard-l2.png",
+          "bytes": 33407,
+          "sha256": "8ed7ce9078bfcd94661d98898efaf7289c421315f8e78b23dfde26a369a0cd60"
+        },
+        "player_png": {
+          "path": "player/b3-beacon-boulevard-l2.png",
+          "bytes": 22299,
+          "sha256": "41eca4dada274a48112f47f6bc3c888350256e8e56d480ab48256ffb077185d5"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b3-beacon-boulevard-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "f19361d93caf22cdfe0f1b72081a259e10c39eb62f1de4617d09f852e12e6057"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b3-beacon-boulevard-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "40e7896f5f0efd61b4338578f4bb501665e7cc995b3a570641189dd89b5709f7"
+        }
+      }
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b3-beacon-boulevard-l3.png",
+          "bytes": 1854413,
+          "sha256": "814dc367247159b35d3414247fd4d154e21c50f552e16d3ef3403c12e2602bb1"
+        },
+        "tile_png": {
+          "path": "device/b3-beacon-boulevard-l3.png",
+          "bytes": 35181,
+          "sha256": "bb6328ef4ddd245b8a08c9c2bc928fc5a13eefa06f117b013948b1373719d8f8"
+        },
+        "player_png": {
+          "path": "player/b3-beacon-boulevard-l3.png",
+          "bytes": 23467,
+          "sha256": "e79467b2897383e9e7dfd213fb7cddc1a0e189bcb84c1e4423a7fac3f5835f41"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b3-beacon-boulevard-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "e214302faaf2bf0b775f285641849696ae6c538e8e0c23361fec59f5bd70fa79"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b3-beacon-boulevard-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "e4efb72df9565e04b419fe9ae20b0a3c3feab19c3599da210b6111feccdbb8c9"
+        }
+      }
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b3-beacon-boulevard-l4.png",
+          "bytes": 1848239,
+          "sha256": "f3261c6de61e3656e83b5290edc49dcba9acb00bfd550018a32d9ac1c3242519"
+        },
+        "tile_png": {
+          "path": "device/b3-beacon-boulevard-l4.png",
+          "bytes": 35815,
+          "sha256": "0b03f8badb23915fe10e28632939ac86a48e4cfcc73f18a36f8761e98a8c6155"
+        },
+        "player_png": {
+          "path": "player/b3-beacon-boulevard-l4.png",
+          "bytes": 23583,
+          "sha256": "99f4429f5d59bbb0e2ce23f0428276e6558fcf9ce065b102b86af04a5d949768"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b3-beacon-boulevard-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "579af1feefc01d8931443f4762db3894136c358c0b2f3e7485608864ff97dad9"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b3-beacon-boulevard-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "d012f76100636407a41ac7f05c36e3667870be3992e6377bef367bf7b656c570"
+        }
+      }
+    },
+    {
+      "key": "b3-beacon-boulevard",
+      "tile_id": "B3",
+      "name": "Beacon Boulevard",
+      "group": "B",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/b3-beacon-boulevard-l5.png",
+          "bytes": 1827827,
+          "sha256": "27d4a5bde1121c516346e2275d57659a3b18075fa627d6221f9183a47ba206d0"
+        },
+        "tile_png": {
+          "path": "device/b3-beacon-boulevard-l5.png",
+          "bytes": 34127,
+          "sha256": "c9ff7d7796ab0e67b150aa615408392310c6e25e3d506c3b357b338f298b0a41"
+        },
+        "player_png": {
+          "path": "player/b3-beacon-boulevard-l5.png",
+          "bytes": 22632,
+          "sha256": "236c9a2179d4be3f298c28daba7492b63da7f1cbcecb6a25485000a6b043bbec"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/b3-beacon-boulevard-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "7c2452057898f4c4e2cba171d924f7bb987c7c01129e231cab8b404708ebd1dc"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/b3-beacon-boulevard-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "c995d7b79348d762d8ddaa285ec3ff895f8937444f80ea57fcb5540eb7bc0289"
+        }
+      }
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "group": "C",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/c1-canvas-street-l0.png",
+          "bytes": 991848,
+          "sha256": "3cedabb3d585f427e39bf1aaccd2bba2491b016f1e99686a0bc1a41741519905"
+        },
+        "tile_png": {
+          "path": "device/c1-canvas-street-l0.png",
+          "bytes": 28984,
+          "sha256": "c81fb3f8849bb55bb7377b16831bbf205750feb2de17f1cc0a574f17954f3c50"
+        },
+        "player_png": {
+          "path": "player/c1-canvas-street-l0.png",
+          "bytes": 18723,
+          "sha256": "90aabd575e66994b5249d80c01454d7815fa662d58173e37a1e1c2e23c974003"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c1-canvas-street-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "c266a5e97d453ec36c2f9ad306f19a53906a94f17948bb7bbbf2fabb2efc8bc6"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c1-canvas-street-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "2396d8ad2c0568145bda65121d10e7588c2c63cd9e7a1b41d4bd7533deae42fd"
+        }
+      }
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "group": "C",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c1-canvas-street-l1.png",
+          "bytes": 1846003,
+          "sha256": "869fd47d4e850f8ed04c3647140b172a74b4a9920e5b5982f7c918f6169210bd"
+        },
+        "tile_png": {
+          "path": "device/c1-canvas-street-l1.png",
+          "bytes": 30467,
+          "sha256": "3136138988e886307339c0d4ef84cf331bbae156463547f6e8f487bfdbcc5f6f"
+        },
+        "player_png": {
+          "path": "player/c1-canvas-street-l1.png",
+          "bytes": 19797,
+          "sha256": "4f759b4947f55f2998e73ae2ae4982344419226e5319bf4133ff2984bc2f310c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c1-canvas-street-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "8687af73a2e67b5ab5b956c0f0dcb24b0bf217167141c868e5f44cc7fc37897e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c1-canvas-street-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "904e21394ae59b62a26c69bb9f8cad2e9a6f1171efb6138b063a2099f7fe3a50"
+        }
+      }
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "group": "C",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c1-canvas-street-l2.png",
+          "bytes": 1883575,
+          "sha256": "5f4da0e71f8968fe6beb470fe8d5132366ef9c1e91ec25bdb7812957ac9f0b0d"
+        },
+        "tile_png": {
+          "path": "device/c1-canvas-street-l2.png",
+          "bytes": 32864,
+          "sha256": "5b406b30f1f108b51241779b27634b0c0d07f428635f8437526e484c9e17d67c"
+        },
+        "player_png": {
+          "path": "player/c1-canvas-street-l2.png",
+          "bytes": 21428,
+          "sha256": "005e134b467afb0a19a6520a06002c1b6e080ea2c987b4721d35558ff486e072"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c1-canvas-street-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "00837b7cca8742f017b40b637eadf4677376de5c34679ba287bc41e8eda444eb"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c1-canvas-street-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "56aa3620b4b80bc8c90dfb680df2a7d0a28c53c65a754f91bb23706a880aa97d"
+        }
+      }
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "group": "C",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c1-canvas-street-l3.png",
+          "bytes": 1968385,
+          "sha256": "1479f2d454590ff56c7d06ee81dd93e58e2aa3cf0af54f9efbec690fc5cc1982"
+        },
+        "tile_png": {
+          "path": "device/c1-canvas-street-l3.png",
+          "bytes": 33922,
+          "sha256": "fccf7437ddcd1eded64da9227c2427af0336ae699b1a2d8852b160d3d8318fa6"
+        },
+        "player_png": {
+          "path": "player/c1-canvas-street-l3.png",
+          "bytes": 22239,
+          "sha256": "a5583f4488ca39649ab5b1441a37dc85e5721e5e079fcb633b9caf88daef6938"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c1-canvas-street-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "2e5c638a51d36e2c6ff05d20fd7a06312a0232ca3819dfd62f768d6496f9f0ed"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c1-canvas-street-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "2f0aae60ac2998628a552683c4d1855ed4486a5f38c8925f18ea92ea0abb7f32"
+        }
+      }
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "group": "C",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c1-canvas-street-l4.png",
+          "bytes": 1903588,
+          "sha256": "84aafeee3a1da30ab78a89fe3335b1fec50b697985acaf365f415e4841b83f77"
+        },
+        "tile_png": {
+          "path": "device/c1-canvas-street-l4.png",
+          "bytes": 34735,
+          "sha256": "1b24d8fc3a2bf98cfaa691643a138cc62d1df87e8165d9ae806041c44aaa5e50"
+        },
+        "player_png": {
+          "path": "player/c1-canvas-street-l4.png",
+          "bytes": 22693,
+          "sha256": "e264a3da685bab665de6898054ee4e5de704940894e462b6f21c71ece2c8a9cc"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c1-canvas-street-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "ee1ef9412248c87d300444b4e79527654916d89ef6d7ccf60967774a0974d1d9"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c1-canvas-street-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "55f1a8103710e2b252dc83cd64088aba0262e9f87fea159878eafdbb65565714"
+        }
+      }
+    },
+    {
+      "key": "c1-canvas-street",
+      "tile_id": "C1",
+      "name": "Canvas Street",
+      "group": "C",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c1-canvas-street-l5.png",
+          "bytes": 1961951,
+          "sha256": "f4bcf5520e88a12ad89b9b1c544b4ddfb19826153ca779f52a2be2e642618712"
+        },
+        "tile_png": {
+          "path": "device/c1-canvas-street-l5.png",
+          "bytes": 34067,
+          "sha256": "4295572e9460d84b3b1ea99216fb5558875253537ff565310ca79f7d2382f471"
+        },
+        "player_png": {
+          "path": "player/c1-canvas-street-l5.png",
+          "bytes": 22623,
+          "sha256": "e94b87b5cd2ac43c1eff634dbb84bcb0006492155f1eaad781af0fb94b43adf8"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c1-canvas-street-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "01fa909f2ca9a64d456e50b460c3c05c7834b9400563086916b0bc512ea1ffae"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c1-canvas-street-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "9840aea5624ca481f34a8ed73f88624b4ac53d212946f9a41a1291163e6b35e5"
+        }
+      }
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/c2-bloom-terrace-l0.png",
+          "bytes": 883705,
+          "sha256": "4223b12ca85aad112d6438d28ce34bd7801e1418bb61e79900dad40cbabb2726"
+        },
+        "tile_png": {
+          "path": "device/c2-bloom-terrace-l0.png",
+          "bytes": 29133,
+          "sha256": "94a6d5214c65c91b29ea0524a02da19fc481e95a5d6f7410d637374552930b69"
+        },
+        "player_png": {
+          "path": "player/c2-bloom-terrace-l0.png",
+          "bytes": 18692,
+          "sha256": "a1d4ab0e266f782fef586276210d61fd641a69bb114d575e0912e3c8c66459c0"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c2-bloom-terrace-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "f3b9cdf1239edee734200494f883a2892077f8e53414d2eb41befb3d055c4b85"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c2-bloom-terrace-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "554541889d2594e5e0bad6ac26d3de8670f7d4c854880f5109c5ae73d2b28087"
+        }
+      }
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c2-bloom-terrace-l1.png",
+          "bytes": 1872198,
+          "sha256": "3a2bbd90ba0d10d42e4c399cdc600c935d5adec263ba8b30e0f9629db9de7f2a"
+        },
+        "tile_png": {
+          "path": "device/c2-bloom-terrace-l1.png",
+          "bytes": 32524,
+          "sha256": "6e2117014df5240c5a4d8adde8263c28b90c75c46d0bb6bb6b3fd9cd1d3b1b2a"
+        },
+        "player_png": {
+          "path": "player/c2-bloom-terrace-l1.png",
+          "bytes": 21481,
+          "sha256": "bfb401b879203c39b2a092e9fd2dbaf7005582629b8150a3c4b26ac174811067"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c2-bloom-terrace-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "673b6e962f8c38878a6439acdb703971153d8b1f15a692ceeeceaed497449d78"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c2-bloom-terrace-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "7598490d8744f3e96f54b6b134942fa5cdd604572e13f60ca55416d2a1c5d83d"
+        }
+      }
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c2-bloom-terrace-l2.png",
+          "bytes": 1879403,
+          "sha256": "ae1203d6742efd48f27a519b996c57a42dc157b522466e3249e676dd22ca3e8d"
+        },
+        "tile_png": {
+          "path": "device/c2-bloom-terrace-l2.png",
+          "bytes": 34811,
+          "sha256": "5474f50bc9c1a0f50b7d0a023ad0dd93c7983813f17426094727b3a6a06f8ea0"
+        },
+        "player_png": {
+          "path": "player/c2-bloom-terrace-l2.png",
+          "bytes": 22817,
+          "sha256": "a866523d3a3566d6562f6cb5255edde23def9a0f424af253e0fcb328b0c8fb63"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c2-bloom-terrace-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "f3c168b9fdaddc7c72dc6f7c2f6155a93ddd3bc41fb57363f9b88457b6a307e8"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c2-bloom-terrace-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "067d6e88a16138cdc73e2508c2c6dfbc051e5bb338362c7948aafbc59bf88a3b"
+        }
+      }
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c2-bloom-terrace-l3.png",
+          "bytes": 1988428,
+          "sha256": "74479e4ae5b098964539262502948020826a7be357df1b068812ff5b971fa1cc"
+        },
+        "tile_png": {
+          "path": "device/c2-bloom-terrace-l3.png",
+          "bytes": 34915,
+          "sha256": "bf99d902881ed1d43b47321b4ba0895e1837b8cedc92d5c87eccf65b26019adf"
+        },
+        "player_png": {
+          "path": "player/c2-bloom-terrace-l3.png",
+          "bytes": 23038,
+          "sha256": "4e1e232466cd1df1bcead78d6e4f34e9b5b8a0aa45cd968fbd5f554a73fec141"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c2-bloom-terrace-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "93a288c765b38afb976bac29d3884cb47616a3fec0fe82f437ece9b4021981fa"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c2-bloom-terrace-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "2e0bc09f661fb7c1ebb18642234be8bad8b9468fe29bf9081aca62a6adc4f779"
+        }
+      }
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c2-bloom-terrace-l4.png",
+          "bytes": 2010600,
+          "sha256": "33bf2d2667dee393ce859aad10a1f95a298c858fe95a4c0a6232f4118c648190"
+        },
+        "tile_png": {
+          "path": "device/c2-bloom-terrace-l4.png",
+          "bytes": 33852,
+          "sha256": "72fa7124cf14eb42832bfb86d6142e6db0b3c0fa5b3060718b83e4795954debc"
+        },
+        "player_png": {
+          "path": "player/c2-bloom-terrace-l4.png",
+          "bytes": 22070,
+          "sha256": "9e76d79050554574e5892e79a153d765e3ad1740d4ae86ed9e32989793911502"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c2-bloom-terrace-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "00ae8af4a87a275db813c8b2d569a25fb68015fc053fef2743132b98142a2259"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c2-bloom-terrace-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "f97071bb46a80d4da955c7c791ea15f0604afa8b1edeb5e063be8d65c2bf8a0c"
+        }
+      }
+    },
+    {
+      "key": "c2-bloom-terrace",
+      "tile_id": "C2",
+      "name": "Bloom Terrace",
+      "group": "C",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c2-bloom-terrace-l5.png",
+          "bytes": 2059533,
+          "sha256": "814520ad9f97f56558a355cd01d135e4838f4dd48786c8eac4bb048a37970dc6"
+        },
+        "tile_png": {
+          "path": "device/c2-bloom-terrace-l5.png",
+          "bytes": 36501,
+          "sha256": "3df5d5544c5d7937a483911c43bf69b139e2cf71a9f16aea0d76e6ae943e6f08"
+        },
+        "player_png": {
+          "path": "player/c2-bloom-terrace-l5.png",
+          "bytes": 24065,
+          "sha256": "490e904ae55c3ee87bad6abe30136515577707816f25827fe79817f72457d059"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c2-bloom-terrace-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "79d8bee5db43323b6b1f918b7f7f758cc546634135ce23a029e273317f04233d"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c2-bloom-terrace-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "4aaa08069c31074d4ed31f5af9cbd67a0353dc5ed0f9bca94f8ed8c25cad96fe"
+        }
+      }
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/c3-aurora-avenue-l0.png",
+          "bytes": 899335,
+          "sha256": "6a419c2c19ddf702c56b07cc3c068cd7ffba42dc7fed7df99f17e43f35268f4e"
+        },
+        "tile_png": {
+          "path": "device/c3-aurora-avenue-l0.png",
+          "bytes": 28892,
+          "sha256": "013f058785c5ab5c04d31a70c68061d470897bfd079e911c261b9e8b3bbec10c"
+        },
+        "player_png": {
+          "path": "player/c3-aurora-avenue-l0.png",
+          "bytes": 18939,
+          "sha256": "8a545ec64088881dabf341b66a1c4237ed96f1f9b1a6f4f87d9cb085265c97ae"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c3-aurora-avenue-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "7bb8d6b0b0690cdaee7a434fdbe8fe71e5f61c2c7ad05e6170aeb3ea3214d7f7"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c3-aurora-avenue-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "93cc717843754c88329699127e0560fff88b35a985951650fda8fa01845e33fe"
+        }
+      }
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c3-aurora-avenue-l1.png",
+          "bytes": 1716925,
+          "sha256": "6a46504b02398f7a1d0d063861f6483a99979dbe067efc1107b1c0cacef19503"
+        },
+        "tile_png": {
+          "path": "device/c3-aurora-avenue-l1.png",
+          "bytes": 29832,
+          "sha256": "96b7d0a212957e7252116a9223093079b2bb5180bd8e16453b218af9a070905e"
+        },
+        "player_png": {
+          "path": "player/c3-aurora-avenue-l1.png",
+          "bytes": 19808,
+          "sha256": "b4d47683f57586a935f91424b1f34c8f59c686110bf6d3425b91fd903cd9b21e"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c3-aurora-avenue-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "26962b96a9c9914d3c32c0505f9aeea2fa0660c9000ce06ef6bdb56c6f33842c"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c3-aurora-avenue-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "70d3b96978896274f8662cf35a67ead4617b160fc8f883b3df720f075a4ae66a"
+        }
+      }
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c3-aurora-avenue-l2.png",
+          "bytes": 1776064,
+          "sha256": "7000f3fb88b477665d49a7a780aaca01bf92b733bb705e0396ce2762250d0b04"
+        },
+        "tile_png": {
+          "path": "device/c3-aurora-avenue-l2.png",
+          "bytes": 30509,
+          "sha256": "a3b06e7efde82f4f901c7216a571fa122f45601c61bf7d707b70bf666011febc"
+        },
+        "player_png": {
+          "path": "player/c3-aurora-avenue-l2.png",
+          "bytes": 20228,
+          "sha256": "8dcf8a908885200aaa484934398dcb98366753fc7e4d0dd7fcaa294a1b52bb9c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c3-aurora-avenue-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "30c14a495d2aa5cdea53f4a248bf24ce47c723c5c2796cf055c6667af9aa09e7"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c3-aurora-avenue-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "7e013c92fc49f000edc164d3decfcc90efa5a4b2d8a37ff0cbfe6eb220ea0992"
+        }
+      }
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c3-aurora-avenue-l3.png",
+          "bytes": 1809407,
+          "sha256": "d8fc8b4ca98b3f8f2abeb20c2bfc3c4b1f578852ee3f85c811c190118008b9e2"
+        },
+        "tile_png": {
+          "path": "device/c3-aurora-avenue-l3.png",
+          "bytes": 30608,
+          "sha256": "69f65a724def0e526d70b181fdcb1ad2fd70230ebec5d50f4a4ba9a878684ab4"
+        },
+        "player_png": {
+          "path": "player/c3-aurora-avenue-l3.png",
+          "bytes": 20202,
+          "sha256": "ebe29c7887e7f0ed3fb18f6bc8c1cea453fe468d30cf2827ca080da5f6d89f11"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c3-aurora-avenue-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "d0d67304cbf13ebc0b1d0735aa25d3085ebd9c45d91f6773084152d85c1a6fb6"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c3-aurora-avenue-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "9b8a9083496189262dc06c1a49ca2fb21781cd9869856a179b8e1d1bb4200cd3"
+        }
+      }
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c3-aurora-avenue-l4.png",
+          "bytes": 1770319,
+          "sha256": "944ad76267e5b49845e34516a541b42dafdeabd94d4eceadf436caf0a514bee1"
+        },
+        "tile_png": {
+          "path": "device/c3-aurora-avenue-l4.png",
+          "bytes": 31460,
+          "sha256": "9632f8a6d560a893ecfb63156e327ee3a3d572be85ef7871a93b4d644adbb778"
+        },
+        "player_png": {
+          "path": "player/c3-aurora-avenue-l4.png",
+          "bytes": 20735,
+          "sha256": "312016769fcd0491338167ee75f73a685bfbc88e8f30d49551703d85320a5e57"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c3-aurora-avenue-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "addc430c6a8e184ca5eabffe8a885e9a64b124791394e100af29184b45a3728a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c3-aurora-avenue-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "616f8756dc7b4bd07d179ebab544777a6fce6d207298c21042b62f3059050786"
+        }
+      }
+    },
+    {
+      "key": "c3-aurora-avenue",
+      "tile_id": "C3",
+      "name": "Aurora Avenue",
+      "group": "C",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/c3-aurora-avenue-l5.png",
+          "bytes": 1774162,
+          "sha256": "cb708c3d780b7b9cc7483579928bac4941eb6094be342726d67c0555677ba6be"
+        },
+        "tile_png": {
+          "path": "device/c3-aurora-avenue-l5.png",
+          "bytes": 31379,
+          "sha256": "20c9bf57125356baa292023f5a0304d378c82522e8cbf0a93b46a1cd6b0fbd69"
+        },
+        "player_png": {
+          "path": "player/c3-aurora-avenue-l5.png",
+          "bytes": 20779,
+          "sha256": "7b4b324e06c86f9f3204a8fc4e53887353a7345c2408986bf3a2a33f1186f84b"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/c3-aurora-avenue-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "6829511e351e5754d659fa3aef3eb0f335ae65e0a39477a0ac565b95ec5c3307"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/c3-aurora-avenue-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "d3c3b07a204175cda48e981481bf45d469bf1c06519b6f71c6273bdc8242dfb6"
+        }
+      }
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "group": "D",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/d1-archive-way-l0.png",
+          "bytes": 868564,
+          "sha256": "cfed31a1c21316f906890994b1fdba471f73e40237a62df59e51d96de48aa4bb"
+        },
+        "tile_png": {
+          "path": "device/d1-archive-way-l0.png",
+          "bytes": 27255,
+          "sha256": "d80ecfb2922e7c17e4ae9d5b8620deade2b2cf0eba9181f51d094aa362f220ce"
+        },
+        "player_png": {
+          "path": "player/d1-archive-way-l0.png",
+          "bytes": 17749,
+          "sha256": "3b3e2255af6a0e13294021782002113d83223c82f62f610f767aa56bc36d70e2"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d1-archive-way-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "ac946bbd252d79f76ce86f89fc57a3720c68e9e59e76c91d708fecec5f300f32"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d1-archive-way-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "378f672867ff29c22bfb9fb00a6eda8ad582b8c23c83518875b9d6782f5332ac"
+        }
+      }
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "group": "D",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d1-archive-way-l1.png",
+          "bytes": 1811203,
+          "sha256": "806e12c5b33949126a5c574c1ed7904d31e58fbd0f3b0edf5c56cf0011efcd7f"
+        },
+        "tile_png": {
+          "path": "device/d1-archive-way-l1.png",
+          "bytes": 30856,
+          "sha256": "df29659150f198d31ccd7d53c3ca7706cb3ecb59bf320a6a2d8f0ac77d490c41"
+        },
+        "player_png": {
+          "path": "player/d1-archive-way-l1.png",
+          "bytes": 20559,
+          "sha256": "cc76ff2b754d3a43e68429d8380e8761dda9967b9b3c22500ca3042bc4e85e60"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d1-archive-way-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "7db29e35039ed30199f10a483961a3a37818d2bd03a99779e6694f35246fe4ab"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d1-archive-way-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "f72b2fce8f2cd47048a950145b65052ee1a08f4ec89c50c44cffb0a6b07db72b"
+        }
+      }
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "group": "D",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d1-archive-way-l2.png",
+          "bytes": 1852542,
+          "sha256": "92c250c7d8f38837d4f7b802c5e590119d17331b78da00368d7852615d210099"
+        },
+        "tile_png": {
+          "path": "device/d1-archive-way-l2.png",
+          "bytes": 32519,
+          "sha256": "1137fad6ea550002dec9f734869d11378213256c1f63cb1e11cd8e0256049e54"
+        },
+        "player_png": {
+          "path": "player/d1-archive-way-l2.png",
+          "bytes": 21576,
+          "sha256": "ccaab575523ea20d9c3c03c7038f364ff21291c7e38d4bba84430887d340bbee"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d1-archive-way-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "c7988cc93532b4f5581f5dd483afffc59d89ffa74d60f7872692e93186d47543"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d1-archive-way-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "e115f002018429553b784f90ed16428459b417760463e330fca6bfb6e7359cff"
+        }
+      }
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "group": "D",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d1-archive-way-l3.png",
+          "bytes": 1887487,
+          "sha256": "1b40d414c15c1509864bb9cd710606e6d4ea02f66586204f7d84ed6d80c067db"
+        },
+        "tile_png": {
+          "path": "device/d1-archive-way-l3.png",
+          "bytes": 33340,
+          "sha256": "2261ffdb5529238e31e09c2d2b4a437a2a65021f4baf4e4275427d1e5756aa9d"
+        },
+        "player_png": {
+          "path": "player/d1-archive-way-l3.png",
+          "bytes": 22055,
+          "sha256": "3862cd56032a3769ccbd125612b9b42d2d628e2c405c11b1df21c38884989c7a"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d1-archive-way-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "6323133b858de8fd364908a35ad70115eb368f630f8944f75ea9128b8bf26c44"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d1-archive-way-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "6150814633386443b2c305cfbbf34d98074e741bcd53826fe704f072a59049fc"
+        }
+      }
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "group": "D",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d1-archive-way-l4.png",
+          "bytes": 1888066,
+          "sha256": "7c2494bac8e6c873c6103d85cb1167640a8cca0e9c4e8bcf0b109d9414b11ceb"
+        },
+        "tile_png": {
+          "path": "device/d1-archive-way-l4.png",
+          "bytes": 32968,
+          "sha256": "c26a96bd9d8f6de7770d1849281a91eac06cb523a2386f2478d144655bf42b03"
+        },
+        "player_png": {
+          "path": "player/d1-archive-way-l4.png",
+          "bytes": 21620,
+          "sha256": "247d6825d9d53c2d7a916f4f11407941c96e19ef335b7b5b341ab92c93ff3270"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d1-archive-way-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "1d707738bc8b1cbd14cd9d7b5a621aaec25a57bca1a5f87d91cef54aa93429e5"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d1-archive-way-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "8bca441ed1b9534f5b91330a566c547b6bbc80322f23c5b238544f8b47815d5e"
+        }
+      }
+    },
+    {
+      "key": "d1-archive-way",
+      "tile_id": "D1",
+      "name": "Archive Way",
+      "group": "D",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d1-archive-way-l5.png",
+          "bytes": 1980446,
+          "sha256": "c3b9d63bd830ec6e8abcf8f2756fed25f63463f689970ded067caacf63c1a849"
+        },
+        "tile_png": {
+          "path": "device/d1-archive-way-l5.png",
+          "bytes": 34965,
+          "sha256": "8646d0fb09fb24bff2a5062d64c95912e1c99d167e3be2923523fcbf11989596"
+        },
+        "player_png": {
+          "path": "player/d1-archive-way-l5.png",
+          "bytes": 23146,
+          "sha256": "932bf275b7a45cd83bf117d6771c9401b79a14363e29825cf837d7140c906321"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d1-archive-way-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "ba036d56439de387c137d1a954cc3e5dfef4be96cd77fdd90005c34566500b12"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d1-archive-way-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "c875e2cb8d06196828b4031e901ad511787e60d7c88dc7971d5f591434dd6575"
+        }
+      }
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "group": "D",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/d2-forum-drive-l0.png",
+          "bytes": 1029485,
+          "sha256": "aa7f89e8a336665ce0de1c5b518fe837eaf5ea43a74f894e81b809979c9877e2"
+        },
+        "tile_png": {
+          "path": "device/d2-forum-drive-l0.png",
+          "bytes": 26371,
+          "sha256": "9611e9771aaf9b3febfb1ef1461cf9713621807dca2142113d727e7ddb9858fd"
+        },
+        "player_png": {
+          "path": "player/d2-forum-drive-l0.png",
+          "bytes": 16759,
+          "sha256": "d98646135bc02056946122e5bb4e061b66d145c565c90fd41ef7f9eb2ae23d53"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d2-forum-drive-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "8f2e7ac0d7d0ad923bb040e965f139a09414d5137955b4ea41cc8608f4976903"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d2-forum-drive-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "8277d3136a9e063413c9a4a1774d736ba52b462aef49373fc06138c46f122ae0"
+        }
+      }
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "group": "D",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d2-forum-drive-l1.png",
+          "bytes": 1840166,
+          "sha256": "16d90989fff7a66f9c899771b8b6c00c7506e2252526b4e8aaab7173615f07ab"
+        },
+        "tile_png": {
+          "path": "device/d2-forum-drive-l1.png",
+          "bytes": 32161,
+          "sha256": "38cc9e75a91cbd3e902ade8878a4f99c5a9d9fe55c7671229802bc0f878002c9"
+        },
+        "player_png": {
+          "path": "player/d2-forum-drive-l1.png",
+          "bytes": 21208,
+          "sha256": "64dba2bcabc8a478fca3cbd04744ce36ffe7ada90df12a154e9a358db9d10ae1"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d2-forum-drive-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "56eb7935d24429fe09c5bc82d196a8b3a3bf7ae1967d8e2c5bfd2dbb882ee9e2"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d2-forum-drive-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "0b4955fb93d0f39a1bbe7d181c4dccd9ffd995e61b84ae1ead1df053e7b8d10c"
+        }
+      }
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "group": "D",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d2-forum-drive-l2.png",
+          "bytes": 1918518,
+          "sha256": "13838cf7c310d8713c9c0fd99e3cbad099103dbd2da3daf29f7a95757497b797"
+        },
+        "tile_png": {
+          "path": "device/d2-forum-drive-l2.png",
+          "bytes": 32520,
+          "sha256": "3bb3992183649eba911bc742ffa6db75db5aaf6225e0cd9ef6cc919c3a867ef6"
+        },
+        "player_png": {
+          "path": "player/d2-forum-drive-l2.png",
+          "bytes": 21472,
+          "sha256": "f1520be7cf471be4f442b97361675103ec5e9fc872376320564c340daa6ae617"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d2-forum-drive-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "f4827a125c97256bc2363641136d1602242568de17c4fe044642a2a3cfd814f6"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d2-forum-drive-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "be0f391f27ec6d228553deb99ee02be710e9c483e168cd17e6d676cc286cf452"
+        }
+      }
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "group": "D",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d2-forum-drive-l3.png",
+          "bytes": 1900704,
+          "sha256": "00d8bc6ab571809aadf8c34ca3effd7c67805ca8bca68ddb60dcaf564e7dded2"
+        },
+        "tile_png": {
+          "path": "device/d2-forum-drive-l3.png",
+          "bytes": 32990,
+          "sha256": "3c911e7ce7938cb2aa5db446156e22f0120180637549ee080521020225972f1b"
+        },
+        "player_png": {
+          "path": "player/d2-forum-drive-l3.png",
+          "bytes": 21688,
+          "sha256": "483b4653ceea356080fd5531433f50016d1c5b039f792aa8a018fd0d7f58acdc"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d2-forum-drive-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "4fbcc55de7b00a52e0900d0ab477b98540e9efdae5af34bb89338e3251cbd422"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d2-forum-drive-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "b778989587050760ce240abe7a23c79b1f8ce0840a816799f4d7a6098650cb6a"
+        }
+      }
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "group": "D",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d2-forum-drive-l4.png",
+          "bytes": 1969647,
+          "sha256": "ae007887981a0beaa0ea8640c37970c0cf3f8a7a85eaebabb381f60948c168ae"
+        },
+        "tile_png": {
+          "path": "device/d2-forum-drive-l4.png",
+          "bytes": 33849,
+          "sha256": "78b2e04312884f9d1ae1fb6d46cfc13f838db150fd6f24b2d7ad11abee24484e"
+        },
+        "player_png": {
+          "path": "player/d2-forum-drive-l4.png",
+          "bytes": 22218,
+          "sha256": "513f295747e8249a3d3b5324352a9d20a9476aeba72b6c8f14cb474c5d58e9f8"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d2-forum-drive-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "d83b4b79e585adf62d69842470800464aec28dd31a25298322e30cd2ba0966ab"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d2-forum-drive-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "f08006eb96ffc9342856eadd1a9a072b89112037c6e64ccb3b8d360ffdca053c"
+        }
+      }
+    },
+    {
+      "key": "d2-forum-drive",
+      "tile_id": "D2",
+      "name": "Forum Drive",
+      "group": "D",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d2-forum-drive-l5.png",
+          "bytes": 2060305,
+          "sha256": "9dfa9f4f39208b942960cf8ea89bcc5a1bf48fa22dbec2545a0d8ee41b7dc463"
+        },
+        "tile_png": {
+          "path": "device/d2-forum-drive-l5.png",
+          "bytes": 35630,
+          "sha256": "195a9e5ea97ba1e8ee77d2fd287cd3e9fa9f997f2a5e174f1bd3dd7a015968be"
+        },
+        "player_png": {
+          "path": "player/d2-forum-drive-l5.png",
+          "bytes": 23451,
+          "sha256": "4ec30d22130c44c6d44f2843ddc312b4ca7e7a9f0f434c955ef5f5283c50393f"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d2-forum-drive-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "46eacf200c1fc1611ae8085312b35d6fdbaac8729a3929cfb3f7b41244fa8bf5"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d2-forum-drive-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "82a7a39dfaa2f86e78b5f156590d433496e976fc7a7e7205466de84cdd5f7c5f"
+        }
+      }
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/d3-meridian-avenue-l0.png",
+          "bytes": 1070767,
+          "sha256": "74e5912725979e468defa26255c31001a49b3698af107090028d74af2a6a4017"
+        },
+        "tile_png": {
+          "path": "device/d3-meridian-avenue-l0.png",
+          "bytes": 27574,
+          "sha256": "92b2ce4ecb1f5faed96e8945645ac981e9e6a68b3c4377f74ac6273d698062c9"
+        },
+        "player_png": {
+          "path": "player/d3-meridian-avenue-l0.png",
+          "bytes": 17304,
+          "sha256": "27554e29c8286bac2500530a21f8dbc2f4fbcc0d0a0cd159b44ffee61eb3c44a"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d3-meridian-avenue-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "b3563f56dd36878b4b760cfced2e2966049e037e2d32e0c663ff47b50546cd3f"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d3-meridian-avenue-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "fc8e91c62909c1ad7a4638efdc5d099c5182e59a3a5c2b750131d445d4395706"
+        }
+      }
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d3-meridian-avenue-l1.png",
+          "bytes": 1873574,
+          "sha256": "82c86f53583c49e16ccc252173d7c02270b99e71bda935887ef554d7903dcd9a"
+        },
+        "tile_png": {
+          "path": "device/d3-meridian-avenue-l1.png",
+          "bytes": 33500,
+          "sha256": "950b8970e50feb5312c22032e6acab43249d91c5004cef5c9b5c186e783f24a0"
+        },
+        "player_png": {
+          "path": "player/d3-meridian-avenue-l1.png",
+          "bytes": 22155,
+          "sha256": "3cb872210fddfe9db3054df85ae757af45dc24bc726e4a2212f9d63b90011644"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d3-meridian-avenue-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "f2a42a2ca2d91ab05dc469576ca7343d2d36de9667a99ee0f73c0575ddd34875"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d3-meridian-avenue-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "badc65c5ce705331a348e41efe0ef4c57c3bcb82715fb430f4af2b5d2ae67235"
+        }
+      }
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d3-meridian-avenue-l2.png",
+          "bytes": 1909309,
+          "sha256": "e38a122c97e8acdb8dd2f5118f35dd5f3ba655967236ee441301a569a16998d6"
+        },
+        "tile_png": {
+          "path": "device/d3-meridian-avenue-l2.png",
+          "bytes": 34544,
+          "sha256": "297b2bcce768d4d205c0c57b546a2a4f38c5040951570570404fb102313e6bdb"
+        },
+        "player_png": {
+          "path": "player/d3-meridian-avenue-l2.png",
+          "bytes": 22727,
+          "sha256": "197825e1f1e1ea3a17ff8171a0a270051fa37802c1488b051d983eda50f80876"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d3-meridian-avenue-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "2b4d7afc201cb9239e18e485d5d51162c288f0ab1d5123643f1a08a954c16c4b"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d3-meridian-avenue-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "5d684863eded27c77662b50bf6a96520af65effa03c11d064c2d9b35b658c4cb"
+        }
+      }
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d3-meridian-avenue-l3.png",
+          "bytes": 1959536,
+          "sha256": "96dfb1e869b89b1bd034d6c2d619f251b90c5c26342afda0da3bd9a84ab34fc8"
+        },
+        "tile_png": {
+          "path": "device/d3-meridian-avenue-l3.png",
+          "bytes": 35023,
+          "sha256": "3e3f66428fc2712bb7fecabc9a506a345cfa1d28d987bfe2bec9d450e383ea86"
+        },
+        "player_png": {
+          "path": "player/d3-meridian-avenue-l3.png",
+          "bytes": 23149,
+          "sha256": "b187a0c126d0e3d23faa461a5b99a74cb0ab3add058e997c005c424872b00497"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d3-meridian-avenue-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "d1c5edf22cb38b1222ff98e8d198008eb06104d88f12994f835250346cd39bd9"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d3-meridian-avenue-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "ab0f5dba9504ec33d75e6a90abd3d4b984397289c1adaefcb68c709d6a010ebd"
+        }
+      }
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d3-meridian-avenue-l4.png",
+          "bytes": 2006408,
+          "sha256": "3df1a48e9a7ff12bc418e5385b794f326858be20e36d133ff092bf0ecb4f55e9"
+        },
+        "tile_png": {
+          "path": "device/d3-meridian-avenue-l4.png",
+          "bytes": 34564,
+          "sha256": "b67777e8ed1f721599dfb51d2d742f6230c751be02d11a262461f85cc1e3ba71"
+        },
+        "player_png": {
+          "path": "player/d3-meridian-avenue-l4.png",
+          "bytes": 22685,
+          "sha256": "3cc4e8ee82178e18b3fa56dbb177e011e364cbd7ae20f49e481163e78d2c3b0d"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d3-meridian-avenue-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "570357a5501be00a77fc952f262078e4e33f480d83b59d96cf636d9606f6c46b"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d3-meridian-avenue-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "18ce34f06abb06e65eb503dc24cdc83a74aec98476e09912e43484a956984953"
+        }
+      }
+    },
+    {
+      "key": "d3-meridian-avenue",
+      "tile_id": "D3",
+      "name": "Meridian Avenue",
+      "group": "D",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/d3-meridian-avenue-l5.png",
+          "bytes": 2095840,
+          "sha256": "4ed3a07d38a2854c7415e78d1ff3178eaef24ca630f8bdced8160d8d3dc60a1d"
+        },
+        "tile_png": {
+          "path": "device/d3-meridian-avenue-l5.png",
+          "bytes": 34481,
+          "sha256": "e6a5f72b76d9fdb4baccfc7cbfcadcc762fe29c42816bfc7ed9ae94a596bc4c3"
+        },
+        "player_png": {
+          "path": "player/d3-meridian-avenue-l5.png",
+          "bytes": 22643,
+          "sha256": "b26e2f01b14695940303f5538ee109bbce7a65c6feb9b9318a825660a5a4707b"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/d3-meridian-avenue-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "6a402732fe4a584210939f4676a7edc62ac30e561c866c2b4d40086c0280c0fd"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/d3-meridian-avenue-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "678183df9f6d8506b3690257b92e232f586e5045e8bb7960b33ece84ff2b89f0"
+        }
+      }
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "group": "E",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/e1-pulse-street-l0.png",
+          "bytes": 1039634,
+          "sha256": "5cc44334734189f6926fcd836acd6d815f39d1a8d349d666a63fdd48ecf21552"
+        },
+        "tile_png": {
+          "path": "device/e1-pulse-street-l0.png",
+          "bytes": 27715,
+          "sha256": "285a132d6b932ab62836495b8a0257ff4df9b5c3424a054e0351fcf5ee3a0de4"
+        },
+        "player_png": {
+          "path": "player/e1-pulse-street-l0.png",
+          "bytes": 17525,
+          "sha256": "06573d32028db8b8b1475246c334bc9f2fd46e828ce73e51ddddf0f89aba530c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e1-pulse-street-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "ea56ff92af6d00377f30dcc52754c84f09c11a8ba7f8f49b233e8a1083f90897"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e1-pulse-street-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "21908db0784441df52058b39774f09158c41f3afcceee9cdc5ca68f0e4983794"
+        }
+      }
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "group": "E",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e1-pulse-street-l1.png",
+          "bytes": 1826770,
+          "sha256": "eaaec37eda95e09db68136a842d25fc9fabaa9d017f7e6868f36667f30ba92f8"
+        },
+        "tile_png": {
+          "path": "device/e1-pulse-street-l1.png",
+          "bytes": 31579,
+          "sha256": "be7ecf1b437f14b853c030ea9c34817ff46f955f1f5dce792782135f6feca365"
+        },
+        "player_png": {
+          "path": "player/e1-pulse-street-l1.png",
+          "bytes": 20539,
+          "sha256": "e22892d487e3377c1b2f0753495ee7846af87146cd9d3f21336b77588f10f67c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e1-pulse-street-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "95d406fc2c680c1463fc3d068f3f2c0558c663539d63896e63b148f1066d2729"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e1-pulse-street-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "f08b316f6f1faebcdee8cfc63a240dcd461d11350f11a8fa4e515ece0cf0bf64"
+        }
+      }
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "group": "E",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e1-pulse-street-l2.png",
+          "bytes": 1895361,
+          "sha256": "8f48d239aec8d0755b62cb2c635661c317729b550b8dc4e85f7ab059dbde09d7"
+        },
+        "tile_png": {
+          "path": "device/e1-pulse-street-l2.png",
+          "bytes": 32369,
+          "sha256": "ad6d2babfad40d46433760e3444f7374c0a01ce4be7c4db8d0b1f74463ff788a"
+        },
+        "player_png": {
+          "path": "player/e1-pulse-street-l2.png",
+          "bytes": 21347,
+          "sha256": "b34f9477d83e6fa977b72ca6a35a59b1e25f4caa88133c9cea78eec1e4572f8a"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e1-pulse-street-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "490a2cc0528147891aeca21129f55aca4c2b38a11d061519cf3d6657783e219d"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e1-pulse-street-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "e58117f1711defe8825c3ed5581400c1e9a301de5f54ff21b919a03a946b21f9"
+        }
+      }
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "group": "E",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e1-pulse-street-l3.png",
+          "bytes": 1889583,
+          "sha256": "5774cdf1f56a62f17582a86c417642186ea1effd2bf6bf3cb9cb8fdc21c55349"
+        },
+        "tile_png": {
+          "path": "device/e1-pulse-street-l3.png",
+          "bytes": 32312,
+          "sha256": "1be53db7fc98cc2e5859ff5a346bb65c098b2229b264e19a99e68688b78b85d5"
+        },
+        "player_png": {
+          "path": "player/e1-pulse-street-l3.png",
+          "bytes": 21127,
+          "sha256": "667a78a1eded7dbaec14b0fad70ff65b132c9b2a30554dd2c76a6c9a669c679e"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e1-pulse-street-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "9b0b0117657efb61888d1d9604a5cf1154e1f8e6df225f9dd43c2c8a8f6b7dff"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e1-pulse-street-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "c3d20b3b992d6b39e77c75e45a378e151dea011b77e07edff2d773c9c2073d25"
+        }
+      }
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "group": "E",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e1-pulse-street-l4.png",
+          "bytes": 1929350,
+          "sha256": "44024c4e012122d861aad3873e0b37ac59d0590669ae1c624759cae0270b12f4"
+        },
+        "tile_png": {
+          "path": "device/e1-pulse-street-l4.png",
+          "bytes": 31734,
+          "sha256": "72cc2b1da9ca668e689ea0f2066ed526d6f7b9959505caa677b15e89bf7244dc"
+        },
+        "player_png": {
+          "path": "player/e1-pulse-street-l4.png",
+          "bytes": 20676,
+          "sha256": "0b5ef5022a27162d0d211a3b7c23e45906c88974ff2cea58688236b562140ed9"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e1-pulse-street-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "810adb395b2991a17dc7392478907cee546322d68137d0efdc56cab496f6a169"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e1-pulse-street-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "9e7e6a006228665c8d9e965c3f23f7312404f4a47700009b09b031b84a0ca534"
+        }
+      }
+    },
+    {
+      "key": "e1-pulse-street",
+      "tile_id": "E1",
+      "name": "Pulse Street",
+      "group": "E",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e1-pulse-street-l5.png",
+          "bytes": 1899096,
+          "sha256": "5eef396822ac621528d6669fa8fc7e620eb42ace0effa5184a6bace831d6a6a8"
+        },
+        "tile_png": {
+          "path": "device/e1-pulse-street-l5.png",
+          "bytes": 33479,
+          "sha256": "7264b4657dcd9ca70bcb6152fd7c657edbb34b77a9252218a3e9d0120e1f7ad6"
+        },
+        "player_png": {
+          "path": "player/e1-pulse-street-l5.png",
+          "bytes": 21903,
+          "sha256": "1f5056ed3ece4c6cda75e547d995afeb260d51e98e0d35914de992a2107cd962"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e1-pulse-street-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "8e223a03c3196ffb55e91878d1ed0533b082156b045baa591de9081f710de321"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e1-pulse-street-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "836502f9acb5a42a1fcb8605c3d7066af8880f45ab4962d8a9d9c54cd74709ee"
+        }
+      }
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/e2-prism-boulevard-l0.png",
+          "bytes": 1014475,
+          "sha256": "ab3684429a1ed87c00fb4914f6d49fb2d659b9d7d8a48c01ce19c07300978be8"
+        },
+        "tile_png": {
+          "path": "device/e2-prism-boulevard-l0.png",
+          "bytes": 27210,
+          "sha256": "c15cce8a94960e4d5e5a43854e8d407d22d60bf7788c09e096d778866a19542e"
+        },
+        "player_png": {
+          "path": "player/e2-prism-boulevard-l0.png",
+          "bytes": 17585,
+          "sha256": "1697cde947bbba1442085a5d7f4947193d718ed1158db51c9791f36fee01f4bf"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e2-prism-boulevard-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "38c61167aa08bfab131692412e97dfdf5afac2b971385ef654b49f98e1d582d7"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e2-prism-boulevard-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "b415432d13f4734fb8c8ad3a0d443f7be7262e4c096ea71b6f06798882e5b525"
+        }
+      }
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e2-prism-boulevard-l1.png",
+          "bytes": 1858174,
+          "sha256": "d23f6d2c2a9568427d64497557f48f252146820b148dac7cad7b329145fe0c12"
+        },
+        "tile_png": {
+          "path": "device/e2-prism-boulevard-l1.png",
+          "bytes": 31995,
+          "sha256": "76a6243bb8fa1f1bef1a86d666149f8bbbfe7de7fb755885f43500303226c889"
+        },
+        "player_png": {
+          "path": "player/e2-prism-boulevard-l1.png",
+          "bytes": 21329,
+          "sha256": "6fd3e8687e354f8139e2dad76a68903987848b3f46f57ace7149e73891ec9aec"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e2-prism-boulevard-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "0bcbda66e7952918d3a702b43bf65c26fb708b09bf4b5e5c68025bccd8193011"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e2-prism-boulevard-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "1d0b6fe83cc82275778189b9570a2a1662fdbce78470a63d457bd5ca969d7980"
+        }
+      }
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e2-prism-boulevard-l2.png",
+          "bytes": 1883814,
+          "sha256": "1b09eae9c1c243c0d2de4f43eb2269b25c8d3aa6bd13e55e42b551fef6a9d2eb"
+        },
+        "tile_png": {
+          "path": "device/e2-prism-boulevard-l2.png",
+          "bytes": 33336,
+          "sha256": "5070375babca1d638d71c83fb2425cea6a0e9631044a09e33d144fbae376bcca"
+        },
+        "player_png": {
+          "path": "player/e2-prism-boulevard-l2.png",
+          "bytes": 22219,
+          "sha256": "94a755ec8ff9dafa5ade23ac214adf64c379086152a27971a3a2ad0a3f54c08f"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e2-prism-boulevard-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "8af6190a0ab3085a6e7a920d2afb17a73d6279931184d4f4aad3274305691774"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e2-prism-boulevard-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "61f29a47d04f16ebc493ce9ec2f09e07cd696e6beabaacb9fde993a5e774641a"
+        }
+      }
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e2-prism-boulevard-l3.png",
+          "bytes": 1945643,
+          "sha256": "3d3a801d9ec4956e138549564893377ea9f0648bae71b0dd386d105f1359c3be"
+        },
+        "tile_png": {
+          "path": "device/e2-prism-boulevard-l3.png",
+          "bytes": 33868,
+          "sha256": "2a2a4c8b4e3738401a5ab89993a2f3e134535bcdfcfe33452e3c67108af695f5"
+        },
+        "player_png": {
+          "path": "player/e2-prism-boulevard-l3.png",
+          "bytes": 22428,
+          "sha256": "05fd43fe35760b36615e341a3947f2030ab486b1714abdcd580ada2f3686dbaf"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e2-prism-boulevard-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "d494154c7a14ba40564ccd131ecedaf5a1b9f5d93088ca0722809a0e00b6b979"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e2-prism-boulevard-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "a8815c1b6756559e81b4601aad9f4decefcaaa7a830252225424497f0057793c"
+        }
+      }
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e2-prism-boulevard-l4.png",
+          "bytes": 1975424,
+          "sha256": "8451655f7308dde4566b3fd616d9b85a903d7a42a667fe71763f8cf31286a00c"
+        },
+        "tile_png": {
+          "path": "device/e2-prism-boulevard-l4.png",
+          "bytes": 33791,
+          "sha256": "65723c6318d4cd47aa95403f852aa51292d9b084d3554ea16c97a64493010224"
+        },
+        "player_png": {
+          "path": "player/e2-prism-boulevard-l4.png",
+          "bytes": 22152,
+          "sha256": "66cb6170f2168630b2ae0bbe6fd92033c99c866f777e2d9fdd168557c9d58187"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e2-prism-boulevard-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "8d815be3522cf23b4b843c1623ab6c112a61d7f6dea2096f13822a75ee13570d"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e2-prism-boulevard-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "7df3eb5cbc146774224cd0757ec0fc282546de874fc95d5532d08d3d72e6fca5"
+        }
+      }
+    },
+    {
+      "key": "e2-prism-boulevard",
+      "tile_id": "E2",
+      "name": "Prism Boulevard",
+      "group": "E",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e2-prism-boulevard-l5.png",
+          "bytes": 1948961,
+          "sha256": "949779bfcf0ba05cb1062c268dc89f5f14c4c1bb18553ff26711a057f9aa0e78"
+        },
+        "tile_png": {
+          "path": "device/e2-prism-boulevard-l5.png",
+          "bytes": 34310,
+          "sha256": "38b2770b35ec66e26ff86b66f8e628361c8547de29551d3098a9c01751b9ccbf"
+        },
+        "player_png": {
+          "path": "player/e2-prism-boulevard-l5.png",
+          "bytes": 22871,
+          "sha256": "29e8675e01b89038acec8949d155c46c6048ff81dcd7b9cf632bc7b041d5cb0b"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e2-prism-boulevard-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "6acf1cabda199da23764dc83ebc4906ed37491341f20055cd905fc0629e5be61"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e2-prism-boulevard-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "f39d76e1361367619553318df4b73cdf014e9b124839a9d0646fa75ebd0c90df"
+        }
+      }
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "group": "E",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/e3-nova-avenue-l0.png",
+          "bytes": 1063353,
+          "sha256": "2da1fc060f37339e9b76105166ca6373d888cfcb81dafe9fe672ed2ab925d7ac"
+        },
+        "tile_png": {
+          "path": "device/e3-nova-avenue-l0.png",
+          "bytes": 26237,
+          "sha256": "a646786c952003ef5bd0da82769833e2ec45f16bd9f3f36cf2d16fac8cfdb135"
+        },
+        "player_png": {
+          "path": "player/e3-nova-avenue-l0.png",
+          "bytes": 16935,
+          "sha256": "80fdec2b887e1de6aa4e6f27716e7c6cb698d2155ee7102383410731c50f1607"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e3-nova-avenue-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "32b637c64f7753ab8c556a593b50afe7dfcec778f113e682b94bb47f7a3ae518"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e3-nova-avenue-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "111932a9f4df033901ebcf4cd3c917b8fcbb9c4ae0dd50e1358b2e3c9b577e86"
+        }
+      }
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "group": "E",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e3-nova-avenue-l1.png",
+          "bytes": 1965392,
+          "sha256": "fd52bd11d4644b7d2fc1ec1479fc530febd04483f05b115d6388f6e773cd2023"
+        },
+        "tile_png": {
+          "path": "device/e3-nova-avenue-l1.png",
+          "bytes": 33973,
+          "sha256": "6e0b0ca0f275900f0844b9a230f12f414a27a8ff152a6278d5cd18810f6d132e"
+        },
+        "player_png": {
+          "path": "player/e3-nova-avenue-l1.png",
+          "bytes": 22493,
+          "sha256": "333a7ef4d278be3aa07612f46a7c1ee4d0139f01529b5256e5cd3a9725627d19"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e3-nova-avenue-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "a5e0fa5cc26a521bb3e6d060b248ef86f0e70c03e9399fdf7bf63d2b1c814814"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e3-nova-avenue-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "0e2888ff53ee43a1699174bdbe2cc9bea4235771008bc69a0a8c438511173210"
+        }
+      }
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "group": "E",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e3-nova-avenue-l2.png",
+          "bytes": 2006592,
+          "sha256": "934c7df26ab1819c64630df6f18a4fabc69892e9e87c3ab46e2fc6ab7909933e"
+        },
+        "tile_png": {
+          "path": "device/e3-nova-avenue-l2.png",
+          "bytes": 35034,
+          "sha256": "3397917bdf0caa2cf485820ad8ec575a12e6076db054d94c91cd0f16724c4c35"
+        },
+        "player_png": {
+          "path": "player/e3-nova-avenue-l2.png",
+          "bytes": 23261,
+          "sha256": "69d814e2fe6b83b334fb36fa9fd0a9a6038f37da94bd2a4227c8edc4cf013dd8"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e3-nova-avenue-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "42896a99ea09ba8cc3c7329dc2ff895f44e83e326676174f2c91fc9ca0469726"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e3-nova-avenue-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "649302822f23d142471caf3ddc3c20cb21c5ab24aca857b9647e614d57239e13"
+        }
+      }
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "group": "E",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e3-nova-avenue-l3.png",
+          "bytes": 2014605,
+          "sha256": "9fb67619c664107f7940e47ad39853da235100981ee02c45b173053b761e2bd4"
+        },
+        "tile_png": {
+          "path": "device/e3-nova-avenue-l3.png",
+          "bytes": 35250,
+          "sha256": "c3761ee29c20e7ec07ad8e61969a0fd96ac056f0ae58f5ce112defbe5ce58bf0"
+        },
+        "player_png": {
+          "path": "player/e3-nova-avenue-l3.png",
+          "bytes": 23294,
+          "sha256": "d1947f4dda22d3f4b9e238ff10a04b38df0f7ec51833c77ee5c835b836e11456"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e3-nova-avenue-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "f2865498da7387912ca71fa773a229ffaf7861ae78951377d66a3b1e780cc696"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e3-nova-avenue-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "e77b876b7e4e421deb9711649e92b64f8309ea97a8bafc563b0412118d911449"
+        }
+      }
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "group": "E",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e3-nova-avenue-l4.png",
+          "bytes": 2038863,
+          "sha256": "fc8849eb87c34f14dc539b228a0a1041cc4e993d553ca78339b056104cd85a37"
+        },
+        "tile_png": {
+          "path": "device/e3-nova-avenue-l4.png",
+          "bytes": 35395,
+          "sha256": "3e698cc475867a1534137c2e45823782f42ab4d1b81749e90ec58c08385c992d"
+        },
+        "player_png": {
+          "path": "player/e3-nova-avenue-l4.png",
+          "bytes": 23325,
+          "sha256": "6a0f40df0acbbc6428577f7e68d69b869d3a0102ef7672ec1c5f5008e6d7b54f"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e3-nova-avenue-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "23f063139988f0702893cf323c7ca42e29f76d6be94c4d987c99d9c8f7a398f2"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e3-nova-avenue-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "c388b4b5a080a917afaffa37f43d880a9e975c92114f85d4673659ce73c04a2f"
+        }
+      }
+    },
+    {
+      "key": "e3-nova-avenue",
+      "tile_id": "E3",
+      "name": "Nova Avenue",
+      "group": "E",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/e3-nova-avenue-l5.png",
+          "bytes": 2034039,
+          "sha256": "d18b3bdc28c851bc4a433f6623b7db5fb6f5db0f9ac8b349830ac9e6dd747ba0"
+        },
+        "tile_png": {
+          "path": "device/e3-nova-avenue-l5.png",
+          "bytes": 33633,
+          "sha256": "8ee31aab70e5f7f41b6f82f9c3da4112868c4b3cdd7d2f0cf75c54e93b8160be"
+        },
+        "player_png": {
+          "path": "player/e3-nova-avenue-l5.png",
+          "bytes": 22093,
+          "sha256": "3c2ab2daa897e7c79bc8d2bd219d8ba4ad89060ddd996e74c7fc30203bbbad31"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/e3-nova-avenue-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "1d95215d944659fd459ff61e8f6206462e77e944d09b9ebd7f9e138780b59086"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/e3-nova-avenue-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "e1adfc47ebb978d9b16ef13d73951555d7da0ccd622de09d904b92139dcc72e0"
+        }
+      }
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/f1-sunstep-terrace-l0.png",
+          "bytes": 1108547,
+          "sha256": "b32ef6e2124915b04e2f79e0379b0c4ab22fa393664efb93d78fcbedd53ebe11"
+        },
+        "tile_png": {
+          "path": "device/f1-sunstep-terrace-l0.png",
+          "bytes": 32483,
+          "sha256": "c8a9204d98f3043599ed672a9e98f23cf61378cbddccb3f45f97ba972a51704f"
+        },
+        "player_png": {
+          "path": "player/f1-sunstep-terrace-l0.png",
+          "bytes": 21291,
+          "sha256": "bca5e0488b41e8dedf986393fdbca8c57139aa8b0b44a6348c83b81db124ecde"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f1-sunstep-terrace-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "804e816bbd5950f21fe76784ae29a80bc64998314b1013d5d13867aae0fb6a59"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f1-sunstep-terrace-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "a3eb512fd7ddd30e0676a8684ce41bcd16fddf5a14773621979dc54069bc72b2"
+        }
+      }
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f1-sunstep-terrace-l1.png",
+          "bytes": 1910631,
+          "sha256": "6c494b447e3d0a845f672514f20fcce6f4e86c3be4a2517a0a6dca1543d5cdb3"
+        },
+        "tile_png": {
+          "path": "device/f1-sunstep-terrace-l1.png",
+          "bytes": 34833,
+          "sha256": "e911963fd4fccd92a603f72769022d31a861231501f0574645b936647f9726bf"
+        },
+        "player_png": {
+          "path": "player/f1-sunstep-terrace-l1.png",
+          "bytes": 23232,
+          "sha256": "609efabdcf1b06ef6ddde15cadd28933eb59fe0fba0fe09f705e36873d88f6f9"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f1-sunstep-terrace-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "a76706b8f43c61b89be9a81032fe151f0522ff4ca260be665e32954d3bee5137"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f1-sunstep-terrace-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "fcadf476a96133041c471e7e3f32505edee0223fe7c2d77db3afa6e117962bce"
+        }
+      }
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f1-sunstep-terrace-l2.png",
+          "bytes": 1966317,
+          "sha256": "1ced0aafc3453b5d256101b12545f4449167d5e104a83c99d2ace1306c16f0f5"
+        },
+        "tile_png": {
+          "path": "device/f1-sunstep-terrace-l2.png",
+          "bytes": 35427,
+          "sha256": "6d6c82036776045d7e7dd03c1f1431d3dbea13cb999efdedd3ef555dc5f2cec1"
+        },
+        "player_png": {
+          "path": "player/f1-sunstep-terrace-l2.png",
+          "bytes": 23603,
+          "sha256": "5846ae0d9f439a88a31f9fa3139ab393c610f579909b3140f8848b593673fed1"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f1-sunstep-terrace-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "ee367de5cd85f2d4cfaf7a73c4da62f86d6f9bed069d0a8946654a2566219e09"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f1-sunstep-terrace-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "8bfb7660a9ca79c16030df2aaad2d7d672254f263b2481dd51edc1519ed75821"
+        }
+      }
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f1-sunstep-terrace-l3.png",
+          "bytes": 1959007,
+          "sha256": "5e251171bb59d4e0edbdd5594b0d73c09134d2e03bd92dcbe362c5211dea277e"
+        },
+        "tile_png": {
+          "path": "device/f1-sunstep-terrace-l3.png",
+          "bytes": 35359,
+          "sha256": "f1942152cd9d1591d96408e79b0a7fcfedbd8e1d559889fe553ce0adc184dc64"
+        },
+        "player_png": {
+          "path": "player/f1-sunstep-terrace-l3.png",
+          "bytes": 23583,
+          "sha256": "53e16092c9c847157692e29e58f4ec470e7ad1d22eeff981f200f5236f0b8129"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f1-sunstep-terrace-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "ff48b066edfc06e34680db07928fc178811aba7ee230e9e925883237df222e1c"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f1-sunstep-terrace-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "fdab62f2ecf0cd764df01329824e10985c207d8dcf310ea158846abff2658958"
+        }
+      }
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f1-sunstep-terrace-l4.png",
+          "bytes": 1989417,
+          "sha256": "3a69b9786645e883d3e85310e18d68910e617f15ab7407155da7f7d7d5d8bed8"
+        },
+        "tile_png": {
+          "path": "device/f1-sunstep-terrace-l4.png",
+          "bytes": 34991,
+          "sha256": "16d6f0e1d5a5d070df75fce6fd1508eb7f9cb622f03524b9d567a2d0575711f1"
+        },
+        "player_png": {
+          "path": "player/f1-sunstep-terrace-l4.png",
+          "bytes": 22985,
+          "sha256": "f57e819ecbb452753ac38416aa4faffb5a44b95613f7ff52ab9f91fe49232545"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f1-sunstep-terrace-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "8f5017f5c438e52e74966d28e36f2ff86ddb4879d905238c9be5cb4eeb7c616c"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f1-sunstep-terrace-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "9b759fe46a836fa4458db085b65603026d180f4bb75e918c088003a923b1baf2"
+        }
+      }
+    },
+    {
+      "key": "f1-sunstep-terrace",
+      "tile_id": "F1",
+      "name": "Sunstep Terrace",
+      "group": "F",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f1-sunstep-terrace-l5.png",
+          "bytes": 2124529,
+          "sha256": "3df6d1216a9fc04fe96defaf48bcfbdd4cabdbacdf0005051d54f91a9b9dc72c"
+        },
+        "tile_png": {
+          "path": "device/f1-sunstep-terrace-l5.png",
+          "bytes": 38044,
+          "sha256": "7b5344cf100ccefe4b68c19211aec2982a776cec839a77383dcc3d1d5239579f"
+        },
+        "player_png": {
+          "path": "player/f1-sunstep-terrace-l5.png",
+          "bytes": 25038,
+          "sha256": "78b30fdeb343cf72c4131e5f178277547700a61d7bb13b8cd0030df4b30d1231"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f1-sunstep-terrace-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "637dfd8c366da34fb7c9169c758887d3e7624603ac16022fdabb5fc37a8bb653"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f1-sunstep-terrace-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "a9a84e19cf6391d4677d939aeda212027a60544b294ae21307174bce27363293"
+        }
+      }
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "group": "F",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/f2-helix-way-l0.png",
+          "bytes": 1066051,
+          "sha256": "40d92e5eee7895dc155b05e14a35b25449df025429d6b6dad162642740b903de"
+        },
+        "tile_png": {
+          "path": "device/f2-helix-way-l0.png",
+          "bytes": 33148,
+          "sha256": "46d74f4e6f548381411654f147f4c9bf7333b19da6f32b99e1c99f09ee337d86"
+        },
+        "player_png": {
+          "path": "player/f2-helix-way-l0.png",
+          "bytes": 21608,
+          "sha256": "f5dd069fc40c5d08e6a30443f77ea3150ac7b3e35e5b663278ea05f568534449"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f2-helix-way-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "c9fc72d535329757dfe86b3eb76e9b54b26f0941b65435b7e46114593318cca4"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f2-helix-way-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "0cfb6d294d8237d060ad489201a69c978351f75b8aa8525cb7ade33f6dbe68db"
+        }
+      }
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "group": "F",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f2-helix-way-l1.png",
+          "bytes": 1854909,
+          "sha256": "d61c1d170c4713878fb1e3e59f36b1b568f73292ecfe43fd95503667adb45b0b"
+        },
+        "tile_png": {
+          "path": "device/f2-helix-way-l1.png",
+          "bytes": 32990,
+          "sha256": "30569943db4b8dbf92e672c641c761af60d0da13fc1e9062ed71b8a17eee766e"
+        },
+        "player_png": {
+          "path": "player/f2-helix-way-l1.png",
+          "bytes": 21782,
+          "sha256": "ab2a31ea0eab1cff33999bcf75fc4a7b812e36347ec63f73d1429e7b70773fc0"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f2-helix-way-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "e8b7230689a8eb66c8b381f65f1da56de0d52a82b303cef3ce7591c0e4e3a6a7"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f2-helix-way-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "ae0b601517452942f46ab1a06e5b22dcb0989cdc95f3d2b7678639a69860da02"
+        }
+      }
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "group": "F",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f2-helix-way-l2.png",
+          "bytes": 1939741,
+          "sha256": "dc4f8726b902664b1373add244cad02ecf0c26e50c167c78e4801f5002618fff"
+        },
+        "tile_png": {
+          "path": "device/f2-helix-way-l2.png",
+          "bytes": 34034,
+          "sha256": "59fce07a5602c90f9a6066afbf8e5aa17c2b9467ebede45488c1106b416e8db8"
+        },
+        "player_png": {
+          "path": "player/f2-helix-way-l2.png",
+          "bytes": 22337,
+          "sha256": "769e354e223e3de06c835ffb07d359832bb6179d9b64e130ee4832f5527b9111"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f2-helix-way-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "abe8fbddf31f01482bab318e758eae851af3275454fe175b177428175e3d3a04"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f2-helix-way-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "44f84c22649022d58a18d9c8f95d64be63de4045ce881eba77485bae5ef99619"
+        }
+      }
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "group": "F",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f2-helix-way-l3.png",
+          "bytes": 1938287,
+          "sha256": "3da261a6023490c426a3a746a64922fdcd26c54390df04676355266c4e5f7b50"
+        },
+        "tile_png": {
+          "path": "device/f2-helix-way-l3.png",
+          "bytes": 34926,
+          "sha256": "8e42df51ec529342aee2284eab3272f99984f21a8d6d064fb1337ad2d1f64015"
+        },
+        "player_png": {
+          "path": "player/f2-helix-way-l3.png",
+          "bytes": 22971,
+          "sha256": "eef603df22259ac0019dd864acc3750097c9d021fe376f7459285dd19aa59faa"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f2-helix-way-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "9009c51dea0c91688838f8eb9039d41e87d9006564def73bf5a0a098be48ba9d"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f2-helix-way-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "f7325dffcbd0a005d426db57aee7ce4fc8550df79724ba6645efc686f4ea102b"
+        }
+      }
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "group": "F",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f2-helix-way-l4.png",
+          "bytes": 1976767,
+          "sha256": "d65650838b16705eeb00ae75e2354a6b4c090974cb0c67dee9e65d422bec5771"
+        },
+        "tile_png": {
+          "path": "device/f2-helix-way-l4.png",
+          "bytes": 33306,
+          "sha256": "4590c4e0bf5643b47b72569810ca22727fbdeed04cdd88391311ab354cca65aa"
+        },
+        "player_png": {
+          "path": "player/f2-helix-way-l4.png",
+          "bytes": 21349,
+          "sha256": "ec050b4f1767e6ac47cf5cf41ca2ff2c532a8620ea487deda6c3916643efffd1"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f2-helix-way-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "f0d0a0bb193c18b316437332f2460ba1c3d25a5fc09ddbfe30e502e1e3e1c31a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f2-helix-way-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "789bb1ec95f299495be5e1f05b511d3f194047022ce3cef2a3db0e02243bda33"
+        }
+      }
+    },
+    {
+      "key": "f2-helix-way",
+      "tile_id": "F2",
+      "name": "Helix Way",
+      "group": "F",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f2-helix-way-l5.png",
+          "bytes": 1972904,
+          "sha256": "3e10fb1fa73a718af9352761ceae56bc97f199c0b5f8f267fcca8bbd774d00cf"
+        },
+        "tile_png": {
+          "path": "device/f2-helix-way-l5.png",
+          "bytes": 36832,
+          "sha256": "45d4623ae470e90aa09e7913920bebca63418b2c18e191e2615cd8f007485267"
+        },
+        "player_png": {
+          "path": "player/f2-helix-way-l5.png",
+          "bytes": 24199,
+          "sha256": "e52c61cbc902fbc0d60b3a155a895b34f4a77e684dbd922b6d2d08735b86acfc"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f2-helix-way-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "5741f8d9cf30a1fa49c1ddb61a8312338c198613d9d048fe8205335bac22f86a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f2-helix-way-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "074353b51972d5be57525c6806d3e285bee178a6eaec44863079a7f936ce8e06"
+        }
+      }
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "group": "F",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/f3-horizon-drive-l0.png",
+          "bytes": 1048159,
+          "sha256": "e6bf3c4415fe64ac69a48c82af3c909a6188d3bd70a6d4ee25887757f8fa59bf"
+        },
+        "tile_png": {
+          "path": "device/f3-horizon-drive-l0.png",
+          "bytes": 26665,
+          "sha256": "45700712408376f2b12d7e135a93eaf1a9752651851adf0250a0537983bdca35"
+        },
+        "player_png": {
+          "path": "player/f3-horizon-drive-l0.png",
+          "bytes": 16788,
+          "sha256": "f7031932021e8e3f8cb3d9e072ba2a66754d0bbea528831b6a66ccb30eebbe60"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f3-horizon-drive-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "a488ace47694e54841e73bdc73aea2b26b3c78ed3925a3c398b18c68d4a92c60"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f3-horizon-drive-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "0906f10c812a865986918355ccc7efdd662752d0765ccde765d2918122502bb3"
+        }
+      }
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "group": "F",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f3-horizon-drive-l1.png",
+          "bytes": 1832456,
+          "sha256": "993c7106b3aad4985e1e225b79b38d9aff927ff69d5e4aa598d6ce9517b76974"
+        },
+        "tile_png": {
+          "path": "device/f3-horizon-drive-l1.png",
+          "bytes": 32903,
+          "sha256": "ff9240f0faae108b120b8126b67af8ca57eddc23d1d4c3c876ebb1b2576c03a3"
+        },
+        "player_png": {
+          "path": "player/f3-horizon-drive-l1.png",
+          "bytes": 21725,
+          "sha256": "0badfb379dbf36e966bf6a43078746995a7ae3e6ef6459219c484b9da8813d6d"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f3-horizon-drive-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "8ee2abcf17922d78528cac95aa71208200f8310fe3d477a6d8d5872a8bb46f35"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f3-horizon-drive-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "b403f6be91526635f80e804f3b320a61804850a6ecea478944726bef614e871d"
+        }
+      }
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "group": "F",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f3-horizon-drive-l2.png",
+          "bytes": 1874373,
+          "sha256": "b7a9727781c005faae8d15cd02affaf7b52ff1619631581dd40c3716eb43cbbf"
+        },
+        "tile_png": {
+          "path": "device/f3-horizon-drive-l2.png",
+          "bytes": 33863,
+          "sha256": "73fa9684c1f8c52a4750f0f22a9d6d99dbe17f85caa0740c8810a7c70a6ad126"
+        },
+        "player_png": {
+          "path": "player/f3-horizon-drive-l2.png",
+          "bytes": 22387,
+          "sha256": "6817e25a64665c7c796a71a569b5a95478a56c731f0b86a5b658d97fcd576526"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f3-horizon-drive-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "b888066a56209720e36703fa061c40f03c68241f8690a997d311c86a27c6c9b7"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f3-horizon-drive-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "2d0f8ba385da27f5245a6c8c782a40b1cc3cd0912777caaa722360800c84d069"
+        }
+      }
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "group": "F",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f3-horizon-drive-l3.png",
+          "bytes": 1914676,
+          "sha256": "9985543373ded75eb18d4fc719bb6825330af8e2a42dd3c53bf114a848779a53"
+        },
+        "tile_png": {
+          "path": "device/f3-horizon-drive-l3.png",
+          "bytes": 34423,
+          "sha256": "2d1546aac225ce6e1355d2e433586c11d5fe49add27540f152fc68108cdff33d"
+        },
+        "player_png": {
+          "path": "player/f3-horizon-drive-l3.png",
+          "bytes": 22748,
+          "sha256": "b028624ac282979f093a0d16552ece6a346bc05c2fb79fb3e09b1a19d0cb0656"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f3-horizon-drive-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "03cbc52b04a230e5b6e5ea3c6a5d67a6cc3b5c088e940fd5d79efe204a89adeb"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f3-horizon-drive-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "eb42a6f9bf43d70f1bf58779e0a1386a64a70b36ded16da32fe70e1ade910358"
+        }
+      }
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "group": "F",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f3-horizon-drive-l4.png",
+          "bytes": 1986580,
+          "sha256": "808d3b39af62717e7b8b403454730ae5ed3aabbe870a37e54ab709e7ed1b4115"
+        },
+        "tile_png": {
+          "path": "device/f3-horizon-drive-l4.png",
+          "bytes": 34919,
+          "sha256": "c6cdbce7365cdf485dc1a919435040356f7c69e7c2d6d93b758e6c05bb03f997"
+        },
+        "player_png": {
+          "path": "player/f3-horizon-drive-l4.png",
+          "bytes": 23002,
+          "sha256": "e41a756c87d2c1d88e28968432779c80cfcf3f14c60486ab8175a8236f8885fb"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f3-horizon-drive-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "84f5728214e68a8c7bd38a7d171ece437ebb3f0652fa1806504d3b36434cbab0"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f3-horizon-drive-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "39bf1b871661028bd546d31c7a403d9d7a2c751b98cb59ba4a926b9c68568ebc"
+        }
+      }
+    },
+    {
+      "key": "f3-horizon-drive",
+      "tile_id": "F3",
+      "name": "Horizon Drive",
+      "group": "F",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/f3-horizon-drive-l5.png",
+          "bytes": 1848338,
+          "sha256": "9af5685c9fc71c4617b71293d65001ac4cd045dd043579ddb1a86249f61d98c7"
+        },
+        "tile_png": {
+          "path": "device/f3-horizon-drive-l5.png",
+          "bytes": 34740,
+          "sha256": "0feab00dd822877fd0ddb315240bfa44ff9a3816f4535f79bb3e86c225936721"
+        },
+        "player_png": {
+          "path": "player/f3-horizon-drive-l5.png",
+          "bytes": 22877,
+          "sha256": "ad8afaf8705b0b71b39af4cbd475015bc56a418bd7fb5a22cf2dac95898d1594"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/f3-horizon-drive-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "9a283f94613c450a69de9b62a0943dfa4424a03c70d1efbcc8772fcc6e925cc3"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/f3-horizon-drive-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "75f099fb1626b4b8c7c2b2698a5036ad692898803a555aec2d25d363cea7f44f"
+        }
+      }
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "group": "G",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/g1-canopy-lane-l0.png",
+          "bytes": 1041784,
+          "sha256": "e84d79e5d08c94af55694ccceb72c0b2039de68f8dd7c88abb7125d731cabb79"
+        },
+        "tile_png": {
+          "path": "device/g1-canopy-lane-l0.png",
+          "bytes": 26716,
+          "sha256": "01e093899d0b8cc548a0587d2666b69d9058cbb327cd7b57e6db7c7e2ae9e296"
+        },
+        "player_png": {
+          "path": "player/g1-canopy-lane-l0.png",
+          "bytes": 16738,
+          "sha256": "b1f09bba802f4ef81eb2f7aca0d07d2e6ba05680a9d5dac4d532253b80ac46be"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g1-canopy-lane-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "0c5359a2e22553a16c66bebde7bb77b0af7f525871d1cf63f22e0624da2e754b"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g1-canopy-lane-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "6347b9f739b7ffb6b0c0531b1728a212851046b06975e6e0ed7170c7302f9619"
+        }
+      }
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "group": "G",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g1-canopy-lane-l1.png",
+          "bytes": 1906229,
+          "sha256": "0ebf49d20835d0155e1221cd1d3f1e3f91c9845103759d1db45a9ee7bab1ace2"
+        },
+        "tile_png": {
+          "path": "device/g1-canopy-lane-l1.png",
+          "bytes": 32442,
+          "sha256": "708f49e9e70a52a1d1d9408f475c8ee114a2a064259495f64b4cc05c0b782c2d"
+        },
+        "player_png": {
+          "path": "player/g1-canopy-lane-l1.png",
+          "bytes": 21230,
+          "sha256": "dbcb74ca52be285a5bbd58fae22674d74be4410657fc1c5c6758234acfaa2a71"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g1-canopy-lane-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "a60a1f8104da2f7ee4987b9e2dd7a338f474d19e7a98e1cc0b42e4f3bb3d4e8e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g1-canopy-lane-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "a93aefc137edb20e8f522d5ce89cb866a289050f34a8098217dfe837144930dc"
+        }
+      }
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "group": "G",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g1-canopy-lane-l2.png",
+          "bytes": 1930292,
+          "sha256": "bca06c818f3ab19e2b52bec93d335fa97e4c1e8ac54d1af0cbf8bc90ca7c9131"
+        },
+        "tile_png": {
+          "path": "device/g1-canopy-lane-l2.png",
+          "bytes": 33766,
+          "sha256": "41874ac860799fb8222dfa3d616d8b46cde13e3a583e91446ec72b5f65562ebd"
+        },
+        "player_png": {
+          "path": "player/g1-canopy-lane-l2.png",
+          "bytes": 22120,
+          "sha256": "fd5551be828b425cec0a83ba44bfd6f119e07f965847ae326490f89a50a1790f"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g1-canopy-lane-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "375be33c1a44404b2b1f783ce54fa06b2ffc58ec96f6ad9a6346936f989818e1"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g1-canopy-lane-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "94bb7c2a82ffcccfd3db1de7644e88bc56b3cdfc96c4f66a792af9aa761409ab"
+        }
+      }
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "group": "G",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g1-canopy-lane-l3.png",
+          "bytes": 1997345,
+          "sha256": "36cc21d2bad1b9786dd3c2df542226b90269fe29cd69d49d568b7640592a6827"
+        },
+        "tile_png": {
+          "path": "device/g1-canopy-lane-l3.png",
+          "bytes": 34146,
+          "sha256": "4f34cceefd64343c6ebd02c530ed36fd005cc383b71f28ecf866fb1c405a6c5f"
+        },
+        "player_png": {
+          "path": "player/g1-canopy-lane-l3.png",
+          "bytes": 22410,
+          "sha256": "6ac1ec1fbe688a54b75559e3da090d2109ce184e976e43cda37a8b9284a9d278"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g1-canopy-lane-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "5f5bc7f87096e642ee120d529ce5764fdde15d492fd9d2414f7090a205b1917a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g1-canopy-lane-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "6fe2c4a65f30beb7bc6bc7c18fe30efa839dd3ab060fbc3b1131f83494ca82d1"
+        }
+      }
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "group": "G",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g1-canopy-lane-l4.png",
+          "bytes": 2064842,
+          "sha256": "b351fb224adf3ed901649f866c30ce40ddc81a3afb873f9332bb395a2c8e58e7"
+        },
+        "tile_png": {
+          "path": "device/g1-canopy-lane-l4.png",
+          "bytes": 33567,
+          "sha256": "2f2b03082a1f78c2de534b56f2f7089be5428d3e2ebbd763505f9ed0fe0ec1e4"
+        },
+        "player_png": {
+          "path": "player/g1-canopy-lane-l4.png",
+          "bytes": 21470,
+          "sha256": "f9f7de6e918693d1dafaa2803107552f2ff678522d8f7d2f0990d33c99179761"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g1-canopy-lane-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "e8c3b7e2db0d38dc7a2fe7d4ebeea8c1c23aa86ed818095e55df231badc89925"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g1-canopy-lane-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "af9989feacfbb6fd0aa1038d4942cce25b6dd9a7cc91586165c2fe856e96ce5e"
+        }
+      }
+    },
+    {
+      "key": "g1-canopy-lane",
+      "tile_id": "G1",
+      "name": "Canopy Lane",
+      "group": "G",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g1-canopy-lane-l5.png",
+          "bytes": 2173629,
+          "sha256": "9945b039d006337538df14eeea7c870507b9566d7b023a2d337cc38bb7c230a3"
+        },
+        "tile_png": {
+          "path": "device/g1-canopy-lane-l5.png",
+          "bytes": 34831,
+          "sha256": "7dcddbf06b740d5083b2d82b2e02d1ad5abf11da9b6e6e7721cdff9d16bbad6c"
+        },
+        "player_png": {
+          "path": "player/g1-canopy-lane-l5.png",
+          "bytes": 22826,
+          "sha256": "917d4a4a9814570e456a6cc2df5776e81e57beb3dfd3013b81e4956706db39fc"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g1-canopy-lane-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "ec8246fc062431674e0045d50f72442d90d4b73c8a41459f8e579fcb6d306994"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g1-canopy-lane-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "5a17d5b091a203908fc9eb216169493bb8e20e46920cb617888abe98a103a9f6"
+        }
+      }
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/g2-verdant-avenue-l0.png",
+          "bytes": 1218502,
+          "sha256": "8145e01e2c598a4dc7ecf719edcad3352cf48bbd4c702027d3725dea4be2a405"
+        },
+        "tile_png": {
+          "path": "device/g2-verdant-avenue-l0.png",
+          "bytes": 28847,
+          "sha256": "08ed0b28510daaab64fc3c322ef99e69dc3726cfb838dff73522d8005252f413"
+        },
+        "player_png": {
+          "path": "player/g2-verdant-avenue-l0.png",
+          "bytes": 18612,
+          "sha256": "a8cf74c194992d63e3043856df1da246379367d29d7ec173bfcfc1453641a78d"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g2-verdant-avenue-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "bb91a52bfec471c677bb7e28b62a16e3f46e9994f2bbc2622f8d73694d5da93f"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g2-verdant-avenue-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "a46fd59ceb2222c6cb500052727d46e4edc1c96d819e69b80ebe139839dc6a43"
+        }
+      }
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g2-verdant-avenue-l1.png",
+          "bytes": 1926643,
+          "sha256": "3a56f9f424d5b6209ba54308eac7d53852ef0d5b932724157b15ece2e27d367f"
+        },
+        "tile_png": {
+          "path": "device/g2-verdant-avenue-l1.png",
+          "bytes": 33370,
+          "sha256": "24ec369e7ba0c40a4c53fecd7fc501a7d85dd2815edd81f082a65445efdd349c"
+        },
+        "player_png": {
+          "path": "player/g2-verdant-avenue-l1.png",
+          "bytes": 21974,
+          "sha256": "cd6edf7bca9fd425a1882a4dee3fa2624ad806a8ffba6e93dcadf778ddc60464"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g2-verdant-avenue-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "4a21066b56b3b5619de0875a039c46f87cbae48b1c96a9b49ac0d6d0421d3202"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g2-verdant-avenue-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "9b498cf5ba218affe35d1e8171186d95ac830b891ed6beac724a7ae162bd531d"
+        }
+      }
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g2-verdant-avenue-l2.png",
+          "bytes": 1960310,
+          "sha256": "e813e98f639cd9766432c7a380bafa561d87a084bcfc49b831cfba666fee129d"
+        },
+        "tile_png": {
+          "path": "device/g2-verdant-avenue-l2.png",
+          "bytes": 34627,
+          "sha256": "b5d2369d89cd19ad17974a8453e9eb16945768dca3e13d5c8a8d4c3a333c8804"
+        },
+        "player_png": {
+          "path": "player/g2-verdant-avenue-l2.png",
+          "bytes": 22669,
+          "sha256": "72cd179f411ebbfc837da81345a152515bfe9c8dfd0722fa2ffd9ccc6b64651c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g2-verdant-avenue-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "72a0e53bc803c1792c626828e9ce832913b7645e9ed6a91a64e29fe23cf5867a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g2-verdant-avenue-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "7afeb80e50be4c61f4d420d3059300817881b45c69b45be599eee614c85c8477"
+        }
+      }
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g2-verdant-avenue-l3.png",
+          "bytes": 1981898,
+          "sha256": "2f79095ebf2225b83264108b1612de95f833f879218c13ee5ee195299746b8dc"
+        },
+        "tile_png": {
+          "path": "device/g2-verdant-avenue-l3.png",
+          "bytes": 34721,
+          "sha256": "fa035bcbe938ac507fce2567185feb642f06370b2d3b4f6d1fc293c204933266"
+        },
+        "player_png": {
+          "path": "player/g2-verdant-avenue-l3.png",
+          "bytes": 22796,
+          "sha256": "f6a85011676dfaafe06f37bd550775fe86b8fc698c92163e8bf399f6e71e6a61"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g2-verdant-avenue-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "1a87e7ee4f8fafab53f254df43cf1856285c11dfe27d3c40b7a822ffd46eabf4"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g2-verdant-avenue-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "cc81ac1ab20f3a566b7bdc5bfa537858ef0ab3dfa7eb618eff8efb7d6deb1329"
+        }
+      }
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g2-verdant-avenue-l4.png",
+          "bytes": 2076208,
+          "sha256": "7ac2b1be5b6611820d0fd115e18b56eaeaced31a17033a8cdcffe3720721c423"
+        },
+        "tile_png": {
+          "path": "device/g2-verdant-avenue-l4.png",
+          "bytes": 34895,
+          "sha256": "89482be35f131d8d52f471bf4fb3c89a2ac31b8d416b555a7e9d7741a291eb60"
+        },
+        "player_png": {
+          "path": "player/g2-verdant-avenue-l4.png",
+          "bytes": 22838,
+          "sha256": "4769834565e7d1f2e81a1cb44b03fc679ebde1984db725df301940b14893dbb9"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g2-verdant-avenue-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "5fc76b3138b12c863d4811867a8d1b7a0d79105a27e67cfcc7a391e632571edb"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g2-verdant-avenue-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "89c8ecf6e7b2237978354162570c337d3d8c019cc6e07e54408960fc5ecbd610"
+        }
+      }
+    },
+    {
+      "key": "g2-verdant-avenue",
+      "tile_id": "G2",
+      "name": "Verdant Avenue",
+      "group": "G",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g2-verdant-avenue-l5.png",
+          "bytes": 2133284,
+          "sha256": "92cb744a11fc4152949e32f15c52993eaa303678447820cd7c2d71d158dc590c"
+        },
+        "tile_png": {
+          "path": "device/g2-verdant-avenue-l5.png",
+          "bytes": 34861,
+          "sha256": "0169287928f1e1e94801e8bb1719fa6b105eec2eefb237ecd2986746b2d9d783"
+        },
+        "player_png": {
+          "path": "player/g2-verdant-avenue-l5.png",
+          "bytes": 23018,
+          "sha256": "37a62097a7c648e213f3eb3f862478c641748e2c9f1ec4498bae46e84c3fd655"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g2-verdant-avenue-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "c137e6c0724b016672025ccfc6dfab1aa89d4fdacd64e929b35f2d6816968048"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g2-verdant-avenue-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "f2f1d6092546c01b3882c2251446b3d2a4b220b1691371eab2c9ab3e345d3d45"
+        }
+      }
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/g3-summit-boulevard-l0.png",
+          "bytes": 1039712,
+          "sha256": "0990d936536b5c2e5f49e8a0d4a1c36ba2009f5527308c7f59c01303a22540be"
+        },
+        "tile_png": {
+          "path": "device/g3-summit-boulevard-l0.png",
+          "bytes": 32807,
+          "sha256": "db5ba955d4a0db446a1f0770bba18f8911f7449e1474b2689c45e65dbb23c6b3"
+        },
+        "player_png": {
+          "path": "player/g3-summit-boulevard-l0.png",
+          "bytes": 21585,
+          "sha256": "9f33fe007a5c056cc8751e3e33245c42ff039ed93ba155b8917e0ccfd1b4a5c3"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g3-summit-boulevard-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "650d85d5fe4e578d6a33e8195cb287a5f4825bd085699277ce11923e90e5819d"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g3-summit-boulevard-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "fc9507b852269a29032f09348044cf6a754c92072c816f44e10ccaa43e3490ec"
+        }
+      }
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g3-summit-boulevard-l1.png",
+          "bytes": 1896649,
+          "sha256": "fcb72c4d0dd23aae23787d9d2d64866821ea74f7078aa5d9f471a7c11fe9b33b"
+        },
+        "tile_png": {
+          "path": "device/g3-summit-boulevard-l1.png",
+          "bytes": 34030,
+          "sha256": "2b82d73a9a2599448e86e2935be7b3ac947dda81b6e90d998cad9425ec511466"
+        },
+        "player_png": {
+          "path": "player/g3-summit-boulevard-l1.png",
+          "bytes": 22246,
+          "sha256": "0e00b8ed8163f618a1f7d54d799390bd00bd4f6ffdee5e88ef270c1a35948949"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g3-summit-boulevard-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "526a946f456d0009733f0091ee6b8b07039bce337886aadcc7738f523e8726fc"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g3-summit-boulevard-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "780f8aa090fb252652215eb51b6f47e858ec494ddcef5a674ba537b87e277258"
+        }
+      }
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g3-summit-boulevard-l2.png",
+          "bytes": 1928124,
+          "sha256": "e496ce87ded13342c64e922470adff62af26b0b4081337d2cd9f43a6586e879b"
+        },
+        "tile_png": {
+          "path": "device/g3-summit-boulevard-l2.png",
+          "bytes": 32515,
+          "sha256": "b37bb62305f215a8c4a8704dcf4c6549c856c255b0f6079f0a9046f9404f3c7d"
+        },
+        "player_png": {
+          "path": "player/g3-summit-boulevard-l2.png",
+          "bytes": 20974,
+          "sha256": "2e4031ab0c0eecb7d6a31c1e179f9a27b75c31e8be8afe9c3740a6bb4cbf51e4"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g3-summit-boulevard-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "34e4d7035a5115169ac90616ffc5a4e1f9e5a809d4d61432ca1b0e5421f039b5"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g3-summit-boulevard-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "e3d37957357eba1c422c493c3bc04b591124c8b0a588502409e1e78dbda19d4b"
+        }
+      }
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g3-summit-boulevard-l3.png",
+          "bytes": 1997426,
+          "sha256": "887f3cb505e30cc4849adb7a58b7ae6f788095f33018478eff33b8ea529dc9df"
+        },
+        "tile_png": {
+          "path": "device/g3-summit-boulevard-l3.png",
+          "bytes": 34451,
+          "sha256": "2465603ed181461ac3d8f5a26b8eb9f1bce234e4123600974c4d88d095b68a4a"
+        },
+        "player_png": {
+          "path": "player/g3-summit-boulevard-l3.png",
+          "bytes": 22420,
+          "sha256": "184c4fcbec971e2ebba8c88237e73ce8ce363558c25b8a94e69f4a29c6afa8e9"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g3-summit-boulevard-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "60c3ddcfccceb9ed195016743ab99597e52ed091d5203d257fb14684df21d93a"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g3-summit-boulevard-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "02c30975d8639d779d38ad7cc6a90c8f4becb5cc3ddef43a5e6b805325214750"
+        }
+      }
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g3-summit-boulevard-l4.png",
+          "bytes": 2017270,
+          "sha256": "ddfcef3360bee354766537cf93e193d9831e2edd8bbb75d1b17330f36ad61ee2"
+        },
+        "tile_png": {
+          "path": "device/g3-summit-boulevard-l4.png",
+          "bytes": 33887,
+          "sha256": "d8461b374dbc9ff70f2c260c5a8fe8dcb82a32d058a3a8b9133291e555482071"
+        },
+        "player_png": {
+          "path": "player/g3-summit-boulevard-l4.png",
+          "bytes": 21803,
+          "sha256": "fce1f02ac7b88868829542978dc00f5651e0519964778013a85c64747d7ef9ad"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g3-summit-boulevard-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "c0e1135aa5af0be67ea9219b74f73e0a369ae0cfb7e65bad172b531727777dd6"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g3-summit-boulevard-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "0e6cfd8fc95498f92d6daa99843ff52c538d5600cc940411eb66b82b9e2c5ebd"
+        }
+      }
+    },
+    {
+      "key": "g3-summit-boulevard",
+      "tile_id": "G3",
+      "name": "Summit Boulevard",
+      "group": "G",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/g3-summit-boulevard-l5.png",
+          "bytes": 2129635,
+          "sha256": "8e44bcb9b15c537491dd553cca1ca524c29dbb3fc795549b764a6bf054b7895a"
+        },
+        "tile_png": {
+          "path": "device/g3-summit-boulevard-l5.png",
+          "bytes": 34936,
+          "sha256": "09597442f3374c70761e2c7a6316f1533ba228261d8f25845ce9d2cece750ae6"
+        },
+        "player_png": {
+          "path": "player/g3-summit-boulevard-l5.png",
+          "bytes": 22764,
+          "sha256": "34b6390bc258fd7d80c301ba4abd1c2d6f03810b7db61cb1cbcff91d206397dc"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/g3-summit-boulevard-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "ab7a63d2cf7d494860a702ebc9f19bbc8c7bb2847c6002f7a4139439e88a7202"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/g3-summit-boulevard-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "24b71732521a39ed487177ac8f50e3c297442eaf355eeb3bedd54bf20094049f"
+        }
+      }
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "group": "H",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/h1-crown-promenade-l0.png",
+          "bytes": 1058576,
+          "sha256": "b5df1db37f843981c9dc1fb605478316e35499cc9dc747db91ee01ffe0de6d30"
+        },
+        "tile_png": {
+          "path": "device/h1-crown-promenade-l0.png",
+          "bytes": 27128,
+          "sha256": "b62ed213e154d3b2ab97f6946b355515ae6602f54e6c462edfbdcfd7cd441b8a"
+        },
+        "player_png": {
+          "path": "player/h1-crown-promenade-l0.png",
+          "bytes": 17139,
+          "sha256": "39807c8935cb4f5d4a22348346d4c468a47223fbb0b048ffa723b87f8fd62272"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h1-crown-promenade-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "0af84c220db34c25ffb0bb6f2efb460e5dfa1730f700b1be201ac1d4891b1203"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h1-crown-promenade-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "a1f0f51af80e148b97c413726eb5eab85fc605cdeffcf21ade3bf9397d211d2a"
+        }
+      }
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "group": "H",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h1-crown-promenade-l1.png",
+          "bytes": 1900420,
+          "sha256": "5f3016b1a165bb2ca0661e79fce12d8495b0156cbbbb135e0ca3798c6473ea57"
+        },
+        "tile_png": {
+          "path": "device/h1-crown-promenade-l1.png",
+          "bytes": 31706,
+          "sha256": "b9dec8ee0312181476d9eb75c62449821785eeda5bc77ac391a741a75e141b5a"
+        },
+        "player_png": {
+          "path": "player/h1-crown-promenade-l1.png",
+          "bytes": 20987,
+          "sha256": "48f4807334ff826ca4bed20b0eec4496e976cecb8d496ef0b67cdf66917c4dbf"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h1-crown-promenade-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "526ce118258d5c61a53013b4d2691b3ef975ffdb35b95787d476d4b76a775286"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h1-crown-promenade-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "4a46ac413a11fe8e468ca0abfe77674f183cd5041d436a31cf0d14eaa6ba85c9"
+        }
+      }
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "group": "H",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h1-crown-promenade-l2.png",
+          "bytes": 1863603,
+          "sha256": "fd81e78cfd1bbbd3b224d46354822354413c96e4ea4e609dbfe8f0ab82fac9af"
+        },
+        "tile_png": {
+          "path": "device/h1-crown-promenade-l2.png",
+          "bytes": 33156,
+          "sha256": "aba8cd9177ea5ffa711112486af5f9de72c57522aad61e7bc4dabf8c4b3f563e"
+        },
+        "player_png": {
+          "path": "player/h1-crown-promenade-l2.png",
+          "bytes": 21906,
+          "sha256": "e6d8db4a2c25f0bd179d143e3cbd9533dced4928ec13fc7ede8213bbdb87ea08"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h1-crown-promenade-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "d2fcec1892d06654b019118bc51e39966b207f0f3d9876b097105139b9468d95"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h1-crown-promenade-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "6157778a3f39294ae089836e84202bb93cdb353ba521f5243c38df92daafd1dd"
+        }
+      }
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "group": "H",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h1-crown-promenade-l3.png",
+          "bytes": 1922923,
+          "sha256": "f3edbf166cf6be2a5d7a4ee0f8b3d3005fa9a9d5b87ccd94d5b848650abe8eaf"
+        },
+        "tile_png": {
+          "path": "device/h1-crown-promenade-l3.png",
+          "bytes": 34056,
+          "sha256": "b609fdb136a0e6075f2f7f856fb58a3163fc81f117730a7e9675b686c1813b79"
+        },
+        "player_png": {
+          "path": "player/h1-crown-promenade-l3.png",
+          "bytes": 22480,
+          "sha256": "e1d33b7dd2dd2124f90c450cdd3e3c3dbb3a53f622094054175c436dca67932c"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h1-crown-promenade-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "ae6aefd94bd2f1edb3d64911b0470c279342ebc3d2f1640e41b1fd987d98ec3e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h1-crown-promenade-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "c9fd86b39be86c1bdc98da7c54c36a510d2003964a3425dd90ce18c230d129d3"
+        }
+      }
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "group": "H",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h1-crown-promenade-l4.png",
+          "bytes": 1996913,
+          "sha256": "5986be8df487a0ed2bb22131f773823ae8de1786a2b8346c822b02041a65bf50"
+        },
+        "tile_png": {
+          "path": "device/h1-crown-promenade-l4.png",
+          "bytes": 33166,
+          "sha256": "85b749b5bb4bc606f4ebde33d67b39e46ca19e074db0c872c6c4a3dc694b57d4"
+        },
+        "player_png": {
+          "path": "player/h1-crown-promenade-l4.png",
+          "bytes": 21648,
+          "sha256": "65c441e5f6bcd3d67dc72627a3e33110e45fc3f2bca869afc79b6e57a9395da4"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h1-crown-promenade-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "03d3fe70bf53e27c97767bf1ac0c8c512f60513e696c5068ad29ec3f784b4933"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h1-crown-promenade-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "113c89b405cadaa0ea425ff10fc23309feca07389af02aa048479894df79f084"
+        }
+      }
+    },
+    {
+      "key": "h1-crown-promenade",
+      "tile_id": "H1",
+      "name": "Crown Promenade",
+      "group": "H",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h1-crown-promenade-l5.png",
+          "bytes": 2142540,
+          "sha256": "c5c716549c18e4dc93b125e89d768b0ba2055325063c09e8632b6d1eebfa4825"
+        },
+        "tile_png": {
+          "path": "device/h1-crown-promenade-l5.png",
+          "bytes": 36321,
+          "sha256": "6b581ca2bd407da8ec62ca329215e7b27b79824afc7ed0e57c877a1f2a4cc70d"
+        },
+        "player_png": {
+          "path": "player/h1-crown-promenade-l5.png",
+          "bytes": 23785,
+          "sha256": "96ee6482add81da5c46620d25cb8d1663842c1ec02b7a42fe7e2901a148cf5c1"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h1-crown-promenade-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "54fb3e818d235d602a0680470e78ee789e928766e9494aeb2326a99ef73c31e3"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h1-crown-promenade-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "2d1eab25da51268e362def53d99edbe797446952e7ff0519aa7aba7a7a1cabc5"
+        }
+      }
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "group": "H",
+      "level": 0,
+      "house_count": 0,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1024,
+        1024
+      ],
+      "files": {
+        "master": {
+          "path": "source/h2-grand-meridian-l0.png",
+          "bytes": 1057495,
+          "sha256": "5e7b3c20f7fd1541b8969d208b5640066595863a5ae1cfd895204539ac4bc442"
+        },
+        "tile_png": {
+          "path": "device/h2-grand-meridian-l0.png",
+          "bytes": 31487,
+          "sha256": "935fc2a3a890c6b289c26bf6754b505fbb0c3828423fa3b8de43e2b8d95b1756"
+        },
+        "player_png": {
+          "path": "player/h2-grand-meridian-l0.png",
+          "bytes": 20678,
+          "sha256": "a9bb03cc8e9ba0083d23e361972f900a3450b6057a2e13b042bd43e512067bf3"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h2-grand-meridian-l0.rgb565",
+          "bytes": 51200,
+          "sha256": "afa7ab4568f8b5758d3499732e0994b7036e0c158de5a2f83267523af8c27ec5"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h2-grand-meridian-l0.rgb565",
+          "bytes": 32768,
+          "sha256": "8637b752effc9b2d268602ae61932996f1521d3b744da375a8a6d0c03aa0e7d1"
+        }
+      }
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "group": "H",
+      "level": 1,
+      "house_count": 1,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h2-grand-meridian-l1.png",
+          "bytes": 1904062,
+          "sha256": "fbbb5c78928b1bbf7099a32886e4d9d8eec7119d21be75bc5fed9ac62f485e9a"
+        },
+        "tile_png": {
+          "path": "device/h2-grand-meridian-l1.png",
+          "bytes": 33254,
+          "sha256": "1d4e30f00ec7ac12b1c7d6c37e0c5cb7b8f9b24af3e1d4fa83097b83e877a71d"
+        },
+        "player_png": {
+          "path": "player/h2-grand-meridian-l1.png",
+          "bytes": 21829,
+          "sha256": "5265d5d0cc345a91ff2fa86c0ac8b7a837cf9cebd19631f094d69bd68b094612"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h2-grand-meridian-l1.rgb565",
+          "bytes": 51200,
+          "sha256": "24a48a11024824c8da64558d55662490793e4ec0c3c7df4ed7c57cdc5a8750ef"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h2-grand-meridian-l1.rgb565",
+          "bytes": 32768,
+          "sha256": "00504b6bd32d8184b7a7e4d6a0ab8f80c5480dd8c0879c91ee99f75f2c94252c"
+        }
+      }
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "group": "H",
+      "level": 2,
+      "house_count": 2,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h2-grand-meridian-l2.png",
+          "bytes": 1919226,
+          "sha256": "9611e6129beaeb1c19b14575a59ccff966d635f3b06cf4db126c28065822ba94"
+        },
+        "tile_png": {
+          "path": "device/h2-grand-meridian-l2.png",
+          "bytes": 34362,
+          "sha256": "b1775a84a8f6b8a0770e829d9539c89d56b35b094db9a63424680cfb05f802f7"
+        },
+        "player_png": {
+          "path": "player/h2-grand-meridian-l2.png",
+          "bytes": 22251,
+          "sha256": "f742a38caff3dcd3845962d9a3532eb1896ff77e8cc29bb1d2d3619763b1e499"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h2-grand-meridian-l2.rgb565",
+          "bytes": 51200,
+          "sha256": "615eded0a7af3b13df39245833eece48a6f95fc8de075cf68dca7b4a935c077e"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h2-grand-meridian-l2.rgb565",
+          "bytes": 32768,
+          "sha256": "582e216da4dbadb1cc8ef62bde53b2da2d326af821858f6c7dbf8529dc93a616"
+        }
+      }
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "group": "H",
+      "level": 3,
+      "house_count": 3,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h2-grand-meridian-l3.png",
+          "bytes": 2018019,
+          "sha256": "9c20e18ee39585199db3cb18b75858f7b1e3cc99beb7369671bfb2a16f0a5ed6"
+        },
+        "tile_png": {
+          "path": "device/h2-grand-meridian-l3.png",
+          "bytes": 35144,
+          "sha256": "9c89c8e0df1e5862418906368681236379600aa815f03eb92cd983108a6ab3bc"
+        },
+        "player_png": {
+          "path": "player/h2-grand-meridian-l3.png",
+          "bytes": 22971,
+          "sha256": "bcaa5fd718c5d50fcd7299af074494e7f2d90c0d645fcdc8700c909b60659d54"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h2-grand-meridian-l3.rgb565",
+          "bytes": 51200,
+          "sha256": "bdc8327ce4f0dc2d09decd8f1fef1ef6957860e9d714b9d4d095aab2a02aae17"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h2-grand-meridian-l3.rgb565",
+          "bytes": 32768,
+          "sha256": "2bf3bfa37920f193af180c52a3c9bd5493e947d4238e8038454199cc88464fde"
+        }
+      }
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "group": "H",
+      "level": 4,
+      "house_count": 4,
+      "hotel_count": 0,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h2-grand-meridian-l4.png",
+          "bytes": 2033145,
+          "sha256": "0adfe53a877bd8e0309d59f3bd174dd49252376719f195a7455abdb5e0546d71"
+        },
+        "tile_png": {
+          "path": "device/h2-grand-meridian-l4.png",
+          "bytes": 35087,
+          "sha256": "ddc3b1db4f6f1efd7595767e6a8d80afd1a8c38e037feaf46c433eca50ae911e"
+        },
+        "player_png": {
+          "path": "player/h2-grand-meridian-l4.png",
+          "bytes": 22825,
+          "sha256": "1b4195d901efd613b8fbf02aae837d36e2af16bf4b4f66bf5505e4c338fa192d"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h2-grand-meridian-l4.rgb565",
+          "bytes": 51200,
+          "sha256": "18921eedaf4c3ff583cb01c914235881063d5c1f95b6be44d09e0417f6972ca6"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h2-grand-meridian-l4.rgb565",
+          "bytes": 32768,
+          "sha256": "64d65cee3ec601be14824a1756ed6f5ceb0f9be6c5889d74b33c51f847b01786"
+        }
+      }
+    },
+    {
+      "key": "h2-grand-meridian",
+      "tile_id": "H2",
+      "name": "Grand Meridian",
+      "group": "H",
+      "level": 5,
+      "house_count": 0,
+      "hotel_count": 1,
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "files": {
+        "master": {
+          "path": "source/h2-grand-meridian-l5.png",
+          "bytes": 1986638,
+          "sha256": "fe9f13906c39cc29a28c9f2d6e3431e963ad81a7d86719db4a9b0367c0dbd070"
+        },
+        "tile_png": {
+          "path": "device/h2-grand-meridian-l5.png",
+          "bytes": 35238,
+          "sha256": "e3e361914e5046619f3d1dab79da7c5be7b3c2c5c80185889342b8841757c895"
+        },
+        "player_png": {
+          "path": "player/h2-grand-meridian-l5.png",
+          "bytes": 23134,
+          "sha256": "5c4033c5394ca619d7de7caddf0865374896f8259f08b3f82970a6f4d4cf20ba"
+        },
+        "tile_rgb565": {
+          "path": "rgb565-tile/h2-grand-meridian-l5.rgb565",
+          "bytes": 51200,
+          "sha256": "f90987dc4915f8e1c7e03e61272f783ab36785f54d08124bb2cdbc07b8c4b6a0"
+        },
+        "player_rgb565": {
+          "path": "rgb565-player/h2-grand-meridian-l5.rgb565",
+          "bytes": 32768,
+          "sha256": "5e481119e24434abb1cb0b6096419a4f80a9a5190e3ed27085ba5108f7a66cf3"
+        }
+      }
+    }
+  ]
+}

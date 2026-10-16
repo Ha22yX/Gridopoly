@@ -23,6 +23,8 @@ ALFA AWUS036ACM已作为独立USB热点运行，16格＋4屏共20台同时关联
 
 ## 实际部署与发布包
 
+2026-10-16新增美术交付：[地产开发素材V1](../Assets/GridCity/DevelopmentV1/README.md)已补齐全部22块地产的0～5级图片，共132状态（新增110张），含160px格子屏/128px玩家屏PNG和RGB565。逐级目视、文件完整性和本地图鉴检查通过；设备版本保持下表所记。后续需按稳定tile_id＋buildingLevel接入选图、缓存与存储，并完成实体显示验收，详见[设计与接入边界](game/property-development-art-v1.md)。
+
 | 范围 | 当前部署 | 构建/冻结边界 |
 | --- | --- | --- |
 | Pi游戏/网页 | `ea6e1f51…`，源码`0fed0ce`；最后实读PID721 | 新热点配置不改变游戏程序；完整SHA见[服务报告](firmware/server-all-online-ring-progress-2026-10-15.md) |

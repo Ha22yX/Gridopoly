@@ -1,0 +1,884 @@
+[
+  {
+    "key": "a1-rivet-row",
+    "level": 1,
+    "path": "source/a1-rivet-row-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Rivet Row. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 1: exactly 1 complete player-built house. KEEP ONLY the FRONT-LEFT house closest to the front curb. Completely REMOVE the front-right, back-left and back-right houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 1.",
+    "repair_prompt": "Precise tiny object cleanup on FIRST reference image. Remove the detached black sawtooth roof fragment with copper edge that wrongly lies on the LEFT railing halfway along the parcel (upper left of the only front-left finished house). Restore a simple uninterrupted copper round handrail and its normal vertical supports in that small area, using the second original empty-lot reference. Exactly ONE finished foreground house plus the original rear service shell remain. Preserve all other architecture, house locations and counts, colors, parcel, isometric camera, background, canvas and line style. The SECOND image is only a reference for the original untouched railing, not a replacement for the developed artwork. No other changes, no writing.",
+    "generation_artifact": "exec-6b6c7001-03a2-4c23-8d38-993c2d6b5483.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a1-rivet-row",
+    "level": 2,
+    "path": "source/a1-rivet-row-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Rivet Row. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 2: exactly 2 complete player-built houses. KEEP the TWO FRONT-row houses, left and right. Completely REMOVE BOTH BACK-row houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 2.",
+    "repair_prompt": "Precise tiny object cleanup on FIRST reference image. Remove the detached black slanted roof fragment with copper edge that wrongly lies on the LEFT railing halfway along the parcel (above and left of the front-left house). Restore the simple uninterrupted copper round handrail and normal vertical supports there, using the second original empty-lot reference. Exactly TWO finished foreground houses plus the original rear service shell remain. Preserve all other architecture, house locations and counts, colors, parcel, isometric camera, background, canvas and line style. The SECOND image is only a reference for the original untouched railing, not a replacement for the developed artwork. No other changes, no writing.",
+    "generation_artifact": "exec-8e84d16a-b7af-4bb6-a8b9-288b1757b996.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a1-rivet-row",
+    "level": 3,
+    "path": "source/a1-rivet-row-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Rivet Row. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 3: exactly 3 complete player-built houses. KEEP the TWO FRONT-row houses and the BACK-LEFT house. Completely REMOVE ONLY the BACK-RIGHT house. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 3.",
+    "generation_artifact": "exec-4622e414-06ce-47b9-8f76-93317823e0c3.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a1-rivet-row",
+    "level": 4,
+    "path": "source/a1-rivet-row-l4.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Rivet Row, development LEVEL 4. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use copper #C97852 as the only dominant color accent alongside cream stone and charcoal.\nADD EXACTLY FOUR distinct completed houses on the empty development pad, arranged as a clear two-by-two grid: back-left, back-right, front-left, front-right. They are warm riveted copper brick cottages with sawtooth roof ridges. Each is small, with its own clearly separate roof, visible door and broad windows. Leave visible paved walking gaps between every house. Preserve the original tiny rear unfinished service shell; it is not a house and must stay visibly secondary. Exactly four complete house silhouettes; no extra cottage, detached chimney or other outbuilding. All four must be countable at 160px.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-183166a1-5991-4e02-94c3-2cc776b1b4e1.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a1-rivet-row",
+    "level": 5,
+    "path": "source/a1-rivet-row-l5.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Rivet Row, development LEVEL 5. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use copper #C97852 as the only dominant color accent alongside cream stone and charcoal.\nREPLACE the undeveloped content with exactly ONE HOTEL: a three-storey heritage brick courtyard hotel with a distinctive sawtooth roof parapet and copper canopy. Show a broad three-to-four storey silhouette, repeated guest-room windows, and an obvious entrance canopy, readable as a hotel without text. The original rear service shell should be absorbed into this single building. NO separate houses or other outbuildings. Entire hotel and roof stay inside original parcel/canvas; retain visible front entrance paving.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-bf14173a-4c0c-4e02-a621-1710816c35fb.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a2-copper-lane",
+    "level": 1,
+    "path": "source/a2-copper-lane-l1.png",
+    "prompt": "Use case: precise-object-edit. Edit the supplied FOUR-HOUSE Copper Lane illustration into its LEVEL 1 version. Exactly 1 player-built cottage. KEEP ONLY the nearest FRONT-LEFT cottage. REMOVE the front-right and both back-row cottages. Fill removed footprints seamlessly with the same original cream paving, with no rubble or marks. The original flat-roof service shell along the rear boundary stays, it is not a house. CRITICAL: Do not relocate, resize or redesign the remaining houses; exactly the same roof, wall, door, window and material details at exactly their previous positions. Preserve the entire parcel, border, camera, framing, scale, lighting and near-black background pixel-aligned as closely as possible. Single square 1024x1024 game illustration, no labels, text, numbers, watermark, UI or additional objects.",
+    "generation_artifact": "exec-063e1e8b-2d6a-4bf6-b749-90a14eaa8d21.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a2-copper-lane",
+    "level": 2,
+    "path": "source/a2-copper-lane-l2.png",
+    "prompt": "Use case: precise-object-edit. Edit the supplied FOUR-HOUSE Copper Lane illustration into its LEVEL 2 version. Exactly 2 player-built cottages. KEEP ONLY the TWO cottages in the FRONT row, one left and one right. REMOVE BOTH back-row cottages. Fill removed footprints seamlessly with the same original cream paving, with no rubble or marks. The original flat-roof service shell along the rear boundary stays, it is not a house. CRITICAL: Do not relocate, resize or redesign the remaining houses; exactly the same roof, wall, door, window and material details at exactly their previous positions. Preserve the entire parcel, border, camera, framing, scale, lighting and near-black background pixel-aligned as closely as possible. Single square 1024x1024 game illustration, no labels, text, numbers, watermark, UI or additional objects.",
+    "repair_prompt": "Precise tiny object cleanup on FIRST reference image. Remove ONLY the detached floating brick chimney at the upper-left side of the EMPTY middle courtyard, between the left railing and original rear service shell. It is the orphan chimney with no house below, not either chimney on the two front houses. Fill its former area and shadow with uninterrupted original paving and rail. Exactly TWO finished foreground houses plus original rear service shell remain. Preserve all other architecture, house locations and counts, colors, parcel, isometric camera, background, canvas and line style. The SECOND image is only a reference for the original untouched railing, not a replacement for the developed artwork. No other changes, no writing.",
+    "generation_artifact": "exec-e3b1809f-310f-47c7-9c46-16f15d57d46b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a2-copper-lane",
+    "level": 3,
+    "path": "source/a2-copper-lane-l3.png",
+    "prompt": "Use case: precise-object-edit. Edit the supplied FOUR-HOUSE Copper Lane illustration into its LEVEL 3 version. Exactly 3 player-built cottages. KEEP the TWO FRONT-row cottages plus the BACK-LEFT cottage. REMOVE ONLY the BACK-RIGHT cottage. Fill removed footprints seamlessly with the same original cream paving, with no rubble or marks. The original flat-roof service shell along the rear boundary stays, it is not a house. CRITICAL: Do not relocate, resize or redesign the remaining houses; exactly the same roof, wall, door, window and material details at exactly their previous positions. Preserve the entire parcel, border, camera, framing, scale, lighting and near-black background pixel-aligned as closely as possible. Single square 1024x1024 game illustration, no labels, text, numbers, watermark, UI or additional objects.",
+    "generation_artifact": "exec-344d8a67-2305-4e09-b716-4e97f1d523ed.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "a2-copper-lane",
+    "level": 4,
+    "path": "source/a2-copper-lane-l4.png",
+    "generation_artifact": "exec-a7aba601-1ea4-4a00-b21b-06585da76681.png",
+    "prompt_status": "not-recorded"
+  },
+  {
+    "key": "a2-copper-lane",
+    "level": 5,
+    "path": "source/a2-copper-lane-l5.png",
+    "prompt": "Use case: precise-object-edit. Square production game asset for Gridopoly, Copper Lane, development level 5 = ONE HOTEL. Use the reference as exact parcel, camera, framing and style anchor. Transform the undeveloped lot into a handsome four-storey copper-brick hotel with arched entrance and broad dark mansard roof. Exactly ONE clearly identifiable hotel, no small houses. The original rear service shell can be incorporated into the rear of the single hotel, not a second independent building. Preserve the parcel shape, copper perimeter railing, curb, orientation, placement and original near-black background. A broad three-to-four storey silhouette with repeated guest-room windows and a conspicuous entrance canopy should read as a hotel at 160px, without text. Keep the entire building inside the original tile boundaries and all roof edges inside the canvas. Same bold crisp dark outlines, broad colors, restrained cel shading, off-white stone and charcoal with copper accent; no other dominant colors. No labels, lettering, stars, numbers, cars, people, extra buildings, skyline, cast floor shadow, glow or scenery. Square 1024x1024 single image; not a sheet.",
+    "generation_artifact": "exec-4ba73acf-9453-4d77-b609-fb61922afc45.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b1-lantern-avenue",
+    "level": 1,
+    "path": "source/b1-lantern-avenue-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Lantern Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 1: exactly 1 complete player-built house. KEEP ONLY the FRONT-LEFT house closest to the front curb. Completely REMOVE the front-right, back-left and back-right houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 1.",
+    "generation_artifact": "exec-b9b83302-79f6-4a52-a678-fba705f77b8c.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b1-lantern-avenue",
+    "level": 2,
+    "path": "source/b1-lantern-avenue-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Lantern Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 2: exactly 2 complete player-built houses. KEEP the TWO FRONT-row houses, left and right. Completely REMOVE BOTH BACK-row houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 2.",
+    "generation_artifact": "exec-2c6b08f5-81c3-42c7-808b-69cd6f3e9e41.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b1-lantern-avenue",
+    "level": 3,
+    "path": "source/b1-lantern-avenue-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Lantern Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 3: exactly 3 complete player-built houses. KEEP the TWO FRONT-row houses and the BACK-LEFT house. Completely REMOVE ONLY the BACK-RIGHT house. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 3.",
+    "generation_artifact": "exec-09a7249c-0032-4923-8d0f-a679ac768f45.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b1-lantern-avenue",
+    "level": 4,
+    "path": "source/b1-lantern-avenue-l4.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Lantern Avenue, development LEVEL 4. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use light blue #63C6E8 as the only dominant color accent alongside cream stone and charcoal.\nADD EXACTLY FOUR distinct completed houses on the empty development pad, arranged as a clear two-by-two grid: back-left, back-right, front-left, front-right. They are pale stone cottages with light blue hipped roofs and tiny square porch lamps. Each is small, with its own clearly separate roof, visible door and broad windows. Leave visible paved walking gaps between every house. Preserve the original tiny rear unfinished service shell; it is not a house and must stay visibly secondary. Exactly four complete house silhouettes; no extra cottage, detached chimney or other outbuilding. All four must be countable at 160px.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-c837b1bc-88c4-4ef9-88f6-1d229c508ae5.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b1-lantern-avenue",
+    "level": 5,
+    "path": "source/b1-lantern-avenue-l5.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Lantern Avenue, development LEVEL 5. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use light blue #63C6E8 as the only dominant color accent alongside cream stone and charcoal.\nREPLACE the undeveloped content with exactly ONE HOTEL: a pale stone waterfront hotel with blue hipped roofs and paired lantern-like rooftop pavilions. Show a broad three-to-four storey silhouette, repeated guest-room windows, and an obvious entrance canopy, readable as a hotel without text. The original rear service shell should be absorbed into this single building. NO separate houses or other outbuildings. Entire hotel and roof stay inside original parcel/canvas; retain visible front entrance paving.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-97010b09-e06a-44c5-8da9-6688f877a82b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b2-tideway-drive",
+    "level": 1,
+    "path": "source/b2-tideway-drive-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Tideway Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 1: exactly 1 complete player-built house. KEEP ONLY the FRONT-LEFT house closest to the front curb. Completely REMOVE the front-right, back-left and back-right houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 1.",
+    "generation_artifact": "exec-77502ab1-bdae-4d29-adc3-40123f9983cb.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b2-tideway-drive",
+    "level": 2,
+    "path": "source/b2-tideway-drive-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Tideway Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 2: exactly 2 complete player-built houses. KEEP the TWO FRONT-row houses, left and right. Completely REMOVE BOTH BACK-row houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 2.",
+    "generation_artifact": "exec-0a0d24c2-9e74-42d7-a916-e8febcd80db8.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b2-tideway-drive",
+    "level": 3,
+    "path": "source/b2-tideway-drive-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Tideway Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 3: exactly 3 complete player-built houses. KEEP the TWO FRONT-row houses and the BACK-LEFT house. Completely REMOVE ONLY the BACK-RIGHT house. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 3.",
+    "generation_artifact": "exec-ceeb1592-3eda-44c0-b696-e446c2407438.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b2-tideway-drive",
+    "level": 4,
+    "path": "source/b2-tideway-drive-l4.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Tideway Drive, development LEVEL 4. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use light blue #63C6E8 as the only dominant color accent alongside cream stone and charcoal.\nADD EXACTLY FOUR distinct completed houses on the empty development pad, arranged as a clear two-by-two grid: back-left, back-right, front-left, front-right. They are pale coastal cottages with light blue gable roofs and rounded porch openings. Each is small, with its own clearly separate roof, visible door and broad windows. Leave visible paved walking gaps between every house. Preserve the original tiny rear unfinished service shell; it is not a house and must stay visibly secondary. Exactly four complete house silhouettes; no extra cottage, detached chimney or other outbuilding. All four must be countable at 160px.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-f2c6c2cb-165e-4201-bf40-fc1a22f63605.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b2-tideway-drive",
+    "level": 5,
+    "path": "source/b2-tideway-drive-l5.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Tideway Drive, development LEVEL 5. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use light blue #63C6E8 as the only dominant color accent alongside cream stone and charcoal.\nREPLACE the undeveloped content with exactly ONE HOTEL: a curved-front seaside hotel with stacked light-blue balcony bands and one sweeping roof. Show a broad three-to-four storey silhouette, repeated guest-room windows, and an obvious entrance canopy, readable as a hotel without text. The original rear service shell should be absorbed into this single building. NO separate houses or other outbuildings. Entire hotel and roof stay inside original parcel/canvas; retain visible front entrance paving.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-f75be26b-61ce-4583-b4d0-81ac7dfb11bf.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b3-beacon-boulevard",
+    "level": 1,
+    "path": "source/b3-beacon-boulevard-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square 1024x1024 production game illustration for Gridopoly Beacon Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, original near-black background and bold outlined cel-shaded style. No labels, signs, numbers, letters, UI, watermark, people, vehicles or scenery. Edit the supplied FOUR-HOUSE illustration into LEVEL 1: exactly 1 complete player-built house. KEEP ONLY the FRONT-LEFT house closest to the front curb. Completely REMOVE the front-right, back-left and back-right houses. Remove the ENTIRE unwanted building including every roof, chimney, porch, staircase, planter, shadow and foundation; fill its former location with seamless empty paving. Absolutely no disconnected chimney, floating roof, orphan door, rubble, scorch mark or partially removed object. The original low UNFINISHED rear service shell stays unchanged; this is not one of the counted houses. Do not remove any part of that original rear shell or perimeter posts. All retained houses must stay exactly at their original positions, with unchanged size, shape, roof, windows and door. The count of distinct complete houses is 1.",
+    "generation_artifact": "exec-ef70395c-0d31-4ca0-a3ac-f51391e43c5d.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b3-beacon-boulevard",
+    "level": 2,
+    "path": "source/b3-beacon-boulevard-l2.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-764778a2-695c-4725-bf4c-c2c6be52b3e0.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "b3-beacon-boulevard",
+    "level": 3,
+    "path": "source/b3-beacon-boulevard-l3.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-324a0ba7-b5e3-472a-81c6-bdf4d54b0a1d.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "b3-beacon-boulevard",
+    "level": 4,
+    "path": "source/b3-beacon-boulevard-l4.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Beacon Boulevard, development LEVEL 4. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use light blue #63C6E8 as the only dominant color accent alongside cream stone and charcoal.\nADD EXACTLY FOUR distinct completed houses on the empty development pad, arranged as a clear two-by-two grid: back-left, back-right, front-left, front-right. They are pale waterfront cottages with light-blue roofs and small single chimney. Each is small, with its own clearly separate roof, visible door and broad windows. Leave visible paved walking gaps between every house. Preserve the original tiny rear unfinished service shell; it is not a house and must stay visibly secondary. Exactly four complete house silhouettes; no extra cottage, detached chimney or other outbuilding. All four must be countable at 160px.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-7fbda6e4-e75a-420f-8765-b5d82bd13f42.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "b3-beacon-boulevard",
+    "level": 5,
+    "path": "source/b3-beacon-boulevard-l5.png",
+    "prompt": "Use case: precise-object-edit. Production square illustrated Gridopoly game tile, Beacon Boulevard, development LEVEL 5. Input image is the exact base parcel to preserve. KEEP its parcel perimeter, distinctive railing/post pattern, long narrow footprint, front curb, near-black #080C0E background, exact isometric three-quarter camera, framing, scale, crisp bold dark outlines and restrained cel shading. Use light blue #63C6E8 as the only dominant color accent alongside cream stone and charcoal.\nREPLACE the undeveloped content with exactly ONE HOTEL: a stepped pale-stone hotel with a central beacon-inspired roof cupola and blue vertical trim. Show a broad three-to-four storey silhouette, repeated guest-room windows, and an obvious entrance canopy, readable as a hotel without text. The original rear service shell should be absorbed into this single building. NO separate houses or other outbuildings. Entire hotel and roof stay inside original parcel/canvas; retain visible front entrance paving.\nNo labels, text, signs, numerals, logos, watermarks, UI, borders around canvas, cars, people, extra scenery, skyline, external ground shadows or glow. Do not crop or zoom the parcel. One square 1024x1024 illustration, not a collage.",
+    "generation_artifact": "exec-3c2eb6c1-5a7a-4781-be11-4e3e43f2ea41.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "c1-canvas-street",
+    "level": 1,
+    "path": "source/c1-canvas-street-l1.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-dbfd5b8f-4bbb-4a0e-bea6-790034eec9e4.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c1-canvas-street",
+    "level": 2,
+    "path": "source/c1-canvas-street-l2.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-a1b52eee-8338-4bcd-b82a-01f1ad5c527b.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c1-canvas-street",
+    "level": 3,
+    "path": "source/c1-canvas-street-l3.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-d743a265-bf2f-4451-ac39-a7862f22aaa2.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c1-canvas-street",
+    "level": 4,
+    "path": "source/c1-canvas-street-l4.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-b55adb80-c96b-480d-92ec-9e530ed3235e.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c1-canvas-street",
+    "level": 5,
+    "path": "source/c1-canvas-street-l5.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-54e39183-cf88-4aa2-893b-5ad876f9b21a.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c2-bloom-terrace",
+    "level": 1,
+    "path": "source/c2-bloom-terrace-l1.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-0b0b2cf8-84fb-455a-ad57-c98998613d37.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c2-bloom-terrace",
+    "level": 2,
+    "path": "source/c2-bloom-terrace-l2.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-5ed88fc3-1ca7-443a-abb5-012fe09d3161.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c2-bloom-terrace",
+    "level": 3,
+    "path": "source/c2-bloom-terrace-l3.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-2e14b4ad-1813-462f-8f28-7799a7dedfa5.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c2-bloom-terrace",
+    "level": 4,
+    "path": "source/c2-bloom-terrace-l4.png",
+    "prompt": "Generated from property reference using the DevelopmentV1 theme and exact house-count editing specification. Record recovered after command-length failure; original PNG unchanged.",
+    "generation_artifact": "exec-db1fa949-f2a5-4b5b-8bdb-9be340ecf4e0.png",
+    "prompt_status": "reconstructed-from-template"
+  },
+  {
+    "key": "c2-bloom-terrace",
+    "level": 5,
+    "path": "source/c2-bloom-terrace-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Bloom Terrace. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a gracious pink boutique hotel with curved balconies, arched entrance and simple integrated pink flower planters. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use pink accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-9142e855-aa24-4c8f-b74e-d14de7a2e211.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "c3-aurora-avenue",
+    "level": 1,
+    "path": "source/c3-aurora-avenue-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Aurora Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream art-deco cottages with pink rounded corner parapets.",
+    "generation_artifact": "exec-df56228e-1470-45c8-bcb1-5d4be4ca6b23.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "c3-aurora-avenue",
+    "level": 2,
+    "path": "source/c3-aurora-avenue-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Aurora Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream art-deco cottages with pink rounded corner parapets.",
+    "generation_artifact": "exec-76fe0198-40e4-4823-acb6-a9d7ddcd5028.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "c3-aurora-avenue",
+    "level": 3,
+    "path": "source/c3-aurora-avenue-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Aurora Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream art-deco cottages with pink rounded corner parapets.",
+    "generation_artifact": "exec-f8eb4b47-15c6-49c2-ad90-d01984cbeff8.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "c3-aurora-avenue",
+    "level": 4,
+    "path": "source/c3-aurora-avenue-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Aurora Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream art-deco cottages with pink rounded corner parapets. Use pink as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-cd19eb59-d594-46b3-a34a-ecda3c7b4e97.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "c3-aurora-avenue",
+    "level": 5,
+    "path": "source/c3-aurora-avenue-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Aurora Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a streamlined art-deco hotel with pink horizontal bands, rounded corner and tall central stepped crown. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use pink accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-bf2bee0f-44d9-42b5-8eb6-aeeaf346bb19.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d1-archive-way",
+    "level": 1,
+    "path": "source/d1-archive-way-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Archive Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains warm limestone cottages with amber gabled porticoes and dark roofs.",
+    "generation_artifact": "exec-541eaaa1-1bf2-44b5-b24c-c091c2922fba.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d1-archive-way",
+    "level": 2,
+    "path": "source/d1-archive-way-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Archive Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains warm limestone cottages with amber gabled porticoes and dark roofs.",
+    "generation_artifact": "exec-defba00e-2093-41e7-b93f-82f8b660d5cf.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d1-archive-way",
+    "level": 3,
+    "path": "source/d1-archive-way-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Archive Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains warm limestone cottages with amber gabled porticoes and dark roofs.",
+    "generation_artifact": "exec-2507a948-bf3e-4f6d-9541-18cf27996293.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d1-archive-way",
+    "level": 4,
+    "path": "source/d1-archive-way-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Archive Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: warm limestone cottages with amber gabled porticoes and dark roofs. Use amber orange as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-d11728bc-7a38-45a7-a3c6-17d1d606f310.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d1-archive-way",
+    "level": 5,
+    "path": "source/d1-archive-way-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Archive Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a dignified limestone heritage hotel with amber cornices and a broad classical columned entrance. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use amber orange accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-d745a827-7ee7-4746-ae56-1980bbb945c7.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d2-forum-drive",
+    "level": 1,
+    "path": "source/d2-forum-drive-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Forum Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains limestone cottages with amber brick trim and simple square porches.",
+    "generation_artifact": "exec-8772502b-b9c0-4c4b-8403-f9c41f7aab6c.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d2-forum-drive",
+    "level": 2,
+    "path": "source/d2-forum-drive-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Forum Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains limestone cottages with amber brick trim and simple square porches.",
+    "generation_artifact": "exec-dd7ed99c-ad8b-4d53-a39e-bd44d880ff8a.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d2-forum-drive",
+    "level": 3,
+    "path": "source/d2-forum-drive-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Forum Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains limestone cottages with amber brick trim and simple square porches.",
+    "generation_artifact": "exec-1557f710-c3c9-46d1-bf6f-cd148dd523e8.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d2-forum-drive",
+    "level": 4,
+    "path": "source/d2-forum-drive-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Forum Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: limestone cottages with amber brick trim and simple square porches. Use amber orange as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-5eec7e55-b6c6-4743-95c1-f698fc26fd99.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d2-forum-drive",
+    "level": 5,
+    "path": "source/d2-forum-drive-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Forum Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: an amber civic hotel arranged as one continuous U-shaped building around a shallow entry court with short colonnade. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use amber orange accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-66fe7279-ce19-4227-9474-d9f094be91e3.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d3-meridian-avenue",
+    "level": 1,
+    "path": "source/d3-meridian-avenue-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Meridian Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains limestone cottages with amber square pilasters and symmetrical hipped roofs.",
+    "generation_artifact": "exec-039295e4-97aa-4d76-8094-ff496b7e6d2e.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d3-meridian-avenue",
+    "level": 2,
+    "path": "source/d3-meridian-avenue-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Meridian Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains limestone cottages with amber square pilasters and symmetrical hipped roofs.",
+    "generation_artifact": "exec-85c8a2e0-316a-4620-a036-1b0afef4f76e.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d3-meridian-avenue",
+    "level": 3,
+    "path": "source/d3-meridian-avenue-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Meridian Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains limestone cottages with amber square pilasters and symmetrical hipped roofs.",
+    "generation_artifact": "exec-3f832316-91e9-4f9b-8bd0-2602372fc2f3.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d3-meridian-avenue",
+    "level": 4,
+    "path": "source/d3-meridian-avenue-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Meridian Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: limestone cottages with amber square pilasters and symmetrical hipped roofs. Use amber orange as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-aeae8315-a170-4ce5-b3cd-c2f845855ece.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "d3-meridian-avenue",
+    "level": 5,
+    "path": "source/d3-meridian-avenue-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Meridian Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a symmetrical limestone grand hotel with a central elevated pavilion and amber pilasters. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use amber orange accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-233dfae2-4c18-404d-9b4b-9b3c4be82433.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e1-pulse-street",
+    "level": 1,
+    "path": "source/e1-pulse-street-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Pulse Street. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains compact charcoal-and-cream modern homes with coral-red vertical fins and distinct pitched roofs.",
+    "generation_artifact": "exec-f9d10012-5b4a-47ae-a1fc-e612c89b2a0c.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e1-pulse-street",
+    "level": 2,
+    "path": "source/e1-pulse-street-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Pulse Street. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains compact charcoal-and-cream modern homes with coral-red vertical fins and distinct pitched roofs.",
+    "generation_artifact": "exec-6d55f221-b756-4a3f-b05f-7cd9e52a8b1d.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e1-pulse-street",
+    "level": 3,
+    "path": "source/e1-pulse-street-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Pulse Street. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains compact charcoal-and-cream modern homes with coral-red vertical fins and distinct pitched roofs.",
+    "generation_artifact": "exec-b01cec6f-2afb-4487-a0a5-4a750dae8d56.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e1-pulse-street",
+    "level": 4,
+    "path": "source/e1-pulse-street-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Pulse Street. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: compact charcoal-and-cream modern homes with coral-red vertical fins and distinct pitched roofs. Use coral red as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-e001a445-05de-4f0e-92cf-7e84c858d9c2.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e1-pulse-street",
+    "level": 5,
+    "path": "source/e1-pulse-street-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Pulse Street. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a contemporary urban hotel with coral rhythmic vertical fins and a bold inset entrance. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use coral red accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-4852c6d0-61dd-4e35-8639-b8eafe225fe8.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e2-prism-boulevard",
+    "level": 1,
+    "path": "source/e2-prism-boulevard-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Prism Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream modern houses with coral-red angular gable trim and faceted bay windows.",
+    "generation_artifact": "exec-566ae9fc-cf9f-4f8a-b807-c72d4e522ecf.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e2-prism-boulevard",
+    "level": 2,
+    "path": "source/e2-prism-boulevard-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Prism Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream modern houses with coral-red angular gable trim and faceted bay windows.",
+    "generation_artifact": "exec-f33f3bfd-cee7-4267-ba7b-87b110627d51.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e2-prism-boulevard",
+    "level": 3,
+    "path": "source/e2-prism-boulevard-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Prism Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream modern houses with coral-red angular gable trim and faceted bay windows.",
+    "generation_artifact": "exec-0cd1a021-6341-4574-8538-f7357f563663.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e2-prism-boulevard",
+    "level": 4,
+    "path": "source/e2-prism-boulevard-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Prism Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream modern houses with coral-red angular gable trim and faceted bay windows. Use coral red as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-80184f38-55aa-41a4-9311-a66d48596f97.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e2-prism-boulevard",
+    "level": 5,
+    "path": "source/e2-prism-boulevard-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Prism Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a crisp faceted urban hotel with coral-red angled facade panels and a single asymmetrical roofline. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use coral red accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-5d0f2c2d-79e6-43ae-93e9-d7d66e2c75df.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e3-nova-avenue",
+    "level": 1,
+    "path": "source/e3-nova-avenue-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Nova Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream and charcoal modern homes with coral-red rounded dormers.",
+    "generation_artifact": "exec-1b75fd22-e9d1-4388-904c-0767c8a5421d.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e3-nova-avenue",
+    "level": 2,
+    "path": "source/e3-nova-avenue-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Nova Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream and charcoal modern homes with coral-red rounded dormers.",
+    "generation_artifact": "exec-15d588f4-49a7-44f8-82c3-3759c310bd07.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e3-nova-avenue",
+    "level": 3,
+    "path": "source/e3-nova-avenue-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Nova Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream and charcoal modern homes with coral-red rounded dormers.",
+    "generation_artifact": "exec-8d6ae0f2-c295-4cd6-ad3b-34a051064d34.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e3-nova-avenue",
+    "level": 4,
+    "path": "source/e3-nova-avenue-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Nova Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream and charcoal modern homes with coral-red rounded dormers. Use coral red as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-1b216ce4-d304-4541-9511-a02a6783e08c.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "e3-nova-avenue",
+    "level": 5,
+    "path": "source/e3-nova-avenue-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Nova Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a streamlined futuristic hotel with a central circular roof pavilion and coral-red horizontal facade accents. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use coral red accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-c889581d-eb9f-4ce5-91db-17a8997c184f.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f1-sunstep-terrace",
+    "level": 1,
+    "path": "source/f1-sunstep-terrace-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Sunstep Terrace. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream technical cottages with solar-yellow pitched roof trim and dark rectangular solar panels.",
+    "generation_artifact": "exec-e4d59bd3-0850-47a7-b144-e5c3bef66738.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f1-sunstep-terrace",
+    "level": 2,
+    "path": "source/f1-sunstep-terrace-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Sunstep Terrace. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream technical cottages with solar-yellow pitched roof trim and dark rectangular solar panels.",
+    "generation_artifact": "exec-f2115c08-aea8-4b59-9e32-0071003eabf9.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f1-sunstep-terrace",
+    "level": 3,
+    "path": "source/f1-sunstep-terrace-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Sunstep Terrace. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream technical cottages with solar-yellow pitched roof trim and dark rectangular solar panels.",
+    "generation_artifact": "exec-6a31ded0-c6bd-404f-aa4a-78631e5f9d04.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f1-sunstep-terrace",
+    "level": 4,
+    "path": "source/f1-sunstep-terrace-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Sunstep Terrace. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream technical cottages with solar-yellow pitched roof trim and dark rectangular solar panels. Use solar yellow as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-acf12d5b-e3a2-44a4-8942-3f42934a6305.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f1-sunstep-terrace",
+    "level": 5,
+    "path": "source/f1-sunstep-terrace-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Sunstep Terrace. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a stepped solar hotel with broad terraces, solar-yellow frames and dark rooftop solar panels. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use solar yellow accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-d3557448-565c-42f2-94fd-f1209a2fbceb.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f2-helix-way",
+    "level": 1,
+    "path": "source/f2-helix-way-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Helix Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream technical houses with yellow round-corner roofs and subtle horizontal metal bands.",
+    "generation_artifact": "exec-9a0c26a5-577d-4915-a837-584ff5f511ef.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f2-helix-way",
+    "level": 2,
+    "path": "source/f2-helix-way-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Helix Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream technical houses with yellow round-corner roofs and subtle horizontal metal bands.",
+    "generation_artifact": "exec-406cf2ce-9cff-4600-b381-dbbfdff319c8.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f2-helix-way",
+    "level": 3,
+    "path": "source/f2-helix-way-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Helix Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream technical houses with yellow round-corner roofs and subtle horizontal metal bands.",
+    "generation_artifact": "exec-ddc2539e-520a-482b-aac3-a8e72f8cf584.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f2-helix-way",
+    "level": 4,
+    "path": "source/f2-helix-way-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Helix Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream technical houses with yellow round-corner roofs and subtle horizontal metal bands. Use solar yellow as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-1d56eb76-2cbc-4ae0-8d35-61c9275c4412.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f2-helix-way",
+    "level": 5,
+    "path": "source/f2-helix-way-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Helix Way. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a rounded research-district hotel with spiral-like yellow exterior balcony bands as one coherent building. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use solar yellow accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-64620bf6-3f66-4908-8805-d087ee3268c3.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f3-horizon-drive",
+    "level": 1,
+    "path": "source/f3-horizon-drive-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Horizon Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream research cottages with solar-yellow gable accents and wide horizontal windows.",
+    "generation_artifact": "exec-e3eb5ca4-2774-4039-8fc4-aed81c77695a.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f3-horizon-drive",
+    "level": 2,
+    "path": "source/f3-horizon-drive-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Horizon Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream research cottages with solar-yellow gable accents and wide horizontal windows.",
+    "generation_artifact": "exec-ec934366-f6bd-4e0a-9f27-efdd701c7e5b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f3-horizon-drive",
+    "level": 3,
+    "path": "source/f3-horizon-drive-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Horizon Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream research cottages with solar-yellow gable accents and wide horizontal windows.",
+    "generation_artifact": "exec-36d6fd39-4774-4056-9177-2710d0aa876b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f3-horizon-drive",
+    "level": 4,
+    "path": "source/f3-horizon-drive-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Horizon Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream research cottages with solar-yellow gable accents and wide horizontal windows. Use solar yellow as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-6da9a5e6-2f2c-43e0-8a81-a80b3ae2f635.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "f3-horizon-drive",
+    "level": 5,
+    "path": "source/f3-horizon-drive-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Horizon Drive. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a wide contemporary hotel with offset horizontal cream volumes, yellow edges and long dark glazing bands. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use solar yellow accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-e4c8dd86-bee2-454f-a570-aedeeb736271.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g1-canopy-lane",
+    "level": 1,
+    "path": "source/g1-canopy-lane-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Canopy Lane. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream eco cottages with green pitched planted roofs and small attached planters.",
+    "generation_artifact": "exec-2d024641-42cb-4089-b0de-849f340c23d7.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g1-canopy-lane",
+    "level": 2,
+    "path": "source/g1-canopy-lane-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Canopy Lane. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream eco cottages with green pitched planted roofs and small attached planters.",
+    "generation_artifact": "exec-38dc0371-9d9d-401f-ac07-2683c647c225.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g1-canopy-lane",
+    "level": 3,
+    "path": "source/g1-canopy-lane-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Canopy Lane. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream eco cottages with green pitched planted roofs and small attached planters.",
+    "generation_artifact": "exec-e1d30e75-0cca-46e8-b35c-ebd3e7d620af.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g1-canopy-lane",
+    "level": 4,
+    "path": "source/g1-canopy-lane-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Canopy Lane. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream eco cottages with green pitched planted roofs and small attached planters. Use leaf green as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-f001cf56-06f2-4f8e-9ce0-633eeff11e21.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g1-canopy-lane",
+    "level": 5,
+    "path": "source/g1-canopy-lane-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Canopy Lane. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a compact eco hotel with a broad green planted canopy roof and integrated terrace planters. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use leaf green accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-59973f64-4ad8-4ca3-822f-d18747f42c5b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g2-verdant-avenue",
+    "level": 1,
+    "path": "source/g2-verdant-avenue-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Verdant Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream eco cottages with green gable trim and inset planted porch roofs.",
+    "generation_artifact": "exec-4f4b5fb7-9b3b-4de8-8042-5fc60a03b25a.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g2-verdant-avenue",
+    "level": 2,
+    "path": "source/g2-verdant-avenue-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Verdant Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream eco cottages with green gable trim and inset planted porch roofs.",
+    "generation_artifact": "exec-61786c6d-525d-438b-bafa-65e6a5ef2ee1.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g2-verdant-avenue",
+    "level": 3,
+    "path": "source/g2-verdant-avenue-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Verdant Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream eco cottages with green gable trim and inset planted porch roofs.",
+    "generation_artifact": "exec-7e3b0aa4-abb2-40a0-90fe-9333b555adfb.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g2-verdant-avenue",
+    "level": 4,
+    "path": "source/g2-verdant-avenue-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Verdant Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream eco cottages with green gable trim and inset planted porch roofs. Use leaf green as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-f61e8646-0be6-4f40-ba54-258523316138.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g2-verdant-avenue",
+    "level": 5,
+    "path": "source/g2-verdant-avenue-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Verdant Avenue. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a terraced cream hotel with clear green planted balconies and a central recessed entrance. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use leaf green accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-1917297e-8417-4e93-bab8-7b66eb1577c5.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g3-summit-boulevard",
+    "level": 1,
+    "path": "source/g3-summit-boulevard-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Summit Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream alpine cottages with green steep pitched roofs and dark timber framing.",
+    "generation_artifact": "exec-7e472fcb-4d47-4b0d-be2b-5cc107dfe941.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g3-summit-boulevard",
+    "level": 2,
+    "path": "source/g3-summit-boulevard-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Summit Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream alpine cottages with green steep pitched roofs and dark timber framing.",
+    "generation_artifact": "exec-91b7104b-dfd8-4980-a099-4ea927f813e7.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g3-summit-boulevard",
+    "level": 3,
+    "path": "source/g3-summit-boulevard-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Summit Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains cream alpine cottages with green steep pitched roofs and dark timber framing.",
+    "generation_artifact": "exec-7dbb3848-7946-441a-98c9-45ea8cc31308.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g3-summit-boulevard",
+    "level": 4,
+    "path": "source/g3-summit-boulevard-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Summit Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: cream alpine cottages with green steep pitched roofs and dark timber framing. Use leaf green as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-0b529c40-bdbd-4eb6-bef4-25137cfb999b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "g3-summit-boulevard",
+    "level": 5,
+    "path": "source/g3-summit-boulevard-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Summit Boulevard. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a mountain-lodge-inspired hotel with one prominent green gabled roof, pale walls and timber balcony structure. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use leaf green accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-6e249644-fa97-4bed-9df6-76138e8201ba.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h1-crown-promenade",
+    "level": 1,
+    "path": "source/h1-crown-promenade-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Crown Promenade. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains pale premium villas with deep blue hipped roofs and minimal gold trim.",
+    "generation_artifact": "exec-e31d5271-f949-491b-85fb-615738a61558.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h1-crown-promenade",
+    "level": 2,
+    "path": "source/h1-crown-promenade-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Crown Promenade. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains pale premium villas with deep blue hipped roofs and minimal gold trim.",
+    "generation_artifact": "exec-f75ffff5-964a-4603-a64b-a8181a371a0f.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h1-crown-promenade",
+    "level": 3,
+    "path": "source/h1-crown-promenade-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Crown Promenade. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains pale premium villas with deep blue hipped roofs and minimal gold trim.",
+    "generation_artifact": "exec-8183e1a1-0ab6-4fd2-9a73-5c254888fd7a.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h1-crown-promenade",
+    "level": 4,
+    "path": "source/h1-crown-promenade-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Crown Promenade. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: pale premium villas with deep blue hipped roofs and minimal gold trim. Use deep royal blue as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-eb53b5df-0c50-4308-a497-98bd5947ed88.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h1-crown-promenade",
+    "level": 5,
+    "path": "source/h1-crown-promenade-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Crown Promenade. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a dignified luxury hotel with deep blue mansard roofs, pale stone facade and a crown-shaped central roof pavilion. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use deep royal blue accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-8fedc030-75a3-4a35-8275-3daaa7ccb611.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h2-grand-meridian",
+    "level": 1,
+    "path": "source/h2-grand-meridian-l1.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Grand Meridian. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 1: EXACTLY 1 complete finished houses. KEEP ONLY the FRONT-LEFT house. Completely remove the FRONT-RIGHT house and BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains pale premium villas with deep-blue gable roofs and tall symmetrical windows.",
+    "generation_artifact": "exec-e7233303-d785-4a37-961d-3eb53e853288.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h2-grand-meridian",
+    "level": 2,
+    "path": "source/h2-grand-meridian-l2.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Grand Meridian. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 2: EXACTLY 2 complete finished houses. KEEP the TWO FRONT-ROW houses. Completely remove BOTH BACK-ROW houses. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains pale premium villas with deep-blue gable roofs and tall symmetrical windows.",
+    "generation_artifact": "exec-9704b28e-d836-4cc3-8de0-93b792f42287.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h2-grand-meridian",
+    "level": 3,
+    "path": "source/h2-grand-meridian-l3.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Grand Meridian. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. Edit this FOUR-HOUSE illustration into LEVEL 3: EXACTLY 3 complete finished houses. KEEP the TWO FRONT-ROW houses and the BACK-LEFT house. Completely remove the BACK-RIGHT house. Remove each unwanted house in its entirety including its entire roof, chimney, porch, staircase, planters, shadow and foundation, even detached tiny pieces close to railings. Replace the whole removed footprint with seamless cream paving. No disconnected chimney, floating roof, orphan door, rubble, scorch, roof wedge or partial building object anywhere. Keep the original rear unfinished service shell unchanged; it is not a counted finished house. Do not remove original shell or perimeter posts. Retained houses stay at exactly their original size, positions and details. Architecture remains pale premium villas with deep-blue gable roofs and tall symmetrical windows.",
+    "generation_artifact": "exec-255ac653-8f1e-4130-87de-7190115d466b.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h2-grand-meridian",
+    "level": 4,
+    "path": "source/h2-grand-meridian-l4.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Grand Meridian. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FOUR. Add EXACTLY FOUR separate finished small houses to the empty foreground pad, clear TWO BY TWO arrangement with central walkway and visible gaps: two front-row houses and two back-row houses. Architecture: pale premium villas with deep-blue gable roofs and tall symmetrical windows. Use deep royal blue as the only dominant color accent, with offwhite and charcoal. Each house has one coherent roof, door and broad windows, countable when reduced to 160px. Preserve the original unfinished rear service shell visibly secondary; it is not a completed fifth house. No detached chimneys, loose objects, extra outbuildings. All FOUR houses fit inside the original perimeter and all four roofs are clearly separated. Preserve parcel fully inside canvas.",
+    "generation_artifact": "exec-cd008bab-c189-4040-a276-9e7c39260d80.png",
+    "prompt_status": "recorded"
+  },
+  {
+    "key": "h2-grand-meridian",
+    "level": 5,
+    "path": "source/h2-grand-meridian-l5.png",
+    "prompt": "Use case: precise-object-edit. Single square production game illustration for Gridopoly Grand Meridian. Keep exact parcel footprint, railings, front curb, isometric camera, frame, scale, near-black background, cream paving, and bold outlined cel-shaded style of the reference. No labels, signs, numbers, letters, UI, watermark, people, vehicles or surrounding scenery. LEVEL FIVE: replace the undeveloped lot with exactly ONE HOTEL: a grand stepped luxury hotel with a deep-blue central tower, broad lower wings and restrained gold entrance trim. Absorb the rear service shell into ONE continuous hotel; no separate houses or outbuildings. Use deep royal blue accents with pale stone and charcoal. Broad three-to-four-storey mass, repeated guest room windows, an obvious entrance canopy and distinctive roof readable at 160px without any writing. Preserve the full perimeter and front curb, some front paving, entire roof inside canvas with no cropped spire.",
+    "generation_artifact": "exec-4369a18b-8304-4b00-9649-d64671073293.png",
+    "prompt_status": "recorded"
+  }
+]

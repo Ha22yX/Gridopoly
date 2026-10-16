@@ -15,3 +15,6 @@ Mechanical/**/*.stl filter=lfs diff=lfs merge=lfs -text
 Mechanical/**/*.3mf filter=lfs diff=lfs merge=lfs -text
 Mechanical/**/*.blend filter=lfs diff=lfs merge=lfs -text
 Mechanical/**/*.zip filter=lfs diff=lfs merge=lfs -text
+
+# Development artwork masters; small device derivatives remain regular Git files.
+Assets/GridCity/DevelopmentV1/source/*.png filter=lfs diff=lfs merge=lfs -text

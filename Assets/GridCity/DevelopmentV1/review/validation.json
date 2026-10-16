@@ -1,0 +1,38 @@
+{
+  "catalog_id": "grid-city-development-v1",
+  "checked_at": "2026-10-16",
+  "scope": "Offline artwork and browser preview; no firmware deployment or physical-screen acceptance",
+  "file_validation": {
+    "tool": "../tools/validate_assets.py",
+    "properties": 22,
+    "states": 132,
+    "files": 660,
+    "unique_masters": 132,
+    "original_states_unchanged": 22,
+    "rgb565_pixels_verified": 5541888,
+    "passed": true
+  },
+  "browser_validation": {
+    "tool": "../tools/check_preview.py",
+    "browser": "Microsoft Edge via Playwright",
+    "image_states_loaded": 132,
+    "desktop_width": 1280,
+    "mobile_width": 390,
+    "district_filter": true,
+    "actual_size": true,
+    "horizontal_overflow": false,
+    "browser_errors": [],
+    "passed": true
+  },
+  "visual_review": {
+    "reviewer": "Codex visual inspection",
+    "native_generated_images_reviewed": 110,
+    "districts_reviewed": ["A", "B", "C", "D", "E", "F", "G", "H"],
+    "contact_sheet_pixel_sizes": [160, 128],
+    "checks": ["House counts 1-4", "Single coherent hotel", "No leftover removed-house fragments", "Lot identity and district color", "Small-image readability"],
+    "targeted_repairs": ["a1-rivet-row-l1", "a1-rivet-row-l2", "a2-copper-lane-l2"],
+    "passed": true
+  },
+  "runtime_integrated": false,
+  "physical_screen_validated": false
+}
