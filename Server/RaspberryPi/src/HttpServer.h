@@ -97,7 +97,7 @@ class HttpServer {
   void acceptLoop();
   void workerLoop();
   void handleClient(int descriptor);
-  bool readRequest(int descriptor, Request& request, bool countTimeout);
+  bool readRequest(int descriptor, Request& request, bool firstRequest);
   bool claimStarvedClient();
   Response route(const Request& request);
   bool sendResponse(int descriptor, const Response& response, bool keepAlive,

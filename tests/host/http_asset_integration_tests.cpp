@@ -5,6 +5,7 @@
 #include <array>
 #include <cassert>
 #include <chrono>
+#include <cerrno>
 #include <cctype>
 #include <cstdint>
 #include <filesystem>
@@ -149,6 +150,7 @@ std::vector<std::uint8_t> readBytes(const std::filesystem::path& path) {
 }
 
 #include "development_asset_http_tests.h"
+#include "http_request_deadline_tests.h"
 
 }  // namespace
 
@@ -813,6 +815,7 @@ int main() {
   assert(authority.stateVersion() == beforeOrder.stateVersion);
 
   http.stop();
+  verifyHttpRequestDeadlines(authority, udp, temporary / "tiles");
   verifyDevelopmentAssets(source, temporary, authority, udp);
   std::filesystem::remove_all(temporary);
   std::cout << "GRIDOPOLY_HTTP_ASSET_INTEGRATION_TESTS_PASS\n";

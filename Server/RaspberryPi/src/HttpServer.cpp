@@ -669,23 +669,26 @@ void HttpServer::handleClient(int descriptor) {
   }
 }
 
-bool HttpServer::readRequest(int descriptor, Request& request, bool countTimeout) {
+bool HttpServer::readRequest(int descriptor, Request& request, bool firstRequest) {
   std::string raw;
   raw.reserve(2048);
-  const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+  constexpr auto readBudget = std::chrono::seconds(3);
+  const auto idleDeadline = std::chrono::steady_clock::now() + readBudget;
+  auto requestDeadline = idleDeadline;
   while (raw.find("\r\n\r\n") == std::string::npos && raw.size() < 16384) {
     // A completed keep-alive connection must not monopolize a fixed worker
     // while newly accepted clients wait in the bounded queue. A request that
     // has already started remains atomic; only a completely idle connection
     // yields, and the client can transparently open another TCP connection.
-    if (!countTimeout && raw.empty() && claimStarvedClient()) {
+    if (!firstRequest && raw.empty() && claimStarvedClient()) {
       std::lock_guard<std::mutex> lock(diagnosticsMutex_);
       ++diagnostics_.keepAlivePreemptions;
       return false;
     }
     const auto now = std::chrono::steady_clock::now();
+    const auto deadline = raw.empty() ? idleDeadline : requestDeadline;
     if (now >= deadline) {
-      if (countTimeout) {
+      if (firstRequest || !raw.empty()) {
         std::lock_guard<std::mutex> lock(diagnosticsMutex_);
         ++diagnostics_.readTimeouts;
       }
@@ -696,9 +699,14 @@ bool HttpServer::readRequest(int descriptor, Request& request, bool countTimeout
     const auto ready = ::poll(&pollDescriptor, 1, static_cast<int>(std::min<std::int64_t>(remaining, 250)));
     if (ready < 0 && errno == EINTR) continue;
     if (ready <= 0) continue;
+    if (std::chrono::steady_clock::now() >= deadline) continue;
     char buffer[2048];
     const auto count = ::recv(descriptor, buffer, sizeof(buffer), 0);
     if (count <= 0) return false;
+    // Idle keep-alive time must not consume the next request's read budget.
+    // Start it once on the first bytes, then share it across headers and body;
+    // later fragments never extend the fixed deadline.
+    if (raw.empty()) requestDeadline = std::chrono::steady_clock::now() + readBudget;
     raw.append(buffer, static_cast<std::size_t>(count));
   }
   if (!parseRequest(raw, request)) {
@@ -722,6 +730,7 @@ bool HttpServer::readRequest(int descriptor, Request& request, bool countTimeout
   }
   const auto headerEnd = raw.find("\r\n\r\n");
   const auto expectedSize = headerEnd + 4u + contentLength;
+  const auto deadline = requestDeadline;
   while (raw.size() < expectedSize) {
     const auto now = std::chrono::steady_clock::now();
     if (now >= deadline) {
@@ -735,6 +744,7 @@ bool HttpServer::readRequest(int descriptor, Request& request, bool countTimeout
                               static_cast<int>(std::min<std::int64_t>(remaining, 250)));
     if (ready < 0 && errno == EINTR) continue;
     if (ready <= 0) continue;
+    if (std::chrono::steady_clock::now() >= deadline) continue;
     char buffer[2048];
     const auto count = ::recv(descriptor, buffer, sizeof(buffer), 0);
     if (count <= 0) return false;

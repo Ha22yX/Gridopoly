@@ -1,4 +1,5 @@
 # 房屋与旅馆图片按需下载
+
 > 当前部署：计划16格全部普通V0.37，逐板写验、正常启动、联网及原环形分配恢复通过。全部16块正常页面、方向和亮度已获用户确认。下文按批次保留当时版本数。玩家屏本轮尚未刷写。
 
 
@@ -68,7 +69,7 @@ COM20使用与生产相同的worker、缓存、CRC与绘图入口进行有界TES
 - 看门狗重启（不重写Flash）：requests0、ready0、RAM0；重新查看A1旅馆为cached=NO，再发request1并成功校验发布。
 - TEST每次30秒自动退出，显式STOP同样恢复最新权威页；下载期间HTTP心跳保持，批量重启引起的ORDER暂时撤销/恢复照实记录。
 
-COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200及默认页requests0/RAM0；它们恢复原CARD-CF-1/A2/CORNER-HOLD分配。四块写验不等于其余12块更新：**第一批完成时为4块V0.37＋12块V0.36；随后第二批完成，现为8块V0.37＋8块V0.36**。玩家屏源码/候选与实际部署分开见[玩家报告](player-development-artwork-2026-10-16.md)，本轮未刷玩家屏。网页新资源端点可用，但网页选图未接入。
+COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200及默认页requests0/RAM0；它们恢复原CARD-CF-1/A2/CORNER-HOLD分配。四块写验不等于其余12块更新：**第一批完成时为4块V0.37＋12块V0.36；随后第二批完成，该阶段为8块V0.37＋8块V0.36**。玩家屏源码/候选与实际部署分开见[玩家报告](player-development-artwork-2026-10-16.md)，本轮未刷玩家屏。网页新资源端点可用，但网页选图未接入。
 
 本机原始证据在`C:/Users/kicof/AppData/Local/GridopolyArtworkRuntime/`，包括写验、各口有界串口、六级缓存与重启记录、部署和HTTP快照；不提交凭据、固件或游戏存档。真实玩家操作建房/拆房后的自动换图尚待对局验收，不能用TEST探针替代。32格＋4屏真实无线压力仍需对应实物。
 
@@ -86,7 +87,7 @@ COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200�
 
 四口分别12秒有界STATUS：V0.37、8MHz、rotation2、HTTP200、assigned=YES，开发图片requests0/ready0/RAM0。采集正常结束，全部释放。随后连续5组HTTP快照均16在线、16已分配、ORDER ready；逐模块格子与mapIndex同第一批结束时完全一致。room993580116/version17保持，服务器新图片admitted仍13、active0，确认这一批默认页未产生新开发图片流量。
 
-证据：本机`second-inventory.csv`、`second-flash.jsonl`、`second-COM*-status.jsonl`、`second-live.json`及`upgrade-ledger.json`。当前8块V0.37、8块V0.36；第二批页面目视已向用户询问，尚未用日志替代确认。第一批用户反馈为“四块正常”。
+证据：本机`second-inventory.csv`、`second-flash.jsonl`、`second-COM*-status.jsonl`、`second-live.json`及`upgrade-ledger.json`。该阶段8块V0.37、8块V0.36；用户随后确认“这批正常，下一批4块已接好”。第一批用户反馈为“四块正常”。
 
 
 ### 第三批写验与整盘恢复（累计12/16）
@@ -102,10 +103,10 @@ COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200�
 
 四口各12秒STATUS均V0.37、8MHz、rotation2、HTTP200、assignedYES，默认页requests0/ready0/RAM0，全部closed/released。连续5组服务器快照均16在线、16分配、ORDER ready，逐模块格子与mapIndex同首批结束时完全一致；room993580116/version17保持，开发图片admitted仍13、active0。
 
-本机证据：`third-inventory.csv`、`third-flash.jsonl`、`third-COM*-status.jsonl`、`third-live.json`及更新后的`upgrade-ledger.json`。当前12块V0.37、4块V0.36；上一批已获用户正常反馈，本批目视待用户确认。
+本机证据：`third-inventory.csv`、`third-flash.jsonl`、`third-COM*-status.jsonl`、`third-live.json`及更新后的`upgrade-ledger.json`。该阶段12块V0.37、4块V0.36；用户随后确认“第三批正常，最后4块已接好”。
 
 
-第三批通信观察补充：COM12首个12秒窗口开头已有HTTP -5状态，随后恢复200；窗口内另完整捕获一条heartbeat_failed/count=1/-5并再次恢复200，未失去原B3分配。开头一次未捕获失败起点，不计为两条新增失败。额外`third-COM12-recheck.jsonl`的12秒窗口HTTP200且未再出现错误，已释放串口。服务器会话只读确认-5为连接丢失，图片请求计数未增、心跳和图片连接独立；尚不能确定断连原因。旧有HTTP处理将空闲等待与POST读取合用3秒期限，是后续待复现项，本轮未据此改程序或重启服务。短复查恢复不等于根因已修复，详见服务器专项报告。
+第三批通信观察补充：COM12首个12秒窗口开头已有HTTP -5状态，随后恢复200；窗口内另完整捕获一条heartbeat_failed/count=1/-5并再次恢复200，未失去原B3分配。开头一次未捕获失败起点，不计为两条新增失败。额外`third-COM12-recheck.jsonl`的12秒窗口HTTP200且未再出现错误，已释放串口。服务器会话只读确认-5为连接丢失，图片请求计数未增、心跳和图片连接独立；尚不能确定断连原因。旧有HTTP处理将空闲等待与POST读取合用3秒期限，是后续待复现项，当时尚未据此改程序或重启服务；随后隔离复现、修复及部署见本文末尾。短复查恢复不等于根因已修复，详见服务器专项报告。
 
 
 ## Git检查点与本地更新包
@@ -128,7 +129,7 @@ COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200�
 
 四口各12秒STATUS均V0.37、8MHz、rotation2、HTTP200、assignedYES，默认页requests0/ready0/RAM0，全部closed/released。连续5组服务器快照均16在线、16分配、ORDER ready，逐模块格子与mapIndex同首批结束时完全一致；room993580116/version17保持，开发图片admitted仍13、active0。
 
-本机证据：`fourth-inventory.csv`、`fourth-flash.jsonl`、`fourth-COM*-status.jsonl`、`fourth-live.json`及更新后的`upgrade-ledger.json`。当前16块V0.37、0块V0.36；上一批已获用户正常反馈，本批目视待用户确认。
+本机证据：`fourth-inventory.csv`、`fourth-flash.jsonl`、`fourth-COM*-status.jsonl`、`fourth-live.json`及更新后的`upgrade-ledger.json`。该阶段16块V0.37、0块V0.36；用户随后确认“最后四块都正常”，完成全16块目视验收。
 
 
 第四批补充：COM16的12秒窗口内捕获一次heartbeat_failed/count=1/http=-5，随后自动恢复HTTP200；保留原C1/map13/revision215和WiFi，不是全窗口零错误。开发图片requests0，未注入对局动作。原始证据保留在`fourth-COM16-status.jsonl`，与COM12一样记为已恢复、断连根因未定。
@@ -137,3 +138,22 @@ COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200�
 ### 全16板目视确认
 
 用户回复“最后四块都正常”。结合前三批逐次确认，16块V0.37的正常页面、180度方向和当前LED亮度全部通过用户目视验收；所有串口已释放。此确认不扩展为每块每种房屋素材、真实玩家建拆房流程、32格无线负载或瞬时HTTP断连根因已修复。
+
+
+### 玩家屏候选已构建，尚未刷写
+
+普通16MHz候选应用`81430a30d910f089b78e1e53da9438cda2f9427950df5778bf9ac726339b78f1`（1,912,320字节），普通12MHz候选应用`79a53b01047533b9de3caef1078b03ffd82d686d76133dd380b855c3d37ee578`（1,912,464字节）均构建通过。每份2141项源快照、四个写入段及分区检查已完成，主会话另行核对candidate、sourceDigest和四段SHA。两者均无显示诊断/电池遥测，保持各自显示配置；12MHz用于保留COM29已验证的显示时钟。
+
+源码包含按权威等级选图、640KiB含暂存区上限、显示对象引用保护及下载错峰/退避。玩家屏本轮没有烧录，不能把候选构建写成四台已部署或目视通过。具体路径、主机测试和保留的编译失败记录见[玩家报告](player-development-artwork-2026-10-16.md)。
+
+### HTTP读取期限修复已部署，最终整盘核对
+
+隔离测试复现了既有HTTP缺陷：keep-alive空闲等待占用了下一次请求正文的读取期限。现将空闲等待与收到首字节后的固定3秒读取期限分开，头和正文共享后者、分片不续期；保留3秒空闲关闭及每连接100次请求上限。迟到正文、持续慢分片、空闲关闭、请求次数上限、素材并发/慢接收和配对接口回归均通过。此机制修复有独立证据，不能因此断定COM12/COM16的现场断连只由它造成。
+
+Pi正式程序已替换为`2efc59f48e303c5c8bd49334678a40663d901aee58d298d7c2a37f5245336485`，641,624字节，实读PID771782。旧程序及数据备份位于`/var/lib/gridopoly-artwork-deploy/gridopoly-timeout-deploy-20261016-205221`。330份新素材、72份旧素材及网络配置保持，格子无需再次刷写。
+
+16:52:42～16:52:50 EDT连续5组采样均16在线、16分配、ORDER ready、全部V0.37。逐模块比较16条`moduleId/deviceId/tile_id/mapIndex/source/buildingLevel/owner_player/artworkKey`完全一致；角落仍位于0/4/8/12。最终房间993580116和玩家、资产、业务状态保持；状态差异只有version17→18、配对sessionId及serverEpochMs，未新建对局。原始证据为本机`timeout-deploy-*.json`、`timeout-final-live.json`、`timeout-final-validation.json`。
+
+最终健康快照timeouts为1，尚未逐连接定位；sendErrors、队列拒绝和keep-alive抢占均0。本窗口开发图片admitted/active为0，用于确认服务恢复，不替代真实建房/拆房换图验收，也不声称长期零断连。完整回归与交付证据见[服务器报告](server-development-artwork-progress-2026-10-16.md)。
+
+本轮范围已完成：服务器按需资源与限流、16块普通V0.37及全批次目视、实板缓存复用/上限/重启清空、玩家屏两份候选构建与主机回归。玩家屏实际升级和真实对局建拆房换图仍是下一轮实机项目。

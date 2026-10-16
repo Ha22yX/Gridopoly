@@ -108,3 +108,53 @@ Windows暂存回归19例中18通过、1个POSIX符号链接用例跳过；Pi Lin
 既有连接时序保留为后续待复现项：服务器每连接最多100请求，第100次响应明确`Connection: close`，客户端读取正文后按此关闭；当前短间隔及缺少请求计数不支持直接以100次上限解释。`HttpServer::readRequest`的同一个3秒deadline同时覆盖keep-alive空闲、请求头和POST正文；正常2秒心跳等待会消耗其中一部分，留给后续收包的时间更短。这一逻辑在旧`0fed0ce`已存在，本轮没有改变。三份health的全局timeouts为9→37→60；后续keep-alive请求头的普通空闲超时不会增加该计数，计数来源是首请求头或正文读取超时，尚不能定位到COM12。共享deadline、TCP关闭时序等均未由此次日志证明为根因，不将它写成已定位或已修复。
 
 原始证据位于`C:/Users/kicof/AppData/Local/GridopolyArtworkRuntime/`下的`third-COM12-status.jsonl`、`third-COM12-recheck.jsonl`及上述三份live快照。下一步由主会话先完成已冻结V0.37全盘升级及本轮收尾；后续若续派传输问题，先隔离复现空闲等待、正文deadline与请求次数上限的区别，再决定修复。本次仅追加报告，未改源码、重启、部署或修改线上状态；Git由主会话统一审核提交。
+
+## 共享读取期限的有界隔离复现
+
+随后主会话授权只验证上述机制，并补充COM16也曾出现一次新`heartbeat_failed/-5`后恢复200。复现使用已冻结的`Bv2WB1`源码，541项SHA全部核对；`HttpServer.cpp` SHA256为`f25a4f40b12abc32ce5047a31e46fa282a5e00fc5788c6c0dd8a6cef2f40810f`，未改共享实现。私有夹具采用32worker、动态HTTP端口45067及独立临时存档，客户端仅访问127.0.0.1；UDP未启动，未tick游戏。构建使用C++17、`-O0 -Wall -Wextra -Werror -pthread`，仅用于时序机制验证，不是生产性能测试。
+
+| 隔离场景 | 结果 |
+| --- | --- |
+| 新连接的首个POST，头后1.400344秒送达合法Tag正文 | HTTP200，timeouts增量0。 |
+| 先完成GET，空闲2秒，下一POST头后0.400547秒送正文 | HTTP200，timeouts增量0。 |
+| 同样空闲2秒，下一POST头后1.4秒送正文，第一次 | 头后0.999986秒先收到EOF，距前次响应3.000055秒，无HTTP响应，timeouts增量1。 |
+| 同样空闲2秒、正文延迟1.4秒，第二次 | 头后1.000090秒先收到EOF，距前次响应3.000159秒，无HTTP响应，timeouts增量1。 |
+| 纯keep-alive空闲，不发送下一个请求 | 前次响应后3.000033秒收到EOF，timeouts增量0。 |
+| 一个连接连续100次GET | 全部HTTP200；第99次keep-alive/max1，第100次完整200及Connection:close后EOF，timeouts增量0；新连接200。 |
+
+两个失败案例的合法正文自身延迟均小于3秒，失败发生在连接的第二个请求，且没有图片请求、发送错误或队列抢占。结果证实当前实现把前一次响应后的空闲时间计入下一请求正文的读取期限，也区分了正常空闲关闭和正常100次上限；**尚不能证明COM12/COM16的现场错误由这一机制触发**，现场仍缺逐连接收发及关闭时序。
+
+最小修复建议尚未实施：保留空闲3秒和100次上限，在后续keep-alive连接首次收到请求字节时，仅建立一次独立固定3秒读取期限，供完整头和正文使用；不按每个分片续期，保留已开始请求不被队列抢占。修复回归应将上述两个延迟正文案例改为期望200，并保留空闲关闭、实际慢正文超限及第100次正常关闭的对照。本轮仅复现，不将建议自动合入或部署，也不阻塞已冻结V0.37交付。
+
+测试和证据：本机`C:/Users/kicof/AppData/Local/GridopolyNetworkAudit/deadline-repro-20261016/`中的`fixture.cpp`、`reproduce.py`、`result.json`、`run-result.json`、`run.log`和`fixture.log`；Pi独立目录为`/home/kicofy/gridopoly-deadline-repro-20261016.Cb6ULH`。测试进程767132已正常退出0，最终timeouts2、sendErrors0、preemptions0、图片admitted0；前后生产PID747219及19c8cbad完整SHA不变。首次夹具构建误选同名固件HttpServer头的失败记录保留在`attempt-1-header-search/`，只修正私有测试include顺序后完成上述验证；未改生产代码或全局构建设置。
+
+## 期限最小修复与新候选交付
+
+主会话随后授权修复并构建候选，现场部署仍由主会话审核执行。`HttpServer::readRequest`现区分等待首字节的3秒空闲期限与实际请求的3秒读取期限：收到首批字节时仅建立一次请求期限，头和正文共用它，后续分片不会续期。首请求与复用连接均采用此规则；完全无字节的首请求仍3秒超时，普通keep-alive空闲3秒正常关闭。poll返回后再次检查当前期限，防止已超时的可读事件绕过边界。
+
+每连接100请求及最后一次明确`Connection: close`、有界队列/worker、只抢占完全空闲连接的规则保持。开始读取后的头/正文超时计入readTimeouts；普通keep-alive空闲关闭不计入。独立预算意味着一次请求最多经历约3秒等待首字节加3秒读取，读取期间不会因每次到包无限延长。图片路由、330份资源、格子/玩家固件和AP配置没有随本修复改变。
+
+新增[HTTP期限回归](../../tests/host/http_request_deadline_tests.h)，由已有[HTTP集成目标](../../tests/host/http_asset_integration_tests.cpp)调用，使用独立随机端口及测试存档。最终Linux native `-O2 -Wall -Wextra -Werror -pthread`、assert开启的结果为：
+
+- 首请求两组：立即发头，以及等2秒后发头；均在头后延迟1.4秒发送合法Tag正文，全部200。
+- 同一keep-alive连接连续两次空闲2秒后发下一POST、再延迟1.4秒送正文，全部200，成功请求未增加timeouts。
+- 先发首字节，1秒后完成头，之后持续发送合法正文片段；即使每个间隔均小于3秒，仍于首字节后3000ms关闭，证明头与正文共享固定期限且分片不续期。
+- 首请求无字节3秒超时、纯keep-alive空闲3秒正常关闭、100次完整200后明确close及随后新连接成功均通过。
+- 完整HTTP素材、控制、心跳回归通过；32/40并发下载仍各最多4个200，其余503；4/2慢接收名额与控制/头像响应、连接中断释放及330文件核验通过。
+- onboarding HTTP/UDP网络目标通过，正常生产程序构建通过；本轮没有扩展为全仓库CTest或重复无关素材暂存测试。
+
+冻结交付目录：`C:/Users/kicof/GridopolyReleases/server-http-deadline-20261016-204911/`；Pi隔离目录：`/home/kicofy/gridopoly-http-deadline-20261016.UQwpoP`。候选`gridopoly_server`为641624字节，SHA256 **`2efc59f48e303c5c8bd49334678a40663d901aee58d298d7c2a37f5245336485`**；远端程序位于该目录的`build-pi-native/gridopoly_server`。
+
+`source-manifest.json`共542项，清单自身SHA256为`d8dadacc7dd5870745b5a8bb7c17250734f9c754dea86c60f2c09e16bea2732f`。`baseline-delta.json`确认相对19c8冻结源仅修改HttpServer.cpp/.h及HTTP集成测试，新增期限回归头；`remote-verification.json`与`workspace-verification.json`均零漂移。`native.log`包含上述实测结果，`build-result.json`为exit0，并记录构建前后现役仍PID747219、SHA19c8cbad完整值相同。
+
+原失败复现证据保持原样。此阶段已完成机制修复、隔离回归、正常构建和候选冻结，未由本端部署或修改Git索引；主会话负责审核、定向提交及决定是否仅替换服务器binary，既有330素材无需重新发布。COM12/COM16现场根因仍不能唯一归于此缺陷，候选通过不等于现场长期无断连。主会话已报告格子V0.37为16/16且用户视觉验收通过，本修复不要求再次换线或刷格子。
+
+## 新期限版本已部署，16环恢复核对
+
+主会话审核候选后已完成仅binary的受控部署，本端随后只读核对完整`timeout-deploy-result.json`与`timeout-final-live.json`。实际部署SHA256为`2efc59f48e303c5c8bd49334678a40663d901aee58d298d7c2a37f5245336485`，PID771782；旧19c8版本及数据备份位于Pi的`/var/lib/gridopoly-artwork-deploy/gridopoly-timeout-deploy-20261016-205221`。部署结果为DEPLOYED，330份新素材、72份旧素材及网络配置保持原哈希/配置，未重发资源或改固件。
+
+2026-10-16 16:52:42.524～16:52:50.823 EDT（20:52:42.524～20:52:50.823 UTC），5组约2秒间隔的只读采样均为16在线、16已分配、ORDER ready、V0.37×16；最终模块记录含12长边和4角落，ORDER位置唯一覆盖0～15，角落位于0/4/8/12。房间993580116、phase0保留，最终version18；部署证据确认资产及玩家业务字段不变，版本变化不冒称整份状态逐字节相同。
+
+最终health在该次进程uptime25083ms时记录active17、queued0、HTTP rejected0、sendErrors0、keepAlivePreemptions0；**timeouts为1，保留此非零计数，尚未逐连接定位，不写成零超时或所有网络稳定性通过**。图片admitted0、rejected0、active0，当前所有资产等级0；本窗口核对的是服务器替换后的恢复，不是重新验证实际建房图片下载。
+
+两份原始证据均位于`C:/Users/kicof/AppData/Local/GridopolyArtworkRuntime/`。期限机制的回归和正式部署已有证据，COM12/COM16原始断连的唯一原因及长期表现仍未由短窗口证明。本端完成报告后冻结实现与本文，交主会话统一Git；本端没有额外线上操作、串口采集或扩展测试。
