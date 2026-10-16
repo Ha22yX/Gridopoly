@@ -25,6 +25,16 @@ Direct oversized pixels are capped at 16 on all ten LEDs without cumulative
 dimming. The fixed 8/255 maintenance RGB/off commands reach that same boundary
 and expire into the current scene without changing the network snapshot.
 
+V0.36 additionally extracts the actual display initialization, controller recovery
+and `DisplaySink` routines. The existing boundary suite checks that MADCTL rotation
+is set at the safe rate before restoring the selected SPI speed, both canvases
+remain unrotated, either PSRAM allocation failure keeps the same panel orientation,
+and recovery invalidates the submitted shadow before repainting. Full-page,
+artwork-sized, footer and last-pixel writes retain their logical windows and row
+order. These hardware-call fakes do not emulate rotation or prove optical output;
+the fixed Adafruit driver implementation is reviewed separately. The existing
+`display_diff` suite still covers changed spans, full refresh and retry behavior.
+
 The ORDER suite drives the production V1 transmitter/receiver at 1 ms intervals
 with both 16 and 32 independent links. It checks direct neighbors, one broken
 wire expiring without stopping other transmitters, reconnection with a newer

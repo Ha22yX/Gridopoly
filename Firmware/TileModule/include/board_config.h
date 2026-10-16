@@ -40,6 +40,9 @@ inline constexpr std::uint8_t kIna226Address = 0x40;
 inline constexpr std::size_t kWs2812Count = 10;
 inline constexpr std::uint16_t kDisplayWidth = 240;
 inline constexpr std::uint16_t kDisplayHeight = 320;
+// Hardware MADCTL rotation only; page/footer canvases keep logical rotation 0.
+// Rotation 2 turns the original portrait display by 180 degrees, still 240x320.
+inline constexpr std::uint8_t kDisplayRotation = 2;
 // The first board is not reliable at 20 MHz once the Wi-Fi radio is active.
 // Keep that fallback independent of an explicitly validated local override.
 // V0.30's internal-RAM transfer at 40 MHz passed visual checks on one module;

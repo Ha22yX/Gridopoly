@@ -552,6 +552,16 @@ bool verifyHtrcDigitalLink() {
          (restored & 0x3FU) == original;
 }
 
+void printDisplayOrientation() {
+  Serial.printf("[DISPLAY-ORIENTATION] rotation=%u degrees=%u width=%u height=%u canvas_rotation=%u footer_rotation=%u\r\n",
+                static_cast<unsigned>(gDisplay.getRotation()),
+                static_cast<unsigned>(gDisplay.getRotation()) * 90U,
+                static_cast<unsigned>(gDisplay.width()),
+                static_cast<unsigned>(gDisplay.height()),
+                static_cast<unsigned>(gPageCanvas.getRotation()),
+                static_cast<unsigned>(gFooterCanvas.getRotation()));
+}
+
 void initializeDisplay() {
   if (gSubmittedFrame == nullptr && gPageCanvas.allocate()) {
     gSubmittedFrame = static_cast<std::uint16_t *>(heap_caps_malloc(
@@ -560,6 +570,10 @@ void initializeDisplay() {
     if (gSubmittedFrame == nullptr) gPageCanvas.release();
   }
   gSubmittedFrameValid = false;
+  // Only the controller rotates pixels. Rotating either canvas as well would
+  // cancel the 180-degree turn for buffered pages or just their footer.
+  gPageCanvas.setRotation(0);
+  gFooterCanvas.setRotation(0);
   gPageCanvas.setTextWrap(false);
   Serial.printf("[DISPLAY] renderer=%s psram_free=%u internal_free=%u\r\n",
                 gSubmittedFrame != nullptr ? "PSRAM_DIFF" : "DIRECT_FALLBACK",
@@ -569,14 +583,15 @@ void initializeDisplay() {
   gDisplay.init(kDisplayWidth, kDisplayHeight, SPI_MODE0);
   Serial.printf("[DISPLAY] init_spi_hz=%u\r\n",
                 spiClockDivToFrequency(gDisplaySpi.getClockDivider()));
-  // Initialization ran at the independent safe rate. Apply the chosen normal
-  // or experiment rate only after the controller configuration is complete.
+  // MADCTL is controller configuration too: write it at the safe init rate,
+  // before restoring the chosen normal or bounded experiment transfer rate.
+  gDisplay.setRotation(kDisplayRotation);
   gDisplay.setSPISpeed(gDisplayClockHz);
-  gDisplay.setRotation(0);
   gDisplay.setTextWrap(false);
   gDisplay.fillScreen(ST77XX_BLACK);
   analogWrite(kLcdBacklightPin, gBacklightDuty);
   gDisplayReady = true;
+  printDisplayOrientation();
 }
 
 void recoverDisplayController() {
@@ -2303,6 +2318,7 @@ void printStatus() {
                 gDisplayClockHz,
                 spiClockDivToFrequency(gDisplaySpi.getClockDivider()),
                 gDisplayExperimentDurationMs, kFirmwareVersion);
+  printDisplayOrientation();
   Serial.printf("[DISPLAY-PERF] renderer=%s frames=%u skipped=%u rectangles=%u pixels=%u full=%u last_us=%u max_us=%u\r\n",
                 gSubmittedFrame != nullptr ? "PSRAM_DIFF" : "DIRECT_FALLBACK",
                 gDisplayMetrics.frames, gDisplayMetrics.skipped,

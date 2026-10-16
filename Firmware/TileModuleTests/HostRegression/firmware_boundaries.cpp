@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iterator>
+#include <vector>
 #include <unity.h>
 #include "board_config.h"
 #include "hitag_s_protocol.h"
@@ -26,6 +27,7 @@ void xSemaphoreGive(SemaphoreHandle_t) {}
 struct SilentSerial {
   template <typename... Args> void printf(const char*, Args...) {}
   void print(const char*) {}
+  void println(const char*) {}
 } Serial;
 #define F(text) text
 std::uint32_t testMillis = 1000;
@@ -58,10 +60,61 @@ bool gDiagnosticPage = false;
 unsigned displayEvents = 0;
 unsigned displayResetOrder = 0;
 unsigned displayRenderOrder = 0;
-void recoverDisplayController() {
-  TEST_ASSERT_EQUAL_UINT32(8'000'000, gDisplayClockHz);
-  displayResetOrder = ++displayEvents;
-}
+constexpr int MALLOC_CAP_SPIRAM = 1, MALLOC_CAP_8BIT = 2, MALLOC_CAP_INTERNAL = 4;
+constexpr int SPI_MODE0 = 0, ST77XX_BLACK = 0;
+bool canvasAllocates = true, shadowAllocates = true, gDisplayReady = false;
+bool gSubmittedFrameValid = false;
+std::uint16_t shadowStorage = 0;
+std::uint16_t *gSubmittedFrame = nullptr;
+alignas(4) std::uint16_t gDisplayRow[kDisplayWidth]{};
+std::uint8_t gBacklightDuty = kBacklightDuty;
+std::vector<int> backlightWrites;
+void *heap_caps_malloc(std::size_t, int) { return shadowAllocates ? &shadowStorage : nullptr; }
+unsigned heap_caps_get_free_size(int) { return 100000; }
+void analogWrite(int, int value) { backlightWrites.push_back(value); }
+void delay(unsigned) {}
+struct CanvasBoundary {
+  std::uint8_t rotation = 0;
+  bool released = false;
+  bool allocate() { return canvasAllocates; }
+  void release() { released = true; }
+  void setRotation(std::uint8_t value) { rotation = value; }
+  std::uint8_t getRotation() const { return rotation; }
+  void setTextWrap(bool) {}
+} gPageCanvas, gFooterCanvas;
+struct SpiBoundary {
+  unsigned clock = kDisplaySafeSpiFrequencyHz, ended = 0;
+  void begin(int, int, int, int) {}
+  void end() { ++ended; }
+  unsigned getClockDivider() const { return clock; }
+} gDisplaySpi;
+unsigned spiClockDivToFrequency(unsigned value) { return value; }
+struct DisplayBoundary {
+  std::uint8_t rotation = 0;
+  std::uint16_t w = 0, h = 0, x = 0, y = 0, window_w = 0, window_h = 0;
+  unsigned rotation_clock = 0, fill_clock = 0, transactions = 0;
+  std::vector<std::uint16_t> pixels;
+  void init(std::uint16_t width, std::uint16_t height, int) {
+    w = width; h = height; rotation = 0;
+    gDisplaySpi.clock = kDisplaySafeSpiFrequencyHz;  // BoardST7789::begin boundary.
+    displayResetOrder = ++displayEvents;
+  }
+  void setRotation(std::uint8_t value) { rotation = value; rotation_clock = gDisplaySpi.clock; }
+  std::uint8_t getRotation() const { return rotation; }
+  std::uint16_t width() const { return w; }
+  std::uint16_t height() const { return h; }
+  void setSPISpeed(unsigned hz) { gDisplaySpi.clock = hz; }
+  void setTextWrap(bool) {}
+  void fillScreen(int) { fill_clock = gDisplaySpi.clock; }
+  void startWrite() { ++transactions; pixels.clear(); }
+  void endWrite() {}
+  void setAddrWindow(std::uint16_t px, std::uint16_t py, std::uint16_t width, std::uint16_t height) {
+    x = px; y = py; window_w = width; window_h = height;
+  }
+  void writePixels(std::uint16_t *row, std::uint16_t count, bool, bool) {
+    pixels.insert(pixels.end(), row, row + count);
+  }
+} gDisplay;
 void renderPage() {
   TEST_ASSERT_FALSE(gDiagnosticPage);
   displayRenderOrder = ++displayEvents;
@@ -102,6 +155,11 @@ void setUp() {
   gMovementCueStartedMs = 1000;
   gPairingCueStartedMs = 1000;
   frames = 0;
+  gDisplay = {}; gDisplaySpi = {}; gPageCanvas = {}; gFooterCanvas = {};
+  gDisplayClockHz = kDisplaySafeSpiFrequencyHz;
+  gDisplayReady = false; gSubmittedFrame = nullptr; gSubmittedFrameValid = false;
+  canvasAllocates = shadowAllocates = true;
+  backlightWrites.clear();
 }
 void tearDown() {}
 
@@ -346,8 +404,65 @@ void test_safe_display_restores_8mhz_controller_before_normal_page() {
   restoreSafeDisplay();
   TEST_ASSERT_EQUAL_UINT32(0, gDisplayExperimentDurationMs);
   TEST_ASSERT_EQUAL_UINT32(8'000'000, gDisplayClockHz);
+  TEST_ASSERT_EQUAL_UINT8(2, gDisplay.getRotation());
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, gDisplay.rotation_clock);
+  TEST_ASSERT_EQUAL_UINT8(0, gPageCanvas.getRotation());
+  TEST_ASSERT_FALSE(gSubmittedFrameValid);
+  TEST_ASSERT_TRUE(gDisplayReady);
+  TEST_ASSERT_EQUAL_UINT(1, gDisplaySpi.ended);
+  TEST_ASSERT_EQUAL_INT(0, backlightWrites.front());
+  TEST_ASSERT_EQUAL_INT(kBacklightDuty, backlightWrites.back());
   TEST_ASSERT_EQUAL_UINT32(1, displayResetOrder);
   TEST_ASSERT_EQUAL_UINT32(2, displayRenderOrder);
+}
+void test_display_initialization_rotates_only_panel_at_safe_rate() {
+  gDisplayClockHz = 40'000'000;
+  gPageCanvas.setRotation(2); gFooterCanvas.setRotation(2);
+  gSubmittedFrameValid = true;
+  initializeDisplay();
+  TEST_ASSERT_NOT_NULL(gSubmittedFrame);
+  TEST_ASSERT_FALSE(gSubmittedFrameValid);
+  TEST_ASSERT_EQUAL_UINT8(2, gDisplay.getRotation());
+  TEST_ASSERT_EQUAL_UINT16(240, gDisplay.width());
+  TEST_ASSERT_EQUAL_UINT16(320, gDisplay.height());
+  TEST_ASSERT_EQUAL_UINT8(0, gPageCanvas.getRotation());
+  TEST_ASSERT_EQUAL_UINT8(0, gFooterCanvas.getRotation());
+  TEST_ASSERT_EQUAL_UINT32(8'000'000, gDisplay.rotation_clock);
+  TEST_ASSERT_EQUAL_UINT32(40'000'000, gDisplay.fill_clock);
+}
+void test_display_fallback_keeps_same_orientation_when_either_allocation_fails() {
+  canvasAllocates = false;
+  initializeDisplay();
+  TEST_ASSERT_NULL(gSubmittedFrame);
+  TEST_ASSERT_EQUAL_UINT8(2, gDisplay.getRotation());
+  TEST_ASSERT_TRUE(gDisplayReady);
+  canvasAllocates = true; shadowAllocates = false;
+  initializeDisplay();
+  TEST_ASSERT_NULL(gSubmittedFrame);
+  TEST_ASSERT_TRUE(gPageCanvas.released);
+  TEST_ASSERT_EQUAL_UINT8(2, gDisplay.getRotation());
+  TEST_ASSERT_EQUAL_UINT16(240, gDisplay.width());
+  TEST_ASSERT_EQUAL_UINT16(320, gDisplay.height());
+}
+void test_display_sink_preserves_full_artwork_footer_and_edge_coordinates() {
+  initializeDisplay();
+  std::vector<std::uint16_t> frame(kDisplayWidth * kDisplayHeight);
+  for (std::size_t i = 0; i < frame.size(); ++i) frame[i] = static_cast<std::uint16_t>(i);
+  const std::uint16_t windows[][4]{{0,0,240,320}, {40,48,160,160},
+                                  {16,286,208,34}, {239,319,1,1}};
+  DisplaySink sink;
+  for (const auto &rect : windows) {
+    TEST_ASSERT_TRUE(sink.write(rect[0], rect[1], rect[2], rect[3], frame.data(), kDisplayWidth));
+    TEST_ASSERT_EQUAL_UINT16(rect[0], gDisplay.x);
+    TEST_ASSERT_EQUAL_UINT16(rect[1], gDisplay.y);
+    TEST_ASSERT_EQUAL_UINT16(rect[2], gDisplay.window_w);
+    TEST_ASSERT_EQUAL_UINT16(rect[3], gDisplay.window_h);
+    TEST_ASSERT_EQUAL_UINT32(rect[2] * rect[3], gDisplay.pixels.size());
+    for (unsigned row = 0; row < rect[3]; ++row)
+      TEST_ASSERT_EQUAL_MEMORY(frame.data() + (rect[1] + row) * kDisplayWidth + rect[0],
+                               gDisplay.pixels.data() + row * rect[2], rect[2] * sizeof(std::uint16_t));
+    TEST_ASSERT_EQUAL_UINT8(2, gDisplay.getRotation());
+  }
 }
 
 void test_display_clock_override_is_bound_to_validated_device() {
@@ -452,6 +567,9 @@ int main() {
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
   RUN_TEST(test_safe_display_restores_8mhz_controller_before_normal_page);
+  RUN_TEST(test_display_initialization_rotates_only_panel_at_safe_rate);
+  RUN_TEST(test_display_fallback_keeps_same_orientation_when_either_allocation_fails);
+  RUN_TEST(test_display_sink_preserves_full_artwork_footer_and_edge_coordinates);
   RUN_TEST(test_display_clock_override_is_bound_to_validated_device);
   RUN_TEST(test_freshness_expires_and_incomplete_inventory_cannot_refresh);
   RUN_TEST(test_pairing_uses_scanned_session_not_current_cached_session);

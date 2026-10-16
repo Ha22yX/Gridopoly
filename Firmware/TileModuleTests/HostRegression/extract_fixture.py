@@ -36,7 +36,11 @@ else:
     pieces.append("void publishPendingTagObservation() {} // pre-fix baseline")
 pieces += [routine(main, "void recordTagScan("),
            routine(main, "void publishTagInventory("),
+           routine(main, "void printDisplayOrientation("),
+           routine(main, "void initializeDisplay("),
+           routine(main, "void recoverDisplayController("),
            routine(main, "void restoreSafeDisplay("),
+           routine(main, "struct DisplaySink") + ";",
            routine(main, "Rgb playerColor("),
            routine(main, "Rgb scaleColor("),
            routine(main, "void showPixels("),
