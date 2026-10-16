@@ -18,7 +18,7 @@
 | 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；[USB已部署及重启自启验收](firmware/usb-ap-deployment-2026-10-15.md)，20台同时接入已实证、36台待验 |
 | 线圈包围屏幕时的RFID故障 | [COM8单板实机调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)；区分供电、芯片告警与实际UID读取 |
 | 3D与机械 | [Full16 R1、玩家R3、实物边界及装配PDF](mechanical/README.md)；R3仅更换02支架，其余四件保持R2 |
-| 格子屏方向及本次合并升级 | [180度旋转＋LED降亮V0.36](firmware/tile-display-rotation-2026-10-16.md)，长边/角落分别验证，逐板记录部署 |
+| 格子屏方向及本次合并升级 | [180度旋转＋LED降亮V0.36](firmware/tile-display-rotation-2026-10-16.md)，12长边＋4角落已分批升级，目视结果及逐板记录见内 |
 | 格子LED过亮 | [V0.35低亮实现](firmware/tile-led-brightness-2026-10-15.md)已合入[V0.36逐板升级](firmware/tile-display-rotation-2026-10-16.md)，以最新实机记录为准 |
 | 重开局分配异常 | [150组状态/230实际心跳及用户恢复确认](firmware/newgame16-assignment-observation-2026-10-15.md)，首次原因未定、未部署修复 |
 | 本轮会话与变更汇总 | [晚间全面整合](documentation-refresh-2026-10-15-evening.md) |
