@@ -86,3 +86,25 @@ Windows暂存回归19例中18通过、1个POSIX符号链接用例跳过；Pi Lin
 证据：`C:/Users/kicof/AppData/Local/GridopolyArtworkRuntime/server-deploy-result.json`及`post-deploy-http-check.json`。最终源码复核文件`final-workspace-drift.json`明确为`drift: []`，541文件零漂移；此前会话消息中关于共享测试变量重命名被检测为漂移的措辞不准确，冻结快照已与当前测试一致，无须改写产物或清单。
 
 至此服务端源码、选定回归、生产构建、资源发布和服务部署均有证据。Git审核与提交由主会话统一处理；两端候选部署、真实下载/缓存重启与建拆房画面仍由对应会话和主会话继续验收。网页本轮仍未接入新等级选图；服务端提供PNG并不表示网页已显示分级建筑。
+
+## COM12瞬时HTTP断连：只读分析，根因待复现
+
+第三批V0.37升级后，主会话提供COM12（`a4:cb:8f:c2:98:e4`）的STATUS与独立复查记录。本端只读核对日志、冻结源码和实际构建所用Arduino 2.0.17 HTTPClient实现。以下时间均为2026-10-16 America/New_York（EDT，UTC−04:00）的主机串口接收时间，不是设备事件的精确发生时间。
+
+| 接收时间 | 记录及解释 |
+| --- | --- |
+| 16:29:50.700 | 首段窗口打开，DTR/RTS均false；窗口持续12.035秒。 |
+| 16:29:50.748、16:29:51.541 | STATUS显示进入窗口时已有的`NET ERR/http=-5`；第二条是同一错误状态的重复观测。没有捕获这次失败的起点，不能当作两次新失败。 |
+| 16:29:51.703、16:29:51.945 | 先出现assignment发布，再观察到`AUTO/http=200`。 |
+| 16:29:56.789 | 窗口内唯一新捕获的`heartbeat_failed count=1 http=-5 retry_http=YES keep_wifi=YES`。 |
+| 16:29:57.842、16:29:57.947 | assignment再次发布，随后`AUTO/http=200`；距离上述失败日志分别1.053秒、1.158秒。 |
+| 16:30:02.735 | 首段窗口关闭并释放串口。 |
+| 16:30:31.330～16:30:43.363 | 独立复查12.033秒；16:30:31.944的STATUS为`AUTO/http=200`，窗口无新增失败日志。 |
+
+两段保持同一boot `B499D607A48FEE2E`、B3/map9、assignment revision170及assigned状态，未见Wi-Fi断联事件。实际SDK中`HTTPC_ERROR_CONNECTION_LOST=-5`，读取超时为`-11`；本路径的`sendRequest`返回-5表示等待响应头期间连接丢失，错误码本身不能确定哪端或何种原因关闭连接。现有`tile_network.cpp`在非200后清理HTTP transport，保留Wi-Fi，下一轮心跳重新连接；这不是同一次请求内的无感重试。独立复查只能证明该短窗口未再现，不能写成长期网络稳定性全部通过。
+
+没有证据将这次症状归因于图片更新：COM12所有ART状态均`requests=0`、`ram=0`；`final-four-live.json`、`second-live.json`和`third-live.json`的图片累计admitted均为13、rejected0、active0。图片任务使用独立的WiFiClient/HTTPClient并禁用复用，心跳使用另一组连接对象。服务器新增的强制关闭与发送缓冲设置仅用于development资源路径。三份health的HTTP rejected、sendErrors及keepAlivePreemptions均为0，采样时active17、queued0；这些快照不替代逐连接追踪。
+
+既有连接时序保留为后续待复现项：服务器每连接最多100请求，第100次响应明确`Connection: close`，客户端读取正文后按此关闭；当前短间隔及缺少请求计数不支持直接以100次上限解释。`HttpServer::readRequest`的同一个3秒deadline同时覆盖keep-alive空闲、请求头和POST正文；正常2秒心跳等待会消耗其中一部分，留给后续收包的时间更短。这一逻辑在旧`0fed0ce`已存在，本轮没有改变。三份health的全局timeouts为9→37→60；后续keep-alive请求头的普通空闲超时不会增加该计数，计数来源是首请求头或正文读取超时，尚不能定位到COM12。共享deadline、TCP关闭时序等均未由此次日志证明为根因，不将它写成已定位或已修复。
+
+原始证据位于`C:/Users/kicof/AppData/Local/GridopolyArtworkRuntime/`下的`third-COM12-status.jsonl`、`third-COM12-recheck.jsonl`及上述三份live快照。下一步由主会话先完成已冻结V0.37全盘升级及本轮收尾；后续若续派传输问题，先隔离复现空闲等待、正文deadline与请求次数上限的区别，再决定修复。本次仅追加报告，未改源码、重启、部署或修改线上状态；Git由主会话统一审核提交。

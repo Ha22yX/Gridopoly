@@ -2,7 +2,7 @@
 
 本素材库为全部22块可建造地产提供六级图像：空地、1栋、2栋、3栋、4栋房屋，以及1座旅馆。生成过程保留每块 StreetV3 地块的独特围栏、路缘、街区色与等距视角。
 
-**2026-10-16已完成：110张新增图＋22张原始空地，共132个状态。** 已检查八个街区的逐级画面、160px/128px可读性及全部660个素材文件；[检查记录](review/validation.json)与[机器清单](manifests/development-v1.json)一并保存。树莓派已提供按需下载，前两批8块格子已升级V0.37；一块实板的五级图片、缓存复用及重启清空已验证，用户确认画面正常。[当前接入和设备进度](../../../Docs/firmware/development-artwork-runtime-2026-10-16.md)另行维护，清单内的制作阶段标记不作为实时部署状态。
+**2026-10-16已完成：110张新增图＋22张原始空地，共132个状态。** 已检查八个街区的逐级画面、160px/128px可读性及全部660个素材文件；[检查记录](review/validation.json)与[机器清单](manifests/development-v1.json)一并保存。树莓派已提供按需下载，16块格子均已升级V0.37；一块实板的五级图片、缓存复用及重启清空已验证，用户确认画面正常。[当前接入和设备进度](../../../Docs/firmware/development-artwork-runtime-2026-10-16.md)另行维护，清单内的制作阶段标记不作为实时部署状态。
 
 [打开互动图鉴](review/index.html) · [设计方案](../../../Docs/game/property-development-art-v1.md) · [原始地块目录](../StreetV3/manifests/grid-city-street-assets-v3.json)
 
@@ -54,6 +54,6 @@ python Assets/GridCity/DevelopmentV1/tools/validate_assets.py
 
 ## 与现有运行版本的关系
 
-StreetV3原始文件保持不变。V0.37格子端把默认图片留在固件，只按当前地产和等级下载房屋/旅馆图片到RAM；重启清空。服务器下发建筑等级，并对新图片做并发/速率限制，客户端错峰、退避、核对长度和CRC。玩家屏代码已接入分级缓存；玩家屏实际升级、剩余8块格子及真实对局换图按[接入记录](../../../Docs/firmware/development-artwork-runtime-2026-10-16.md)验收，网页目前仍使用旧选图逻辑。
+StreetV3原始文件保持不变。V0.37格子端把默认图片留在固件，只按当前地产和等级下载房屋/旅馆图片到RAM；重启清空。服务器下发建筑等级，并对新图片做并发/速率限制，客户端错峰、退避、核对长度和CRC。玩家屏代码已接入分级缓存；玩家屏实际升级及真实对局换图按[接入记录](../../../Docs/firmware/development-artwork-runtime-2026-10-16.md)验收，网页目前仍使用旧选图逻辑。
 
 完整132状态的160px RGB565合计6,758,400字节，新增110状态为5,632,000字节，不整体嵌入应用。格子端图片RAM上限307,200字节（5张就绪＋1张缓冲），玩家屏上限640KiB（含下载暂存）。公共目录只包含校验信息，可运行`python Assets/GridCity/DevelopmentV1/tools/generate_runtime_catalog.py --check`核对。

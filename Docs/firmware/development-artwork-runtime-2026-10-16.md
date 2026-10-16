@@ -1,4 +1,6 @@
 # 房屋与旅馆图片按需下载
+> 当前部署：计划16格全部普通V0.37，逐板写验、正常启动、联网及原环形分配恢复通过。全部16块正常页面、方向和亮度已获用户确认。下文按批次保留当时版本数。玩家屏本轮尚未刷写。
+
 
 日期：2026-10-16。对应用户要求：默认图片留在格子固件，建房/旅馆图片从树莓派按需下载到内存，重启清空，并控制整盘同时请求的压力。
 
@@ -85,3 +87,53 @@ COM21/22/23的开机STATUS分别验证普通V0.37、8MHz、rotation2、HTTP200�
 四口分别12秒有界STATUS：V0.37、8MHz、rotation2、HTTP200、assigned=YES，开发图片requests0/ready0/RAM0。采集正常结束，全部释放。随后连续5组HTTP快照均16在线、16已分配、ORDER ready；逐模块格子与mapIndex同第一批结束时完全一致。room993580116/version17保持，服务器新图片admitted仍13、active0，确认这一批默认页未产生新开发图片流量。
 
 证据：本机`second-inventory.csv`、`second-flash.jsonl`、`second-COM*-status.jsonl`、`second-live.json`及`upgrade-ledger.json`。当前8块V0.37、8块V0.36；第二批页面目视已向用户询问，尚未用日志替代确认。第一批用户反馈为“四块正常”。
+
+
+### 第三批写验与整盘恢复（累计12/16）
+
+用户确认上一批四块正常后换线。本批使用相同冻结普通V0.37，逐板完整MAC/板型核对、四段写验及watchdog-reset全部通过；保留NVS。
+
+| 端口 | 完整MAC | 板型 | 恢复格子 / mapIndex |
+| --- | --- | --- | --- |
+| COM12 | A4:CB:8F:C2:98:E4 | tile-long | B3 / 9 |
+| COM13 | A4:CB:8F:C2:98:F8 | tile-long | U-ENERGY / 10 |
+| COM14 | A4:CB:8F:C2:98:AC | tile-long | CARD-CE-1 / 11 |
+| COM15 | A4:CB:8F:C1:E1:88 | tile-corner | CORNER-GOTO / 12 |
+
+四口各12秒STATUS均V0.37、8MHz、rotation2、HTTP200、assignedYES，默认页requests0/ready0/RAM0，全部closed/released。连续5组服务器快照均16在线、16分配、ORDER ready，逐模块格子与mapIndex同首批结束时完全一致；room993580116/version17保持，开发图片admitted仍13、active0。
+
+本机证据：`third-inventory.csv`、`third-flash.jsonl`、`third-COM*-status.jsonl`、`third-live.json`及更新后的`upgrade-ledger.json`。当前12块V0.37、4块V0.36；上一批已获用户正常反馈，本批目视待用户确认。
+
+
+第三批通信观察补充：COM12首个12秒窗口开头已有HTTP -5状态，随后恢复200；窗口内另完整捕获一条heartbeat_failed/count=1/-5并再次恢复200，未失去原B3分配。开头一次未捕获失败起点，不计为两条新增失败。额外`third-COM12-recheck.jsonl`的12秒窗口HTTP200且未再出现错误，已释放串口。服务器会话只读确认-5为连接丢失，图片请求计数未增、心跳和图片连接独立；尚不能确定断连原因。旧有HTTP处理将空闲等待与POST读取合用3秒期限，是后续待复现项，本轮未据此改程序或重启服务。短复查恢复不等于根因已修复，详见服务器专项报告。
+
+
+## Git检查点与本地更新包
+
+服务器、共享资源目录、格子实现及截至第二批的证据已提交`c54df8fd`。后续批次与玩家端单独补交，不将旧候选的gitRevision改写成新提交；候选的82项输入清单和应用SHA才是本次实板写入的精确来源。
+
+本机`C:/Users/kicof/GridopolyReleases/tile-update-v037-2026-10-16/release.json`用于本轮格子批次。现有打包器要求三个profile，因此其中player是历史兼容占位，不是本次玩家屏图片升级候选；只能配合已核对MAC且仅含tile-long/tile-corner的显式清单使用。玩家屏候选和COM29专用12MHz配置由玩家报告独立记录，不把该tile-update包交给玩家屏批量写入。
+
+
+### 第四批写验与整盘恢复（累计16/16）
+
+用户确认上一批四块正常后换线。本批使用相同冻结普通V0.37，逐板完整MAC/板型核对、四段写验及watchdog-reset全部通过；保留NVS。
+
+| 端口 | 完整MAC | 板型 | 恢复格子 / mapIndex |
+| --- | --- | --- | --- |
+| COM16 | A4:CB:8F:C2:99:08 | tile-long | C1 / 13 |
+| COM17 | A4:CB:8F:C2:98:B8 | tile-long | FEE-CITY / 14 |
+| COM18 | A4:CB:8F:C2:98:FC | tile-long | C2 / 15 |
+| COM10 | A4:CB:8F:C1:E1:34 | tile-corner | CORNER-START / 0 |
+
+四口各12秒STATUS均V0.37、8MHz、rotation2、HTTP200、assignedYES，默认页requests0/ready0/RAM0，全部closed/released。连续5组服务器快照均16在线、16分配、ORDER ready，逐模块格子与mapIndex同首批结束时完全一致；room993580116/version17保持，开发图片admitted仍13、active0。
+
+本机证据：`fourth-inventory.csv`、`fourth-flash.jsonl`、`fourth-COM*-status.jsonl`、`fourth-live.json`及更新后的`upgrade-ledger.json`。当前16块V0.37、0块V0.36；上一批已获用户正常反馈，本批目视待用户确认。
+
+
+第四批补充：COM16的12秒窗口内捕获一次heartbeat_failed/count=1/http=-5，随后自动恢复HTTP200；保留原C1/map13/revision215和WiFi，不是全窗口零错误。开发图片requests0，未注入对局动作。原始证据保留在`fourth-COM16-status.jsonl`，与COM12一样记为已恢复、断连根因未定。
+
+
+### 全16板目视确认
+
+用户回复“最后四块都正常”。结合前三批逐次确认，16块V0.37的正常页面、180度方向和当前LED亮度全部通过用户目视验收；所有串口已释放。此确认不扩展为每块每种房屋素材、真实玩家建拆房流程、32格无线负载或瞬时HTTP断连根因已修复。

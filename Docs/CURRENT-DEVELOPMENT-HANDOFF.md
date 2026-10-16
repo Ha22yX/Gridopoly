@@ -1,6 +1,6 @@
 # Gridopoly 当前开发交接
 
-更新：2026-10-16，新增[房屋/旅馆按需下载与实板记录](firmware/development-artwork-runtime-2026-10-16.md)。Pi已升级19c8cbad，COM20～26及COM11普通V0.37（8块），其余8格V0.36；本轮最后只读为16在线/16分配/ORDER ready，原room993580116保持。玩家屏未刷写。下方10/15的玩家席位及完整对局边界保留其时间语境。[前次整合](documentation-refresh-2026-10-15-evening.md)及[历史快照](archive/development-handoff-before-2026-10-15-evening-refresh.md)继续保留。
+更新：2026-10-16，新增[房屋/旅馆按需下载与实板记录](firmware/development-artwork-runtime-2026-10-16.md)。Pi已升级19c8cbad，计划16格均为普通V0.37；本轮最后只读为16在线/16分配/ORDER ready，原room993580116保持。玩家屏未刷写。下方10/15的玩家席位及完整对局边界保留其时间语境。[前次整合](documentation-refresh-2026-10-15-evening.md)及[历史快照](archive/development-handoff-before-2026-10-15-evening-refresh.md)继续保留。
 
 ## 当前结论
 
@@ -23,12 +23,12 @@ ALFA AWUS036ACM已作为独立USB热点运行，16格＋4屏共20台同时关联
 
 ## 实际部署与发布包
 
-2026-10-16新增美术交付：[地产开发素材V1](../Assets/GridCity/DevelopmentV1/README.md)已补齐全部22块地产的0～5级图片，共132状态（新增110张），含160px格子屏/128px玩家屏PNG和RGB565。服务器330份衍生资源与等级下发已部署；格子默认图留在固件，开发图片按需放入RAM。COM20五级图片目视、缓存复用、307200字节图片上限及重启清零/重下已验，前两批8块升级，第一批用户已确认正常。剩余8块、玩家屏部署和真实建拆房换图仍分别待验，详见[本轮运行时记录](firmware/development-artwork-runtime-2026-10-16.md)。
+2026-10-16新增美术交付：[地产开发素材V1](../Assets/GridCity/DevelopmentV1/README.md)已补齐全部22块地产的0～5级图片，共132状态（新增110张），含160px格子屏/128px玩家屏PNG和RGB565。服务器330份衍生资源与等级下发已部署；格子默认图留在固件，开发图片按需放入RAM。COM20五级图片目视、缓存复用、307200字节图片上限及重启清零/重下已验，16块均已升级，全部16块的正常页面、方向和亮度已获用户确认。玩家屏部署和真实建拆房换图仍分别待验，详见[本轮运行时记录](firmware/development-artwork-runtime-2026-10-16.md)。
 
 | 范围 | 当前部署 | 构建/冻结边界 |
 | --- | --- | --- |
 | Pi游戏/网页 | `19c8cbad…`，最后实读PID747219；新开发图片端点/限流/建筑等级已部署 | [服务报告](firmware/server-development-artwork-progress-2026-10-16.md)；网页画面选图仍未接新等级 |
-| 12长边＋4角落 | COM20/21/22/24/25/26 long `aef76554…`、COM23/11 corner `963f0b66…`为普通V0.37；另外8块V0.36。全部保留LCD8MHz/rotation2/低亮 | [本轮逐板与缓存实测](firmware/development-artwork-runtime-2026-10-16.md)；V0.36下16板方向/低亮确认仍保留，不能等同16板已升级新缓存 |
+| 12长边＋4角落 | 全部普通V0.37：12 long `aef76554…`、4 corner `963f0b66…`。全部保留LCD8MHz/rotation2/低亮 | [本轮逐板与缓存实测](firmware/development-artwork-runtime-2026-10-16.md)；16块写验与联网/原分配恢复已通过；全部16块目视已获用户确认 |
 | COM7 | `22ca08e6…`，core1/mode3 | 粗略旋转解码与消费对应、配对页稳定；不是精确每格或全部页面通过 |
 | COM27/28 | `dfc4b7e5…`，16MHz | 两台静止等待页获用户正常反馈 |
 | COM29 | `716ff623…`，12MHz有界诊断 | 120秒日志已结束，游戏继续可用；普通12MHz `3da4c493…` 已构建核验、未部署 |

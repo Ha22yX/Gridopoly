@@ -1,6 +1,8 @@
-# 格子建房素材 RAM 按需缓存：V0.37 候选
+# 格子建房素材 RAM 按需缓存：V0.37 构建与16板部署
 
 日期：2026-10-16（America/New_York）。本报告记录格子任务的源码、主机回归与普通候选交付；设备验证由主会话接续记录。本任务没有打开串口、烧录、修改线上建筑/资产/分配或提交共享 Git 索引。
+
+最终部署状态：计划16块均已写验普通V0.37，恢复原格子映射及16节点闭环，四批正常页面、180度方向和LED亮度均获用户确认。COM12/COM16短暂HTTP -5及自动恢复的原始证据保留，根因尚未确定；真实建拆房换图与更大规模现场负载不在此次已完成验收内。以下按阶段保留原始结果，最终四批和目视收尾见文末。
 
 ## 候选交付阶段（随后实机进展见文末）
 
@@ -120,3 +122,45 @@ V0.36硬件rotation2、240×320、默认8MHz、背光150和V0.35低亮灯效保�
 `second-live.json`在16:24:20.179～16:24:28.435的连续5次只读样本均为16在线、16分配、ORDER ready，版本分布为8块V0.37＋8块V0.36；最终拓扑为唯一16节点closedRing。房间仍为993580116/version17，developmentAssets.admitted保持13、active0、rejected0，未因本批正常0级启动增加开发图片请求。
 
 第二批写验、启动联网及原分配恢复已通过，**第二批页面、方向和亮度目视仍待用户反馈**；主会话已发出问题并继续接管后续批次。格子任务本轮只补本报告，候选、源码及Git索引均未改动，不将8板升级写成全16板已升级。
+
+## 第三批四板升级与通信复查（16:27～16:30 EDT）
+
+主会话已转述用户确认第二批四块正常，第二批目视待反馈项关闭。第三批由主会话独占串口完成；格子任务只读复核`third-flash.jsonl`、四份`third-COM12/13/14/15-status.jsonl`、`third-COM12-recheck.jsonl`及`third-live.json`，未进行设备操作。
+
+| 串口 | 完整MAC | profile / 应用 | VERIFIED时间（EDT） | 恢复分配 |
+| --- | --- | --- | --- | --- |
+| COM12 | `a4:cb:8f:c2:98:e4` | long / `aef76554…` | 16:27:58.174 | B3 / map9 |
+| COM13 | `a4:cb:8f:c2:98:f8` | long / `aef76554…` | 16:28:21.811 | U-ENERGY / map10 |
+| COM14 | `a4:cb:8f:c2:98:ac` | long / `aef76554…` | 16:28:45.558 | CARD-CE-1 / map11 |
+| COM15 | `a4:cb:8f:c1:e1:88` | corner / `963f0b66…` | 16:29:09.611 | CORNER-GOTO / map12 |
+
+四条verified沿用冻结V0.37四段、esptool 5.3.1和watchdog-reset；应用哈希与本报告候选一致。四板状态均为V0.37、8MHz、rotation2及原ORDER格子，当前0级或非地产页面`requests=0 ready=0 ram=0`，workerREADY。
+
+**COM12初次窗口存在通信异常，不能写为全程无错误。** 16:29:50.748首次STATUS为HTTP -5，16:29:51.945恢复200；16:29:56.789记录`heartbeat_failed count=1 http=-5 retry_http=YES keep_wifi=YES`，16:29:57.947再次恢复200。期间assignedYES、B3/map9仍保留，图片请求一直为0。主会话随后进行16:30:31.330～16:30:43.363的额外12秒复查：STATUS为HTTP200、B3/map9，窗口内无新的错误日志，结束closed/released。该短窗证明已恢复，不证明异常根因已修复；服务器会话继续只读分析持久连接原因，尚未定因。
+
+`third-live.json`在16:29:50.889～16:29:59.097连续5样本均为16在线、16分配、ORDER ready，累计12块V0.37＋4块V0.36；最终唯一16节点closedRing，房间993580116/version17。开发图片admitted保持13、active0、rejected0。原四份串口窗口16:30:02.735～16:30:02.796释放，COM12复查也已释放。
+
+主会话已将本轮核心、格子和服务器代码统一提交`c54df8fd`（Add on-demand RAM artwork for tile buildings），冻结候选未改变；本次仅追加报告，Git索引仍由主会话负责。**第三批目视及最后四板升级仍由主会话接续**，格子任务不重复问换线或打开串口。玩家端另线程的构建修复不代表玩家屏已部署。
+
+## 最后四板部署与全16板目视收尾（16:33～16:34 EDT及随后用户确认）
+
+主会话转述用户已确认第三批四块正常，随后独占COM16/17/18/10完成第四批。格子任务只读复核`fourth-flash.jsonl`、四份`fourth-COM16/17/18/10-status.jsonl`和`fourth-live.json`；源码及两个普通候选保持冻结。
+
+| 串口 | 完整MAC | profile / 应用 | VERIFIED时间（EDT） | 恢复分配 |
+| --- | --- | --- | --- | --- |
+| COM16 | `a4:cb:8f:c2:99:08` | long / `aef76554…` | 16:33:05.543 | C1 / map13 |
+| COM17 | `a4:cb:8f:c2:98:b8` | long / `aef76554…` | 16:33:30.090 | FEE-CITY / map14 |
+| COM18 | `a4:cb:8f:c2:98:fc` | long / `aef76554…` | 16:33:54.067 | C2 / map15 |
+| COM10 | `a4:cb:8f:c1:e1:34` | corner / `963f0b66…` | 16:34:18.184 | CORNER-START / map0 |
+
+四条verified均为既定四段写验、esptool 5.3.1及watchdog-reset，应用SHA与冻结候选相符。各约12秒STATUS窗口显示V0.37、8MHz、rotation2、assignedYES及上述原格子；当前0级或非地产场景均workerREADY、requests0/ready0/ram0。四口于16:34:49.702～16:34:49.807关闭释放。
+
+COM16窗口先在16:34:38.148显示HTTP200，16:34:42.747完整捕获一次`heartbeat_failed count=1 http=-5 retry_http=YES keep_wifi=YES`，16:34:43.873重新发布assignment，16:34:44.091恢复HTTP200。错误期间assignedYES、C1/map13、revision215及ART requests0保持；从失败日志到下一次200 STATUS相隔约1.344秒，时间是主机串口接收时间。保留此异常，不写成全程零错误，也不推断所有故障都能在该时间恢复。
+
+`fourth-live.json`在16:34:37.950～16:34:46.423连续5样本均为16在线、16分配、ORDER ready，**16块全部V0.37**；最终唯一16节点closedRing，房间993580116/version17。逐项比较首批结束的`final-four-live.json`与本快照，16个deviceId对应的tile_id/mapIndex/artworkKey全部一致。开发图片admitted仍13、active0、rejected0。
+
+服务器[只读分析](server-development-artwork-progress-2026-10-16.md)确认SDK中-5为等待响应头期间连接丢失；COM12首段开窗时已存在的错误及重复STATUS不是多次新失败，窗口完整捕获的新失败为一次，随后恢复。既有持久连接deadline等仅为待复现线索，尚未确定COM12/COM16根因；本次未修改网络路径或重新刷写。
+
+报告收尾时主会话明确转述用户回复最后四块均正常，至此四批16块的正常页面、180度方向、LED亮度目视全部确认。`upgrade-ledger.json`记录16个唯一MAC、verifiedCount16、visualAllAccepted=true、visualPendingPorts为空，保存每板四段SHA及watchdog-reset；最后快照为fourth-live.json。目视结论来源于用户反馈，不由HTTP或烧录校验代替。
+
+本轮格子普通V0.37的源码、43项主机回归、双角色构建、16板写验/联网/原分配恢复和正常页面目视均已具备证据，报告至此冻结。真实玩家建拆房触发换图、瞬时HTTP断连根因和32格现场负载仍分别待验，由主会话按后续工作协调；不把此次收尾扩展为完整游戏或全负载稳定性验收。Git审核提交继续由主会话统一处理，本任务不新增测试、串口窗口或用户问题。
