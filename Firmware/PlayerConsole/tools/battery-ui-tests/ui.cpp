@@ -101,7 +101,56 @@ int main()
     lv_disp_drv_register(&display);
     check(uiRendererBegin(), "real LVGL production renderer initializes");
     using namespace gridopoly::player_console;
+    {
+        BatteryIndicatorFilter filter;
+        BatteryStatus s{}; s.enabled = s.linkReady = s.gpioValid = true;
+        s.external = ExternalPower::Present; s.charge = ChargeIndicator::Active;
+        auto sample = [&](uint32_t at) { s.gpioAtMs = at; return filter.update(s, at); };
+        bool noEarlyCharge = true;
+        for (uint32_t at = 0; at < 1500; at += 75) noEarlyCharge &= sample(at) == UiBatteryIndicator::None;
+        check(noEarlyCharge && sample(1500) == UiBatteryIndicator::Charging,
+              "charging icon waits for 1.5 seconds of successive fresh evidence");
+        s.charge = ChargeIndicator::Inactive;
+        const bool glitchHeld = sample(1575) == UiBatteryIndicator::Charging && sample(1650) == UiBatteryIndicator::Charging;
+        s.charge = ChargeIndicator::Active;
+        check(glitchHeld && sample(1725) == UiBatteryIndicator::Charging,
+              "brief charge/not-charge bounce does not toggle the visible icon");
+        s.external = ExternalPower::Absent; s.charge = ChargeIndicator::Inactive;
+        bool held = true;
+        for (uint32_t at = 1800; at < 3300; at += 75) held &= sample(at) == UiBatteryIndicator::Charging;
+        check(held && sample(3300) == UiBatteryIndicator::None,
+              "sustained unplug/not-charging clears the icon after the stability interval");
+        filter = BatteryIndicatorFilter{};
+        s.external = ExternalPower::Present; s.charge = ChargeIndicator::Active; s.gpioAtMs = 4000;
+        bool duplicateHeld = true;
+        for (uint32_t at = 4000; at <= 6000; at += 20) duplicateHeld &= filter.update(s, at) == UiBatteryIndicator::None;
+        check(duplicateHeld, "repainting one old GPIO sample never establishes charging");
+        for (uint32_t at = 7000; at <= 8500; at += 75) sample(at);
+        s.gpioValid = false;
+        check(filter.update(s, 8900) == UiBatteryIndicator::Charging && filter.update(s, 9501) == UiBatteryIndicator::None,
+              "missed GPIO frame has bounded one-second display grace then clears");
+        s.gpioValid = true;
+        for (uint32_t at = 10000; at <= 11500; at += 75) sample(at);
+        s.linkReady = false;
+        check(filter.update(s, 11501) == UiBatteryIndicator::None, "confirmed bridge failure clears charging immediately");
+        s.linkReady = true; s.charge = ChargeIndicator::FaultCandidate;
+        check(sample(12000) == UiBatteryIndicator::Warning, "protocol-confirmed blink fault bypasses display debounce");
+        s.charge = ChargeIndicator::Active; held = true;
+        for (uint32_t at = 12075; at < 13575; at += 75) held &= sample(at) == UiBatteryIndicator::Warning;
+        check(held && sample(13575) == UiBatteryIndicator::Charging, "warning clears only after stable recovery");
+        filter = BatteryIndicatorFilter{};
+        for (uint32_t elapsed = 0; elapsed <= 1500; elapsed += 75) sample(UINT32_MAX - 500U + elapsed);
+        check(filter.update(s, s.gpioAtMs) == UiBatteryIndicator::Charging, "charging hysteresis survives millis wrap");
+    }
     BatteryStatus battery{}; UiBattery ui{};
+    uint32_t batteryClock = 200;
+    auto settleBattery = [&]() {
+        for (uint32_t elapsed = 0; elapsed <= BatteryIndicatorFilter::kTransitionMs; elapsed += 75) {
+            batteryClock += 75;
+            battery.measurementAtMs = battery.gpioAtMs = batteryClock;
+            uiBatteryRender(ui, battery, batteryClock);
+        }
+    };
     const auto initialChildren = lv_obj_get_child_cnt(lv_layer_top());
     uiBatteryRender(ui, battery, 0);
     check(ui.root == nullptr && lv_obj_get_child_cnt(lv_layer_top()) == initialChildren,
@@ -123,9 +172,9 @@ int main()
     uiBatteryRender(ui, battery, 101);
     check(ui.labelUpdates == unknownUpdates && ui.iconUpdates == unknownIconUpdates,
           "unchanged displayed values never rewrite labels or invalidate the icon");
-    battery.measurementValid = battery.gpioValid = true; battery.measurementAtMs = battery.gpioAtMs = 200;
+    battery.linkReady = battery.measurementValid = battery.gpioValid = true;
     battery.percent = 78; battery.external = ExternalPower::Present; battery.charge = ChargeIndicator::Active;
-    uiBatteryRender(ui, battery, 200); lv_obj_update_layout(lv_layer_top());
+    settleBattery(); lv_obj_update_layout(lv_layer_top());
     check(std::strcmp(lv_label_get_text(ui.label), "78%") == 0 && ui.indicator == UiBatteryIndicator::Charging &&
           ui.percent == 78 && ui.previousColor == 0x48D597,
           "valid SOC drives the green fill and charging requires confirmed external input");
@@ -139,12 +188,13 @@ int main()
     check(lv_font_montserrat_12.line_height <= lv_obj_get_height(ui.label), "complete font line height fits without vertical clipping");
     screenshot("battery-handwriting.ppm");
     battery.charge = ChargeIndicator::Inactive; battery.percent = 42;
-    uiBatteryRender(ui, battery, 201);
+    settleBattery();
     check(std::strcmp(lv_label_get_text(ui.label), "42%") == 0 && ui.indicator == UiBatteryIndicator::None &&
           ui.percent == 42 && ui.previousColor == 0xF4C35E,
           "inactive CHG does not claim full charge");
     battery.charge = ChargeIndicator::FaultCandidate;
-    uiBatteryRender(ui, battery, 202);
+    battery.measurementAtMs = battery.gpioAtMs = ++batteryClock;
+    uiBatteryRender(ui, battery, batteryClock);
     check(std::strcmp(lv_label_get_text(ui.label), "42%") == 0 && ui.indicator == UiBatteryIndicator::Warning,
           "2 Hz candidate shows a warning without altering the measured charge");
     bool widths = true;
@@ -153,7 +203,7 @@ int main()
         widths &= size.x <= lv_obj_get_width(ui.label);
     }
     check(widths, "every power label fits the badge at its real font width");
-    uiBatteryRender(ui, battery, 4000);
+    batteryClock += 4000; uiBatteryRender(ui, battery, batteryClock);
     check(std::strcmp(lv_label_get_text(ui.label), "--") == 0 && !ui.measurement && ui.indicator == UiBatteryIndicator::None,
           "rendering an old snapshot cannot keep stale values visible");
     bool pageClear = true, sameOverlay = true;
@@ -172,8 +222,7 @@ int main()
     check(sameOverlay, "page rebuilds preserve the independent status object");
     app.page = app.nav.current.page = ScreenPage::Home; app.revision++;
     uiRendererRender(app, 5000);
-    battery.measurementAtMs = battery.gpioAtMs = 5000; battery.percent = 100;
-    uiBatteryRender(ui, battery, 5000); screenshot("battery-home-fault.ppm");
+    battery.percent = 100; settleBattery(); screenshot("battery-home-fault.ppm");
     app.modal.kind = ModalKind::VoluntaryMortgage; app.modal.amount = 50;
     app.modal.title = "MORTGAGE"; app.modal.cancelAllowed = true; app.revision++;
     uiRendererRender(app, 5001); lv_obj_update_layout(lv_scr_act());
@@ -181,7 +230,7 @@ int main()
           !overlaps(ui.root, activeModal.confirm) && !overlaps(ui.root, activeModal.back) &&
           contentClear(activeModal.panel, ui.root), "real modal labels and both decision buttons remain clear");
     battery.percent = 0; battery.external = ExternalPower::Absent; battery.charge = ChargeIndicator::Inactive;
-    uiBatteryRender(ui, battery, 5001);
+    settleBattery();
     check(std::strcmp(lv_label_get_text(ui.label), "0%") == 0 && ui.measurement && ui.percent == 0 &&
           ui.previousColor == 0xFF6878 && ui.indicator == UiBatteryIndicator::None,
           "valid empty battery and absent external input are displayed separately from unknown");
@@ -192,40 +241,39 @@ int main()
         appHandleUiEvent(app, UiEvent{UiEventKind::ActivateFocused, 0}, 6010);
         buildArtworkPreview = true;
         battery.measurementValid = battery.gpioValid = true;
-        battery.measurementAtMs = battery.gpioAtMs = 6010; battery.percent = 78;
+        battery.percent = 78;
         battery.external = ExternalPower::Present; battery.charge = ChargeIndicator::Active;
-        uiRendererRender(app, 6010); uiBatteryRender(ui, battery, 6010); lv_obj_update_layout(lv_scr_act());
+        uiRendererRender(app, 6010); settleBattery(); lv_obj_update_layout(lv_scr_act());
         bool clear = contentClear(root, ui.root);
         for (uint8_t i = 0; i < tapBindingCount; ++i) clear &= !overlaps(tapBindings[i].object, ui.root);
         check(app.page == ScreenPage::Build && clear, "Build controls and artwork remain clear of actual battery overlay");
         screenshot("battery-build-house.ppm");
         app.authorityAssets[f.asset].buildingLevel = app.authorityAssets[f.peer].buildingLevel = 4;
-        ++app.revision; uiRendererRender(app, 6020); uiBatteryRender(ui, battery, 6020);
+        ++app.revision; uiRendererRender(app, 6020); uiBatteryRender(ui, battery, ++batteryClock);
         screenshot("battery-build-hotel.ppm");
         check(contentClear(root, ui.root), "hotel upgrade preview and battery remain separate");
         app.authorityAssets[f.asset].buildingLevel = 1; app.authorityAssets[f.peer].buildingLevel = 0;
-        ++app.revision; uiRendererRender(app, 6030); uiBatteryRender(ui, battery, 6030);
+        ++app.revision; uiRendererRender(app, 6030); uiBatteryRender(ui, battery, ++batteryClock);
         screenshot("battery-build-even.ppm");
         check(contentClear(root, ui.root) && appAssetBuildReason(app, f.asset) != nullptr,
               "even-building blocker and battery are visible together");
         app.authorityAssets[f.asset].buildingLevel = app.authorityAssets[f.peer].buildingLevel = 5;
-        ++app.revision; uiRendererRender(app, 6040); uiBatteryRender(ui, battery, 6040);
+        ++app.revision; uiRendererRender(app, 6040); uiBatteryRender(ui, battery, ++batteryClock);
         screenshot("battery-build-maximum.ppm");
         buildArtworkPreview = false;
     }
     appInit(app, 0); app.page = app.nav.current.page = ScreenPage::WaitingForGame;
     uiRendererRender(app, 7000);
     battery.measurementValid = battery.gpioValid = true;
-    battery.measurementAtMs = battery.gpioAtMs = 7000;
     battery.external = ExternalPower::Absent; battery.charge = ChargeIndicator::Inactive;
     for (const uint8_t percent : {100, 96, 51, 50, 25, 15, 5, 1, 0}) {
-        battery.percent = percent; uiBatteryRender(ui, battery, 7000);
+        battery.percent = percent; settleBattery();
         char path[48]; std::snprintf(path, sizeof(path), "battery-arc-%u.ppm", percent); screenshot(path);
     }
     battery.percent = 96; battery.external = ExternalPower::Present; battery.charge = ChargeIndicator::Active;
-    uiBatteryRender(ui, battery, 7000); screenshot("battery-arc-charging.ppm");
-    uiBatteryRender(ui, battery, 11000); screenshot("battery-arc-unknown.ppm");
-    battery.enabled = false; uiBatteryRender(ui, battery, 11000);
+    settleBattery(); screenshot("battery-arc-charging.ppm");
+    batteryClock += 4000; uiBatteryRender(ui, battery, batteryClock); screenshot("battery-arc-unknown.ppm");
+    battery.enabled = false; uiBatteryRender(ui, battery, batteryClock);
     check(ui.root == nullptr && lv_obj_get_child_cnt(lv_layer_top()) == initialChildren, "disabling removes only the battery status layer");
     std::printf("RESULT passed=%u failed=%u\n", passed, failed);
     return failed ? 1 : 0;

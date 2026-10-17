@@ -119,20 +119,12 @@ void uiBatteryRender(UiBattery &ui, const gridopoly::player_console::BatteryStat
     }
     const bool measurement = status.measurementValid &&
         static_cast<uint32_t>(nowMs - status.measurementAtMs) <= BatteryTelemetry::kMeasurementMaxAgeMs;
-    const bool gpio = status.gpioValid &&
-        static_cast<uint32_t>(nowMs - status.gpioAtMs) <= BatteryTelemetry::kGpioMaxAgeMs;
     char percent[5] = "--";
     if (measurement) snprintf(percent, sizeof(percent), "%u%%", status.percent > 100 ? 100 : status.percent);
     const uint8_t clamped = status.percent > 100 ? 100 : status.percent;
     const uint32_t color = !measurement ? 0x697B8B : clamped <= 15 ? 0xFF6878 :
         clamped <= 50 ? 0xF4C35E : 0x48D597;
-    UiBatteryIndicator indicator = UiBatteryIndicator::None;
-    if (gpio) {
-        if (status.charge == ChargeIndicator::FaultCandidate || status.charge == ChargeIndicator::Inconsistent)
-            indicator = UiBatteryIndicator::Warning;
-        else if (status.external == ExternalPower::Present && status.charge == ChargeIndicator::Active)
-            indicator = UiBatteryIndicator::Charging;
-    }
+    const UiBatteryIndicator indicator = ui.indicatorFilter.update(status, nowMs);
     textIfChanged(ui, ui.label, ui.previousText, percent);
     if (color != ui.previousColor || clamped != ui.percent || measurement != ui.measurement || indicator != ui.indicator) {
         ui.previousColor = color; ui.percent = clamped; ui.measurement = measurement; ui.indicator = indicator;
