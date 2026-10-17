@@ -33,7 +33,7 @@ The renderer remains on Arduino core 1 with the existing RGB/bounce configuratio
 
 For an isolated normal candidate, run `tools/compile-isolated.ps1 -Mode production`.
 
-COM29 uses the explicit `-DisplayClock pclk12 -DisplayDiagnostic none -BatteryBoard none` profile after its 12 MHz waiting-page visual check. The default `vendor` clock remains 16 MHz for the existing builds. `-DisplayDiagnostic counters` adds bounded logging and marks a candidate as diagnostic-only, which ordinary release packaging rejects. See the [COM29 display record](../../Docs/firmware/player-com29-display-progress-2026-10-15.md) for exact firmware and validation limits; the frozen v4 package still uses 16 MHz.
+COM29 retains `-DisplayClock pclk12 -DisplayDiagnostic none`; the October 16 battery rollout explicitly enables `-BatteryBoard viewe-md80et-v10` on COM27/28/29. Battery support remains opt-in for new builds. The default `vendor` clock remains 16 MHz for the existing builds. `-DisplayDiagnostic counters` adds bounded logging and marks a candidate as diagnostic-only, which ordinary release packaging rejects. See the [COM29 display record](../../Docs/firmware/player-com29-display-progress-2026-10-15.md) for exact firmware and validation limits; the frozen v4 package still uses 16 MHz.
 This freezes sketch, project libraries and the five board/IO libraries, verifies linked
 HWCDC, and exports `candidate.json` plus `candidate-sources.json` in the printed local run
 directory. The manifest identifies all four actual flash segments, source hashes and the
@@ -345,8 +345,30 @@ python .\tools\verify-tile-assets.py
 ```
 
 
-## September 27 deployment and battery extension
+## Battery telemetry and current device status
 
-The last verified COM7 deployment is normal core1 `9c4e1825…`, including the September 26 trusted-detent rotary recovery. Handwriting received user confirmation; the latest rotary physical feedback, original flicker/shift scenario and Retarget timing remain open. See the [device registry](../../Docs/firmware/current-device-connections.md).
+COM27/28 currently run the first battery/Home Build Houses application `8ef6c051…`
+(16 MHz). COM29 runs the second, independent-sampling application `df9f1282…`
+(12 MHz); its latest 120-second observation contained no valid battery sample.
+COM7 remains `22ca08e6…` with telemetry disabled. The user is charging all three
+newer screens; hardware operations are paused. Handwriting lag, connected strokes
+and coordinate mismatch on COM28 remain under investigation. See the
+[rollout record](../../Docs/firmware/player-build-battery-rollout-2026-10-16.md).
 
-Optional SC18IM704/MAX17048 telemetry is implemented in `battery_telemetry.*`, `battery_hardware.*` and `ui_battery.*`. `tools/compile-isolated.ps1 -Mode production -BatteryBoard none` is the default; `-BatteryBoard viewe-md80et-v10` explicitly enables UART1 TX43/RX44 for the documented board. Both normal builds and driver/UI regressions passed, but neither changes the deployed COM7 firmware or frozen v4 package. Hardware verification and RC5 first-board acceptance are pending. [Battery firmware evidence](../../Docs/firmware/player-battery-telemetry-progress-2026-09-27.md)
+`-BatteryBoard none` remains the default. `-BatteryBoard viewe-md80et-v10` enables
+UART1 TX43/RX44 at 9600/8N1 for the documented SC18IM704/MAX17048 board.
+The independent worker owns UART; the UI receives coherent, age-checked snapshots.
+An unavailable sample is shown as unknown, never a fabricated zero or full charge.
+SOC is the gauge's estimate, not a measured net charging current.
+
+Current source avoids writes to SC18IM704 registers 07/08/09 because some batches
+freeze on those writes. It verifies the existing clock/timeout configuration, uses
+input-only PortConf1=00 as a reset marker, and reports whether hardware SCL timeout
+is enabled. With default I2CTO=66, software deadlines prevent UI blocking but cannot
+recover a hardware bus lock. This compatibility change is host-tested and awaits
+hardware comparison; it has not been installed on the three screens. See the
+[interface](../../Docs/hardware/player-battery-telemetry-interface-2026-09-27.md) and
+[compatibility evidence](../../Docs/firmware/player-battery-bridge-compat-2026-10-17.md).
+
+Build/test success, flash verification, visual acceptance and electrical validation
+are separate checks. The frozen trial16 v4 package is unchanged.

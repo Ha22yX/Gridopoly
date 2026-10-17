@@ -25,7 +25,7 @@ enum class BatteryError : uint8_t {
 enum class BatteryAction : uint8_t {
     Sync, BridgeVersion, ConfigureBridge, VerifyBridge, GaugeVersion,
     ClearMode, VerifyMode, ReadConfig, ClearSleep, VerifyConfig,
-    Voltage, Soc, VerifySample, Gpio, Idle, I2cStatus
+    Voltage, Soc, VerifySample, Gpio, Idle, I2cStatus, InspectBridge
 };
 
 struct BatteryStatus {
@@ -52,6 +52,14 @@ struct BatteryStatus {
     uint32_t timeoutCount = 0, failureAtMs = 0;
     uint8_t failedAction = 0xFF, failedOperation = 0xFF;
     uint8_t failedExpected = 0, failedReceived = 0;
+    // Retain the first failure even when subsequent recovery attempts fail differently.
+    BatteryError firstError = BatteryError::None;
+    uint8_t firstAction = 0xFF, firstOperation = 0xFF, firstExpected = 0, firstReceived = 0;
+    uint32_t firstFailureAtMs = 0;
+    // Cached configuration evidence. A 0x66 readback means no hardware SCL timeout.
+    bool bridgeConfigSeen = false, bridgeSclTimeoutEnabled = false;
+    uint8_t bridgeTimeoutRegister = 0;
+    uint32_t bridgeConfiguredAtMs = 0;
 };
 
 // Apply age limits to a copied, coherent sample without touching its owner.

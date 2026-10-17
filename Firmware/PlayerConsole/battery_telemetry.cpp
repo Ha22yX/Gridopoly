@@ -31,6 +31,12 @@ void BatteryTelemetry::fail(BatteryError error, uint32_t nowMs)
     status_.failedAction = static_cast<uint8_t>(pending_);
     status_.failedOperation = static_cast<uint8_t>(pending_ == Action::I2cStatus ? checked_ : pending_);
     status_.failedExpected = expected_; status_.failedReceived = received_;
+    if (status_.firstError == BatteryError::None) {
+        status_.firstError = error;
+        status_.firstAction = status_.failedAction; status_.firstOperation = status_.failedOperation;
+        status_.firstExpected = expected_; status_.firstReceived = received_;
+        status_.firstFailureAtMs = nowMs;
+    }
     status_.linkReady = status_.measurementValid = status_.gpioValid = false;
     status_.external = ExternalPower::Unknown;
     status_.charge = ChargeIndicator::Unknown;
@@ -70,19 +76,22 @@ bool BatteryTelemetry::start(BatteryUart &uart, Action action, uint32_t nowMs)
     switch (action) {
     case Action::BridgeVersion: command[0] = 0x56; command[1] = 0x50; count = 2; expected_ = 16; break;
     case Action::ConfigureBridge: {
-        // Inputs only; ~99 kHz; enable the otherwise disabled SCL timeout.
-        const uint8_t bytes[] = {0x57, 0x02, 0x55, 0x03, 0x55, 0x07, 0x13, 0x08, 0, 0x09, 0x67, 0x50};
+        // NXP reports some SC18IM704 batches freeze on writes to 07/08/09.
+        // Never write those registers. Both GPIO modes 00 and 01 are input-only;
+        // PortConf1=00 is a safe nondefault reset marker, PortConf2 preserves GPIO6.
+        const uint8_t bytes[] = {0x57, 0x02, 0x00, 0x03, 0x55, 0x50};
         memcpy(command, bytes, sizeof(bytes)); count = sizeof(bytes); break;
     }
+    case Action::InspectBridge:
     case Action::VerifyBridge: {
         const uint8_t bytes[] = {0x52, 0x02, 0x03, 0x07, 0x08, 0x09, 0x50};
         memcpy(command, bytes, sizeof(bytes)); count = sizeof(bytes); expected_ = 5; break;
     }
     case Action::Gpio:
-        command[0] = 0x52; command[1] = 0x04; command[2] = 0x09; command[3] = 0x50;
+        command[0] = 0x52; command[1] = 0x04; command[2] = 0x02; command[3] = 0x50;
         count = 4; expected_ = 2; break;
     case Action::VerifySample:
-        command[0] = 0x52; command[1] = 0x09; command[2] = 0x50; count = 3; expected_ = 1; break;
+        command[0] = 0x52; command[1] = 0x02; command[2] = 0x50; count = 3; expected_ = 1; break;
     case Action::I2cStatus: command[0] = 0x52; command[1] = 0x0A; command[2] = 0x50; count = 3; expected_ = 1; break;
     case Action::GaugeVersion: reg = 0x08; gaugeRead = true; break;
     case Action::VerifyMode: reg = 0x06; gaugeRead = true; break;
@@ -137,9 +146,9 @@ void BatteryTelemetry::tick(BatteryUart &uart, uint32_t nowMs)
         if (expected_ == 0) {
             // Internal register reads are immediate, so a write's status must
             // not be queried while its UART/I2C bytes could still be executing.
-            // At clock=19 and I2CTO=67, continuous-low timeout is approximately
-            // 35.5 ms (NXP section 9.2.6). The guard covers a normal MAX17048
-            // write plus that single stall, not arbitrary repeated stretching.
+            // The guard covers normal writes. Default I2CTO=66 has NO hardware
+            // SCL timeout; our UART deadline bounds software waiting only and
+            // cannot recover a bridge stuck on a held-low I2C bus.
             // Status AND register readback are still required before use.
             if (static_cast<uint32_t>(nowMs - sentAt_) < kWriteSettleMs) return;
         }
@@ -184,12 +193,26 @@ void BatteryTelemetry::finish(Action action, uint16_t value, uint32_t nowMs)
             if (response_[i] < 0x20 || response_[i] > 0x7E) { fail(BatteryError::BridgeVersion, nowMs); return; }
         }
         memcpy(status_.bridgeVersion, response_, sizeof(response_));
-        next_ = Action::ConfigureBridge; break;
+        next_ = Action::InspectBridge; break;
     }
+    case Action::InspectBridge:
+        // Accept a cold reset or our previous input-only marker. Preserve the
+        // default timeout or a previously enabled one; do not attempt repairs
+        // through the registers affected by NXP's write-freeze issue.
+        if ((response_[0] != 0x55 && response_[0] != 0x00) || response_[1] != 0x55 ||
+            response_[2] != 0x13 || response_[3] != 0x00 ||
+            (response_[4] != 0x66 && response_[4] != 0x67)) {
+            fail(BatteryError::BridgeConfig, nowMs); return;
+        }
+        status_.bridgeConfigSeen = true;
+        status_.bridgeTimeoutRegister = response_[4];
+        status_.bridgeSclTimeoutEnabled = (response_[4] & 1U) != 0;
+        next_ = Action::ConfigureBridge; break;
     case Action::ConfigureBridge: next_ = Action::VerifyBridge; break;
     case Action::VerifyBridge: {
-        const uint8_t expected[] = {0x55, 0x55, 0x13, 0, 0x67};
+        const uint8_t expected[] = {0x00, 0x55, 0x13, 0, status_.bridgeTimeoutRegister};
         if (memcmp(response_, expected, sizeof(expected)) != 0) { fail(BatteryError::BridgeConfig, nowMs); return; }
+        status_.bridgeConfiguredAtMs = nowMs;
         next_ = Action::GaugeVersion; break;
     }
     case Action::GaugeVersion:
@@ -223,16 +246,16 @@ void BatteryTelemetry::finish(Action action, uint16_t value, uint32_t nowMs)
         soc_ = value; next_ = Action::VerifySample; break;
     case Action::VerifySample:
         // A reset bridge emits OK (0x4F4B), which is also a legal SOC value,
-        // and resets I2CStat to F0. Verify our nondefault timeout marker before
+        // and resets I2CStat to F0. Verify our input-only PortConf1 marker before
         // publishing; do not blacklist legitimate sensor values such as 4F4B.
-        if (value != 0x67) { fail(BatteryError::BridgeConfig, nowMs); return; }
+        if (value != 0x00) { fail(BatteryError::BridgeConfig, nowMs); return; }
         status_.rawVoltage = voltage_; status_.rawSoc = soc_;
         status_.voltageMv = static_cast<uint16_t>((static_cast<uint32_t>(voltage_) * 5U + 32U) / 64U);
         status_.percent = soc_ >= 25600U ? 100 : static_cast<uint8_t>(soc_ / 256U);
         status_.measurementAtMs = nowMs; status_.measurementValid = true;
         nextVoltageAt_ = nowMs + 1000; next_ = Action::Idle; break;
     case Action::Gpio:
-        if ((value & 0xFF) != 0x67) { fail(BatteryError::BridgeConfig, nowMs); return; }
+        if ((value & 0xFF) != 0x00) { fail(BatteryError::BridgeConfig, nowMs); return; }
         updateGpio(static_cast<uint8_t>(value >> 8), nowMs);
         nextGpioAt_ = nowMs + 75; next_ = resume_; resume_ = Action::Idle; break;
     default: break;

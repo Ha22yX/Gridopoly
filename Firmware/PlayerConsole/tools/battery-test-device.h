@@ -19,6 +19,13 @@ struct Device : BatteryUart {
     size_t capacity = 256;
     bool respond = true, badBridge = false, badConfigReadback = false;
     bool truncateVersion = false, extraVersion = false, resetOnSoc = false, resetOnGpio = false;
+    // Model the NXP-confirmed failure: any clock/timeout write can freeze the bridge.
+    bool freezeOnClockWrite = false, frozen = false;
+    unsigned forbiddenBridgeWrites = 0;
+    void resetBridge() {
+        const uint8_t defaults[] = {0x55, 0x55, 0x13, 0, 0x66};
+        std::copy(defaults, defaults + 5, ports); frozen = false;
+    }
     uint8_t forcedStatus = 0xF0;
     uint8_t ports[5] = {0x55, 0x55, 0x13, 0, 0x66};
     uint16_t mode = 0x2000, config = 0xABDF, version = 0x0012;
@@ -38,6 +45,7 @@ struct Device : BatteryUart {
         if (!rx.empty()) ++overlapping;
         commands.push_back({now, {bytes, bytes + count}});
         const auto &c = commands.back().bytes;
+        if (frozen) return count;
         if (c == std::vector<uint8_t>{0x56, 0x50}) {
             const char *id = badBridge ? "SC18IM700 9.9.9" : "SC18IM704 9.9.9";
             std::vector<uint8_t> data(id, id + 16);
@@ -46,17 +54,22 @@ struct Device : BatteryUart {
             reply(data, count);
         } else if (c[0] == 0x57) {
             const uint8_t regs[] = {2, 3, 7, 8, 9};
-            for (size_t i = 1; i + 1 < count - 1; i += 2)
+            for (size_t i = 1; i + 1 < count - 1; i += 2) {
+                if (c[i] >= 7 && c[i] <= 9) {
+                    ++forbiddenBridgeWrites;
+                    if (freezeOnClockWrite) { frozen = true; return count; }
+                }
                 for (size_t j = 0; j < 5; ++j) if (c[i] == regs[j]) ports[j] = c[i + 1];
+            }
         } else if (c == std::vector<uint8_t>{0x52, 2, 3, 7, 8, 9, 0x50}) {
             std::vector<uint8_t> data(ports, ports + 5);
-            if (badConfigReadback) data[4] &= 0xFE;
+            if (badConfigReadback) data[2] = 0x12;
             reply(data, count);
-        } else if (c == std::vector<uint8_t>{0x52, 4, 9, 0x50}) {
-            if (resetOnGpio) { ports[4] = 0x66; reply({0x4F, 0x4B}, count); resetOnGpio = false; }
-            else reply({gpio(now), ports[4]}, count);
-        } else if (c == std::vector<uint8_t>{0x52, 9, 0x50}) {
-            reply({ports[4]}, count);
+        } else if (c == std::vector<uint8_t>{0x52, 4, 2, 0x50}) {
+            if (resetOnGpio) { resetBridge(); reply({0x4F, 0x4B}, count); resetOnGpio = false; }
+            else reply({gpio(now), ports[0]}, count);
+        } else if (c == std::vector<uint8_t>{0x52, 2, 0x50}) {
+            reply({ports[0]}, count);
         } else if (c == std::vector<uint8_t>{0x52, 0x0A, 0x50}) {
             if (static_cast<int32_t>(now - i2cDone) < 0) ++earlyStatus;
             reply({forcedStatus}, count);
@@ -69,7 +82,7 @@ struct Device : BatteryUart {
             default: std::printf("Unexpected I2C read register\n"); std::abort();
             }
             i2cDone = now + static_cast<uint32_t>(count);
-            if (c[3] == 4 && resetOnSoc) { ports[4] = 0x66; reply({0x4F, 0x4B}, count); resetOnSoc = false; }
+            if (c[3] == 4 && resetOnSoc) { resetBridge(); reply({0x4F, 0x4B}, count); resetOnSoc = false; }
             else reply({static_cast<uint8_t>(value >> 8), static_cast<uint8_t>(value)}, count);
         } else if (count == 7 && c[0] == 0x53 && c[1] == 0x6C && c[2] == 3 && c[6] == 0x50) {
             const auto value = static_cast<uint16_t>((c[4] << 8) | c[5]);

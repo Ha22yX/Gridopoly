@@ -32,8 +32,8 @@ int main()
               s.rawSoc == 20096 && s.percent == 78, "big-endian VCELL/SOC conversion and coherent sample publish");
         check(std::strcmp(s.bridgeVersion, "SC18IM704 9.9.9") == 0 && s.gaugeVersion == 0x12,
               "bridge version validates structure without hard-coding a firmware revision");
-        check(io.mode == 0 && io.config == 0xAB5F && io.ports[4] == 0x67,
-              "sleep stays disabled, RCOMP/other CONFIG bits preserved, SCL timeout enabled");
+        check(io.mode == 0 && io.config == 0xAB5F && io.ports[0] == 0x00 && io.ports[4] == 0x66,
+              "sleep stays disabled, RCOMP/other CONFIG bits preserved, input-only reset marker and default timeout preserved");
         check(io.earlyStatus == 0 && io.overlapping == 0 && io.maxReads <= 32,
               "one transaction, bounded RX work, and no status read before write completion");
         check(s.gpioValid && s.external == ExternalPower::Absent && s.charge == ChargeIndicator::Inactive,
@@ -71,13 +71,16 @@ int main()
         BatteryTelemetry d; Device io; io.truncateVersion = true; d.begin(0); io.run(d, 1000);
         check(d.status(io.now).lastError == BatteryError::Timeout, "short fixed-length reply is rejected");
         io.truncateVersion = false; io.extraVersion = true; d.begin(io.now); io.run(d, 1000);
-        check(d.status(io.now).lastError == BatteryError::Framing, "extra bytes do not spill into the next transaction");
+        const auto extra = d.status(io.now);
+        check(!extra.linkReady && !extra.measurementValid &&
+              (extra.firstError == BatteryError::Framing || extra.firstError == BatteryError::BridgeConfig),
+              "extra version byte fails framing or exact configuration check before publishing any sample");
     }
     {
         BatteryTelemetry d; Device io; io.badBridge = true; d.begin(0); io.run(d, 900);
         check(d.status(io.now).lastError == BatteryError::BridgeVersion, "wrong bridge identity is not accepted");
         io.badBridge = false; io.badConfigReadback = true; d.begin(io.now); io.run(d, 1100);
-        check(d.status(io.now).lastError == BatteryError::BridgeConfig, "disabled SCL timeout readback blocks initialization");
+        check(d.status(io.now).lastError == BatteryError::BridgeConfig, "unexpected clock readback blocks initialization without risky writes");
     }
     for (uint16_t voltage : {uint16_t(0), uint16_t(65535)}) {
         BatteryTelemetry d; Device io; io.voltage = voltage; d.begin(0); io.run(d, 1500);
@@ -182,8 +185,8 @@ int main()
             whole &= line.size() <= 63 && line.back() == '\n' && line.find("GP_BAT id=") == 0;
             if (line.find(" ms=") != std::string::npos) ++samples;
         }
-        check(whole && samples == 24 && sink.lines.size() == 192,
-              "120-second window emits 24 eight-line samples atomically within 63 bytes");
+        check(whole && samples == 24 && sink.lines.size() == 240,
+              "120-second window emits 24 ten-line samples atomically within 63 bytes");
         check(sink.lines[0].find("id=1 ") != std::string::npos && sink.lines[4].find("id=1 ") != std::string::npos &&
               sink.lines[4].find("mode=0000") != std::string::npos,
               "all telemetry detail lines share one sample ID and include gauge setup evidence");
@@ -194,11 +197,11 @@ int main()
         check(sink.lines.empty(), "full USB TX cannot trigger blocking or partial writes");
         sink.capacity = 64;
         for (uint32_t now = 7100; now < 11200; now += 20) logs.tick(sink, state, now);
-        check(sink.lines.size() == 8 && sink.lines.front().find("id=3 ") != std::string::npos,
+        check(sink.lines.size() == 10 && sink.lines.front().find("id=3 ") != std::string::npos,
               "busy USB expires an old sample instead of resuming stale half-lines");
         logs.begin(UINT32_MAX - 2000); sink.lines.clear();
         for (uint32_t dt = 0; dt < 130000; dt += 20) logs.tick(sink, state, UINT32_MAX - 2000 + dt);
-        check(sink.lines.size() == 192, "bounded diagnostic cadence survives millis rollover");
+        check(sink.lines.size() == 240, "bounded diagnostic cadence survives millis rollover");
         auto disabled = state; disabled.enabled = false; logs.begin(0); sink.lines.clear(); logs.tick(sink, disabled, 1000);
         check(sink.lines.empty(), "disabled telemetry emits no diagnostics");
     }
@@ -242,15 +245,66 @@ int main()
         BatteryStatus s; s.enabled = true; s.serviceStarted = true; s.i2cStatusSeen = true;
         s.timeoutCount = s.maxServiceGapMs = s.failureAtMs = s.i2cStatusAtMs = UINT32_MAX;
         s.failedAction = s.failedOperation = s.failedExpected = s.failedReceived = 255;
+        s.firstAction = s.firstOperation = s.firstExpected = s.firstReceived = 255;
+        s.firstError = static_cast<BatteryError>(255);
+        s.firstFailureAtMs = s.bridgeConfiguredAtMs = UINT32_MAX;
+        s.bridgeConfigSeen = true; s.bridgeTimeoutRegister = 0x67; s.bridgeSclTimeoutEnabled = true;
         BatteryDiagnostics logs; logs.begin(UINT32_MAX - 1000);
-        for (uint32_t dt = 1000; dt < 1160; dt += 20) logs.tick(sink, s, UINT32_MAX - 1000 + dt);
-        bool whole = sink.lines.size() == 8;
+        for (uint32_t dt = 1000; dt < 1200; dt += 20) logs.tick(sink, s, UINT32_MAX - 1000 + dt);
+        bool whole = sink.lines.size() == 10;
         for (const auto &line : sink.lines) whole &= line.size() <= 63 && line.back() == '\n';
         check(whole && sink.lines[4].find("cached=1") != std::string::npos &&
               sink.lines[5].find("to=4294967295") != std::string::npos &&
               sink.lines[6].find("rx=255/255") != std::string::npos &&
-              sink.lines[7].find("i_seen=1") != std::string::npos,
+              sink.lines[7].find("i_seen=1") != std::string::npos &&
+              sink.lines[8].find("hw_to=1") != std::string::npos &&
+              sink.lines[9].find("first=255/255") != std::string::npos,
               "maximum diagnostic counters fit whole short lines and distinguish cached configuration");
+    }
+    for (uint8_t timeout : {uint8_t(0x66), uint8_t(0x67)}) {
+        BatteryTelemetry d; Device io; io.freezeOnClockWrite = true; io.ports[4] = timeout;
+        d.begin(0); io.run(d, 5000); const auto s = d.status(io.now);
+        check(s.measurementValid && !io.frozen && io.forbiddenBridgeWrites == 0,
+              "write-freeze affected bridge initializes and polls without any 07/08/09 write");
+        check(s.bridgeConfigSeen && s.bridgeTimeoutRegister == timeout &&
+              s.bridgeSclTimeoutEnabled == ((timeout & 1) != 0) && io.ports[4] == timeout,
+              "read-only timeout capability distinguishes default disabled from previously enabled");
+        bool inputOnly = true;
+        for (const auto &c : io.commands) if (c.bytes[0] == 0x57)
+            inputOnly &= c.bytes == std::vector<uint8_t>{0x57, 2, 0, 3, 0x55, 0x50};
+        check(inputOnly && io.ports[0] == 0 && io.ports[1] == 0x55,
+              "configuration only changes input-only ports, preserving CHG PGOOD and GPIO6");
+        io.respond = false; io.run(d, 1000); io.respond = true; io.run(d, 3000);
+        check(d.status(io.now).measurementValid && !io.frozen && io.forbiddenBridgeWrites == 0,
+              "retry paths also avoid forbidden clock and timeout writes");
+    }
+    {
+        Device io; io.freezeOnClockWrite = true;
+        const uint8_t old[] = {0x57,2,0x55,3,0x55,7,0x13,8,0,9,0x67,0x50};
+        io.writeBytes(old, sizeof(old));
+        check(io.frozen && io.forbiddenBridgeWrites == 1,
+              "positive control reproduces documented register-write freeze with old setup");
+    }
+    for (unsigned index : {0U, 1U, 2U, 3U, 4U}) {
+        BatteryTelemetry d; Device io; io.freezeOnClockWrite = true; io.ports[index] = 0x42;
+        d.begin(0); io.run(d, 2000); const auto s = d.status(io.now);
+        const bool wrote = std::any_of(io.commands.begin(), io.commands.end(), [](const auto &c) { return c.bytes[0] == 0x57; });
+        check(!s.measurementValid && s.lastError == BatteryError::BridgeConfig &&
+              s.failedAction == static_cast<uint8_t>(BatteryAction::InspectBridge) && !wrote,
+              "unexpected port clock or timeout is rejected before configuration writes");
+    }
+    {
+        BatteryTelemetry d; Device io; io.badConfigReadback = true; d.begin(0); io.run(d, 1000);
+        const auto first = d.status(io.now); io.respond = false; io.run(d, 1500);
+        const auto later = d.status(io.now);
+        check(first.firstError == BatteryError::BridgeConfig &&
+              first.firstAction == static_cast<uint8_t>(BatteryAction::InspectBridge) &&
+              later.lastError == BatteryError::Timeout && later.firstError == first.firstError &&
+              later.firstAction == first.firstAction && later.firstFailureAtMs == first.firstFailureAtMs,
+              "later version timeout cannot erase first initialization failure");
+        io.badConfigReadback = false; io.respond = true; io.run(d, 2500);
+        check(d.status(io.now).measurementValid && d.status(io.now).firstError == first.firstError,
+              "successful recovery preserves the first-failure latch");
     }
     std::printf("RESULT passed=%u failed=%u\n", passed, failed);
     return failed ? 1 : 0;

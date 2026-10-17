@@ -2,14 +2,14 @@
 #include "battery_telemetry.h"
 #include <cstdio>
 
-// Eight independent short lines share a sample id. Each line is written in one
+// Ten independent short lines share a sample id. Each line is written in one
 // call only when USB has space for the WHOLE line; never resume half a line.
 // No wait, flush or allocation. Busy/disconnected USB expires the sample.
 class BatteryDiagnostics {
 public:
     static constexpr uint32_t kWindowMs = 120000, kPeriodMs = 5000, kSampleWindowMs = 1000;
     static constexpr size_t kMaxWriteBytes = 63;
-    static constexpr uint8_t kLineCount = 8;
+    static constexpr uint8_t kLineCount = 10;
     void begin(uint32_t nowMs) { started_ = last_ = nowMs; id_ = 0; row_ = kLineCount; }
     template <typename Sink>
     void tick(Sink &sink, const gridopoly::player_console::BatteryStatus &status, uint32_t nowMs) {
@@ -51,6 +51,14 @@ public:
             n = std::snprintf(line, sizeof(line), "GP_BAT id=%u svc_age=%lu i_seen=%u i_at=%lu\n", id_,
                 static_cast<unsigned long>(last_ - s.serviceAtMs), s.i2cStatusSeen,
                 static_cast<unsigned long>(s.i2cStatusAtMs)); break;
+        case 8:
+            n = std::snprintf(line, sizeof(line), "GP_BAT id=%u cfg_seen=%u to_reg=%02X hw_to=%u at=%lu\n", id_,
+                s.bridgeConfigSeen, s.bridgeTimeoutRegister, s.bridgeSclTimeoutEnabled,
+                static_cast<unsigned long>(s.bridgeConfiguredAtMs)); break;
+        case 9:
+            n = std::snprintf(line, sizeof(line), "GP_BAT id=%u first=%u/%u e=%u rx=%u/%u at=%lu\n", id_,
+                s.firstAction, s.firstOperation, static_cast<unsigned>(s.firstError), s.firstReceived, s.firstExpected,
+                static_cast<unsigned long>(s.firstFailureAtMs)); break;
         }
         if (n <= 0 || static_cast<size_t>(n) > kMaxWriteBytes) { ++row_; return; }
         if (sink.availableForWrite() < n) return;
