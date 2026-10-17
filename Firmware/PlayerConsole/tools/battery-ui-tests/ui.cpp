@@ -117,16 +117,18 @@ int main()
     const auto rendererStats = uiRendererGetTestStats();
     battery.enabled = true;
     uiBatteryRender(ui, battery, 100);
-    check(std::strcmp(lv_label_get_text(ui.label), "--%  POWER --") == 0,
+    check(std::strcmp(lv_label_get_text(ui.label), "--") == 0 && !ui.measurement,
           "enabled but unavailable shows unknown, not zero or full");
-    const auto unknownUpdates = ui.labelUpdates;
+    const auto unknownUpdates = ui.labelUpdates, unknownIconUpdates = ui.iconUpdates;
     uiBatteryRender(ui, battery, 101);
-    check(ui.labelUpdates == unknownUpdates, "unchanged displayed values never rewrite labels");
+    check(ui.labelUpdates == unknownUpdates && ui.iconUpdates == unknownIconUpdates,
+          "unchanged displayed values never rewrite labels or invalidate the icon");
     battery.measurementValid = battery.gpioValid = true; battery.measurementAtMs = battery.gpioAtMs = 200;
     battery.percent = 78; battery.external = ExternalPower::Present; battery.charge = ChargeIndicator::Active;
     uiBatteryRender(ui, battery, 200); lv_obj_update_layout(lv_layer_top());
-    check(std::strcmp(lv_label_get_text(ui.label), "78%  EXT / CHG") == 0,
-          "SOC, external supply and charging indicator are distinct");
+    check(std::strcmp(lv_label_get_text(ui.label), "78%") == 0 && ui.indicator == UiBatteryIndicator::Charging &&
+          ui.percent == 78 && ui.previousColor == 0x48D597,
+          "valid SOC drives the green fill and charging requires confirmed external input");
     check(activeCanvas == canvas && pointCount == 2 && captureGeneration == generation &&
           uiRendererGetTestStats().rebuildRenders == rendererStats.rebuildRenders,
           "battery updates preserve the handwriting canvas, ink and renderer revision");
@@ -134,23 +136,25 @@ int main()
           lv_obj_get_group(ui.root) == nullptr,
           "status layer cannot intercept touch or join encoder focus");
     check(uiRectInsideCircle(kBatteryBadge, 238) && !overlaps(ui.root, activeCanvas), "entire battery badge is inside the round raster and outside canvas");
-    check(lv_font_montserrat_14.line_height <= lv_obj_get_height(ui.label), "complete font line height fits without vertical clipping");
+    check(lv_font_montserrat_12.line_height <= lv_obj_get_height(ui.label), "complete font line height fits without vertical clipping");
     screenshot("battery-handwriting.ppm");
     battery.charge = ChargeIndicator::Inactive; battery.percent = 42;
     uiBatteryRender(ui, battery, 201);
-    check(std::strcmp(lv_label_get_text(ui.label), "42%  EXT") == 0,
+    check(std::strcmp(lv_label_get_text(ui.label), "42%") == 0 && ui.indicator == UiBatteryIndicator::None &&
+          ui.percent == 42 && ui.previousColor == 0xF4C35E,
           "inactive CHG does not claim full charge");
     battery.charge = ChargeIndicator::FaultCandidate;
     uiBatteryRender(ui, battery, 202);
-    check(std::strcmp(lv_label_get_text(ui.label), "42%  CHECK CHG") == 0, "2 Hz candidate is shown as a check, not a definitive diagnosis");
+    check(std::strcmp(lv_label_get_text(ui.label), "42%") == 0 && ui.indicator == UiBatteryIndicator::Warning,
+          "2 Hz candidate shows a warning without altering the measured charge");
     bool widths = true;
-    for (const char *text : {"--%  POWER --", "100%  EXT / CHG", "100%  NO EXT", "100%  CHECK CHG", "100%  CHECK PWR"}) {
-        lv_point_t size{}; lv_txt_get_size(&size, text, &lv_font_montserrat_14, 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
-        widths &= size.x <= kBatteryBadge.w;
+    for (const char *text : {"--", "100%", "50%", "15%", "0%"}) {
+        lv_point_t size{}; lv_txt_get_size(&size, text, &lv_font_montserrat_12, 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
+        widths &= size.x <= lv_obj_get_width(ui.label);
     }
     check(widths, "every power label fits the badge at its real font width");
     uiBatteryRender(ui, battery, 4000);
-    check(std::strcmp(lv_label_get_text(ui.label), "--%  POWER --") == 0,
+    check(std::strcmp(lv_label_get_text(ui.label), "--") == 0 && !ui.measurement && ui.indicator == UiBatteryIndicator::None,
           "rendering an old snapshot cannot keep stale values visible");
     bool pageClear = true, sameOverlay = true;
     auto *overlay = ui.root;
@@ -178,7 +182,8 @@ int main()
           contentClear(activeModal.panel, ui.root), "real modal labels and both decision buttons remain clear");
     battery.percent = 0; battery.external = ExternalPower::Absent; battery.charge = ChargeIndicator::Inactive;
     uiBatteryRender(ui, battery, 5001);
-    check(std::strcmp(lv_label_get_text(ui.label), "0%  NO EXT") == 0,
+    check(std::strcmp(lv_label_get_text(ui.label), "0%") == 0 && ui.measurement && ui.percent == 0 &&
+          ui.previousColor == 0xFF6878 && ui.indicator == UiBatteryIndicator::None,
           "valid empty battery and absent external input are displayed separately from unknown");
     screenshot("battery-modal-zero.ppm");
     {
@@ -208,7 +213,19 @@ int main()
         screenshot("battery-build-maximum.ppm");
         buildArtworkPreview = false;
     }
-    battery.enabled = false; uiBatteryRender(ui, battery, 5001);
+    appInit(app, 0); app.page = app.nav.current.page = ScreenPage::WaitingForGame;
+    uiRendererRender(app, 7000);
+    battery.measurementValid = battery.gpioValid = true;
+    battery.measurementAtMs = battery.gpioAtMs = 7000;
+    battery.external = ExternalPower::Absent; battery.charge = ChargeIndicator::Inactive;
+    for (const uint8_t percent : {100, 96, 51, 50, 25, 15, 5, 1, 0}) {
+        battery.percent = percent; uiBatteryRender(ui, battery, 7000);
+        char path[48]; std::snprintf(path, sizeof(path), "battery-arc-%u.ppm", percent); screenshot(path);
+    }
+    battery.percent = 96; battery.external = ExternalPower::Present; battery.charge = ChargeIndicator::Active;
+    uiBatteryRender(ui, battery, 7000); screenshot("battery-arc-charging.ppm");
+    uiBatteryRender(ui, battery, 11000); screenshot("battery-arc-unknown.ppm");
+    battery.enabled = false; uiBatteryRender(ui, battery, 11000);
     check(ui.root == nullptr && lv_obj_get_child_cnt(lv_layer_top()) == initialChildren, "disabling removes only the battery status layer");
     std::printf("RESULT passed=%u failed=%u\n", passed, failed);
     return failed ? 1 : 0;
