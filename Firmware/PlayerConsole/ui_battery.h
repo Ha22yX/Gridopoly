@@ -3,7 +3,7 @@
 #include "battery_telemetry.h"
 #include "ui_layout.h"
 
-constexpr UiRect kBatteryBadge{196, 447, 92, 26};
+constexpr UiRect kBatteryBadge{196, 447, 96, 25};
 static_assert(uiRectInsideCircle(kBatteryBadge, 238), "Battery status must fit the circular display");
 
 enum class UiBatteryIndicator : uint8_t { None, Charging, Warning };
