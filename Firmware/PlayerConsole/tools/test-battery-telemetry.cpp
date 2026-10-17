@@ -10,84 +10,7 @@
 #include <vector>
 using namespace gridopoly::player_console;
 
-// A byte/timing fake of the documented device protocol, not a driver mock.
-struct Device : BatteryUart {
-    struct Byte { uint32_t at; uint8_t value; };
-    struct Command { uint32_t at; std::vector<uint8_t> bytes; };
-    std::deque<Byte> rx;
-    std::vector<Command> commands;
-    uint32_t now = 0, i2cDone = 0;
-    unsigned reads = 0, maxReads = 0, overlapping = 0, earlyStatus = 0;
-    size_t capacity = 256;
-    bool respond = true, badBridge = false, badConfigReadback = false;
-    bool truncateVersion = false, extraVersion = false, resetOnSoc = false, resetOnGpio = false;
-    uint8_t forcedStatus = 0xF0;
-    uint8_t ports[5] = {0x55, 0x55, 0x13, 0, 0x66};
-    uint16_t mode = 0x2000, config = 0xABDF, version = 0x0012;
-    uint16_t voltage = 47360, soc = 78 * 256 + 128;
-    std::function<uint8_t(uint32_t)> gpio = [](uint32_t) -> uint8_t { return 3; };
-    int readByte() override {
-        ++reads;
-        if (rx.empty() || static_cast<int32_t>(now - rx.front().at) < 0) return -1;
-        const auto value = rx.front().value; rx.pop_front(); return value;
-    }
-    size_t writableBytes() override { return capacity; }
-    void reply(const std::vector<uint8_t>& data, size_t commandBytes) {
-        if (!respond) return;
-        for (size_t i = 0; i < data.size(); ++i) rx.push_back({now + static_cast<uint32_t>(commandBytes + i + 1), data[i]});
-    }
-    size_t writeBytes(const uint8_t *bytes, size_t count) override {
-        if (!rx.empty()) ++overlapping;
-        commands.push_back({now, {bytes, bytes + count}});
-        const auto &c = commands.back().bytes;
-        if (c == std::vector<uint8_t>{0x56, 0x50}) {
-            const char *id = badBridge ? "SC18IM700 9.9.9" : "SC18IM704 9.9.9";
-            std::vector<uint8_t> data(id, id + 16);
-            if (truncateVersion) data.resize(7);
-            if (extraVersion) data.push_back(0x42);
-            reply(data, count);
-        } else if (c[0] == 0x57) {
-            const uint8_t regs[] = {2, 3, 7, 8, 9};
-            for (size_t i = 1; i + 1 < count - 1; i += 2)
-                for (size_t j = 0; j < 5; ++j) if (c[i] == regs[j]) ports[j] = c[i + 1];
-        } else if (c == std::vector<uint8_t>{0x52, 2, 3, 7, 8, 9, 0x50}) {
-            std::vector<uint8_t> data(ports, ports + 5);
-            if (badConfigReadback) data[4] &= 0xFE;
-            reply(data, count);
-        } else if (c == std::vector<uint8_t>{0x52, 4, 9, 0x50}) {
-            if (resetOnGpio) { ports[4] = 0x66; reply({0x4F, 0x4B}, count); resetOnGpio = false; }
-            else reply({gpio(now), ports[4]}, count);
-        } else if (c == std::vector<uint8_t>{0x52, 9, 0x50}) {
-            reply({ports[4]}, count);
-        } else if (c == std::vector<uint8_t>{0x52, 0x0A, 0x50}) {
-            if (static_cast<int32_t>(now - i2cDone) < 0) ++earlyStatus;
-            reply({forcedStatus}, count);
-        } else if (count == 8 && c[0] == 0x53 && c[1] == 0x6C && c[2] == 1 &&
-                   c[4] == 0x53 && c[5] == 0x6D && c[6] == 2 && c[7] == 0x50) {
-            uint16_t value = 0;
-            switch (c[3]) {
-            case 2: value = voltage; break; case 4: value = soc; break;
-            case 6: value = mode; break; case 8: value = version; break; case 12: value = config; break;
-            default: std::printf("Unexpected I2C read register\n"); std::abort();
-            }
-            i2cDone = now + static_cast<uint32_t>(count);
-            if (c[3] == 4 && resetOnSoc) { ports[4] = 0x66; reply({0x4F, 0x4B}, count); resetOnSoc = false; }
-            else reply({static_cast<uint8_t>(value >> 8), static_cast<uint8_t>(value)}, count);
-        } else if (count == 7 && c[0] == 0x53 && c[1] == 0x6C && c[2] == 3 && c[6] == 0x50) {
-            const auto value = static_cast<uint16_t>((c[4] << 8) | c[5]);
-            if (c[3] == 6) mode = value;
-            else if (c[3] == 12) config = value;
-            else { std::printf("Forbidden gauge write\n"); std::abort(); }
-            i2cDone = now + 50; // Status would still be the preceding F0 before this.
-        } else { std::printf("Unexpected UART command\n"); std::abort(); }
-        return count;
-    }
-    void run(BatteryTelemetry &driver, uint32_t duration, uint32_t interval = 1) {
-        for (uint32_t i = 0; i < duration; i += interval, now += interval) {
-            reads = 0; driver.tick(*this, now); maxReads = std::max(maxReads, reads);
-        }
-    }
-};
+#include "battery-test-device.h"
 
 int main()
 {
@@ -259,8 +182,8 @@ int main()
             whole &= line.size() <= 63 && line.back() == '\n' && line.find("GP_BAT id=") == 0;
             if (line.find(" ms=") != std::string::npos) ++samples;
         }
-        check(whole && samples == 24 && sink.lines.size() == 120,
-              "120-second window emits 24 five-line samples atomically within 63 bytes");
+        check(whole && samples == 24 && sink.lines.size() == 192,
+              "120-second window emits 24 eight-line samples atomically within 63 bytes");
         check(sink.lines[0].find("id=1 ") != std::string::npos && sink.lines[4].find("id=1 ") != std::string::npos &&
               sink.lines[4].find("mode=0000") != std::string::npos,
               "all telemetry detail lines share one sample ID and include gauge setup evidence");
@@ -271,13 +194,63 @@ int main()
         check(sink.lines.empty(), "full USB TX cannot trigger blocking or partial writes");
         sink.capacity = 64;
         for (uint32_t now = 7100; now < 11200; now += 20) logs.tick(sink, state, now);
-        check(sink.lines.size() == 5 && sink.lines.front().find("id=3 ") != std::string::npos,
+        check(sink.lines.size() == 8 && sink.lines.front().find("id=3 ") != std::string::npos,
               "busy USB expires an old sample instead of resuming stale half-lines");
         logs.begin(UINT32_MAX - 2000); sink.lines.clear();
         for (uint32_t dt = 0; dt < 130000; dt += 20) logs.tick(sink, state, UINT32_MAX - 2000 + dt);
-        check(sink.lines.size() == 120, "bounded diagnostic cadence survives millis rollover");
+        check(sink.lines.size() == 192, "bounded diagnostic cadence survives millis rollover");
         auto disabled = state; disabled.enabled = false; logs.begin(0); sink.lines.clear(); logs.tick(sink, disabled, 1000);
         check(sink.lines.empty(), "disabled telemetry emits no diagnostics");
+    }
+
+    {
+        BatteryTelemetry d; Device io; d.begin(0); io.run(d, 701);
+        const auto initial = d.status(io.now);
+        check(!initial.i2cStatusSeen && initial.lastI2cStatus == 0,
+              "unread I2C status zero is explicitly different from a received zero");
+        io.now += 250; d.tick(io, io.now);
+        auto failureState = d.status(io.now);
+        check(failureState.lastError == BatteryError::Timeout && failureState.timeoutCount == 1 &&
+              failureState.failedAction == static_cast<uint8_t>(BatteryAction::BridgeVersion) &&
+              failureState.failedOperation == failureState.failedAction && failureState.failedExpected == 16 && failureState.failedReceived == 16,
+              "complete buffered response after 180ms is still rejected with frozen failure stage and RX counts");
+        check(failureState.maxServiceGapMs == 251 && failureState.failureAtMs == io.now,
+              "actual service gap and failure time are recorded");
+        io.run(d, 2500); const auto recovered = d.status(io.now);
+        check(recovered.measurementValid && recovered.timeoutCount == 1 && recovered.failureAtMs == failureState.failureAtMs &&
+              recovered.i2cStatusSeen && recovered.i2cStatusAtMs > failureState.failureAtMs,
+              "recovery preserves cumulative failure evidence and timestamps real I2C status");
+        const auto stale = batteryStatusAt(recovered, io.now + 3501);
+        check(!stale.measurementValid && !stale.gpioValid && stale.charge == ChargeIndicator::Unknown &&
+              recovered.measurementValid, "copied snapshot freshness invalidates without mutating the owner");
+    }
+    {
+        BatteryTelemetry d; Device io; io.forcedStatus = 0; d.begin(0); io.run(d, 1100);
+        const auto s = d.status(io.now);
+        check(s.i2cStatusSeen && s.lastI2cStatus == 0 && s.lastError == BatteryError::I2cStatus &&
+              s.failedAction == static_cast<uint8_t>(BatteryAction::I2cStatus) &&
+              s.failedOperation == static_cast<uint8_t>(BatteryAction::GaugeVersion) && s.failedReceived == 1 &&
+              s.failedExpected == 1 && s.timeoutCount == 0,
+              "actual I2C zero identifies the gauge operation and is not counted as UART timeout");
+    }
+    {
+        struct Sink {
+            std::vector<std::string> lines;
+            int availableForWrite() { return 64; }
+            size_t write(const uint8_t *p, size_t n) { lines.emplace_back(reinterpret_cast<const char *>(p), n); return n; }
+        } sink;
+        BatteryStatus s; s.enabled = true; s.serviceStarted = true; s.i2cStatusSeen = true;
+        s.timeoutCount = s.maxServiceGapMs = s.failureAtMs = s.i2cStatusAtMs = UINT32_MAX;
+        s.failedAction = s.failedOperation = s.failedExpected = s.failedReceived = 255;
+        BatteryDiagnostics logs; logs.begin(UINT32_MAX - 1000);
+        for (uint32_t dt = 1000; dt < 1160; dt += 20) logs.tick(sink, s, UINT32_MAX - 1000 + dt);
+        bool whole = sink.lines.size() == 8;
+        for (const auto &line : sink.lines) whole &= line.size() <= 63 && line.back() == '\n';
+        check(whole && sink.lines[4].find("cached=1") != std::string::npos &&
+              sink.lines[5].find("to=4294967295") != std::string::npos &&
+              sink.lines[6].find("rx=255/255") != std::string::npos &&
+              sink.lines[7].find("i_seen=1") != std::string::npos,
+              "maximum diagnostic counters fit whole short lines and distinguish cached configuration");
     }
     std::printf("RESULT passed=%u failed=%u\n", passed, failed);
     return failed ? 1 : 0;

@@ -26,6 +26,11 @@ void BatteryTelemetry::begin(uint32_t nowMs)
 void BatteryTelemetry::fail(BatteryError error, uint32_t nowMs)
 {
     status_.lastError = error;
+    if (error == BatteryError::Timeout && status_.timeoutCount != UINT32_MAX) ++status_.timeoutCount;
+    status_.failureAtMs = nowMs;
+    status_.failedAction = static_cast<uint8_t>(pending_);
+    status_.failedOperation = static_cast<uint8_t>(pending_ == Action::I2cStatus ? checked_ : pending_);
+    status_.failedExpected = expected_; status_.failedReceived = received_;
     status_.linkReady = status_.measurementValid = status_.gpioValid = false;
     status_.external = ExternalPower::Unknown;
     status_.charge = ChargeIndicator::Unknown;
@@ -37,17 +42,21 @@ void BatteryTelemetry::fail(BatteryError error, uint32_t nowMs)
     resetGpioHistory();
 }
 
-BatteryStatus BatteryTelemetry::status(uint32_t nowMs) const
+BatteryStatus batteryStatusAt(BatteryStatus value, uint32_t nowMs)
 {
-    BatteryStatus value = status_;
-    if (static_cast<uint32_t>(nowMs - value.measurementAtMs) > kMeasurementMaxAgeMs)
+    if (static_cast<uint32_t>(nowMs - value.measurementAtMs) > BatteryTelemetry::kMeasurementMaxAgeMs)
         value.measurementValid = false;
-    if (static_cast<uint32_t>(nowMs - value.gpioAtMs) > kGpioMaxAgeMs) value.gpioValid = false;
+    if (static_cast<uint32_t>(nowMs - value.gpioAtMs) > BatteryTelemetry::kGpioMaxAgeMs) value.gpioValid = false;
     if (!value.gpioValid) {
         value.external = ExternalPower::Unknown;
         value.charge = ChargeIndicator::Unknown;
     }
     return value;
+}
+
+BatteryStatus BatteryTelemetry::status(uint32_t nowMs) const
+{
+    return batteryStatusAt(status_, nowMs);
 }
 
 bool BatteryTelemetry::start(BatteryUart &uart, Action action, uint32_t nowMs)
@@ -94,10 +103,10 @@ bool BatteryTelemetry::start(BatteryUart &uart, Action action, uint32_t nowMs)
     }
     // The adapter has a buffered UART. Never wait for TX space or flush it.
     if (uart.writableBytes() < count) return false;
-    if (uart.writeBytes(command, count) != count) { fail(BatteryError::TxIncomplete, nowMs); return false; }
     pending_ = action;
     sentAt_ = lastByteAt_ = nowMs;
     received_ = 0;
+    if (uart.writeBytes(command, count) != count) { fail(BatteryError::TxIncomplete, nowMs); return false; }
     waiting_ = true;
     return true;
 }
@@ -105,6 +114,10 @@ bool BatteryTelemetry::start(BatteryUart &uart, Action action, uint32_t nowMs)
 void BatteryTelemetry::tick(BatteryUart &uart, uint32_t nowMs)
 {
     if (!status_.enabled) return;
+    const uint32_t serviceGap = nowMs - status_.serviceAtMs;
+    if (serviceSeen_ && serviceGap > status_.maxServiceGapMs) status_.maxServiceGapMs = serviceGap;
+    serviceSeen_ = status_.serviceStarted = true;
+    status_.serviceAtMs = nowMs;
     // A bounded drain also handles startup OK, a bridge reset and late replies.
     for (uint8_t i = 0; i < 32; ++i) {
         const int byte = uart.readByte();
@@ -140,6 +153,7 @@ void BatteryTelemetry::tick(BatteryUart &uart, uint32_t nowMs)
             checked_ = action; checkedValue_ = value; next_ = Action::I2cStatus;
         } else if (action == Action::I2cStatus) {
             status_.lastI2cStatus = static_cast<uint8_t>(value);
+            status_.i2cStatusSeen = true; status_.i2cStatusAtMs = nowMs;
             if (value != 0xF0) { fail(BatteryError::I2cStatus, nowMs); return; }
             finish(checked_, checkedValue_, nowMs);
         } else finish(action, value, nowMs);

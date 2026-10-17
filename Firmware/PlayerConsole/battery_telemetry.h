@@ -18,7 +18,14 @@ enum class ExternalPower : uint8_t { Unknown, Absent, Present };
 enum class ChargeIndicator : uint8_t { Unknown, Inactive, Active, Inconsistent, FaultCandidate };
 enum class BatteryError : uint8_t {
     None, Timeout, Framing, BridgeVersion, BridgeConfig, GaugeVersion,
-    I2cStatus, GaugeConfig, Voltage, TxIncomplete
+    I2cStatus, GaugeConfig, Voltage, TxIncomplete, ServiceUnavailable
+};
+
+// Stable diagnostic codes for the active wire transaction and checked operation.
+enum class BatteryAction : uint8_t {
+    Sync, BridgeVersion, ConfigureBridge, VerifyBridge, GaugeVersion,
+    ClearMode, VerifyMode, ReadConfig, ClearSleep, VerifyConfig,
+    Voltage, Soc, VerifySample, Gpio, Idle, I2cStatus
 };
 
 struct BatteryStatus {
@@ -40,7 +47,15 @@ struct BatteryStatus {
     ChargeIndicator charge = ChargeIndicator::Unknown;
     BatteryError lastError = BatteryError::None;
     uint8_t lastI2cStatus = 0;
+    bool i2cStatusSeen = false, serviceStarted = false;
+    uint32_t i2cStatusAtMs = 0, serviceAtMs = 0, maxServiceGapMs = 0;
+    uint32_t timeoutCount = 0, failureAtMs = 0;
+    uint8_t failedAction = 0xFF, failedOperation = 0xFF;
+    uint8_t failedExpected = 0, failedReceived = 0;
 };
+
+// Apply age limits to a copied, coherent sample without touching its owner.
+BatteryStatus batteryStatusAt(BatteryStatus value, uint32_t nowMs);
 
 class BatteryTelemetry {
 public:
@@ -51,11 +66,7 @@ public:
     static constexpr uint32_t kGpioMaxAgeMs = 350;
 
 private:
-    enum class Action : uint8_t {
-        Sync, BridgeVersion, ConfigureBridge, VerifyBridge, GaugeVersion,
-        ClearMode, VerifyMode, ReadConfig, ClearSleep, VerifyConfig,
-        Voltage, Soc, VerifySample, Gpio, Idle, I2cStatus
-    };
+    using Action = BatteryAction;
     bool start(BatteryUart &uart, Action action, uint32_t nowMs);
     void finish(Action action, uint16_t value, uint32_t nowMs);
     void fail(BatteryError error, uint32_t nowMs);
@@ -67,7 +78,7 @@ private:
     Action resume_ = Action::Idle;
     uint8_t response_[16]{};
     uint8_t expected_ = 0, received_ = 0;
-    bool waiting_ = false;
+    bool waiting_ = false, serviceSeen_ = false;
     uint32_t sentAt_ = 0, lastByteAt_ = 0, quietAt_ = 0;
     uint32_t nextVoltageAt_ = 0, nextGpioAt_ = 0;
     uint16_t checkedValue_ = 0, config_ = 0, voltage_ = 0, soc_ = 0;

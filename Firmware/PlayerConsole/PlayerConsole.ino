@@ -165,8 +165,9 @@ void renderAppFrame(uint32_t nowMs)
     }
     uiRendererRender(app, nowMs);
 #if GRIDOPOLY_BATTERY_ENABLED
-    const uint32_t batteryNowMs = millis();
-    uiBatteryRender(batteryUi, batteryHardwareStatus(batteryNowMs), batteryNowMs);
+    const auto batterySnapshot = batteryHardwareStatus(0);
+    const uint32_t batteryNowMs = millis(); // after the worker snapshot, including its timestamps
+    uiBatteryRender(batteryUi, batterySnapshot, batteryNowMs);
 #endif
     if (!same || ticket == 0) {
         page = app.nav.current.page;
