@@ -1,19 +1,19 @@
 # 固件与服务端文档入口
 
-更新：2026-10-15晚间。先读[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)和[设备台账](current-device-connections.md)。源码、构建、部署、功能、视觉、性能与电气分别记录。
+更新：2026-10-17。先读[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)和[设备台账](current-device-connections.md)。源码、构建、部署、功能、视觉、性能与电气分别记录。
 
 | 工程 | 已交付及当前运行 | 仍需验证 |
 | --- | --- | --- |
-| Firmware/TileModule | normal V0.34、显式long/corner、Wi-Fi/HTTP、ORDER、新鲜RFID/配对屏灯、V6 LED时序；16板在线/reader stable/闭环映射已验 | 三块长边灯效、完整图文、锚点/物理断环、多Tag相邻线圈及功耗；RS485禁用 |
-| Firmware/PlayerConsole | core1/mode3、完整MAC、配对/外貌/姓名/终局、输入批处理与焦点/等待页优化 | COM29普通12MHz部署，精确输入、动态页面与≥24FPS/42ms |
-| 玩家电池扩展 | SC18IM704/MAX17048 UART与状态条源码/两种候选构建通过 | 四屏BatteryBoard=none；启用候选和真实UART/SOC/充电/欠压未验 |
+| Firmware/TileModule | 16板normal V0.37；闭环/四角映射、旋转180度/低亮、按需开发图片及缓存 | 真实建拆房换图、锚点/断环、多Tag与电气；RS485禁用 |
+| Firmware/PlayerConsole | core1/mode3、配对/外貌/姓名/终局、输入/等待页优化；三屏已加电量/建房入口 | COM28手写问题、动态视觉/精确输入与≥24FPS/42ms |
+| 玩家电池扩展 | COM27/28首版有有效读数；COM29二版独立采样运行但无有效SOC | 避开SC18寄存器写冻结的新兼容路径实机验证、SOC/充电/欠压；三台充电中暂停设备操作 |
 | Server/RaspberryPi | 16/24/32/40全在线环与实际四角、1～4屏补四席、逐人Tag/身份/规则/持久化；USB热点及自启已部署 | 四真人完整实体流程、异常恢复、36台和离线冷上电 |
 | Firmware/libraries | 破产推进、楼件库存、整组卖房、交易、配对/到达协议 | roundNumber仍uint8；不宣称机器人自动谈判或全部长局终结 |
 | Firmware/TestGameServer | ESP32/ESP-NOW历史测试服务及共享网页资源 | 不替代正式Pi服务 |
 
 ## 发布与设备
 
-最新冻结包为 **trial16-2026-10-15-v4**：V0.34 long/corner、普通player `dfc4b7e5…` /16MHz、Pi `ea6e1f51…`。COM7实际仍`22ca08e6…`；COM27/28为dfc4；COM29为12MHz诊断`716ff623…`，日志已结束、静止等待页正常，普通`3da4c493…`已构建未部署。**v4不含COM29的12MHz修复或USB热点部署配置。**
+冻结包仍为 **trial16-2026-10-15-v4**，不回写后续更新。目前Pi为2efc59f4、16板V0.37；COM7仍22ca08e6，COM27/28已装8ef6c051首版（16MHz），COM29已装df9f1282二版（12MHz）。首版与二版失败、待充电实机步骤详见[本轮玩家升级](player-build-battery-rollout-2026-10-16.md)；[实现与构建](player-build-battery-2026-10-16.md)、[SC18兼容](player-battery-bridge-compat-2026-10-17.md)、[COM28手写](player-handwriting-com28-2026-10-16.md)。候选通过不代表设备已装。
 
 - [发布包、完整SHA和验收](trial16-release-2026-10-15.md)、[批量工具](../../Tools/release/README.md)：VERIFIED是写验，不是实体游戏通过；原厂分区需先备份迁移。
 - [全在线环实现](server-all-online-ring-progress-2026-10-15.md)、[16板分批部署](tile-16-trial-progress-2026-10-15.md)、[重开局恢复观察](newgame16-assignment-observation-2026-10-15.md)。

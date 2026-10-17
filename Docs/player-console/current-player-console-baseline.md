@@ -1,23 +1,21 @@
 # Gridopoly 圆形旋钮玩家终端当前实现基线
 
-状态：A 级当前实现规范
+状态：A 级当前实现规范。更新：2026-10-17；源码、已写入版本和现场验收分别记录。
 
-更新日期：2026-10-15（含USB热点迁移、22:47 UTC现场快照及COM29独立12MHz配置；部署、目视与性能结果分别记录）。
+冻结组合包仍为`trial16-2026-10-15-v4`，未回写后续更新。完整身份、服务器快照及原始分批记录见[设备台账](../firmware/current-device-connections.md)。最新实机工作对应10月16日晚EDT（原始日志10月17日UTC）；用户现让三台屏充电，先继续软件验证，暂停全部设备操作。
 
-冻结组合包仍为 `trial16-2026-10-15-v4`；COM29随后单独部署12MHz构建，未写回该包。2026-10-15 09:39:03 UTC（05:39:03 EDT）的room993580113/version11曾为三真人加一机器人、COM29 seat0等待新局，这是历史状态。最新18:47 EDT（22:47 UTC）只读快照为room993580116/version9：COM28/29/27在线、席位1/2/3，三真人Tag配对 `complete`、boundMask7，身份处于AvatarSetup；COM7此前由用户关机。服务器阶段不替代头像操作、四真人完整流程或实体对局验收，见[设备台账](../firmware/current-device-connections.md)。
+| 设备 | 完整 MAC | 最后实际应用 SHA-256 前缀 | 遥测及当前问题 |
+| --- | --- | --- | --- |
+| COM7 | dc:b4:d9:02:d1:dc | 22ca08e6…，16MHz | 电量关闭，本轮未升级 |
+| COM27 | dc:b4:d9:02:bf:88 | 8ef6c051…，16MHz | 首版电量/建房入口；有效电压/SOC，偶发超时恢复 |
+| COM28 | dc:b4:d9:07:81:b0 | 8ef6c051…，16MHz | 首版；用户报告手写卡顿、连笔、位置偏差，未闭合 |
+| COM29 | 20:6e:f1:ba:c9:04 | df9f1282…，12MHz | 第二版独立电量采样；写验通过，最新120秒零有效SOC，尚未修复 |
 
-| 设备 | 完整 MAC | 当前应用 SHA-256 前缀 | 22:47 UTC席位/连接记录 | 已有目视证据 |
-| --- | --- | --- | --- | --- |
-| COM7 | `dc:b4:d9:02:d1:dc` | `22ca08e6…`，16MHz | 用户已关机，不在在线列表 | 配对页稳定 |
-| COM27 | `dc:b4:d9:02:bf:88` | `dfc4b7e5…`，16MHz | 席3、在线 | 等待新游戏页正常 |
-| COM28 | `dc:b4:d9:07:81:b0` | `dfc4b7e5…`，16MHz | 席1、在线 | 等待新游戏页正常 |
-| COM29 | `20:6e:f1:ba:c9:04` | `716ff623…`，12MHz正常游戏诊断构建 | 席2、在线 | 用户确认静止等待页正常、频闪和错位消失；动态页面另待验 |
+最新服务器快照03:49:48 UTC为room993580116/version47，COM28/29/27席位1/2/3、三真人加一机器人，仍身份设置阶段；不代表充电时实时在线或完成整局。COM29首版POWER关开恢复电量属于旧窗口。当前二版运行任务间隔最大54ms仍失联，不能单用主循环卡顿解释。
 
-COM29的120秒有界诊断日志已停止，135秒采集完成且串口释放；关闭诊断日志的普通12MHz候选 `3da4c493…` 已构建并核验、未部署，后续由主会话安排写验和目视窗口。旧板载AP的7台关联限制曾使刷写暂缓，现USB热点已实证16格＋4屏共20台同时接入，该限制不再是部署阻塞。COM7/27/28固件不变；旧dfc4/16MHz在COM29的失败保留在[显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+当前源码保留core1/mode3、原显示时钟、输入/等待页优化及开发图片，并增加首页建房入口和底部电量。独立UART任务已主机回归，只有COM29安装二版。新增SC18兼容初始化避开07/08/09写入，并以输入模式寄存器检测复位；手写有界诊断已完成25项及真实输入/手写116项回归，16MHz联合候选91617134已构建核验、未部署，具体部署以[本轮记录](../firmware/player-build-battery-rollout-2026-10-16.md)为准。不能把候选构建或旧等待页视觉通过当作当前手写与电量验收。
 
-`2ea95b4` 的输入批处理和头像焦点局部刷新已进入上述四台；`e6d6563` 的等待页重复重绘修复进入dfc4及继承它的716ff623、3da4c493候选。精确物理卡点、Avatar/游戏页、完整实体对局和性能门槛仍待验收；历史core0方案因频闪/错位撤回，core1的Retarget max57ms仍超过42ms。9月手写及网络恢复确认只对应各自版本和场景。
-
-四台在用固件及本次 v4 均为 `BatteryBoard=none`，表示软件遥测关闭，不表示未装电池。`8ee546b` 已实现遥测且两种构建历史通过，启用功能尚未部署验收。完整哈希、来源和各次验证见[输入报告](../firmware/player-16-trial-progress-2026-10-15.md)、[等待页报告](../firmware/player-new-screen-display-progress-2026-10-15.md)、[第四台烧录](../firmware/player-fourth-screen-flash-2026-10-15.md)、[试玩包记录](../firmware/trial16-release-2026-10-15.md)及[当前交接](../CURRENT-DEVELOPMENT-HANDOFF.md)。
+COM27万用表3.640V与约3.646V遥测接近，仅支持电压通路，不认证SOC精度；未知数据必须显示未知。精确旋钮、Avatar/游戏页、≥24FPS与最大42ms、完整四真人实体对局及电气检查仍各自保留；9月确认只对应当时版本与场景。[电量接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)、[兼容修改](../firmware/player-battery-bridge-compat-2026-10-17.md)、[手写调查](../firmware/player-handwriting-com28-2026-10-16.md)。
 
 ## 1. 适用范围
 
@@ -207,15 +205,15 @@ powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-is
 powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard none
 ```
 
-COM29已通过静止等待页目视的12MHz配置需显式选择，后续普通升级使用：
+COM29已通过静止等待页目视的12MHz配置需显式选择，保留电量功能的后续普通构建使用：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard none -DisplayClock pclk12 -DisplayDiagnostic none
+powershell -ExecutionPolicy Bypass -File Firmware/PlayerConsole/tools/compile-isolated.ps1 -Mode production -BatteryBoard viewe-md80et-v10 -DisplayClock pclk12 -DisplayDiagnostic none
 ```
 
-默认 `DisplayClock=vendor` 仍是板型16MHz；`pclk12` 目前只验过COM29静止等待页，不代表所有页面或性能已通过。`DisplayDiagnostic=counters` 只用于120秒有界采样，其候选会被普通批量发布工具拒绝。`13e4de40` 已将时钟与诊断独立配置；普通12MHz候选3da4c493已核实 `normalFirmware=true`、`diagnosticOnly=false`、`displayDiagnostic=none`，未部署。旧冻结v4仍为16MHz，不能当作包含本次COM29时钟调整的包；精确候选及部署见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
+默认 `DisplayClock=vendor` 仍是板型16MHz；`pclk12` 目前只验过COM29静止等待页，不代表所有页面或性能已通过。`DisplayDiagnostic=counters` 只用于120秒有界采样，其候选会被普通批量发布工具拒绝。`13e4de40` 已将时钟与诊断独立配置；旧普通12MHz候选3da4c493未单独部署；当前COM29已改为带电量二版df9f1282（正常生产、显示诊断关闭）。保留12MHz不等于该版电量或手写已验收。旧冻结v4仍为16MHz，不能当作包含本次COM29时钟调整的包；精确候选及部署见[COM29显示记录](../firmware/player-com29-display-progress-2026-10-15.md)。
 
-既有验证包括诊断窗口15/15、真实渲染/输入51/51和时钟/诊断配置18/18；这些是对应源码、构建及主机验证，不能代替普通候选写验、动态页面目视或性能验收。本轮文档整合没有重新执行测试。
+既有验证包括诊断窗口15/15、真实渲染/输入51/51和时钟/诊断配置18/18；这些是对应源码、构建及主机验证，不能代替普通候选写验、动态页面目视或性能验收。本段旧测试次数不覆盖10月16日后电量/手写变更；最新软件回归见对应专项报告。
 
 上述命令要求已配置的本机 ToolRoot，默认使用 esp32:esp32 3.3.11。脚本为每次构建冻结源码和依赖，输出独立候选及校验信息；构建完成不表示已经部署。正式 FQBN 使用 16MB Flash、`app3M_fat9M_16MB`、Octal PSRAM、CDC on boot 和 HWCDC。
 
