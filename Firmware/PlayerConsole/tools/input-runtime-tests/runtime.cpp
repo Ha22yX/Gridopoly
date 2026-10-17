@@ -38,6 +38,14 @@ const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork art, const char *key, u
 }
 bool remoteTileCacheConsumeUpdate() { return false; }
 
+static bool renderedLabelEquals(lv_obj_t *object, const char *text) {
+    if (lv_obj_check_type(object, &lv_label_class) &&
+        std::strcmp(lv_label_get_text(object), text) == 0) return true;
+    for (uint32_t i = 0; i < lv_obj_get_child_cnt(object); ++i)
+        if (renderedLabelEquals(lv_obj_get_child(object, i), text)) return true;
+    return false;
+}
+
 int main() {
     int failed = 0;
     auto check = [&](bool ok, const char *name) {
@@ -711,6 +719,56 @@ int main() {
         check(!traceState.recognizerReady && traceState.fallbackCount==1,
               "real classifier allocation fallback is counted without changing recognition semantics");
         uiHandwritingTraceSession(0);
+    }
+    {
+        uiRendererResetForTest(); uiRendererBegin();
+        AppState lobby{}; appInit(lobby, 0);
+        lobby.page = lobby.nav.current.page = ScreenPage::PlayerReady;
+        lobby.identity.seatCount = 4;
+        lobby.identity.humanMask = 0x07;
+        lobby.identity.onlineMask = 0x0F;
+        lobby.identity.nameReadyMask = lobby.identity.readyMask = 0x0A;
+        for (uint8_t i = 0; i < 4; ++i) lobby.identity.seats[i].playerId = i + 1;
+        std::strcpy(lobby.identity.seats[1].name, "HARRY");
+        std::strcpy(lobby.identity.seats[3].name, "Bot 1");
+        // Empty names used to fall through to Chinese demo names on real devices.
+        uiRendererRender(lobby, 1); lv_obj_update_layout(lv_scr_act());
+        check(renderedLabelEquals(root, "PLAYER 1") && renderedLabelEquals(root, "PLAYER 3") &&
+              !renderedLabelEquals(root, kPlayers[0].name) && !renderedLabelEquals(root, kPlayers[2].name),
+              "ready lobby renders seat placeholders instead of demo names before naming");
+        check(renderedLabelEquals(root, "HARRY") && renderedLabelEquals(root, "Bot 1") &&
+              renderedLabelEquals(root, "2 / 4 READY"),
+              "ready lobby preserves confirmed human and bot names and readiness count");
+        lobby.rosterSnapshotValid = true;
+        std::strcpy(lobby.rosterNames[0], "DRAFT");
+        std::strcpy(lobby.identity.seats[0].name, "DRAFT");
+        ++lobby.revision; uiRendererRender(lobby, 2); lv_obj_update_layout(lv_scr_act());
+        check(renderedLabelEquals(root, "PLAYER 1") && !renderedLabelEquals(root, "DRAFT"),
+              "unconfirmed names stay private even when present in a roster or identity snapshot");
+        lobby.identity.nameReadyMask |= 1;
+        ++lobby.revision; uiRendererRender(lobby, 3); lv_obj_update_layout(lv_scr_act());
+        check(renderedLabelEquals(root, "DRAFT") && !renderedLabelEquals(root, "PLAYER 1"),
+              "authoritative name confirmation updates the waiting card without leaving the page");
+        std::strcpy(lobby.identity.seats[0].name, "诺瓦");
+        std::strcpy(lobby.rosterNames[0], "诺瓦");
+        ++lobby.revision; uiRendererRender(lobby, 4); lv_obj_update_layout(lv_scr_act());
+        check(renderedLabelEquals(root, "PLAYER 1") && !renderedLabelEquals(root, "诺瓦") &&
+              std::strcmp(lobby.identity.seats[0].name, "诺瓦") == 0 &&
+              std::strcmp(lobby.rosterNames[0], "诺瓦") == 0,
+              "unsupported name glyphs use a display-only seat fallback without changing saved names");
+        lobby.identity.seats[0].name[0] = '\0';
+        std::strcpy(lobby.rosterNames[0], "ALICE");
+        ++lobby.revision; uiRendererRender(lobby, 5); lv_obj_update_layout(lv_scr_act());
+        check(renderedLabelEquals(root, "ALICE"),
+              "confirmed name can use the authoritative roster while the identity name is empty");
+        lobby.identity.seatCount = 6; lobby.identity.humanMask = 0x3F;
+        lobby.identity.seats[4].playerId = 6;
+        lobby.identity.seats[5].playerId = 5;
+        lobby.identity.nameReadyMask |= 1u << 5;
+        std::strcpy(lobby.identity.seats[4].name, "SIX");
+        ++lobby.revision; uiRendererRender(lobby, 6); lv_obj_update_layout(lv_scr_act());
+        check(renderedLabelEquals(root, "SIX") && renderedLabelEquals(root, "PLAYER 5"),
+              "six-seat layout resolves confirmation and fallback labels by player ID");
     }
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;

@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <lvgl.h>
+#include <gridopoly/protocol/Protocol.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -2735,18 +2736,46 @@ uint8_t recipeIndex(uint8_t value, uint8_t count)
     return value == 0 || value > count ? 0 : static_cast<uint8_t>(value - 1);
 }
 
+bool identityNameCanRender(const char *name)
+{
+    if (name == nullptr || name[0] == '\0') return false;
+    bool visible = false;
+    for (uint32_t offset = 0; name[offset] != '\0';) {
+        const uint32_t codepoint = _lv_txt_encoded_next(name, &offset);
+        lv_font_glyph_dsc_t glyph{};
+        if (codepoint < 0x20 ||
+            !lv_font_get_glyph_dsc(&lv_font_montserrat_10, &glyph, codepoint, 0) ||
+            glyph.is_placeholder) return false;
+        if (glyph.box_w != 0 && glyph.box_h != 0) visible = true;
+    }
+    return visible;
+}
+
 const char *identitySeatName(const AppState &state, uint8_t index,
                              char *fallback, size_t fallbackSize)
 {
-    if (index >= state.identity.seatCount) return "";
+    if (index >= state.identity.seatCount || index >= 6) return "";
     const TransportIdentitySeat &seat = state.identity.seats[index];
-    if (seat.name[0] != '\0') return seat.name;
-    const char *rosterName = appPlayerDisplayName(state, index);
-    if (rosterName != nullptr && rosterName[0] != '\0' &&
-        strncmp(rosterName, "PLAYER ", 7) != 0) return rosterName;
-    const bool human = (state.identity.humanMask & (1u << index)) != 0;
-    snprintf(fallback, fallbackSize, human ? "Player %u" : "Bot %u",
-             static_cast<unsigned>(seat.playerId == 0 ? index + 1 : seat.playerId));
+    const uint8_t playerId = seat.playerId >= 1 && seat.playerId <= 6
+        ? seat.playerId : static_cast<uint8_t>(index + 1);
+    const uint8_t playerBit = static_cast<uint8_t>(1u << (playerId - 1));
+    const bool human = (state.identity.humanMask & playerBit) != 0;
+    const bool nameFinal = ((state.identity.nameReadyMask | state.identity.readyMask) &
+                            playerBit) != 0 ||
+        (seat.flags & gridopoly::protocol::IdentitySeatNameFinal) != 0;
+    // Empty production names must never fall through to appPlayerDisplayName's
+    // demo roster. Until the server confirms a human's name, show their seat.
+    if (!human || nameFinal) {
+        if (identityNameCanRender(seat.name)) return seat.name;
+        // A nonempty unsupported name gets a seat label, not an older roster name.
+        if (seat.name[0] == '\0' && state.rosterSnapshotValid &&
+            identityNameCanRender(state.rosterNames[playerId - 1])) {
+            return state.rosterNames[playerId - 1];
+        }
+    }
+    // Display fallback only: preserve authoritative names, including UTF-8.
+    snprintf(fallback, fallbackSize, human ? "PLAYER %u" : "Bot %u",
+             static_cast<unsigned>(playerId));
     return fallback;
 }
 

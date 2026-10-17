@@ -17,6 +17,8 @@
 
 COM27万用表3.640V与约3.646V遥测接近，仅支持电压通路，不认证SOC精度；未知数据必须显示未知。精确旋钮、Avatar/游戏页、≥24FPS与最大42ms、完整四真人实体对局及电气检查仍各自保留；9月确认只对应当时版本与场景。[电量接口](../hardware/player-battery-telemetry-interface-2026-09-27.md)、[兼容修改](../firmware/player-battery-bridge-compat-2026-10-17.md)、[手写调查](../firmware/player-handwriting-com28-2026-10-16.md)。
 
+2026-10-17 等待页补充：PlayerReady 卡片只在权威确认后显示真人姓名，未确认时显示 PLAYER n；不再使用演示名单，缺失字形时只在显示层回退席位名称。真实 LVGL 回归123项和16MHz候选70a910b6构建/核验通过，未部署；[本次记录](../firmware/player-ready-names-2026-10-17.md)区分候选与实际部署，现有设备版本表不变。
+
 ## 1. 适用范围
 
 本文记录当前已实现并用于实机联调的 2.1 英寸圆形玩家终端。它不是单格模块上的

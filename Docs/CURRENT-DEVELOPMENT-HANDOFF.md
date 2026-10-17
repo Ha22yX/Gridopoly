@@ -2,6 +2,8 @@
 
 更新：2026-10-17。16格均为V0.37，Pi仍2efc59f4。本轮COM27/28已升级电量与首页建房入口首版，COM29已升级独立采样二版但电量实测失败；三台正由用户充电，暂停设备操作，继续软件验证。COM28新增手写卡顿/连笔/偏移未闭合。[部署记录](firmware/player-build-battery-rollout-2026-10-16.md)、[兼容修改](firmware/player-battery-bridge-compat-2026-10-17.md)、[手写调查](firmware/player-handwriting-com28-2026-10-16.md)。旧日期快照保留对应版本语境。
 
+新增等待页姓名修复：未确认姓名显示 PLAYER n，确认后显示正式名，去除演示中文姓名回退并检查字形；真实 LVGL 回归123项通过。16MHz候选70a910b6已构建/核验；详情见[等待页名字](firmware/player-ready-names-2026-10-17.md)，尚未部署，现有手写/电量待验项继续保留。
+
 ## 当前结论
 
 当前实物是 **4角落＋12长边的16格棋盘、4台玩家屏**，未来扩展4角落＋28长边。16块计划板已完成首轮普通V0.34部署；2026-10-16已完成16块[旋转180度及低亮V0.36逐板升级](firmware/tile-display-rotation-2026-10-16.md)，其后已全体升级V0.37按需图片，当前以[按需图片记录](firmware/development-artwork-runtime-2026-10-16.md)为准。用户给整盘接上24V、将线圈略抬高于LCD后，确认16块均能识别Tag；服务器已实证16个reader stable、唯一16节点ORDER闭环、0～15自动映射及四角0/4/8/12。
