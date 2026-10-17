@@ -54,3 +54,13 @@ float uiHandwritingNeuralTestAccuracy();
 // Outside-screen touches do not reset the canvas timer; touchingCanvas does.
 bool uiHandwritingRecognitionDue(bool touchingCanvas, uint16_t sampledPointCount,
                                  uint32_t lastCanvasTouchMs, uint32_t nowMs);
+
+// LVGL-lock owner only. Read-only diagnostics; enabling never changes captured ink.
+struct UiHandwritingTraceState {
+    uint32_t generation = 0, pendingAgeMs = 0, drawUs = 0, drawLagMs = 0, drawAtMs = 0, fallbackUs = 0;
+    uint16_t points = 0, drawn = 0, fallbackCount = 0;
+    int16_t originX = 0, originY = 0;
+    bool canvas = false, contact = false, connects = false, recognizerReady = false;
+};
+void uiHandwritingTraceSession(uint32_t session);
+UiHandwritingTraceState uiHandwritingTraceState(uint32_t nowMs);

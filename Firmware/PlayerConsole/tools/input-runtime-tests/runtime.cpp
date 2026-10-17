@@ -677,6 +677,41 @@ int main() {
               "Assets Build action also blocks during split snapshot synchronization");
 
     }
+
+    {
+        uiRendererResetForTest(); uiRendererBegin();
+        AppState traced{}; appInit(traced,0);
+        traced.page=traced.nav.current.page=ScreenPage::NameHandwriting;
+        uiRendererRender(traced,0);lv_obj_update_layout(lv_scr_act());
+        uiHandwritingTraceSession(9);
+        hostMillis=100;uiHandwritingRecordTouch(true,100,140,100);
+        auto traceState=uiHandwritingTraceState(100);
+        check(traceState.canvas && traceState.contact && traceState.originX==78 && traceState.originY==112 &&
+              points[0].x==22 && points[0].y==28 && traceState.points==1 && traceState.drawn==1,
+              "touch trace reports actual canvas origin while preserving physical-to-local coordinates");
+        hostMillis=110;uiHandwritingRecordTouch(true,200,200,110);
+        traceState=uiHandwritingTraceState(115);
+        check(traceState.points==2 && traceState.drawn==1 && traceState.pendingAgeMs==5 && traceState.connects,
+              "touch trace distinguishes captured points from pending ink and its true age");
+        hostMillis=120;uiHandwritingRecordTouch(false,200,200,120);traceState=uiHandwritingTraceState(120);
+        check(!traceState.contact && traceState.drawn==2 && traceState.drawAtMs==120 && traceState.drawLagMs==10,
+              "forced release draw records the completion timestamp and oldest pending sample latency");
+        hostMillis=130;uiHandwritingRecordTouch(true,250,150,130);
+        check(!points[2].connectsPrevious,"diagnostics do not join an observed lift to the next stroke");
+        const auto pointsBeforeTraceToggle=pointCount;const auto generationBeforeTraceToggle=captureGeneration;
+        uiHandwritingTraceSession(0);uiHandwritingTraceSession(10);
+        check(pointCount==pointsBeforeTraceToggle && captureGeneration==generationBeforeTraceToggle,
+              "trace off/on preserves ink, contact and recognition generation");
+        hostMillis=140;uiHandwritingTouchUnavailable(140);traceState=uiHandwritingTraceState(140);
+        check(!traceState.contact && !touchSampleAvailable && pointCount==pointsBeforeTraceToggle,
+              "diagnostics preserve the existing unknown-input boundary without discarding ink");
+        hostMillis=150;uiHandwritingRecordTouch(false,250,150,150);
+        hostMillis=1400;char traceLetter='\0';uiHandwritingPoll(traceLetter,1400,true);
+        traceState=uiHandwritingTraceState(1400);
+        check(!traceState.recognizerReady && traceState.fallbackCount==1,
+              "real classifier allocation fallback is counted without changing recognition semantics");
+        uiHandwritingTraceSession(0);
+    }
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;
 }

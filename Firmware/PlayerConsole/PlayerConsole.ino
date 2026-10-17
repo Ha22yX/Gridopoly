@@ -18,6 +18,7 @@
 #include "espnow_player_transport.h"
 #include "hardware_input.h"
 #include "input_dispatch.h"
+#include "touch_trace.h"
 #include "logic_tests.h"
 #include "lvgl_v8_port.h"
 #include "rom_console_stream.h"
@@ -104,7 +105,11 @@ void serviceInputTrace(uint32_t nowMs)
             continue;
         }
         line[length] = '\0';
-        if (!overflow && std::strcmp(line, "INPUT TRACE ON") == 0) {
+        if (!overflow && std::strcmp(line, "TOUCH TRACE ON") == 0) {
+            touchTraceStart(nowMs);
+        } else if (!overflow && std::strcmp(line, "TOUCH TRACE OFF") == 0) {
+            touchTraceStop(nowMs);
+        } else if (!overflow && std::strcmp(line, "INPUT TRACE ON") == 0) {
             hardwareInputClearDiagnostics();
             inputTraceEnabled = true;
             inputTraceDeadlineMs = nowMs + 90000u;
@@ -937,6 +942,7 @@ void loop()
     TransportCommand command{};
     TransportEvent transportEvent{};
     serviceInputTrace(nowMs);
+    touchTraceService(millis()); // bounded USB writes outside the LVGL lock
 #if GRIDOPOLY_BATTERY_ENABLED
     batteryHardwareTick(millis());
 #endif

@@ -47,6 +47,8 @@ SemaphoreHandle_t recognitionModelMutex = nullptr;
 TaskHandle_t recognitionTaskHandle = nullptr;
 
 constexpr uint32_t kInkFlushIntervalMs = 16;
+uint32_t traceSession = 0, traceDrawUs = 0, traceDrawLagMs = 0, traceDrawAtMs = 0, traceFallbackUs = 0;
+uint16_t traceFallbackCount = 0;
 
 // Recognition uses a persistent workspace so neither the UI task nor the
 // low-priority inference worker needs a large temporary stack frame.
@@ -587,8 +589,15 @@ void flushCapturedInk(uint32_t nowMs, bool force)
 {
     if (drawnPointCount >= pointCount || activeCanvas == nullptr) return;
     if (!force && nowMs - lastInkFlushMs < kInkFlushIntervalMs) return;
+    const uint32_t traceStartedUs = traceSession ? micros() : 0;
+    const uint32_t oldestSampleMs = points[drawnPointCount].sampledAtMs;
     while (drawnPointCount < pointCount) drawCapturedSample(drawnPointCount++);
     lastInkFlushMs = nowMs;
+    if (traceSession) {
+        traceDrawUs = micros() - traceStartedUs;
+        traceDrawAtMs = millis();
+        traceDrawLagMs = traceDrawAtMs - oldestSampleMs;
+    }
 }
 
 void recognitionTask(void *)
@@ -786,7 +795,12 @@ bool uiHandwritingPoll(char &character, uint32_t nowMs, bool finishLetter)
     // Allocation failure fallback preserves input semantics; it is only used
     // when the low-priority worker could not be created.
     attemptedGeneration = captureGeneration;
+    const uint32_t traceStartedUs = traceSession ? micros() : 0;
     character = uiHandwritingRecognizeSamples(points, pointCount);
+    if (traceSession) {
+        traceFallbackUs = micros() - traceStartedUs;
+        if (traceFallbackCount != UINT16_MAX) ++traceFallbackCount;
+    }
     if (character == '\0') { recognitionFailed = true; return false; }
     uiHandwritingClearInk();
     return character != '\0';
@@ -849,4 +863,29 @@ void uiHandwritingReset()
         // its result stale and prevents it from clearing a newly created page.
         xSemaphoreGive(recognitionStateMutex);
     }
+}
+
+void uiHandwritingTraceSession(uint32_t session)
+{
+    if (traceSession == session) return;
+    traceSession = session;
+    traceDrawUs = traceDrawLagMs = traceDrawAtMs = traceFallbackUs = 0;
+    traceFallbackCount = 0;
+}
+
+UiHandwritingTraceState uiHandwritingTraceState(uint32_t nowMs)
+{
+    UiHandwritingTraceState out{};
+    out.generation = captureGeneration; out.points = pointCount; out.drawn = drawnPointCount;
+    out.canvas = activeCanvas != nullptr; out.contact = canvasContactActive;
+    out.connects = pointCount && points[pointCount - 1].connectsPrevious;
+    out.recognizerReady = recognitionTaskHandle != nullptr;
+    out.pendingAgeMs = drawnPointCount < pointCount ? nowMs - points[drawnPointCount].sampledAtMs : 0;
+    out.drawUs = traceDrawUs; out.drawLagMs = traceDrawLagMs; out.drawAtMs = traceDrawAtMs;
+    out.fallbackCount = traceFallbackCount; out.fallbackUs = traceFallbackUs;
+    if (activeCanvas != nullptr) {
+        lv_area_t area{}; lv_obj_get_coords(activeCanvas, &area);
+        out.originX = area.x1; out.originY = area.y1;
+    }
+    return out;
 }

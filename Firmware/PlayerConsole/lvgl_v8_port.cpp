@@ -11,6 +11,7 @@
 #include "lvgl_v8_port.h"
 #include "frame_presentation_tracker.h"
 #include "touch_input_filter.h"
+#include "touch_trace.h"
 #include "ui_handwriting.h"
 
 using namespace esp_panel::drivers;
@@ -770,25 +771,63 @@ static lv_disp_t *display_init(LCD *lcd)
     return display;
 }
 
+using TouchCoordinateProcessor = void (*)(esp_lcd_touch_handle_t, uint16_t *, uint16_t *, uint16_t *, uint8_t *, uint8_t);
+static TouchCoordinateProcessor previousCoordinateProcessor = nullptr;
+static uint32_t traceReadToken = 0;
+static bool traceRawPresent = false;
+static int16_t traceRawX = 0, traceRawY = 0;
+static void traceCoordinates(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y,
+                             uint16_t *strength, uint8_t *count, uint8_t capacity)
+{
+    if (traceReadToken && *count) {
+        traceRawPresent = true; traceRawX = static_cast<int16_t>(x[0]); traceRawY = static_cast<int16_t>(y[0]);
+    }
+    if (previousCoordinateProcessor) previousCoordinateProcessor(tp, x, y, strength, count, capacity);
+}
+
 static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 {
     Touch *tp = (Touch *)indev_drv->user_data;
     TouchPoint point;
     static TouchInputState sample;
+    const int64_t readStartedUs = touchTraceEnabled() ? esp_timer_get_time() : 0;
+    const uint32_t token = readStartedUs ? touchTraceToken(static_cast<uint32_t>(readStartedUs / 1000)) : 0;
+    uiHandwritingTraceSession(token);
+    traceReadToken = token; traceRawPresent = false;
 
-    /* Read data from touch controller */
-    int read_touch_result = tp->readPoints(&point, 1, 0);
-    const uint32_t sampledAtMs = static_cast<uint32_t>(esp_timer_get_time() / 1000);
-    if (sample.update(read_touch_result,
+    // Exactly the existing one read; trace does not add bus operations or change points.
+    const int64_t transactionStartedUs = token ? esp_timer_get_time() : 0;
+    const int read_touch_result = tp->readPoints(&point, 1, 0);
+    const int64_t readEndedUs = esp_timer_get_time();
+    const uint32_t sampledAtMs = static_cast<uint32_t>(readEndedUs / 1000);
+    traceReadToken = 0;
+    const bool valid = sample.update(read_touch_result,
                       read_touch_result > 0 ? point.x : 0,
-                      read_touch_result > 0 ? point.y : 0, sampledAtMs)) {
-        uiHandwritingRecordTouch(sample.pressed, sample.x, sample.y, sampledAtMs);
-    } else {
-        uiHandwritingTouchUnavailable(sampledAtMs);
-    }
+                      read_touch_result > 0 ? point.y : 0, sampledAtMs);
+    if (valid) uiHandwritingRecordTouch(sample.pressed, sample.x, sample.y, sampledAtMs);
+    else uiHandwritingTouchUnavailable(sampledAtMs);
     data->point.x = sample.x;
     data->point.y = sample.y;
     data->state = sample.pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+    if (token) {
+        const auto ink = uiHandwritingTraceState(static_cast<uint32_t>(esp_timer_get_time() / 1000));
+        TouchTraceSample record{};
+        record.atMs = sampledAtMs; record.readUs = static_cast<uint32_t>(readEndedUs - transactionStartedUs);
+        record.result = static_cast<int8_t>(read_touch_result);
+        record.rawX = traceRawPresent ? traceRawX : 0; record.rawY = traceRawPresent ? traceRawY : 0;
+        record.screenX = read_touch_result > 0 ? point.x : sample.x;
+        record.screenY = read_touch_result > 0 ? point.y : sample.y;
+        record.originX = ink.originX; record.originY = ink.originY;
+        record.localX = record.screenX - ink.originX; record.localY = record.screenY - ink.originY;
+        record.flags = (traceRawPresent ? 1 : 0) | (valid ? 2 : 0) | (sample.pressed ? 4 : 0) |
+            (ink.canvas ? 8 : 0) | (ink.contact ? 16 : 0) | (ink.connects ? 32 : 0) |
+            (read_touch_result > 0 && !valid ? 64 : 0);
+        record.generation = ink.generation; record.points = ink.points; record.drawn = ink.drawn;
+        record.pendingAgeMs = ink.pendingAgeMs; record.drawUs = ink.drawUs; record.drawLagMs = ink.drawLagMs;
+        record.drawAtMs = ink.drawAtMs; record.recognizerReady = ink.recognizerReady;
+        record.fallbackCount = ink.fallbackCount; record.fallbackUs = ink.fallbackUs;
+        touchTraceRecord(record, token, static_cast<uint32_t>(readStartedUs));
+    }
 }
 
 static lv_indev_t *indev_init(Touch *tp)
@@ -796,6 +835,13 @@ static lv_indev_t *indev_init(Touch *tp)
     ESP_UTILS_CHECK_FALSE_RETURN(tp != nullptr, nullptr, "Invalid touch device");
     ESP_UTILS_CHECK_FALSE_RETURN(tp->getPanelHandle() != nullptr, nullptr, "Touch device is not initialized");
 
+    // Observe the driver-decoded coordinates before its existing mirror/swap step.
+    // The callback forwards any prior user hook and never modifies the coordinates.
+    auto panel = tp->getPanelHandle();
+    if (panel->config.process_coordinates != traceCoordinates) {
+        previousCoordinateProcessor = panel->config.process_coordinates;
+        panel->config.process_coordinates = traceCoordinates;
+    }
     static lv_indev_drv_t indev_drv_tp;
 
     ESP_UTILS_LOGD("Register input driver to LVGL");
