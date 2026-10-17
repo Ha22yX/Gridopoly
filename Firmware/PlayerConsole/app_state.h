@@ -91,3 +91,15 @@ const char *appArrivalDisplayName(const AppState &state);
 uint8_t appArrivalAssetIndex(const AppState &state);
 uint8_t appArrivalOwnerId(const AppState &state);
 int32_t appArrivalAmount(const AppState &state);
+
+// One action list drives Home input, count, rendering and focus reconciliation.
+uint8_t appHomeActions(const AppState &state, HomeAction (&actions)[5]);
+bool appHomeActionsEqual(const AppState &a, const AppState &b);
+bool appBuildSnapshotCurrent(const AppState &state);
+uint8_t appHomeBuildAsset(const AppState &state); // 0xFF unless current authority qualifies
+uint8_t appBuildGroupCount(const AppState &state);
+uint8_t appBuildGroupAssetAt(const AppState &state, uint8_t index);
+bool appBuildContextCurrent(const AppState &state);
+// Null means one level may be requested; text is a user-visible blocking reason.
+const char *appAssetBuildReason(const AppState &state, uint8_t assetIndex);
+int32_t appAssetNextRent(const AppState &state, uint8_t assetIndex);

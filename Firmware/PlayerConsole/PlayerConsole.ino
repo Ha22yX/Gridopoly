@@ -188,7 +188,7 @@ static_assert(480 % kRgbBounceBufferRows == 0 &&
 
 bool pageUsesRemoteTileArtwork(ScreenPage page)
 {
-    return page == ScreenPage::Home || page == ScreenPage::AssetDetail ||
+    return page == ScreenPage::Home || page == ScreenPage::AssetDetail || page == ScreenPage::Build ||
            page == ScreenPage::MoveGuide || page == ScreenPage::TileEvent ||
            page == ScreenPage::CardReveal || page == ScreenPage::Purchase ||
            page == ScreenPage::Auction;

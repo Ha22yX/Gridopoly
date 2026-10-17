@@ -1,3 +1,4 @@
+#include "app_state.h"
 #include "ui_carousel.h"
 
 #include "src/fonts/ui_fonts.h"
@@ -45,6 +46,7 @@ const char *actionLabel(HomeAction action)
         case HomeAction::Assets: return "ASSETS";
         case HomeAction::Players: return "PLAYERS";
         case HomeAction::Trade: return "TRADE";
+        case HomeAction::Build: return "BUILD";
     }
     return "";
 }
@@ -58,6 +60,7 @@ const char *actionIcon(HomeAction action)
         case HomeAction::Assets: return "$";
         case HomeAction::Players: return "P";
         case HomeAction::Trade: return "<>";
+        case HomeAction::Build: return "+";
     }
     return "";
 }
@@ -430,17 +433,10 @@ int8_t uiCarouselSwipeStep(int16_t dx, int16_t dy)
 
 uint8_t uiCarouselActions(HomePhase phase, HomeAction (&actions)[5])
 {
-    if (phase == HomePhase::MyTurn || phase == HomePhase::MyTurnEnd) {
-        actions[0] = phase == HomePhase::MyTurn ? HomeAction::Dice : HomeAction::EndTurn;
-        actions[1] = HomeAction::Assets;
-        actions[2] = HomeAction::Players;
-        actions[3] = HomeAction::Trade;
-        return 4;
-    }
-    actions[0] = HomeAction::Assets;
-    actions[1] = HomeAction::Players;
-    actions[2] = HomeAction::Trade;
-    return 3;
+    // Compatibility for isolated carousel fixtures; production uses its AppState.
+    AppState state{};
+    state.homePhase = phase;
+    return appHomeActions(state, actions);
 }
 
 void uiCarouselCreate(UiCarousel &carousel, lv_obj_t *parent,

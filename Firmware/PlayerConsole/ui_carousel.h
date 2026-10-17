@@ -6,15 +6,6 @@
 
 #include "app_types.h"
 
-enum class HomeAction : uint8_t {
-    Dice,
-    ExtraRoll,
-    EndTurn,
-    Assets,
-    Players,
-    Trade,
-};
-
 enum class CarouselPath : uint8_t {
     Linear,
     WrapLeftToRight,

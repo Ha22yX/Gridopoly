@@ -1,6 +1,7 @@
 #include "../../ui_handwriting.cpp"
 #include "../../ui_renderer.cpp"
 #include "../../ui_battery.h"
+#include "../home-build-fixtures.h"
 #include <vector>
 #include <fstream>
 
@@ -18,7 +19,27 @@ void remoteTileCacheBegin() {}
 void remoteTileCacheSetView(uint32_t, uint8_t, GridCityArtwork, const char *, uint8_t) {}
 void remoteTileCacheReleaseImage(const lv_img_dsc_t *) {}
 void remoteTileCachePrefetch(GridCityArtwork, const char *, uint8_t) {}
-const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork, const char *, uint8_t) { return nullptr; }
+bool buildArtworkPreview = false;
+const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork, const char *key, uint8_t level) {
+    if (!buildArtworkPreview || !key || std::strcmp(key, "a1-rivet-row") != 0) return nullptr;
+    static uint8_t pixels[4][32768]{};
+    static lv_img_dsc_t descriptors[4]{};
+    static bool loaded = false;
+    if (!loaded) {
+        const char *files[] = {"build-l0.rgb565", "build-l1.rgb565", "build-l4.rgb565", "build-l5.rgb565"};
+        for (uint8_t i = 0; i < 4; ++i) {
+            std::ifstream input(files[i], std::ios::binary);
+            input.read(reinterpret_cast<char *>(pixels[i]), sizeof(pixels[i]));
+            if (input.gcount() != sizeof(pixels[i])) { std::printf("Missing build preview fixture %s\n", files[i]); std::exit(2); }
+            descriptors[i].header.cf = LV_IMG_CF_TRUE_COLOR;
+            descriptors[i].header.w = descriptors[i].header.h = 128;
+            descriptors[i].data = pixels[i]; descriptors[i].data_size = sizeof(pixels[i]);
+        }
+        loaded = true;
+    }
+    if (level != 0 && level != 1 && level != 4 && level != 5) return nullptr;
+    return &descriptors[level == 4 ? 2 : level == 5 ? 3 : level];
+}
 bool remoteTileCacheConsumeUpdate() { return false; }
 
 namespace {
@@ -160,6 +181,33 @@ int main()
     check(std::strcmp(lv_label_get_text(ui.label), "0%  NO EXT") == 0,
           "valid empty battery and absent external input are displayed separately from unknown");
     screenshot("battery-modal-zero.ppm");
+    {
+        HomeBuildFixture f; appInit(app, 0, true); f.apply(app, 6000);
+        app.nav.current.focus = app.focus = homeFocusFor(app, HomeAction::Build);
+        appHandleUiEvent(app, UiEvent{UiEventKind::ActivateFocused, 0}, 6010);
+        buildArtworkPreview = true;
+        battery.measurementValid = battery.gpioValid = true;
+        battery.measurementAtMs = battery.gpioAtMs = 6010; battery.percent = 78;
+        battery.external = ExternalPower::Present; battery.charge = ChargeIndicator::Active;
+        uiRendererRender(app, 6010); uiBatteryRender(ui, battery, 6010); lv_obj_update_layout(lv_scr_act());
+        bool clear = contentClear(root, ui.root);
+        for (uint8_t i = 0; i < tapBindingCount; ++i) clear &= !overlaps(tapBindings[i].object, ui.root);
+        check(app.page == ScreenPage::Build && clear, "Build controls and artwork remain clear of actual battery overlay");
+        screenshot("battery-build-house.ppm");
+        app.authorityAssets[f.asset].buildingLevel = app.authorityAssets[f.peer].buildingLevel = 4;
+        ++app.revision; uiRendererRender(app, 6020); uiBatteryRender(ui, battery, 6020);
+        screenshot("battery-build-hotel.ppm");
+        check(contentClear(root, ui.root), "hotel upgrade preview and battery remain separate");
+        app.authorityAssets[f.asset].buildingLevel = 1; app.authorityAssets[f.peer].buildingLevel = 0;
+        ++app.revision; uiRendererRender(app, 6030); uiBatteryRender(ui, battery, 6030);
+        screenshot("battery-build-even.ppm");
+        check(contentClear(root, ui.root) && appAssetBuildReason(app, f.asset) != nullptr,
+              "even-building blocker and battery are visible together");
+        app.authorityAssets[f.asset].buildingLevel = app.authorityAssets[f.peer].buildingLevel = 5;
+        ++app.revision; uiRendererRender(app, 6040); uiBatteryRender(ui, battery, 6040);
+        screenshot("battery-build-maximum.ppm");
+        buildArtworkPreview = false;
+    }
     battery.enabled = false; uiBatteryRender(ui, battery, 5001);
     check(ui.root == nullptr && lv_obj_get_child_cnt(lv_layer_top()) == initialChildren, "disabling removes only the battery status layer");
     std::printf("RESULT passed=%u failed=%u\n", passed, failed);

@@ -48,6 +48,7 @@ enum class ScreenPage : uint8_t {
     GameOver,
     Spectator,
     WaitingForGame,
+    Build,
 };
 
 enum class IdentityClientPhase : uint8_t {
@@ -78,6 +79,8 @@ enum class HomePhase : uint8_t {
     MyTurn,
     MyTurnEnd,
 };
+
+enum class HomeAction : uint8_t { Dice, ExtraRoll, EndTurn, Assets, Players, Trade, Build };
 
 enum class EndTurnPresentationPhase : uint8_t {
     None,
@@ -138,6 +141,7 @@ enum class InlineEditField : uint8_t {
     None,
     TradeReceiver,
     TradeAmount,
+    BuildProperty,
 };
 
 enum class TradeEntryMode : uint8_t {
@@ -404,6 +408,8 @@ struct AppState {
     IdentityState identity{};
     uint8_t focus = 0;
     uint8_t selectedAsset = 0;
+    uint8_t buildAnchorAsset = 0xFF, buildOriginPosition = 0xFF, buildBoardSize = 0;
+    uint32_t buildRoomId = 0;
     uint8_t selectedPlayer = 1;
     uint8_t assetListIndex = 0;
     uint8_t playerListIndex = 0;
@@ -523,6 +529,11 @@ struct AppState {
     uint32_t boardIdHash = 0;
     uint32_t lastEventSequence = 0;
     bool fullAuthoritySnapshotValid = false;
+    uint32_t fullAuthorityStateVersion = 0, compactAuthorityStateVersion = 0;
+    bool authoritativeMovePending = false;
+    uint32_t fullAuthorityRoomId = 0;
+    uint8_t fullAuthorityPosition = 0xFF, fullAuthorityBoardSize = 0;
+    uint8_t fullAuthoritySelfId = 0, fullAuthorityActivePlayerId = 0;
     bool rosterSnapshotValid = false;
     bool boardCatalogCompatible = true;
     bool authoritySnapshotValid = false;

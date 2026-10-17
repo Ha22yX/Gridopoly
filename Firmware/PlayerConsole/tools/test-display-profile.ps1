@@ -29,16 +29,27 @@ foreach ($mode in @('production','selftest','espnow')) {
 foreach ($options in @(
     @{Mode='selftest'; DisplayClock='pclk12'},
     @{Mode='espnow'; DisplayClock='pclk12'},
-    @{BatteryBoard='viewe-md80et-v10'; DisplayClock='pclk12'},
     @{Mode='selftest'; DisplayDiagnostic='counters'},
     @{Mode='espnow'; DisplayDiagnostic='counters'},
     @{BatteryBoard='viewe-md80et-v10'; DisplayDiagnostic='counters'},
+    @{BatteryBoard='viewe-md80et-v10'; DisplayClock='pclk12'; DisplayDiagnostic='counters'},
+    @{Mode='selftest'; BatteryBoard='viewe-md80et-v10'; DisplayClock='pclk12'},
+    @{Mode='espnow'; BatteryBoard='viewe-md80et-v10'; DisplayClock='pclk12'},
     @{DisplayClock='unsupported'},
     @{DisplayDiagnostic='unsupported'}
 )) {
     $rejected = $false
     try { Resolve-PlayerDisplayProfile @options | Out-Null } catch { $rejected = $true }
     if (!$rejected) { throw 'Unsupported profile was accepted' }
+    ++$checked
+}
+foreach ($clock in @('vendor','pclk12')) {
+    $profile = Resolve-PlayerDisplayProfile -Mode production -BatteryBoard viewe-md80et-v10 -DisplayClock $clock
+    if ($profile.diagnosticOnly -or $profile.displayDiagnostic -ne 'none' -or
+        $profile.requestedPclkHz -ne $(if ($clock -eq 'pclk12') {12000000} else {16000000}) -or
+        ($profile.extraFlags -match 'DISPLAY_PCLK_HZ') -ne ($clock -eq 'pclk12')) {
+        throw "Battery/clock combination mismatch: $clock"
+    }
     ++$checked
 }
 Write-Host "DISPLAY PROFILE $checked/$checked PASS"

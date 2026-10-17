@@ -4,6 +4,7 @@
 #include "../../ui_renderer.cpp"
 #include "../../touch_input_filter.h"
 #include "handwriting-fixtures.h"
+#include "../home-build-fixtures.h"
 #include <gridopoly/core/BoardCatalog.h>
 
 void remoteAvatarCacheBegin() {}
@@ -513,6 +514,169 @@ int main() {
     check(!selectedArtwork.valid() && !prefetchedArtwork.valid() && artAcquires == artReleases,
           "leaving artwork pages cancels demand and releases final LVGL image");
     artReady = false;
+    // Real reducer + renderer: ordered and partial authority updates, not demo assets.
+    {
+        HomeBuildFixture f; AppState build{};
+        auto reset = [&] { appInit(build, 0, true); f.apply(build); };
+        auto open = [&] {
+            build.nav.current.focus = build.focus = homeFocusFor(build, HomeAction::Build);
+            appHandleUiEvent(build, UiEvent{UiEventKind::ActivateFocused, 0}, 200);
+        };
+        reset(); HomeAction actions[5]{};
+        check(appHomeActions(build, actions) == 5 && actions[1] == HomeAction::Build &&
+              appPageContentCount(build) == 5 && appHomeBuildAsset(build) == f.asset,
+              "Home count input and renderer share the qualified five-action list");
+        build.nav.current.focus = build.focus = 1; ++build.revision;
+        uiRendererRender(build, 201);
+        check(homeCarousel.count == 5 && homeCarousel.actions[homeCarousel.selected] == HomeAction::Build,
+              "Home renderer presents the same Build action selected by reducer");
+        auto compact = f.compact; auto full = f.full;
+        compact.stateVersion = full.stateVersion = 11;
+        appHandleTransportEvent(build, compact, 210); uiRendererRender(build, 210);
+        check(build.focus == 1 && homeFocusFor(build, HomeAction::Build) == 1 &&
+              !appBuildSnapshotCurrent(build) && appAssetBuildReason(build, f.asset) != nullptr,
+              "new compact retains selected Build but blocks stale ownership submission");
+        appHandleUiEvent(build, UiEvent{UiEventKind::ActivateFocused, 0}, 211);
+        check(build.page == ScreenPage::Home && build.commandCount == 0,
+              "disabled Home shortcut cannot open or submit during partial sync");
+        appHandleTransportEvent(build, full, 220); uiRendererRender(build, 220);
+        check(build.focus == 1 && appBuildSnapshotCurrent(build) &&
+              homeCarousel.actions[homeCarousel.selected] == HomeAction::Build,
+              "matching full restores readiness without changing Build focus");
+        compact.resync = true; appHandleTransportEvent(build, compact, 230);
+        check(build.focus == 1 && homeFocusFor(build, HomeAction::Build) == 1,
+              "same-context resync preserves Home Build action focus");
+        open();
+        check(build.page == ScreenPage::Build && build.selectedAsset == f.asset &&
+              build.modal.kind == ModalKind::None && appBuildContextCurrent(build),
+              "Home shortcut opens current owned property without a popup");
+        compact.resync = false; compact.stateVersion = full.stateVersion = 12;
+        appHandleTransportEvent(build, compact, 240);
+        check(build.page == ScreenPage::Build && build.nav.stack[0].focus == 1 &&
+              !appBuildContextCurrent(build),
+              "partial sync preserves Build page and Home action in navigation stack");
+        appHandleTransportEvent(build, full, 250);
+        compact.resync = true; appHandleTransportEvent(build, compact, 260);
+        check(build.page == ScreenPage::Build && build.nav.stack[0].focus == 1,
+              "same-context Build resync keeps page and parent focus");
+        appHandleTouch(build, TouchAction::DetailPrimary, 270);
+        appHandleInput(build, InputEvent{InputKind::Rotate, 1, 271}, 271);
+        check(build.selectedAsset == f.peer && build.inlineEditField == InlineEditField::BuildProperty,
+              "rotary group selector chooses another property for even building");
+        appHandleTransportEvent(build, full, 272);
+        check(build.inlineEditField == InlineEditField::BuildProperty && build.selectedAsset == f.peer,
+              "ordinary unchanged authority heartbeat does not steal property editing");
+        appHandleTouch(build, TouchAction::DetailPrimary, 280);
+        const int32_t cash = build.money;
+        appHandleTouch(build, TouchAction::DetailSecondary, 290);
+        appHandleTouch(build, TouchAction::DetailSecondary, 291);
+        TransportCommand request{};
+        const bool issued = appPollCommand(build, request);
+        check(issued && request.kind == TransportCommandKind::BuildRequest && request.assetIndex == f.peer &&
+              build.commandCount == 0 && build.money == cash && appAssetBuildingLevel(build, f.peer) == 0,
+              "one click requests one level; repeated click adds none and assets are not optimistic");
+        check(appAssetBuildReason(build, f.peer) &&
+              std::strstr(appAssetBuildReason(build, f.peer), "PENDING"),
+              "pending build has an explicit disabled reason");
+        TransportEvent ack{}; ack.kind = TransportEventKind::CommandCompleted;
+        ack.requestId = request.requestId; ack.stateVersion = 13;
+        appHandleTransportEvent(build, ack, 300);
+        appHandleTouch(build, TouchAction::DetailSecondary, 301);
+        check(build.commandCount == 0 && !appBuildSnapshotCurrent(build),
+              "accepted command waits for matching authoritative assets before another level");
+        compact.resync = false; compact.stateVersion = full.stateVersion = 13;
+        full.assets[f.peer].buildingLevel = 1; full.players[0].cash -= appAssetBuildingCost(build, f.peer);
+        compact.cash = full.players[0].cash;
+        appHandleTransportEvent(build, compact, 310); appHandleTransportEvent(build, full, 311);
+        check(build.page == ScreenPage::Build && build.selectedAsset == f.peer &&
+              appAssetBuildingLevel(build, f.peer) == 1 &&
+              std::strstr(appAssetBuildReason(build, f.peer), "EVENLY"),
+              "authority alone updates level and directs user to lower same-group property");
+        build.selectedAsset = f.asset;
+        check(appAssetBuildReason(build, f.asset) == nullptr,
+              "same-group lower property remains buildable without returning to Home");
+        build.authorityAssets[f.asset].buildingLevel = build.authorityAssets[f.peer].buildingLevel = 4;
+        check(appAssetBuildReason(build, f.asset) == nullptr && appAssetNextRent(build, f.asset) > appAssetRent(build, f.asset),
+              "four houses offer the next hotel level and its rent");
+        build.authorityAssets[f.asset].buildingLevel = 5;
+        check(std::strstr(appAssetBuildReason(build, f.asset), "MAXIMUM") != nullptr,
+              "hotel has a maximum-level explanation without another request");
+        reset(); open(); build.money = 0;
+        check(std::strstr(appAssetBuildReason(build, f.asset), "CASH") != nullptr, "cash shortage is explained");
+        build.money = 1000; build.authorityAssets[f.peer].flags = 1;
+        check(std::strstr(appAssetBuildReason(build, f.asset), "MORTGAGES") != nullptr, "peer mortgage blocks group building");
+        reset(); open();
+        for (uint8_t i = 0; i < build.authorityAssetCount; ++i) build.authorityAssets[i].buildingLevel = 4;
+        build.authorityAssets[f.asset].buildingLevel = build.authorityAssets[f.peer].buildingLevel = 0;
+        check(appBankBuildingStock(build) == 0 && std::strstr(appAssetBuildReason(build, f.asset), "HOUSES"),
+              "bank house shortage is explained");
+        for (uint8_t i = 0; i < build.authorityAssetCount; ++i) build.authorityAssets[i].buildingLevel = 5;
+        build.authorityAssets[f.asset].buildingLevel = build.authorityAssets[f.peer].buildingLevel = 4;
+        check(appBankLandmarkStock(build) == 0 && std::strstr(appAssetBuildReason(build, f.asset), "HOTELS"),
+              "bank hotel shortage is explained");
+        reset(); open(); TransportEvent lostBuild{}; lostBuild.kind = TransportEventKind::ConnectionLost;
+        appHandleTransportEvent(build, lostBuild, 400); appHandleTouch(build, TouchAction::DetailSecondary, 401);
+        check(build.page == ScreenPage::Build && build.commandCount == 0 &&
+              std::strstr(appAssetBuildReason(build, f.asset), "OFFLINE"),
+              "offline Build preserves page but cannot issue a command");
+        reset(); build.nav.current.focus = build.focus = homeFocusFor(build, HomeAction::Players);
+        full = f.full; full.assets[f.peer].ownerId = 2;
+        appHandleTransportEvent(build, full, 410);
+        check(homeFocusFor(build, HomeAction::Build) == 0xFF &&
+              build.focus == homeFocusFor(build, HomeAction::Players),
+              "losing full-group ownership removes shortcut while preserving Players action focus");
+        reset(); open(); appHandleTransportEvent(build, full, 420);
+        check(build.page == ScreenPage::Home, "confirmed group loss closes obsolete Build context");
+        reset(); open(); compact = f.compact; compact.stateVersion = 11; compact.playerPosition = 0;
+        appHandleTransportEvent(build, compact, 430);
+        check(build.page == ScreenPage::Home && homeFocusFor(build, HomeAction::Build) == 0xFF,
+              "confirmed position change cannot keep prior property shortcut");
+        reset(); open(); compact = f.compact; compact.activePlayerId = 2; compact.decisionPlayerId = 2;
+        appHandleTransportEvent(build, compact, 440);
+        check(build.page == ScreenPage::Home && homeFocusFor(build, HomeAction::Build) == 0xFF,
+              "turn change removes the own-turn shortcut and closes Build");
+        reset(); compact = f.compact; compact.phase = AuthorityPhase::AwaitMoveConfirm; compact.pendingTarget = f.position;
+        appHandleTransportEvent(build, compact, 450);
+        check(appHomeBuildAsset(build) == 0xFF, "pending arrival target never creates a Build shortcut");
+        reset(); open(); compact = f.compact; compact.roomId = 801; compact.stateVersion = 1; compact.resync = true;
+        appHandleTransportEvent(build, compact, 460);
+        check(build.page != ScreenPage::Build && appHomeBuildAsset(build) == 0xFF, "new room drops old ownership and Build context");
+        reset(); build.boardCatalogCompatible = false;
+        check(appHomeBuildAsset(build) == 0xFF && appAssetBuildReason(build, f.asset) != nullptr,
+              "catalog mismatch never enables a build");
+        reset(); build.moveArrivalConfirmed = false; build.moveArrivalPending = false;
+        build.rollTarget = 0xFF; build.rollResolved = false;
+        check(appHomeBuildAsset(build) == f.asset, "stable authoritative location does not rely on clearRollFlow flags");
+        compact = f.compact; compact.phase = AuthorityPhase::TurnEnd; compact.availableActions = (1u << 4) | (1u << 7);
+        full = f.full; full.phase = AuthorityPhase::TurnEnd;
+        appHandleTransportEvent(build, compact, 470); appHandleTransportEvent(build, full, 471);
+        check(appHomeBuildAsset(build) == f.asset && homeFocusFor(build, HomeAction::EndTurn) == 0,
+              "TurnEnd offers Build alongside the existing End Turn action");
+        build.availableActions = 0;
+        check(appAssetBuildReason(build, f.asset) != nullptr, "missing authoritative build permission disables submission");
+        reset(); build.nav.current.focus = build.focus = homeFocusFor(build, HomeAction::Build);
+        full = f.full; full.stateVersion = 11;
+        appHandleTransportEvent(build, full, 480);
+        check(homeFocusFor(build, HomeAction::Build) == build.focus && !appBuildSnapshotCurrent(build),
+              "full-first synchronization retains Home Build focus while submission waits");
+        compact = f.compact; compact.stateVersion = 11;
+        appHandleTransportEvent(build, compact, 481);
+        check(homeFocusFor(build, HomeAction::Build) == build.focus && appBuildSnapshotCurrent(build),
+              "matching compact completes full-first synchronization without moving focus");
+        reset(); open(); compact = f.compact; compact.boardSize = 24; compact.stateVersion = 11;
+        appHandleTransportEvent(build, compact, 490);
+        check(build.page != ScreenPage::Build && appHomeBuildAsset(build) == 0xFF,
+              "board remapping closes old Build context before its new full projection");
+        reset(); build.nav.current.page = build.page = ScreenPage::AssetDetail; build.selectedAsset = f.asset;
+        check(appAssetDetailActionEnabled(build, AssetDetailAction::Build) &&
+              appAssetBuildReason(build, f.asset) == nullptr,
+              "Assets Build action shares the fresh authoritative rule path");
+        compact = f.compact; compact.stateVersion = 11;
+        appHandleTransportEvent(build, compact, 500);
+        check(!appAssetDetailActionEnabled(build, AssetDetailAction::Build),
+              "Assets Build action also blocks during split snapshot synchronization");
+
+    }
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;
 }

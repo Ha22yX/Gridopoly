@@ -184,13 +184,16 @@ void BatteryTelemetry::finish(Action action, uint16_t value, uint32_t nowMs)
         next_ = Action::ClearMode; break;
     case Action::ClearMode: next_ = Action::VerifyMode; break;
     case Action::VerifyMode:
+        status_.gaugeMode = value;
         if (value & 0x6000) { fail(BatteryError::GaugeConfig, nowMs); return; }
         next_ = Action::ReadConfig; break;
     case Action::ReadConfig:
+        status_.gaugeConfig = value;
         config_ = value & static_cast<uint16_t>(~0x0080U);
         next_ = (value & 0x0080) ? Action::ClearSleep : Action::VerifyConfig; break;
     case Action::ClearSleep: next_ = Action::VerifyConfig; break;
     case Action::VerifyConfig:
+        status_.gaugeConfig = value;
         // ALRT can assert autonomously between the read and verification.
         if ((value & 0xFFDF) != (config_ & 0xFFDF)) { fail(BatteryError::GaugeConfig, nowMs); return; }
         status_.linkReady = true; status_.lastError = BatteryError::None;
@@ -224,6 +227,7 @@ void BatteryTelemetry::finish(Action action, uint16_t value, uint32_t nowMs)
 
 void BatteryTelemetry::updateGpio(uint8_t raw, uint32_t nowMs)
 {
+    status_.rawGpio = raw;
     raw &= 3U;
     const uint8_t chg = raw & 1U;
     // Missing sampling intervals cannot serve as evidence of a 2 Hz signal.

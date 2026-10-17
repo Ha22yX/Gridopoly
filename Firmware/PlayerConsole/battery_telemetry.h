@@ -31,6 +31,8 @@ struct BatteryStatus {
     uint16_t voltageMv = 0;
     uint8_t percent = 0;
     uint16_t gaugeVersion = 0;
+    uint16_t gaugeMode = 0, gaugeConfig = 0;
+    uint8_t rawGpio = 0;
     char bridgeVersion[16]{};
     uint32_t measurementAtMs = 0;
     uint32_t gpioAtMs = 0;

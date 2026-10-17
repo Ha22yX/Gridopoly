@@ -410,6 +410,9 @@ bool startNextActivityBanner(AppState &state, uint32_t nowMs)
 
 bool transportInterruptsInlineEditing(const AppState &state, const TransportEvent &event)
 {
+    if (state.page == ScreenPage::Build && state.inlineEditField == InlineEditField::BuildProperty &&
+        !event.resync && (event.kind == TransportEventKind::StateSnapshotApplied ||
+                          event.kind == TransportEventKind::AuthoritySnapshotApplied)) return false;
     if (event.kind == TransportEventKind::GameEventReceived ||
         event.kind == TransportEventKind::RosterSnapshotApplied) {
         return false;
@@ -543,6 +546,7 @@ bool isOrdinaryPage(ScreenPage page)
         case ScreenPage::Home:
         case ScreenPage::Assets:
         case ScreenPage::AssetDetail:
+        case ScreenPage::Build:
         case ScreenPage::Players:
         case ScreenPage::PlayerDetail:
         case ScreenPage::PlayerAssets:
@@ -681,9 +685,11 @@ uint8_t tradeSubmitFocus(const AppState &state)
 uint8_t contentCount(const AppState &state, ScreenPage page)
 {
     switch (page) {
-        case ScreenPage::Home:
-            return presentedHomePhase(state) == HomePhase::MyTurn ||
-                           presentedHomePhase(state) == HomePhase::MyTurnEnd ? 4 : 3;
+        case ScreenPage::Home: {
+            HomeAction actions[5]{};
+            return appHomeActions(state, actions);
+        }
+        case ScreenPage::Build: return 2;
         case ScreenPage::Assets: return appVisibleAssetCount(state);
         case ScreenPage::AssetDetail: return appAssetDetailActionCount(state);
         case ScreenPage::Players: return state.playerCount;
@@ -851,6 +857,50 @@ void resetHome(AppState &state, uint8_t focus = 0)
     syncLegacyState(state);
     touchRevision(state);
 }
+
+void showToast(AppState &state, const char *message, uint32_t nowMs);
+
+// Authority and animation updates can insert/remove Home actions. Preserve the
+// action identity in both the visible menu and existing navigation stack.
+struct HomeNavigationGuard {
+    AppState &state;
+    uint32_t nowMs;
+    NavigationState before;
+    HomeAction actions[5]{};
+    uint8_t count;
+    HomeNavigationGuard(AppState &s, uint32_t now) : state(s), nowMs(now), before(s.nav), count(appHomeActions(s, actions)) {}
+    ~HomeNavigationGuard() {
+        if (state.nav.current.page == ScreenPage::Build) {
+            const bool changedContext = state.buildRoomId != state.authorityRoomId ||
+                state.buildBoardSize != state.boardSize || state.buildOriginPosition != state.position;
+            const bool invalidGroup = state.authorityOnline && appBuildSnapshotCurrent(state) &&
+                !appBuildContextCurrent(state);
+            if (changedContext || invalidGroup) {
+                resetHome(state);
+                showToast(state, "BUILD CONTEXT CHANGED", nowMs);
+            } else if (!state.authorityOnline && state.inlineEditField == InlineEditField::BuildProperty) {
+                clearInlineEditing(state);
+            }
+        }
+        HomeAction current[5]{};
+        const uint8_t currentCount = appHomeActions(state, current);
+        if (count == currentCount && std::equal(actions, actions + count, current)) return;
+        auto remap = [&](NavigationEntry &entry, const NavigationEntry &old) {
+            if (entry.page != ScreenPage::Home || old.page != ScreenPage::Home ||
+                entry.focus != old.focus || old.focus >= count) return;
+            uint8_t fallback = 0;
+            for (uint8_t i = 0; i < currentCount; ++i) {
+                if (current[i] == actions[old.focus]) { entry.focus = i; return; }
+                if (current[i] == HomeAction::Assets) fallback = i;
+            }
+            entry.focus = fallback;
+        };
+        remap(state.nav.current, before.current);
+        for (uint8_t i = 0; i < state.nav.depth && i < before.depth; ++i) remap(state.nav.stack[i], before.stack[i]);
+        syncLegacyState(state);
+        touchRevision(state);
+    }
+};
 
 uint8_t selfDoublesStreak(const AppState &state)
 {
@@ -1708,10 +1758,13 @@ void activate(AppState &state, uint32_t nowMs)
 
     switch (page) {
         case ScreenPage::Home: {
-            const bool ownTurn = state.homePhase == HomePhase::MyTurn ||
-                                 state.homePhase == HomePhase::MyTurnEnd;
-            if (ownTurn && focus == 0) {
-                if (state.homePhase == HomePhase::MyTurnEnd) {
+            HomeAction actions[5]{};
+            const uint8_t count = appHomeActions(state, actions);
+            if (focus >= count) return;
+            const HomeAction action = actions[focus];
+            if (action == HomeAction::Dice || action == HomeAction::ExtraRoll ||
+                action == HomeAction::EndTurn) {
+                if (action == HomeAction::EndTurn) {
                     if (queueCommand(state, TransportCommandKind::EndTurnRequest, 0, nowMs)) {
                         state.endTurnPresentation = EndTurnPresentationPhase::Exiting;
                         state.endTurnPresentationStartedMs = nowMs;
@@ -1750,10 +1803,20 @@ void activate(AppState &state, uint32_t nowMs)
                 }
                 return;
             }
-            const uint8_t menuFocus = ownTurn ? focus - 1 : focus;
-            if (menuFocus == 0) pushPage(state, ScreenPage::Assets);
-            else if (menuFocus == 1) pushPage(state, ScreenPage::Players);
-            else if (menuFocus == 2) {
+            if (action == HomeAction::Build) {
+                const uint8_t asset = appHomeBuildAsset(state);
+                if (asset == 0xFF || !state.authorityOnline || !appBuildSnapshotCurrent(state)) {
+                    showToast(state, state.authorityOnline ? "WAITING FOR CURRENT STATE" : "OFFLINE", nowMs);
+                    return;
+                }
+                state.buildAnchorAsset = state.selectedAsset = asset;
+                state.buildOriginPosition = state.position;
+                state.buildBoardSize = state.boardSize;
+                state.buildRoomId = state.authorityRoomId;
+                pushPage(state, ScreenPage::Build, 1);
+            } else if (action == HomeAction::Assets) pushPage(state, ScreenPage::Assets);
+            else if (action == HomeAction::Players) pushPage(state, ScreenPage::Players);
+            else if (action == HomeAction::Trade) {
                 if (!kTradeBackendAvailable) {
                     showToast(state, "TRADE REQUIRES WI-FI SERVER", nowMs);
                     return;
@@ -1769,6 +1832,24 @@ void activate(AppState &state, uint32_t nowMs)
                 state.tradeAssetListIndex = 0;
                 pushPage(state, ScreenPage::Trade);
             }
+            return;
+        }
+        case ScreenPage::Build: {
+            if (!appBuildContextCurrent(state)) {
+                showToast(state, state.authorityOnline ? "WAITING FOR CURRENT STATE" : "OFFLINE", nowMs);
+                return;
+            }
+            if (focus == 0) {
+                state.inlineEditField = state.inlineEditField == InlineEditField::BuildProperty
+                    ? InlineEditField::None : InlineEditField::BuildProperty;
+                touchRevision(state);
+                return;
+            }
+            clearInlineEditing(state);
+            const char *reason = appAssetBuildReason(state, state.selectedAsset);
+            if (reason) { showToast(state, reason, nowMs); return; }
+            if (queueCommand(state, TransportCommandKind::BuildRequest, 0, nowMs,
+                             0, 0, state.selectedAsset)) showToast(state, "BUILDING...", nowMs);
             return;
         }
         case ScreenPage::Assets:
@@ -2211,6 +2292,19 @@ void moveFocus(AppState &state, int16_t delta)
         applyIdentityDraftDelta(state, delta);
         return;
     }
+    if (state.nav.current.page == ScreenPage::Build &&
+        state.inlineEditField == InlineEditField::BuildProperty) {
+        if (!appBuildContextCurrent(state)) return;
+        const uint8_t count = appBuildGroupCount(state);
+        if (count == 0) return;
+        int32_t index = 0;
+        while (index < count && appBuildGroupAssetAt(state, index) != state.selectedAsset) ++index;
+        index = (index + delta) % count;
+        if (index < 0) index += count;
+        state.selectedAsset = appBuildGroupAssetAt(state, index);
+        touchRevision(state);
+        return;
+    }
     if (state.nav.current.page == ScreenPage::Trade &&
         state.inlineEditField != InlineEditField::None) {
         if (delta == 0) return;
@@ -2279,7 +2373,7 @@ void selectListItem(AppState &state, int16_t item, uint32_t nowMs)
     if (!isInteractiveListPage(state.nav.current.page) || state.nav.current.page == ScreenPage::Home) return;
     const uint8_t content = appPageContentCount(state);
     if (item < 0 || item >= content) return;
-    if (state.nav.current.page == ScreenPage::Trade &&
+    if ((state.nav.current.page == ScreenPage::Trade || state.nav.current.page == ScreenPage::Build) &&
         state.inlineEditField != InlineEditField::None &&
         state.nav.current.focus != static_cast<uint8_t>(item)) {
         clearInlineEditing(state);
@@ -2691,6 +2785,7 @@ void applyAuthoritySnapshot(AppState &state, const TransportEvent &event, uint32
     const uint32_t previousAuctionGeneration = state.auctionGeneration;
     const uint8_t previousAuctionHighestBidderId = state.auctionHighestBidderId;
     const int32_t previousAuctionCurrentBid = state.auctionCurrentBid;
+    state.compactAuthorityStateVersion = event.stateVersion;
     state.money = event.cash;
     state.position = event.playerPosition;
     if (event.playerCount == 0) return;
@@ -2880,6 +2975,13 @@ void applyFullAuthorityProjection(AppState &state, const TransportEvent &event, 
     state.boardIdHash = event.boardIdHash;
     state.boardCatalogCompatible = board != nullptr && expectedHash == event.boardIdHash;
     state.fullAuthoritySnapshotValid = true;
+    state.fullAuthorityStateVersion = event.stateVersion;
+    state.fullAuthorityRoomId = state.authorityRoomId;
+    state.fullAuthorityBoardSize = event.boardSize;
+    state.fullAuthoritySelfId = state.selfSeatId;
+    state.fullAuthorityActivePlayerId = event.activePlayerId;
+    state.fullAuthorityPosition = 0xFF;
+    state.authoritativeMovePending = (event.pendingMoveFlags & 1u) != 0;
     state.authoritySnapshotValid = true;
     state.playerCount = event.playerCount;
     state.boardSize = event.boardSize;
@@ -2895,6 +2997,7 @@ void applyFullAuthorityProjection(AppState &state, const TransportEvent &event, 
         if (event.players[index].playerId != state.selfSeatId) continue;
         state.money = event.players[index].cash;
         state.position = event.players[index].position;
+        state.fullAuthorityPosition = state.position;
         break;
     }
     state.debtCreditorId = event.debtCreditorId;
@@ -3858,6 +3961,126 @@ int32_t appDebtBuildingSaleProceeds(const AppState &state, uint8_t assetIndex)
     return std::max<int32_t>(0, appAssetBuildingCost(state, assetIndex) / 2);
 }
 
+bool appBuildSnapshotCurrent(const AppState &state)
+{
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.boardSize);
+    return state.authoritySnapshotValid && state.fullAuthoritySnapshotValid &&
+        state.boardCatalogCompatible && board && state.authorityAssetCount == board->assetCount &&
+        state.stateVersion != 0 && state.fullAuthorityStateVersion == state.stateVersion &&
+        state.compactAuthorityStateVersion == state.stateVersion;
+}
+
+uint8_t appHomeBuildAsset(const AppState &state)
+{
+    // Retain the last complete ownership view while the next compact/full pair
+    // converges in the SAME location/turn. Submission still requires both versions.
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.boardSize);
+    const bool sameCompleteContext = state.fullAuthoritySnapshotValid && board &&
+        state.boardCatalogCompatible && state.authorityAssetCount == board->assetCount &&
+        state.fullAuthorityRoomId == state.authorityRoomId && state.fullAuthorityBoardSize == state.boardSize &&
+        state.fullAuthoritySelfId == state.selfSeatId && state.fullAuthorityPosition == state.position &&
+        state.fullAuthorityActivePlayerId == state.activePlayerId;
+    if (!sameCompleteContext || state.selfSeatId == 0 ||
+        state.activePlayerId != state.selfSeatId || appSelfBankrupt(state) ||
+        state.identity.phase != IdentityClientPhase::Inactive || state.authoritativeMovePending ||
+        state.endTurnPresentation != EndTurnPresentationPhase::None ||
+        (state.pendingCommandMask & (commandMask(TransportCommandKind::RollRequest) |
+                                     commandMask(TransportCommandKind::EndTurnRequest))) != 0 ||
+        (state.authorityPhase != AuthorityPhase::AwaitRoll && state.authorityPhase != AuthorityPhase::TurnEnd))
+        return 0xFF;
+    if (state.position >= board->tileCount) return 0xFF;
+    const uint8_t asset = board->tiles[state.position].assetIndex;
+    uint8_t owned = 0, total = 0;
+    if (asset >= board->assetCount || !assetOwnedBySelf(state, asset) ||
+        !appAssetGroupProgress(state, asset, owned, total) || owned != total) return 0xFF;
+    for (uint8_t i = 0; i < board->assetCount; ++i)
+        if (board->assets[i].group == board->assets[asset].group &&
+            state.authorityAssets[i].buildingLevel > 5) return 0xFF;
+    return asset;
+}
+
+uint8_t appHomeActions(const AppState &state, HomeAction (&actions)[5])
+{
+    uint8_t count = 0;
+    const HomePhase phase = presentedHomePhase(state);
+    if (phase == HomePhase::MyTurn || phase == HomePhase::MyTurnEnd) {
+        actions[count++] = phase == HomePhase::MyTurnEnd ? HomeAction::EndTurn :
+            state.extraRollPresentation == ExtraRollPresentationPhase::Ready ? HomeAction::ExtraRoll : HomeAction::Dice;
+        if (appHomeBuildAsset(state) != 0xFF) actions[count++] = HomeAction::Build;
+    }
+    actions[count++] = HomeAction::Assets;
+    actions[count++] = HomeAction::Players;
+    actions[count++] = HomeAction::Trade;
+    return count;
+}
+
+bool appHomeActionsEqual(const AppState &a, const AppState &b)
+{
+    HomeAction left[5]{}, right[5]{};
+    const uint8_t count = appHomeActions(a, left);
+    return count == appHomeActions(b, right) && std::equal(left, left + count, right);
+}
+
+uint8_t appBuildGroupAssetAt(const AppState &state, uint8_t ordinal)
+{
+    const auto *board = gridopoly::core::BoardCatalog::findBySize(state.buildBoardSize);
+    if (!board || state.buildAnchorAsset >= board->assetCount) return 0xFF;
+    const auto &anchor = board->assets[state.buildAnchorAsset];
+    if (anchor.kind != gridopoly::core::TileKind::Property || anchor.group == gridopoly::core::kNoGroup) return 0xFF;
+    for (uint8_t i = 0; i < board->assetCount; ++i)
+        if (board->assets[i].kind == gridopoly::core::TileKind::Property && board->assets[i].group == anchor.group)
+            if (ordinal-- == 0) return i;
+    return 0xFF;
+}
+
+uint8_t appBuildGroupCount(const AppState &state)
+{
+    uint8_t count = 0;
+    while (count < 28 && appBuildGroupAssetAt(state, count) != 0xFF) ++count;
+    return count;
+}
+
+bool appBuildContextCurrent(const AppState &state)
+{
+    if (!state.authorityOnline || !appBuildSnapshotCurrent(state) ||
+        state.buildRoomId != state.authorityRoomId || state.buildBoardSize != state.boardSize ||
+        state.buildOriginPosition != state.position || appHomeBuildAsset(state) != state.buildAnchorAsset ||
+        state.buildAnchorAsset == 0xFF) return false;
+    for (uint8_t i = 0; i < appBuildGroupCount(state); ++i)
+        if (appBuildGroupAssetAt(state, i) == state.selectedAsset) return true;
+    return false;
+}
+
+const char *appAssetBuildReason(const AppState &state, uint8_t assetIndex)
+{
+    if (!state.authorityOnline) return "OFFLINE - WAIT FOR CONNECTION";
+    if (state.pendingCommandMask & commandMask(TransportCommandKind::BuildRequest)) return "BUILD REQUEST PENDING";
+    if (!appBuildSnapshotCurrent(state)) return "WAITING FOR CURRENT STATE";
+    if (state.page == ScreenPage::Build && !appBuildContextCurrent(state)) return "LOCATION OR GROUP CHANGED";
+    if (state.authorityPhase != AuthorityPhase::AwaitRoll && state.authorityPhase != AuthorityPhase::TurnEnd)
+        return "WAIT FOR A STABLE TURN";
+    if (appSelfBankrupt(state) || !assetOwnedBySelf(state, assetIndex)) return "PROPERTY NOT OWNED";
+    uint8_t owned = 0, total = 0;
+    if (!appAssetGroupProgress(state, assetIndex, owned, total) || owned != total) return "COMPLETE COLOR GROUP REQUIRED";
+    if (groupHasMortgage(state, assetIndex)) return "REDEEM ALL GROUP MORTGAGES";
+    const uint8_t level = appAssetBuildingLevel(state, assetIndex);
+    if (level > 5) return "WAITING FOR CURRENT STATE";
+    if (level == 5) return "HOTEL - MAXIMUM LEVEL";
+    if (!buildEvenlyAllowed(state, assetIndex)) return "BUILD EVENLY - CHOOSE LOWER LEVEL";
+    if (level == 4 ? appBankLandmarkStock(state) == 0 : appBankBuildingStock(state) == 0)
+        return level == 4 ? "NO HOTELS IN BANK" : "NO HOUSES IN BANK";
+    if (state.money < appAssetBuildingCost(state, assetIndex)) return "NOT ENOUGH CASH";
+    if (!actionExposed(state, kActionBuild)) return "BUILD NOT AVAILABLE";
+    return nullptr;
+}
+
+int32_t appAssetNextRent(const AppState &state, uint8_t assetIndex)
+{
+    const auto *asset = authorityAssetDefinition(state, assetIndex);
+    const uint8_t level = appAssetBuildingLevel(state, assetIndex);
+    return asset && level < 5 ? asset->economy.rent[level + 1] : appAssetRent(state, assetIndex);
+}
+
 uint8_t appAssetDetailActionCount(const AppState &state)
 {
     (void)state;
@@ -3911,13 +4134,7 @@ bool appAssetDetailActionEnabled(const AppState &state, AssetDetailAction action
                    appAssetBuildingLevel(state, assetIndex) == 0 &&
                    !groupHasBuildings(state, assetIndex);
         case AssetDetailAction::Build:
-            return actionExposed(state, kActionBuild) &&
-                   !groupHasMortgage(state, assetIndex) &&
-                   appAssetBuildingLevel(state, assetIndex) < 5 &&
-                   (appAssetBuildingLevel(state, assetIndex) == 4
-                        ? appBankLandmarkStock(state) != 0 : appBankBuildingStock(state) != 0) &&
-                   buildEvenlyAllowed(state, assetIndex) &&
-                   state.money >= appAssetBuildingCost(state, assetIndex);
+            return appAssetBuildReason(state, assetIndex) == nullptr;
         case AssetDetailAction::SellBuilding:
             return actionExposed(state, kActionSellBuilding) &&
                    appAssetBuildingLevel(state, assetIndex) != 0 &&
@@ -4171,6 +4388,7 @@ bool appPollCommand(AppState &state, TransportCommand &command)
 
 void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint32_t nowMs)
 {
+    HomeNavigationGuard homeGuard(state, nowMs);
     if (event.kind == TransportEventKind::JoinStatusChanged) {
         if (event.joinStatus == TransportJoinStatus::Inactive) return;
         // Admission refusal remains actionable through normal discovery retries.
@@ -4275,6 +4493,15 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
     const bool preserveActivityNavigation =
         event.kind == TransportEventKind::StateSnapshotApplied && event.resync &&
         !roomChanged && state.nav.current.page == ScreenPage::Activity;
+    const bool preserveHomeNavigation = event.kind == TransportEventKind::StateSnapshotApplied &&
+        event.resync && !roomChanged && state.page == ScreenPage::Home &&
+        event.boardSize == state.boardSize && event.playerPosition == state.position &&
+        event.activePlayerId == state.activePlayerId && event.phase == state.authorityPhase;
+    const bool preserveBuildNavigation = event.kind == TransportEventKind::StateSnapshotApplied &&
+        event.resync && !roomChanged && state.page == ScreenPage::Build &&
+        event.boardSize == state.buildBoardSize && event.playerPosition == state.buildOriginPosition &&
+        event.activePlayerId == state.selfSeatId &&
+        (event.phase == AuthorityPhase::AwaitRoll || event.phase == AuthorityPhase::TurnEnd);
     const bool preserveIdentityNavigation =
         !roomChanged && state.identity.phase != IdentityClientPhase::Inactive &&
         isIdentityPage(state.nav.current.page);
@@ -4415,7 +4642,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                 state.auctionReadyAttemptGeneration = 0;
                 state.auctionReadyAttemptAssetIndex = 0xFF;
                 if (!preserveRollPresentation && !preserveActivityNavigation &&
-                    !preserveIdentityNavigation) {
+                    !preserveIdentityNavigation && !preserveBuildNavigation && !preserveHomeNavigation) {
                     state.nav.current.page = ScreenPage::Home;
                     state.nav.current.focus = 0;
                     state.nav.current.listAnchor = 0;
@@ -4942,6 +5169,7 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
             return;
         }
         if (state.nav.current.page == ScreenPage::AssetDetail ||
+            state.nav.current.page == ScreenPage::Build ||
             state.nav.current.page == ScreenPage::PlayerDetail) {
             setFocus(state, 0);
             activate(state, nowMs);
@@ -4952,6 +5180,7 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
     }
     if (action == TouchAction::DetailSecondary &&
         (state.nav.current.page == ScreenPage::AssetDetail ||
+         state.nav.current.page == ScreenPage::Build ||
          state.nav.current.page == ScreenPage::PlayerDetail ||
          state.nav.current.page == ScreenPage::TradeOffer ||
          state.nav.current.page == ScreenPage::Purchase ||
@@ -4982,6 +5211,7 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
 
 void appTick(AppState &state, uint32_t nowMs, bool inputPending)
 {
+    HomeNavigationGuard homeGuard(state, nowMs);
     if (appAwaitingGame(state)) return;
     if (!appIdentityActive(state) && presentGameOutcome(state)) return;
     if (state.identity.tagPairSuccessUntilMs != 0 &&

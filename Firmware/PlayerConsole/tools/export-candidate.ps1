@@ -48,6 +48,7 @@ if (($inputs.flags -match '-DGRIDOPOLY_DISPLAY_DIAGNOSTIC=1(?:\s|$)') -ne $displ
     gitRevision = $inputs.gitRevision; sourceManifest = $inputs.sourceManifest
     displayDiagnostic = $displayDiagnostic; diagnosticOnly = ($displayDiagnostic -ne 'none')
     displayClock = $displayClock; requestedPclkHz = $displayProfile.requestedPclkHz
+    batteryBoard = $batteryBoard
     sourceDigest = (Get-FileHash -LiteralPath $inputs.sourceManifest).Hash.ToLowerInvariant()
     segments = $segments
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $candidatePath -Encoding utf8

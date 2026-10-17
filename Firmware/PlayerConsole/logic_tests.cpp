@@ -2476,6 +2476,9 @@ bool runStateLogicTests(Stream &out)
     assetActions.money = 1500;
     assetActions.fullAuthoritySnapshotValid = true;
     assetActions.authoritySnapshotValid = true;
+    assetActions.stateVersion = 1;
+    assetActions.fullAuthorityStateVersion = 1;
+    assetActions.compactAuthorityStateVersion = 1;
     assetActions.authorityAssetCount = 28;
     assetActions.availableActions = 0xFFFFFFFFu;
     assetActions.selectedAsset = 0;

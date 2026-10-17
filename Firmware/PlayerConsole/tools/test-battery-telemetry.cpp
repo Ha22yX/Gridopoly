@@ -1,5 +1,7 @@
 #include "battery_telemetry.h"
 #include "battery_hardware.h"
+#include "battery_diagnostics.h"
+#include <string>
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
@@ -238,6 +240,44 @@ int main()
         io.resetOnGpio = true; io.run(d, 150);
         check(!d.status(io.now).gpioValid && d.status(io.now).lastError == BatteryError::BridgeConfig,
               "bridge startup OK cannot masquerade as valid GPIO telemetry");
+    }
+    {
+        BatteryTelemetry driver; Device io; driver.begin(0); io.run(driver, 3000);
+        const auto state = driver.status(io.now);
+        check(state.gaugeMode == io.mode && state.gaugeConfig == io.config && state.rawGpio == 3,
+              "diagnostic MODE CONFIG and raw GPIO are verified readbacks");
+        struct Sink {
+            int capacity = 64;
+            std::vector<std::string> lines;
+            int availableForWrite() { return capacity; }
+            size_t write(const uint8_t *bytes, size_t size) { lines.emplace_back(reinterpret_cast<const char *>(bytes), size); return size; }
+        } sink;
+        BatteryDiagnostics logs; logs.begin(0);
+        for (uint32_t now = 0; now < 130000; now += 20) logs.tick(sink, state, now);
+        bool whole = true; unsigned samples = 0;
+        for (const auto &line : sink.lines) {
+            whole &= line.size() <= 63 && line.back() == '\n' && line.find("GP_BAT id=") == 0;
+            if (line.find(" ms=") != std::string::npos) ++samples;
+        }
+        check(whole && samples == 24 && sink.lines.size() == 120,
+              "120-second window emits 24 five-line samples atomically within 63 bytes");
+        check(sink.lines[0].find("id=1 ") != std::string::npos && sink.lines[4].find("id=1 ") != std::string::npos &&
+              sink.lines[4].find("mode=0000") != std::string::npos,
+              "all telemetry detail lines share one sample ID and include gauge setup evidence");
+        const auto ended = sink.lines.size(); logs.tick(sink, state, 500000);
+        check(sink.lines.size() == ended, "diagnostic window cannot silently restart later");
+        logs.begin(0); sink.lines.clear(); sink.capacity = 0;
+        for (uint32_t now = 0; now < 7000; now += 20) logs.tick(sink, state, now);
+        check(sink.lines.empty(), "full USB TX cannot trigger blocking or partial writes");
+        sink.capacity = 64;
+        for (uint32_t now = 7100; now < 11200; now += 20) logs.tick(sink, state, now);
+        check(sink.lines.size() == 5 && sink.lines.front().find("id=3 ") != std::string::npos,
+              "busy USB expires an old sample instead of resuming stale half-lines");
+        logs.begin(UINT32_MAX - 2000); sink.lines.clear();
+        for (uint32_t dt = 0; dt < 130000; dt += 20) logs.tick(sink, state, UINT32_MAX - 2000 + dt);
+        check(sink.lines.size() == 120, "bounded diagnostic cadence survives millis rollover");
+        auto disabled = state; disabled.enabled = false; logs.begin(0); sink.lines.clear(); logs.tick(sink, disabled, 1000);
+        check(sink.lines.empty(), "disabled telemetry emits no diagnostics");
     }
     std::printf("RESULT passed=%u failed=%u\n", passed, failed);
     return failed ? 1 : 0;

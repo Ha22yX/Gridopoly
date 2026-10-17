@@ -5,9 +5,11 @@ function Resolve-PlayerDisplayProfile {
         [ValidateSet('vendor','pclk12')][string]$DisplayClock = 'vendor',
         [ValidateSet('none','counters')][string]$DisplayDiagnostic = 'none'
     )
-    if (($DisplayClock -ne 'vendor' -or $DisplayDiagnostic -ne 'none') -and
-        ($Mode -ne 'production' -or $BatteryBoard -ne 'none')) {
-        throw 'Explicit display profiles require normal Wi-Fi firmware with battery telemetry disabled'
+    if (($DisplayClock -ne 'vendor' -or $DisplayDiagnostic -ne 'none') -and $Mode -ne 'production') {
+        throw 'Explicit display profiles require normal Wi-Fi firmware'
+    }
+    if ($DisplayDiagnostic -ne 'none' -and $BatteryBoard -ne 'none') {
+        throw 'Display diagnostics and battery telemetry are separate validation profiles'
     }
     $extraFlags = @()
     if ($DisplayClock -eq 'pclk12') { $extraFlags += '-DGRIDOPOLY_DISPLAY_PCLK_HZ=12000000' }

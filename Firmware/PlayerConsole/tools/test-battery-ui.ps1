@@ -11,6 +11,12 @@ foreach ($part in @('Firmware/PlayerConsole','Firmware/libraries/lvgl','Firmware
     & robocopy (Join-Path $repo $part) (Join-Path $stage $part) /E /XF secrets.local.h /XD __pycache__ /NFL /NDL /NJH /NJS /NP | Out-Null
     if ($LASTEXITCODE -ge 8) { throw "Source copy failed: $part" }
 }
+foreach ($fixture in @(@('Assets/GridCity/StreetV3/device-rgb565/a1-rivet-row.rgb565','build-l0.rgb565'),
+                       @('Assets/GridCity/DevelopmentV1/rgb565-player/a1-rivet-row-l1.rgb565','build-l1.rgb565'),
+                       @('Assets/GridCity/DevelopmentV1/rgb565-player/a1-rivet-row-l4.rgb565','build-l4.rgb565'),
+                       @('Assets/GridCity/DevelopmentV1/rgb565-player/a1-rivet-row-l5.rgb565','build-l5.rgb565'))) {
+    Copy-Item -LiteralPath (Join-Path $repo $fixture[0]) -Destination (Join-Path $OutputDir $fixture[1]) -Force
+}
 $cmake=Join-Path $VsRoot 'Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe'
 $ninja=Join-Path $VsRoot 'Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe'
 $vsDev=Join-Path $VsRoot 'Common7/Tools/VsDevCmd.bat'

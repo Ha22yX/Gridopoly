@@ -374,7 +374,8 @@ void selectVisibleArtwork(const AppState &state)
     uint8_t asset = 0xFF, position = 0xFF;
     switch (state.page) {
         case ScreenPage::Home: position = state.position; break;
-        case ScreenPage::AssetDetail: asset = state.selectedAsset; break;
+        case ScreenPage::AssetDetail:
+        case ScreenPage::Build: asset = state.selectedAsset; break;
         case ScreenPage::Purchase: asset = state.tileAssetIndex; break;
         case ScreenPage::Auction:
             asset = state.auctionPresentation == AuctionPresentationPhase::Result
@@ -625,6 +626,10 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
     return state.page == rendered.page &&
            state.authorityRoomId == rendered.authorityRoomId &&
            state.boardSize == rendered.boardSize &&
+           (state.page != ScreenPage::Home || appHomeActionsEqual(state, rendered)) &&
+           ((state.page != ScreenPage::Build && state.page != ScreenPage::AssetDetail) ||
+             (appBuildSnapshotCurrent(state) == appBuildSnapshotCurrent(rendered) &&
+              state.pendingCommandMask == rendered.pendingCommandMask)) &&
            appPresentedHomePhase(state) == appPresentedHomePhase(rendered) &&
            state.endTurnPresentation == rendered.endTurnPresentation &&
            state.endTurnPresentationStartedMs == rendered.endTurnPresentationStartedMs &&
@@ -765,6 +770,10 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
             return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Asset0) + state.focus);
         case ScreenPage::Players:
             return action == static_cast<TouchAction>(static_cast<uint16_t>(TouchAction::Player0) + state.focus);
+        case ScreenPage::Build:
+            if (state.focus == 0) return action == TouchAction::DetailPrimary;
+            if (state.focus == 1) return action == TouchAction::DetailSecondary;
+            return action == TouchAction::Footer;
         case ScreenPage::AssetDetail:
             if (state.focus == 0) return action == TouchAction::DetailPrimary;
             if (state.focus == 1) return action == TouchAction::DetailSecondary;
@@ -1473,11 +1482,7 @@ void drawHome(const AppState &state, uint32_t nowMs)
     if (divider != nullptr) lv_obj_set_style_border_width(divider, 0, 0);
 
     HomeAction actions[5]{};
-    const uint8_t actionCount = uiCarouselActions(visualPhase, actions);
-    if (actionCount != 0 && visualPhase == HomePhase::MyTurn &&
-        state.extraRollPresentation == ExtraRollPresentationPhase::Ready) {
-        actions[0] = HomeAction::ExtraRoll;
-    }
+    const uint8_t actionCount = appHomeActions(state, actions);
     uiCarouselCreate(homeCarousel, root, actions, actionCount, state.focus);
     if (state.endTurnPresentation == EndTurnPresentationPhase::Exiting) {
         uiCarouselSetEndTurnExitProgress(
@@ -1508,6 +1513,61 @@ void drawAssets(const AppState &state)
     fillAssetItems(state, items, meta);
     uiCenterListCreate(centerList, root, items, count, state.assetListIndex,
                        "返回", true, appFocusIsFooter(state));
+}
+
+void drawBuild(const AppState &state)
+{
+    const auto &visual = visualOrFallback(appAssetVisual(state, state.selectedAsset));
+    const bool current = appBuildSnapshotCurrent(state);
+    drawOuterRing(visual.accent);
+    drawHeader(appAssetDisplayName(state, state.selectedAsset), "BUILD IN THIS COLOR GROUP");
+    drawArtwork(kAssetDetailArtwork, visual, current
+        ? appAssetArtworkLevel(state, state.selectedAsset) : kArtworkLevelUnknown);
+    auto button = [&](UiRect rect, const char *text, uint8_t focus, TouchAction action, bool enabled) {
+        const bool selected = state.focus == focus;
+        lv_obj_t *object = uiBox(root, rect, selected ? 0x16302A : kPanel,
+                                selected ? visual.accent : kLine, 6);
+        if (!object) return;
+        auto *labelObject = uiLabel(object, text, UiRect{6, 7, static_cast<int16_t>(rect.w - 12), 18},
+                                   &lv_font_montserrat_12, enabled ? kText : kMuted);
+        makeClickable(object, action, labelObject, visual.accent);
+    };
+    uint8_t ordinal = 0;
+    const uint8_t count = appBuildGroupCount(state);
+    while (ordinal < count && appBuildGroupAssetAt(state, ordinal) != state.selectedAsset) ++ordinal;
+    char selector[64];
+    snprintf(selector, sizeof(selector), state.inlineEditField == InlineEditField::BuildProperty
+        ? "< PROPERTY %u/%u >  PRESS TO KEEP" : "PROPERTY %u/%u  |  CHANGE",
+        static_cast<unsigned>(ordinal + 1), static_cast<unsigned>(count));
+    button(UiRect{100, 204, 280, 32}, selector, 0, TouchAction::DetailPrimary, appBuildContextCurrent(state));
+    const uint8_t level = appAssetBuildingLevel(state, state.selectedAsset);
+    char step[48] = "WAITING FOR CURRENT STATE";
+    char money[80] = "COST --  |  CASH --";
+    char rent[56] = "RENT --";
+    if (current) {
+        if (level == 5) snprintf(step, sizeof(step), "HOTEL - MAXIMUM LEVEL");
+        else if (level == 4) snprintf(step, sizeof(step), "4 HOUSES  ->  HOTEL");
+        else snprintf(step, sizeof(step), "%u HOUSE%s  ->  %u HOUSE%s", level, level == 1 ? "" : "S",
+                      level + 1, level == 0 ? "" : "S");
+        const int32_t cost = level < 5 ? appAssetBuildingCost(state, state.selectedAsset) : 0;
+        snprintf(money, sizeof(money), "COST $%ld  |  CASH $%ld -> $%lld", static_cast<long>(cost),
+                 static_cast<long>(state.money), static_cast<long long>(state.money) - cost);
+        int32_t currentRent = appAssetRent(state, state.selectedAsset);
+        if (appAssetMortgaged(state, state.selectedAsset)) currentRent = 0;
+        else if (level == 0) currentRent *= 2; // Complete group, same rule as the authority.
+        snprintf(rent, sizeof(rent), "RENT $%ld -> $%ld", static_cast<long>(currentRent),
+                 static_cast<long>(appAssetNextRent(state, state.selectedAsset)));
+    }
+    uiLabel(root, step, UiRect{90, 240, 300, 18}, &lv_font_montserrat_14, visual.accent);
+    uiLabel(root, money, UiRect{64, 261, 352, 18}, &lv_font_montserrat_12, kText);
+    uiLabel(root, rent, UiRect{90, 282, 300, 16}, &lv_font_montserrat_12, kMuted);
+    const char *reason = appAssetBuildReason(state, state.selectedAsset);
+    uiLabel(root, reason ? reason : "ONE LEVEL - CONFIRMED BY SERVER", UiRect{64, 301, 352, 14},
+            &lv_font_montserrat_10, reason ? kYellow : kMuted);
+    button(UiRect{144, 318, 192, 32}, reason && strstr(reason, "PENDING") ? "BUILDING..." :
+        level == 4 ? "BUILD HOTEL" : level == 5 ? "MAXIMUM LEVEL" : "ADD ONE HOUSE",
+        1, TouchAction::DetailSecondary, reason == nullptr);
+    drawFooter("BACK", appFocusIsFooter(state));
 }
 
 void drawAssetDetail(const AppState &state)
@@ -3432,6 +3492,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
         case ScreenPage::Home: drawHome(state, nowMs); break;
         case ScreenPage::Assets: drawAssets(state); break;
         case ScreenPage::AssetDetail: drawAssetDetail(state); break;
+        case ScreenPage::Build: drawBuild(state); break;
         case ScreenPage::Players: drawPlayers(state); break;
         case ScreenPage::PlayerDetail: drawPlayerDetail(state); break;
         case ScreenPage::PlayerAssets: drawPlayerAssets(state); break;
@@ -3570,7 +3631,7 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
     }
     if (state.revision != renderedRevision) {
         const bool homeActionsUnchanged = state.page != ScreenPage::Home ||
-            appPresentedHomePhase(state) == appPresentedHomePhase(previousRenderedState);
+            appHomeActionsEqual(state, previousRenderedState);
         const bool inlineEditUnchanged = state.inlineEditField == previousInlineEditField;
         const bool visibleStateUnchanged =
             samePageVisibleStateUnchanged(state, previousRenderedState);
