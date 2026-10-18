@@ -10,6 +10,7 @@ namespace {
 using gridopoly::protocol::AvatarRecipe;
 using gridopoly::protocol::IdentityRoomPhase;
 using gridopoly::protocol::kAvatarCatalogVersionV1;
+using gridopoly::protocol::supportedAvatarCatalogVersion;
 
 bool zeroRecipe(const AvatarRecipe& recipe) {
   return recipe.avatarCatalogVersion == 0 && recipe.hairPresetId == 0 &&
@@ -113,7 +114,7 @@ bool validStoredName(const IdentitySeatState& seat) {
 }  // namespace
 
 bool validAvatarRecipe(const AvatarRecipe& recipe) {
-  return recipe.avatarCatalogVersion == kAvatarCatalogVersionV1 &&
+  return supportedAvatarCatalogVersion(recipe.avatarCatalogVersion) &&
       recipe.hairPresetId >= 1 && recipe.hairPresetId <= 10 &&
       recipe.hairColorId >= 1 && recipe.hairColorId <= 20 &&
       recipe.facePresetId >= 1 && recipe.facePresetId <= 10 &&
@@ -169,7 +170,7 @@ bool identityNameExists(const IdentityRoomState& room, std::string_view candidat
 
 AvatarRecipe deterministicBotRecipe(std::uint32_t roomSeed, std::uint8_t playerId,
                                     std::uint16_t catalogVersion) {
-  if (catalogVersion != kAvatarCatalogVersionV1 || playerId == 0) return {};
+  if (!supportedAvatarCatalogVersion(catalogVersion) || playerId == 0) return {};
   std::uint32_t random = roomSeed ^ (static_cast<std::uint32_t>(playerId) * 0xA511E9B3u) ^
       (static_cast<std::uint32_t>(catalogVersion) * 0x63D83595u);
   AvatarRecipe recipe{};
@@ -184,9 +185,10 @@ AvatarRecipe deterministicBotRecipe(std::uint32_t roomSeed, std::uint8_t playerI
 
 bool initializeIdentityRoom(IdentityRoomState& room, std::uint32_t roomId,
                             std::uint32_t roomSeed, std::uint8_t humanCount,
-                            std::uint8_t botCount) {
+                            std::uint8_t botCount, std::uint16_t catalogVersion) {
   const auto totalWide = static_cast<unsigned>(humanCount) + botCount;
-  if (roomId == 0 || roomSeed == 0 || humanCount == 0 || humanCount > 6 || botCount > 5 ||
+  if (!supportedAvatarCatalogVersion(catalogVersion) ||
+      roomId == 0 || roomSeed == 0 || humanCount == 0 || humanCount > 6 || botCount > 5 ||
       totalWide < 2 || totalWide > 6) return false;
   const auto total = static_cast<std::uint8_t>(totalWide);
   room = IdentityRoomState{};
@@ -194,7 +196,7 @@ bool initializeIdentityRoom(IdentityRoomState& room, std::uint32_t roomId,
   room.roomSeed = roomSeed;
   room.identityRevision = 1;
   room.phase = IdentityRoomPhase::AvatarSetup;
-  room.avatarCatalogVersion = kAvatarCatalogVersionV1;
+  room.avatarCatalogVersion = catalogVersion;
   room.humanCount = humanCount;
   room.botCount = botCount;
   room.playerCount = total;
@@ -212,7 +214,7 @@ bool initializeIdentityRoom(IdentityRoomState& room, std::uint32_t roomId,
       seat.nameFinal = true;
       seat.avatarGenerating = true;
       seat.pendingRecipe = deterministicBotRecipe(roomSeed, seat.playerId,
-                                                   kAvatarCatalogVersionV1);
+                                                   catalogVersion);
     }
   }
   return validIdentityRoomState(room);
@@ -221,7 +223,7 @@ bool initializeIdentityRoom(IdentityRoomState& room, std::uint32_t roomId,
 bool validIdentityRoomState(const IdentityRoomState& room) {
   const auto phase = static_cast<std::uint8_t>(room.phase);
   if (room.roomId == 0 || room.roomSeed == 0 || room.identityRevision == 0 ||
-      phase < 1 || phase > 3 || room.avatarCatalogVersion != kAvatarCatalogVersionV1 ||
+      phase < 1 || phase > 3 || !supportedAvatarCatalogVersion(room.avatarCatalogVersion) ||
       room.humanCount == 0 || room.playerCount < 2 || room.playerCount > 6 ||
       room.playerCount != static_cast<std::uint8_t>(room.humanCount + room.botCount) ||
       (room.phase == IdentityRoomPhase::Countdown) != (room.countdownDeadlineEpochMs != 0)) {

@@ -7,6 +7,7 @@
 #include <thread>
 
 #include "../../Server/RaspberryPi/src/AuthorityService.h"
+#include "avatar_v2_fixture.h"
 
 #ifdef assert
 #undef assert
@@ -87,6 +88,8 @@ int main() {
       source / "Assets/GridCity/Avatars/V1/runtime/components-v1";
   options.avatarAssetRoot = temporary / "assets";
   options.epochClock = [&now]() { return now.load(); };
+  options.avatarComponentV2Root = temporary / "components-v2";
+  avatar_v2_fixture::catalog(options.avatarComponentV2Root);
 
   const auto statePath = temporary / "state.bin";
   const auto metadataPath = temporary / "authority.meta";
@@ -240,8 +243,10 @@ int main() {
   const auto activeVersion = authority.stateVersion();
   const auto activeIdentityRevision = authority.identityRevision();
   {
+    auto restoreOptions = options;
+    restoreOptions.avatarCatalogVersion = 2;
     AuthorityService restored(statePath, metadataPath, 0,
-                              std::chrono::milliseconds(1200), options);
+                              std::chrono::milliseconds(1200), restoreOptions);
     assert(restored.initialize());
     assert(restored.roomId() == room);
     assert(restored.stateVersion() >= activeVersion);
@@ -251,6 +256,8 @@ int main() {
     IdentitySnapshot restoredSnapshot{};
     assert(restored.makeIdentitySnapshot(1, restoredSnapshot, true));
     assert(restoredSnapshot.roomPhase == IdentityRoomPhase::Active);
+    assert(restoredSnapshot.avatarCatalogVersion == 1);
+    assert(restoredSnapshot.seats[0].recipe.avatarCatalogVersion == 1);
     assert(restoredSnapshot.seats[0].avatarContentHash64 ==
            countdown.seats[0].avatarContentHash64);
   }
@@ -263,6 +270,57 @@ int main() {
   assert(fresh.selfStage == IdentitySeatStage::AvatarSetup);
   assert(fresh.requiredHumanMask == 0x07 && fresh.nameFinalMask == 0x08);
   assert((fresh.seats[0].flags & IdentitySeatNameFinal) == 0);
+
+  auto v2Options = options;
+  v2Options.identityPath = temporary / "v2-identity.bin";
+  v2Options.avatarCatalogVersion = 2;
+  std::uint32_t v2Room = 0;
+  std::uint64_t v2Hash = 0;
+  {
+    AuthorityService v2Authority(temporary / "v2-state.bin", temporary / "v2-meta.bin", 0,
+                                 std::chrono::milliseconds(1200), v2Options);
+    assert(v2Authority.initialize());
+    assert(v2Authority.newGame(16, 1, 1));
+    IdentitySnapshot v2Snapshot{};
+    assert(waitForAvatar(v2Authority, 2, v2Snapshot));
+    assert(v2Authority.makeIdentitySnapshot(1, v2Snapshot));
+    assert(v2Snapshot.avatarCatalogVersion == 2);
+    auto request = avatarRequest(1, 1001, v2Snapshot.stateVersion,
+        v2Snapshot.seats[0].seatRevision, {1,1,1,1,8,1});
+    v2Authority.handleIdentityRequest(1, request, v2Snapshot);
+    assert(v2Snapshot.result == IdentityResultCode::CatalogMismatch);
+    request = avatarRequest(1, 1002, v2Snapshot.stateVersion,
+        v2Snapshot.seats[0].seatRevision, {2,1,1,1,8,1});
+    v2Authority.handleIdentityRequest(1, request, v2Snapshot);
+    assert(v2Snapshot.result == IdentityResultCode::Ok);
+    assert(waitForAvatar(v2Authority, 1, v2Snapshot));
+    assert(v2Snapshot.seats[0].recipe.avatarCatalogVersion == 2);
+    v2Room = v2Authority.roomId();
+    v2Hash = v2Snapshot.seats[0].avatarContentHash64;
+    assert(v2Authority.flush());
+  }
+  {
+    v2Options.avatarCatalogVersion = 1;
+    AuthorityService restored(temporary / "v2-state.bin", temporary / "v2-meta.bin", 0,
+                              std::chrono::milliseconds(1200), v2Options);
+    assert(restored.initialize());
+    IdentitySnapshot snapshot{};
+    assert(restored.makeIdentitySnapshot(1, snapshot));
+    assert(restored.roomId() == v2Room && snapshot.avatarCatalogVersion == 2);
+    assert(snapshot.seats[0].recipe.avatarCatalogVersion == 2 &&
+           snapshot.seats[0].avatarContentHash64 == v2Hash);
+    assert(restored.newGame(16, 1, 1));
+    assert(restored.makeIdentitySnapshot(1, snapshot));
+    assert(snapshot.avatarCatalogVersion == 1);
+  }
+  {
+    v2Options.avatarCatalogVersion = 2;
+    v2Options.avatarComponentV2Root = temporary / "missing-catalog";
+    v2Options.identityPath = temporary / "missing-identity.bin";
+    AuthorityService unavailable(temporary / "missing-state.bin", temporary / "missing-meta.bin", 0,
+                                 std::chrono::milliseconds(1200), v2Options);
+    assert(!unavailable.initialize());
+  }
 
   std::cout << "GRIDOPOLY_IDENTITY_AUTHORITY_TESTS_PASS\n";
   return 0;

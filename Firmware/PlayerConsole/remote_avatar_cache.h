@@ -11,14 +11,14 @@ void remoteAvatarCacheBegin();
 
 struct RemoteAvatarPreloadProgress {
     uint8_t readyCount = 0;
-    uint8_t totalCount = 30;
+    uint8_t totalCount = avatarCatalogComponentCount(kAvatarDefaultCatalogVersion);
     bool previewReady = false;
     bool complete = false;
 };
 
 // Starts one setup-scoped warmup. Four persistent HTTP workers fetch the
-// current recipe first, then retain all 30 neutral components through name/ready.
-// complete becomes sticky when all 30 component files have been validated; the
+// current recipe first, then retain all 30 (V1) or 31 (V2) components through
+// name/ready. complete becomes sticky for that catalog after validation; the
 // locally composed preview may finish just after the editor opens.
 void remoteAvatarCachePreload(const TransportAvatarRecipe &recipe);
 RemoteAvatarPreloadProgress remoteAvatarCachePreloadProgress();
@@ -39,7 +39,7 @@ struct RemoteAvatarPreviewFrame {
 };
 
 // Call under the LVGL mutex; acquires a completed worker buffer for display.
-// Returns a locally composed 220x300 preview. The active three neutral GAVC
+// Returns a locally composed 220x300 preview. The active three/four GAVC
 // components are fetched first, then all remaining presets are warmed into a
 // transient Avatar Setup pool. Hair and skin colors are applied locally. The
 // component pool is discarded when the identity flow enters gameplay.
@@ -54,9 +54,11 @@ const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe);
 
 // Returns a final 128x128 public avatar, or nullptr while it is downloading.
 // Final avatars are only requested after the authority marks the seat final.
+// Use that seat's recipe catalog, which may differ from the room's catalog.
 const lv_img_dsc_t *remoteAvatarFinal(uint32_t roomId, uint8_t playerId,
                                      uint16_t avatarRevision,
-                                     uint64_t avatarContentHash64);
+                                     uint64_t avatarContentHash64,
+                                     uint16_t catalogVersion);
 
 // Consumes a publication edge so LVGL can rebuild spinner/image content.
 bool remoteAvatarCacheConsumeUpdate();

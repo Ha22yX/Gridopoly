@@ -1,0 +1,12 @@
+{
+  "recipe": {
+    "hair": 8,
+    "face": 1,
+    "outfit": 1,
+    "neck": 1,
+    "skin": "ebony",
+    "hairColor": "graphite"
+  },
+  "rgba320Sha256": "d872713c9dd8d610d6910a066c9fd998b4cd67774d53df625f8a51c5eb21e450",
+  "rgba220x300Sha256": "9a5ebece82101b7cfcc14b414274ceb4c6822b01ab70cb43a0e5f2fa1553532f"
+}

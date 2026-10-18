@@ -98,7 +98,16 @@ bool parseDecimal(const std::string& value, std::size_t begin, std::size_t end,
   return result.ec == std::errc{} && result.ptr == last;
 }
 
-bool parseAvatarPreviewName(const std::string& value, AvatarRecipe& recipe) {
+bool parseAvatarVersion(std::string& relative, std::uint16_t& version) {
+  if (relative.rfind("v1/", 0) == 0) version = kAvatarCatalogVersionV1;
+  else if (relative.rfind("v2/", 0) == 0) version = kAvatarCatalogVersionV2;
+  else return false;
+  relative.erase(0, 3);
+  return true;
+}
+
+bool parseAvatarPreviewName(const std::string& value, AvatarRecipe& recipe,
+                            std::uint16_t catalogVersion) {
   constexpr std::string_view suffix = ".rgb565";
   if (value.size() <= suffix.size() ||
       value.compare(value.size() - suffix.size(), suffix.size(), suffix) != 0 ||
@@ -119,7 +128,7 @@ bool parseAvatarPreviewName(const std::string& value, AvatarRecipe& recipe) {
       !parseDecimal(value, f + 2, s, face) || !parseDecimal(value, s + 2, o, skin) ||
       !parseDecimal(value, o + 2, end, outfit) || hair > 255 || color > 255 ||
       face > 255 || skin > 255 || outfit > 255) return false;
-  recipe = {kAvatarCatalogVersionV1, static_cast<std::uint8_t>(hair),
+  recipe = {catalogVersion, static_cast<std::uint8_t>(hair),
             static_cast<std::uint8_t>(color), static_cast<std::uint8_t>(face),
             static_cast<std::uint8_t>(skin), static_cast<std::uint8_t>(outfit)};
   return gridopoly::pi::validAvatarRecipe(recipe);
@@ -1132,16 +1141,19 @@ HttpServer::Response HttpServer::route(const Request& request) {
             "{\"ok\":false,\"error\":\"method_not_allowed\"}",
             "no-store", {}, {}};
   }
-  constexpr std::string_view avatarComponentPrefix = "/assets/avatar-components/v1/";
+  constexpr std::string_view avatarComponentPrefix = "/assets/avatar-components/";
   if (request.method == "GET" && request.path.rfind(avatarComponentPrefix, 0) == 0) {
     AvatarComponentKind kind{};
     std::uint8_t presetId = 0;
-    const auto relative = request.path.substr(avatarComponentPrefix.size());
+    auto relative = request.path.substr(avatarComponentPrefix.size());
+    std::uint16_t catalogVersion = 0;
+    const bool versioned = parseAvatarVersion(relative, catalogVersion);
     AvatarComponent decoded{};
     std::vector<std::uint8_t> bytes;
-    const auto root = authority_.avatarComponentRoot();
-    if (root.empty() || !parseAvatarComponentRelative(relative, kind, presetId) ||
-        !loadAvatarComponent(root, kind, presetId, decoded, &bytes)) {
+    const auto root = authority_.avatarComponentRoot(catalogVersion);
+    if (!versioned || root.empty() ||
+        !parseAvatarComponentRelative(relative, kind, presetId, catalogVersion) ||
+        !loadAvatarComponent(root, kind, presetId, decoded, &bytes, catalogVersion)) {
       return {404, "application/json; charset=utf-8",
               "{\"ok\":false,\"error\":\"avatar_component_not_found\"}",
               "no-store", {}, {}};
@@ -1161,12 +1173,14 @@ HttpServer::Response HttpServer::route(const Request& request) {
             std::string(reinterpret_cast<const char*>(bytes.data()), bytes.size()),
             "public, max-age=31536000, immutable", {}, etag};
   }
-  constexpr std::string_view avatarPreviewPrefix = "/assets/avatar-previews/v1/";
+  constexpr std::string_view avatarPreviewPrefix = "/assets/avatar-previews/";
   if (request.method == "GET" && request.path.rfind(avatarPreviewPrefix, 0) == 0) {
-    const auto name = request.path.substr(avatarPreviewPrefix.size());
+    auto name = request.path.substr(avatarPreviewPrefix.size());
+    std::uint16_t catalogVersion = 0;
+    const bool versioned = parseAvatarVersion(name, catalogVersion);
     AvatarRecipe recipe{};
     AvatarPreviewResult rendered{};
-    if (!parseAvatarPreviewName(name, recipe) ||
+    if (!versioned || !parseAvatarPreviewName(name, recipe, catalogVersion) ||
         !authority_.renderAvatarPreview(recipe, rendered)) {
       return {404, "application/json; charset=utf-8",
               "{\"ok\":false,\"error\":\"avatar_preview_not_found\"}",
@@ -1198,9 +1212,19 @@ HttpServer::Response HttpServer::route(const Request& request) {
   }
   constexpr std::string_view avatarAssetPrefix = "/assets/avatars/";
   if (request.method == "GET" && request.path.rfind(avatarAssetPrefix, 0) == 0) {
-    const auto relative = request.path.substr(avatarAssetPrefix.size());
+    auto relative = request.path.substr(avatarAssetPrefix.size());
+    auto unversioned = relative;
+    std::uint16_t catalogVersion = 1;
+    if (relative.rfind("v", 0) == 0) {
+      if (!parseAvatarVersion(unversioned, catalogVersion)) {
+        return {404, "application/json; charset=utf-8",
+                "{\"ok\":false,\"error\":\"avatar_not_found\"}", "no-store", {}, {}};
+      }
+      // v1 is an alias for persisted legacy files; v2 has its own directory.
+      if (catalogVersion == 1) relative = unversioned;
+    }
     const auto root = authority_.avatarAssetRoot();
-    if (root.empty() || !validFinalAvatarRelative(relative)) {
+    if (root.empty() || !validFinalAvatarRelative(unversioned)) {
       return {404, "application/json; charset=utf-8",
               "{\"ok\":false,\"error\":\"avatar_not_found\"}", "no-store", {}, {}};
     }

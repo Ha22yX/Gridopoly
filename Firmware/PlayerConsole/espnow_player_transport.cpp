@@ -105,7 +105,8 @@ void EspNowPlayerTransport::begin(uint32_t nowMs)
     pendingTrade_ = PendingTradeRequest{};
     pendingIdentity_ = PendingIdentityRequest{};
     playerDetailPayload_ = TransportPlayerDetailPayload{};
-    identityPayload_ = TransportIdentityPayload{};
+    const TransportIdentityPayload emptyIdentity{};
+    identityPayload_ = emptyIdentity;
     snapshot_ = StateSnapshot{};
     authoritySnapshot_ = AuthoritySnapshot{};
     rosterSnapshot_ = RosterSnapshot{};
@@ -900,7 +901,10 @@ void EspNowPlayerTransport::processIdentitySnapshot(const DecodedFrame &frame,
         pendingIdentity_ = PendingIdentityRequest{};
     }
 
-    identityPayload_ = TransportIdentityPayload{};
+    // A named value avoids Xtensa GCC's gimplify ICE for the nested aggregate
+    // temporary assignment while preserving all member defaults.
+    const TransportIdentityPayload emptyIdentity{};
+    identityPayload_ = emptyIdentity;
     for (uint8_t index = 0; index < snapshot.playerCount; ++index) {
         const IdentitySeatRecord &source = snapshot.seats[index];
         TransportIdentitySeat &target = identityPayload_.seats[index];
@@ -911,6 +915,11 @@ void EspNowPlayerTransport::processIdentitySnapshot(const DecodedFrame &frame,
         target.avatarRevision = source.avatarRevision;
         target.avatarCacheTag = source.avatarContentHash64;
         target.recipe = fromWireRecipe(source.recipe);
+        // New human seats have an all-zero recipe. Start them in the room's
+        // selected catalog, but retain the version of existing final avatars.
+        if (source.recipe.avatarCatalogVersion == 0) {
+            target.recipe.catalogVersion = snapshot.avatarCatalogVersion;
+        }
     }
 
     TransportEvent event{};
@@ -987,7 +996,8 @@ void EspNowPlayerTransport::clearProjection(bool clearQueuedEvents)
     snapshot_ = StateSnapshot{};
     authoritySnapshot_ = AuthoritySnapshot{};
     rosterSnapshot_ = RosterSnapshot{};
-    identityPayload_ = TransportIdentityPayload{};
+    const TransportIdentityPayload emptyIdentity{};
+    identityPayload_ = emptyIdentity;
     snapshotValid_ = false;
     authoritySnapshotValid_ = false;
     rosterSnapshotValid_ = false;

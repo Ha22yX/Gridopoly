@@ -424,6 +424,10 @@ struct TradeResponse {
 };
 
 constexpr std::uint16_t kAvatarCatalogVersionV1 = 1;
+constexpr std::uint16_t kAvatarCatalogVersionV2 = 2;
+constexpr bool supportedAvatarCatalogVersion(std::uint16_t version) {
+  return version == kAvatarCatalogVersionV1 || version == kAvatarCatalogVersionV2;
+}
 constexpr std::size_t kIdentityRequestSize = 44;
 constexpr std::size_t kIdentitySeatRecordSize = 23;
 constexpr std::size_t kIdentitySnapshotBaseSize = 44;

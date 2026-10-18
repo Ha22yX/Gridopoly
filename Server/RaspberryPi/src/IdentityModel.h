@@ -56,7 +56,8 @@ gridopoly::protocol::AvatarRecipe deterministicBotRecipe(std::uint32_t roomSeed,
                                                          std::uint16_t catalogVersion);
 bool initializeIdentityRoom(IdentityRoomState& room, std::uint32_t roomId,
                             std::uint32_t roomSeed, std::uint8_t humanCount,
-                            std::uint8_t botCount);
+                            std::uint8_t botCount,
+                            std::uint16_t catalogVersion = gridopoly::protocol::kAvatarCatalogVersionV1);
 bool validIdentityRoomState(const IdentityRoomState& room);
 
 }  // namespace gridopoly::pi

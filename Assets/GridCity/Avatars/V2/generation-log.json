@@ -1,0 +1,302 @@
+{
+  "method": "built-in image_gen",
+  "date": "2026-10-18",
+  "status": "candidate",
+  "assets": [
+    {
+      "id": "f01",
+      "kind": "face",
+      "prompt": "Use case: precise-object-edit. Edit the referenced Gridopoly face sprite into the master FACE-ONLY layer for a modular avatar kit. Preserve its Western cel-shaded friendly board-game illustration style, black clean contours, amber tan skin, brown eyes, natural eyes, centered straight-on orthographic face, level ears and eyes. CRITICAL: REMOVE THE ENTIRE NECK below the outlined chin, no neck, shoulders, clothes, hair or body. Only a bald head with both ears, terminating precisely at its chin, isolated on genuine transparent background. Keep the head as a compact centered oval, not broad: face width at temples approximately 100 units to head height 145, ears extend a little. Maintain the familiar face, a gentle confident smile and angular oval jaw. Use solid warm tan skin with restrained polygon shadows, no white skin highlights and NO WHITE/MAGENTA matte halo. Only eyeballs contain white. Keep the reference image's big transparent margins; head occupies about half the canvas width including ears and 58 percent of canvas height, from roughly y18 percent to y76 percent. Full square canvas, nothing else, no text or guides.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f01.png",
+      "generatedFile": "exec-d9075451-fdc7-40b8-a681-8a898b5b7fa1.png",
+      "references": [
+        "Assets/GridCity/Avatars/V1/source/layers/face/face-f01-angular-oval.png"
+      ],
+      "sourceSha256": "27fb9c5493d0552a6420ae22a0be9e1753bcaac9c48f0150c02d85392f81cd4d",
+      "selected": true
+    },
+    {
+      "id": "n1",
+      "kind": "neck",
+      "prompt": "Use case: precise-object-edit. Create the single SHARED NECK layer for the referenced Gridopoly cel-shaded avatar. Output ONLY a simple slim front-facing human neck isolated on genuine transparency, no head, face, ears, shoulders, collar, clothes, hair or mannequin. Clean black side contour and subtle dark ochre shadow under an invisible chin, warm amber tan main fill like the reference; restrained simple polygon shading, no white highlights. Neck has two mostly vertical gently curved sides, a flat broad hidden top and shallow rounded bottom, like a narrow upright column. Its width is consistent, roughly 1.15 times its visible height. It is symmetric and front-facing, no perspective. It should sit in the lower center of a square transparent avatar-registration canvas: x40%..60%, y65%..83%; leave all remaining canvas transparent, do not enlarge the object. High-quality production game sprite, no background, no label, no white or magenta fringe.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/neck/n1.png",
+      "generatedFile": "exec-e36feac3-1cac-486b-856f-9083a00544fd.png",
+      "references": [
+        "Assets/GridCity/Avatars/V1/source/layers/face/face-f01-angular-oval.png"
+      ],
+      "sourceSha256": "48699056037cbc6ccb84d02fea355b8382501b7f692b91a8504c53c43d1936fc",
+      "selected": true
+    },
+    {
+      "id": "o02",
+      "kind": "outfit",
+      "prompt": "Use case: precise-object-edit. Image1 is the existing navy/gold Operations Jacket whose body is turned; redesign it as a strictly STRAIGHT FRONT VIEW outfit sprite. Image2 shows the desired centered front-view avatar pose and rendering style only: DO NOT include any head, hair, neck, skin or person. Clothing only. Keep navy tactical jacket, charcoal lapels, small gold trim and practical pockets; make center zipper perfectly vertical at the center, shoulder tops precisely level, collar opening centered with symmetric left/right width, equally wide left/right chest panels. NO 3/4 torso, NO tilted shoulders, NO diagonal center zipper, NO perspective. Replace the high closed collar with a medium open U-neck fitting the shared avatar neck. Clean dark outlines and simple cel-shaded polygons, matching image2. The isolated garment is a shoulder/chest bust crop, bottom continues straight to the canvas edge, not a whole waist-length jacket. Occupy ONLY the lower 34% of a square transparent registration canvas, neck opening at y67%, shoulder outer edges near x12% and88%, chest below y80%. Large transparent upper canvas; no floating stray pixels, no white/magenta matte. Genuine transparent RGBA.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+      "generatedFile": "exec-e848ee52-8377-49b3-9da8-5edc6024b4fc.png",
+      "references": [
+        "Assets/GridCity/Avatars/V1/source/layers/outfit/outfit-o02-operations-jacket.png",
+        "Assets/GridCity/Avatars/V1/device/avatar-h01-f01-o01.png"
+      ],
+      "sourceSha256": "cf47e57d6e0d0c89ccc549e2e756d2f1531420eafaa54ff59ac8f13469eb7e2e",
+      "selected": true
+    },
+    {
+      "id": "h08",
+      "kind": "hair",
+      "prompt": "Use case: precise-object-edit. Asset type: a production transparent HAIR ONLY sprite for Gridopoly's modular 2D avatar system. Input 1 is the existing braided-crown hairstyle to redesign; input 2 is the exact bald head registration reference, not a figure to include. Redesign the braided crown so it genuinely fits the head from input 2: a compact woven braid crown with a continuous opaque hair cap across the entire top of the skull, narrow tidy temples and short side sections. The old asset was too wide and too low. Raise its crown to cover the entire bald top of reference 2; narrow the outside silhouette to hug that reference head with a small margin. Leave a clean transparent forehead/face opening, with hairline above the eyebrows; do not include the face, eyes, ears, skin, neck or any body. Preserve the clean dark contour, neutral gray hair, restrained polygon cel shading and front-facing orthographic Western game-avatar style. Keep the same square 1254x1254 registration canvas with the head centered at x627. On that canvas the bald head runs approximately x390..862 with top y228; its eyebrow line is y470 and temples are near x400/850. Hair must cover that scalp completely above y410 while opening the face below it; compact outer crown can extend approximately x350..904 and y130..520. The lowest sideburn tips stop near y690. Do not center or enlarge the isolated hair to fill the canvas: preserve these head-relative coordinates and generous transparent bottom margin. Hair texture is neutral desaturated gray, black outlines, no colored accessories. Output ONLY the finished isolated hair layer on genuine transparent RGBA; no mannequin, skull, face, body, text, guide marks, checkerboard or background.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/hair/h08.png",
+      "status": "candidate; registration review required",
+      "generatedFile": "exec-292b9b16-9b68-4b9b-adbf-99519c537ec3.png",
+      "references": [
+        "Assets/GridCity/Avatars/V1/source/layers/hair/hair-h08-braided-crown-v2.png",
+        "Assets/GridCity/Avatars/V1/source/layers/face/face-f01-angular-oval.png"
+      ],
+      "sourceSha256": "d514ae340d241952f0521d6890b814e5116d01a38ce5194ad320d752c2860cc7",
+      "selected": false
+    },
+    {
+      "id": "f02",
+      "kind": "face",
+      "name": "Soft Square",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Soft Square. calm almond-shaped eyes, straighter substantial brows, a friendly square-looking jaw expressed by internal cheek planes and a slightly flatter chin; keep exact master outer footprint. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f02.png",
+      "generatedFile": "exec-d94ca550-c02f-4346-b6e5-3fea6aeaccae.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "1729638d8e42e69156149c14e53b497bf800e112e685fde48a5d9a24989abcd7",
+      "selected": true
+    },
+    {
+      "id": "f03",
+      "kind": "face",
+      "name": "Round Youthful",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Round Youthful. rounder open eyes, softer arched brows, fuller-looking cheeks and an upbeat small smile; keep skull and head height/width identical, not an enlarged child head. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f03.png",
+      "generatedFile": "exec-01a26019-ce3a-4a56-892c-64cc12ac5a22.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "a5fd7ec13d917e622d2db1d55743fe01cb1e5d5abf5a5ff93978912441048cd7",
+      "selected": true
+    },
+    {
+      "id": "f04",
+      "kind": "face",
+      "name": "Heart Taper",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Heart Taper. gently raised brows, refined bright almond eyes, softly high cheekbones and a delicate smile, a heart-like inner cheek taper without changing shared upper head. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f04.png",
+      "generatedFile": "exec-11005ef8-73d8-4a87-9095-e65730531614.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "f7a8b04b49657972aa33a2745e64f5855e2f71d04d08b4763ab930470af3adb7",
+      "selected": true
+    },
+    {
+      "id": "o01",
+      "kind": "outfit",
+      "name": "Utility Bomber",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Utility Bomber. Redesign the garment as a charcoal gray utility bomber with dark undershirt, turquoise collar binding and slim turquoise center zipper accent, segmented gray shoulder panels. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o01.png",
+      "generatedFile": "exec-4420a595-b2ef-4931-8f61-8f8637390765.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "1fcf44c3ffedcfaadb4740cde675e74dca946c3d74b69cd62bfe78b89e5f4475",
+      "selected": true
+    },
+    {
+      "id": "o03",
+      "kind": "outfit",
+      "name": "Streetline Hoodie",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Streetline Hoodie. Redesign the garment as a charcoal pullover hoodie with a compact lowered hood resting behind the neck, teal hood lining, clean centered round open neck, no tall hood obstructing jaw. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o03.png",
+      "generatedFile": "exec-5607cf55-ffc5-4e26-8a02-1396f51014b6.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "7f71686dccb184e89b6f387b5c31aaae72c8321f3584fd7c62ec94ddf1fecf28",
+      "selected": true
+    },
+    {
+      "id": "o04",
+      "kind": "outfit",
+      "name": "Metro Varsity",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Metro Varsity. Redesign the garment as a burgundy varsity jacket with dark navy sleeves, cream shoulder panels, mustard gold ribbed neck and button placket. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o04.png",
+      "generatedFile": "exec-51df2b44-b33f-4a0b-aa03-031966d0334d.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "1068129c68294e5b04642029eee43bef8708d6004aa35bb2feb796d23fad2e42",
+      "selected": true
+    },
+    {
+      "id": "f05",
+      "kind": "face",
+      "name": "Long Rectangle",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Long Rectangle. slightly longer-looking central facial features within the EXACT same head height, straight relaxed brows, narrower eyes and composed smile; do not lengthen the head. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f05.png",
+      "generatedFile": "exec-f15c8600-f52f-4fbf-a34d-b97594c18b9a.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "e3475ea317c54b4f85f3beb26d9912227476a6658f449855611f06adb844aeaf",
+      "selected": true
+    },
+    {
+      "id": "f06",
+      "kind": "face",
+      "name": "Diamond Angular",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Diamond Angular. defined inner cheekbone planes, angled brows, focused eyes and a subtle confident smile; exact common scalp, ears, height and overall width. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f06.png",
+      "generatedFile": "exec-307ad664-33ae-4137-8d90-b7449ad0a3fa.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "558216ce7b1b16dbc168436395a80d175de6649740e82e21dc7ec6fc7e5d550b",
+      "selected": true
+    },
+    {
+      "id": "f07",
+      "kind": "face",
+      "name": "Broad Strong",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Broad Strong. strong straight eyebrows, robust nose, confident relaxed eyes, subtle square jaw planes. CRITICAL head is exactly the same modest width and height as master, NOT a larger or wider head; NO thick neck and NO neck at all. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f07.png",
+      "generatedFile": "exec-e4acdb59-d880-430e-bf1a-ad5ce8207703.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "24053be0ee6fc229fc2e8fa146315c8ddfa91e9dcc9297fce526cf04befdc9af",
+      "selected": true
+    },
+    {
+      "id": "o05",
+      "kind": "outfit",
+      "name": "Civic Blazer",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Civic Blazer. Redesign the garment as an emerald green civic blazer with small pale silver piping along lapels and a charcoal crew-neck undershirt, centered open U neckline. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o05.png",
+      "generatedFile": "exec-5354ed1d-34c1-429d-beed-70bbed28eb83.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "e52e9ee754de4d8b262cb79052510a7e5dbe79f07bc1049c91b405b5cd79b4f2",
+      "selected": true
+    },
+    {
+      "id": "o06",
+      "kind": "outfit",
+      "name": "Workshop Vest",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Workshop Vest. Redesign the garment as a vivid burnt-orange practical work vest over a charcoal long-sleeved shirt, two simple breast pockets and tiny teal tabs, centered vertical zipper. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o06.png",
+      "generatedFile": "exec-2b73d01c-864b-42ec-b5be-b65baa5acb92.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "35ca65d2b83b2ec31d170d115db7553069ddb5ef0e0408e98208908e1840aa35",
+      "selected": true
+    },
+    {
+      "id": "o07",
+      "kind": "outfit",
+      "name": "Signal Knit",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Signal Knit. Redesign the garment as an ivory/cream knit crew-neck sweater with dark gray sleeves and a bold teal-and-mustard chevron across the chest, thin dark ribbed crew collar. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o07.png",
+      "generatedFile": "exec-dfa1b849-9ce0-413e-a615-c504999cb4ba.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "6971bfc1c52c08f723167884b951e977beca26b075dc7f769f865ff414937fdb",
+      "selected": true
+    },
+    {
+      "id": "f08",
+      "kind": "face",
+      "name": "Soft Triangle",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Soft Triangle. soft brows, warm relaxed eyes, gentle lower-cheek planes and a small friendly smile; preserve master head bounds and common temple width. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f08.png",
+      "generatedFile": "exec-58ceda50-9994-45e2-a6f0-cc946c8d2085.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "86b49689bff6b957196fbbf074c45bec59abe0c0ea1e098779eb985cab35e16d",
+      "selected": true
+    },
+    {
+      "id": "f09",
+      "kind": "face",
+      "name": "Narrow Refined",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Narrow Refined. fine brows, slightly narrow almond eyes, slender nose and a reserved smile; personality via features, not a smaller or taller skull. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f09.png",
+      "generatedFile": "exec-78713b35-1e0c-4654-bd89-959dafdb4972.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "d482fdbec28f61455dbd5ff90c4795b17f8f5f2f956c90abc43fc1a5033a5c84",
+      "selected": true
+    },
+    {
+      "id": "f10",
+      "kind": "face",
+      "name": "Mature Sculpted",
+      "prompt": "Use case: precise-object-edit. Image1 is the production head-only geometry and style master for Gridopoly's modular avatars. Create ONE face variation. Preserve its EXACT bald upper skull silhouette, centered straight front pose, level ears/eyes, overall head width and height, outer alpha shape as closely as possible, and placement/margins on the same square canvas. No hair, neck, shoulders, body, clothing, accessories, text or guide marks. Head ends at outlined chin with transparent space below. Same clean dark contours, friendly Western 2D game illustration, warm amber tan fill and restrained polygon shadow; no white highlights on skin, only eye whites are white. Genuine transparent background with clean un-matted edges. Change only facial character/inner cheek and jaw detail: Mature Sculpted. slightly older adult face, subtle nasolabial lines, lightly sculpted cheeks and calm experienced eyes; no beard, exact shared head width/height, ABSOLUTELY NO NECK or broad neck stub. Retain the same warm neutral base skin color as master, modest natural eyes, consistent frontal lighting.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/face/f10.png",
+      "generatedFile": "exec-54d17f81-927a-4bd6-9d3f-b0bfa9825919.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/face/f01.png"
+      ],
+      "sourceSha256": "10fd91a2ec56b10e8a0c32ca2a6387bf595e08901ecfebf10f9eff02242535a9",
+      "selected": true
+    },
+    {
+      "id": "o08",
+      "kind": "outfit",
+      "name": "Denim Commuter",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Denim Commuter. Redesign the garment as an indigo blue denim commuter jacket with classic low turned-down collar, symmetric chest pocket flaps and dark crew-neck undershirt, centered button placket. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o08.png",
+      "generatedFile": "exec-66cf36b2-f2da-4c70-8958-ab5bf00f8f63.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "28bee284f4ac6046710e2ae655bf23fd0dcbb5b36a085ebaa76c378370494ef2",
+      "selected": true
+    },
+    {
+      "id": "o09",
+      "kind": "outfit",
+      "name": "Rainline Shell",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Rainline Shell. Redesign the garment as a golden yellow lightweight rain shell, low open crew neck, thin charcoal vertical zipper and a small teal zipper pull, simple polygon folds. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o09.png",
+      "generatedFile": "exec-89e22565-1c46-48d4-be89-56ecefbc11c7.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "b763518dcdb0aa14958378ed0d2d1e309e9680197ea7fd4db798054be1d7ac57",
+      "selected": true
+    },
+    {
+      "id": "o10",
+      "kind": "outfit",
+      "name": "Gala Tailored",
+      "prompt": "Use case: precise-object-edit. Image1 is the NEW FRONT-VIEW clothing geometry template. Image2 is a style/color catalog of the OLD outfits only, not a pose reference. Create one clothing-only sprite called Gala Tailored. Redesign the garment as a tailored violet purple blazer with thin pale mint lapel piping over a charcoal crew-neck undershirt, elegant simple angular tailoring. Preserve image1's exact FRONT FACING torso, perfectly vertical center line, level shoulders, equal left/right chest width, centered symmetric U-shaped neck opening and square canvas placement. Keep neckline opening width and bottom height the same as image1 so the same slim neck can be seen through it. Outfit variation must NOT rotate torso or tilt shoulders. Clear clean black/dark contours, restrained cel-shaded flat polygon color, no photographic cloth texture. Show a shoulder/chest bust crop in the lower half of a square, upper half fully transparent. Bottom torso continues to the lower canvas edge. ONLY clothing: no skin, neck, head, hair, hands or mannequin. Genuine transparent RGBA, no labels, no backdrop, no white/magenta edge matte. Designs may differ in lapels/hood/pockets, but exact straight-front neck interface is mandatory.",
+      "targetPath": "Assets/GridCity/Avatars/V2/source/outfit/o10.png",
+      "generatedFile": "exec-24a313f8-914e-476d-8786-c65c83ca0f0b.png",
+      "references": [
+        "Assets/GridCity/Avatars/V2/source/outfit/o02.png",
+        "Assets/GridCity/Avatars/V1/review/avatar-outfit-presets-v1.png"
+      ],
+      "sourceSha256": "cd360b99e7495f44ddba2796e03285d63ec3d5314f51bf70891647916730133f",
+      "selected": true
+    }
+  ],
+  "additionalSelectedSources": "hair-fit-generation-log.json"
+}

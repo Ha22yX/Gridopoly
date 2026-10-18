@@ -165,3 +165,52 @@ DELETE优先清当前墨迹并取消旧worker结果，画布空时才删草稿�
 完整证据目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/rotary-anchor-com7-20260926/`，包含player-inventory.csv、flash.jsonl、串口原文/jsonl、capture-events、HTTP前后快照、state-differences.json和verification.json。`rollback-efbe/`的四段已逐SHA确认，来自前次部署产物而非本轮设备读回。准备阶段PowerShell曾拒绝保留设备名COM7.csv的目标拷贝，随后采用player-inventory.csv；该错误仅涉及本地清单准备，没有打开串口或写设备。
 
 源码、30项生产旋钮/真实reducer回归、独立21项复核、普通构建、写验及正常入局均已完成，所有进程结束、COM7已释放。**旋钮慢转/快转卡顿与行选择回跳仍待用户现场复测**，候选保守漏计及日志不能区分的合法快速反转边界仍在；不把部署检查通过宣称为输入手感最终修复。主任务负责协调用户最小复测动作，玩家屏任务按新反馈继续定位，不额外后台录制或自动重刷。
+
+## 2026-10-18 头像 V2 玩家端兼容候选
+
+本节记录头像 V2 源码和主机验证。用户已停止此前旋钮排查，PCB/原理图由 PCB 设计会话负责；本轮没有继续旋钮、电量或硬件工作，也没有打开串口、构建 ESP32 固件、烧录、部署、修改共享协议或 Git 索引。此前记录是历史状态，不能视为本轮设备读回。
+
+玩家端现支持 catalog 1/2：V1 保持原三层和染色规则；V2 使用 32 字节 GAVC 头、schema/encoding 2、五字节 RGBA+skinMask 的 RLE 与原样 CRC，按 neck→face→outfit→hair 合成。独立 neck/n1 只在 V2 存在，脸和颈部按基准 178 的中性灰 R 与显式 mask 进行整数染色，服装不染色，头发算法不变。所有预览维持 220×300，预加载分别为 30/31 个组件。
+
+组件 HTTP、预览代次和最终头像缓存均区分版本；最终 URL 使用座位自身 recipe.catalogVersion，保留 V1 旧路径及 V2 的 avatars/v2 路径。切换版本时等待正在合成的旧快照结束，保留 LVGL 当前完整画面，拒绝迟到的旧组件/最终图，随后释放旧组件。释放后立即重入同样经过代次校验，避免释放工作线程仍引用的内存。缓存预算仍为组件 2,095,296 字节加两个 132,000 字节预览，单组件上限 128 KiB；四个 HTTP 下载临时缓冲及其它运行时堆开销不包含在这项已接收缓存预算中。
+
+默认编译开关 `GRIDOPOLY_AVATAR_DEFAULT_CATALOG_VERSION` 保持 1，可显式设为 2；合法的 1/2 配方不受默认值改写。生产快照解析另修复了新玩家全零 recipe 的版本丢失：仅未设置配方继承 snapshot 的房间 catalog，已确认座位保留自己的版本。未修改共享 GridopolyProtocol，该部分归服务器任务。
+
+主机证据目录为 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/avatar-v2-20261018-candidate-check1/`。在两个默认版本构建下，实际 remote_avatar_cache.cpp 的解码、合成、内存计数、损坏/截断/跨版本文件、迟到下载、合成中切换和释放重入测试分别 **1,276 checks PASS**；生产快照解析→AppState→ConfirmAvatar→实际协议编码分别 **22 checks PASS**；既有 setup 回归 **137 checks / 0 failed**；双缓冲 ownership 回归 **22,768 checks PASS**。三个新执行日志保存于 cache/identity/setup 的 host-run.log，原所有权工具执行结果见本会话工具记录。完整固件仍需由主会话编译。
+
+真实候选包复制前后逐 SHA 核对一致，快照位于上述目录 components-v2，清单为 components-v2-manifest.json；共 31 个文件、**1,362,537 字节**，加双预览共 1,626,537 字节。全部真实文件通过解码、CRC、预算及末尾 mask 字节破坏拒绝测试。H08/C01/F07/S08/O02（Ebony）、H01/C01/F10/S01/O07（Porcelain）均由生产客户端导出完整 RGB565；对应 CRC32 为 3f44c1c5、79b3a5f1。它们是候选快照的结果，不能套用于后续修改的素材包。
+
+同时从 Git c09f0e25 冻结未修改的 V1 客户端合成器，读取真实 30 个旧组件重建同样两组配方；与新代码的 V1 输出各 132,000 字节完全相同，证据 legacy-v1-byte-comparison.json 和 legacy-v1/run.log，已将旧输出 CRC 固定为回归期望。
+
+V2 跨端比较已完成。服务器任务使用相同冻结的 31 个文件，以服务端 C++ renderer 对照素材 Python 整数合成器，两组 RGBA/flatten RGB565 均零字节差异。本端独立重读其 real-art-output 原始 RGBA 与 RGB565，重新核对 31 项组件 SHA，仅将 alpha=0 位置转换为客户端 chroma 0x07E0，两组各 132,000 字节与玩家输出均完全一致；证据 independent-server-byte-comparison.json。两组客户端 SHA256 分别为 db280232c1afce91479d34078fa8f2c60a690a25ac2adafd2b1058c0c1ab49bb、9d5b7a6de532319c0ed2d4edc6cd110735ed609f2c4ddcae48c1984282bd673a。服务器原始证据位于 C:/Users/kicof/GridopolyReleases/server-avatar-v2-20261018-045441/real-art-comparison.json。本次仅是两组指定真实配方的精确跨端结果，不能扩大为所有组合已比对；全组合与美术审定由主会话负责。
+
+保留失败准备记录：首轮严格主机编译发现窄化警告，已显式使用 byte 取整函数；首轮实际包测试采用窄字符中文路径参数而异常退出，改为 Windows 宽字符入口后通过，同时修复 runner 对负异常退出码的检测。identity 主机目标仍显示既有 app_state.cpp 的两处窄化、两处未使用参数警告，未将其写成零警告。源码完成、主机通过不代表实机画面或投产验收；主会话负责美术审定、冻结最终素材、完整固件构建、Git 和后续发布窗口。
+
+## 2026-10-18 最终发型、RANDOM 与姓名页保留控件
+
+最终 H06/H08/H10 素材已经重新冻结，31 个 GAVC 合计 **1,353,679 bytes**；相对上一节候选只变更三个发型文件。生产玩家缓存针对最终实际包的 172 项检查通过，两组指定配方与服务器/Python再次逐字节复核：H08/C01/F07/S08/O02 的 132,000 字节色键 RGB565 SHA256 为 `96cb7014b4708d1b9859dcb3a34e754456fff3506723c388248cf178958e953e`；H01/C01/F10/S01/O07 为 `9d5b7a6de532319c0ed2d4edc6cd110735ed609f2c4ddcae48c1984282bd673a`，差异均为零。完整 31 项 SHA 也一致。本端证据位于 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/avatar-v2-final-hair-20261018/`；服务器最终三方记录为 `C:/Users/kicof/GridopolyReleases/server-avatar-v2-final-hair-20261018-check1/real-art-comparison.json`，没有用旧素材的比对结果代替最终包。
+
+Avatar Setup 新增英文小按钮 RANDOM，位置 x132/y398、88×30，位于 CONFIRM 下方，避开头像裁切区域和底部电量显示。触摸和旋钮均可到达第七项；随机改变发型、发色、脸型、肤色、服装，保留 catalog、姓名、房间、席位和已确认配方，仅更新本地草稿与预览请求。每次按下保证五项组合不同于上一次，不自动发送 ConfirmAvatar；正在提交时禁用，离开头像页后拒绝迟到的随机触摸。两版 catalog 各 256 次随机检查、七项焦点边界、心跳保留焦点和显式确认一起纳入 setup 回归，**163 checks / 0 failed**，日志 `avatar-random-setup-20261018/host-run.log`。
+
+姓名页问题在真实 LVGL 8.4 和生产 renderer 上复现。NameReview 三个选中焦点分别接受普通 revision、其他席位身份更新及全局素材失效，每种各 12 次：修复前均为 **12 次整页重建、12 次重绘失效、12 次选中按钮重新降至 40% 透明度**。不变状态本身没有触发重建；NameHandwriting 对应的后台更新本来就是零重建、零失效、零重复淡入。保留修复前 `42 UI checks, 12 failed` 的日志和源码快照，不将其误记为手写识别故障。
+
+修复仅让同房间、同席位的 NameReview 沿用已有控件，按变化更新姓名文字及空值颜色、焦点、连接提示和 toast；切换页面、房间或席位仍重建。手写 canvas、采样和识别算法未改。修复后上述 15 组指标全部为零；加测空姓名、与占位文字相同的真实姓名、焦点样式、断线恢复、提示框出现/过期、换房间/席位、Edit Name 触摸进入手写，以及 RANDOM 布局/触摸/预览/禁用状态，最终 **74 UI checks / 0 failed**。
+
+UI 证据目录 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/avatar-random-name-ui-20261018/`。`before-fix-final.log` SHA256 为 `7387787113777a5b5f6679484d1a29ab328824ae4d46965ea995d0a0db933ab1`；`after-fix-final.log` 为 `b6948ae1f5d242f8a783b3277b4b8fdd503d3ed65139ad6f8e60c3a71985a58d`。三张截图来自实际 LVGL 帧缓冲，头像使用最终真实包的指定 RGB565；另有网络缓存桩，不能当作实机下载或显示测试。[RANDOM 布局（CONFIRM 选中）](../player-console/images/avatar-setup-random-2026-10-18.png)与[姓名页 BACK 选中](../player-console/images/name-review-retained-2026-10-18.png)由主会话复制留档，玩家端和主会话均已数字目视核对布局。
+
+测试准备失败也保留：首次测试未启用电池 fixture，导致空 root 被几何检查访问而异常退出；修正只涉及测试初始化和非空断言。LVGL 性能统计标签自身的刷新失效在测量前排空，静止测试 fixture 清除启动 toast；这些测量修正没有改生产电池代码。追加样式断言时误用不存在的 `lv_color_eq`，改为颜色值比较后最终 74 项通过，编译错误日志保留。
+
+完整 ESP32 首轮编译于 `processIdentitySnapshot` 的匿名聚合赋值发生 Xtensa GCC `gimple_add_tmp_var` 内部错误，未产生应用候选。已改成具名默认初始化对象后赋值，保留全部成员默认值。失败日志和 2,147 个原始输入完整保存于 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/avatar-random-name-final-20261018/failed-baseline/`；最终增量构建沿用原绝对路径和配置，仅替换审核过的 app_state.cpp、app_types.h、ui_renderer.cpp、espnow_player_transport.cpp 四项，其余 2,143 项逐 SHA 不变。构建结果以下方最终交付为准。本轮不操作串口、不烧录，Git 索引与部署窗口由主会话负责。
+
+
+最终增量的第一次尝试通过了原报错点，随后在 clearProjection 的同型匿名赋值再次触发相同 GCC ICE；exit1 与完整 sketch 快照保存在上述目录的 failed-incremental-1，其库输入引用 failed-baseline 并再次逐 SHA 验证。继续修正 begin/clearProjection 两处，使三处均使用具名默认初始化；仅 espnow_player_transport.cpp 的冻结 SHA 改为 4c38dcb7cbb80ecb961f12b17cd95cd3233e52ffbc562d34b732ed4b9d50ace8，另外 2,146 项输入保持。为解决真实编译失败而继续增量构建，没有重跑无关回归或改动 UI、电池与输入。
+
+### 最终普通固件交付（未部署）
+
+继续增量后完整 ESP32 构建 **exit0**，UTC 05:34:19～05:44:57；GCC 内部错误消除，HWCDC 链接和实际构建配置检查通过。程序存储占用 1,952,614/3,145,728 bytes（62%），静态动态内存 127,400/327,680 bytes（38%）；这些构建统计不等于实际运行堆余量或帧率。实际应用 binary 为 **1,952,768 bytes**，SHA256 **`99f6a8405ca9da1f2ad7169da60fa7b32d02a36269f8d1be9ab377b927fc7788`**。
+
+本次候选是正常 Wi-Fi UDP、12 MHz、默认 catalog 1 且支持显式 V2，继续使用 viewe-md80et-v10 电池 profile；不是 SelfTest、ESP-NOW 或显示诊断固件。未修改时钟、输入驱动、电池实现或手写识别。2,147 个冻结输入的 SHA 全部符合清单，与构建后仓库来源也无漂移；已核验四个烧录段 offset 0/32768/57344/65536，并独立复制留存至 `C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/avatar-random-name-final-20261018/frozen-candidate/`，入口为该目录的 `candidate.json`。
+
+2,147 输入清单 `candidate-sources.json` SHA256 为 `6e719cc8337cf6b38f6e1957c56ef615de2aac9e40f09ebd5686b9c591cff0f4`。同级上层交付目录的 `player-source-manifest.json` 单列本轮 30 个源码/测试工具文件及快照，SHA256 为 `00f25f922323e5f7a98a6b4926e2e4f199312cc46def2b919565c4ce4927c5ed`；`firmware-verification.json`、`ui-verification.json` 和 `player-handoff.json` 记录四段 SHA、配置、日志、前后测量及未部署边界。前两次失败证据独立保留，最终成功没有覆盖它们。
+
+至此本次开发范围的源码、163 项 setup、74 项真实 LVGL、最终实际包 172 项及两组零差异复核、完整普通固件候选均已交付。**本轮没有打开串口或烧录，设备版本未由本任务改变，也未重新读回。** Git 审核/提交及后续部署由主会话负责；部署后仍需在真实玩家屏验收 RANDOM、头像显示和姓名页选中按钮稳定性，主机测试不能替代这项实屏确认。

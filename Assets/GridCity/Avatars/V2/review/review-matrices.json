@@ -1,0 +1,17 @@
+[
+  {
+    "file": "hair-face-matrix.png",
+    "rendered": 100,
+    "expected": 100
+  },
+  {
+    "file": "face-outfit-matrix.png",
+    "rendered": 100,
+    "expected": 100
+  },
+  {
+    "file": "skin-face-matrix.png",
+    "rendered": 80,
+    "expected": 80
+  }
+]

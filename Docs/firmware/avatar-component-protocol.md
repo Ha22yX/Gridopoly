@@ -1,8 +1,8 @@
-# Avatar Component Streaming Protocol v1
+# Avatar Component Streaming Protocol v1 / v2
 
-Status: canonical GAVC/catalog v1 remains frozen. Client lifecycle documentation checked
-against current source and archived deployment evidence on 2026-10-15; no new wire version
-or hardware acceptance is implied. Device versions and outstanding checks are listed in the
+Status (2026-10-18): canonical GAVC/catalog v1 remains frozen and live. V2 is a separate
+candidate with a shared neck and explicit skin materials; its source changes do not imply
+deployment or physical-screen acceptance. Device versions and outstanding checks are listed in the
 [current player baseline](../player-console/current-player-console-baseline.md).
 
 This contract distributes neutral structural avatar layers. The current console preloads all 30 components before editing, then changes presets and colors locally without network requests. The Raspberry Pi final-avatar compositor uses the same neutral component bytes, palettes, fixed-point tint rules, and source-over blend rules, so preview and final output have one pixel source of truth.
@@ -63,7 +63,47 @@ Encoding 1 is token RLE. Each token begins with a little-endian `uint16`:
 
 The decoder rejects overflow, trailing bytes, out-of-canvas rectangles, CRC mismatch, wrong kind/path, and wrong preset/path.
 
-## Palettes
+## V2 extension (candidate)
+
+V2 preserves all ten hair, face and outfit IDs and the palettes below. Its component URLs
+use `/assets/avatar-components/v2/`, with the same three groups and one additional
+`neck/n1.gavc`. The neck is fixed, not a player-selectable preset. There are 31 files.
+The preview route uses `/assets/avatar-previews/v2/`; final avatars use
+`/assets/avatars/v2/<room>/<key>.png` or `.rgb565`. Old confirmed V1 seats retain their
+V1 recipe and final path even if a later room uses V2.
+
+The header remains 32 bytes. Schema and encoding are both `2`; kind `4` means neck and
+allows only preset `1`. Each RLE sample is five bytes: **R, G, B, alpha, skinMask**.
+Literal runs use `count * 5` bytes; repeat runs contain one five-byte sample.
+`decodedBytes = width * height * 5`; CRC-32 covers every decoded byte including the mask.
+The URL catalog version must match the payload schema. V1 does not accept neck files.
+
+V2 composes `neck → face → outfit → hair`. For face and neck, mask `0` retains the original
+RGB, mask `255` fully applies the chosen skin tone, and intermediate values mix the two.
+Positive-mask source samples have neutral `R=G=B`; R is the shading value. For each channel:
+
+```text
+tinted = min(255, roundHalfUp(target * shade / 178))
+output = roundHalfUp((tinted * skinMask + original * (255 - skinMask)) / 255)
+```
+
+Alpha is unchanged. Eye whites, pupils and ink are protected by the authored/verified
+material mask. Hair uses the existing integer hair tint; outfits are not skin-tinted.
+V1 retains its previous color-classification rule. Both versions use the same integer
+source-over operation and 220×300 crop from the 320×320 registration canvas.
+
+V2 sources, registration and review evidence are in
+[Avatar V2](../../Assets/GridCity/Avatars/V2/README.md). Do not replace V1 files in place:
+immutable HTTP caching and loaded console components require separate release paths.
+The V2 server root is configured by `GRIDOPOLY_AVATAR_COMPONENT_V2_ROOT`, alongside the
+existing V1 root. New-room catalog selection is `GRIDOPOLY_AVATAR_CATALOG_VERSION`,
+default `1`; explicit `2` requires a complete V2 pack. Existing rooms are not migrated.
+
+The complete 31-file compressed pack must be ≤2,095,296 bytes and each file ≤128 KiB,
+leaving room for the existing two 220×300 RGB565 preview buffers. CRC/geometry, all-file
+capacity, cache-version isolation and actual rendering must be tested independently.
+
+## Palettes (shared IDs)
 
 Palette indices and RGB values are protocol data. They must not be reordered without a new catalog version.
 

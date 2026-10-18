@@ -65,6 +65,25 @@ inline void avatarTintSkinPixel(uint8_t pixel[4], const AvatarComponentRgb &targ
         static_cast<uint64_t>(target.b) * numerator, denominator);
 }
 
+// V2 stores neutral gray shading (reference 178) plus an explicit skin mask.
+// Read shade once: modifying R must not affect the G/B calculation. Alpha and
+// non-skin pixels (eye whites, outlines, etc.) retain their source values.
+inline void avatarTintSkinMaskedPixel(uint8_t pixel[5],
+                                      const AvatarComponentRgb &target)
+{
+    const uint32_t mask = pixel[4];
+    if (mask == 0 || pixel[3] == 0) return;
+    const uint32_t shade = pixel[0];
+    const uint8_t channels[3] = {target.r, target.g, target.b};
+    for (uint8_t channel = 0; channel < 3; ++channel) {
+        const uint8_t tinted = avatarRoundHalfUpByte(
+            static_cast<uint64_t>(channels[channel]) * shade, 178u);
+        pixel[channel] = avatarRoundHalfUpByte(
+            static_cast<uint64_t>(tinted) * mask +
+            static_cast<uint64_t>(pixel[channel]) * (255u - mask), 255u);
+    }
+}
+
 inline void avatarSourceOver(uint8_t destination[4], const uint8_t source[4])
 {
     const uint32_t sourceAlpha = source[3];

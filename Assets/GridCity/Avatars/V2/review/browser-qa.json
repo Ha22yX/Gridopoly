@@ -1,0 +1,117 @@
+{
+  "errors": [],
+  "counts": [
+    {
+      "id": "hair",
+      "options": 10
+    },
+    {
+      "id": "face",
+      "options": 10
+    },
+    {
+      "id": "outfit",
+      "options": 10
+    },
+    {
+      "id": "skin",
+      "options": 8
+    },
+    {
+      "id": "hairColor",
+      "options": 20
+    }
+  ],
+  "golden": "PASS \u00b7 JS GAVC \u89e3\u7801 / \u6574\u6570\u5408\u6210\u4e0e Python 220 \u00d7 300 \u53c2\u8003 SHA-256 \u4e00\u81f4",
+  "results": [
+    {
+      "recipe": {
+        "hair": 8,
+        "face": 7,
+        "outfit": 2,
+        "skin": "ebony",
+        "hairColor": "graphite"
+      },
+      "rgba320Sha256": "ed089c37f251ec4a38e71eca974e32e4e7105819057a00f83ab18a7d3571c207",
+      "rgba220x300Sha256": "7e5cf162b6e3b81fa45bd2ef107e03278b954fe3a1bc6a956b57ece14b245638"
+    },
+    {
+      "recipe": {
+        "hair": 1,
+        "face": 10,
+        "outfit": 7,
+        "skin": "porcelain",
+        "hairColor": "graphite"
+      },
+      "rgba320Sha256": "2387406e2cf8b947a7001847680b6d825569a9365f251e1ee4e193c2d3905e2c",
+      "rgba220x300Sha256": "f006f27bffd2986c60635c4dfa887e1bed59ed0f2c8233ed47fc634cc5e8e523"
+    },
+    {
+      "recipe": {
+        "hair": 8,
+        "face": 10,
+        "outfit": 7,
+        "skin": "ebony",
+        "hairColor": "graphite"
+      },
+      "rgba320Sha256": "3c37ad89d2e6135c3a7f2876bbfdfbbce1a2e818e2bd14e5c37a1aa9c62b8345",
+      "rgba220x300Sha256": "0b784969020884ea95b73754a53e6b0cefd8b32b88177b012768b9439ad3f6ca"
+    },
+    {
+      "recipe": {
+        "hair": 6,
+        "face": 7,
+        "outfit": 2,
+        "skin": "ebony",
+        "hairColor": "graphite"
+      },
+      "rgba320Sha256": "6a16f44a1ec38ac6600c902191c1279cda57522ea06473b3d5ed9cd523d6e66c",
+      "rgba220x300Sha256": "893b0dfb6b56636066c6e1f95af4f78b02367d04c9c4986d9cd44ff2deb94e2c"
+    },
+    {
+      "recipe": {
+        "hair": 10,
+        "face": 10,
+        "outfit": 7,
+        "skin": "ebony",
+        "hairColor": "graphite"
+      },
+      "rgba320Sha256": "cfa67559d15cbb1cd9b1cb30fa6ae00172660664816b6d87acc5dc616bdb5828",
+      "rgba220x300Sha256": "2b9973f4f70ccc5b7cb11db7f9f7b96ff8ad87f6555160978df97efe50377829"
+    }
+  ],
+  "pythonPixelComparison": "all 5 recipes byte-identical by SHA-256",
+  "components": {
+    "face/f1.gavc": "f242945e259078c1d437000c977c398dac920da98b15a6e133ff6798e1babd03",
+    "face/f2.gavc": "9b5df0ed557006c70e62504795f83b070a0f426432be81aa93ff4cc7024e3da8",
+    "face/f3.gavc": "6f1686bf8d62987c4daa9374d06b7fad396ad3ce6055d711d91d1ad96315157b",
+    "face/f4.gavc": "a20afee390faec0afe7f0f98ea830a140931c0b6c9c10fcd580223c55232f6f3",
+    "face/f5.gavc": "f3e049bec70a4a848248e1fef217c07b2b78c489436681d7fd063778c5595d84",
+    "face/f6.gavc": "03fbf327f4b72d59712093f515a3c380ed263e408a6f44d17a42eef80c86aa60",
+    "face/f7.gavc": "e1044925045a2ba9ba527ff71cfec1ac6851fffebf80ad8b506e72ca63e962db",
+    "face/f8.gavc": "306ede32a374c8dbf3144bde847256b66cd103abb54e742ea38afc04c0d1a730",
+    "face/f9.gavc": "4f0fab63b95b69f952c58c9b49da712ba148fbd3adcf2a882452ffb0aa8687dc",
+    "face/f10.gavc": "a062e362fa0b7ee92a205bb1a18c4d473121b190c9d7640580c353014c8985dc",
+    "outfit/o1.gavc": "a40481c929c707960ef6798809ceaf75685be7aa6109fc41c7eba3e35f12785f",
+    "outfit/o2.gavc": "545b2095f535ad7da494dd24859df81829b02876e843764c332c74e3e1ba4777",
+    "outfit/o3.gavc": "f5480d182995972d73d8d704616b9be6d29c02cbc71e62c68247c0a9d8fb91ed",
+    "outfit/o4.gavc": "839baa8ec78c94471df4f5e5887b227dc9c738168e500a1f3514166f3712ecd0",
+    "outfit/o5.gavc": "afc20a05767d90cfc125389d584253801869ed81ad55f66693a03362a199111d",
+    "outfit/o6.gavc": "cf04dd1c51769b8fa3d796565857c4ca5ceeded4d3e290ad539b619518ebfa8b",
+    "outfit/o7.gavc": "df149f2e1719ed70fd2a36eb12e509901b8ce20cd0e488948f7f9b8b66a99c87",
+    "outfit/o8.gavc": "9e239e3f9af1c686d7caf13842855b0c125daadd4dc69333abea154fbf962e4e",
+    "outfit/o9.gavc": "2e09fafee2825f0805845d24078836183410140f01a91dafd2667ffadf691079",
+    "outfit/o10.gavc": "a88af88aa1a146ca2e022f97a3fe0a7e88ddf8ab20d1c6023d02f631827917d0",
+    "hair/h1.gavc": "9376f9dc051967c6f99b637f2ef7cf764125c9835556050161578b2e971c9564",
+    "hair/h2.gavc": "a8994d4ce7910c53a26ce64486fd2a2a7b81ececd1969e636415ab2f5221581d",
+    "hair/h3.gavc": "37460dcfbcd138cd18b9bf2a6243fb8382d7d7ee6853bd811ec4e5bfc73c8480",
+    "hair/h4.gavc": "a968da6264f880160391e7ed4dc6b8efe3d75992cb93dd32d33da32bcc6ff903",
+    "hair/h5.gavc": "569f5c4816190caaa5645db562829bbed17448eb8bfcb1bcad87eeea198d78c5",
+    "hair/h6.gavc": "68722775c6f4aed0d39b74b8dcc865ce3728a6c33ff347fef30ca885a6308f68",
+    "hair/h7.gavc": "cd56af2d421690e18df10b9510e6fbb75b7a0e9f5730d25658d38df3d3738dbe",
+    "hair/h8.gavc": "05e02bb98ea813018f3ba410f6f3e7eb3478e56aebc91b1c7064f0f48d25043f",
+    "hair/h9.gavc": "166abeff784ccdd01e048255f5c99d06a870c040dad126b198c06526e3923eb7",
+    "hair/h10.gavc": "f72c1febcc725759b44019d3c5945258cf89bb3f10fd27de0fa357fb7a8bb404",
+    "neck/n1.gavc": "aa7701a1ff211310dcca8cc8c00041e685fc95ba2a83d4794624ff5c0d9a6279"
+  }
+}

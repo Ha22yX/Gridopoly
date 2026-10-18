@@ -81,6 +81,7 @@ lv_obj_t *avatarPortraitSpinner = nullptr;
 lv_obj_t *avatarPortraitStatus = nullptr;
 lv_obj_t *avatarConfirmObject = nullptr;
 lv_obj_t *avatarConfirmLabel = nullptr;
+lv_obj_t *avatarRandomObject = nullptr;
 lv_obj_t *nameDraftLabel = nullptr;
 lv_obj_t *handwritingStatusLabel = nullptr;
 lv_obj_t *toastObject = nullptr;
@@ -797,11 +798,11 @@ bool bindingIsFocused(const AppState &state, TouchAction action)
             return action == (state.focus == 0 ? TouchAction::DetailPrimary
                                                : TouchAction::DetailSecondary);
         case ScreenPage::AvatarSetup:
-            if (state.focus < static_cast<uint8_t>(AvatarEditField::Confirm)) {
+            if (state.focus < static_cast<uint8_t>(AvatarEditField::Count)) {
                 return action == static_cast<TouchAction>(
                     static_cast<uint16_t>(TouchAction::IdentityRow0) + state.focus);
             }
-            return action == TouchAction::IdentityConfirm;
+            return false;
         case ScreenPage::AvatarLoading:
             return false;
         case ScreenPage::NameReview:
@@ -857,9 +858,12 @@ void refreshSamePageFocus(const AppState &state)
 
         for (uint8_t index = 0; index < tapBindingCount; ++index) {
             TapBinding &binding = tapBindings[index];
-            if (binding.action != TouchAction::IdentityConfirm) continue;
-            const uint8_t confirm = static_cast<uint8_t>(AvatarEditField::Confirm);
-            if (!focusChanged || (state.focus != confirm && previousFocus != confirm)) continue;
+            if (binding.action != TouchAction::IdentityConfirm &&
+                binding.action != TouchAction::IdentityRandom) continue;
+            const uint8_t buttonFocus = binding.action == TouchAction::IdentityConfirm
+                ? static_cast<uint8_t>(AvatarEditField::Confirm)
+                : static_cast<uint8_t>(AvatarEditField::Random);
+            if (!focusChanged || (state.focus != buttonFocus && previousFocus != buttonFocus)) continue;
             const bool focused = bindingIsFocused(state, binding.action);
             lv_obj_set_style_bg_color(
                 binding.object,
@@ -2798,7 +2802,8 @@ void drawFinalAvatar(lv_obj_t *parent, const AppState &state,
     const lv_img_dsc_t *avatar = nullptr;
     if (finalExpected && seat != nullptr) {
         avatar = remoteAvatarFinal(state.authorityRoomId, seat->playerId,
-                                   seat->avatarRevision, seat->avatarCacheTag);
+                                   seat->avatarRevision, seat->avatarCacheTag,
+                                   seat->recipe.catalogVersion);
     }
     if (avatar != nullptr) {
         lv_obj_t *image = lv_img_create(viewport);
@@ -2887,7 +2892,8 @@ void drawAvatarSilhouette(const TransportAvatarRecipe &recipe, bool loading)
 void updateAvatarPreloadVisual(const AppState &state)
 {
     const uint8_t total = state.identity.avatarPreloadTotalCount == 0
-        ? 30 : state.identity.avatarPreloadTotalCount;
+        ? avatarCatalogComponentCount(state.identity.draftRecipe.catalogVersion)
+        : state.identity.avatarPreloadTotalCount;
     const uint8_t ready = state.identity.avatarPreloadReadyCount > total
         ? total : state.identity.avatarPreloadReadyCount;
     if (avatarPreloadArc != nullptr) {
@@ -3032,6 +3038,17 @@ void drawAvatarSetup(const AppState &state)
     makeClickable(avatarConfirmObject, TouchAction::IdentityConfirm,
                   avatarConfirmLabel, kGreen);
     if (focused) animateFocusEntry(avatarConfirmObject);
+    const bool randomFocused = state.focus == static_cast<uint8_t>(AvatarEditField::Random);
+    // Inset the smaller secondary action to stay inside the round screen and
+    // above the battery badge. It changes only the local avatar draft.
+    avatarRandomObject = uiBox(root, UiRect{132, 398, 88, 30},
+                              randomFocused ? 0x16302A : kPanel,
+                              randomFocused ? kGreen : kLine, 6);
+    lv_obj_t *randomLabel = uiLabel(avatarRandomObject, "RANDOM",
+        UiRect{4, 7, 80, 16}, &lv_font_montserrat_10, randomFocused ? kGreen : kText);
+    makeClickable(avatarRandomObject, TouchAction::IdentityRandom, randomLabel, kGreen);
+    if (submitting) lv_obj_add_state(avatarRandomObject, LV_STATE_DISABLED);
+    if (randomFocused) animateFocusEntry(avatarRandomObject);
 }
 
 void updateAvatarPortrait(const AppState &state)
@@ -3114,6 +3131,14 @@ void updateAvatarSetupRetained(const AppState &state)
                 ? "SAVING..." : "CONFIRM"
         );
     }
+    if (avatarRandomObject != nullptr &&
+        state.identity.phase != previousRenderedState.identity.phase) {
+        if (state.identity.phase == IdentityClientPhase::AvatarSubmitting) {
+            lv_obj_add_state(avatarRandomObject, LV_STATE_DISABLED);
+        } else {
+            lv_obj_clear_state(avatarRandomObject, LV_STATE_DISABLED);
+        }
+    }
     if (state.focus != previousFocus ||
         state.identity.editingValue != previousRenderedState.identity.editingValue)
         refreshSamePageFocus(state);
@@ -3122,7 +3147,7 @@ void updateAvatarSetupRetained(const AppState &state)
 void drawNameReview(const AppState &state)
 {
     drawOuterRing(kGreen);
-    uiLabel(root, state.identity.draftName[0] == '\0' ? "YOUR NAME" : state.identity.draftName,
+    nameDraftLabel = uiLabel(root, state.identity.draftName[0] == '\0' ? "YOUR NAME" : state.identity.draftName,
             UiRect{80, 118, 320, 54}, &lv_font_montserrat_24,
             state.identity.draftName[0] == '\0' ? kMuted : kText);
     uiLabel(root, "PRESS THE NAME TO WRITE", UiRect{110, 180, 260, 20},
@@ -3489,6 +3514,7 @@ void rebuild(const AppState &state, uint32_t nowMs)
     avatarPortraitStatus = nullptr;
     avatarConfirmObject = nullptr;
     avatarConfirmLabel = nullptr;
+    avatarRandomObject = nullptr;
     switch (state.page) {
         case ScreenPage::Home: drawHome(state, nowMs); break;
         case ScreenPage::Assets: drawAssets(state); break;
@@ -3586,15 +3612,22 @@ void uiRendererRender(const AppState &state, uint32_t nowMs)
     if (root == nullptr) return;
     selectVisibleArtwork(state);
     prefetchRollTargetArtwork(state);
-    // Network revisions and draft-label updates belong to the same writing
-    // session. Rebuilding this page would delete its canvas and cancel ink.
-    if (hasRenderedState && state.page == ScreenPage::NameHandwriting &&
-        previousPage == ScreenPage::NameHandwriting &&
+    // Keep both name pages within the same seat/room session. Background
+    // updates must not replay the review buttons' entry fade or delete ink.
+    if (hasRenderedState && state.page == previousPage &&
+        (state.page == ScreenPage::NameHandwriting || state.page == ScreenPage::NameReview) &&
         state.authorityRoomId == previousRenderedState.authorityRoomId &&
         state.selfSeatId == previousRenderedState.selfSeatId) {
-        const char *name = state.identity.draftName[0] == '\0' ? "_" : state.identity.draftName;
-        if (nameDraftLabel != nullptr && strcmp(lv_label_get_text(nameDraftLabel), name) != 0)
+        const bool reviewing = state.page == ScreenPage::NameReview;
+        const bool emptyName = state.identity.draftName[0] == '\0';
+        const char *name = emptyName ? (reviewing ? "YOUR NAME" : "_") : state.identity.draftName;
+        if (nameDraftLabel != nullptr &&
+            (strcmp(lv_label_get_text(nameDraftLabel), name) != 0 ||
+             (reviewing && emptyName != (previousRenderedState.identity.draftName[0] == '\0')))) {
             lv_label_set_text(nameDraftLabel, name);
+            if (reviewing) lv_obj_set_style_text_color(nameDraftLabel,
+                lv_color_hex(emptyName ? kMuted : kText), 0);
+        }
         if (handwritingStatusLabel != nullptr &&
             strcmp(lv_label_get_text(handwritingStatusLabel), handwritingStatusText(state)) != 0)
             lv_label_set_text(handwritingStatusLabel, handwritingStatusText(state));
@@ -3802,6 +3835,7 @@ void uiRendererResetForTest()
     avatarPortraitStatus = nullptr;
     avatarConfirmObject = nullptr;
     avatarConfirmLabel = nullptr;
+    avatarRandomObject = nullptr;
     uiSetEventSink(nullptr);
 }
 

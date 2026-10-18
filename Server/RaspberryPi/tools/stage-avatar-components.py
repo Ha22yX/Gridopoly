@@ -1,57 +1,38 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
-import json
-import shutil
-import sys
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "Assets/GridCity/Avatars/V1/runtime/components-v1"
-MANIFEST = ROOT / "Assets/GridCity/Avatars/V1/runtime/avatar-components-v1.json"
-
-
-def fail(message: str) -> None:
-    raise SystemExit(f"AVATAR COMPONENT STAGE FAIL: {message}")
+from avatar_component_release import runtime_path, verify_existing, verify_runtime
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
-        fail("usage: stage-avatar-components.py <empty-target-directory>")
-    target = Path(sys.argv[1]).resolve()
-    if not target.is_dir() or any(target.iterdir()):
-        fail("target must be an existing empty directory")
-    manifest_bytes = MANIFEST.read_bytes()
-    manifest = json.loads(manifest_bytes)
-    entries = manifest.get("entries", [])
-    if manifest.get("schema") != 1 or len(entries) != 30:
-        fail("manifest schema/count")
-    expected = {entry["file"] for entry in entries}
-    actual = {path.relative_to(SOURCE).as_posix() for path in SOURCE.rglob("*.gavc")}
-    if actual != expected:
-        fail("source file set")
-    for entry in entries:
-        source = SOURCE / entry["file"]
-        data = source.read_bytes()
-        if len(data) != entry["fileBytes"] or hashlib.sha256(data).hexdigest() != entry["fileSha256"]:
-            fail(f"source hash {entry['file']}")
-        destination = target / entry["file"]
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_bytes(data)
-    (target / "manifest.json").write_bytes(manifest_bytes)
-    staged = {path.relative_to(target).as_posix() for path in target.rglob("*.gavc")}
-    all_files = [path for path in target.rglob("*") if path.is_file()]
-    if staged != expected or len(all_files) != 31:
-        fail("staged file set")
-    print(
-        f"AVATAR COMPONENT STAGE PASS: gavc=30 files=31 "
-        f"manifest-sha256={hashlib.sha256(manifest_bytes).hexdigest()}"
-    )
+    parser = argparse.ArgumentParser(description="Stage or verify one immutable avatar release.")
+    parser.add_argument("target", type=Path)
+    parser.add_argument("--catalog-version", type=int, choices=(1, 2), default=1)
+    parser.add_argument("--runtime-root")
+    parser.add_argument("--verify-existing", action="store_true")
+    args = parser.parse_args()
+    target = args.target.absolute()
+    if not args.verify_existing and (target.is_symlink() or not target.is_dir() or any(target.iterdir())):
+        raise ValueError("target must be an existing empty directory")
+    manifest_bytes, _, files = verify_runtime(runtime_path(args.catalog_version, args.runtime_root),
+                                             args.catalog_version)
+    if not args.verify_existing:
+        for name, data in files.items():
+            destination = target / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(data)
+        (target / "manifest.json").write_bytes(manifest_bytes)
+    verify_existing(target, manifest_bytes, files)
+    print(f"AVATAR COMPONENT STAGE PASS: catalog={args.catalog_version} "
+          f"gavc={len(files)} files={len(files) + 1} "
+          f"manifest-sha256={hashlib.sha256(manifest_bytes).hexdigest()}")
 
 
 if __name__ == "__main__":
     try:
         main()
-    except (OSError, ValueError, KeyError) as error:
-        fail(str(error))
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        raise SystemExit(f"AVATAR COMPONENT STAGE FAIL: {error}") from error

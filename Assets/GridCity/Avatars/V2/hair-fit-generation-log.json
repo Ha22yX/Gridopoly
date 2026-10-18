@@ -1,0 +1,67 @@
+{
+  "status": "fit-correction-candidate",
+  "generator": "built-in image_gen",
+  "reason": "User reported H06/H08 width and H10 face fitting defects",
+  "jobs": [
+    {
+      "id": "h06-fit2",
+      "path": "source/hair/h06.png",
+      "prompt": "Use case: precise-object-edit. Make one production transparent hair-only sprite for a modular front-facing avatar. Image 1 is the EXACT common bald head geometry (a registration guide, must NOT appear in the final output); Image 2 is the current hair design to be corrected. Keep square canvas, center axis x=50%, front elevation, style of fine dark ink with clean cel-shaded neutral-gray facets. The current hair sits too wide and leaves transparent gaps at the temples. Rebuild its INNER opening to snugly overlap the guide head sides by about 2% of the head width, following temples from forehead to just above the ears. The forehead is narrower than the ear-to-ear bounding box; do not size the scalp using ear width. The cap must cover the top of the bald head. Do not move, scale or include the head. Keep hair geometry at same position relative to the canvas. Transparent area inside the hair opening must expose the face; output hair ONLY with no skin, eyes, head, neck, clothes, props or background. Real transparent PNG alpha, no pale halo or detached specks. Neutral warm gray hair with charcoal outlines, not black-filled silhouette. Hair style SHORT COILS: tightly cropped compact curls, small textured coils very close to the scalp, tapered temples, a natural rounded hairline. Much narrower than current broad cap: outer width above ears only slightly greater than the guide head, not an afro. Ear locations remain unobstructed, tiny tapered sideburns stop at upper ears. Maintain exact guide alignment.",
+      "generatedPath": "C:\\Users\\kicof\\.codex\\generated_images\\01a074be-4f3e-7d40-9aac-9f794be8de4b\\exec-70ffdf55-fe30-4154-9a8b-108d062d2243.png",
+      "sourceSha256": "c5b555a0aff25c07913f6589b08e288e7dbbc5d90f278bffd2555faedcbdaea9",
+      "referencesUsedAtGeneration": [
+        "Z:/Files/我的项目/Gridopoly/Assets/GridCity/Avatars/V2/device/registered/face/f1.png",
+        "Z:/Files/我的项目/Gridopoly/Assets/GridCity/Avatars/V2/device/registered/hair/h6.png"
+      ],
+      "referenceArchive": [
+        "source\\references\\hair-fit\\face-f1.png",
+        "source\\references\\hair-fit\\hair-h6.png"
+      ],
+      "referenceArchiveSha256": [
+        "9c6d45cb604cf87098f5efa5912b71db2ca42b0e5f428f717230effa4204ee04",
+        "e0e367b92ca327f5bcdb97b0e083c13ca59bba039692b90c26f7d65477a8ed7d"
+      ],
+      "referenceArchiveNote": "Registered reference pixels retained/reconstructed from the first candidate registration; generated source originals are unchanged."
+    },
+    {
+      "id": "h08-fit2",
+      "path": "source/hair/h08-fit2.png",
+      "prompt": "Use case: precise-object-edit. Make one production transparent hair-only sprite for a modular front-facing avatar. Image 1 is the EXACT common bald head geometry (a registration guide, must NOT appear in the final output); Image 2 is the current hair design to be corrected. Keep square canvas, center axis x=50%, front elevation, style of fine dark ink with clean cel-shaded neutral-gray facets. The current hair sits too wide and leaves transparent gaps at the temples. Rebuild its INNER opening to snugly overlap the guide head sides by about 2% of the head width, following temples from forehead to just above the ears. The forehead is narrower than the ear-to-ear bounding box; do not size the scalp using ear width. The cap must cover the top of the bald head. Do not move, scale or include the head. Keep hair geometry at same position relative to the canvas. Transparent area inside the hair opening must expose the face; output hair ONLY with no skin, eyes, head, neck, clothes, props or background. Real transparent PNG alpha, no pale halo or detached specks. Neutral warm gray hair with charcoal outlines, not black-filled silhouette. Hair style BRAIDED CROWN: narrow realistic crown braid wrapped close to the skull, compact individual braid sections, modest top volume. Reduce horizontal outer volume about 15% versus the current hair, especially both temples; lower inner tips must follow the head instead of floating outside it. Retain elegant woven crown identity, not a large helmet or turban. Ear locations remain visible. Maintain exact guide alignment.",
+      "generatedPath": "C:\\Users\\kicof\\.codex\\generated_images\\01a074be-4f3e-7d40-9aac-9f794be8de4b\\exec-dddc8365-220d-49a5-ba0a-c6ec8fa19cda.png",
+      "sourceSha256": "3830e36600db64baf7e0cb7f7460ea24e8988cfbccd4228c3b4784245b438c47",
+      "referencesUsedAtGeneration": [
+        "Z:/Files/我的项目/Gridopoly/Assets/GridCity/Avatars/V2/device/registered/face/f1.png",
+        "Z:/Files/我的项目/Gridopoly/Assets/GridCity/Avatars/V2/device/registered/hair/h8.png"
+      ],
+      "referenceArchive": [
+        "source\\references\\hair-fit\\face-f1.png",
+        "source\\references\\hair-fit\\hair-h8.png"
+      ],
+      "referenceArchiveSha256": [
+        "9c6d45cb604cf87098f5efa5912b71db2ca42b0e5f428f717230effa4204ee04",
+        "98e6bebd0dfabea95e4ddae68d08f561a8737455d6e434980fd37cb4540fb2b2"
+      ],
+      "referenceArchiveNote": "Registered reference pixels retained/reconstructed from the first candidate registration; generated source originals are unchanged."
+    },
+    {
+      "id": "h10-fit2",
+      "path": "source/hair/h10.png",
+      "prompt": "Use case: precise-object-edit. Make one production transparent hair-only sprite for a modular front-facing avatar. Image 1 is the EXACT common bald head geometry (a registration guide, must NOT appear in the final output); Image 2 is the current hair design to be corrected. Keep square canvas, center axis x=50%, front elevation, style of fine dark ink with clean cel-shaded neutral-gray facets. The current hair sits too wide and leaves transparent gaps at the temples. Rebuild its INNER opening to snugly overlap the guide head sides by about 2% of the head width, following temples from forehead to just above the ears. The forehead is narrower than the ear-to-ear bounding box; do not size the scalp using ear width. The cap must cover the top of the bald head. Do not move, scale or include the head. Keep hair geometry at same position relative to the canvas. Transparent area inside the hair opening must expose the face; output hair ONLY with no skin, eyes, head, neck, clothes, props or background. Real transparent PNG alpha, no pale halo or detached specks. Neutral warm gray hair with charcoal outlines, not black-filled silhouette. Hair style LONG STRAIGHT: center-part smooth straight hair, a close-fitting scalp with two narrow long side curtains. Inner edges follow temples and gently overlap lateral cheeks; no open crescent of background between hair and skin. Keep face/eyes/mouth fully visible. Long locks run vertically down beyond the jaw to shoulder level, slim silhouette, no outward flare. Lower curtains can continue below jaw on either side but leave central neck space transparent. No back panel across face opening. Maintain exact guide alignment.",
+      "generatedPath": "C:\\Users\\kicof\\.codex\\generated_images\\01a074be-4f3e-7d40-9aac-9f794be8de4b\\exec-5bc88b6a-a004-4e76-bbc7-0a8747a556a0.png",
+      "sourceSha256": "f46f889dfc0df5d495b17b5cd14b813a098121a0cb3df559d6ab594747edc5a2",
+      "referencesUsedAtGeneration": [
+        "Z:/Files/我的项目/Gridopoly/Assets/GridCity/Avatars/V2/device/registered/face/f1.png",
+        "Z:/Files/我的项目/Gridopoly/Assets/GridCity/Avatars/V2/device/registered/hair/h10.png"
+      ],
+      "referenceArchive": [
+        "source\\references\\hair-fit\\face-f1.png",
+        "source\\references\\hair-fit\\hair-h10.png"
+      ],
+      "referenceArchiveSha256": [
+        "9c6d45cb604cf87098f5efa5912b71db2ca42b0e5f428f717230effa4204ee04",
+        "3613e15f2f2d7bcea1e48b213dfd2d306b95402a1152cf98632321941cf82e46"
+      ],
+      "referenceArchiveNote": "Registered reference pixels retained/reconstructed from the first candidate registration; generated source originals are unchanged."
+    }
+  ]
+}

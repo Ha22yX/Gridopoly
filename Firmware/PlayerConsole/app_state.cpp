@@ -746,7 +746,7 @@ uint8_t contentCount(const AppState &state, ScreenPage page)
         case ScreenPage::TagPairing: return appTagPairCanManage(state) ? 2 : 0;
         case ScreenPage::GameOver:
         case ScreenPage::Spectator: return 0;
-        case ScreenPage::AvatarSetup: return 6;
+        case ScreenPage::AvatarSetup: return static_cast<uint8_t>(AvatarEditField::Count);
         case ScreenPage::NameReview: return 3;
         case ScreenPage::NameHandwriting: return 2;
         case ScreenPage::PlayerReady: return 0;
@@ -1248,6 +1248,42 @@ uint8_t wrapIdentityValue(uint8_t current, int16_t delta, uint8_t maximum)
     return static_cast<uint8_t>(value + 1);
 }
 
+uint8_t randomAvatarValue(uint32_t &randomState, uint8_t maximum)
+{
+    randomState ^= randomState << 13;
+    randomState ^= randomState >> 17;
+    randomState ^= randomState << 5;
+    return static_cast<uint8_t>(randomState % maximum + 1u);
+}
+
+void randomizeAvatarDraft(AppState &state, uint32_t nowMs)
+{
+    uint32_t &randomState = state.identity.avatarRandomState;
+    if (randomState == 0) {
+        randomState = nowMs ^ state.authorityRoomId ^
+            (static_cast<uint32_t>(state.selfSeatId) << 24) ^ 0x9E3779B9u;
+        if (randomState == 0) randomState = 0xA341316Cu;
+    }
+    const TransportAvatarRecipe previous = state.identity.draftRecipe;
+    TransportAvatarRecipe &recipe = state.identity.draftRecipe;
+    recipe.hairPresetId = randomAvatarValue(randomState, kHairPresetCount);
+    recipe.hairColorId = randomAvatarValue(randomState, kHairColorCount);
+    recipe.facePresetId = randomAvatarValue(randomState, kFacePresetCount);
+    recipe.skinToneId = randomAvatarValue(randomState, kSkinToneCount);
+    recipe.outfitPresetId = randomAvatarValue(randomState, kOutfitPresetCount);
+    // A press always offers a new combination; individual fields may repeat.
+    if (recipe.hairPresetId == previous.hairPresetId &&
+        recipe.hairColorId == previous.hairColorId &&
+        recipe.facePresetId == previous.facePresetId &&
+        recipe.skinToneId == previous.skinToneId &&
+        recipe.outfitPresetId == previous.outfitPresetId) {
+        recipe.hairPresetId = wrapIdentityValue(recipe.hairPresetId, 1, kHairPresetCount);
+    }
+    state.identity.editingValue = false;
+    state.identity.draftDirty = true;
+    touchRevision(state);
+}
+
 void applyIdentityDraftDelta(AppState &state, int16_t delta)
 {
     if (delta == 0) return;
@@ -1274,6 +1310,8 @@ void applyIdentityDraftDelta(AppState &state, int16_t delta)
                 state.identity.draftRecipe.outfitPresetId, delta, kOutfitPresetCount);
             break;
         case AvatarEditField::Confirm:
+        case AvatarEditField::Random:
+        case AvatarEditField::Count:
             return;
     }
     state.identity.draftDirty = true;
@@ -1403,7 +1441,8 @@ void applyIdentitySnapshot(AppState &state, const TransportEvent &event,
         showIdentityPage(state,
                          state.identity.phase == IdentityClientPhase::AvatarLoading
                              ? ScreenPage::AvatarLoading : ScreenPage::AvatarSetup,
-                         state.identity.focus < 6 ? state.identity.focus : 0);
+                         state.identity.focus < static_cast<uint8_t>(AvatarEditField::Count)
+                             ? state.identity.focus : 0);
         return;
     }
 
@@ -2174,6 +2213,10 @@ void activate(AppState &state, uint32_t nowMs)
             return;
         case ScreenPage::AvatarSetup:
             if (state.identity.phase == IdentityClientPhase::AvatarSubmitting) return;
+            if (focus == static_cast<uint8_t>(AvatarEditField::Random)) {
+                randomizeAvatarDraft(state, nowMs);
+                return;
+            }
             if (focus < static_cast<uint8_t>(AvatarEditField::Confirm)) {
                 state.identity.editingValue = !state.identity.editingValue;
                 touchRevision(state);
@@ -3396,7 +3439,8 @@ void appUpdateAvatarPreloadProgress(AppState &state, uint8_t readyCount,
                                     uint8_t totalCount, bool complete)
 {
     if (appTagPairBlocksIdentity(state)) return;
-    const uint8_t normalizedTotal = totalCount == 0 ? 30 : totalCount;
+    const uint8_t normalizedTotal = totalCount == 0
+        ? avatarCatalogComponentCount(state.identity.draftRecipe.catalogVersion) : totalCount;
     bool changed = state.identity.avatarPreloadReadyCount != readyCount ||
                    state.identity.avatarPreloadTotalCount != normalizedTotal;
     state.identity.avatarPreloadReadyCount = readyCount;
@@ -5187,7 +5231,8 @@ void appHandleTouch(AppState &state, TouchAction action, uint32_t nowMs)
         return;
     }
     if (raw >= static_cast<uint16_t>(TouchAction::IdentityRow0) &&
-        raw <= static_cast<uint16_t>(TouchAction::IdentityConfirm)) {
+        raw <= static_cast<uint16_t>(TouchAction::IdentityRandom)) {
+        if (state.nav.current.page != ScreenPage::AvatarSetup) return;
         const int16_t focus = static_cast<int16_t>(
             raw - static_cast<uint16_t>(TouchAction::IdentityRow0));
         setFocus(state, static_cast<uint8_t>(focus));

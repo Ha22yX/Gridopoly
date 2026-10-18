@@ -75,6 +75,14 @@ int main() {
       "/usr/local/share/gridopoly/avatar/components-v1");
   identityOptions.avatarAssetRoot = environment(
       "GRIDOPOLY_AVATAR_ASSET_ROOT", "/var/lib/gridopoly/assets");
+  identityOptions.avatarComponentV2Root = environment(
+      "GRIDOPOLY_AVATAR_COMPONENT_V2_ROOT", "/usr/local/share/gridopoly/avatar/components-v2");
+  const auto avatarCatalog = environment("GRIDOPOLY_AVATAR_CATALOG_VERSION", "1");
+  if (avatarCatalog != "1" && avatarCatalog != "2") {
+    std::cerr << "GRIDOPOLY_FATAL unsupported_avatar_catalog\n";
+    return 3;
+  }
+  identityOptions.avatarCatalogVersion = avatarCatalog == "2" ? 2 : 1;
   gridopoly::pi::AuthorityService authority(dataDirectory / "state.bin",
       dataDirectory / "authority.meta", 0,
       millisecondsEnvironment("GRIDOPOLY_BOT_ACTION_INTERVAL_MS", 1200, 100, 10000),

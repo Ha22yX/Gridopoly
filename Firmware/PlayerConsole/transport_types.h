@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "avatar_catalog_config.h"
 #include "tag_pair_types.h"
 
 enum class TransportCommandKind : uint8_t {
@@ -123,7 +124,7 @@ enum class TransportIdentityResult : uint8_t {
 };
 
 struct TransportAvatarRecipe {
-    uint16_t catalogVersion = 1;
+    uint16_t catalogVersion = kAvatarDefaultCatalogVersion;
     uint8_t hairPresetId = 1;
     uint8_t hairColorId = 1;
     uint8_t facePresetId = 1;
@@ -135,7 +136,9 @@ inline TransportAvatarRecipe normalizedTransportAvatarRecipe(
     const TransportAvatarRecipe &source)
 {
     TransportAvatarRecipe normalized = source;
-    if (normalized.catalogVersion != 1) normalized.catalogVersion = 1;
+    if (!avatarCatalogSupported(normalized.catalogVersion)) {
+        normalized.catalogVersion = kAvatarDefaultCatalogVersion;
+    }
     if (normalized.hairPresetId < 1 || normalized.hairPresetId > 10) {
         normalized.hairPresetId = 1;
     }

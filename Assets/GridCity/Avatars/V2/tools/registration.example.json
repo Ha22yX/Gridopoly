@@ -1,0 +1,860 @@
+{
+  "schema": 2,
+  "artRelease": "avatar-v2-draft",
+  "status": "draft-unreviewed",
+  "faceTemplate": 1,
+  "quantization": {
+    "rgbStep": 8,
+    "alphaStep": 17
+  },
+  "components": [
+    {
+      "kind": "face",
+      "presetId": 1,
+      "name": "Angular Oval",
+      "source": "source/face/f01.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ],
+        "yAnchors": [
+          [
+            600,
+            140
+          ]
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 2,
+      "name": "Soft Square",
+      "source": "source/face/f02.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 3,
+      "name": "Round Youthful",
+      "source": "source/face/f03.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 4,
+      "name": "Heart Taper",
+      "source": "source/face/f04.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 5,
+      "name": "Long Rectangle",
+      "source": "source/face/f05.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 6,
+      "name": "Diamond Angular",
+      "source": "source/face/f06.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 7,
+      "name": "Broad Strong",
+      "source": "source/face/f07.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 8,
+      "name": "Soft Triangle",
+      "source": "source/face/f08.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 9,
+      "name": "Narrow Refined",
+      "source": "source/face/f09.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "face",
+      "presetId": 10,
+      "name": "Mature Sculpted",
+      "source": "source/face/f10.png",
+      "registration": {
+        "reviewed": false,
+        "method": "common-face",
+        "targetBox": [
+          94,
+          67,
+          226,
+          218
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178,
+        "protectRegions": [
+          {
+            "box": [
+              118,
+              132,
+              151,
+              151
+            ],
+            "mode": "eye"
+          },
+          {
+            "box": [
+              169,
+              132,
+              202,
+              151
+            ],
+            "mode": "eye"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 1,
+      "name": "Utility Bomber",
+      "source": "source/outfit/o01.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 2,
+      "name": "Operations Jacket",
+      "source": "source/outfit/o02.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 3,
+      "name": "Streetline Hoodie",
+      "source": "source/outfit/o03.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 4,
+      "name": "Metro Varsity",
+      "source": "source/outfit/o04.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 5,
+      "name": "Civic Blazer",
+      "source": "source/outfit/o05.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 6,
+      "name": "Workshop Vest",
+      "source": "source/outfit/o06.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 7,
+      "name": "Signal Knit",
+      "source": "source/outfit/o07.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 8,
+      "name": "Denim Commuter",
+      "source": "source/outfit/o08.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 9,
+      "name": "Rainline Shell",
+      "source": "source/outfit/o09.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "outfit",
+      "presetId": 10,
+      "name": "Gala Tailored",
+      "source": "source/outfit/o10.png",
+      "registration": {
+        "reviewed": false,
+        "method": "neckline",
+        "targetBox": [
+          35,
+          206,
+          285,
+          320
+        ],
+        "neckline": {
+          "topY": 210,
+          "bottomY": 242,
+          "leftX": 124,
+          "rightX": 196
+        }
+      }
+    },
+    {
+      "kind": "hair",
+      "presetId": 1,
+      "name": "Angular Crop",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H01"
+    },
+    {
+      "kind": "hair",
+      "presetId": 2,
+      "name": "Asymmetric Bob",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H02"
+    },
+    {
+      "kind": "hair",
+      "presetId": 3,
+      "name": "Textured Quiff",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H03"
+    },
+    {
+      "kind": "hair",
+      "presetId": 4,
+      "name": "Curly Fade",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H04"
+    },
+    {
+      "kind": "hair",
+      "presetId": 5,
+      "name": "Classic Side Part",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H05"
+    },
+    {
+      "kind": "hair",
+      "presetId": 6,
+      "name": "Short Coils",
+      "registration": {
+        "reviewed": false,
+        "method": "alpha-box",
+        "targetBox": [
+          99,
+          42,
+          221,
+          158
+        ],
+        "innerFit": {
+          "strengthAnchors": [
+            [
+              100,
+              0
+            ],
+            [
+              110,
+              1
+            ],
+            [
+              151,
+              1
+            ],
+            [
+              158,
+              0
+            ]
+          ],
+          "overlapPixels": 2,
+          "maximumInnerShift": 24,
+          "auditRows": [
+            110,
+            151
+          ],
+          "minimumOverlap": 1,
+          "maximumOverlap": 5
+        }
+      },
+      "source": "source/hair/h06.png"
+    },
+    {
+      "kind": "hair",
+      "presetId": 7,
+      "name": "Shoulder Waves",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H07"
+    },
+    {
+      "kind": "hair",
+      "presetId": 8,
+      "name": "Braided Crown",
+      "source": "source/hair/h08-fit2.png",
+      "registration": {
+        "reviewed": false,
+        "method": "alpha-box",
+        "targetBox": [
+          96,
+          45,
+          224,
+          176
+        ],
+        "innerFit": {
+          "strengthAnchors": [
+            [
+              96,
+              0
+            ],
+            [
+              112,
+              1
+            ],
+            [
+              166,
+              1
+            ],
+            [
+              176,
+              0
+            ]
+          ],
+          "overlapPixels": 2,
+          "maximumInnerShift": 24,
+          "auditRows": [
+            112,
+            166
+          ],
+          "minimumOverlap": 1,
+          "maximumOverlap": 5
+        }
+      }
+    },
+    {
+      "kind": "hair",
+      "presetId": 9,
+      "name": "High Bun",
+      "registration": {
+        "method": "legacy-v1-approved-registration",
+        "reviewed": true
+      },
+      "legacyHair": "H09"
+    },
+    {
+      "kind": "hair",
+      "presetId": 10,
+      "name": "Long Straight",
+      "registration": {
+        "reviewed": false,
+        "method": "alpha-box",
+        "targetBox": [
+          84,
+          39,
+          236,
+          247
+        ],
+        "innerFit": {
+          "strengthAnchors": [
+            [
+              95,
+              0
+            ],
+            [
+              112,
+              1
+            ],
+            [
+              181,
+              1
+            ],
+            [
+              212,
+              0
+            ]
+          ],
+          "overlapPixels": 2,
+          "maximumInnerShift": 24,
+          "auditRows": [
+            112,
+            181
+          ],
+          "minimumOverlap": 1,
+          "maximumOverlap": 5
+        }
+      },
+      "source": "source/hair/h10.png"
+    },
+    {
+      "kind": "neck",
+      "presetId": 1,
+      "name": "Shared Neck",
+      "source": "source/neck/n1.png",
+      "registration": {
+        "reviewed": false,
+        "method": "alpha-box",
+        "targetBox": [
+          122,
+          193,
+          198,
+          255
+        ]
+      },
+      "skinMaterial": {
+        "reviewed": false,
+        "sourceLumaReference": 178
+      }
+    }
+  ]
+}

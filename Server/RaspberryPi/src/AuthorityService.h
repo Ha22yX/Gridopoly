@@ -42,6 +42,8 @@ struct AuthorityIdentityOptions {
   std::filesystem::path avatarComponentRoot{};
   std::filesystem::path avatarAssetRoot{};
   std::function<std::uint64_t()> epochClock{};
+  std::filesystem::path avatarComponentV2Root{};
+  std::uint16_t avatarCatalogVersion{gridopoly::protocol::kAvatarCatalogVersionV1};
 };
 
 struct MovementCueGateState {
@@ -129,7 +131,7 @@ class AuthorityService {
                              gridopoly::protocol::IdentitySnapshot& output);
   bool renderAvatarPreview(const gridopoly::protocol::AvatarRecipe& recipe,
                            AvatarPreviewResult& output);
-  std::filesystem::path avatarComponentRoot() const;
+  std::filesystem::path avatarComponentRoot(std::uint16_t catalogVersion = 1) const;
   std::filesystem::path avatarAssetRoot() const;
   void handleTradeRequest(std::uint8_t sourceSeat,
                           const gridopoly::protocol::TradeRequest& request,
@@ -233,6 +235,7 @@ class AuthorityService {
   void tagPairNameLocked(gridopoly::protocol::TagPairSnapshot& output) const;
   std::string devicesJsonLocked(bool frozen) const;
   std::function<std::uint64_t()> epochClock_{};
+  std::uint16_t defaultAvatarCatalogVersion_{gridopoly::protocol::kAvatarCatalogVersionV1};
   std::unique_ptr<AvatarRenderer> avatarRenderer_{};
 
   struct AvatarJob {

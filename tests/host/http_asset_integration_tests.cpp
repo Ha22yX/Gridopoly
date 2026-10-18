@@ -22,6 +22,7 @@
 #include <thread>
 
 #include "settlement_assertions.h"
+#include "avatar_v2_fixture.h"
 #include <gridopoly/core/BoardCatalog.h>
 #include "../../Server/RaspberryPi/src/AuthorityService.h"
 #include "../../Server/RaspberryPi/src/FileStateStore.h"
@@ -184,6 +185,8 @@ int main() {
   identityOptions.identityPath = temporary / "identity.bin";
   identityOptions.avatarComponentRoot = testComponents;
   identityOptions.avatarAssetRoot = temporary / "avatar-assets";
+  identityOptions.avatarComponentV2Root = temporary / "components-v2";
+  avatar_v2_fixture::catalog(identityOptions.avatarComponentV2Root);
   gridopoly::pi::AuthorityService authority(temporary / "state.bin",
       temporary / "authority.meta", 0x10203040u, std::chrono::milliseconds(1200),
       identityOptions);
@@ -194,6 +197,43 @@ int main() {
                                  temporary / "tiles");
   assert(http.start());
   assert(http.port() != 0);
+
+  for (const auto& kind : {std::string("face"), std::string("outfit"),
+                          std::string("hair"), std::string("neck")}) {
+    for (int preset = 1; preset <= (kind == "neck" ? 1 : 10); ++preset) {
+      const auto file = std::string(1, kind[0]) + std::to_string(preset) + ".gavc";
+      const auto route = "/assets/avatar-components/v2/" + kind + "/" + file;
+      const auto response = get(http.port(), route);
+      assert(response.status == 200 && response.body ==
+          readBytes(identityOptions.avatarComponentV2Root / kind / file));
+      assert(response.headers.at("cache-control") == "public, max-age=31536000, immutable");
+      assert(getWithHeader(http.port(), route,
+          "If-None-Match: " + response.headers.at("etag") + "\r\n").status == 304);
+    }
+  }
+  for (const auto route : {"/assets/avatar-components/v1/neck/n1.gavc",
+                           "/assets/avatar-components/v2/neck/n2.gavc",
+                           "/assets/avatar-components/v2/neck/n01.gavc",
+                           "/assets/avatar-components/v3/face/f1.gavc",
+                           "/assets/avatar-previews/v3/h1-c1-f1-s8-o1.rgb565",
+                           "/assets/avatars/v3/123/p1-a1-0000000000000001.png",
+                           "/assets/avatars/v2/../p1-a1-0000000000000001.png"}) {
+    assert(get(http.port(), route).status == 404);
+  }
+  const auto v2PreviewRoute = "/assets/avatar-previews/v2/h1-c1-f1-s8-o1.rgb565";
+  const auto v2Preview = get(http.port(), v2PreviewRoute);
+  assert(v2Preview.status == 200 && v2Preview.body.size() == 132000);
+  assert(v2Preview.body[(100u * 220u + 100u) * 2] == 5);
+  assert(getWithHeader(http.port(), v2PreviewRoute,
+      "If-None-Match: " + v2Preview.headers.at("etag") + "\r\n").status == 304);
+  gridopoly::pi::AvatarRenderer v2Renderer(testComponents, identityOptions.avatarAssetRoot,
+                                          identityOptions.avatarComponentV2Root);
+  const auto v2Final = v2Renderer.render(123, 1, 1, {2,1,1,1,8,1});
+  assert(v2Final.ok);
+  const auto v2FinalRoute = "/assets/avatars/v2/123/" + v2Final.key;
+  assert(get(http.port(), v2FinalRoute + ".png").body == readBytes(v2Final.pngPath));
+  assert(get(http.port(), v2FinalRoute + ".rgb565").body == readBytes(v2Final.rgb565Path));
+  assert(get(http.port(), "/assets/avatars/123/" + v2Final.key + ".png").status == 404);
 
   for (const auto& kind : {std::string("hair"), std::string("face"),
                            std::string("outfit")}) {

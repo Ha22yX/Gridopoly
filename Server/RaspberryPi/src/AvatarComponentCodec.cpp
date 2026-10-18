@@ -49,18 +49,23 @@ std::uint8_t tinted(std::uint8_t target, std::uint32_t numerator,
 
 bool validHeaderIdentity(const AvatarComponentHeader& header,
                          AvatarComponentKind expectedKind,
-                         std::uint8_t expectedPresetId) {
-  if (header.schema != 1 || header.kind != expectedKind ||
-      header.presetId != expectedPresetId || expectedPresetId < 1 || expectedPresetId > 10 ||
-      header.encoding != 1 || header.canvasWidth != kAvatarComponentCanvasWidth ||
+                         std::uint8_t expectedPresetId, std::uint16_t catalogVersion) {
+  const auto kind = static_cast<std::uint8_t>(expectedKind);
+  if (!gridopoly::protocol::supportedAvatarCatalogVersion(catalogVersion) ||
+      kind < 1 || kind > (catalogVersion == 2 ? 4 : 3) ||
+      header.schema != catalogVersion || header.encoding != catalogVersion ||
+      header.kind != expectedKind || header.presetId != expectedPresetId ||
+      expectedPresetId < 1 || expectedPresetId > (kind == 4 ? 1 : 10) ||
+      header.canvasWidth != kAvatarComponentCanvasWidth ||
       header.canvasHeight != kAvatarComponentCanvasHeight || header.width == 0 ||
       header.height == 0) return false;
   const auto right = static_cast<std::uint32_t>(header.x) + header.width;
   const auto bottom = static_cast<std::uint32_t>(header.y) + header.height;
   const auto pixels = static_cast<std::uint64_t>(header.width) * header.height;
+  const auto sampleBytes = catalogVersion == 2 ? 5u : 4u;
   return right <= header.canvasWidth && bottom <= header.canvasHeight &&
-      pixels <= std::numeric_limits<std::uint32_t>::max() / 4u &&
-      header.decodedBytes == pixels * 4u && header.encodedBytes != 0;
+      pixels <= std::numeric_limits<std::uint32_t>::max() / sampleBytes &&
+      header.decodedBytes == pixels * sampleBytes && header.encodedBytes != 0;
 }
 
 }  // namespace
@@ -68,9 +73,10 @@ bool validHeaderIdentity(const AvatarComponentHeader& header,
 bool decodeAvatarComponent(const std::vector<std::uint8_t>& bytes,
                            AvatarComponentKind expectedKind,
                            std::uint8_t expectedPresetId,
-                           AvatarComponent& output) {
+                           AvatarComponent& output, std::uint16_t catalogVersion) {
   output = AvatarComponent{};
   if (bytes.size() < kAvatarComponentHeaderSize ||
+      bytes.size() > kAvatarComponentMaximumFileBytes ||
       std::memcmp(bytes.data(), "GAVC", 4) != 0) return false;
   AvatarComponentHeader header{};
   header.schema = bytes[4];
@@ -86,11 +92,12 @@ bool decodeAvatarComponent(const std::vector<std::uint8_t>& bytes,
   header.decodedBytes = get32(bytes.data() + 20);
   header.encodedBytes = get32(bytes.data() + 24);
   header.crc32 = get32(bytes.data() + 28);
-  if (!validHeaderIdentity(header, expectedKind, expectedPresetId) ||
+  if (!validHeaderIdentity(header, expectedKind, expectedPresetId, catalogVersion) ||
       static_cast<std::uint64_t>(kAvatarComponentHeaderSize) + header.encodedBytes !=
           bytes.size()) return false;
 
   std::vector<std::uint8_t> rgba(header.decodedBytes);
+  const std::size_t sampleBytes = catalogVersion == 2 ? 5u : 4u;
   std::size_t inputOffset = kAvatarComponentHeaderSize;
   std::size_t outputOffset = 0;
   while (inputOffset < bytes.size() && outputOffset < rgba.size()) {
@@ -98,16 +105,16 @@ bool decodeAvatarComponent(const std::vector<std::uint8_t>& bytes,
     const auto token = get16(bytes.data() + inputOffset);
     inputOffset += 2;
     const auto count = static_cast<std::size_t>(token & 0x7FFFu);
-    if (count == 0 || count > (rgba.size() - outputOffset) / 4u) return false;
+    if (count == 0 || count > (rgba.size() - outputOffset) / sampleBytes) return false;
     if ((token & 0x8000u) != 0) {
-      if (inputOffset + 4 > bytes.size()) return false;
+      if (inputOffset + sampleBytes > bytes.size()) return false;
       for (std::size_t index = 0; index < count; ++index) {
-        std::memcpy(rgba.data() + outputOffset, bytes.data() + inputOffset, 4);
-        outputOffset += 4;
+        std::memcpy(rgba.data() + outputOffset, bytes.data() + inputOffset, sampleBytes);
+        outputOffset += sampleBytes;
       }
-      inputOffset += 4;
+      inputOffset += sampleBytes;
     } else {
-      const auto copyBytes = count * 4u;
+      const auto copyBytes = count * sampleBytes;
       if (inputOffset + copyBytes > bytes.size()) return false;
       std::memcpy(rgba.data() + outputOffset, bytes.data() + inputOffset, copyBytes);
       inputOffset += copyBytes;
@@ -131,6 +138,9 @@ std::filesystem::path avatarComponentPath(const std::filesystem::path& root,
     case AvatarComponentKind::Face: directory = "face"; prefix = 'f'; break;
     case AvatarComponentKind::Outfit: directory = "outfit"; prefix = 'o'; break;
     case AvatarComponentKind::Hair: directory = "hair"; prefix = 'h'; break;
+    case AvatarComponentKind::Neck:
+      if (presetId != 1) return {};
+      directory = "neck"; prefix = 'n'; break;
     default: return {};
   }
   std::string filenameText(1, prefix);
@@ -144,21 +154,28 @@ bool loadAvatarComponent(const std::filesystem::path& root,
                          AvatarComponentKind kind,
                          std::uint8_t presetId,
                          AvatarComponent& output,
-                         std::vector<std::uint8_t>* encodedFile) {
+                         std::vector<std::uint8_t>* encodedFile,
+                         std::uint16_t catalogVersion) {
   const auto path = avatarComponentPath(root, kind, presetId);
   if (path.empty()) return false;
+  std::error_code error;
+  const auto size = std::filesystem::file_size(path, error);
+  if (error || size < kAvatarComponentHeaderSize ||
+      size > kAvatarComponentMaximumFileBytes) return false;
   std::ifstream input(path, std::ios::binary);
   if (!input) return false;
   std::vector<std::uint8_t> bytes{std::istreambuf_iterator<char>(input),
                                   std::istreambuf_iterator<char>()};
-  if (input.bad() || !decodeAvatarComponent(bytes, kind, presetId, output)) return false;
+  if (input.bad() || !decodeAvatarComponent(bytes, kind, presetId, output, catalogVersion))
+    return false;
   if (encodedFile != nullptr) *encodedFile = std::move(bytes);
   return true;
 }
 
 bool parseAvatarComponentRelative(std::string_view value,
                                   AvatarComponentKind& kind,
-                                  std::uint8_t& presetId) {
+                                  std::uint8_t& presetId, std::uint16_t catalogVersion) {
+  if (!gridopoly::protocol::supportedAvatarCatalogVersion(catalogVersion)) return false;
   const auto slash = value.find('/');
   if (slash == std::string_view::npos || slash == 0 || slash != value.rfind('/') ||
       slash + 1 >= value.size()) return false;
@@ -173,6 +190,9 @@ bool parseAvatarComponentRelative(std::string_view value,
   } else if (directory == "outfit") {
     kind = AvatarComponentKind::Outfit;
     prefix = 'o';
+  } else if (directory == "neck" && catalogVersion == 2) {
+    kind = AvatarComponentKind::Neck;
+    prefix = 'n';
   } else {
     return false;
   }
@@ -185,7 +205,7 @@ bool parseAvatarComponentRelative(std::string_view value,
   unsigned preset = 0;
   const auto result = std::from_chars(digits.data(), digits.data() + digits.size(), preset);
   if (result.ec != std::errc{} || result.ptr != digits.data() + digits.size() ||
-      preset < 1 || preset > 10) return false;
+      preset < 1 || preset > (kind == AvatarComponentKind::Neck ? 1u : 10u)) return false;
   presetId = static_cast<std::uint8_t>(preset);
   return true;
 }
@@ -232,6 +252,18 @@ void tintSkinPixel(std::uint8_t* rgba, const std::array<std::uint8_t, 3>& target
   }
 }
 
+void tintMaskedSkinPixel(std::uint8_t* rgba, std::uint8_t skinMask,
+                        const std::array<std::uint8_t, 3>& target) {
+  if (rgba == nullptr || rgba[3] == 0 || skinMask == 0) return;
+  // Skin material is neutral gray. Read shade once before changing RGB.
+  const auto shade = rgba[0];
+  for (std::size_t channel = 0; channel < 3; ++channel) {
+    const auto color = tinted(target[channel], shade, 178u);
+    rgba[channel] = static_cast<std::uint8_t>(roundHalfUp(
+        color * skinMask + rgba[channel] * (255u - skinMask), 255u));
+  }
+}
+
 void blendAvatarPixel(std::uint8_t* destination, const std::uint8_t* source) {
   if (destination == nullptr || source == nullptr) return;
   const auto sourceAlpha = static_cast<std::uint32_t>(source[3]);
@@ -261,7 +293,8 @@ bool placeAvatarComponent(const AvatarComponent& component,
                           const std::array<std::uint8_t, 3>& tint,
                           std::vector<std::uint8_t>& canvasRgba) {
   const auto& header = component.header;
-  if (header.canvasWidth != kAvatarComponentCanvasWidth ||
+  if (!validHeaderIdentity(header, header.kind, header.presetId, header.schema) ||
+      header.canvasWidth != kAvatarComponentCanvasWidth ||
       header.canvasHeight != kAvatarComponentCanvasHeight ||
       component.rgba.size() != header.decodedBytes ||
       canvasRgba.size() != static_cast<std::size_t>(header.canvasWidth) *
@@ -269,10 +302,16 @@ bool placeAvatarComponent(const AvatarComponent& component,
   for (std::size_t y = 0; y < header.height; ++y) {
     for (std::size_t x = 0; x < header.width; ++x) {
       auto source = std::array<std::uint8_t, 4>{};
-      const auto sourceOffset = (y * header.width + x) * 4u;
+      const auto sourceOffset = (y * header.width + x) * (header.schema == 2 ? 5u : 4u);
       std::memcpy(source.data(), component.rgba.data() + sourceOffset, 4);
       if (header.kind == AvatarComponentKind::Hair) tintHairPixel(source.data(), tint);
-      if (header.kind == AvatarComponentKind::Face) tintSkinPixel(source.data(), tint);
+      if (header.kind == AvatarComponentKind::Face || header.kind == AvatarComponentKind::Neck) {
+        if (header.schema == 2) {
+          tintMaskedSkinPixel(source.data(), component.rgba[sourceOffset + 4], tint);
+        } else {
+          tintSkinPixel(source.data(), tint);
+        }
+      }
       const auto destinationOffset =
           ((static_cast<std::size_t>(header.y) + y) * header.canvasWidth + header.x + x) * 4u;
       blendAvatarPixel(canvasRgba.data() + destinationOffset, source.data());

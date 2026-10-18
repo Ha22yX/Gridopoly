@@ -53,6 +53,7 @@ python3 "$ROOT/Server/RaspberryPi/tools/test-stage-web-tile-assets.py"
 python3 "$ROOT/Server/RaspberryPi/tools/test-stage-development-assets.py"
 python3 "$ROOT/Server/RaspberryPi/tools/verify-avatar-components.py"
 python3 "$ROOT/Server/RaspberryPi/tools/test-stage-avatar-components.py"
+python3 "$ROOT/Server/RaspberryPi/tools/test-avatar-components-v2.py"
 
 build_and_run()
 {
@@ -124,6 +125,11 @@ build_and_run gridopoly_avatar_component_codec_tests \
   "${PROTOCOL_SOURCES[@]}" \
   "$ROOT/Server/RaspberryPi/src/AvatarComponentCodec.cpp" \
   "$ROOT/tests/host/avatar_component_codec_tests.cpp"
+
+build_and_run gridopoly_avatar_v2_tests \
+  -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \
+  "${PROTOCOL_SOURCES[@]}" "${IDENTITY_SOURCES[@]}" "${AVATAR_SOURCES[@]}" \
+  "$ROOT/tests/host/avatar_v2_tests.cpp"
 
 build_and_run gridopoly_player_avatar_component_client_tests \
   -DGRIDOPOLY_SOURCE_DIR=\"$ROOT\" \

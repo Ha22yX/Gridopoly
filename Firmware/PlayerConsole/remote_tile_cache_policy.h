@@ -13,9 +13,9 @@ constexpr size_t kRemoteAvatarPreviewBytes = 220u * 300u * 2u;
 constexpr size_t kRemoteAvatarFinalBytes = 128u * 128u * 2u;
 constexpr size_t kRemoteAvatarCacheBudgetBytes = 384u * 1024u;
 // Avatar Setup is the only phase that may borrow a larger transient PSRAM
-// pool. All 30 compressed GAVC layers total 1,921,970 bytes; together with
-// two preview buffers they fit below this cap. Double buffering keeps the
-// published portrait immutable while the next full-resolution frame is
+// pool. Each catalog's full compressed pack (30 V1 or 31 V2 layers) must fit
+// in the component budget below, leaving space for two previews. Double
+// buffering keeps the published portrait immutable while the next frame is
 // composed. The pool is released when final avatars replace the editor.
 constexpr size_t kRemoteAvatarSetupCacheBudgetBytes = 2304u * 1024u;
 constexpr uint8_t kRemoteAvatarDownloadWorkerCount = 4;

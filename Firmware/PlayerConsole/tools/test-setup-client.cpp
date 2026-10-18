@@ -430,6 +430,85 @@ void buildingSaleChecks() {
 }
 }
 
+void avatarRandomChecks() {
+    for (uint16_t version : std::array<uint16_t, 2>{1, 2}) {
+        AppState app{}; appInit(app, 0);
+        auto event = identity(1, 1);
+        TransportIdentityPayload payload = seats;
+        payload.seats[0].recipe.catalogVersion = version;
+        event.identity = &payload;
+        appHandleTransportEvent(app, event, 100);
+        appUpdateAvatarPreloadProgress(app, avatarCatalogComponentCount(version),
+                                      avatarCatalogComponentCount(version), true);
+        std::strcpy(app.identity.draftName, "KEEP NAME");
+        const auto sameRecipe = [](const TransportAvatarRecipe &a, const TransportAvatarRecipe &b) {
+            return a.catalogVersion == b.catalogVersion && a.hairPresetId == b.hairPresetId &&
+                a.hairColorId == b.hairColorId && a.facePresetId == b.facePresetId &&
+                a.skinToneId == b.skinToneId && a.outfitPresetId == b.outfitPresetId;
+        };
+        const auto confirmed = app.identity.confirmedRecipe;
+        const auto seatRecipe = app.identity.seats[0].recipe;
+        const auto seatRevision = app.identity.ownSeatRevision;
+        uint32_t seen[5]{};
+        bool valid = true, keptIdentity = true, noCommands = true, changedEveryTime = true;
+        for (uint32_t index = 0; index < 256; ++index) {
+            const auto old = app.identity.draftRecipe;
+            appHandleTouch(app, TouchAction::IdentityRandom, 200 + index);
+            const auto &r = app.identity.draftRecipe;
+            valid &= r.hairPresetId >= 1 && r.hairPresetId <= 10 && r.hairColorId >= 1 && r.hairColorId <= 20 &&
+                r.facePresetId >= 1 && r.facePresetId <= 10 && r.skinToneId >= 1 && r.skinToneId <= 8 &&
+                r.outfitPresetId >= 1 && r.outfitPresetId <= 10;
+            keptIdentity &= r.catalogVersion == version && app.selfSeatId == 1 && app.authorityRoomId == 100 &&
+                app.identity.ownSeatRevision == seatRevision && std::strcmp(app.identity.draftName, "KEEP NAME") == 0 &&
+                sameRecipe(app.identity.confirmedRecipe, confirmed) && sameRecipe(app.identity.seats[0].recipe, seatRecipe);
+            TransportCommand command{};
+            noCommands &= !appPollCommand(app, command) && app.identity.pendingRequestId == 0 &&
+                          app.identity.phase == IdentityClientPhase::AvatarEditing;
+            changedEveryTime &= !sameRecipe(old, r);
+            if (valid) {
+                seen[0] |= 1u << r.hairPresetId; seen[1] |= 1u << r.hairColorId;
+                seen[2] |= 1u << r.facePresetId; seen[3] |= 1u << r.skinToneId; seen[4] |= 1u << r.outfitPresetId;
+            }
+        }
+        check(valid && changedEveryTime, "random avatar stays in all five ID ranges and offers a new combination");
+        check(keptIdentity, "random retains catalog, name, room, seat revision and confirmed/server recipes");
+        check(noCommands, "random never queues ConfirmAvatar or changes submitting state");
+        check(std::all_of(std::begin(seen), std::end(seen), [](uint32_t bits) { return (bits & (bits - 1)) != 0; }),
+              "all five fields vary across repeated random presses");
+        check(appPageContentCount(app) == 7 && appFocusCount(app) == 7 &&
+              app.focus == static_cast<uint8_t>(AvatarEditField::Random) && !app.identity.editingValue,
+              "random is the seventh browse item, not value-edit mode");
+        appHandleInput(app, InputEvent{InputKind::Rotate, 1, 500}, 500);
+        check(app.focus == 6, "wheel stops at random lower boundary");
+        appHandleInput(app, InputEvent{InputKind::Rotate, -1, 510}, 510);
+        check(app.focus == 5, "wheel can move from random back to confirm");
+        appHandleInput(app, InputEvent{InputKind::Rotate, 1, 520}, 520);
+        const auto beforePress = app.identity.draftRecipe;
+        appHandleInput(app, InputEvent{InputKind::ButtonDown, 0, 530}, 530);
+        appHandleInput(app, InputEvent{InputKind::ButtonUp, 0, 600}, 600);
+        TransportCommand command{};
+        check(!sameRecipe(beforePress, app.identity.draftRecipe) && !appPollCommand(app, command),
+              "wheel press on random changes draft without submitting");
+        ++event.identityRevision; ++event.stateVersion;
+        appHandleTransportEvent(app, event, 610);
+        check(app.focus == 6, "identity heartbeat preserves seventh-item focus");
+        app.identity.editingValue = true;
+        appHandleTouch(app, TouchAction::IdentityRandom, 620);
+        check(!app.identity.editingValue && app.identity.draftDirty, "touch random leaves field edit and marks preview draft dirty");
+        appHandleTouch(app, TouchAction::IdentityConfirm, 630);
+        check(appPollCommand(app, command) && command.identityOperation == TransportIdentityOperation::ConfirmAvatar &&
+              sameRecipe(command.avatarRecipe, app.identity.draftRecipe), "explicit confirm still sends exactly the randomized draft");
+        const auto submitting = app.identity.draftRecipe;
+        appHandleTouch(app, TouchAction::IdentityRandom, 640);
+        check(sameRecipe(submitting, app.identity.draftRecipe) && !appPollCommand(app, command),
+              "random is blocked while avatar submission is pending");
+        app.nav.current.page = app.page = ScreenPage::NameReview;
+        appHandleTouch(app, TouchAction::IdentityRandom, 650);
+        check(sameRecipe(submitting, app.identity.draftRecipe) && !appPollCommand(app, command),
+              "stale random event cannot act on the name page");
+    }
+}
+
 int main() {
     buildingSaleChecks();
     for (uint8_t index = 0; index < 4; ++index) {
@@ -437,6 +516,7 @@ int main() {
         seats.seats[index].flags = gridopoly::protocol::IdentitySeatPresent |
             gridopoly::protocol::IdentitySeatHuman | gridopoly::protocol::IdentitySeatConnected;
     }
+    avatarRandomChecks();
     joiningChecks();
     pairingFreshnessChecks();
     char discovery[17]{}; playerDeviceDiscoveryName(0xdcd102d9b4dcULL, discovery);

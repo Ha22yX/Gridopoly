@@ -12,6 +12,7 @@ enum class AvatarComponentKind : std::uint8_t {
   Face = 1,
   Outfit = 2,
   Hair = 3,
+  Neck = 4,
 };
 
 struct AvatarComponentHeader {
@@ -32,17 +33,19 @@ struct AvatarComponentHeader {
 
 struct AvatarComponent {
   AvatarComponentHeader header{};
+  // Schema 1: RGBA; schema 2: RGBA + skinMask. CRC covers these original samples.
   std::vector<std::uint8_t> rgba{};
 };
 
 constexpr std::uint16_t kAvatarComponentCanvasWidth = 220;
 constexpr std::uint16_t kAvatarComponentCanvasHeight = 300;
 constexpr std::size_t kAvatarComponentHeaderSize = 32;
+constexpr std::size_t kAvatarComponentMaximumFileBytes = 128u * 1024u;
 
 bool decodeAvatarComponent(const std::vector<std::uint8_t>& bytes,
                            AvatarComponentKind expectedKind,
                            std::uint8_t expectedPresetId,
-                           AvatarComponent& output);
+                           AvatarComponent& output, std::uint16_t catalogVersion = 1);
 std::filesystem::path avatarComponentPath(const std::filesystem::path& root,
                                           AvatarComponentKind kind,
                                           std::uint8_t presetId);
@@ -50,15 +53,18 @@ bool loadAvatarComponent(const std::filesystem::path& root,
                          AvatarComponentKind kind,
                          std::uint8_t presetId,
                          AvatarComponent& output,
-                         std::vector<std::uint8_t>* encodedFile = nullptr);
+                         std::vector<std::uint8_t>* encodedFile = nullptr,
+                         std::uint16_t catalogVersion = 1);
 bool parseAvatarComponentRelative(std::string_view value,
                                   AvatarComponentKind& kind,
-                                  std::uint8_t& presetId);
+                                  std::uint8_t& presetId, std::uint16_t catalogVersion = 1);
 
 std::array<std::uint8_t, 3> hairPaletteRgb(std::uint8_t id);
 std::array<std::uint8_t, 3> skinPaletteRgb(std::uint8_t id);
 void tintHairPixel(std::uint8_t* rgba, const std::array<std::uint8_t, 3>& target);
 void tintSkinPixel(std::uint8_t* rgba, const std::array<std::uint8_t, 3>& target);
+void tintMaskedSkinPixel(std::uint8_t* rgba, std::uint8_t skinMask,
+                        const std::array<std::uint8_t, 3>& target);
 void blendAvatarPixel(std::uint8_t* destination, const std::uint8_t* source);
 bool placeAvatarComponent(const AvatarComponent& component,
                           const std::array<std::uint8_t, 3>& tint,

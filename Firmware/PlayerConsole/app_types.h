@@ -71,6 +71,8 @@ enum class AvatarEditField : uint8_t {
     SkinTone,
     OutfitPreset,
     Confirm,
+    Random,
+    Count,
 };
 
 enum class HomePhase : uint8_t {
@@ -210,6 +212,7 @@ enum class TouchAction : uint16_t {
     IdentityRow3 = 903,
     IdentityRow4 = 904,
     IdentityConfirm = 905,
+    IdentityRandom = 906,
     NameEdit = 920,
     NameConfirm = 921,
     NameBack = 922,
@@ -342,6 +345,7 @@ struct IdentityState {
     uint32_t revision = 0;
     uint32_t ownSeatRevision = 0;
     uint32_t pendingRequestId = 0;
+    uint32_t avatarRandomState = 0;
     uint32_t countdownDeadlineMs = 0;
     uint8_t seatCount = 0;
     uint8_t humanMask = 0;
@@ -359,7 +363,7 @@ struct IdentityState {
     uint32_t tagPairSuccessUntilMs = 0;
     TransportTagPairSnapshot tagPair{};
     uint8_t avatarPreloadReadyCount = 0;
-    uint8_t avatarPreloadTotalCount = 30;
+    uint8_t avatarPreloadTotalCount = avatarCatalogComponentCount(kAvatarDefaultCatalogVersion);
     uint8_t focus = 0;
     bool editingValue = false;
     bool draftInitialized = false;

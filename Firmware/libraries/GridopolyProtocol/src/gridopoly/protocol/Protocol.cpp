@@ -42,8 +42,8 @@ bool zeroRecipe(const AvatarRecipe& value) {
       value.skinToneId == 0 && value.outfitPresetId == 0;
 }
 
-bool validV1Recipe(const AvatarRecipe& value) {
-  return value.avatarCatalogVersion == kAvatarCatalogVersionV1 &&
+bool validCatalogRecipe(const AvatarRecipe& value) {
+  return supportedAvatarCatalogVersion(value.avatarCatalogVersion) &&
       value.hairPresetId >= 1 && value.hairPresetId <= 10 &&
       value.hairColorId >= 1 && value.hairColorId <= 20 &&
       value.facePresetId >= 1 && value.facePresetId <= 10 &&
@@ -65,9 +65,9 @@ bool validIdentityRequestValue(const IdentityRequest& value) {
           value.avatarCatalogVersion == 0 && zeroRecipe(value.recipe) && value.nameLength == 0;
     case IdentityOperation::ConfirmAvatar:
       return value.expectedStateVersion != 0 && value.expectedSeatRevision != 0 &&
-          value.avatarCatalogVersion == kAvatarCatalogVersionV1 &&
+          supportedAvatarCatalogVersion(value.avatarCatalogVersion) &&
           value.recipe.avatarCatalogVersion == value.avatarCatalogVersion &&
-          validV1Recipe(value.recipe) && value.nameLength == 0;
+          validCatalogRecipe(value.recipe) && value.nameLength == 0;
     case IdentityOperation::ConfirmName:
       return value.expectedStateVersion != 0 && value.expectedSeatRevision != 0 &&
           value.avatarCatalogVersion == 0 && zeroRecipe(value.recipe) && value.nameLength != 0;
@@ -83,7 +83,7 @@ bool validIdentitySnapshotValue(const IdentitySnapshot& value) {
   if (roomPhase < 1 || roomPhase > 3 || selfStage < 1 || selfStage > 7 || result > 11 ||
       operation > 3 || value.playerCount == 0 || value.playerCount > value.seats.size() ||
       value.selfPlayerId == 0 || value.selfPlayerId > value.playerCount ||
-      value.avatarCatalogVersion != kAvatarCatalogVersionV1 ||
+      !supportedAvatarCatalogVersion(value.avatarCatalogVersion) ||
       (value.flags & ~(IdentitySnapshotFlagReplay | IdentitySnapshotFlagResync)) != 0 ||
       ((value.requestId == 0) != (value.operationEcho == IdentityOperation::None))) {
     return false;
@@ -110,7 +110,7 @@ bool validIdentitySnapshotValue(const IdentitySnapshot& value) {
     }
     const bool final = (seat.flags & IdentitySeatAvatarFinal) != 0;
     if (final != (seat.avatarRevision != 0 && seat.avatarContentHash64 != 0 &&
-                  validV1Recipe(seat.recipe))) {
+                  validCatalogRecipe(seat.recipe))) {
       return false;
     }
     if (!final && (seat.avatarRevision != 0 || seat.avatarContentHash64 != 0 ||

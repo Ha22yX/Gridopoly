@@ -3969,7 +3969,7 @@ bool runIdentityLifecycleTests(Stream &out)
     const TransportAvatarRecipe normalizedRecipe =
         normalizedTransportAvatarRecipe(invalidRecipe);
     ok &= expect(out,
-                 normalizedRecipe.catalogVersion == 1 &&
+                 normalizedRecipe.catalogVersion == kAvatarDefaultCatalogVersion &&
                      normalizedRecipe.hairPresetId == 1 &&
                      normalizedRecipe.hairColorId == 1 &&
                      normalizedRecipe.facePresetId == 1 &&

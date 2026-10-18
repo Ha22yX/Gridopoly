@@ -19,10 +19,10 @@ void wakeWorkers();
 
 namespace {
 
-constexpr uint8_t kComponentKindCount = 3;
+constexpr uint8_t kComponentKindCount = 4;
 constexpr uint8_t kComponentPresetsPerKind = 10;
 constexpr uint8_t kComponentSlotCount =
-    kComponentKindCount * kComponentPresetsPerKind;
+    3 * kComponentPresetsPerKind + 1;
 constexpr uint8_t kFinalSlotCount = 6;
 constexpr uint16_t kPreviewWidth = 220;
 constexpr uint16_t kPreviewHeight = 300;
@@ -59,6 +59,7 @@ constexpr std::array<AvatarComponentRgb, 8> kSkinPalette{{
 }};
 
 struct ComponentHeader {
+    uint8_t sampleBytes = 4;
     uint8_t kind = 0;
     uint8_t preset = 0;
     uint16_t x = 0;
@@ -76,6 +77,7 @@ struct ComponentSlot {
     size_t fileBytes = 0;
     uint32_t retryAfterMs = 0;
     uint32_t serial = 0;
+    uint16_t catalogVersion = 0;
     uint8_t expectedKind = 0;
     uint8_t preset = 0;
     ComponentHeader header{};
@@ -95,6 +97,7 @@ struct ClaimedRequest {
     RequestKind kind = RequestKind::None;
     uint8_t index = 0;
     uint32_t serial = 0;
+    uint16_t catalogVersion = 0;
     char path[176]{};
 };
 
@@ -110,6 +113,7 @@ struct ComposeSnapshot {
     std::array<ComposeLayer, kComponentKindCount> layers{};
     uint32_t generation = 0;
     uint8_t outputIndex = 0;
+    uint8_t layerCount = 0;
 };
 
 struct RleCursor {
@@ -117,14 +121,18 @@ struct RleCursor {
     const uint8_t *end = nullptr;
     uint32_t producedPixels = 0;
     uint32_t expectedPixels = 0;
+    uint8_t sampleBytes = 4;
     uint16_t remaining = 0;
     bool repeat = false;
-    uint8_t repeatedPixel[4]{};
+    uint8_t repeatedPixel[5]{};
 
-    bool next(uint8_t pixel[4])
+    bool next(uint8_t pixel[5])
     {
+        if (cursor == nullptr || end == nullptr || cursor > end ||
+            (sampleBytes != 4 && sampleBytes != 5) ||
+            producedPixels >= expectedPixels) return false;
         if (remaining == 0) {
-            if (cursor + 2 > end) return false;
+            if (static_cast<size_t>(end - cursor) < 2u) return false;
             const uint16_t token = static_cast<uint16_t>(cursor[0]) |
                                    (static_cast<uint16_t>(cursor[1]) << 8);
             cursor += 2;
@@ -132,17 +140,17 @@ struct RleCursor {
             repeat = (token & 0x8000u) != 0;
             if (remaining == 0 || producedPixels + remaining > expectedPixels) return false;
             if (repeat) {
-                if (cursor + 4 > end) return false;
-                std::memcpy(repeatedPixel, cursor, 4);
-                cursor += 4;
+                if (static_cast<size_t>(end - cursor) < sampleBytes) return false;
+                std::memcpy(repeatedPixel, cursor, sampleBytes);
+                cursor += sampleBytes;
             }
         }
         if (repeat) {
-            std::memcpy(pixel, repeatedPixel, 4);
+            std::memcpy(pixel, repeatedPixel, sampleBytes);
         } else {
-            if (cursor + 4 > end) return false;
-            std::memcpy(pixel, cursor, 4);
-            cursor += 4;
+            if (static_cast<size_t>(end - cursor) < sampleBytes) return false;
+            std::memcpy(pixel, cursor, sampleBytes);
+            cursor += sampleBytes;
         }
         --remaining;
         ++producedPixels;
@@ -178,8 +186,10 @@ size_t setupCachedBytes = 0;
 size_t finalCachedBytes = 0;
 bool cacheStarted = false;
 bool preloadScheduled = false;
+bool preloadRequested = false;
 bool preloadComplete = false;
 bool previewRecoveryAttempted = false;
+uint16_t componentCatalogVersion = 0;
 
 struct WorkerContext {
     WiFiClient httpClient;
@@ -196,9 +206,20 @@ uint8_t componentIndex(uint8_t kind, uint8_t preset)
 
 uint8_t desiredPresetForKind(uint8_t kind)
 {
+    if (kind == 4) return 1;
     if (kind == 1) return desiredRecipe.facePresetId;
     if (kind == 2) return desiredRecipe.outfitPresetId;
     return desiredRecipe.hairPresetId;
+}
+
+uint8_t componentKindCount(uint16_t catalogVersion)
+{
+    return catalogVersion == 2 ? 4 : 3;
+}
+
+uint8_t componentPresetCount(uint8_t kind)
+{
+    return kind == 4 ? 1 : kComponentPresetsPerKind;
 }
 
 ComponentSlot &desiredComponent(uint8_t kind)
@@ -246,15 +267,20 @@ uint32_t crc32Update(uint32_t crc, const uint8_t *bytes, size_t length)
 }
 
 bool parseComponent(const uint8_t *file, size_t fileBytes,
-                    uint8_t expectedKind, uint8_t expectedPreset,
+                    uint16_t catalogVersion, uint8_t expectedKind, uint8_t expectedPreset,
                     ComponentHeader &header)
 {
-    if (file == nullptr || fileBytes < kGavcHeaderBytes ||
-        std::memcmp(file, "GAVC", 4) != 0 || file[4] != 1 ||
-        file[5] != expectedKind || file[6] != expectedPreset || file[7] != 1 ||
+    if (!avatarCatalogSupported(catalogVersion) || expectedKind == 0 ||
+        expectedKind > componentKindCount(catalogVersion) || expectedPreset == 0 ||
+        expectedPreset > componentPresetCount(expectedKind) ||
+        file == nullptr || fileBytes < kGavcHeaderBytes ||
+        fileBytes > kMaxComponentFileBytes ||
+        std::memcmp(file, "GAVC", 4) != 0 || file[4] != catalogVersion ||
+        file[5] != expectedKind || file[6] != expectedPreset || file[7] != catalogVersion ||
         get16(file + 8) != kPreviewWidth || get16(file + 10) != kPreviewHeight) {
         return false;
     }
+    header.sampleBytes = catalogVersion == 2 ? 5 : 4;
     header.kind = file[5];
     header.preset = file[6];
     header.x = get16(file + 12);
@@ -267,16 +293,17 @@ bool parseComponent(const uint8_t *file, size_t fileBytes,
     if (header.width == 0 || header.height == 0 ||
         header.x + header.width > kPreviewWidth ||
         header.y + header.height > kPreviewHeight ||
-        header.decodedBytes != static_cast<uint32_t>(header.width) * header.height * 4u ||
+        header.decodedBytes != static_cast<uint32_t>(header.width) * header.height *
+            header.sampleBytes ||
         header.encodedBytes != fileBytes - kGavcHeaderBytes) return false;
 
     RleCursor decoder{file + kGavcHeaderBytes, file + fileBytes, 0,
-                      header.decodedBytes / 4u};
+                      header.decodedBytes / header.sampleBytes, header.sampleBytes};
     uint32_t crc = 0xFFFFFFFFu;
-    uint8_t pixel[4];
+    uint8_t pixel[5]{};
     while (decoder.producedPixels < decoder.expectedPixels) {
         if (!decoder.next(pixel)) return false;
-        crc = crc32Update(crc, pixel, sizeof(pixel));
+        crc = crc32Update(crc, pixel, header.sampleBytes);
     }
     return decoder.complete() && (crc ^ 0xFFFFFFFFu) == header.crc32;
 }
@@ -317,8 +344,26 @@ void clearPreviewLocked()
     desiredRecipe = TransportAvatarRecipe{};
     composedRecipe = TransportAvatarRecipe{};
     preloadScheduled = false;
+    preloadRequested = false;
     preloadComplete = false;
     previewRecoveryAttempted = false;
+    componentCatalogVersion = 0;
+}
+
+bool ensureComponentCatalogLocked()
+{
+    if (releaseRequested) return false;
+    if (componentCatalogVersion == desiredRecipe.catalogVersion) return true;
+    // A compose snapshot owns borrowed component pointers until finish().
+    // Keep LVGL's front and both preview buffers through catalog changes.
+    if (previewBuffers.composing()) return false;
+    for (ComponentSlot &slot : components) freeComponentLocked(slot);
+    previewBuffers.discardPending();
+    preloadScheduled = false;
+    preloadComplete = false;
+    previewRecoveryAttempted = false;
+    componentCatalogVersion = desiredRecipe.catalogVersion;
+    return true;
 }
 
 void clearFinalsLocked()
@@ -329,6 +374,9 @@ void clearFinalsLocked()
 void enterModeLocked(CacheMode mode)
 {
     if (mode == CacheMode::Preview) {
+        // Setup can reopen before an old compose finishes. Its generation was
+        // invalidated on release; keep its allocations alive and reuse them.
+        releaseRequested = false;
         if (cacheMode == CacheMode::Preview ||
             cacheMode == CacheMode::PreviewAndFinals) return;
         // Old page objects can still reference final images during preload.
@@ -359,7 +407,10 @@ bool finalModeLocked()
 
 bool allComponentsReadyLocked()
 {
-    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
+    if (releaseRequested || componentCatalogVersion != desiredRecipe.catalogVersion) {
+        return false;
+    }
+    for (uint8_t kind = 1; kind <= componentKindCount(desiredRecipe.catalogVersion); ++kind) {
         if (desiredComponent(kind).state != SlotState::Ready) return false;
     }
     return true;
@@ -367,8 +418,11 @@ bool allComponentsReadyLocked()
 
 bool allLibraryComponentsReadyLocked()
 {
-    for (const ComponentSlot &slot : components) {
-        if (slot.state != SlotState::Ready) return false;
+    if (releaseRequested || componentCatalogVersion != desiredRecipe.catalogVersion) {
+        return false;
+    }
+    for (uint8_t index = 0; index < avatarCatalogComponentCount(componentCatalogVersion); ++index) {
+        if (components[index].state != SlotState::Ready) return false;
     }
     return true;
 }
@@ -399,43 +453,46 @@ bool requestComponentLocked(uint8_t kind, uint8_t preset, const char *path)
     const uint8_t index = componentIndex(kind, preset);
     ComponentSlot &slot = components[index];
     if (slot.state != SlotState::Empty && slot.expectedKind == kind &&
+        slot.catalogVersion == componentCatalogVersion &&
         slot.preset == preset && std::strcmp(slot.path, path) == 0) return false;
     freeComponentLocked(slot);
     std::strncpy(slot.path, path, sizeof(slot.path) - 1);
     slot.expectedKind = kind;
     slot.preset = preset;
+    slot.catalogVersion = componentCatalogVersion;
     slot.serial = ++recipeGeneration;
     if (slot.serial == 0) slot.serial = ++recipeGeneration;
     slot.state = SlotState::Requested;
     return true;
 }
 
+bool scheduleComponentLocked(uint8_t kind, uint8_t preset)
+{
+    char path[96];
+    const char prefix = kind == 1 ? 'f' : (kind == 2 ? 'o' : (kind == 3 ? 'h' : 'n'));
+    const char *folder = kind == 1 ? "face" :
+        (kind == 2 ? "outfit" : (kind == 3 ? "hair" : "neck"));
+    snprintf(path, sizeof(path), "assets/avatar-components/v%u/%s/%c%u.gavc",
+             componentCatalogVersion, folder, prefix, preset);
+    return requestComponentLocked(kind, preset, path);
+}
+
 bool scheduleDesiredComponentsLocked()
 {
+    if (!ensureComponentCatalogLocked()) return false;
     bool scheduled = false;
-    char path[96];
-    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
-        const uint8_t preset = desiredPresetForKind(kind);
-        const char prefix = kind == 1 ? 'f' : (kind == 2 ? 'o' : 'h');
-        const char *folder = kind == 1 ? "face" : (kind == 2 ? "outfit" : "hair");
-        snprintf(path, sizeof(path), "assets/avatar-components/v1/%s/%c%u.gavc",
-                 folder, prefix, preset);
-        scheduled |= requestComponentLocked(kind, preset, path);
+    for (uint8_t kind = 1; kind <= componentKindCount(componentCatalogVersion); ++kind) {
+        scheduled |= scheduleComponentLocked(kind, desiredPresetForKind(kind));
     }
     return scheduled;
 }
 
 void scheduleAllComponentsLocked()
 {
-    if (preloadScheduled) return;
-    char path[96];
-    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
-        const char prefix = kind == 1 ? 'f' : (kind == 2 ? 'o' : 'h');
-        const char *folder = kind == 1 ? "face" : (kind == 2 ? "outfit" : "hair");
-        for (uint8_t preset = 1; preset <= kComponentPresetsPerKind; ++preset) {
-            snprintf(path, sizeof(path), "assets/avatar-components/v1/%s/%c%u.gavc",
-                     folder, prefix, preset);
-            requestComponentLocked(kind, preset, path);
+    if (!ensureComponentCatalogLocked() || preloadScheduled) return;
+    for (uint8_t kind = 1; kind <= componentKindCount(componentCatalogVersion); ++kind) {
+        for (uint8_t preset = 1; preset <= componentPresetCount(kind); ++preset) {
+            scheduleComponentLocked(kind, preset);
         }
     }
     preloadScheduled = true;
@@ -444,17 +501,18 @@ void scheduleAllComponentsLocked()
 bool recoverPreviewBufferLocked()
 {
     if (ensurePreviewBuffersLocked()) return true;
-    if (previewRecoveryAttempted || !preloadComplete) return false;
+    if (previewRecoveryAttempted || !preloadComplete || previewBuffers.composing() ||
+        componentCatalogVersion != desiredRecipe.catalogVersion || releaseRequested) return false;
 
-    // Thirty differently sized GAVC allocations can leave enough total PSRAM
-    // but no contiguous 132 KiB block for the composed preview. Keep the three
+    // Differently sized GAVC allocations can leave enough total PSRAM
+    // but no contiguous 132 KiB block for the composed preview. Keep the active
     // visible layers, release background presets, reserve the preview, then
     // refill the library behind the editor. The sticky preloadComplete flag
-    // prevents this allocator recovery from sending the UI back to 3/30.
+    // prevents this allocator recovery from sending the UI back to preloading.
     previewRecoveryAttempted = true;
-    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
+    for (uint8_t kind = 1; kind <= componentKindCount(componentCatalogVersion); ++kind) {
         const uint8_t desired = desiredPresetForKind(kind);
-        for (uint8_t preset = 1; preset <= kComponentPresetsPerKind; ++preset) {
+        for (uint8_t preset = 1; preset <= componentPresetCount(kind); ++preset) {
             if (preset == desired) continue;
             ComponentSlot &slot = components[componentIndex(kind, preset)];
             if (slot.state == SlotState::Ready) freeComponentLocked(slot);
@@ -470,9 +528,10 @@ bool recoverPreviewBufferLocked()
 bool claimRequestLocked(ClaimedRequest &request)
 {
     const uint32_t nowMs = millis();
-    if (previewModeLocked()) {
-        // Always let the three visible layers jump ahead of background warmup.
-        for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
+    if (previewModeLocked() && !releaseRequested &&
+        componentCatalogVersion == desiredRecipe.catalogVersion) {
+        // Always let the visible layers jump ahead of background warmup.
+        for (uint8_t kind = 1; kind <= componentKindCount(componentCatalogVersion); ++kind) {
             const uint8_t index = componentIndex(kind, desiredPresetForKind(kind));
             ComponentSlot &slot = components[index];
             if (slot.state != SlotState::Requested ||
@@ -481,10 +540,11 @@ bool claimRequestLocked(ClaimedRequest &request)
             request.kind = RequestKind::Component;
             request.index = index;
             request.serial = slot.serial;
+            request.catalogVersion = slot.catalogVersion;
             std::strncpy(request.path, slot.path, sizeof(request.path) - 1);
             return true;
         }
-        for (uint8_t index = 0; index < kComponentSlotCount; ++index) {
+        for (uint8_t index = 0; index < avatarCatalogComponentCount(componentCatalogVersion); ++index) {
             ComponentSlot &slot = components[index];
             if (slot.state != SlotState::Requested ||
                 !deadlineReached(nowMs, slot.retryAfterMs)) continue;
@@ -492,6 +552,7 @@ bool claimRequestLocked(ClaimedRequest &request)
             request.kind = RequestKind::Component;
             request.index = index;
             request.serial = slot.serial;
+            request.catalogVersion = slot.catalogVersion;
             std::strncpy(request.path, slot.path, sizeof(request.path) - 1);
             return true;
         }
@@ -568,7 +629,7 @@ void completeRequest(const ClaimedRequest &request, uint8_t *bytes,
         // CRC validation walks the entire decoded layer. Keep that work outside
         // the cache mutex so background warmup cannot stall LVGL rendering.
         parsedComponent = success && parseComponent(
-            bytes, length, expectedKind, expectedPreset, parsedHeader
+            bytes, length, request.catalogVersion, expectedKind, expectedPreset, parsedHeader
         );
     }
     bool accepted = false;
@@ -579,6 +640,10 @@ void completeRequest(const ClaimedRequest &request, uint8_t *bytes,
             slot.expectedKind <= kComponentKindCount &&
             slot.preset == desiredPresetForKind(slot.expectedKind);
         const bool valid = parsedComponent && slot.serial == request.serial &&
+            previewModeLocked() && !releaseRequested &&
+            slot.catalogVersion == request.catalogVersion &&
+            slot.catalogVersion == componentCatalogVersion &&
+            slot.catalogVersion == desiredRecipe.catalogVersion &&
             slot.state == SlotState::Loading &&
             setupCachedBytes + length +
                     missingPreviewBytesLocked() <=
@@ -634,9 +699,12 @@ bool beginComposeLocked(ComposeSnapshot &snapshot)
 
     snapshot.recipe = desiredRecipe;
     snapshot.generation = desiredRecipeGeneration;
-    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
+    snapshot.layerCount = componentKindCount(snapshot.recipe.catalogVersion);
+    constexpr uint8_t v2Order[] = {4, 1, 2, 3};
+    for (uint8_t index = 0; index < snapshot.layerCount; ++index) {
+        const uint8_t kind = snapshot.recipe.catalogVersion == 2 ? v2Order[index] : index + 1;
         const ComponentSlot &slot = desiredComponent(kind);
-        ComposeLayer &layer = snapshot.layers[kind - 1];
+        ComposeLayer &layer = snapshot.layers[index];
         layer.file = slot.file;
         layer.fileBytes = slot.fileBytes;
         layer.header = slot.header;
@@ -652,11 +720,12 @@ bool composePreview(const ComposeSnapshot &snapshot)
     if (output == nullptr) return false;
 
     std::array<RleCursor, kComponentKindCount> decoders{};
-    for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
-        const ComposeLayer &layer = snapshot.layers[kind - 1];
-        decoders[kind - 1] = RleCursor{layer.file + kGavcHeaderBytes,
+    for (uint8_t index = 0; index < snapshot.layerCount; ++index) {
+        const ComposeLayer &layer = snapshot.layers[index];
+        decoders[index] = RleCursor{layer.file + kGavcHeaderBytes,
                                       layer.file + layer.fileBytes, 0,
-                                      layer.header.decodedBytes / 4u};
+                                      layer.header.decodedBytes / layer.header.sampleBytes,
+                                      layer.header.sampleBytes};
     }
     const AvatarComponentRgb hairColor = kHairPalette[snapshot.recipe.hairColorId - 1];
     const AvatarComponentRgb skinColor = kSkinPalette[snapshot.recipe.skinToneId - 1];
@@ -669,15 +738,19 @@ bool composePreview(const ComposeSnapshot &snapshot)
     for (uint16_t y = 0; y < kPreviewHeight; ++y) {
         for (uint16_t x = 0; x < kPreviewWidth; ++x) {
             uint8_t destination[4]{};
-            for (uint8_t kind = 1; kind <= kComponentKindCount; ++kind) {
-                const uint8_t index = kind - 1;
+            for (uint8_t index = 0; index < snapshot.layerCount; ++index) {
                 const ComposeLayer &layer = snapshot.layers[index];
                 if (x < layer.header.x || y < layer.header.y ||
                     x >= layer.header.x + layer.header.width ||
                     y >= layer.header.y + layer.header.height) continue;
-                uint8_t source[4];
+                uint8_t source[5]{};
                 if (!decoders[index].next(source)) return false;
-                if (layer.expectedKind == 1) avatarTintSkinPixel(source, skinColor);
+                if (snapshot.recipe.catalogVersion == 2 &&
+                    (layer.expectedKind == 1 || layer.expectedKind == 4)) {
+                    avatarTintSkinMaskedPixel(source, skinColor);
+                } else if (layer.expectedKind == 1) {
+                    avatarTintSkinPixel(source, skinColor);
+                }
                 if (layer.expectedKind == 3) avatarTintHairPixel(source, hairColor);
                 avatarSourceOver(destination, source);
             }
@@ -685,7 +758,7 @@ bool composePreview(const ComposeSnapshot &snapshot)
             if (destination[3] != 0) {
                 uint8_t rgb[3];
                 for (uint8_t channel = 0; channel < 3; ++channel) {
-                    rgb[channel] = avatarRoundHalfUp(
+                    rgb[channel] = avatarRoundHalfUpByte(
                         static_cast<uint64_t>(destination[channel]) * destination[3] +
                         static_cast<uint64_t>(background[channel]) *
                             (255u - destination[3]),
@@ -700,8 +773,8 @@ bool composePreview(const ComposeSnapshot &snapshot)
             output[offset + 1] = static_cast<uint8_t>(rgb565 >> 8);
         }
     }
-    for (const RleCursor &decoder : decoders) {
-        if (!decoder.complete()) return false;
+    for (uint8_t index = 0; index < snapshot.layerCount; ++index) {
+        if (!decoders[index].complete()) return false;
     }
 
     return true;
@@ -735,6 +808,12 @@ void loaderTask(void *parameter)
         ComposeSnapshot composeSnapshot{};
         bool composeClaimed = false;
         xSemaphoreTake(cacheMutex, portMAX_DELAY);
+        if (previewModeLocked() && !releaseRequested) {
+            // A version change may have waited for another worker's compose.
+            // Resume it here without requiring a new UI request.
+            scheduleDesiredComponentsLocked();
+            if (preloadRequested) scheduleAllComponentsLocked();
+        }
         const bool shouldCompose =
             previewModeLocked() && composeRequested && allComponentsReadyLocked() &&
             deadlineReached(millis(),
@@ -815,8 +894,9 @@ void remoteAvatarCachePreload(const TransportAvatarRecipe &recipe)
     bool wakeWorker = false;
     xSemaphoreTake(cacheMutex, portMAX_DELAY);
     enterModeLocked(CacheMode::Preview);
+    preloadRequested = true;
     // Reserve the only large contiguous allocation before four workers split
-    // PSRAM into thirty component blocks. Without this reservation all files
+    // PSRAM into component blocks. Without this reservation all files
     // can reach Ready while the final 220x300 preview allocation still fails.
     bool previewBufferReady = ensurePreviewBuffersLocked();
     if (!sameRecipe(desiredRecipe, normalized)) {
@@ -848,13 +928,18 @@ RemoteAvatarPreloadProgress remoteAvatarCachePreloadProgress()
     RemoteAvatarPreloadProgress progress{};
     if (!cacheStarted || cacheMutex == nullptr) return progress;
     xSemaphoreTake(cacheMutex, portMAX_DELAY);
-    for (const ComponentSlot &slot : components) {
-        if (slot.state == SlotState::Ready) ++progress.readyCount;
+    progress.totalCount = avatarCatalogComponentCount(desiredRecipe.catalogVersion);
+    const bool currentCatalog = componentCatalogVersion == desiredRecipe.catalogVersion &&
+        !releaseRequested && previewModeLocked();
+    if (currentCatalog) {
+        for (const ComponentSlot &slot : components) {
+            if (slot.state == SlotState::Ready) ++progress.readyCount;
+        }
     }
     if (allLibraryComponentsReadyLocked()) preloadComplete = true;
-    if (preloadComplete) progress.readyCount = progress.totalCount;
+    if (currentCatalog && preloadComplete) progress.readyCount = progress.totalCount;
     progress.previewReady = previewReady && sameRecipe(composedRecipe, desiredRecipe);
-    progress.complete = preloadComplete;
+    progress.complete = currentCatalog && preloadComplete;
     xSemaphoreGive(cacheMutex);
     return progress;
 }
@@ -958,13 +1043,15 @@ const lv_img_dsc_t *remoteAvatarPreview(const TransportAvatarRecipe &recipe)
 
 const lv_img_dsc_t *remoteAvatarFinal(uint32_t roomId, uint8_t playerId,
                                      uint16_t avatarRevision,
-                                     uint64_t avatarContentHash64)
+                                     uint64_t avatarContentHash64,
+                                     uint16_t catalogVersion)
 {
     if (!cacheStarted || cacheMutex == nullptr || playerId == 0 || playerId > 6 ||
-        avatarRevision == 0 || avatarContentHash64 == 0) return nullptr;
+        avatarRevision == 0 || avatarContentHash64 == 0 ||
+        !avatarCatalogSupported(catalogVersion)) return nullptr;
     char path[176];
-    snprintf(path, sizeof(path), "assets/avatars/%lu/p%u-a%u-%016llx.rgb565",
-             static_cast<unsigned long>(roomId), playerId, avatarRevision,
+    snprintf(path, sizeof(path), "assets/avatars/%s%lu/p%u-a%u-%016llx.rgb565",
+             catalogVersion == 2 ? "v2/" : "", static_cast<unsigned long>(roomId), playerId, avatarRevision,
              static_cast<unsigned long long>(avatarContentHash64));
     const uint8_t index = static_cast<uint8_t>(playerId - 1);
     bool wakeWorker = false;

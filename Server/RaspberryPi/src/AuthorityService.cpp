@@ -185,10 +185,13 @@ AuthorityService::AuthorityService(std::filesystem::path statePath,
           botActionInterval, std::chrono::milliseconds(kMinimumBotActionIntervalMs),
           std::chrono::milliseconds(kMaximumBotActionIntervalMs))),
       epochClock_(identityOptions.epochClock ? std::move(identityOptions.epochClock)
-                                             : std::function<std::uint64_t()>(unixEpochMs)) {
-  if (!identityOptions.avatarComponentRoot.empty() && !identityOptions.avatarAssetRoot.empty()) {
+                                             : std::function<std::uint64_t()>(unixEpochMs)),
+      defaultAvatarCatalogVersion_(identityOptions.avatarCatalogVersion) {
+  if ((!identityOptions.avatarComponentRoot.empty() ||
+       !identityOptions.avatarComponentV2Root.empty()) && !identityOptions.avatarAssetRoot.empty()) {
     avatarRenderer_ = std::make_unique<AvatarRenderer>(
-        std::move(identityOptions.avatarComponentRoot), std::move(identityOptions.avatarAssetRoot));
+        std::move(identityOptions.avatarComponentRoot), std::move(identityOptions.avatarAssetRoot),
+        std::move(identityOptions.avatarComponentV2Root));
     if (avatarRenderer_->valid()) startAvatarWorker();
   }
 }
@@ -296,7 +299,7 @@ void AuthorityService::initializeCompatibilityIdentityLocked() {
   if (humanCount == 0 || humanCount > state.playerCount) humanCount = 1;
   const auto botCount = static_cast<std::uint8_t>(state.playerCount - humanCount);
   initializeIdentityRoom(identity_, roomId_, state.rngState == 0 ? randomNonZero() : state.rngState,
-                         humanCount, botCount);
+                          humanCount, botCount, defaultAvatarCatalogVersion_);
   identity_.phase = IdentityRoomPhase::Active;
   identity_.countdownDeadlineEpochMs = 0;
   for (std::uint8_t index = 0; index < state.playerCount; ++index) {
@@ -316,6 +319,10 @@ void AuthorityService::initializeCompatibilityIdentityLocked() {
 
 bool AuthorityService::initialize() {
   std::lock_guard<std::mutex> lock(mutex_);
+  if (!supportedAvatarCatalogVersion(defaultAvatarCatalogVersion_) ||
+      (defaultAvatarCatalogVersion_ == kAvatarCatalogVersionV2 &&
+       (avatarRenderer_ == nullptr || !avatarRenderer_->valid(defaultAvatarCatalogVersion_))))
+    return false;
   loadMetadataLocked();
   const bool restored = store_.restore(engine_);
   if (!restored) {
@@ -751,7 +758,7 @@ Result AuthorityService::newIdentityGameLocked(std::uint8_t boardSize, std::uint
     return error(ErrorCode::InvalidArgument, "unsupported board or player counts");
   }
   const auto playerCount = static_cast<std::uint8_t>(playerCountWide);
-  if (avatarRenderer_ == nullptr || !avatarRenderer_->valid()) {
+  if (avatarRenderer_ == nullptr || !avatarRenderer_->valid(defaultAvatarCatalogVersion_)) {
     return error(ErrorCode::RuleViolation, "avatar renderer is unavailable");
   }
 
@@ -770,7 +777,8 @@ Result AuthorityService::newIdentityGameLocked(std::uint8_t boardSize, std::uint
     std::snprintf(name, sizeof(name), "Bot %u", static_cast<unsigned>(index + 1));
     result = engine_.addPlayer(name, ControllerKind::Bot, true);
   }
-  if (result && !initializeIdentityRoom(identity_, roomId_, roomSeed, humanCount, botCount)) {
+  if (result && !initializeIdentityRoom(identity_, roomId_, roomSeed, humanCount, botCount,
+                                       defaultAvatarCatalogVersion_)) {
     result = error(ErrorCode::RuleViolation, "identity room initialization failed");
   }
   if (!result) return result;
@@ -1151,7 +1159,8 @@ void AuthorityService::handleIdentityRequest(std::uint8_t sourceSeat,
                               : IdentityResultCode::CatalogMismatch;
     } else if (!validAvatarRecipe(request.recipe)) {
       result = IdentityResultCode::InvalidRecipe;
-    } else if (avatarRenderer_ == nullptr || !avatarRenderer_->valid()) {
+    } else if (avatarRenderer_ == nullptr ||
+               !avatarRenderer_->valid(request.avatarCatalogVersion)) {
       result = IdentityResultCode::AvatarGenerationFailed;
     } else {
       const auto desiredAvatarRevision = nextRevision(seat.avatarRevision);
@@ -1211,8 +1220,9 @@ bool AuthorityService::renderAvatarPreview(const AvatarRecipe& recipe,
   return output.ok;
 }
 
-std::filesystem::path AuthorityService::avatarComponentRoot() const {
-  return avatarRenderer_ == nullptr ? std::filesystem::path{} : avatarRenderer_->componentRoot();
+std::filesystem::path AuthorityService::avatarComponentRoot(std::uint16_t catalogVersion) const {
+  return avatarRenderer_ == nullptr || !avatarRenderer_->valid(catalogVersion)
+      ? std::filesystem::path{} : avatarRenderer_->componentRoot(catalogVersion);
 }
 
 std::filesystem::path AuthorityService::avatarAssetRoot() const {
@@ -2197,7 +2207,9 @@ std::string AuthorityService::syncJson(const std::string& serviceIp) const {
       // Keep the Web projection origin-relative. The server is reachable on
       // both the player AP and the household uplink, so pinning this URL to
       // 10.42.0.1 would break browsers using the other interface.
-      const auto url = "/assets/avatars/" + std::to_string(roomId_) + "/" + key;
+      const auto url = std::string("/assets/avatars/") +
+          (seat.recipe.avatarCatalogVersion == kAvatarCatalogVersionV2 ? "v2/" : "") +
+          std::to_string(roomId_) + "/" + key;
       appendJsonString(out, url.c_str());
     } else {
       appendJsonString(out, "");
