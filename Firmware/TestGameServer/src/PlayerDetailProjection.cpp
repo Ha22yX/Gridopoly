@@ -30,6 +30,7 @@ bool projectFinancialEvent(const GameEvent& event, const GameEvent* nextNewer,
       signedAmount = startingCash;
       break;
     case EventKind::PassedStart:
+    case EventKind::DebugCashChanged:
       if (!actor) return false;
       signedAmount = event.amount;
       break;

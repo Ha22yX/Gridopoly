@@ -83,6 +83,8 @@ enum class EventKind : std::uint8_t {
   TradeCreated = 28,
   TradeUpdated = 29,
   TradeClosed = 30,
+  DebugCashChanged = 31,
+  DebugOwnerChanged = 32,
 };
 
 enum ActionMask : std::uint32_t {

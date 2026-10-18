@@ -614,6 +614,15 @@ void tagOnboardingAcrossTransports() {
   a.report({222}); assert(one.query().boundMask == 0); // Multi-tag requires clearing again.
   a.report({});
   const auto beforeBindingRevision = one.query().revision;
+  const auto beforeTransient = one.query();
+  b.report({}); // Another valid reader must not steal the active prompt.
+  a.report({111}, false);
+  const auto transient = one.query();
+  assert(transient.state == TagPairState::AwaitingTag && transient.boundMask == 0);
+  assert(transient.sessionId == beforeTransient.sessionId && transient.revision == beforeBindingRevision);
+  assert(std::string(transient.moduleId.data()) == a.module);
+  a.report({111}, true, false); // A changed freshness label on the same scan cannot bind.
+  assert(one.query().boundMask == 0 && fixture.authority->tagBindingRevision() == unchangedBindings);
   a.report({111});
   pairing = one.query();
   assert(pairing.state == TagPairState::SuccessRemove && pairing.boundMask == 1 && pairing.tagUid == 111);

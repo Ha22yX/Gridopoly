@@ -11,6 +11,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Gridopoly 测试主控</title>
   <style>
+    .settings-field[hidden]{display:none}
     :root{color-scheme:dark;--bg:#080c12;--panel:#111923;--panel2:#172231;--line:#2b3a4f;--ink:#eef4ff;--muted:#91a0b6;--accent:#ffcb45;--ok:#58d68d;--danger:#ff727a}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
     header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 20px;border-bottom:1px solid var(--line);background:#0d131c;position:sticky;top:0;z-index:4}
@@ -54,10 +55,23 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
 </div>
 <div id="player-context-menu" class="context-menu" hidden role="menu" aria-label="玩家操作">
   <div id="player-context-title" class="context-title">玩家</div>
+  <button id="player-debug-cash" type="button" role="menuitem">调试：修改资金…</button>
   <button id="player-force-destination" type="button" role="menuitem">指定下一次目的地</button>
   <button id="player-clear-destination" class="danger" type="button" role="menuitem" hidden>取消现有指定</button>
   <button id="player-assign-tag" type="button" role="menuitem">分配 Tag</button>
   <button id="player-clear-tag" class="danger" type="button" role="menuitem" hidden>解除 Tag</button>
+</div>
+<div id="debug-edit-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="debug-edit-title">
+  <section class="settings-card">
+    <h2 id="debug-edit-title">调试修改</h2>
+    <p id="debug-edit-object"></p>
+    <label id="debug-cash-field" class="settings-field" for="debug-cash"><b>新的资金余额</b><input id="debug-cash" type="number" min="0" max="1000000" step="1"></label>
+    <label id="debug-owner-field" class="settings-field" for="debug-owner"><b>新的所有者</b><select id="debug-owner"></select></label>
+    <div id="debug-edit-preview" class="tag-preview" aria-live="polite"></div>
+    <p class="settings-hint">仅在等待掷骰或回合结束、没有待处理事务或交易时可修改。归属修改不收取购买款；抵押资产及组内仍有建筑时需先处理。资金范围为 0–1,000,000 整数。</p>
+    <div id="debug-edit-status" class="settings-hint" aria-live="polite"></div>
+    <div class="settings-actions"><button id="debug-edit-cancel" type="button">取消</button><button id="debug-edit-save" class="primary" type="button">确认修改</button></div>
+  </section>
 </div>
 <div id="tag-binding-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="tag-binding-title">
   <section class="settings-card">
@@ -76,6 +90,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
   </div>
   <div id="tile-debug-preview" class="tile-debug-preview" aria-live="polite"><div class="tile-debug-preview-grid"><span>格子</span><b>等待数据</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div></div>
   <div id="tile-debug-occupancy" class="tile-debug-occupancy">该格子当前没有临时分配。</div>
+  <button id="tile-debug-owner" type="button" hidden>调试：分配所有权…</button>
   <div class="tile-debug-actions"><button id="tile-debug-apply" class="primary" type="button">分配到此格</button><button id="tile-debug-clear" type="button">取消手动指定</button></div>
   <div id="tile-debug-context-status" class="tile-debug-context-status" aria-live="polite">选择在线模块后应用。</div>
 </div>
@@ -363,6 +378,7 @@ const tokenStepMs=180;
 let forcedSelection=null;
 let contextPlayerId=0;
 let contextTileId='';
+let debugEdit=null;
 let serverEpochOffsetMs=0;
 let tileDebugState=normalizeTileDebugData(null);
 let tileDebugInFlight=false;
@@ -624,6 +640,7 @@ function render(next){
   }
   reconcileVisualPositions(previous,next);
   state=next;
+  if(debugEdit)updateDebugEditPreview();
   if(pendingPairingRequest&&(!next.tagPairing||pendingPairingRequest.roomId!==next.roomId||
       pendingPairingRequest.sessionId!==next.tagPairing.sessionId||
       pendingPairingRequest.expectedRevision!==next.tagPairing.revision))pendingPairingRequest=null;
@@ -718,7 +735,7 @@ function render(next){
     return`<div class="player ${player.id===(gameResult(next)?next.winnerPlayerId:next.activePlayer)?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键设置目的地或分配Tag" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}${tagMark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?'在线':'离线'} · 格 ${player.position}${player.held?' · 限制区':''}${player.bankrupt?' · 已破产':''}</small></div><span class="money">¥${player.cash}</span></div>`;
   }).join('');
   renderForcedRollSelection();
-  $('#events').innerHTML=next.events.slice().reverse().map(event=>`<div class="event">#${event.seq} E${event.kind} · P${event.actor} → P${event.target} · A${event.asset} · ${event.amount}</div>`).join('');
+  $('#events').innerHTML=next.events.slice().reverse().map(event=>`<div class="event">#${event.seq} ${event.kind===31?'调试资金调整':event.kind===32?'调试归属修改':`E${event.kind}`} · P${event.actor} → P${event.target} · A${event.asset} · ${event.amount}</div>`).join('');
   updateActionButtons();
   if(tileDebugCatalogChanged)refreshTileDebug('地图已变更，临时分配目录已刷新。');
 }
@@ -742,6 +759,7 @@ function setBusy(busy){
     validateNewGameCounts(false);
     updateTileDebugControls();
     if(state)renderIdentityWorkflow(state);
+    if(debugEdit)updateDebugEditPreview();
   }
 }
 
@@ -780,6 +798,7 @@ function openPlayerContextMenu(playerId,x,y){
   contextPlayerId=playerId;
   const menu=$('#player-context-menu');
   $('#player-context-title').textContent=`P${player.id} · ${player.name}`;
+  $('#player-debug-cash').disabled=Boolean(player.bankrupt);
   const schedule=$('#player-force-destination');
   schedule.disabled=!forcedRollSupported()||!playerCanScheduleDestination(player);
   schedule.textContent=player.bankrupt?'玩家已破产':player.held?'限制区内不可指定':
@@ -1020,6 +1039,100 @@ async function clearForcedRollTarget(){
   }
 }
 
+function debugOwnerLabel(id){
+  const player=state&&state.players.find(player=>player.id===Number(id));
+  return Number(id)===0?'银行':player?`P${player.id} · ${player.name}`:`P${id}`;
+}
+
+function debugEditValue(){
+  if(!debugEdit)return null;
+  const raw=String($(debugEdit.kind==='cash'?'#debug-cash':'#debug-owner').value);
+  if(!/^\d+$/.test(raw))return null;
+  const value=Number(raw);
+  if(!Number.isSafeInteger(value))return null;
+  if(debugEdit.kind==='cash')return value<=1000000?value:null;
+  return value===0||state.players.some(player=>player.id===value&&!player.bankrupt)?value:null;
+}
+
+function updateDebugEditPreview(){
+  if(!debugEdit)return;
+  const stale=!state||state.roomId!==debugEdit.roomId||state.version!==debugEdit.version;
+  const value=debugEditValue();
+  const label=value===null?'请输入有效值':debugEdit.kind==='cash'?`¥${value.toLocaleString()}`:debugOwnerLabel(value);
+  $('#debug-edit-preview').textContent=`${debugEdit.previousLabel} → ${label}`;
+  $('#debug-edit-save').disabled=actionInFlight||stale||value===null;
+  if(stale){
+    $('#debug-edit-status').textContent='对局状态已变化，请取消后重新右键打开，核对最新值。';
+    $('#debug-edit-status').className='settings-hint error';
+  }
+}
+
+function openDebugEdit(kind,id){
+  if(actionInFlight||!state)return;
+  const object=kind==='cash'?state.players.find(player=>player.id===Number(id)&&!player.bankrupt):
+    state.tiles.find(tile=>tile.id===id&&[1,2,3].includes(tile.kind)&&tile.asset!==255);
+  if(!object)return;
+  debugEdit={kind,id,roomId:state.roomId,version:state.version,
+    previousLabel:kind==='cash'?`¥${Number(object.cash).toLocaleString()}`:debugOwnerLabel(object.owner)};
+  hidePlayerContextMenu();closeTileDebugContextMenu();
+  $('#debug-edit-title').textContent=kind==='cash'?'调试：修改玩家资金':'调试：分配资产所有权';
+  $('#debug-edit-object').textContent=kind==='cash'?`P${object.id} · ${object.name}`:
+    `格 ${String(object.i).padStart(2,'0')} · ${object.id}`;
+  $('#debug-cash-field').hidden=kind!=='cash';
+  $('#debug-owner-field').hidden=kind!=='owner';
+  $('#debug-cash').value=kind==='cash'?object.cash:0;
+  $('#debug-owner').innerHTML='<option value="0">银行</option>'+state.players.filter(player=>!player.bankrupt)
+    .map(player=>`<option value="${player.id}">${esc(debugOwnerLabel(player.id))}</option>`).join('');
+  $('#debug-owner').value=kind==='owner'?object.owner:0;
+  $('#debug-edit-status').textContent='请核对对象和新值；点击确认后写入当前对局。';
+  $('#debug-edit-status').className='settings-hint';
+  $('#debug-edit-modal').hidden=false;
+  updateDebugEditPreview();
+  $(kind==='cash'?'#debug-cash':'#debug-owner').focus();
+}
+
+function closeDebugEdit(){
+  if(actionInFlight)return;
+  $('#debug-edit-modal').hidden=true;debugEdit=null;
+}
+
+async function saveDebugEdit(){
+  if(actionInFlight||!debugEdit)return;
+  updateDebugEditPreview();
+  if($('#debug-edit-save').disabled)return;
+  const edit=debugEdit,value=debugEditValue(),preview=$('#debug-edit-preview').textContent;
+  const query=new URLSearchParams({roomId:String(edit.roomId),expectedVersion:String(edit.version)});
+  if(edit.kind==='cash'){query.set('playerId',String(edit.id));query.set('cash',String(value));}
+  else{query.set('tileId',edit.id);query.set('ownerId',String(value));}
+  clearTimeout(pollTimer);
+  setBusy(true);
+  if(refreshController)refreshController.abort();
+  $('#debug-edit-status').textContent='正在保存…';
+  let saved=false;
+  try{
+    const response=await fetchWithTimeout(`/api/debug/${edit.kind==='cash'?'player-cash':'asset-owner'}?${query}`,
+      {method:'POST',cache:'no-store'},8000);
+    const result=await response.json();
+    if(!response.ok||result.ok!==true)throw new Error(result.message||`HTTP ${response.status}`);
+    if(result.roomId!==edit.roomId||!state||state.roomId!==edit.roomId)throw new Error('room_changed');
+    saved=true;
+  }catch(error){
+    const messages={room_changed:'房间已变化，请重新打开',version_changed:'状态已变化，请重新打开',
+      persist_failed:'写入失败，原值已保留',invalid_debug_request:'提交内容不合法',
+      'unmortgage this asset before changing ownership':'请先赎回此资产',
+      'sell all buildings in this group before changing ownership':'请先出售同组全部建筑',
+      'debug edits require await-roll or turn-end without pending workflows or trades':'请先完成当前事务或交易，并等待掷骰或回合结束'};
+    $('#debug-edit-status').textContent=error.name==='AbortError'?'请求超时，请刷新核对是否已保存，再重新打开。':
+      `未保存：${messages[error.message]||error.message}`;
+    $('#debug-edit-status').className='settings-hint error';
+  }finally{
+    setBusy(false);
+    if(saved)closeDebugEdit();
+    await refresh(true);
+    if(saved){$('#status').textContent=`调试修改已保存 · ${preview}`;$('#status').className='';}
+  }
+}
+
 function tileDebugSetStatus(message,error=false){
   const element=$('#tile-debug-status');
   element.textContent=message;
@@ -1128,6 +1241,8 @@ async function openTileDebugContextMenu(tile,x,y){
   }
   hidePlayerContextMenu();
   contextTileId=catalogTile.tileId;
+  $('#tile-debug-owner').hidden=!state||!state.tiles.some(item=>item.id===contextTileId&&
+    [1,2,3].includes(item.kind)&&item.asset!==255);
   $('#tile-debug-context-title').firstChild.textContent=
     `${String(catalogTile.mapIndex).padStart(2,'0')} · ${catalogTile.displayName||catalogTile.tileId}`;
   $('#tile-debug-context-subtitle').textContent=catalogTile.tileId;
@@ -1449,6 +1564,13 @@ $('#players').addEventListener('keydown',event=>{
   openPlayerContextMenu(Number(card.dataset.playerId),bounds.left+24,bounds.top+24);
 });
 $('#player-force-destination').onclick=()=>beginForcedRollSelection(contextPlayerId);
+$('#player-debug-cash').onclick=()=>openDebugEdit('cash',contextPlayerId);
+$('#tile-debug-owner').onclick=()=>openDebugEdit('owner',contextTileId);
+$('#debug-edit-cancel').onclick=closeDebugEdit;
+$('#debug-edit-save').onclick=saveDebugEdit;
+$('#debug-cash').oninput=updateDebugEditPreview;
+$('#debug-owner').onchange=updateDebugEditPreview;
+$('#debug-edit-modal').onclick=event=>{if(event.target===$('#debug-edit-modal'))closeDebugEdit();};
 $('#player-clear-destination').onclick=clearForcedRollTarget;
 $('#player-assign-tag').onclick=()=>openTagBindingModal(contextPlayerId);
 $('#player-clear-tag').onclick=()=>clearPlayerTagBinding(contextPlayerId);
@@ -1488,6 +1610,7 @@ document.addEventListener('pointerdown',event=>{
 });
 document.addEventListener('keydown',event=>{
   if(event.key!=='Escape')return;
+  if(!$('#debug-edit-modal').hidden){closeDebugEdit();return;}
   if(forcedSelection)cancelForcedRollSelection();
   else if(!$('#tag-binding-modal').hidden)closeTagBindingModal();
   else if(!$('#tile-debug-context-menu').hidden)closeTileDebugContextMenu();

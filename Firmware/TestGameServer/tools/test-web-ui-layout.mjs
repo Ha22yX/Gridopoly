@@ -115,9 +115,9 @@ assert.ok(source.includes('/api/tile-debug/assignments'),
 assert.ok(source.includes('/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}&deviceId=${encodeURIComponent(deviceId)}&tileId=${encodeURIComponent(tileId)}'),
   'tile debug mutation must identify only the online module/device and canonical tile');
 assert.ok(!source.includes('&ownerPlayerId=${ownerPlayerId}') &&
-  !source.includes('ownerPlayerId=') && !source.includes('id="tile-debug-owner"') &&
+  !source.includes('ownerPlayerId=') &&
   !source.includes('临时所有者') && !source.includes('tileDebugOwnerOptions'),
-  'tile debug UI must not expose or submit a forged owner override');
+  'hardware assignment UI must not submit a forged owner override; authority debug uses its separate endpoint');
 assert.ok(source.includes("'POST',") && source.includes("'DELETE',"),
   'tile debug panel must expose explicit set and clear mutations');
 assert.ok(source.includes('全部在线模块连成一个完整环、数量与当前地图一致且四角匹配时，自动按 ORDER 顺序分配格子'),

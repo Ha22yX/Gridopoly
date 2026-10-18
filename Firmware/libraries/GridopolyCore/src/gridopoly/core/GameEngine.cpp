@@ -71,6 +71,59 @@ Result GameEngine::start() {
   return ok();
 }
 
+bool GameEngine::debugMutationAllowed() const {
+  if ((state_.phase != GamePhase::AwaitRoll && state_.phase != GamePhase::TurnEnd) ||
+      state_.pendingMove.active || state_.pendingPurchase.active || state_.pendingCard.active ||
+      state_.pendingDebt.active || state_.auction.active) return false;
+  return std::none_of(state_.trades.begin(), state_.trades.end(),
+      [](const auto& trade) { return activeTradeStatus(trade.status); });
+}
+
+Result GameEngine::debugSetPlayerCash(std::uint8_t playerId, std::int32_t cash) {
+  auto* target = player(playerId);
+  if (target == nullptr || target->bankrupt)
+    return error(ErrorCode::InvalidPlayer, "player must exist and not be bankrupt");
+  if (cash < 0 || cash > kMaximumDebugCash || target->cash < 0)
+    return error(ErrorCode::InvalidArgument, "cash must be an integer from 0 to 1000000");
+  if (!debugMutationAllowed())
+    return error(ErrorCode::InvalidPhase, "debug edits require await-roll or turn-end without pending workflows or trades");
+  if (cash == target->cash) return ok();
+  const auto delta = cash - target->cash;
+  target->cash = cash;
+  emit(EventKind::DebugCashChanged, playerId, 0, kNoAsset, delta, static_cast<std::uint32_t>(cash));
+  changed();
+  return ok();
+}
+
+Result GameEngine::debugSetAssetOwner(std::uint8_t assetIndex, std::uint8_t ownerId) {
+  if (state_.board == nullptr || assetIndex >= state_.board->assetCount)
+    return error(ErrorCode::InvalidArgument, "tile is not a tradable asset");
+  const auto& definition = state_.board->assets[assetIndex];
+  if (definition.kind != TileKind::Property && definition.kind != TileKind::Transit &&
+      definition.kind != TileKind::Utility)
+    return error(ErrorCode::InvalidArgument, "tile is not a tradable asset");
+  if (ownerId != 0 && (player(ownerId) == nullptr || player(ownerId)->bankrupt))
+    return error(ErrorCode::InvalidPlayer, "owner must be the bank or a non-bankrupt player");
+  if (!debugMutationAllowed())
+    return error(ErrorCode::InvalidPhase, "debug edits require await-roll or turn-end without pending workflows or trades");
+  auto& asset = state_.assets[assetIndex];
+  if (asset.mortgaged)
+    return error(ErrorCode::RuleViolation, "unmortgage this asset before changing ownership");
+  for (std::uint8_t i = 0; i < state_.board->assetCount; ++i) {
+    const auto& other = state_.board->assets[i];
+    if (state_.assets[i].buildingLevel && (i == assetIndex ||
+        (definition.kind == TileKind::Property && other.kind == TileKind::Property &&
+         other.group == definition.group)))
+      return error(ErrorCode::RuleViolation, "sell all buildings in this group before changing ownership");
+  }
+  if (asset.ownerId == ownerId) return ok();
+  const auto previousOwner = asset.ownerId;
+  asset.ownerId = ownerId;
+  emit(EventKind::DebugOwnerChanged, previousOwner, ownerId, assetIndex);
+  changed();
+  return ok();
+}
+
 Result GameEngine::roll(std::uint8_t playerId, std::uint8_t dieA, std::uint8_t dieB) {
   auto required = requireActive(playerId, GamePhase::AwaitRoll);
   if (!required) {
@@ -1645,6 +1698,7 @@ void GameEngine::recordFinancialEvent(const GameEvent& event) {
       }
       return;
     case EventKind::PassedStart:
+    case EventKind::DebugCashChanged:
     case EventKind::AssetMortgaged:
       recordFinancial(event.actorId, event.amount, event.kind, 0, event.assetIndex,
                       event.sequence);

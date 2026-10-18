@@ -54,6 +54,7 @@ class HttpServer {
     std::unordered_map<std::string, std::string> headers{};
     std::string body{};
     bool keepAlive{};
+    bool duplicateQuery{};
   };
 
   struct Response {

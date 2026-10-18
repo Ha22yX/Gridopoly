@@ -86,6 +86,8 @@ HttpResponse request(std::uint16_t port, const std::string& method,
 
   constexpr std::array<std::uint8_t, 4> delimiter{'\r', '\n', '\r', '\n'};
   const auto headerEnd = std::search(raw.begin(), raw.end(), delimiter.begin(), delimiter.end());
+  if (headerEnd == raw.end()) std::cerr << "HTTP response missing: " << method << ' ' << target
+      << " bytes=" << raw.size() << '\n';
   assert(headerEnd != raw.end());
   const std::string headerText(raw.begin(), headerEnd);
   const auto firstLineEnd = headerText.find("\r\n");
@@ -151,6 +153,7 @@ std::vector<std::uint8_t> readBytes(const std::filesystem::path& path) {
 
 #include "development_asset_http_tests.h"
 #include "http_request_deadline_tests.h"
+#include "debug_edit_http_tests.h"
 
 }  // namespace
 
@@ -817,6 +820,8 @@ int main() {
   http.stop();
   verifyHttpRequestDeadlines(authority, udp, temporary / "tiles");
   verifyDevelopmentAssets(source, temporary, authority, udp);
+  verifyCoreDebugEdits();
+  verifyDebugHttpEdits(temporary / "debug-edits", testComponents);
   std::filesystem::remove_all(temporary);
   std::cout << "GRIDOPOLY_HTTP_ASSET_INTEGRATION_TESTS_PASS\n";
   return 0;

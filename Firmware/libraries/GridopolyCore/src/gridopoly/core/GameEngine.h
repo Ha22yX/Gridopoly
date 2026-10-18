@@ -11,6 +11,9 @@ class GameEngine {
   Result reset(const BoardDefinition& board, std::uint32_t seed);
   Result addPlayer(const char* name, ControllerKind controller, bool connected = true);
   Result start();
+  static constexpr std::int32_t kMaximumDebugCash = 1000000;
+  Result debugSetPlayerCash(std::uint8_t playerId, std::int32_t cash);
+  Result debugSetAssetOwner(std::uint8_t assetIndex, std::uint8_t ownerId);
 
   Result roll(std::uint8_t playerId, std::uint8_t dieA = 0, std::uint8_t dieB = 0);
   Result confirmPosition(std::uint8_t playerId, std::uint8_t observedPosition);
@@ -64,6 +67,7 @@ class GameEngine {
 
  private:
   GameState state_{};
+  bool debugMutationAllowed() const;
 
   PlayerState* player(std::uint8_t playerId);
   const PlayerState* player(std::uint8_t playerId) const;

@@ -78,6 +78,13 @@ struct PlayerTagBindingSnapshot {
   std::array<std::uint32_t, gridopoly::core::kMaxPlayers> playerTagUids{};
 };
 
+struct DebugEditResult {
+  int status{200};
+  const char* message{"ok"};
+  std::uint32_t roomId{}, version{};
+  bool changed{};
+};
+
 class AuthorityService {
  public:
   static constexpr std::uint32_t kMinimumBotActionIntervalMs = 100;
@@ -96,6 +103,10 @@ class AuthorityService {
   bool initialize();
   void tick();
   bool flush();
+  DebugEditResult debugSetPlayerCash(std::uint32_t roomId, std::uint32_t expectedVersion,
+                                    std::uint8_t playerId, std::int32_t cash);
+  DebugEditResult debugSetAssetOwner(std::uint32_t roomId, std::uint32_t expectedVersion,
+                                    const std::string& tileId, std::uint8_t ownerId);
 
   gridopoly::core::Result newGame(std::uint8_t boardSize, std::uint8_t botCount);
   gridopoly::core::Result newGame(std::uint8_t boardSize, std::uint8_t humanCount,
@@ -184,6 +195,8 @@ class AuthorityService {
   std::string stateJson(const std::string& serviceIp) const;
 
  private:
+  DebugEditResult debugMutate(std::uint32_t roomId, std::uint32_t expectedVersion,
+      const std::function<gridopoly::core::Result(gridopoly::core::GameEngine&)>& mutation);
   mutable std::mutex mutex_;
   gridopoly::core::GameEngine engine_{};
   FileStateStore store_;

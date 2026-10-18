@@ -151,11 +151,17 @@ bool writeAtomically(const std::filesystem::path& path, const void* data, std::s
   output.close();
 #endif
   std::filesystem::rename(temporary, path, error);
+#if defined(__linux__)
+  // POSIX rename replaces an existing file atomically. If it fails, preserve
+  // the previous save; deleting it to retry can turn a failed edit into loss.
+  return !error;
+#else
   if (!error) return true;
   std::filesystem::remove(path, error);
   error.clear();
   std::filesystem::rename(temporary, path, error);
   return !error;
+#endif
 }
 
 bool validFinancialHistory(const std::array<PlayerFinancialHistory, kMaxPlayers>& histories) {

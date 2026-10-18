@@ -1326,6 +1326,43 @@ HttpServer::Response HttpServer::route(const Request& request) {
     return {200, "application/json; charset=utf-8", authority_.boardJson(),
             "private, max-age=300", {}, {}};
   }
+  if (request.path == "/api/debug/player-cash" || request.path == "/api/debug/asset-owner") {
+    auto badRequest = [] {
+      return Response{400, "application/json; charset=utf-8",
+          "{\"ok\":false,\"message\":\"invalid_debug_request\"}", "no-store", {}, {}};
+    };
+    if (request.method != "POST")
+      return {405, "application/json; charset=utf-8", "{\"ok\":false,\"message\":\"POST required\"}", "no-store", {}, {}};
+    auto number = [&](const char* key, std::uint32_t& value) {
+      const auto found = request.query.find(key);
+      if (found == request.query.end() || found->second.empty()) return false;
+      const auto& input = found->second;
+      if (!std::all_of(input.begin(), input.end(), [](char c) { return c >= '0' && c <= '9'; })) return false;
+      const auto parsed = std::from_chars(input.data(), input.data() + input.size(), value);
+      return parsed.ec == std::errc{} && parsed.ptr == input.data() + input.size();
+    };
+    std::uint32_t room = 0, expected = 0, player = 0, cash = 0;
+    if (request.duplicateQuery || !request.body.empty() || !number("roomId", room) || !room ||
+        !number("expectedVersion", expected) || !expected || request.query.size() != 4) return badRequest();
+    DebugEditResult result;
+    if (request.path == "/api/debug/player-cash") {
+      if (!number("playerId", player) || player < 1 || player > kMaxPlayers ||
+          !number("cash", cash) || cash > static_cast<std::uint32_t>(GameEngine::kMaximumDebugCash)) return badRequest();
+      result = authority_.debugSetPlayerCash(room, expected, static_cast<std::uint8_t>(player),
+                                            static_cast<std::int32_t>(cash));
+    } else {
+      const auto tile = request.query.find("tileId");
+      if (tile == request.query.end() || tile->second.empty() || tile->second.size() > 64 ||
+          !number("ownerId", player) || player > kMaxPlayers) return badRequest();
+      result = authority_.debugSetAssetOwner(room, expected, tile->second, static_cast<std::uint8_t>(player));
+    }
+    std::ostringstream body;
+    body << "{\"ok\":" << (result.status == 200 ? "true" : "false")
+         << ",\"changed\":" << (result.changed ? "true" : "false")
+         << ",\"message\":\"" << result.message << "\",\"roomId\":" << result.roomId
+         << ",\"version\":" << result.version << '}';
+    return {result.status, "application/json; charset=utf-8", body.str(), "no-store", {}, {}};
+  }
   if (request.method == "POST" && request.path == "/api/action") {
     const auto found = request.query.find("action");
     const auto action = found == request.query.end() ? static_cast<ActionCode>(0) : parseAction(found->second);
@@ -1453,7 +1490,9 @@ bool HttpServer::parseRequest(const std::string& raw, Request& request) {
       const auto end = target.find('&', start);
       const auto item = target.substr(start, end == std::string::npos ? std::string::npos : end - start);
       const auto equals = item.find('=');
-      request.query[urlDecode(item.substr(0, equals))] =
+      const auto key = urlDecode(item.substr(0, equals));
+      if (request.query.count(key)) request.duplicateQuery = true;
+      request.query[key] =
           equals == std::string::npos ? "" : urlDecode(item.substr(equals + 1));
       if (end == std::string::npos) break;
       start = end + 1;

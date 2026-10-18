@@ -48,7 +48,8 @@ class TagPairingModel {
     random_ = std::move(random); revision_ = 1;
     sessionCounter_ = random_ ? random_() : 1;
     session_ = 0; active_ = 0; reader_.clear(); previous_.clear();
-    deadline_ = 0; successUntil_ = 0; pending_.clear(); cache_.clear();
+    deadline_ = 0; successUntil_ = 0; pending_.clear(); cache_.clear(); readers_.clear();
+    readerBoot_.clear(); readerDevice_.clear(); fence_ = 0; emptySeen_ = false;
     state_ = required_ ? State::WaitingReader : State::Disabled;
     lastResult_ = Result::Ok;
     if (required_) nextPlayer(tags);
@@ -68,8 +69,10 @@ class TagPairingModel {
   void observe(const TagPairReaderObservation& report, std::uint64_t now,
                const Tags& tags, const Commit& commit, const Remove& remove = {}) {
     if (report.moduleId.empty() || report.moduleId.size() > 32 || report.deviceId.empty() ||
-        report.bootId.empty() || !report.hasFreshness || report.tags.size() > 6) return;
+        report.bootId.empty() || !report.hasFreshness || report.tags.size() > 6 ||
+        (report.roomId != 0 && report.roomId != room_)) return;
     if (!readers_.count(report.moduleId) && readers_.size() >= 64) return;
+    tick(now, tags);
     auto& r = readers_[report.moduleId];
     const bool newBoot = r.report.bootId != report.bootId || r.report.deviceId != report.deviceId;
     if (!newBoot && r.hasScan &&
@@ -79,15 +82,23 @@ class TagPairingModel {
     if (newBoot && report.moduleId == reader_ && active_ && accepting())
       setState(State::ReaderOffline);
     r.seenAt = now;
-    if (!report.stable || report.fault || report.overflow || !report.fresh || report.ageMs >= kFreshMs)
-      r.freshUntil = 0;
+    const bool usable = report.stable && !report.fault && !report.overflow && report.fresh &&
+        report.ageMs < kFreshMs;
+    // Incomplete scans and removal debounce are normal reader reports. Keep the
+    // last good scan's finite lease, without treating the transient as evidence
+    // or extending that lease. A different device/boot cannot inherit it.
+    if (newBoot) r.freshUntil = 0;
+    if (!usable) r.usable = false;
     if (newScan) {
-      r.report = report; r.hasScan = true;
-      r.freshUntil = report.stable && !report.fault && !report.overflow && report.fresh &&
-          report.ageMs < kFreshMs ? now + kFreshMs - report.ageMs : 0;
+      r.report = report; r.hasScan = true; r.usable = usable;
+      if (usable) r.freshUntil = now + kFreshMs - report.ageMs;
+    }
+    if (newScan && report.overflow && report.moduleId == reader_ &&
+        report.roomId == room_ && report.sessionId == session_ && accepting()) {
+      emptySeen_ = false; setState(State::MultipleTags);
     }
     // A different session echo attached to cached inventory is not new evidence.
-    if (!newScan || r.freshUntil <= now) { tick(now, tags); return; }
+    if (!newScan || !usable || r.freshUntil <= now) { tick(now, tags); return; }
     const auto pending = pending_.find(report.moduleId);
     if (pending != pending_.end() && report.roomId == room_ &&
         report.sessionId == pending->second.session && report.tags.empty()) {
@@ -140,7 +151,7 @@ class TagPairingModel {
     }
     if (state_ == State::ReaderOffline) {
       const bool available = std::any_of(readers_.begin(), readers_.end(),
-          [now](const auto& r) { return r.second.freshUntil > now; });
+          [now](const auto& r) { return r.second.usable && r.second.freshUntil > now; });
       if (available) {
         previous_ = reader_; reader_.clear(); newSession(); setState(State::WaitingReader);
       }
@@ -232,7 +243,11 @@ class TagPairingModel {
   }
 
  private:
-  struct Reader { TagPairReaderObservation report; std::uint64_t seenAt{}, freshUntil{}; bool hasScan{}; };
+  struct Reader {
+    TagPairReaderObservation report;
+    std::uint64_t seenAt{}, freshUntil{};
+    bool hasScan{}, usable{};
+  };
   struct Removal { std::uint32_t session{}; std::uint8_t player{}; std::uint32_t uid{}; };
   struct Cached { std::array<std::uint8_t, gridopoly::protocol::kTagPairRequestSize> bytes;
                   Result result{}; };
@@ -263,7 +278,7 @@ class TagPairingModel {
   }
   void selectReader(std::uint64_t now) {
     std::vector<std::string> choices;
-    for (const auto& pair : readers_) if (pair.second.freshUntil > now)
+    for (const auto& pair : readers_) if (pair.second.usable && pair.second.freshUntil > now)
       choices.push_back(pair.first);
     if (choices.empty()) return;
     // A genuinely empty reader is preferable even if it was used last time.

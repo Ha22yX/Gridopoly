@@ -567,6 +567,45 @@ bool AuthorityService::saveMetadataLocked() const {
   return !error;
 }
 
+DebugEditResult AuthorityService::debugMutate(std::uint32_t room, std::uint32_t expected,
+    const std::function<Result(GameEngine&)>& mutation) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  const auto version = engine_.state().stateVersion;
+  if (room == 0 || expected == 0) return {400, "roomId and expectedVersion are required", roomId_, version};
+  if (room != roomId_) return {409, "room_changed", roomId_, version};
+  if (expected != version) return {409, "version_changed", roomId_, version};
+  auto candidate = engine_;
+  const auto result = mutation(candidate);
+  if (!result) return {result.code == ErrorCode::InvalidArgument || result.code == ErrorCode::InvalidPlayer
+      ? 400 : 409, result.message, roomId_, version};
+  if (candidate.state().stateVersion == version) return {200, "unchanged", roomId_, version};
+  // Publish only after the complete candidate is saved. The original engine,
+  // event sequence and financial history survive any write failure unchanged.
+  if (!saveIdentityLocked() || !store_.save(candidate.state()))
+    return {500, "persist_failed", roomId_, version};
+  engine_ = candidate;
+  persistedVersion_ = observedVersion_ = engine_.state().stateVersion;
+  persistPending_ = false;
+  return {200, "ok", roomId_, persistedVersion_, true};
+}
+
+DebugEditResult AuthorityService::debugSetPlayerCash(std::uint32_t room, std::uint32_t expected,
+                                                    std::uint8_t playerId, std::int32_t cash) {
+  return debugMutate(room, expected, [=](GameEngine& engine) {
+    return engine.debugSetPlayerCash(playerId, cash);
+  });
+}
+
+DebugEditResult AuthorityService::debugSetAssetOwner(std::uint32_t room, std::uint32_t expected,
+                                                    const std::string& tileId, std::uint8_t ownerId) {
+  return debugMutate(room, expected, [&](GameEngine& engine) {
+    const auto* board = engine.state().board;
+    if (board != nullptr) for (std::uint8_t i = 0; i < board->tileCount; ++i)
+      if (tileId == board->tiles[i].id) return engine.debugSetAssetOwner(board->tiles[i].assetIndex, ownerId);
+    return error(ErrorCode::InvalidArgument, "unknown tileId");
+  });
+}
+
 void AuthorityService::noteChangedLocked() {
   const auto now = std::chrono::steady_clock::now();
   if (!persistPending_) dirtySince_ = now;

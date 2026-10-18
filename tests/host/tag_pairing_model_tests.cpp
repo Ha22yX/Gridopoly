@@ -322,9 +322,9 @@ void singleReaderRequiresRemovalBeforeNextPlayerCanBind() {
 }
 
 void readerSelectionPrefersEmptyThenDifferentPrevious() {
-  Fixture f(0);
+  Fixture f;
   f.send(reader("A", 1, {10})); f.send(reader("B", 1));
-  f.begin(2); f.model.tick(f.now, f.tags);
+  CHECK(f.run(f.request(TagPairOperation::Retry, 100)).result == TagPairResultCode::Ok);
   CHECK(std::string(f.snapshot().moduleId.data()) == "B");
   auto retry = f.request(TagPairOperation::Retry, 1);
   CHECK(f.run(retry).result == TagPairResultCode::Ok);
@@ -457,10 +457,99 @@ void sameRoomRestartUsesNewSessionAndKeepsConfirmedPlayers() {
   CHECK(f.snapshot().activePlayerId == 2 && f.tags[0] == 1444);
 }
 
+void transientInventoryKeepsReaderWithoutBecomingEvidence() {
+  for (const bool sameScan : {false, true}) {
+    Fixture f;
+    f.send(reader("A", 1)); f.scan("A", 2); f.send(reader("B", 1));
+    const auto before = f.snapshot();
+    // V0.37 can retain a Present/NoTag inventory while a collision scan is
+    // incomplete or a one-scan loss is still inside removal debounce.
+    auto transient = reader("A", sameScan ? 2 : 3, {9876}, 77, before.sessionId);
+    transient.fresh = false;
+    f.advance(100); f.send(transient);
+    CHECK(f.snapshot().state == TagPairState::AwaitingTag);
+    CHECK(f.snapshot().sessionId == before.sessionId && f.snapshot().revision == before.revision);
+    CHECK(std::string(f.snapshot().moduleId.data()) == "A" && f.attempts == 0);
+    transient.scanSequence = 4; transient.stable = false; f.send(transient);
+    CHECK(f.snapshot().sessionId == before.sessionId && f.attempts == 0);
+    auto cached = reader("A", 4, {9876}, 77, before.sessionId);
+    f.send(cached); // Re-labelling this cached scan is still not new evidence.
+    CHECK(f.attempts == 0);
+    f.scan("A", 5, {9876});
+    CHECK(f.tags[0] == 9876 && f.attempts == 1);
+    CHECK(f.snapshot().sessionId == before.sessionId && f.snapshot().revision != before.revision);
+  }
+}
+
+void transientDoesNotRenewLeaseOrOfferAnotherReader() {
+  Fixture f;
+  f.send(reader("A", 1)); f.scan("A", 2); f.send(reader("B", 1));
+  const auto before = f.snapshot();
+  auto invalid = reader("B", 2); invalid.fresh = false; f.send(invalid);
+  f.advance(4000);
+  invalid = reader("A", 3, {999}, 77, before.sessionId); invalid.fresh = false; f.send(invalid);
+  CHECK(f.snapshot().sessionId == before.sessionId);
+  const auto retry = f.run(f.request(TagPairOperation::Retry, 800));
+  CHECK(retry.state == TagPairState::WaitingReader); // Neither transient reader is selectable.
+  f.advance(1000);
+  CHECK(f.attempts == 0);
+
+  Fixture g;
+  g.send(reader("A", 1)); g.scan("A", 2);
+  const auto old = g.snapshot();
+  g.now += 5000; // No intervening tick: arrival must expire the old empty fence first.
+  g.send(reader("A", 3, {777}, 77, old.sessionId));
+  CHECK(g.attempts == 0 && g.snapshot().sessionId != old.sessionId);
+  CHECK(g.snapshot().state == TagPairState::ClearRequired);
+}
+
+void overflowRequiresClearWithoutRandomReaderChange() {
+  Fixture f;
+  f.send(reader("A", 1)); f.scan("A", 2); f.send(reader("B", 1));
+  const auto before = f.snapshot();
+  auto overflow = reader("A", 3, {11,22}, 77, before.sessionId); overflow.overflow = true;
+  f.send(overflow);
+  CHECK(f.snapshot().state == TagPairState::MultipleTags && f.snapshot().sessionId == before.sessionId);
+  f.scan("A", 4, {11}); CHECK(f.attempts == 0);
+  f.scan("A", 5); f.scan("A", 6, {11}); CHECK(f.tags[0] == 11);
+}
+
+void newRoomDiscardsOldReaderDiscovery() {
+  Fixture f;
+  f.send(reader("A", 1)); f.scan("A", 2);
+  const auto old = f.snapshot();
+  f.begin(2, 78); f.advance(1);
+  CHECK(f.snapshot().state == TagPairState::WaitingReader);
+  f.send(reader("A", 3, {}, 77, old.sessionId));
+  CHECK(f.snapshot().state == TagPairState::WaitingReader);
+  f.send(reader("A", 4, {}, 78, old.sessionId));
+  CHECK(f.snapshot().state == TagPairState::ClearRequired);
+  f.scan("A", 5, {456}); CHECK(f.attempts == 0);
+  f.scan("A", 6); f.scan("A", 7, {456}); CHECK(f.tags[0] == 456);
+}
+
+void transientRemovalDoesNotClearPendingOrBoundFlags() {
+  Fixture f;
+  f.send(reader("A", 1)); f.scan("A", 2); f.scan("A", 3, {1444});
+  const auto old = f.snapshot(); f.send(reader("B", 1)); f.advance(1000);
+  auto empty = reader("A", 4, {}, 77, old.sessionId); empty.fresh = false; f.send(empty);
+  CHECK(f.model.readerSnapshot("A", f.tags, f.now).state == TagPairState::SuccessRemove);
+  const auto self = f.snapshot(1);
+  CHECK((self.flags & (TagPairFlagSelfBound | TagPairFlagCanEditIdentity)) ==
+      (TagPairFlagSelfBound | TagPairFlagCanEditIdentity));
+  empty.scanSequence = 5; empty.fresh = true; f.send(empty);
+  CHECK(f.model.readerSnapshot("A", f.tags, f.now).state == TagPairState::Disabled);
+}
+
 }  // namespace
 
 int main() {
   const std::pair<const char*, std::function<void()>> tests[] = {
+      {"production transient keeps active reader", transientInventoryKeepsReaderWithoutBecomingEvidence},
+      {"transient lease and selection boundaries", transientDoesNotRenewLeaseOrOfferAnotherReader},
+      {"overflow keeps reader but requires clear", overflowRequiresClearWithoutRandomReaderChange},
+      {"new room reader discovery fence", newRoomDiscardsOldReaderDiscovery},
+      {"transient removal and bound flags", transientRemovalDoesNotClearPendingOrBoundFlags},
       {"request wire contract", requestWireContract}, {"snapshot wire contract", snapshotWireContract},
       {"preexisting tag and empty scan fence", existingTagNeedsSessionEmptyAndNewScan},
       {"room/session/reader/order fences", wrongRoomSessionReaderAndOutOfOrderCannotBind},
