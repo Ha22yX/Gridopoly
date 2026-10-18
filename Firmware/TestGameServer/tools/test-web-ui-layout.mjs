@@ -148,8 +148,16 @@ assert.ok(source.includes("if(!event.target.closest('#tile-debug-context-menu'))
   'clicking outside the tile assignment menu must close it');
 assert.ok(source.includes("if(!$('#tile-debug-context-menu').hidden)closeTileDebugContextMenu()"),
   'Escape must close the tile assignment context menu');
-assert.ok(source.includes("window.addEventListener('resize',closeTileDebugContextMenu)"),
-  'resizing the viewport must close the positioned tile assignment menu');
+assert.ok(source.includes("constrainContextMenu($('#tile-debug-context-menu'))") &&
+  source.includes("constrainContextMenu($('#player-context-menu'))"),
+  'resizing must keep both inline menus within the viewport without discarding drafts');
+assert.ok(!source.includes('id="debug-edit-modal"') && !source.includes('id="tile-debug-owner"') &&
+  !source.includes('id="player-debug-cash"'),
+  'owner/cash editing must not introduce a launcher or second dialog');
+for (const kind of ['cash','owner']) {
+  assert.ok(source.includes(`id="debug-${kind}-editor"`) && source.includes(`id="debug-${kind}-save"`) &&
+    source.includes(`id="debug-${kind}-status"`), `inline ${kind} editor needs local input, save and feedback`);
+}
 assert.ok(source.includes("$('#board').addEventListener('click',event=>{") &&
   source.includes("classList.contains('forced-candidate')") &&
   source.includes('submitForcedRollTarget(Number(tile.dataset.tileIndex))'),

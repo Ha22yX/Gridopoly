@@ -1,6 +1,6 @@
 # 服务器右键调试与开局配对修复 · 2026-10-17
 
-本报告由服务器会话交付，主会话补记部署结果。源码、测试和原生最终候选构建均已完成；2026-10-17 21:03 EDT 主会话已部署 `81b79bec…`。现有房间、现金、归属和 Tag 保留，AP 配置未改。下文冻结阶段的“尚未部署”与旧 PID 为当时记录，最新状态以本段及末尾部署补记为准。
+本报告由服务器会话交付，主会话补记部署结果。2026-10-17 21:03 EDT部署首版 `81b79bec…`；按用户要求改为右键菜单内直接编辑后，21:21 EDT已进一步部署 `fb03d800…`。现有房间、现金、归属和Tag保留，AP配置未改。下文冻结阶段的“尚未部署”与旧PID为当时记录，最新状态以末尾内联版部署补记为准。
 
 ## 交付行为
 
@@ -58,3 +58,31 @@
 前后 room993580118、游戏业务差异为空；402 项图片资源及 AP/服务配置哈希均不变。稍后只读回查 16 模块在线/分配、唯一 16 节点闭环 ORDER ready、3 台玩家屏在线、配对 complete/boundMask7；当前为 COM10 一块 V0.38、其余15块 V0.37。网页返回包含两项新调试菜单。读取网页首次忘记解压 gzip，仅本地解码失败，补解压后检查通过；没有因此重新部署或修改对局。
 
 本机证据 `C:/Users/kicof/AppData/Local/GridopolyDebugPairingRuntime/server-deploy-20261018-010317/` 与 `server-post-deploy-live.json`。真实新局放置/拿回流程及用户主动修改资金/归属尚待现场操作，未用自动调试写入替代。
+
+## 右键菜单原位编辑续作
+
+2026-10-17 晚，按用户最新要求取消两项独立调试入口及第二层编辑窗口。新的所有者下拉、当前值/待保存值、保存归属、重置和反馈直接显示在格子右键菜单上部，原模块硬件分配区保留；玩家资金输入、保存、重置及反馈直接显示在玩家右键菜单。上文初版弹窗交互已被本节替代。专用 API、金额/事务/房间版本约束及配对逻辑不变。
+
+菜单中的输入 DOM 不随轮询重建：正常刷新保留焦点、选择值与未提交草稿；状态变化原位警告并禁保存，显式“载入最新值”才重置草稿。保存后菜单持续显示，等待 sync 权威回读后更新当前值和输入；请求错误保留草稿并在原位反馈。Escape、点外部、重置均不提交。菜单在 viewport resize 时保持在边界内，手机键盘或窗口尺寸变化不会主动丢弃草稿。
+
+主会话复核的两个持续菜单边界已补齐：玩家换房间、同席位改名时，旧菜单禁止其他动作，显式载入最新值同步姓名标题和 room 上下文；格子跨房间/地图时不能沿用旧目录保存，须关闭重新右键，重开会获取对应房间的 canonical catalog。玩家其他按钮在每次 render 和 setBusy(false) 后单独重算，不改动现金输入；限制区、破产、已有/取消指定目的地均保持正确 disabled/hidden。
+
+`test-web-ui-layout.mjs` PASS；gzip 与最终 HTML 一致。增强的真实 Edge/Playwright loopback 浏览器测试 PASS，验证两种输入连续两次真实 poll 保持同一 DOM、值和焦点，直接原位保存/回读、重复保存抑制、关闭/reset 零提交、非法值、原位写盘错误、陈旧状态与显式重载、同 playerId 换房间 Alice→Carol 标题更新、A1 换地图位置 01→03 的目录重取、held/bankrupt/forcedRoll 及 busy-reset。1440×1050、390×844、390×640 边界通过，手机截图已目视。测试一次外部点击误点设置按钮造成测试超时，改为点击页面标题后完整通过；未为此修改设置功能。
+
+最终浏览器证据目录：`C:/Users/kicof/AppData/Local/GridopolyNetworkAudit/debug-inline-browser-20261017-final/`，含 7 张桌面/手机原位菜单、成功、错误、陈旧状态截图及 result.json。
+
+本次冻结候选：`C:/Users/kicof/GridopolyReleases/server-inline-menu-20261018-011839/`；Pi 隔离目录 `/home/kicofy/gridopoly-inline-menu-20261017.HiPx4N`。544 项 source-manifest SHA256 `3f1c562762e69a78c395d432e950baafe33d7561968ab0805b5544f67d65094f`。与已部署 81b79bec 的来源相比，仅 WebUi.h、WebUiGzip.h、test-web-ui-layout.mjs、test-web-debug-edits.mjs 四项差异；构建脚本强制拒绝其他差异，540 项来源相同，后端没有修改。
+
+最终完整 HTTP 回归与正常 production 构建均 PASS。候选 `gridopoly_server` 为 644832 bytes，SHA256 `fb03d800d45bd8759775404d792dcd9df88dd32893db6dad265fc63f23c9c7f7`。544 项远端及工作区来源零漂移，本地下载与远端二进制哈希一致；构建前后线上 PID1877597 / 完整 81b79bec SHA 均不变。编译参数沿用 g++14.2.0/C++17/O2/Wall/Wextra/Werror/pthread，无 NDEBUG。
+
+候选目录的 `baseline-delta.json` 给出四项来源差异，`handoff-files.json` 给出本次四个前端文件及本报告共五项交付哈希；`verification-evidence-manifest.json` 冻结七张截图和浏览器 result.json。其余部署数据见 build-result.json、remote-verification.json、workspace-verification.json 和 native.log。
+
+本次增量尚未部署，房间与游戏状态未操作。主会话负责接收此候选、独立审核后部署、现场回读和 Git；本会话未暂存索引，代码与候选交付已完成。主会话复核意见后的进度消息曾因会话工具 `Transport closed` 发送失败，最终证据与交付信息已落本报告及上述候选目录，可直接读取。
+
+### 主会话内联版部署
+
+21:21 EDT，主会话独立核对544项源码、仅四个前端文件的增量、完整HTTP/生产构建结果及浏览器证据，目视桌面/手机内联菜单后部署 `fb03d800d45bd8759775404d792dcd9df88dd32893db6dad265fc63f23c9c7f7`。实际PID1890195，备份 `/var/lib/gridopoly-debug-pairing-deploy/gridopoly-debug-pairing-20261018-012157`。room993580118及部署前后业务保持，402资源和AP/服务配置哈希不变。
+
+部署后HTTP确认新网页包含 `debug-cash-editor` / `debug-owner-editor`，不再包含第二层 `debug-edit-modal` 或两个独立入口按钮；16模块在线/分配、ORDER ready。该快照有2个玩家peer，不能沿用上一部署时的3屏在线数。主会话证据为 `GridopolyDebugPairingRuntime/server-deploy-20261018-012157/` 及 `inline-menu-post-deploy.json`。
+
+用户随后对“所有者/资金余额与保存按钮直接位于原右键菜单，没有第二层弹窗”的现场确认回复：**“现在这样符合预期”**。最终交互验收通过；该反馈不扩展为已实际修改线上资产或资金，也不替代真实新局配对验收。
