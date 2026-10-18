@@ -8,7 +8,7 @@
 
 | 要查的内容 | 文档 |
 | --- | --- |
-| COM7 插USB后画面恢复、偶发频闪/错位和旋钮漏格 | [10月17日晚重新排查](firmware/player-com7-display-input-reopen-2026-10-17.md)，普通12MHz/输入统计候选已写入、启动及电量正常，新的现场验收待进行 |
+| COM7 插USB后画面恢复、偶发频闪/错位和旋钮漏格 | [10月17日晚重新排查](firmware/player-com7-display-input-reopen-2026-10-17.md)，普通12MHz短相位候选ce37已写入；慢转仍失败，已捕获输入层4ms反跳；桥配置07=98电量问题独立待修 |
 | 全项目当前结果与责任 | [当前交接](CURRENT-DEVELOPMENT-HANDOFF.md) |
 | 配对/来源/目标流星灯、COM10尾两灯不亮 | [V0.39实现、分批部署及同板旧版对照](firmware/tile-meteor-cues-2026-10-17.md) |
 | 右键调试、开局配对、柔和呼吸、英文UI | [本轮集成与实际部署](firmware/debug-tools-pairing-rollout-2026-10-17.md)、[服务器修复](firmware/server-debug-pairing-2026-10-17.md)、[格子V0.38](firmware/tile-cue-pairing-2026-10-17.md)、[玩家英文/配对](firmware/player-tag-pair-freshness-2026-10-17.md) |
