@@ -20,7 +20,7 @@ struct Device : BatteryUart {
     bool respond = true, badBridge = false, badConfigReadback = false;
     bool truncateVersion = false, extraVersion = false, resetOnSoc = false, resetOnGpio = false;
     // Model the NXP-confirmed failure: any clock/timeout write can freeze the bridge.
-    bool freezeOnClockWrite = false, frozen = false;
+    bool freezeOnClockWrite = false, frozen = false, ignorePortWrites = false;
     unsigned forbiddenBridgeWrites = 0;
     void resetBridge() {
         const uint8_t defaults[] = {0x55, 0x55, 0x13, 0, 0x66};
@@ -59,7 +59,7 @@ struct Device : BatteryUart {
                     ++forbiddenBridgeWrites;
                     if (freezeOnClockWrite) { frozen = true; return count; }
                 }
-                for (size_t j = 0; j < 5; ++j) if (c[i] == regs[j]) ports[j] = c[i + 1];
+                for (size_t j = 0; j < 5; ++j) if (c[i] == regs[j] && !(ignorePortWrites && j < 2)) ports[j] = c[i + 1];
             }
         } else if (c == std::vector<uint8_t>{0x52, 2, 3, 7, 8, 9, 0x50}) {
             std::vector<uint8_t> data(ports, ports + 5);

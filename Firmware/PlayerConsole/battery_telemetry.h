@@ -60,6 +60,12 @@ struct BatteryStatus {
     bool bridgeConfigSeen = false, bridgeSclTimeoutEnabled = false;
     uint8_t bridgeTimeoutRegister = 0;
     uint32_t bridgeConfiguredAtMs = 0;
+    // Actual read-only register evidence, including rejected initialization.
+    // Keep the first inspect across retries so a later recovery cannot hide it.
+    bool bridgeInspectSeen = false;
+    uint8_t bridgeInspectRegisters[5]{}, bridgeInitialRegisters[5]{};
+    uint32_t bridgeInspectAtMs = 0;
+    uint16_t bridgePortRepairAttempts = 0;
 };
 
 // Apply age limits to a copied, coherent sample without touching its owner.

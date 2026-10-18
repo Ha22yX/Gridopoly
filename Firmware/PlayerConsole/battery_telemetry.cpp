@@ -196,14 +196,21 @@ void BatteryTelemetry::finish(Action action, uint16_t value, uint32_t nowMs)
         next_ = Action::InspectBridge; break;
     }
     case Action::InspectBridge:
-        // Accept a cold reset or our previous input-only marker. Preserve the
-        // default timeout or a previously enabled one; do not attempt repairs
-        // through the registers affected by NXP's write-freeze issue.
-        if ((response_[0] != 0x55 && response_[0] != 0x00) || response_[1] != 0x55 ||
-            response_[2] != 0x13 || response_[3] != 0x00 ||
+        if (!status_.bridgeInspectSeen)
+            memcpy(status_.bridgeInitialRegisters, response_, sizeof(status_.bridgeInitialRegisters));
+        status_.bridgeInspectSeen = true;
+        memcpy(status_.bridgeInspectRegisters, response_, sizeof(status_.bridgeInspectRegisters));
+        status_.bridgeInspectAtMs = nowMs;
+        // An ESP reset/upload need not reset the powered bridge. Restore GPIO
+        // input modes even if they retained unexpected values; checking those
+        // values here used to prevent ConfigureBridge from ever repairing them.
+        // Clock/timeout registers remain read-only because of NXP's freeze issue.
+        if (response_[2] != 0x13 || response_[3] != 0x00 ||
             (response_[4] != 0x66 && response_[4] != 0x67)) {
             fail(BatteryError::BridgeConfig, nowMs); return;
         }
+        if (((response_[0] != 0x55 && response_[0] != 0x00) || response_[1] != 0x55) &&
+            status_.bridgePortRepairAttempts != UINT16_MAX) ++status_.bridgePortRepairAttempts;
         status_.bridgeConfigSeen = true;
         status_.bridgeTimeoutRegister = response_[4];
         status_.bridgeSclTimeoutEnabled = (response_[4] & 1U) != 0;

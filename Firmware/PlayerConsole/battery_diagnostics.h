@@ -2,14 +2,14 @@
 #include "battery_telemetry.h"
 #include <cstdio>
 
-// Ten independent short lines share a sample id. Each line is written in one
+// Twelve independent short lines share a sample id. Each line is written in one
 // call only when USB has space for the WHOLE line; never resume half a line.
 // No wait, flush or allocation. Busy/disconnected USB expires the sample.
 class BatteryDiagnostics {
 public:
     static constexpr uint32_t kWindowMs = 120000, kPeriodMs = 5000, kSampleWindowMs = 1000;
     static constexpr size_t kMaxWriteBytes = 63;
-    static constexpr uint8_t kLineCount = 10;
+    static constexpr uint8_t kLineCount = 12;
     void begin(uint32_t nowMs) { started_ = last_ = nowMs; id_ = 0; row_ = kLineCount; }
     template <typename Sink>
     void tick(Sink &sink, const gridopoly::player_console::BatteryStatus &status, uint32_t nowMs) {
@@ -59,6 +59,15 @@ public:
             n = std::snprintf(line, sizeof(line), "GP_BAT id=%u first=%u/%u e=%u rx=%u/%u at=%lu\n", id_,
                 s.firstAction, s.firstOperation, static_cast<unsigned>(s.firstError), s.firstReceived, s.firstExpected,
                 static_cast<unsigned long>(s.firstFailureAtMs)); break;
+        case 10:
+            n = std::snprintf(line, sizeof(line), "GP_BAT id=%u regs=%02X%02X%02X%02X%02X at=%lu fix=%u\n", id_,
+                s.bridgeInspectRegisters[0], s.bridgeInspectRegisters[1], s.bridgeInspectRegisters[2],
+                s.bridgeInspectRegisters[3], s.bridgeInspectRegisters[4],
+                static_cast<unsigned long>(s.bridgeInspectAtMs), s.bridgePortRepairAttempts); break;
+        case 11:
+            n = std::snprintf(line, sizeof(line), "GP_BAT id=%u init=%02X%02X%02X%02X%02X seen=%u\n", id_,
+                s.bridgeInitialRegisters[0], s.bridgeInitialRegisters[1], s.bridgeInitialRegisters[2],
+                s.bridgeInitialRegisters[3], s.bridgeInitialRegisters[4], s.bridgeInspectSeen); break;
         }
         if (n <= 0 || static_cast<size_t>(n) > kMaxWriteBytes) { ++row_; return; }
         if (sink.availableForWrite() < n) return;
