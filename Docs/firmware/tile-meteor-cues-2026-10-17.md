@@ -2,7 +2,7 @@
 
 日期：2026-10-17，America/New_York。用户要求棋子配对、移动来源、移动目标由整圈呼吸改为旋转流星拖尾，并强调头灯。格子任务仅负责 LED 源码、主机验证、普通候选与本报告；主会话负责设备身份、USB、部署与现场验收。
 
-当前源码完成，7套69项主机回归通过，普通corner与long均完成构建、独立验证。普通V0.39已分两批部署8/16板：COM10/23角落，COM16～18、COM20～22长边；余6长边/2角落仍V0.37。第一批三长边的完整十灯流星、亮度和屏幕获用户确认；第二批COM20～23首次预览用户未赶上，重新预览后明确确认四块10颗灯、流星和屏幕均正常。COM10的U20/U21在同板回退V0.37后仍不亮，具体单板故障点待测，不能标全灯通过。详见文末逐板结果，候选构建与实体验收分别记录。
+当前源码完成，7套69项主机回归通过，普通corner与long均完成构建、独立验证。普通V0.39已分三批部署12/16板：COM10/11/23角落，COM16～18、COM20～22、COM24～26长边；余COM12～15共3长边/1角落仍V0.37。第一批三长边的完整十灯流星、亮度和屏幕获用户确认；第二批COM20～23首次预览用户未赶上，重新预览后明确确认四块10颗灯、流星和屏幕均正常。第三批COM11/24/25/26也已获相同现场确认，并恢复联网/分配。COM10的U20/U21在同板回退V0.37后仍不亮，具体单板故障点待测，不能标全灯通过。详见文末逐板结果，候选构建与实体验收分别记录。
 
 ## 灯效与亮度
 
@@ -159,3 +159,20 @@ long 一次构建通过，独立验证结果见 `tile_esp32s3_long-validation.js
 22:36:47 EDT只读HTTP及独立收尾校验：16在线、16已分配、16 reader stable，唯一16节点闭环ready，物理顺序与升级前相同，orderIndex完整0～15，四角0/4/8/12。ORDER epoch由重启前125变为165；第二批前后room993580119/version15相同。累计8×V0.39＋8×V0.37；剩余COM11～15、COM24～26共6长边/2角落待后续接入更新。
 
 本机证据仍在`GridopolyDebugPairingRuntime`：四份`v039-COM20`至`v039-COM23`的`-validation.json`和`-flash.json`、`-meteor-preview.jsonl`；再次预览另存`-meteor-repeat-preview.jsonl`，不覆盖第一次窗口。只读快照为`v039-batch2-before.json`、`v039-batch2-after-flash.json`、`v039-batch2-final.json`，独立核验为`v039-batch2-final-validation.json`。69项主机回归沿用相同源码的第一批结果，本批没有重复运行并冒称新测试。
+
+## 第三批 COM11、COM24～COM26：已写验及目视通过
+
+2026-10-17 22:43～22:46 EDT，用户换接四块，USB完整MAC与台账相符，升级前均V0.37。继续复用同一正常V0.39候选，逐板核对85项源码、段SHA、角色、16MB分区；esptool5.3.1在同一连接中完成身份核对、四段写入和再次验证，watchdog复位，未擦NVS。
+
+| 设备 | 完整MAC | 板型及格子 | 已写入正常应用 | 现场结果 |
+| --- | --- | --- | --- | --- |
+| COM24 | a4:cb:8f:c2:99:6c | long，map5，Lantern Avenue | V0.39 `cb24f212…` | 用户确认10灯、流星、亮度及屏幕正常 |
+| COM25 | a4:cb:8f:c2:98:a0 | long，map6，Westline Terminal | V0.39 `cb24f212…` | 用户确认10灯、流星、亮度及屏幕正常 |
+| COM26 | a4:cb:8f:c2:99:50 | long，map7，Tideway Drive | V0.39 `cb24f212…` | 用户确认10灯、流星、亮度及屏幕正常 |
+| COM11 | a4:cb:8f:c6:25:e0 | corner，map8，Open Plaza | V0.39 `05c80504…` | 用户确认10灯、流星、亮度及屏幕正常 |
+
+正常固件回读V0.39、LCD8MHz/rotation2、HTTP200；三色有界预览经过配对/来源/目标模式，发送失败0、count=10、20ms worker。用户明确确认“四块10颗灯、流星和屏幕都正常”。预览结束后四块均恢复scene及普通上限16，串口全部关闭。启动期累计max_gap=382～383ms、late_frames=1保留，不称所有负载下均无延迟。
+
+串口记录了重启后的NO TILE至正确ORDER分配恢复。22:46:48 EDT只读HTTP及独立核验确认16在线/16已分配/16 reader stable，唯一16节点闭环，顺序与升级前一致，四角0/4/8/12；ORDER epoch165→198，room993580119/version15前后相同。累计12×V0.39＋4×V0.37，剩余COM12～15未更新。COM10两灯问题仍单独待定位；本批没有操作游戏数据，维护预览不替代真实配对/掷骰联动验收。
+
+本机证据：`GridopolyDebugPairingRuntime/v039-COM11`、`v039-COM24`至`v039-COM26`对应`-validation.json`、`-flash.json`、`-meteor-preview.jsonl`；`v039-batch3-before.json`、`v039-batch3-after-flash.json`、`v039-batch3-final.json`及`v039-batch3-final-validation.json`。固件源码未改、没有重建；仍沿用同源7套69项回归结果。
