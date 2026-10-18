@@ -2,6 +2,8 @@
 
 ## 当前状态
 
+**10月18日00:24 EDT更新：** COM7已写入普通12MHz稳定卡点候选`35b7a5c1…`（源码`9ba96207`），四段写验、原P3重连完成，旋钮现场复测尚未完成，不能标已修复。启动观察再次读到电量桥配置异常，此次为09=8A；电量驱动未改。下文保留6c4e及ce37失败的时序，最新构建和启动证据在文末。
+
 2026-10-17 晚间，用户报告当前玩家屏偶发频闪、整体错位，接入 USB 后消失，同时旋钮有时不能一格对应一步。重新核对 USB 身份为 **COM7 / dc:b4:d9:02:d1:dc**。此前短时画面正常的验收保留，但不覆盖本次故障；当前不能标为已修复。
 
 故障前普通应用为 `77af3c26585cd6baa2ecd487a81a278f8be31e19eccf76c6e7cabdabcd87a6b7`，16 MHz。23:25 EDT 已将 COM7 更新为普通 12 MHz 候选 `6c4e57291b03440090c934c57f1ff46fe2a944eafce25a970c64fd626a29c7e4`，ESP32 core 3.3.11、启用电量底板配置和本轮输入统计。该候选写验、启动观察和联网通过，用户短时USB和电池画面正常，但旋钮仍异常。23:52 EDT又更新为下文短相位修复候选`ce37ad05…`；本轮慢顺时针复测仍回跳，未验收通过。COM29 的普通 12 MHz 历史目视结果不自动代表 COM7 也通过。主会话独占设备操作，玩家会话检查软件和诊断，PCB会话只读检查供电路径。
@@ -86,3 +88,37 @@ MAX17048 只测 `BAT_PACK`，不测屏幕端 5 V 或内部 3.3 V 的瞬态/纹�
 本轮新增本机证据前缀：`com7-short-phase-20261017-flash`、`com7-short-phase-startup-20261017`、`com7-short-phase-slow-cw-20261017`（空窗口）、`com7-short-phase-slow-cw-retry-20261017`、`com7-short-phase-battery-post-input-20261017`。
 
 本机原始证据位于 `C:/Users/kicof/AppData/Local/GridopolyPlayerBatteryRuntime/`：`com7-flicker-baseline-20261017-COM7.log/.jsonl/.summary.json`、对应USB身份记录、`com7-issue-before-sync-20261017.json`、`com7-pclk12-input-20261017-flash.json`、`com7-pclk12-startup-20261017.log/.jsonl/.summary.json`、`com7-pclk12-after-server-20261017.json`、`com7-pclk12-rotary-user-20261017-a.log/.jsonl/.summary.json`与同前缀`-analysis.json`和构建日志。原始游戏快照和本机运行日志不提交仓库。
+
+
+## 10月18日电量并行只读核对（未修改驱动）
+
+PCB会话核对两份日志，12组Inspect快照均为0055980066，实际Inspect时刻持续更新至358369ms。当前桥仍应答，失败是应用要求默认分频13/00，而不是本轮已证实桥失去响应。按[NXP SC18IM704手册§9.2.5](https://www.nxp.com/docs/en/data-sheet/SC18IM704.pdf)，D=(08<<8)|07，频率为1.875MHz/D；0098为约12.336kHz，慢时钟本身在[MAX17048](https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17048-MAX17049.pdf)允许范围。此前08=DF会使一次读操作超过当前180ms软件期限，不能按相同方式放行。
+
+后续可评估保留合理非默认分频的受限只读探测：完整VP后正序/反序读取配置、核验一致性，再读MAX版本、MODE、CONFIG、VCELL、SOC与每次I2C状态，发布前再核桥配置；仍不写SC18的07/08/09。现有GaugeVersion后会写MAX MODE，CONFIG睡眠位也可能写入，因此仅放宽分频检查不等于只读探测。若要实现，需单独设计和测试；本次旋钮候选仍保持电量驱动不变。
+
+两次读回一致也不等于有CRC或事务标识；热烧录/ROM在GPIO43输出与桥9600串口可能相互干扰只是待验证假设，没有波形和因果实验，不能记为寄存器改变原因。用户的图标正常概括反馈也不能替代有效电量样本。
+
+00:12:53～00:13:06 EDT再次无主动复位采集13.078秒，用户已明确确认图标显示实际数字。本次三组遥测均有效，3.969V/75%，MAX版本0012，桥配置`550D130066`、端口修复计数1；与用户的数字反馈一致，不再将当前图标状态记为未知。开机计时421～433秒，与23:58的347～359秒不是同一段连续运行，说明两次窗口之间发生过重启，但本窗口没有捕获重启原因，不能据此宣称旧07=98状态自动恢复或意外掉电。采集无错误，TRACE OFF确认，串口已关闭；证据前缀`com7-stable-build-battery-number-20261018`。不因这次恢复修改正在构建的旋钮候选中的电量代码。
+
+
+## 稳定卡点提交（第三个候选，10月18日）
+
+源码`9ba96207`已提交并推送。只改旋钮过滤器及两份主机/固件测试：电气相位逐次跟踪，合法半周期先暂存净位移；原始00/11端点连续稳定5ms后，每个新时间戳最多向真实输入队列发布一步。端点变化重新计时，超过2ms的采样空窗不能算作连续稳定，同时间重复调用不推进确认或冲刷待提交事件。提交前的往返抵消，已提交后不屏蔽反方向。
+
+最终101项主机检查通过（解码58、真实adapter28、精确命令入口15）。旧cd8b468e过滤器跑同58项为44通过、14失败；辅助对照脚本第一次因cmd路径/换行启动失败，单独保留，不算源码失败。测试包含这次连续实录前缀及明确标记的合成延伸、正常短中间相位、稳定后立即反转、全部相位镜像、连续多格、同时间调用、采样空窗、时间回绕、非法跳变恢复与计数溢出。旧2ms端点往返不再冒称真实机械卡点；历史4ms路径改为明确2x/10x合成时间夹具，未补造49条丢失raw。
+
+边界：5ms是待实测参数；低于门槛的连续端点会先累计，稳定后再发，存在交互延迟。非法两相跳变舍弃全部未提交位移以避免猜方向，可能漏掉噪声期间的真实移动，但不会撤回已发布步。不能宣称任意速度和任意噪声下100%正确。诊断stable字段现在指即时电气相位，不代表已向界面提交的机械卡点。
+
+00:10 EDT启动普通12MHz隔离构建，run为`production-20261018-001054-de33bc0d53cc4cd2932e779ffa2677b5`，Git基线为上述9ba96207。冻结2146项已逐项核对；相对ce37仅两个旋钮头文件变化，其他2144项及编译参数完全相同，电量、显示、网络代码未改。编译/部署与实机结果待追加；COM7此时仍为ce37。
+
+本机测试交付：`C:/Users/kicof/AppData/Local/GridopolyPlayerTools-3311/com7-rotary-stable-commit-20261018/handoff-sources.json`及同目录旧版对照；最终decoder/adapter日志分别为ToolRoot下`com7-rotary-stable-commit-decoder-final-20261018.log`和`com7-rotary-stable-commit-adapter-final-20261018.log`。完整编译日志为BatteryRuntime下`com7-stable-detent-build-20261018.log`。
+
+### 第三个候选构建与实机部署
+
+- 普通12MHz构建成功，程序1,947,190字节、静态RAM127,256字节，实际应用文件1,947,344字节；HWCDC链接检查通过。应用SHA-256为`35b7a5c1369f3a5281421f9c1af19920aa39961597953a5c96f36819814147c5`，sourceDigest为`f45573bd2e58d39186b50650c6dddc513aa1a4b6d97e51ae2f040ff785d13a5b`。生产配置、2146份冻结源码及四段摘要重新校验通过。
+- 00:23:41～00:23:59 EDT对COM7再次核对USB/ROM/stub完整MAC、16MB容量及相同分区，四段写入和读回摘要验证通过，hard-reset启动，未擦除NVS。其他玩家屏及格子均未更新。
+- 00:24:07～00:24:38 EDT有界启动观察31.203秒、6,189字节，无采集错误、未捕获panic/watchdog；旋钮steps/pos/neg/invalid均0，启动累计采样空窗峰值52,152µs未增长。结束确认BATTERY TRACE OFF，串口释放。
+- 本次六组电量遥测无效：`regs=005513008A`，在配置检查处fail16/op16/e4，首次1246ms，fix0，09=8A与前轮07=98不同。无效mv0/pct0不代表电池耗尽；未写07/08/09或主动重置桥。启动前75%的有效样本不能冒充上传后已恢复，另请PCB会话做只读审查。
+- 00:24:28 EDT只读服务器检查原room993580119/phase0、COM7仍为P3且online/eligible，四台在线；version25→27、identityRevision38→40与重连分开记录。未注入游戏动作。等待用户准备HAIR STYLE编辑后再开启严格慢顺5格记录；尚无本版实机旋钮验收结论。
+
+证据前缀：`com7-stable-detent-20261018-validation/flash`、`com7-stable-detent-startup-20261018`、`com7-stable-detent-before-server-20261018`及`com7-stable-detent-after-server-20261018`，均位于本机BatteryRuntime，原始快照不入库。
