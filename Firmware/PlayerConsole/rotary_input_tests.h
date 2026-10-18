@@ -2,6 +2,125 @@
 #include "rotary_input_filter.h"
 #include "app_state.h"
 #include "test_fixture.h"
+#include <initializer_list>
+
+template<class Check> bool runRotaryShortPhaseTests(Check check)
+{
+    using gridopoly::player_console::RotaryQuadratureDecoder;
+    bool ok = true;
+    RotaryQuadratureDecoder decoder;
+
+    // Three consecutive observations from COM7, 2026-10-17, application 6c4e5729:
+    // 314891 raw=2 stable=0; 314892 raw=3 stable=0; 314893 raw=3 stable=3 invalid+1.
+    // All three have tx_drop=233 and gap_us=1000/1004/997. Start from the known
+    // zero detent state; do not interpolate missing records elsewhere in the log.
+    decoder.reset(0, 314890);
+    const int first = decoder.sample(2, 314891);
+    const int endpoint = decoder.sample(3, 314892);
+    const bool carried = decoder.stablePhases() == 2;
+    const int confirmed = decoder.sample(3, 314893);
+    ok &= check(first == 0 && endpoint == 0 && carried && confirmed == -1 &&
+                decoder.invalidTransitions() == 0,
+                "rotary: captured three-sample short phase survives until the endpoint is confirmed");
+    decoder.sample(2, 314894); decoder.sample(0, 314895);
+    ok &= check(decoder.sample(0, 314896) == 1 && decoder.invalidTransitions() == 0,
+                "rotary: immediate real reversal after a short-phase step restores exactly one step");
+
+    bool glitches = true, narrowEndpoint = true, retryEndpoint = true, invalidReturn = true;
+    for (uint8_t anchor : {uint8_t{0}, uint8_t{3}}) {
+        for (uint8_t middle : {uint8_t{1}, uint8_t{2}}) {
+            const uint8_t opposite = anchor ^ 3U;
+            decoder.reset(anchor);
+            int total = decoder.sample(middle, 1);
+            total += decoder.sample(anchor, 2); total += decoder.sample(anchor, 3);
+            glitches &= total == 0 && decoder.invalidTransitions() == 0;
+
+            decoder.reset(anchor);
+            uint32_t now = 0; int count = 0;
+            for (const auto value : {middle, opposite, middle, anchor, anchor})
+                count += decoder.sample(value, ++now) != 0;
+            narrowEndpoint &= count == 0 && decoder.invalidTransitions() == 0;
+
+            decoder.reset(anchor); now = 0; count = 0;
+            for (const auto value : {middle, opposite, middle, opposite, opposite})
+                count += decoder.sample(value, ++now) != 0;
+            retryEndpoint &= count == 1 && decoder.invalidTransitions() == 0;
+
+            decoder.reset(anchor);
+            count = decoder.sample(opposite, 1) != 0;
+            count += decoder.sample(opposite, 2) != 0;
+            count += decoder.sample(middle, 3) != 0;
+            count += decoder.sample(anchor, 4) != 0;
+            count += decoder.sample(anchor, 5) != 0;
+            invalidReturn &= count == 0 && decoder.invalidTransitions() == 1;
+            decoder.sample(middle, 6); decoder.sample(opposite, 7);
+            invalidReturn &= decoder.sample(opposite, 8) != 0 && decoder.invalidTransitions() == 1;
+        }
+    }
+    ok &= check(glitches, "rotary: an isolated short intermediate glitch returning to its anchor emits nothing");
+    ok &= check(narrowEndpoint, "rotary: a one-observation endpoint glitch cannot become a step");
+    ok &= check(retryEndpoint, "rotary: endpoint bounce publishes once only after the endpoint is stable");
+    ok &= check(invalidReturn, "rotary: short intermediate recovery after a two-bit jump retains the trusted anchor");
+
+    decoder.reset(3);
+    decoder.sample(2, 10); decoder.sample(0, 10);
+    ok &= check(decoder.sample(0, 11) == 0 && decoder.invalidTransitions() == 1,
+                "rotary: same-time observations cannot supply the missing intermediate confirmation");
+    decoder.reset(3, UINT32_MAX - 1U);
+    decoder.sample(2, UINT32_MAX); decoder.sample(0, 0);
+    ok &= check(decoder.sample(0, 1) == 1 && decoder.invalidTransitions() == 0,
+                "rotary: carrying a short intermediate phase survives millis wrap");
+    decoder.reset(3);
+    decoder.sample(2, 1); decoder.sample(0, 2); decoder.sample(1, 3); decoder.sample(1, 4);
+    decoder.sample(3, 5);
+    ok &= check(decoder.sample(3, 6) == 0 && decoder.invalidTransitions() == 1,
+                "rotary: illegal intermediate-to-intermediate jump still discards the incomplete path");
+
+    bool speeds = true;
+    for (bool swap : {false, true}) {
+        for (bool invert : {false, true}) {
+            for (uint32_t dwell : {0U, 5U, 50U, 200U}) {
+                auto transform = [&](uint8_t phase) {
+                    if (swap) phase = ((phase & 1U) << 1U) | ((phase & 2U) >> 1U);
+                    return static_cast<uint8_t>(phase ^ (invert ? 3U : 0U));
+                };
+                decoder.reset(transform(3));
+                uint32_t now = 0; int total = 0, count = 0;
+                auto observe = [&](uint8_t phase) {
+                    const int step = decoder.sample(transform(phase), ++now);
+                    total += step; count += step != 0;
+                };
+                for (int round = 0; round < 10; ++round) {
+                    observe(2); observe(0); observe(0);
+                    for (uint32_t held = 0; held < dwell; ++held) observe(0);
+                    observe(1); observe(3); observe(3);
+                    for (uint32_t held = 0; held < dwell; ++held) observe(3);
+                }
+                speeds &= count == 20 && total == (swap ? -20 : 20) && decoder.invalidTransitions() == 0;
+            }
+        }
+    }
+    ok &= check(speeds, "rotary: continuous short intermediates count exactly across speed, phase and direction mirrors");
+
+    decoder.reset(3);
+    const uint8_t phases[] = {3, 1, 0, 2};
+    uint32_t now = 0, random = 0x617ac531U;
+    int index = 0, quarters = 0, total = 0;
+    bool ordered = true;
+    for (int i = 0; i < 4000; ++i) {
+        random = random * 1664525U + 1013904223U;
+        const int direction = (random & 0x80000000U) ? 1 : -1;
+        index = (index + direction + 4) % 4; quarters += direction;
+        total += decoder.sample(phases[index], ++now);
+        if (phases[index] == 0 || phases[index] == 3) {
+            total += decoder.sample(phases[index], ++now);
+            ordered &= total == -quarters / 2;
+        }
+    }
+    ok &= check(ordered && decoder.invalidTransitions() == 0,
+                "rotary: 4000 legal short-phase moves and reversals preserve exact net order");
+    return ok;
+}
 
 template<class Check> bool runRotaryInputDecoderTests(Check check)
 {
@@ -149,6 +268,7 @@ template<class Check> bool runRotaryInputDecoderTests(Check check)
     }
     ok &= check(ordered && decoder.invalidTransitions() == 0,
                 "rotary: 4000 quick legal transitions preserve bidirectional order");
+    ok &= runRotaryShortPhaseTests(check);
 
     TestFixture<AppState> storage;
     if (!storage) return check(false, "rotary: Avatar Setup fixture allocation");

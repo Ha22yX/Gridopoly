@@ -50,8 +50,10 @@ int main()
     HardwareInputDiagnostic diagnostic;
     unsigned invalid = 0;
     while (hardwareInputPollDiagnostic(diagnostic)) invalid = diagnostic.invalidTransitions;
-    check(events.empty() && invalid == 10,
-          "synthetic 1ms intermediate phases and 50ms detent dwell yield 0 steps and 10 invalids");
+    ordered = events.size() == 10;
+    for (auto event : events) ordered &= event.delta == -1;
+    check(ordered && invalid == 0,
+          "synthetic 1ms intermediate phases and 50ms detent dwell retain all 10 intended steps");
     reset(); fakeMs += 25; fakeUs += 25000; raw(0, 2);
     events = drain(); invalid = 0;
     while (hardwareInputPollDiagnostic(diagnostic)) invalid = diagnostic.invalidTransitions;

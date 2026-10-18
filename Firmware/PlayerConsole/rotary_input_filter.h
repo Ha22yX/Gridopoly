@@ -21,6 +21,17 @@ public:
     {
         phases &= 3U;
         if (phases != candidate_) {
+            // A short intermediate phase may have only one sample before the
+            // next detent arrives. Preserve that OBSERVED legal Gray path:
+            // detent -> intermediate -> opposite detent. The intermediate
+            // emits nothing; the endpoint still needs its own later sample.
+            // A direct two-bit jump or a return to the same detent is never
+            // repaired by inventing an edge. Same-time catch-up is not proof.
+            if (isDetent(stable_) && !isDetent(candidate_) &&
+                phases == (stable_ ^ 3U) &&
+                static_cast<uint32_t>(atMs - candidateAtMs_) >= 1U) {
+                acceptPhase(candidate_);
+            }
             candidate_ = phases;
             candidateAtMs_ = atMs;
             return 0;
@@ -29,6 +40,17 @@ public:
         // calls at the same time cannot turn one observation into debounce.
         if (phases == stable_ ||
             static_cast<uint32_t>(atMs - candidateAtMs_) < 1U) return 0;
+        return acceptPhase(phases);
+    }
+
+    uint32_t invalidTransitions() const { return invalidTransitions_; }
+    uint8_t stablePhases() const { return stable_; }
+
+private:
+    static bool isDetent(uint8_t phases) { return phases == 0 || phases == 3; }
+
+    int8_t acceptPhase(uint8_t phases)
+    {
         const uint8_t previous = stable_;
         stable_ = phases;
         if ((previous ^ phases) == 3U) {
@@ -69,11 +91,6 @@ public:
         return step;
     }
 
-    uint32_t invalidTransitions() const { return invalidTransitions_; }
-    uint8_t stablePhases() const { return stable_; }
-
-private:
-    static bool isDetent(uint8_t phases) { return phases == 0 || phases == 3; }
     uint8_t stable_ = 3, candidate_ = 3, detent_ = 3;
     uint32_t candidateAtMs_ = 0, invalidTransitions_ = 0;
     int8_t quarters_ = 0;
