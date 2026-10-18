@@ -8,6 +8,7 @@
 
 | 要查的内容 | 文档 |
 | --- | --- |
+| COM7 插USB后画面恢复、偶发频闪/错位和旋钮漏格 | [10月17日晚重新排查](firmware/player-com7-display-input-reopen-2026-10-17.md)，普通12MHz/输入统计候选已写入、启动及电量正常，新的现场验收待进行 |
 | 全项目当前结果与责任 | [当前交接](CURRENT-DEVELOPMENT-HANDOFF.md) |
 | 配对/来源/目标流星灯、COM10尾两灯不亮 | [V0.39实现、分批部署及同板旧版对照](firmware/tile-meteor-cues-2026-10-17.md) |
 | 右键调试、开局配对、柔和呼吸、英文UI | [本轮集成与实际部署](firmware/debug-tools-pairing-rollout-2026-10-17.md)、[服务器修复](firmware/server-debug-pairing-2026-10-17.md)、[格子V0.38](firmware/tile-cue-pairing-2026-10-17.md)、[玩家英文/配对](firmware/player-tag-pair-freshness-2026-10-17.md) |
@@ -17,7 +18,7 @@
 | 全在线16/24/32/40环、开链测试与配对 | [跨端契约](firmware/ring-onboarding-contract-2026-09-26.md)、[单模块/地图修复](firmware/newgame-open-chain-fix-2026-09-26.md) |
 | 玩家输入 | [输入批处理与局部刷新](firmware/player-16-trial-progress-2026-10-15.md)、[9月26日旋钮/手写修复](firmware/player-input-handwriting-fix-2026-09-26.md)；当前普通固件见设备台账，COM28手写和精确卡点仍待现场验证 |
 | 玩家电池底板 | [电路/接线/采购](hardware/player-usbc-battery-base-2026-09-27.md)、[RC6-TP当前设计候选](../PCB%20Files/PlayerConsolePower/Testpoints-2026-10-15/README.md) |
-| 电池功能是否已部署 | [弧形电池/充电防抖](firmware/player-battery-arc-ui-2026-10-17.md)、[上传后自动恢复](firmware/player-battery-warm-recovery-2026-10-17.md)：COM27/28/29已启用并有用户反馈，COM7仍关闭；长期精度/异常恢复另验 |
+| 电池功能是否已部署 | [弧形电池/充电防抖](firmware/player-battery-arc-ui-2026-10-17.md)、[上传后自动恢复](firmware/player-battery-warm-recovery-2026-10-17.md)：四台均已启用；COM7本轮首次通信异常经用户手动重开恢复，不记自动恢复；长期精度/异常恢复另验 |
 | 新屏显示与第四屏 | [等待页修复](firmware/player-new-screen-display-progress-2026-10-15.md)、[COM29首次部署](firmware/player-fourth-screen-flash-2026-10-15.md)、[12MHz显示结果](firmware/player-com29-display-progress-2026-10-15.md) |
 | 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；[USB已部署及重启自启验收](firmware/usb-ap-deployment-2026-10-15.md)，20台同时接入已实证、36台待验 |
 | 线圈包围屏幕时的RFID故障 | [COM8单板实机调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)；区分供电、芯片告警与实际UID读取 |
