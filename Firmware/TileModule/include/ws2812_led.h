@@ -42,13 +42,15 @@ bool encode(const Rgb *pixels, std::size_t count, Symbol *symbols,
   return true;
 }
 
-enum class Mode : std::uint8_t { Scene, Off, Red, Green, Blue };
+enum class Mode : std::uint8_t { Scene, Off, Red, Green, Blue, Destination, Departure };
 inline const char *modeName(Mode mode) {
   switch (mode) {
     case Mode::Off: return "off";
     case Mode::Red: return "red";
     case Mode::Green: return "green";
     case Mode::Blue: return "blue";
+    case Mode::Destination: return "destination-preview";
+    case Mode::Departure: return "departure-preview";
     default: return "scene";
   }
 }
@@ -64,9 +66,10 @@ inline Command parseCommand(const char *text) {
   if (text == nullptr) return {};
   if (std::strcmp(text, "LED STATUS") == 0) return {true, true, Mode::Scene, 0};
   if (std::strcmp(text, "LED AUTO") == 0) return {true, false, Mode::Scene, 0};
-  const char *prefixes[]{"LED OFF ", "LED RED ", "LED GREEN ", "LED BLUE "};
-  const Mode modes[]{Mode::Off, Mode::Red, Mode::Green, Mode::Blue};
-  for (unsigned i = 0; i < 4; ++i) {
+  const char *prefixes[]{"LED OFF ", "LED RED ", "LED GREEN ", "LED BLUE ",
+                         "LED DESTINATION ", "LED DEPARTURE "};
+  const Mode modes[]{Mode::Off, Mode::Red, Mode::Green, Mode::Blue, Mode::Destination, Mode::Departure};
+  for (unsigned i = 0; i < 6; ++i) {
     const auto length = std::strlen(prefixes[i]);
     if (std::strncmp(text, prefixes[i], length) != 0) continue;
     const char *number = text + length;
@@ -96,6 +99,7 @@ class Maintenance {
     return mode_ != Mode::Scene && elapsed < duration_ ? duration_ - elapsed : 0;
   }
   Mode mode(std::uint32_t now) const { return remaining(now) ? mode_ : Mode::Scene; }
+  std::uint32_t elapsed(std::uint32_t now) const { return now - started_; }
   void expire(std::uint32_t now) {
     if (mode_ != Mode::Scene && remaining(now) == 0) {
       mode_ = Mode::Scene;
@@ -105,7 +109,7 @@ class Maintenance {
   bool color(std::uint32_t now, Rgb &out) {
     expire(now);  // Permanently retire the window, including a later millis wrap.
     const Mode current = mode(now);
-    if (current == Mode::Scene) return false;
+    if (current == Mode::Scene || current == Mode::Destination || current == Mode::Departure) return false;
     out = {0, 0, 0};
     if (current == Mode::Red) out.red = kDiagnosticLevel;
     if (current == Mode::Green) out.green = kDiagnosticLevel;

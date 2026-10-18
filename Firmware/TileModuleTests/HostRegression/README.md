@@ -14,16 +14,40 @@ exercise real scheduler contention, or verify emitted LED electrical signals.
 The fault-injection cases cover a failed cache lock followed by an identical
 inventory, replacement with the latest complete inventory, and preservation of
 reader state/UID/overflow/revision consistency. The pre-fix V0.27 source fails
-the first two cases. LED cases cover all ten pixels, channel limits, green
-double flashes, orange breathing, unchanged movement through a resync, and
+the first two cases. LED cases cover all ten pixels, channel limits, smooth
+green breathing, orange breathing, unchanged movement through a resync, and
 return to the normal tile color.
 
-V0.35 also extracts the actual `showPixels` send boundary. Cases exercise all
+V0.35 introduced final-send clamping (now `led_scene::sendPixels`). Cases exercise all
 connection and pairing states (including success), idle/owner/occupied colors,
 unchanged pulse periods, and the lower destination/departure RGB amplitudes.
 Direct oversized pixels are capped at 16 on all ten LEDs without cumulative
 dimming. The fixed 8/255 maintenance RGB/off commands reach that same boundary
 and expire into the current scene without changing the network snapshot.
+
+V0.38 uses the actual value-snapshot projection and header-only scene evaluator.
+The destination is a 2400 ms smoothstep breath, interpolated at final wire RGB
+resolution from (1,3,2) to (5,15,12). The boundary test samples every 20 ms across
+two periods: all green levels 3..15 occur, no off interval, each RGB channel
+changes by at most one, and green stays dominant. The separate `led_scene` suite
+checks symmetry, rounded extrema, clock wrap, late sampling without restarting,
+producer stalls, copied input ownership, lease expiry and bounded preview return
+to the latest real scene. It uses the production Animator, not a duplicate waveform.
+These deterministic checks do not measure FreeRTOS deadlines; `LED STATUS` reports
+actual maximum frame gap and late frames for subsequent device acceptance.
+
+Cue resends and global server/movement revisions no longer reset phase. Mode,
+player, assignment availability or tile identity changes do. The protocol has no
+stable move ID, so two identical cues with an unobserved intermediate `none`
+remain indistinguishable. `LED DESTINATION 1..30` and `LED DEPARTURE 1..30` run
+the same scene functions locally, expire from command issue time and can be
+cancelled with `LED AUTO`; they never change network/game/Tag state.
+
+Pairing regression retains the production RF freshness gates: an incomplete scan
+can preserve stable displayed UIDs while reporting fresh=false; a later complete
+identical inventory refreshes scan sequence/age without changing tag revision.
+The real `publishTagStatus` empty-set wrapper is tested through removal debounce
+and the next fully fresh empty scan. Client safety thresholds are unchanged.
 
 V0.36 additionally extracts the actual display initialization, controller recovery
 and `DisplaySink` routines. The existing boundary suite checks that MADCTL rotation

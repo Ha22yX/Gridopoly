@@ -76,6 +76,9 @@ def export_candidate(source, target, env):
         "displayRotation": 2, "displayRotationDegrees": 180,
         "developmentArtwork": {"catalog": "v1", "storage": "RAM_ONLY",
                                "readyLimit": 5, "stagingLimit": 1, "maximumBytes": 307200},
+        "movementLed": {"destination": "smoothstep_breath", "periodMs": 2400,
+                        "frameMs": 20, "workerCore": 0, "maximumChannel": 16,
+                        "previewMaximumSeconds": 30},
         "role": "long" if profiles[environment] == "tile-long" else "corner",
         "validation": "Candidate only; no device deployment, LED optical or full-board acceptance implied",
     }

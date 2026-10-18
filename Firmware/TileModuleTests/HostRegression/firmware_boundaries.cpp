@@ -14,6 +14,7 @@
 #include "tile_connection_view.h"
 #include "tile_ui_theme.h"
 #include "ws2812_led.h"
+#include "led_scene.h"
 
 using namespace gridopoly::tile;
 using namespace gridopoly::tile::board;
@@ -132,6 +133,22 @@ struct PixelTransmitter {
 } gLedTransmitter;
 const TileState& currentTileState() { return gNetworkSnapshot.tile; }
 #include "firmware_fixture.inc"
+
+// Real production input projection, scene evaluator and final clamping boundary;
+// only the RTOS mailbox and physical transmitter are substituted on the host.
+void showPixels() {
+  if (gLedReady && !led_scene::sendPixels(gLedTransmitter, gPixels)) gLedReady = false;
+}
+void renderLedScene(std::uint32_t now) {
+  Rgb color{};
+  if (!gLedMaintenance.color(now, color)) color = led_scene::color(ledSceneInput(), now);
+  std::fill(std::begin(gPixels), std::end(gPixels), color);
+  showPixels();
+}
+void consumeMovement(TileNetworkSnapshot next_network, std::uint32_t now) {
+  testMillis = now;
+  consumeMovement(next_network);
+}
 
 void setUp() {
   gNetwork = TileNetworkClient{};
@@ -324,34 +341,34 @@ void test_idle_owned_and_occupied_scenes_are_dim() {
     }
   }
 }
-void test_destination_double_flash_and_departure_breath() {
+void test_destination_smooth_breath_and_departure_remain_distinct() {
   gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
-  for (std::uint32_t elapsed = 0; elapsed < 1800; ++elapsed) {
+  bool levels[17]{};
+  Rgb previous{};
+  for (std::uint32_t elapsed = 0; elapsed <= 4800; elapsed += 20) {
     renderLedScene(1000 + elapsed);
     assertWholeRing();
-    const auto phase = elapsed % 900;
-    if (phase < 180 || (phase >= 300 && phase < 480)) {
-      TEST_ASSERT_EQUAL_UINT8(5, gPixels[0].red);
-      TEST_ASSERT_EQUAL_UINT8(15, gPixels[0].green);
-      TEST_ASSERT_EQUAL_UINT8(12, gPixels[0].blue);
-      TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].red, gPixels[0].green);
-    } else {
-      TEST_ASSERT_EQUAL_UINT8(0, gPixels[0].green);
+    const auto color = gPixels[0];
+    TEST_ASSERT_GREATER_THAN_UINT8(color.red, color.green);
+    TEST_ASSERT_GREATER_THAN_UINT8(color.blue, color.green);
+    TEST_ASSERT_GREATER_OR_EQUAL_UINT8(3, color.green);
+    TEST_ASSERT_LESS_OR_EQUAL_UINT8(15, color.green);
+    levels[color.green] = true;
+    if (elapsed != 0) {
+      TEST_ASSERT_INT_WITHIN(1, previous.red, color.red);
+      TEST_ASSERT_INT_WITHIN(1, previous.green, color.green);
+      TEST_ASSERT_INT_WITHIN(1, previous.blue, color.blue);
     }
+    previous = color;
   }
+  for (unsigned value = 3; value <= 15; ++value) TEST_ASSERT_TRUE(levels[value]);
+  renderLedScene(1000); assertSentColor({1,3,2});
+  renderLedScene(2200); assertSentColor({5,15,12});
+  renderLedScene(3400); assertSentColor({1,3,2});
   gNetworkSnapshot.movement.mode = TileMovementCue::Departure;
-  renderLedScene(1000);
-  const auto low = gPixels[0].red;
-  renderLedScene(1800);
-  const auto high = gPixels[0].red;
-  TEST_ASSERT_EQUAL_UINT8(14, high);
-  TEST_ASSERT_EQUAL_UINT8(8, gPixels[0].green);
-  TEST_ASSERT_EQUAL_UINT8(4, gPixels[0].blue);
-  TEST_ASSERT_GREATER_THAN_UINT8(low, high);
-  TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].green, gPixels[0].red);
-  renderLedScene(2600);
-  TEST_ASSERT_EQUAL_UINT8(low, gPixels[0].red);
-  assertWholeRing();
+  renderLedScene(1000); assertSentColor({3,2,1});
+  renderLedScene(1800); assertSentColor({14,8,4});
+  renderLedScene(2600); assertSentColor({3,2,1});
 }
 void test_heartbeat_resync_preserves_animation_origin() {
   auto snapshot = gNetworkSnapshot;
@@ -365,7 +382,13 @@ void test_heartbeat_resync_preserves_animation_origin() {
   TEST_ASSERT_EQUAL_UINT32(1234, gMovementCueStartedMs);
   ++snapshot.movement.revision;
   consumeMovement(snapshot, 5000);
-  TEST_ASSERT_EQUAL_UINT32(5000, gMovementCueStartedMs);
+  TEST_ASSERT_EQUAL_UINT32(1234, gMovementCueStartedMs);
+  snapshot.tile.map_index = 4;
+  consumeMovement(snapshot, 5100);
+  TEST_ASSERT_EQUAL_UINT32(5100, gMovementCueStartedMs);
+  snapshot.movement.player_id = 2;
+  consumeMovement(snapshot, 5200);
+  TEST_ASSERT_EQUAL_UINT32(5200, gMovementCueStartedMs);
   snapshot.movement.mode = TileMovementCue::None;
   snapshot.tile.accent = {255, 0, 0};
   consumeMovement(snapshot, 6000);
@@ -512,6 +535,51 @@ void test_pairing_uses_scanned_session_not_current_cached_session() {
   TEST_ASSERT_EQUAL_UINT32(20, gNetwork.observed_tags_.scan.pairing_room_id);
   TEST_ASSERT_EQUAL_UINT32(7, gNetwork.observed_tags_.scan.pairing_session_id);
 }
+void test_transient_scan_preserves_uid_but_cannot_claim_fresh_or_change_session() {
+  const auto tags = playerTags();
+  gScanPairingRoom = 20; gScanPairingSession = 7;
+  publishTagInventory(TagStatus::Present, &tags, 0x2F, 3);
+  publishPendingTagObservation();
+  const auto before = gNetwork.observed_tags_;
+  testMillis += 250;
+  publishTagInventory(TagStatus::Unstable, nullptr, 0x2F, 0);
+  publishPendingTagObservation();
+  auto transient = gNetwork.observed_tags_;
+  TEST_ASSERT_EQUAL(TileTagReaderState::Stable, transient.state);
+  TEST_ASSERT_EQUAL_STRING(before.uids[0], transient.uids[0]);
+  TEST_ASSERT_EQUAL_UINT32(before.revision, transient.revision);
+  TEST_ASSERT_FALSE(tagScanFresh(transient.scan, testMillis));
+  TEST_ASSERT_GREATER_THAN_UINT32(before.scan.sequence, transient.scan.sequence);
+  TEST_ASSERT_EQUAL_UINT32(7, transient.scan.pairing_session_id);
+  testMillis += 250;
+  publishTagInventory(TagStatus::Present, &tags, 0x2F, 3);
+  publishPendingTagObservation();
+  TEST_ASSERT_TRUE(tagScanFresh(gNetwork.observed_tags_.scan, testMillis));
+  TEST_ASSERT_EQUAL_UINT32(before.revision, gNetwork.observed_tags_.revision);
+  TEST_ASSERT_GREATER_THAN_UINT32(transient.scan.sequence, gNetwork.observed_tags_.scan.sequence);
+}
+void test_removal_debounce_requires_new_complete_empty_scan_for_pairing_fence() {
+  const auto tags = playerTags();
+  gScanPairingRoom = 20; gScanPairingSession = 7;
+  publishTagInventory(TagStatus::Present, &tags, 0x2F, 3);
+  publishPendingTagObservation();
+  testMillis += 250;
+  publishTagStatus(TagStatus::NoTag, nullptr, 0x2F, 0);
+  publishPendingTagObservation();
+  TEST_ASSERT_EQUAL_UINT8(1, gNetwork.observed_tags_.count);
+  TEST_ASSERT_FALSE(tagScanFresh(gNetwork.observed_tags_.scan, testMillis));
+  testMillis += 250;
+  publishTagStatus(TagStatus::NoTag, nullptr, 0x2F, 0);
+  publishPendingTagObservation();
+  TEST_ASSERT_EQUAL_UINT8(0, gNetwork.observed_tags_.count);
+  TEST_ASSERT_FALSE(tagScanFresh(gNetwork.observed_tags_.scan, testMillis));
+  testMillis += 400;
+  publishTagStatus(TagStatus::NoTag, nullptr, 0x2F, 0);
+  publishPendingTagObservation();
+  TEST_ASSERT_EQUAL_UINT8(0, gNetwork.observed_tags_.count);
+  TEST_ASSERT_TRUE(tagScanFresh(gNetwork.observed_tags_.scan, testMillis));
+  TEST_ASSERT_EQUAL_UINT32(7, gNetwork.observed_tags_.scan.pairing_session_id);
+}
 void test_pairing_priority_clear_and_lease_rollover() {
   auto &pair = gNetworkSnapshot.pairing;
   pair.active = true; pair.room_id = 10; pair.session_id = 20;
@@ -547,8 +615,8 @@ void test_led_maintenance_expires_into_current_game_scene() {
     gLedMaintenance.apply(ws2812::parseCommand(commands[i]), 1000);
     renderLedScene(1999);
     assertSentColor(colors[i]);  // Fixed physical 8/255, not quartered to two.
-    renderLedScene(2000);  // Destination is illuminated at this phase.
-    assertSentColor({5,15,12});
+    renderLedScene(2000);
+    assertSentColor(led_scene::color(ledSceneInput(), 2000));
     TEST_ASSERT_EQUAL(ws2812::Mode::Scene, gLedMaintenance.mode(1001));
     TEST_ASSERT_EQUAL_MEMORY(&before, &gNetworkSnapshot, sizeof(before));
   }
@@ -563,7 +631,7 @@ int main() {
   RUN_TEST(test_every_connection_state_is_dim_and_keeps_breath_period);
   RUN_TEST(test_all_pairing_states_share_dimming_including_success);
   RUN_TEST(test_idle_owned_and_occupied_scenes_are_dim);
-  RUN_TEST(test_destination_double_flash_and_departure_breath);
+  RUN_TEST(test_destination_smooth_breath_and_departure_remain_distinct);
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
   RUN_TEST(test_safe_display_restores_8mhz_controller_before_normal_page);
@@ -573,6 +641,8 @@ int main() {
   RUN_TEST(test_display_clock_override_is_bound_to_validated_device);
   RUN_TEST(test_freshness_expires_and_incomplete_inventory_cannot_refresh);
   RUN_TEST(test_pairing_uses_scanned_session_not_current_cached_session);
+  RUN_TEST(test_transient_scan_preserves_uid_but_cannot_claim_fresh_or_change_session);
+  RUN_TEST(test_removal_debounce_requires_new_complete_empty_scan_for_pairing_fence);
   RUN_TEST(test_pairing_priority_clear_and_lease_rollover);
   RUN_TEST(test_led_maintenance_expires_into_current_game_scene);
   return UNITY_END();

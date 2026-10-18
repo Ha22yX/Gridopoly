@@ -36,22 +36,21 @@ else:
     pieces.append("void publishPendingTagObservation() {} // pre-fix baseline")
 pieces += [routine(main, "void recordTagScan("),
            routine(main, "void publishTagInventory("),
+           routine(main, "void publishTagStatus("),
            routine(main, "void printDisplayOrientation("),
            routine(main, "void initializeDisplay("),
            routine(main, "void recoverDisplayController("),
            routine(main, "void restoreSafeDisplay("),
            routine(main, "struct DisplaySink") + ";",
            routine(main, "Rgb playerColor("),
-           routine(main, "Rgb scaleColor("),
-           routine(main, "void showPixels("),
-           routine(main, "void renderLedScene(")]
+           routine(main, "led_scene::Input ledSceneInput(")]
 start = main.index("    const bool page_changed =")
 end = main.index("    const bool movement_changed =", start)
 pieces.append("bool pageChanged(TileNetworkSnapshot next_network) {\n"
               + main[start:end] + "\nreturn page_changed;\n}")
 start = end
 end = main.index("    if (page_changed && !gDiagnosticPage)", start)
-pieces.append("void consumeMovement(TileNetworkSnapshot next_network, uint32_t now) {\n"
+pieces.append("void consumeMovement(TileNetworkSnapshot next_network) {\n"
               + main[start:end] + "\n}")
 output.write_text("\n\n".join(pieces), encoding="utf-8")
 

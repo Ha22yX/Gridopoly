@@ -100,6 +100,17 @@ struct TileNetworkSnapshot {
   char device_id[33]{};
 };
 
+inline bool movementContextChanged(const TileNetworkSnapshot &a,
+                                   const TileNetworkSnapshot &b) {
+  // movement.revision is the server's global stateVersion, not a move ID.
+  // Identical heartbeats and unrelated game/transport revisions keep phase.
+  return a.movement.mode != b.movement.mode ||
+         a.movement.player_id != b.movement.player_id ||
+         a.assigned != b.assigned ||
+         (a.assigned && (a.tile.map_index != b.tile.map_index ||
+                        std::strcmp(a.tile.tile_id, b.tile.tile_id) != 0));
+}
+
 const char *tileNetworkLabel(TileNetworkLink link);
 
 class TileNetworkClient {

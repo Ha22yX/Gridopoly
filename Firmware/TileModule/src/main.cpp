@@ -30,7 +30,7 @@
 #include "tile_network.h"
 #include "tile_ui_theme.h"
 #include "ws2812_led.h"
-#include "ws2812_esp32.h"
+#include "led_runtime.h"
 #include "serial_command_line.h"
 #include "rfid_diagnostics.h"
 
@@ -53,7 +53,6 @@ constexpr std::uint16_t kInaCalibration = 0x1400;
 
 constexpr std::uint32_t kPowerSamplePeriodMs = 200;
 constexpr std::uint32_t kUiRefreshPeriodMs = 500;
-constexpr std::uint32_t kLedFramePeriodMs = 50;
 constexpr std::uint8_t kHtrcGetConfigPage = 0x04;
 constexpr std::uint8_t kHtrcSetConfigPage = 0x40;
 constexpr std::uint8_t kHtrcFieldOffPage1 = 0x01;
@@ -204,17 +203,12 @@ GFXcanvas16 gFooterCanvas(kDisplayWidth, 34);
 TileNetworkClient gNetwork;
 TileNetworkSnapshot gNetworkSnapshot{};
 PowerReading gPower;
-Rgb gPixels[kWs2812Count]{};
-ws2812::Transmitter<ws2812::Esp32Driver, kWs2812Count> gLedTransmitter;
-ws2812::Maintenance gLedMaintenance;
 alignas(4) std::uint16_t gArtworkRow[160]{};
 bool gDisplayReady = false;
-bool gLedReady = false;
 bool gDiagnosticPage = false;
 std::uint8_t gBacklightDuty = kBacklightDuty;
 std::uint32_t gLastPowerSampleMs = 0;
 std::uint32_t gLastUiRefreshMs = 0;
-std::uint32_t gLastLedFrameMs = 0;
 std::uint32_t gMovementCueStartedMs = 0;
 std::uint32_t gPairingCueStartedMs = 0;
 TagScanEvidence gTagScanEvidence{};
@@ -255,17 +249,6 @@ Rgb playerColor(std::uint8_t player) {
 
 const TileState &currentTileState() {
   return gNetworkSnapshot.tile;
-}
-
-Rgb scaleColor(Rgb color, std::uint8_t maximum_channel) {
-  // Scale every game/connection/pairing scene once, retaining its original
-  // color ratios and animation phase. Maintenance retains its fixed 8/255.
-  constexpr std::uint16_t denominator = 255U * kLedSceneScaleDivisor;
-  return {
-      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.red) * maximum_channel / denominator),
-      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.green) * maximum_channel / denominator),
-      static_cast<std::uint8_t>(static_cast<std::uint16_t>(color.blue) * maximum_channel / denominator),
-  };
 }
 
 void setSafeOutputs() {
@@ -1736,117 +1719,30 @@ void scanHitagTag() {
   }
 }
 
-void showPixels() {
-  if (!gLedReady) {
-    return;
-  }
-  static_assert(ws2812::kDiagnosticLevel <= kMaximumLedChannel,
-                "Maintenance level must fit the absolute LED ceiling");
-  // Final common boundary: even maintenance or a future direct pixel path
-  // cannot bypass the cap. Clamping is idempotent, never repeated dimming.
-  for (auto &pixel : gPixels) {
-    pixel.red = std::min(pixel.red, kMaximumLedChannel);
-    pixel.green = std::min(pixel.green, kMaximumLedChannel);
-    pixel.blue = std::min(pixel.blue, kMaximumLedChannel);
-  }
-  if (!gLedTransmitter.send(gPixels)) {
-    gLedReady = false;
-    const auto &status = gLedTransmitter.status();
-    Serial.printf("[WS2812] ERROR stage=%s driver_error=%d stop_error=%d\r\n",
-                  status.stage, status.driver_error, status.stop_error);
-  }
+led_scene::Input ledSceneInput() {
+  led_scene::Input input;
+  input.assigned = gNetworkSnapshot.assigned;
+  input.link = gNetworkSnapshot.link;
+  const auto &tile = currentTileState();
+  input.ring_color = hasOwner(tile) ? playerColor(tile.owner_player) : tile.accent;
+  input.occupied = tile.occupied_players != 0;
+  input.movement = gNetworkSnapshot.movement.mode;
+  input.movement_started_ms = gMovementCueStartedMs;
+  input.pairing = gNetworkSnapshot.pairing;
+  input.pairing_started_ms = gPairingCueStartedMs;
+  return input;
 }
 
 void initializeLeds() {
-  gLedReady = gLedTransmitter.begin();
-  if (gLedReady) {
-    std::memset(gPixels, 0, sizeof(gPixels));
-    showPixels();
-  }
-  const auto &status = gLedTransmitter.status();
-  Serial.printf("[WS2812] count=%u RMT=%s clock_hz=%lu stage=%s driver_error=%d stop_error=%d\r\n",
-                static_cast<unsigned>(kWs2812Count), gLedReady ? "OK" : "FAIL",
-                static_cast<unsigned long>(status.clock_hz), status.stage,
-                status.driver_error, status.stop_error);
+  if (!beginLedRuntime()) Serial.println(F("[WS2812] ERROR worker_start_failed"));
 }
 
-void renderLedScene(std::uint32_t now_ms) {
-  if (!gLedReady) {
-    return;
-  }
-  Rgb maintenance_color{};
-  if (gLedMaintenance.color(now_ms, maintenance_color)) {
-    std::fill(std::begin(gPixels), std::end(gPixels), maintenance_color);
-    showPixels();
-    return;
-  }
-  if (pairingVisible(gNetworkSnapshot.pairing, now_ms)) {
-    const auto state = gNetworkSnapshot.pairing.state;
-    const bool success = state == TilePairingState::SuccessRemove || state == TilePairingState::Complete;
-    const bool waiting = state == TilePairingState::AwaitingTag || state == TilePairingState::WaitingReader;
-    const Rgb color = success ? Rgb{50, 230, 100} :
-                      waiting ? Rgb{70, 110, 255} : Rgb{255, 110, 35};
-    const auto phase = (now_ms - gPairingCueStartedMs) % 1400U;
-    const std::uint8_t level = success ? 60U : static_cast<std::uint8_t>(
-        phase < 700U ? 20U + phase * 40U / 700U : 60U - (phase - 700U) * 40U / 700U);
-    std::fill(std::begin(gPixels), std::end(gPixels), scaleColor(color, level));
-    showPixels();
-    return;
-  }
-  if (!gNetworkSnapshot.assigned) {
-    const TileConnectionView view = tileConnectionView(gNetworkSnapshot.link);
-    const std::uint32_t phase = now_ms % 1600U;
-    const std::uint8_t level = static_cast<std::uint8_t>(
-        phase < 800U ? 12U + phase * 24U / 800U
-                     : 36U - (phase - 800U) * 24U / 800U);
-    std::fill(std::begin(gPixels), std::end(gPixels),
-              scaleColor(view.accent, level));
-    showPixels();
-    return;
-  }
-
-  const std::uint32_t cue_elapsed = now_ms - gMovementCueStartedMs;
-  if (gNetworkSnapshot.movement.mode == TileMovementCue::Destination) {
-    // Two crisp green flashes per 900 ms make the destination unmistakable
-    // without driving all ten LEDs at full channel brightness.
-    constexpr Rgb kDestinationGreen{82, 220, 183};
-    const std::uint32_t phase = cue_elapsed % 900U;
-    const bool illuminated = phase < 180U ||
-                             (phase >= 300U && phase < 480U);
-    const std::uint8_t level = illuminated ? 72U : 2U;
-    std::fill(std::begin(gPixels), std::end(gPixels),
-              scaleColor(kDestinationGreen, level));
-    showPixels();
-    return;
-  }
-  if (gNetworkSnapshot.movement.mode == TileMovementCue::Departure) {
-    // The origin remains visible but calmer than the destination: one slow
-    // orange breath indicates "move from here".
-    constexpr Rgb kDepartureOrange{239, 140, 74};
-    const std::uint32_t phase = cue_elapsed % 1600U;
-    const std::uint8_t level = static_cast<std::uint8_t>(
-        phase < 800U ? 16U + phase * 48U / 800U
-                     : 64U - (phase - 800U) * 48U / 800U);
-    std::fill(std::begin(gPixels), std::end(gPixels),
-              scaleColor(kDepartureOrange, level));
-    showPixels();
-    return;
-  }
-
-  const TileState &state = currentTileState();
-  const Rgb ring_color =
-      hasOwner(state) ? playerColor(state.owner_player) : state.accent;
-  const std::uint32_t phase = now_ms % 1200U;
-  const bool occupied = state.occupied_players != 0U;
-  const std::uint8_t level = occupied
-      ? static_cast<std::uint8_t>(
-            phase < 600U ? 28U + phase * 28U / 600U
-                         : 56U - (phase - 600U) * 28U / 600U)
-      : 18U;
-  std::fill(std::begin(gPixels), std::end(gPixels),
-            scaleColor(ring_color, level));
-  showPixels();
+void renderLedScene(std::uint32_t) {
+  // Nonblocking value-copy only. The dedicated owner generates every frame,
+  // including while the main loop is scanning RF or transferring LCD pixels.
+  (void)submitLedScene(ledSceneInput());
 }
+
 void centeredText(const char *text, std::int16_t y, std::uint8_t size,
                   std::uint16_t foreground, std::uint16_t background) {
   displaySurface().setTextSize(size);
@@ -2155,7 +2051,8 @@ void drawDiagnosticPage() {
   textAt(150, 84, gPower.configured ? "OK" : "FAIL", 1,
          gPower.configured ? kGreen : kRed);
   textAt(22, 106, "WS2812 RMT", 1, kMuted);
-  textAt(150, 106, gLedReady ? "OK" : "FAIL", 1, gLedReady ? kGreen : kRed);
+  const bool led_ready = ledRuntimeStatus().output.ready;
+  textAt(150, 106, led_ready ? "OK" : "FAIL", 1, led_ready ? kGreen : kRed);
   textAt(22, 128, "RS485 DIR", 1, kMuted);
   textAt(150, 128, "SAFE LOW", 1, kGreen);
   textAt(22, 150, "ORDER OUT", 1, kMuted);
@@ -2302,19 +2199,21 @@ void recoverAndRenderPage() {
 }
 
 void printLedStatus() {
-  const auto &status = gLedTransmitter.status();
-  const auto now = millis();
-  gLedMaintenance.expire(now);
-  Serial.printf("[WS2812-STATUS] ready=%s mode=%s remaining_ms=%lu pin=%d count=%u clock_hz=%lu reset_us=%u requested_rgb=%u,%u,%u attempted=%lu completed=%lu failed=%lu stage=%s driver_error=%d stop_error=%d optical_verified=NO\r\n",
-                gLedReady ? "YES" : "NO", ws2812::modeName(gLedMaintenance.mode(now)),
-                static_cast<unsigned long>(gLedMaintenance.remaining(now)),
+  const auto runtime = ledRuntimeStatus();
+  const auto &status = runtime.output;
+  Serial.printf("[WS2812-STATUS] ready=%s mode=%s remaining_ms=%lu pin=%d count=%u clock_hz=%lu reset_us=%u requested_rgb=%u,%u,%u attempted=%lu completed=%lu failed=%lu stage=%s driver_error=%d stop_error=%d worker=%s period_ms=%lu max_gap_ms=%lu late_frames=%lu optical_verified=NO\r\n",
+                status.ready ? "YES" : "NO", ws2812::modeName(runtime.mode),
+                static_cast<unsigned long>(runtime.remaining_ms),
                 kWs2812DataPin, static_cast<unsigned>(kWs2812Count),
                 static_cast<unsigned long>(status.clock_hz), ws2812::kResetUs,
-                gPixels[0].red, gPixels[0].green, gPixels[0].blue,
+                runtime.requested.red, runtime.requested.green, runtime.requested.blue,
                 static_cast<unsigned long>(status.attempted),
                 static_cast<unsigned long>(status.completed),
                 static_cast<unsigned long>(status.failed), status.stage,
-                status.driver_error, status.stop_error);
+                status.driver_error, status.stop_error, runtime.worker ? "YES" : "NO",
+                static_cast<unsigned long>(led_scene::kFrameMs),
+                static_cast<unsigned long>(runtime.max_gap_ms),
+                static_cast<unsigned long>(runtime.late_frames));
 }
 
 void printStatus() {
@@ -2404,6 +2303,7 @@ void printHelp() {
   Serial.println(F("  RESTART           restart ESP32-S3 for boot timing test"));
   Serial.println(F("  BRIGHTNESS 0..255 set LCD backlight PWM"));
   Serial.println(F("  LED STATUS        print driver and requested-pixel state"));
+  Serial.println(F("  LED DESTINATION|DEPARTURE 1..30  local cue preview, auto restore"));
   Serial.println(F("  LED OFF|RED|GREEN|BLUE seconds  local override, 1..30 s, level 8"));
   Serial.println(F("  LED AUTO          restore normal game lighting immediately"));
   Serial.println(F("  STATUS            print current state and power"));
@@ -2435,10 +2335,11 @@ void processCommand(char *command) {
   } else if (std::strncmp(command, "LED", 3) == 0) {
     const auto led_command = ws2812::parseCommand(command);
     if (!led_command.valid) {
-      Serial.println(F("ERR: LED STATUS, LED AUTO, or LED OFF|RED|GREEN|BLUE 1..30"));
+      Serial.println(F("ERR: LED STATUS, LED AUTO, or LED OFF|RED|GREEN|BLUE|DESTINATION|DEPARTURE 1..30"));
       return;
     }
-    if (gLedMaintenance.apply(led_command, millis())) renderLedScene(millis());
+    if (!led_command.status_only && !submitLedCommand(led_command, millis()))
+      Serial.println(F("ERR: LED command queue unavailable"));
     printLedStatus();
   } else if (std::strncmp(command, "DISPLAY SPEED ", 14) == 0) {
     unsigned long hz = 0;
@@ -2608,18 +2509,14 @@ void loop() {
                 next_network.rssi != gNetworkSnapshot.rssi ||
                 std::strcmp(next_network.module_id,
                             gNetworkSnapshot.module_id) != 0));
-    const bool movement_changed =
-        next_network.movement.mode != gNetworkSnapshot.movement.mode ||
-        next_network.movement.player_id !=
-            gNetworkSnapshot.movement.player_id ||
-        next_network.movement.revision !=
-            gNetworkSnapshot.movement.revision;
+    const bool movement_changed = movementContextChanged(next_network, gNetworkSnapshot);
+    const std::uint32_t cue_now = millis();
     if (pairingChanged(next_network.pairing, gNetworkSnapshot.pairing)) {
-      gPairingCueStartedMs = now;
+      gPairingCueStartedMs = cue_now;
     }
     gNetworkSnapshot = next_network;
     if (movement_changed) {
-      gMovementCueStartedMs = now;
+      gMovementCueStartedMs = cue_now;
     }
     if (page_changed && !gDiagnosticPage) {
       // Keep the working controller session; page composition never clears
@@ -2655,10 +2552,6 @@ void loop() {
     } else {
       drawPowerFooter();
     }
-  }
-  if (static_cast<std::uint32_t>(now - gLastLedFrameMs) >= kLedFramePeriodMs) {
-    gLastLedFrameMs = now;
-    renderLedScene(now);
   }
   if (serviceDevelopmentArtwork(gNetworkSnapshot.assigned ? &currentTileState() : nullptr, millis()) &&
       !gDiagnosticPage) renderPage();
