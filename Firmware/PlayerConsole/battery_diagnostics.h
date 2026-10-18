@@ -10,10 +10,12 @@ public:
     static constexpr uint32_t kWindowMs = 120000, kPeriodMs = 5000, kSampleWindowMs = 1000;
     static constexpr size_t kMaxWriteBytes = 63;
     static constexpr uint8_t kLineCount = 12;
-    void begin(uint32_t nowMs) { started_ = last_ = nowMs; id_ = 0; row_ = kLineCount; }
+    void begin(uint32_t nowMs) { started_ = last_ = nowMs; id_ = 0; row_ = kLineCount; active_ = true; }
+    void stop() { active_ = false; row_ = kLineCount; }
     template <typename Sink>
     void tick(Sink &sink, const gridopoly::player_console::BatteryStatus &status, uint32_t nowMs) {
-        if (!status.enabled || static_cast<uint32_t>(nowMs - started_) >= kWindowMs) { row_ = kLineCount; return; }
+        if (!active_) return;
+        if (!status.enabled || static_cast<uint32_t>(nowMs - started_) >= kWindowMs) { stop(); return; }
         if (row_ == kLineCount && static_cast<uint32_t>(nowMs - last_) >= (id_ ? kPeriodMs : 1000u)) {
             last_ = nowMs; ++id_; row_ = 0; snapshot_ = status;
         }
@@ -79,4 +81,5 @@ private:
     uint32_t started_ = 0, last_ = 0;
     unsigned id_ = 0;
     uint8_t row_ = kLineCount;
+    bool active_ = false;
 };

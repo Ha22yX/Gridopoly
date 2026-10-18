@@ -26,6 +26,10 @@ HardwareInputDiagnostic diagnostics[64]{};
 uint8_t diagnosticHead = 0, diagnosticTail = 0, diagnosticCount = 0;
 uint32_t diagnosticDropped = 0;
 uint8_t lastRawPhases = 3;
+HardwareInputStatistics inputStatistics{};
+uint32_t lastRotarySampleUs = 0;
+
+void incrementSaturated(uint32_t &counter) { if (counter != UINT32_MAX) ++counter; }
 
 void enqueueLocked(const InputEvent &event)
 {
@@ -42,7 +46,10 @@ void enqueueLocked(const InputEvent &event)
             }
         }
     }
-    if (count >= kQueueCapacity) return;
+    if (count >= kQueueCapacity) {
+        incrementSaturated(inputStatistics.inputQueueDropped);
+        return;
+    }
     queue[tail] = event;
     tail = static_cast<uint8_t>((tail + 1) % kQueueCapacity);
     ++count;
@@ -67,19 +74,33 @@ void sampleRotary(void *)
 {
     const uint32_t nowMs = millis();
     const uint8_t phases = readRotaryPhases();
+    const uint32_t nowUs = static_cast<uint32_t>(esp_timer_get_time());
     portENTER_CRITICAL(&mux);
+    inputStatistics.lastSampleGapUs = nowUs - lastRotarySampleUs;
+    lastRotarySampleUs = nowUs;
+    if (inputStatistics.lastSampleGapUs > inputStatistics.maxSampleGapUs)
+        inputStatistics.maxSampleGapUs = inputStatistics.lastSampleGapUs;
+    incrementSaturated(inputStatistics.samples);
     const uint32_t beforeInvalid = rotaryDecoder.invalidTransitions();
     const int8_t step = rotaryDecoder.sample(phases, nowMs);
-    if (step != 0) enqueueLocked(InputEvent{InputKind::Rotate, step, nowMs});
+    if (beforeInvalid != rotaryDecoder.invalidTransitions())
+        incrementSaturated(inputStatistics.invalidTransitions);
+    if (step != 0) {
+        incrementSaturated(inputStatistics.decodedSteps);
+        incrementSaturated(step > 0 ? inputStatistics.positiveSteps : inputStatistics.negativeSteps);
+        enqueueLocked(InputEvent{InputKind::Rotate, step, nowMs});
+    }
     if (phases != lastRawPhases || step != 0 ||
         beforeInvalid != rotaryDecoder.invalidTransitions()) {
         if (diagnosticCount < 64) {
             diagnostics[diagnosticTail] = HardwareInputDiagnostic{
-                nowMs, rotaryDecoder.invalidTransitions(), diagnosticDropped,
+                nowMs, inputStatistics.invalidTransitions, diagnosticDropped,
+                inputStatistics.lastSampleGapUs, inputStatistics.maxSampleGapUs,
+                inputStatistics.inputQueueDropped,
                 phases, rotaryDecoder.stablePhases(), step, count};
             diagnosticTail = static_cast<uint8_t>((diagnosticTail + 1U) % 64U);
             ++diagnosticCount;
-        } else ++diagnosticDropped;
+        } else incrementSaturated(diagnosticDropped);
     }
     lastRawPhases = phases;
     portEXIT_CRITICAL(&mux);
@@ -96,6 +117,7 @@ bool hardwareInputBegin()
     pinMode(kKnobPinA, INPUT_PULLUP);
     pinMode(kKnobPinB, INPUT_PULLUP);
     lastRawPhases = readRotaryPhases();
+    lastRotarySampleUs = static_cast<uint32_t>(esp_timer_get_time());
     rotaryDecoder.reset(lastRawPhases, millis());
     button = new (std::nothrow) Button(kButtonPin, false);
     if (button == nullptr) return false;
@@ -152,11 +174,23 @@ void hardwareInputTestReset()
     rotaryDecoder.reset(lastRawPhases, millis());
     diagnosticHead = diagnosticTail = diagnosticCount = 0;
     diagnosticDropped = 0;
+    inputStatistics = {};
+    lastRotarySampleUs = static_cast<uint32_t>(esp_timer_get_time());
     portEXIT_CRITICAL(&mux);
 }
 
 void hardwareInputTestEnqueue(const InputEvent &event) { enqueue(event); }
 #endif
+
+HardwareInputStatistics hardwareInputStatistics()
+{
+    portENTER_CRITICAL(&mux);
+    HardwareInputStatistics snapshot = inputStatistics;
+    snapshot.queueEntries = count;
+    snapshot.droppedTraces = diagnosticDropped;
+    portEXIT_CRITICAL(&mux);
+    return snapshot;
+}
 
 bool hardwareInputPollDiagnostic(HardwareInputDiagnostic &diagnostic)
 {
@@ -176,6 +210,6 @@ void hardwareInputClearDiagnostics()
 {
     portENTER_CRITICAL(&mux);
     diagnosticHead = diagnosticTail = diagnosticCount = 0;
-    diagnosticDropped = 0;
+    // Retain boot evidence across a battery-only interval and USB reconnect.
     portEXIT_CRITICAL(&mux);
 }

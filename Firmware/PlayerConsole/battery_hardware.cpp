@@ -88,9 +88,17 @@ void batteryHardwareTick(uint32_t) {
     const auto snapshot = batteryHardwareStatus(0);
     diagnostics.tick(Serial, snapshot, millis());
 }
+bool batteryHardwareTraceStart(uint32_t nowMs) {
+    if (!beginCalled) return false;
+    diagnostics.begin(nowMs);
+    return true;
+}
+void batteryHardwareTraceStop() { diagnostics.stop(); }
 #else
 // No UART object, task, initialization, I/O or logging in this profile.
 void batteryHardwareBegin(uint32_t) {}
 void batteryHardwareTick(uint32_t) {}
+bool batteryHardwareTraceStart(uint32_t) { return false; }
+void batteryHardwareTraceStop() {}
 gridopoly::player_console::BatteryStatus batteryHardwareStatus(uint32_t) { return {}; }
 #endif

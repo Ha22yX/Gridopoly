@@ -69,6 +69,8 @@ int main(int argc, char **argv) {
         std::printf("[%s] %s\n", value ? "PASS" : "FAIL", text); (value ? passed : failed)++;
     };
     try {
+        check(!batteryHardwareTraceStart(0), "diagnostic command cannot initialize an unstarted battery service");
+        batteryHardwareTraceStop();
         batteryHardwareBegin(0);
 #if GRIDOPOLY_BATTERY_ENABLED
         if (!host::failCreate) host::waitForPause();
@@ -134,10 +136,37 @@ int main(int argc, char **argv) {
             host::clockMs += 3001;
             check(!batteryHardwareStatus(0).measurementValid,
                   "stopped worker cannot leave old SOC valid");
+            host::clockMs = 200000;
+            batteryHardwareTick(0);
+            const auto beforeTrace = batteryHardwareStatus(0);
+            const auto beforeUartCalls = host::uartCalls.load();
+            const auto beforeLines = host::usbLines.size();
+            check(batteryHardwareTraceStart(millis()), "explicit command reopens expired diagnostics without a reset");
+            host::clockMs += 1000;
+            batteryHardwareTick(0);
+            check(host::usbLines.size() == beforeLines + 1 &&
+                  host::usbLines.back().find("ms=201000 ") != std::string::npos,
+                  "reopened diagnostics use current uptime and emit a new sample");
+            batteryHardwareTraceStop();
+            host::clockMs += 20;
+            batteryHardwareTick(0);
+            check(host::usbLines.size() == beforeLines + 1,
+                  "OFF cancels the remaining rows of an in-progress adapter diagnostic group");
+            const auto afterTrace = batteryHardwareStatus(0);
+            check(host::uartCalls == beforeUartCalls && host::created == 1 && host::constructed == 1 &&
+                  afterTrace.timeoutCount == beforeTrace.timeoutCount &&
+                  afterTrace.firstFailureAtMs == beforeTrace.firstFailureAtMs &&
+                  afterTrace.firstError == beforeTrace.firstError &&
+                  afterTrace.measurementAtMs == beforeTrace.measurementAtMs &&
+                  afterTrace.bridgeConfiguredAtMs == beforeTrace.bridgeConfiguredAtMs &&
+                  !afterTrace.measurementValid && !afterTrace.gpioValid,
+                  "trace controls perform no UART I/O, restart no worker and preserve failure/measurement evidence");
         }
         check(host::violations == 0, "all UART access belongs to service and all USB access to main, outside snapshot locks");
 #else
         host::clockMs = 5000; batteryHardwareTick(5000);
+        check(!batteryHardwareTraceStart(5000), "disabled board rejects trace activation without enabling hardware");
+        batteryHardwareTraceStop();
         check(!batteryHardwareStatus(5000).enabled && host::created == 0 && host::constructed == 0 &&
               host::uartCalls == 0 && host::usbLines.empty(),
               "disabled board creates no task, UART, I/O, diagnostics or fake sample");

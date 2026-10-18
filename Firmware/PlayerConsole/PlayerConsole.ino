@@ -57,6 +57,31 @@ UiBattery batteryUi;
 #endif
 bool inputTraceEnabled = false;
 uint32_t inputTraceDeadlineMs = 0;
+uint32_t inputTraceUsbDropped = 0;
+
+void writeInputDiagnostic(const char *line, int length)
+{
+    // Serial has a zero TX timeout. Drop diagnostics under backpressure rather
+    // than delaying input; capacity alone cannot promise host-side delivery.
+    if (length > 0 && length < 256 && Serial.availableForWrite() >= length &&
+        Serial.write(reinterpret_cast<const uint8_t *>(line), length) == static_cast<size_t>(length)) return;
+    if (inputTraceUsbDropped != UINT32_MAX) ++inputTraceUsbDropped;
+}
+
+void printInputStatus(uint32_t nowMs)
+{
+    const auto stats = hardwareInputStatistics();
+    char line[256];
+    const int length = snprintf(line, sizeof(line),
+        "GRIDOPOLY_INPUT_STATUS ms=%lu samples=%lu gap_us=%lu max_gap_us=%lu steps=%lu pos=%lu neg=%lu invalid=%lu queue_drop=%lu queue=%u trace_drop=%lu tx_drop=%lu\n",
+        static_cast<unsigned long>(nowMs), static_cast<unsigned long>(stats.samples),
+        static_cast<unsigned long>(stats.lastSampleGapUs), static_cast<unsigned long>(stats.maxSampleGapUs),
+        static_cast<unsigned long>(stats.decodedSteps), static_cast<unsigned long>(stats.positiveSteps),
+        static_cast<unsigned long>(stats.negativeSteps), static_cast<unsigned long>(stats.invalidTransitions),
+        static_cast<unsigned long>(stats.inputQueueDropped), stats.queueEntries,
+        static_cast<unsigned long>(stats.droppedTraces), static_cast<unsigned long>(inputTraceUsbDropped));
+    writeInputDiagnostic(line, length);
+}
 
 #if GRIDOPOLY_DISPLAY_DIAGNOSTIC
 void serviceDisplayDiagnostic(uint32_t nowMs)
@@ -109,7 +134,16 @@ void serviceInputTrace(uint32_t nowMs)
             touchTraceStart(nowMs);
         } else if (!overflow && std::strcmp(line, "TOUCH TRACE OFF") == 0) {
             touchTraceStop(nowMs);
+        } else if (!overflow && std::strcmp(line, "BATTERY TRACE ON") == 0) {
+            const bool enabled = batteryHardwareTraceStart(nowMs);
+            Serial.printf("GP_BAT_TRACE enabled=%u ms=%lu window_ms=120000\n",
+                          enabled ? 1u : 0u, static_cast<unsigned long>(nowMs));
+        } else if (!overflow && std::strcmp(line, "BATTERY TRACE OFF") == 0) {
+            batteryHardwareTraceStop();
+            Serial.printf("GP_BAT_TRACE enabled=0 ms=%lu window_ms=0\n",
+                          static_cast<unsigned long>(nowMs));
         } else if (!overflow && std::strcmp(line, "INPUT TRACE ON") == 0) {
+            printInputStatus(nowMs);
             hardwareInputClearDiagnostics();
             inputTraceEnabled = true;
             inputTraceDeadlineMs = nowMs + 90000u;
@@ -117,26 +151,36 @@ void serviceInputTrace(uint32_t nowMs)
                           static_cast<unsigned long>(nowMs));
         } else if (!overflow && std::strcmp(line, "INPUT TRACE OFF") == 0) {
             inputTraceEnabled = false;
+            printInputStatus(nowMs);
             Serial.printf("GRIDOPOLY_INPUT_TRACE enabled=0 ms=%lu reason=command\n",
                           static_cast<unsigned long>(nowMs));
+        } else if (!overflow && std::strcmp(line, "INPUT STATUS") == 0) {
+            printInputStatus(nowMs);
         }
         length = 0;
         overflow = false;
     }
     if (inputTraceEnabled && static_cast<int32_t>(nowMs - inputTraceDeadlineMs) >= 0) {
         inputTraceEnabled = false;
+        printInputStatus(nowMs);
         Serial.printf("GRIDOPOLY_INPUT_TRACE enabled=0 ms=%lu reason=deadline\n",
                       static_cast<unsigned long>(nowMs));
     }
     HardwareInputDiagnostic diagnostic{};
     for (uint8_t count = 0; count < 16 && hardwareInputPollDiagnostic(diagnostic); ++count) {
         if (!inputTraceEnabled) continue;
-        Serial.printf(
-            "GRIDOPOLY_ROTARY_RAW ms=%lu raw=%u stable=%u step=%d invalid_total=%lu dropped=%lu queue=%u\n",
+        char output[256];
+        const int outputLength = snprintf(output, sizeof(output),
+            "GRIDOPOLY_ROTARY_RAW ms=%lu raw=%u stable=%u step=%d invalid_total=%lu dropped=%lu queue=%u gap_us=%lu max_gap_us=%lu queue_drop=%lu tx_drop=%lu\n",
             static_cast<unsigned long>(diagnostic.timestampMs), diagnostic.rawPhases,
             diagnostic.stablePhases, diagnostic.emittedStep,
             static_cast<unsigned long>(diagnostic.invalidTransitions),
-            static_cast<unsigned long>(diagnostic.droppedTraces), diagnostic.queueEntries);
+            static_cast<unsigned long>(diagnostic.droppedTraces), diagnostic.queueEntries,
+            static_cast<unsigned long>(diagnostic.sampleGapUs),
+            static_cast<unsigned long>(diagnostic.maxSampleGapUs),
+            static_cast<unsigned long>(diagnostic.inputQueueDropped),
+            static_cast<unsigned long>(inputTraceUsbDropped));
+        writeInputDiagnostic(output, outputLength);
     }
 }
 #if GRIDOPOLY_PLAYER_TRANSPORT == GRIDOPOLY_TRANSPORT_WIFI_UDP

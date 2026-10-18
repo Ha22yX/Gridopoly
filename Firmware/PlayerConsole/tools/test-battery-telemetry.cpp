@@ -192,6 +192,23 @@ int main()
               "all telemetry detail lines share one sample ID and include gauge setup evidence");
         const auto ended = sink.lines.size(); logs.tick(sink, state, 500000);
         check(sink.lines.size() == ended, "diagnostic window cannot silently restart later");
+        logs.begin(500000); sink.lines.clear();
+        logs.tick(sink, state, 501000);
+        check(sink.lines.size() == 1 && sink.lines.front().find("ms=501000 ") != std::string::npos,
+              "explicit diagnostic restart begins a new bounded window after boot logging expires");
+        logs.stop();
+        for (uint32_t now = 501020; now < 630000; now += 20) logs.tick(sink, state, now);
+        logs.tick(sink, state, 501020); // Simulate the same timestamp after a complete millis cycle.
+        check(sink.lines.size() == 1,
+              "trace OFF drops pending detail lines and cannot re-enable after millis wraps");
+        auto next = state; next.percent = 37; next.rawSoc = 37 * 256;
+        logs.begin(700000); sink.lines.clear();
+        for (uint32_t now = 701000; now < 701240; now += 20) logs.tick(sink, next, now);
+        check(sink.lines.size() == 12 && sink.lines[1].find("pct=37 ") != std::string::npos,
+              "trace restart snapshots current telemetry instead of resuming a prior partial group");
+        logs.tick(sink, next, 820000); logs.tick(sink, next, 701020);
+        check(sink.lines.size() == 12,
+              "expired trace remains stopped even when elapsed milliseconds wrap back into its old window");
         logs.begin(0); sink.lines.clear(); sink.capacity = 0;
         for (uint32_t now = 0; now < 7000; now += 20) logs.tick(sink, state, now);
         check(sink.lines.empty(), "full USB TX cannot trigger blocking or partial writes");
