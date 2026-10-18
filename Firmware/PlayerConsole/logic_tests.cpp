@@ -3126,7 +3126,7 @@ bool runStateLogicTests(Stream &out)
                  "duplicate-id roll creates no second transaction");
 
     ok &= expect(out, kAssets[6].mortgageValue == 120 &&
-                      strcmp(kAssets[6].name, "\xE6\x97\xA7\xE5\x9F\x8E\xE8\x8A\xAF\xE5\xBB\x8A") == 0,
+                      strcmp(kAssets[6].name, "Old Chip Row") == 0,
                  "asset seven is the exact mortgage fixture");
 
     appInit(state, 0);
@@ -3467,7 +3467,7 @@ bool runStateLogicTests(Stream &out)
     refreshedDebt.availableActions = 1u << 5;
     appHandleTransportEvent(state, refreshedDebt, 2800);
     ok &= expect(out, !appDebtAssetSelected(state, 0) &&
-                      strcmp(state.toast, "\xE8\xB5\x84\xE4\xBA\xA7\xE7\x8A\xB6\xE6\x80\x81\xE5\xB7\xB2\xE5\x8F\x98\xE5\x8C\x96\xEF\xBC\x8C\xE8\xAF\xB7\xE9\x87\x8D\xE6\x96\xB0\xE9\x80\x89\xE6\x8B\xA9") == 0,
+                      strcmp(state.toast, "ASSETS CHANGED - RESELECT") == 0,
                  "refreshed debt eligibility clears invalid selection with toast");
 
     transport.setScenario(DemoScenario::DebtMortgage);

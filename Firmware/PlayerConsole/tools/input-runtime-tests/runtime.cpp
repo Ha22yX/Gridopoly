@@ -6,6 +6,7 @@
 #include "handwriting-fixtures.h"
 #include "../home-build-fixtures.h"
 #include <gridopoly/core/BoardCatalog.h>
+#include <cstdlib>
 
 void remoteAvatarCacheBegin() {}
 void remoteAvatarCachePreload(const TransportAvatarRecipe &) {}
@@ -39,11 +40,51 @@ const lv_img_dsc_t *remoteTileCacheImage(GridCityArtwork art, const char *key, u
 bool remoteTileCacheConsumeUpdate() { return false; }
 
 static bool renderedLabelEquals(lv_obj_t *object, const char *text) {
+    // LVGL restores temporarily dotted text when the new label geometry is laid out.
+    lv_obj_update_layout(object);
     if (lv_obj_check_type(object, &lv_label_class) &&
         std::strcmp(lv_label_get_text(object), text) == 0) return true;
     for (uint32_t i = 0; i < lv_obj_get_child_cnt(object); ++i)
         if (renderedLabelEquals(lv_obj_get_child(object, i), text)) return true;
     return false;
+}
+
+static lv_color_t displayPixels[480 * 480];
+
+static void captureDisplay(const char *name) {
+    const char *directory = std::getenv("GRIDOPOLY_TEST_RENDER_DIR");
+    if (!directory) return;
+    lv_obj_update_layout(lv_scr_act());
+    lv_tick_inc(250); lv_timer_handler();
+    lv_refr_now(nullptr);
+    char path[768]; std::snprintf(path, sizeof(path), "%s/%s.ppm", directory, name);
+    FILE *file = std::fopen(path, "wb");
+    if (!file) return;
+    std::fprintf(file, "P6\n480 480\n255\n");
+    for (const auto pixel : displayPixels) {
+        lv_color32_t color{}; color.full = lv_color_to32(pixel);
+        const unsigned char rgb[] = {color.ch.red, color.ch.green, color.ch.blue};
+        std::fwrite(rgb, 1, 3, file);
+    }
+    std::fclose(file);
+}
+
+static lv_obj_t *findRenderedLabel(lv_obj_t *object, const char *text) {
+    if (lv_obj_check_type(object, &lv_label_class) &&
+        std::strcmp(lv_label_get_text(object), text) == 0) return object;
+    for (uint32_t i = 0; i < lv_obj_get_child_cnt(object); ++i)
+        if (auto *found = findRenderedLabel(lv_obj_get_child(object, i), text)) return found;
+    return nullptr;
+}
+
+static bool labelFits(lv_obj_t *object) {
+    if (!object) return false;
+    lv_obj_update_layout(object);
+    lv_point_t size{};
+    lv_txt_get_size(&size, lv_label_get_text(object), lv_obj_get_style_text_font(object, 0),
+                   lv_obj_get_style_text_letter_space(object, 0),
+                   lv_obj_get_style_text_line_space(object, 0), LV_COORD_MAX, LV_TEXT_FLAG_NONE);
+    return size.x <= lv_obj_get_content_width(object) && size.y <= lv_obj_get_content_height(object);
 }
 
 int main() {
@@ -59,7 +100,12 @@ int main() {
     static lv_disp_drv_t display;
     lv_disp_drv_init(&display); display.hor_res = display.ver_res = 480;
     display.draw_buf = &buffer;
-    display.flush_cb = [](lv_disp_drv_t *d, const lv_area_t *, lv_color_t *) { lv_disp_flush_ready(d); };
+    display.flush_cb = [](lv_disp_drv_t *d, const lv_area_t *area, lv_color_t *pixels) {
+        for (int y = area->y1; y <= area->y2; ++y)
+            for (int x = area->x1; x <= area->x2; ++x)
+                displayPixels[y * 480 + x] = *pixels++;
+        lv_disp_flush_ready(d);
+    };
     lv_disp_drv_register(&display);
     check(uiRendererBegin(), "production renderer initializes with real LVGL");
     AppState app{}; appInit(app, 0);
@@ -769,6 +815,127 @@ int main() {
         ++lobby.revision; uiRendererRender(lobby, 6); lv_obj_update_layout(lv_scr_act());
         check(renderedLabelEquals(root, "SIX") && renderedLabelEquals(root, "PLAYER 5"),
               "six-seat layout resolves confirmation and fallback labels by player ID");
+    }
+
+    {
+        AppState pairingApp{}; appInit(pairingApp, 0);
+        pairingApp.authorityRoomId = 100; pairingApp.selfSeatId = 1;
+        pairingApp.hasAuthoritativeState = pairingApp.authorityOnline = true;
+        pairingApp.identity.phase = IdentityClientPhase::TagPairing;
+        pairingApp.identity.authorityPhase = TransportIdentityPhase::TagPairing;
+        pairingApp.identity.revision = 3; pairingApp.identity.seatCount = 2;
+        pairingApp.identity.selfStage = 7; pairingApp.identity.tagPairRequired = true;
+        TransportTagPairSnapshot pair{};
+        pair.selfPlayerId = pair.activePlayerId = 1; pair.flags = kTagPairEnabled;
+        pair.state = TransportTagPairState::AwaitingTag; pair.sessionId = 77;
+        pair.revision = 40; pair.readerMapIndex = 0; pair.expiresInMs = 45000;
+        TransportEvent tag{}; tag.kind = TransportEventKind::TagPairSnapshotReceived;
+        tag.roomId = 100; tag.selfSeatId = 1; tag.tagPair = &pair;
+        appHandleTransportEvent(pairingApp, tag, 100); uiRendererRender(pairingApp, 100);
+        check(renderedLabelEquals(root, "PLACE YOUR TOKEN") && renderedLabelEquals(root, "HIGHLIGHTED TILE 0") &&
+              renderedLabelEquals(root, "TRY AGAIN"), "fresh Tag projection renders its own reader and controls");
+        TransportEvent loss{}; loss.kind = TransportEventKind::ConnectionLost;
+        appHandleTransportEvent(pairingApp, loss, 110); uiRendererRender(pairingApp, 110);
+        check(renderedLabelEquals(root, "KEEP YOUR TOKEN") && !renderedLabelEquals(root, "HIGHLIGHTED TILE 0") &&
+              !renderedLabelEquals(root, "TRY AGAIN"), "offline pairing hides cached reader and management buttons");
+        TransportEvent identity{}; identity.kind = TransportEventKind::IdentitySnapshotReceived;
+        identity.roomId = 100; identity.selfSeatId = 1; identity.identitySeatCount = 2;
+        identity.identityRevision = 3; identity.identityPhase = TransportIdentityPhase::TagPairing;
+        identity.identitySelfStage = 7;
+        appHandleTransportEvent(pairingApp, identity, 120); uiRendererRender(pairingApp, 120);
+        check(renderedLabelEquals(root, "SYNCING PAIRING") && renderedLabelEquals(root, "KEEP YOUR TOKEN") &&
+              !renderedLabelEquals(root, "PLACE YOUR TOKEN") && !renderedLabelEquals(root, "HIGHLIGHTED TILE 0") &&
+              !renderedLabelEquals(root, "TRY AGAIN"), "real LVGL keeps recovery in syncing until a fresh Tag arrives");
+        appHandleTransportEvent(pairingApp, tag, 130); uiRendererRender(pairingApp, 130);
+        check(renderedLabelEquals(root, "PLACE YOUR TOKEN") && renderedLabelEquals(root, "HIGHLIGHTED TILE 0") &&
+              renderedLabelEquals(root, "TRY AGAIN"), "same-revision fresh Tag redraws the previously muted pairing page");
+        pair.revision = 41; pair.readerMapIndex = 7;
+        appHandleTransportEvent(pairingApp, tag, 140); uiRendererRender(pairingApp, 140);
+        check(renderedLabelEquals(root, "HIGHLIGHTED TILE 7") && !renderedLabelEquals(root, "HIGHLIGHTED TILE 0"),
+              "accepted reader update removes the previous tile label");
+
+        pair.expiresInMs = 100; appHandleTransportEvent(pairingApp, tag, 141);
+        appTick(pairingApp, 241); uiRendererRender(pairingApp, 241);
+        check(renderedLabelEquals(root, "SYNCING PAIRING") && !renderedLabelEquals(root, "PLACE YOUR TOKEN") &&
+              !renderedLabelEquals(root, "HIGHLIGHTED TILE 7") && !renderedLabelEquals(root, "TRY AGAIN") &&
+              outerRing && lv_obj_get_style_border_color(outerRing, 0).full == lv_color_hex(kMuted).full,
+              "expired prompt mutes its ring and removes stale placement target and controls");
+        pair.expiresInMs = 45000; appHandleTransportEvent(pairingApp, tag, 242); uiRendererRender(pairingApp, 242);
+        check(renderedLabelEquals(root, "PLACE YOUR TOKEN") && outerRing &&
+              lv_obj_get_style_border_color(outerRing, 0).full == lv_color_hex(kYellow).full,
+              "same-revision refresh restores the active prompt color as well as its text");
+        pair.revision = 42; pair.activePlayerId = 2;
+        appHandleTransportEvent(pairingApp, tag, 250); uiRendererRender(pairingApp, 250);
+        check(renderedLabelEquals(root, "WAIT YOUR TURN") && renderedLabelEquals(root, "PLAYER 2 IS PAIRING") &&
+              !renderedLabelEquals(root, "PLACE YOUR TOKEN") && !renderedLabelEquals(root, "HIGHLIGHTED TILE 7"),
+              "waiting player sees the active player instead of another player's target");
+        pair.flags |= kTagPairSelfBound | kTagPairCanEditIdentity; pair.revision = 43;
+        appHandleTransportEvent(pairingApp, tag, 260);
+        pairingApp.identity.tagPairSuccessUntilMs = 0;
+        pairingApp.page = pairingApp.nav.current.page = ScreenPage::TagPairing;
+        ++pairingApp.revision; uiRendererRender(pairingApp, 270);
+        check(renderedLabelEquals(root, "TOKEN PAIRED") && !renderedLabelEquals(root, "PLACE YOUR TOKEN") &&
+              !renderedLabelEquals(root, "HIGHLIGHTED TILE 7") && !renderedLabelEquals(root, "PLAYER 2 IS PAIRING"),
+              "a bound player's remaining pairing page cannot display the next player's task");
+    }
+    {
+        uiRendererResetForTest(); uiRendererBegin();
+        AppState trading{}; appInit(trading, 0);
+        trading.authorityRoomId = 100; trading.selfSeatId = 1;
+        trading.authorityOnline = trading.hasAuthoritativeState = true;
+        trading.playerCount = 2; trading.rosterSnapshotValid = true;
+        std::strcpy(trading.rosterNames[0], "ALICE");
+        std::strcpy(trading.rosterNames[1], "BOB");
+        // The first tap centers an item; the second activates it.
+        appHandleTouch(trading, TouchAction::HomePlayers, 10);
+        appHandleTouch(trading, TouchAction::HomePlayers, 10);
+        uiRendererRender(trading, 10);
+        check(trading.page == ScreenPage::Players && renderedLabelEquals(root, "PLAYERS LIST") &&
+              renderedLabelEquals(root, "BACK"), "Players List renders an English heading and footer");
+        appHandleTouch(trading, TouchAction::Player1, 11);
+        appHandleTouch(trading, TouchAction::Player1, 11);
+        TransportPlayerDetailPayload detail{};
+        detail.financialRecords[0].kind = 31; detail.financialRecords[0].amount = 250;
+        detail.financialRecords[1].kind = 9; detail.financialRecords[1].amount = -20;
+        detail.financialRecords[2].kind = 21; detail.financialRecords[2].amount = 30;
+        TransportEvent response{}; response.kind = TransportEventKind::PlayerDetailReceived;
+        response.roomId = 100; response.selfSeatId = 1; response.detailPlayerId = 2;
+        response.requestId = trading.playerDetail.requestId;
+        response.playerDetail = &detail; response.financialRecordCount = 3;
+        appHandleTransportEvent(trading, response, 12); uiRendererRender(trading, 12);
+        check(trading.page == ScreenPage::PlayerDetail && renderedLabelEquals(root, "BOB"),
+              "Players List opens details while preserving the authoritative player name");
+        appHandleTouch(trading, TouchAction::DetailSecondary, 13); uiRendererRender(trading, 13);
+        lv_obj_update_layout(lv_scr_act());
+        check(trading.page == ScreenPage::PlayerFinance && renderedLabelEquals(root, "DEBUG ADJUSTMENT") &&
+              renderedLabelEquals(root, "RENT") && renderedLabelEquals(root, "TRADE"),
+              "wire financial kind 31 renders distinctly from rent and trade in the real list");
+        check(labelFits(findRenderedLabel(root, "DEBUG ADJUSTMENT")),
+              "debug financial label fits its existing small-screen list title");
+        captureDisplay("financial-debug-english");
+        appHandleTouch(trading, TouchAction::Back, 14);
+        appHandleTouch(trading, TouchAction::DetailTertiary, 15); uiRendererRender(trading, 15);
+        lv_obj_update_layout(lv_scr_act());
+        auto *locked = findRenderedLabel(root, "LOCKED");
+        check(trading.page == ScreenPage::Trade && appTradeReceiverLocked(trading) && locked &&
+              renderedLabelEquals(root, "RECEIVER  BOB"),
+              "Players List trade entry uses an English LOCKED label beside the selected receiver");
+        check(labelFits(locked) && !lv_obj_has_flag(lv_obj_get_parent(locked), LV_OBJ_FLAG_CLICKABLE),
+              "LOCKED fits inside the receiver row and the row remains disabled");
+        captureDisplay("trade-player-locked-english");
+        appHandleTouch(trading, TouchAction::TradeReceiver, 16);
+        check(!trading.tradeReceiverPickerOpen && trading.tradeReceiver == 1,
+              "touching the locked receiver cannot reopen the picker or change its player");
+        trading.tradeEntryMode = TradeEntryMode::CounterLocked; ++trading.revision;
+        uiRendererRender(trading, 17);
+        check(renderedLabelEquals(root, "COUNTER OFFER") && renderedLabelEquals(root, "LOCKED"),
+              "counter offers share the English lock marker");
+        trading.tradeEntryMode = TradeEntryMode::HomeEditable; ++trading.revision;
+        uiRendererRender(trading, 18); appHandleTouch(trading, TouchAction::TradeReceiver, 19);
+        uiRendererRender(trading, 19);
+        check(trading.tradeReceiverPickerOpen && !renderedLabelEquals(root, "LOCKED") &&
+              renderedLabelEquals(root, "CHOOSE RECEIVER"),
+              "ordinary editable trade still opens its English receiver picker");
     }
     std::printf("%d failed\n", failed);
     return failed ? 1 : 0;

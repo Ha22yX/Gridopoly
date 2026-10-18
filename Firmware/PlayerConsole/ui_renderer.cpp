@@ -170,34 +170,6 @@ uint32_t activityAccent(uint8_t kind);
 void formatActivitySummary(const AppState &state, const TransportGameEvent &event,
                            char *output, size_t outputSize);
 
-static const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST uint8_t kLockedMarkerMap[] = {
-    0x00, 0x00, 0x20, 0x00, 0x01, 0x00, 0x7F, 0xF8, 0x20, 0x20, 0x01, 0x80,
-    0xFF, 0xFC, 0x63, 0x26, 0x7F, 0xFE, 0x00, 0x0C, 0x7D, 0x24, 0x7F, 0xFE,
-    0x00, 0x0C, 0xC0, 0x20, 0x40, 0x02, 0x60, 0x0C, 0xFB, 0xFE, 0x7F, 0xFE,
-    0x60, 0x0C, 0x7B, 0x06, 0xFF, 0xFE, 0x7F, 0xFC, 0x22, 0x22, 0x01, 0x80,
-    0x60, 0x0C, 0xFA, 0x26, 0x11, 0x80, 0x60, 0x00, 0xFA, 0x26, 0x11, 0x80,
-    0x60, 0x00, 0x22, 0x26, 0x31, 0xFC, 0x60, 0x02, 0x22, 0x66, 0x31, 0x80,
-    0x60, 0x06, 0x3E, 0x72, 0x39, 0x80, 0x60, 0x06, 0x39, 0xDC, 0x6D, 0x80,
-    0x3F, 0xFC, 0x37, 0x86, 0xC7, 0xFF, 0x00, 0x00, 0x06, 0x02, 0xC0, 0x00,
-};
-
-const lv_img_dsc_t *lockedMarkerImage()
-{
-    static lv_img_dsc_t image{};
-    static bool initialized = false;
-    if (!initialized) {
-        image.header.cf = LV_IMG_CF_ALPHA_1BIT;
-        image.header.always_zero = 0;
-        image.header.reserved = 0;
-        image.header.w = 48;
-        image.header.h = 16;
-        image.data_size = sizeof(kLockedMarkerMap);
-        image.data = kLockedMarkerMap;
-        initialized = true;
-    }
-    return &image;
-}
-
 void setAnimatedX(void *object, int32_t value)
 {
     lv_obj_set_x(static_cast<lv_obj_t *>(object), static_cast<lv_coord_t>(value));
@@ -742,6 +714,8 @@ bool samePageVisibleStateUnchanged(const AppState &state, const AppState &render
             state.winnerPlayerId == rendered.winnerPlayerId &&
             (state.page != ScreenPage::TagPairing ||
              (state.identity.tagPairSnapshotValid == rendered.identity.tagPairSnapshotValid &&
+               state.identity.tagPairSnapshotFresh == rendered.identity.tagPairSnapshotFresh &&
+               state.identity.tagPairSuccessUntilMs == rendered.identity.tagPairSuccessUntilMs &&
               memcmp(&state.identity.tagPair, &rendered.identity.tagPair,
                      sizeof(state.identity.tagPair)) == 0 &&
               state.pendingCommandMask == rendered.pendingCommandMask)) &&
@@ -1016,6 +990,7 @@ const char *financialKindLabel(uint8_t kind)
         case 18: return "BANKRUPTCY";
         case 21: return "TRADE";
         case 26: return "DEBT";
+        case 31: return "DEBUG ADJUSTMENT";
         default: return "ACCOUNT";
     }
 }
@@ -1192,13 +1167,13 @@ void updateCenterListFocus(const AppState &state)
         const uint8_t count = appVisibleAssetCount(state);
         fillAssetItems(state, items, meta);
         uiCenterListUpdate(centerList, items, count, state.assetListIndex,
-                           "返回", true, appFocusIsFooter(state), true);
+                           "BACK", true, appFocusIsFooter(state), true);
     } else if (state.page == ScreenPage::Players) {
         UiListItemView items[kMaxPlayerCount]{};
         char meta[kMaxPlayerCount][32]{};
         fillPlayerItems(state, items, meta);
         uiCenterListUpdate(centerList, items, state.playerCount, state.playerListIndex,
-                           "返回", true, appFocusIsFooter(state), true);
+                           "BACK", true, appFocusIsFooter(state), true);
     } else if (state.page == ScreenPage::PlayerAssets) {
         UiListItemView items[kPlayerDetailAssetCapacity]{};
         char meta[kPlayerDetailAssetCapacity][24]{};
@@ -1232,7 +1207,7 @@ void updateCenterListFocus(const AppState &state)
         UiListItemView items[kDemoListCount]{};
         fillDemoItems(items);
         uiCenterListUpdate(centerList, items, kDemoListCount, state.demoListIndex,
-                           "返回", true, appFocusIsFooter(state), true);
+                           "BACK", true, appFocusIsFooter(state), true);
     } else if (state.page == ScreenPage::DebtAssets) {
         UiListItemView items[kSyncedAssetCapacity]{};
         char meta[kSyncedAssetCapacity][24]{};
@@ -1513,7 +1488,7 @@ void drawAssets(const AppState &state)
     char meta[kSyncedAssetCapacity][24]{};
     fillAssetItems(state, items, meta);
     uiCenterListCreate(centerList, root, items, count, state.assetListIndex,
-                       "返回", true, appFocusIsFooter(state));
+                       "BACK", true, appFocusIsFooter(state));
 }
 
 void drawBuild(const AppState &state)
@@ -1694,12 +1669,12 @@ void drawPlayers(const AppState &state)
     drawOuterRing(kYellow);
     char subtitle[16];
     snprintf(subtitle, sizeof(subtitle), "%u PLAYERS", state.playerCount);
-    drawHeader("玩家情况", subtitle);
+    drawHeader("PLAYERS LIST", subtitle);
     UiListItemView items[kMaxPlayerCount]{};
     char meta[kMaxPlayerCount][32]{};
     fillPlayerItems(state, items, meta);
     uiCenterListCreate(centerList, root, items, state.playerCount, state.playerListIndex,
-                       "返回", true, appFocusIsFooter(state));
+                       "BACK", true, appFocusIsFooter(state));
 }
 
 lv_obj_t *drawDecisionButton(UiRect rect, const char *text, bool focused,
@@ -1843,23 +1818,18 @@ void drawTradeField(UiRect rect, const char *text, const char *marker,
             lv_obj_clear_flag(inner, LV_OBJ_FLAG_CLICKABLE);
         }
     }
-    uiLabel(field, text, UiRect{12, 9, 184, 28}, &ui_font_16,
+    uiLabel(field, text, UiRect{12, 9, static_cast<int16_t>(enabled ? 184 : 166), 28}, &ui_font_16,
             enabled ? (focused ? kBlue : kText) : kMuted, LV_TEXT_ALIGN_LEFT);
     if (!enabled && !editing) {
-        lv_obj_t *lockedMarker = lv_img_create(field);
-        if (lockedMarker != nullptr) {
-            lv_img_set_src(lockedMarker, lockedMarkerImage());
-            lv_obj_set_pos(lockedMarker, 210, 17);
-            lv_obj_set_style_img_recolor(lockedMarker, lv_color_hex(kMuted), 0);
-            lv_obj_set_style_img_recolor_opa(lockedMarker, LV_OPA_COVER, 0);
-            lv_obj_clear_flag(lockedMarker, LV_OBJ_FLAG_CLICKABLE);
-        }
+        uiLabel(field, "LOCKED", UiRect{184, 9, 74, 28},
+                &lv_font_montserrat_14, kMuted, LV_TEXT_ALIGN_RIGHT);
     } else {
         uiLabel(field, editing ? "EDIT" : marker, UiRect{198, 9, 60, 28},
                 &lv_font_montserrat_14, editing ? kBlue : kMuted,
                 LV_TEXT_ALIGN_RIGHT);
     }
     if (enabled) makeClickable(field, action);
+    else lv_obj_clear_flag(field, LV_OBJ_FLAG_CLICKABLE);
     if (focused && !editing) animateFocusEntry(field);
 }
 
@@ -2112,7 +2082,7 @@ void drawDemoLab(const AppState &state)
     UiListItemView items[kDemoListCount]{};
     fillDemoItems(items);
     uiCenterListCreate(centerList, root, items, kDemoListCount, state.demoListIndex,
-                       "返回", true, appFocusIsFooter(state));
+                       "BACK", true, appFocusIsFooter(state));
 }
 
 void drawDebt(const AppState &state)
@@ -3261,9 +3231,9 @@ void drawTagPairing(const AppState &state)
 {
     const auto view = tagPairView(state);
     const auto &pair = state.identity.tagPair;
-    const bool success = pair.state == TransportTagPairState::SuccessRemove ||
-                         tagPairMayEditIdentity(pair);
-    const uint32_t accent = !state.authorityOnline ? kMuted : (success ? kGreen : kYellow);
+    const bool fresh = appTagPairSnapshotFresh(state);
+    const bool success = fresh && tagPairMayEditIdentity(pair);
+    const uint32_t accent = !fresh ? kMuted : (success ? kGreen : kYellow);
     drawOuterRing(accent);
     drawHeader(view.title, "ROOM SETUP");
     char seat[32];
@@ -3272,8 +3242,10 @@ void drawTagPairing(const AppState &state)
     uiLabel(root, view.instruction, UiRect{70, 162, 340, 54}, &lv_font_montserrat_20, kText);
     uiLabel(root, view.detail, UiRect{90, 228, 300, 66}, &ui_font_16, kMuted);
     char progress[64];
-    if (!state.identity.tagPairSnapshotValid) {
+    if (!fresh) {
         snprintf(progress, sizeof(progress), "WAITING FOR PAIRING DETAILS");
+    } else if (success) {
+        snprintf(progress, sizeof(progress), "YOUR TOKEN IS PAIRED");
     } else if (pair.activePlayerId != 0 && pair.activePlayerId != state.selfSeatId) {
         snprintf(progress, sizeof(progress), "PLAYER %u IS PAIRING", pair.activePlayerId);
     } else if (pair.readerMapIndex != 0xFF) {
@@ -3851,6 +3823,6 @@ void uiRendererShowFault(const char *code)
     uiModalDestroy(activeModal);
     lv_obj_clean(root);
     drawOuterRing(kRed);
-    drawHeader("设备故障", "GRIDOPOLY");
+    drawHeader("DEVICE ERROR", "GRIDOPOLY");
     label(root, code, 90, 205, 300, &lv_font_montserrat_24, kRed);
 }

@@ -32,7 +32,8 @@ TransportTagPairSnapshot pairing(uint8_t self, uint32_t revision, uint8_t active
     snapshot.selfPlayerId = self; snapshot.activePlayerId = active;
     snapshot.revision = revision; snapshot.sessionId = 77; snapshot.flags = kTagPairEnabled;
     snapshot.state = TransportTagPairState::AwaitingTag; snapshot.requiredHumanMask = 15;
-    snapshot.readerMapIndex = 0; std::strcpy(snapshot.moduleId, "tile-reader");
+    snapshot.readerMapIndex = 0; snapshot.expiresInMs = 45000;
+    std::strcpy(snapshot.moduleId, "tile-reader");
     return snapshot;
 }
 void applyPair(AppState &app, const TransportTagPairSnapshot &pair, uint32_t now,
@@ -54,6 +55,134 @@ TransportEvent game(uint8_t self, AuthorityPhase phase, bool full, uint8_t winne
         event.players[i].playerId = i + 1; event.players[i].cash = 800; event.players[i].flags = 4;
     }
     return event;
+}
+
+
+void pairingFreshnessChecks() {
+    for (bool stateFirst : {false, true}) {
+        AppState app{}; appInit(app, 0);
+        appHandleTransportEvent(app, identity(1), 100);
+        auto current = pairing(1, 40); applyPair(app, current, 110);
+        TransportEvent lost{}; lost.kind = TransportEventKind::ConnectionLost;
+        appHandleTransportEvent(app, lost, 120);
+        auto admission = stateFirst ? game(1, AuthorityPhase::Lobby, false) : identity(1);
+        admission.roomId = 100; admission.stateVersion = 20;
+        appHandleTransportEvent(app, admission, 130); appTick(app, 131);
+        check(app.authorityOnline && app.page == ScreenPage::TagPairing &&
+              std::strcmp(tagPairView(app).instruction, "KEEP YOUR TOKEN") == 0 &&
+              !appTagPairCanManage(app),
+              stateFirst ? "State-before-Tag recovery never revives old placement or management"
+                         : "Identity-before-Tag recovery never revives old placement or management");
+        check(!appRequestTagPair(app, TransportTagPairOperation::Retry, 132) &&
+              !appRequestTagPair(app, TransportTagPairOperation::Cancel, 133),
+              "stale pairing projection cannot submit Retry or Cancel after generic recovery");
+        applyPair(app, pairing(1, 39), 140);
+        applyPair(app, pairing(2, 41), 141);
+        applyPair(app, pairing(1, 41), 142, 99);
+        check(app.identity.tagPair.revision == 40 &&
+              std::strcmp(tagPairView(app).instruction, "KEEP YOUR TOKEN") == 0,
+              "old revision, wrong seat and old room cannot refresh retained pairing instructions");
+        applyPair(app, current, 150);
+        check(std::strcmp(tagPairView(app).instruction, "PLACE YOUR TOKEN") == 0 && appTagPairCanManage(app),
+              "current same-revision projection restores placement after recovery");
+        auto next = pairing(1, 41); next.readerMapIndex = 7; applyPair(app, next, 160);
+        check(app.identity.tagPair.readerMapIndex == 7 && appTagPairCanManage(app),
+              "a newer valid projection selects the server's current reader");
+        TransportEvent syncing{}; syncing.kind = TransportEventKind::JoinStatusChanged;
+        syncing.joinStatus = TransportJoinStatus::Syncing;
+        appHandleTransportEvent(app, syncing, 170);
+        appHandleTransportEvent(app, identity(1), 180);
+        check(std::strcmp(tagPairView(app).instruction, "KEEP YOUR TOKEN") == 0 && !appTagPairCanManage(app),
+              "new connection Syncing invalidates placement even without a preceding loss event");
+        auto restarted = pairing(1, 1); restarted.sessionId = 901;
+        applyPair(app, restarted, 190, 100, 0, true, true);
+        check(app.identity.tagPair.revision == 1 && appTagPairCanManage(app),
+              "authenticated new epoch can refresh a reset pairing revision");
+    }
+
+    for (auto phase : {TransportTagPairState::ClearRequired, TransportTagPairState::AwaitingTag,
+                       TransportTagPairState::AlreadyBound, TransportTagPairState::MultipleTags}) {
+        AppState app{}; appInit(app, 0); appHandleTransportEvent(app, identity(1), 10);
+        auto pair = pairing(1, 40); pair.state = phase; pair.expiresInMs = 1000;
+        applyPair(app, pair, 100);
+        appHandleTransportEvent(app, identity(1), 1099); appTick(app, 1099);
+        check(appTagPairCanManage(app), "accepting-state prompt remains current before its server deadline");
+        check(!appRequestTagPair(app, TransportTagPairOperation::Retry, 1100),
+              "expired management is rejected even before the next app tick");
+        appTick(app, 1100);
+        check(app.authorityOnline && !appTagPairCanManage(app) &&
+              std::strcmp(tagPairView(app).instruction, "KEEP YOUR TOKEN") == 0,
+              "identity heartbeats cannot extend an expired pairing prompt");
+        pair.expiresInMs = 500; applyPair(app, pair, 1200);
+        check(appTagPairCanManage(app), "current same-revision Tag refreshes the received deadline");
+        appTick(app, 1700);
+        check(!appTagPairCanManage(app), "refreshed Tag uses its new remaining time instead of the old duration");
+        pair.expiresInMs = 0; ++pair.revision; applyPair(app, pair, 1800);
+        check(!appTagPairCanManage(app) && std::strcmp(tagPairView(app).instruction, "KEEP YOUR TOKEN") == 0,
+              "zero remaining time cannot expose an accepting-state placement prompt");
+    }
+    {
+        AppState app{}; appInit(app, 0); appHandleTransportEvent(app, identity(1), 10);
+        auto pair = pairing(1, 40); pair.expiresInMs = 1000;
+        applyPair(app, pair, UINT32_MAX - 499); appTick(app, 499);
+        check(appTagPairCanManage(app), "prompt freshness survives millis wrap before the deadline");
+        appTick(app, 500);
+        check(!appTagPairCanManage(app), "prompt expires at the correct wrapped deadline");
+        pair.state = TransportTagPairState::Complete; pair.flags |= kTagPairSelfBound | kTagPairCanEditIdentity;
+        pair.expiresInMs = 0; ++pair.revision; applyPair(app, pair, 600); appTick(app, 1800); appTick(app, 60000);
+        check(!appTagPairBlocksIdentity(app) && std::strcmp(tagPairView(app).title, "TOKEN PAIRED") == 0,
+              "complete and bound snapshots with zero deadline remain valid identity evidence");
+    }
+    for (unsigned order = 0; order < 3; ++order) {
+        AppState app{}; appInit(app, 0);
+        appHandleTransportEvent(app, identity(1), 100);
+        applyPair(app, pairing(1, 40), 110);
+        TransportEvent connecting{}; connecting.kind = TransportEventKind::JoinStatusChanged;
+        connecting.joinStatus = TransportJoinStatus::Connecting;
+        appHandleTransportEvent(app, connecting, 120);
+        auto current = pairing(2, 1, 2); current.sessionId = 902;
+        if (order != 1) applyPair(app, current, 130, 100, 0, true, true);
+        auto admission = order == 2 ? game(2, AuthorityPhase::Lobby, false) : identity(2);
+        admission.roomId = 100; admission.stateVersion = 20;
+        appHandleTransportEvent(app, admission, 140); appTick(app, 141);
+        check(app.selfSeatId == 2 && !app.identity.tagPairSnapshotValid && !appTagPairCanManage(app),
+              "accepted seat change discards the previous seat's pairing revision and controls");
+        applyPair(app, current, 150, 100, 0, order == 1, order == 1);
+        check(app.identity.tagPair.revision == 1 && app.identity.tagPair.selfPlayerId == 2 && appTagPairCanManage(app),
+              "seat change recovers even when its first Tag epoch marker was consumed before admission");
+        applyPair(app, pairing(1, 999), 160);
+        check(app.identity.tagPair.selfPlayerId == 2 && app.identity.tagPair.revision == 1,
+              "previous seat's later packet cannot replace the accepted current-seat projection");
+    }
+    {
+        AppState app{}; appInit(app, 0);
+        appHandleTransportEvent(app, identity(1, 1), 100);
+        auto bound = pairing(1, 40); bound.flags |= kTagPairSelfBound | kTagPairCanEditIdentity;
+        bound.state = TransportTagPairState::SuccessRemove; applyPair(app, bound, 110);
+        appTick(app, 1310); appUpdateAvatarPreloadProgress(app, 30, 30, true);
+        app.identity.draftDirty = true; app.identity.draftRecipe.hairPresetId = 4;
+        std::strcpy(app.identity.draftName, "KEEP");
+        TransportEvent lost{}; lost.kind = TransportEventKind::ConnectionLost;
+        appHandleTransportEvent(app, lost, 1400);
+        appHandleTransportEvent(app, identity(1, 1), 1410); appTick(app, 1411);
+        check(app.page == ScreenPage::AvatarSetup && !appTagPairBlocksIdentity(app) &&
+              app.identity.draftRecipe.hairPresetId == 4 && std::strcmp(app.identity.draftName, "KEEP") == 0,
+              "pairing freshness does not revoke a known binding or discard avatar and name drafts");
+        bound.revision = 41; bound.activePlayerId = 2; bound.state = TransportTagPairState::AwaitingTag;
+        applyPair(app, bound, 1420);
+        check(app.page == ScreenPage::AvatarSetup && !appTagPairBlocksIdentity(app),
+              "next player's reader never pulls a bound player back to pairing");
+        check(std::strcmp(tagPairView(app).instruction, "PLACE YOUR TOKEN") != 0,
+              "bound-player view cannot borrow the next player's placement instruction");
+        app.identity.phase = IdentityClientPhase::Inactive;
+        app.identity.authorityPhase = TransportIdentityPhase::Active;
+        auto gameplay = game(1, AuthorityPhase::AwaitRoll, false); gameplay.roomId = 100;
+        appHandleTransportEvent(app, gameplay, 1500);
+        appHandleTransportEvent(app, lost, 1510);
+        gameplay.resync = true; appHandleTransportEvent(app, gameplay, 1520); appTick(app, 1521);
+        check(app.page != ScreenPage::TagPairing && !appTagPairBlocksIdentity(app) && app.money == 800,
+              "normal gameplay recovery preserves binding and authority while Tag prompts resync separately");
+    }
 }
 
 void holdConfirm(AppState &app, uint32_t now) {
@@ -309,6 +438,7 @@ int main() {
             gridopoly::protocol::IdentitySeatHuman | gridopoly::protocol::IdentitySeatConnected;
     }
     joiningChecks();
+    pairingFreshnessChecks();
     char discovery[17]{}; playerDeviceDiscoveryName(0xdcd102d9b4dcULL, discovery);
     check(std::strcmp(discovery, "GP-dcb4d902d1dc") == 0 && discovery[16] == 0,
           "discovery carries all MAC bytes in canonical order");

@@ -352,6 +352,10 @@ struct IdentityState {
     uint8_t selfStage = 0;
     bool tagPairRequired = false;
     bool tagPairSnapshotValid = false;
+    // Prompt freshness is separate from retained binding/identity evidence.
+    bool tagPairSnapshotFresh = false;
+    uint32_t tagPairReceivedAtMs = 0;
+    uint32_t tagPairPromptMaxAgeMs = 0;
     uint32_t tagPairSuccessUntilMs = 0;
     TransportTagPairSnapshot tagPair{};
     uint8_t avatarPreloadReadyCount = 0;

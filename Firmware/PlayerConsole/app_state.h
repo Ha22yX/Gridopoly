@@ -35,6 +35,7 @@ bool appTradeAssetSelected(const AppState &state, uint8_t assetIndex);
 bool appAuctionOpening(const AppState &state);
 bool appIdentityActive(const AppState &state);
 bool appTagPairBlocksIdentity(const AppState &state);
+bool appTagPairSnapshotFresh(const AppState &state);
 bool appTagPairCanManage(const AppState &state);
 bool appSelfBankrupt(const AppState &state);
 bool appRequestTagPair(AppState &state, TransportTagPairOperation operation, uint32_t nowMs);

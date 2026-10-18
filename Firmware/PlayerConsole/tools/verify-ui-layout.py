@@ -1117,8 +1117,11 @@ def assert_center_list_contract(renderer_source: str, center_header: str,
     draw_field_body = function_body(renderer_code, "drawTradeField")
     if not re.search(r"\breceiverLocked\b[^;]*\bappTradeReceiverLocked\s*\(", draw_trade_body):
         fail("Trade does not query the Player-locked Receiver mode")
-    if not re.search(r"\blockedMarkerImage\s*\(\)", draw_field_body):
-        fail("locked Trade Receiver does not render the fixed 已锁定 marker image")
+    if not re.search(r'\buiLabel\s*\(\s*field\s*,\s*"LOCKED"',
+                     function_body(renderer_source, "drawTradeField")):
+        fail("locked Trade Receiver must render the English LOCKED label")
+    if "lockedMarkerImage" in draw_field_body:
+        fail("Trade must not retain the old Chinese lock bitmap")
     if "\\x" in draw_trade_body:
         fail("Trade introduces escaped UTF-8 instead of raw source text")
 

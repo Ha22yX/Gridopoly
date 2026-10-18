@@ -196,6 +196,27 @@ bool isIdentityPage(ScreenPage page)
            page == ScreenPage::NameHandwriting || page == ScreenPage::PlayerReady;
 }
 
+bool tagPairAcceptsToken(const TransportTagPairSnapshot &pair)
+{
+    return pair.state == TransportTagPairState::ClearRequired ||
+           pair.state == TransportTagPairState::AwaitingTag ||
+           pair.state == TransportTagPairState::AlreadyBound ||
+           pair.state == TransportTagPairState::MultipleTags;
+}
+
+bool tagPairPromptExpired(const AppState &state, uint32_t nowMs)
+{
+    return state.identity.tagPairPromptMaxAgeMs != 0 &&
+           static_cast<uint32_t>(nowMs - state.identity.tagPairReceivedAtMs) >=
+               state.identity.tagPairPromptMaxAgeMs;
+}
+
+void invalidateTagPairPrompt(AppState &state)
+{
+    state.identity.tagPairSnapshotFresh = false;
+    state.identity.tagPairSuccessUntilMs = 0;
+}
+
 void clearIdentityRoomLifecycle(AppState &state)
 {
     state.identity = IdentityState{};
@@ -1799,7 +1820,7 @@ void activate(AppState &state, uint32_t nowMs)
                     state.moveArrivalConfirmed = false;
                     state.landingEventAcknowledged = false;
                     replaceForcedPage(state, ScreenPage::DiceStage);
-                    showToast(state, "骰子请求已发送", nowMs);
+                    showToast(state, "ROLL REQUEST SENT", nowMs);
                 }
                 return;
             }
@@ -2045,10 +2066,10 @@ void activate(AppState &state, uint32_t nowMs)
             if (focus == 0) { state.homePhase = HomePhase::Waiting; state.turnsUntilYou = 3; resetHome(state, 3); }
             else if (focus == 1) { state.homePhase = HomePhase::NextPlayer; state.turnsUntilYou = 1; resetHome(state, 3); }
             else if (focus == 2) { state.homePhase = HomePhase::MyTurn; state.turnsUntilYou = 0; resetHome(state, 4); }
-            else if (focus == 3) showModal(state, ModalKind::CollectRent, true, "等待收租", "砾川",
-                                            "霓虹港湾地租", 120, 0, nowMs + 20000);
-            else if (focus == 4) showModal(state, ModalKind::ForcedPayment, false, "即将付款", "岑蓝",
-                                            "天穹广场地租", 175, 0, nowMs + 10000);
+            else if (focus == 3) showModal(state, ModalKind::CollectRent, true, "COLLECT RENT", "Flint",
+                                            "Neon Harbor rent", 120, 0, nowMs + 20000);
+            else if (focus == 4) showModal(state, ModalKind::ForcedPayment, false, "PAYMENT DUE", "Cyan",
+                                            "Sky Plaza rent", 175, 0, nowMs + 10000);
             else replaceForcedPage(state, ScreenPage::DebtAssets);
             return;
         case ScreenPage::Debt:
@@ -3248,7 +3269,7 @@ void appInit(AppState &state, uint32_t nowMs, bool waitForAuthority)
         state.authorityPlayers[index].cash = kPlayers[index].money;
         state.authorityPlayers[index].flags = 0x04u;
     }
-    state.toast = "旋转浏览 · 按下选择";
+    state.toast = "TURN: BROWSE / PRESS: PICK";
     state.toastUntilMs = nowMs + 1500;
     if (waitForAuthority) {
         state.joinStatus = TransportJoinStatus::Connecting;
@@ -3305,10 +3326,17 @@ bool appTagPairBlocksIdentity(const AppState &state)
              !tagPairMayEditIdentity(state.identity.tagPair)));
 }
 
+bool appTagPairSnapshotFresh(const AppState &state)
+{
+    return state.authorityOnline && state.identity.tagPairSnapshotValid &&
+           state.identity.tagPairSnapshotFresh && state.selfSeatId != 0 &&
+           state.identity.tagPair.selfPlayerId == state.selfSeatId;
+}
+
 bool appTagPairCanManage(const AppState &state)
 {
     const auto &pair = state.identity.tagPair;
-    return state.authorityOnline && state.identity.tagPairSnapshotValid &&
+    return appTagPairSnapshotFresh(state) &&
            (pair.flags & kTagPairEnabled) != 0 && pair.sessionId != 0 &&
            pair.activePlayerId == state.selfSeatId && state.selfSeatId != 0 &&
            (pair.flags & kTagPairSelfBound) == 0 &&
@@ -3319,7 +3347,8 @@ bool appRequestTagPair(AppState &state, TransportTagPairOperation operation, uin
 {
     const bool query = operation == TransportTagPairOperation::Query;
     if (!state.authorityOnline || state.selfSeatId == 0 || state.authorityRoomId == 0 ||
-        state.commandCount == 4 || (!query && !appTagPairCanManage(state)) ||
+        state.commandCount == 4 ||
+        (!query && (!appTagPairCanManage(state) || tagPairPromptExpired(state, nowMs))) ||
         (state.pendingCommandMask & commandMask(TransportCommandKind::TagPairRequest)) != 0) {
         return false;
     }
@@ -4391,6 +4420,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
     HomeNavigationGuard homeGuard(state, nowMs);
     if (event.kind == TransportEventKind::JoinStatusChanged) {
         if (event.joinStatus == TransportJoinStatus::Inactive) return;
+        invalidateTagPairPrompt(state);
         // Admission refusal remains actionable through normal discovery retries.
         // A real Wi-Fi loss uses ConnectionLost and may show Connecting again.
         if (state.joinStatus != TransportJoinStatus::WaitingForNewGame ||
@@ -4437,6 +4467,10 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
         state.identity.tagPair.moduleId[32] = '\0';
         state.identity.tagPair.playerName[16] = '\0';
         state.identity.tagPairSnapshotValid = true;
+        state.identity.tagPairReceivedAtMs = nowMs;
+        const bool expiringPrompt = tagPairAcceptsToken(incoming) && !tagPairMayEditIdentity(incoming);
+        state.identity.tagPairPromptMaxAgeMs = expiringPrompt ? incoming.expiresInMs : 0;
+        state.identity.tagPairSnapshotFresh = !expiringPrompt || incoming.expiresInMs != 0;
         state.identity.tagPairRequired = state.identity.tagPairRequired ||
                                         (incoming.flags & kTagPairEnabled) != 0;
         state.authorityOnline = true;
@@ -4542,6 +4576,16 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
         (roomChanged || authoritativeResync || event.stateVersion > state.stateVersion)) {
         state.stateVersion = event.stateVersion;
     }
+    if (authoritativeProjection && event.selfSeatId != 0 && event.selfSeatId != state.selfSeatId) {
+        // A new authenticated seat may have delivered its first Tag before
+        // this admission event. That packet was correctly rejected for the
+        // old seat; never retain the old seat's revision floor afterward.
+        state.identity.tagPair = TransportTagPairSnapshot{};
+        state.identity.tagPairSnapshotValid = false;
+        state.identity.tagPairPromptMaxAgeMs = 0;
+        invalidateTagPairPrompt(state);
+        clearPendingKind(state, TransportCommandKind::TagPairRequest);
+    }
     const bool admittedProjection = event.roomId != 0 && event.selfSeatId != 0 &&
         ((event.kind == TransportEventKind::IdentitySnapshotReceived && event.identitySeatCount != 0 &&
           event.identityPhase != TransportIdentityPhase::Inactive &&
@@ -4594,6 +4638,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
         case TransportEventKind::MovementCueRetryRequested:
             return;
         case TransportEventKind::ConnectionLost:
+            invalidateTagPairPrompt(state);
             state.authorityOnline = false;
             if (appAwaitingGame(state)) {
                 state.joinStatus = TransportJoinStatus::Connecting;
@@ -4912,7 +4957,7 @@ void appHandleTransportEvent(AppState &state, const TransportEvent &event, uint3
                 }
                 if (refresh && state.debt.selectedMask != previousSelection) {
                     showToast(state,
-                              "\xE8\xB5\x84\xE4\xBA\xA7\xE7\x8A\xB6\xE6\x80\x81\xE5\xB7\xB2\xE5\x8F\x98\xE5\x8C\x96\xEF\xBC\x8C\xE8\xAF\xB7\xE9\x87\x8D\xE6\x96\xB0\xE9\x80\x89\xE6\x8B\xA9",
+                              "ASSETS CHANGED - RESELECT",
                               nowMs);
                 }
                 dismissModal(state);
@@ -5214,6 +5259,10 @@ void appTick(AppState &state, uint32_t nowMs, bool inputPending)
     HomeNavigationGuard homeGuard(state, nowMs);
     if (appAwaitingGame(state)) return;
     if (!appIdentityActive(state) && presentGameOutcome(state)) return;
+    if (state.identity.tagPairSnapshotFresh && tagPairPromptExpired(state, nowMs)) {
+        invalidateTagPairPrompt(state);
+        touchRevision(state);
+    }
     if (state.identity.tagPairSuccessUntilMs != 0 &&
         hasReachedDeadline(nowMs, state.identity.tagPairSuccessUntilMs)) {
         state.identity.tagPairSuccessUntilMs = 0;
@@ -5377,7 +5426,7 @@ void appTick(AppState &state, uint32_t nowMs, bool inputPending)
         if (state.modal.kind == ModalKind::CollectRent) {
             if (state.modal.submitting) return;
             dismissModal(state);
-            showToast(state, "收租超时，已放弃", nowMs);
+            showToast(state, "RENT COLLECTION EXPIRED", nowMs);
             return;
         }
         if (state.modal.kind == ModalKind::ForcedPayment && !state.modal.submitting) {

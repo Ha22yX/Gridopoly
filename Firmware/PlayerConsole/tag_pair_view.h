@@ -13,12 +13,15 @@ inline TagPairView tagPairView(const AppState &state)
     if (!state.authorityOnline) {
         return {"RECONNECTING", "KEEP YOUR TOKEN", "Setup resumes when the screen reconnects."};
     }
-    if (!state.identity.tagPairSnapshotValid) {
-        return {"PAIR YOUR TOKEN", "SYNCING SETUP", "Waiting for your place in the pairing queue."};
+    if (!appTagPairSnapshotFresh(state)) {
+        return {"SYNCING PAIRING", "KEEP YOUR TOKEN", "Waiting for current pairing instructions."};
     }
     const auto &pair = state.identity.tagPair;
     if (state.identity.tagPairSuccessUntilMs != 0) {
         return {"TOKEN PAIRED", "TAKE YOUR TOKEN BACK", "Your avatar setup opens next."};
+    }
+    if (tagPairMayEditIdentity(pair)) {
+        return {"TOKEN PAIRED", "OPENING YOUR SETUP", "Your token is already paired."};
     }
     if (pair.result == 8) {
         return {"COULD NOT SAVE TOKEN", "PLEASE TRY AGAIN", "The server could not save this pairing."};

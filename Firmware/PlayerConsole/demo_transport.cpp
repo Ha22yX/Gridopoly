@@ -12,7 +12,7 @@ constexpr uint8_t kTradeFlagSelfConfirmed = 1u << 0;
 constexpr uint8_t kTradeFlagSelfOriginated = 1u << 2;
 constexpr uint8_t kTradeFlagSelfLastEdited = 1u << 3;
 constexpr uint8_t kTradeFlagTerminal = 1u << 5;
-constexpr char kRollTargetName[] = "霓虹港湾";
+constexpr char kRollTargetName[] = "Neon Harbor";
 
 bool isDue(uint32_t nowMs, uint32_t dueMs)
 {
