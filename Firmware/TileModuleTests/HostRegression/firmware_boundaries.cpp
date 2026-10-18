@@ -50,6 +50,7 @@ TileNetworkSnapshot gNetworkSnapshot{};
 Rgb gPixels[kWs2812Count]{};
 bool gLedReady = true;
 ws2812::Maintenance gLedMaintenance;
+led_scene::FrameKind gFrameKind = led_scene::FrameKind::Ordinary;
 std::uint32_t gMovementCueStartedMs = 0;
 std::uint32_t gPairingCueStartedMs = 0;
 TagScanEvidence gTagScanEvidence{};
@@ -137,12 +138,16 @@ const TileState& currentTileState() { return gNetworkSnapshot.tile; }
 // Real production input projection, scene evaluator and final clamping boundary;
 // only the RTOS mailbox and physical transmitter are substituted on the host.
 void showPixels() {
-  if (gLedReady && !led_scene::sendPixels(gLedTransmitter, gPixels)) gLedReady = false;
+  if (gLedReady && !led_scene::sendPixels(gLedTransmitter, gPixels, gFrameKind)) gLedReady = false;
 }
 void renderLedScene(std::uint32_t now) {
   Rgb color{};
-  if (!gLedMaintenance.color(now, color)) color = led_scene::color(ledSceneInput(), now);
-  std::fill(std::begin(gPixels), std::end(gPixels), color);
+  if (gLedMaintenance.color(now, color)) {
+    gFrameKind = led_scene::FrameKind::Ordinary;
+    std::fill(std::begin(gPixels), std::end(gPixels), color);
+  } else {
+    gFrameKind = led_scene::render(ledSceneInput(), now, gPixels);
+  }
   showPixels();
 }
 void consumeMovement(TileNetworkSnapshot next_network, std::uint32_t now) {
@@ -156,6 +161,7 @@ void setUp() {
   denyLock = false;
   testMillis = 1000;
   gLedMaintenance = {};
+  gFrameKind = led_scene::FrameKind::Ordinary;
   gLedTransmitter = {};
   gLedReady = true;
   std::fill(std::begin(gPixels), std::end(gPixels), Rgb{});
@@ -291,28 +297,31 @@ void test_every_connection_state_is_dim_and_keeps_breath_period() {
     assertSentColor(low);
   }
 }
-void test_all_pairing_states_share_dimming_including_success() {
+void test_all_pairing_states_project_colored_meteors_including_success() {
   auto &pair = gNetworkSnapshot.pairing;
   pair.active = true; pair.room_id = 1; pair.session_id = 2;
   pair.received_ms = 1000; pair.lease_ms = 5000;
   gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
   for (unsigned state = 1; state <= 10; ++state) {
     pair.state = static_cast<TilePairingState>(state);
-    const bool success = pair.state == TilePairingState::SuccessRemove ||
-                         pair.state == TilePairingState::Complete;
-    const bool waiting = pair.state == TilePairingState::WaitingReader ||
-                         pair.state == TilePairingState::AwaitingTag;
     renderLedScene(1000);
-    const auto low = gPixels[0];
-    for (std::uint32_t elapsed = 0; elapsed < 1400; ++elapsed) {
+    const auto head = led_scene::pairingHead(pair.state);
+    TEST_ASSERT_EQUAL_UINT8(head.red, gPixels[0].red);
+    TEST_ASSERT_EQUAL_UINT8(head.green, gPixels[0].green);
+    TEST_ASSERT_EQUAL_UINT8(head.blue, gPixels[0].blue);
+    for (std::uint32_t elapsed = 0; elapsed < 2000; elapsed += 20) {
       renderLedScene(1000 + elapsed);
-      assertWholeRing();
-      if (success) assertSentColor({2,13,5});
+      TEST_ASSERT_EQUAL(led_scene::FrameKind::Meteor, gFrameKind);
+      for (const auto p : gLedTransmitter.sent) {
+        TEST_ASSERT_LESS_OR_EQUAL_UINT8(32, p.red);
+        TEST_ASSERT_LESS_OR_EQUAL_UINT8(32, p.green);
+        TEST_ASSERT_LESS_OR_EQUAL_UINT8(32, p.blue);
+      }
     }
-    renderLedScene(1700);
-    assertSentColor(success ? Rgb{2,13,5} : waiting ? Rgb{4,6,15} : Rgb{15,6,2});
-    renderLedScene(2400);
-    assertSentColor(low);
+    renderLedScene(1200);
+    TEST_ASSERT_EQUAL_UINT8(head.red, gPixels[1].red);
+    TEST_ASSERT_EQUAL_UINT8(head.green, gPixels[1].green);
+    TEST_ASSERT_EQUAL_UINT8(head.blue, gPixels[1].blue);
   }
 }
 void test_idle_owned_and_occupied_scenes_are_dim() {
@@ -341,34 +350,22 @@ void test_idle_owned_and_occupied_scenes_are_dim() {
     }
   }
 }
-void test_destination_smooth_breath_and_departure_remain_distinct() {
+void test_destination_and_departure_project_distinct_rotating_meteors() {
   gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
-  bool levels[17]{};
-  Rgb previous{};
-  for (std::uint32_t elapsed = 0; elapsed <= 4800; elapsed += 20) {
-    renderLedScene(1000 + elapsed);
-    assertWholeRing();
-    const auto color = gPixels[0];
-    TEST_ASSERT_GREATER_THAN_UINT8(color.red, color.green);
-    TEST_ASSERT_GREATER_THAN_UINT8(color.blue, color.green);
-    TEST_ASSERT_GREATER_OR_EQUAL_UINT8(3, color.green);
-    TEST_ASSERT_LESS_OR_EQUAL_UINT8(15, color.green);
-    levels[color.green] = true;
-    if (elapsed != 0) {
-      TEST_ASSERT_INT_WITHIN(1, previous.red, color.red);
-      TEST_ASSERT_INT_WITHIN(1, previous.green, color.green);
-      TEST_ASSERT_INT_WITHIN(1, previous.blue, color.blue);
-    }
-    previous = color;
+  for (unsigned head = 0; head < kWs2812Count; ++head) {
+    renderLedScene(1000 + head * 200);
+    TEST_ASSERT_EQUAL_UINT8(32, gPixels[head].green);
+    TEST_ASSERT_GREATER_THAN_UINT8(gPixels[head].red, gPixels[head].green);
+    TEST_ASSERT_GREATER_THAN_UINT8(gPixels[head].blue, gPixels[head].green);
+    TEST_ASSERT_EQUAL_UINT8(0, gPixels[(head + 3) % kWs2812Count].green);
   }
-  for (unsigned value = 3; value <= 15; ++value) TEST_ASSERT_TRUE(levels[value]);
-  renderLedScene(1000); assertSentColor({1,3,2});
-  renderLedScene(2200); assertSentColor({5,15,12});
-  renderLedScene(3400); assertSentColor({1,3,2});
   gNetworkSnapshot.movement.mode = TileMovementCue::Departure;
-  renderLedScene(1000); assertSentColor({3,2,1});
-  renderLedScene(1800); assertSentColor({14,8,4});
-  renderLedScene(2600); assertSentColor({3,2,1});
+  renderLedScene(1000);
+  TEST_ASSERT_EQUAL_UINT8(32, gPixels[0].red);
+  TEST_ASSERT_EQUAL_UINT8(19, gPixels[0].green);
+  TEST_ASSERT_EQUAL_UINT8(10, gPixels[0].blue);
+  renderLedScene(1200);
+  TEST_ASSERT_EQUAL_UINT8(32, gPixels[1].red);
 }
 void test_heartbeat_resync_preserves_animation_origin() {
   auto snapshot = gNetworkSnapshot;
@@ -396,6 +393,28 @@ void test_heartbeat_resync_preserves_animation_origin() {
   TEST_ASSERT_EQUAL_UINT8(4, gPixels[0].red);
   TEST_ASSERT_EQUAL_UINT8(0, gPixels[0].green);
   assertWholeRing();
+}
+
+void test_pairing_phase_tracks_real_context_not_revision_or_player_name() {
+  auto next = gNetworkSnapshot;
+  next.pairing = {true, TilePairingState::AwaitingTag, 3, 4, 5, 5000, 1234, 1, {}};
+  consumeMovement(next, 1234);
+  TEST_ASSERT_EQUAL_UINT32(1234, gPairingCueStartedMs);
+  ++next.pairing.revision;
+  std::strcpy(next.pairing.player_name, "PLAYER ONE");
+  next.pairing.received_ms = 4567;
+  consumeMovement(next, 4567);
+  TEST_ASSERT_EQUAL_UINT32(1234, gPairingCueStartedMs);
+  next.pairing.state = TilePairingState::SuccessRemove;
+  consumeMovement(next, 5000);
+  TEST_ASSERT_EQUAL_UINT32(5000, gPairingCueStartedMs);
+  // A refreshed identical context after the old lease really ended restarts.
+  next.pairing.received_ms = 10000;
+  consumeMovement(next, 10000);
+  TEST_ASSERT_EQUAL_UINT32(10000, gPairingCueStartedMs);
+  ++next.pairing.session_id;
+  consumeMovement(next, 10100);
+  TEST_ASSERT_EQUAL_UINT32(10100, gPairingCueStartedMs);
 }
 
 void test_transport_and_cue_updates_do_not_invalidate_tile_page() {
@@ -591,7 +610,7 @@ void test_pairing_priority_clear_and_lease_rollover() {
   gNetworkSnapshot.movement.mode = TileMovementCue::Destination;
   renderLedScene(1000);
   TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].green, gPixels[0].blue);
-  assertWholeRing();
+  TEST_ASSERT_EQUAL(led_scene::FrameKind::Meteor, gFrameKind);
   pair.state = TilePairingState::AlreadyBound;
   renderLedScene(1000);
   TEST_ASSERT_GREATER_THAN_UINT8(gPixels[0].green, gPixels[0].red);
@@ -616,7 +635,9 @@ void test_led_maintenance_expires_into_current_game_scene() {
     renderLedScene(1999);
     assertSentColor(colors[i]);  // Fixed physical 8/255, not quartered to two.
     renderLedScene(2000);
-    assertSentColor(led_scene::color(ledSceneInput(), 2000));
+    Rgb expected[kWs2812Count]{};
+    led_scene::render(ledSceneInput(), 2000, expected);
+    TEST_ASSERT_EQUAL_MEMORY(expected, gLedTransmitter.sent, sizeof(expected));
     TEST_ASSERT_EQUAL(ws2812::Mode::Scene, gLedMaintenance.mode(1001));
     TEST_ASSERT_EQUAL_MEMORY(&before, &gNetworkSnapshot, sizeof(before));
   }
@@ -629,10 +650,11 @@ int main() {
   RUN_TEST(test_full_inventory_and_overflow_remain_consistent);
   RUN_TEST(test_final_send_caps_every_pixel_without_compounding);
   RUN_TEST(test_every_connection_state_is_dim_and_keeps_breath_period);
-  RUN_TEST(test_all_pairing_states_share_dimming_including_success);
+  RUN_TEST(test_all_pairing_states_project_colored_meteors_including_success);
   RUN_TEST(test_idle_owned_and_occupied_scenes_are_dim);
-  RUN_TEST(test_destination_smooth_breath_and_departure_remain_distinct);
+  RUN_TEST(test_destination_and_departure_project_distinct_rotating_meteors);
   RUN_TEST(test_heartbeat_resync_preserves_animation_origin);
+  RUN_TEST(test_pairing_phase_tracks_real_context_not_revision_or_player_name);
   RUN_TEST(test_transport_and_cue_updates_do_not_invalidate_tile_page);
   RUN_TEST(test_safe_display_restores_8mhz_controller_before_normal_page);
   RUN_TEST(test_display_initialization_rotates_only_panel_at_safe_rate);

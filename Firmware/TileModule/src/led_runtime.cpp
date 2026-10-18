@@ -51,11 +51,20 @@ void worker(void *) {
       if (gap > 2U * led_scene::kFrameMs) ++status.late_frames;
     }
     previous_ms = now;
-    status.requested = animator.sample(now);
+    status.pattern = animator.render(now, pixels);
     status.mode = animator.mode(now);
     status.remaining_ms = animator.remaining(now);
-    std::fill(std::begin(pixels), std::end(pixels), status.requested);
-    const bool sent = led_scene::sendPixels(gTransmitter, pixels);
+    const bool sent = led_scene::sendPixels(gTransmitter, pixels, status.pattern);
+    status.requested = pixels[0];
+    status.peak_index = status.peak_channel = 0;
+    for (unsigned i = 0; i < board::kWs2812Count; ++i) {
+      status.pixels[i] = pixels[i];
+      const auto peak = std::max(pixels[i].red, std::max(pixels[i].green, pixels[i].blue));
+      if (peak > status.peak_channel) {
+        status.peak_channel = peak;
+        status.peak_index = static_cast<std::uint8_t>(i);
+      }
+    }
     status.output = gTransmitter.status();
     ++status.frames;
     publishStatus(status);

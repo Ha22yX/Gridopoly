@@ -1,6 +1,6 @@
 # Gridopoly 文档中心
 
-更新：2026-10-17晚间。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)：Pi 原右键菜单内资金/归属编辑已获用户确认，配对稳定性修复已部署；16格已具备按需房屋/旅馆图片，COM10 已升级 V0.38 平滑呼吸并获用户确认，另外15块仍 V0.37。四台玩家屏已升级英文/配对提示固件，保留弧形电池和防抖；画面、电量及LOCKED已确认，COM7首次电量通信异常经用户手动重开恢复。详见[本轮部署记录](firmware/debug-tools-pairing-rollout-2026-10-17.md)。真实新局配对、完整四真人实体一局、动态显示/性能、电气和新机械实装仍分项待验。冻结包 trial16-2026-10-15-v4 不包含后续全部单台升级。
+更新：2026-10-17晚间。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)：COM10、COM16/17/18已写入V0.39旋转流星提示，另外12板仍V0.37；COM10尾两灯在旧版也不亮，单板故障点待查，详见[流星与四板升级](firmware/tile-meteor-cues-2026-10-17.md)。16格已具备按需房屋/旅馆图片。Pi原右键菜单内资金/归属编辑已获用户确认，配对稳定性修复已部署；四台玩家屏英文/配对提示、弧形电池和防抖已部署，画面、电量及LOCKED已确认，COM7首次电量通信异常经手动重开恢复。[前阶段部署记录](firmware/debug-tools-pairing-rollout-2026-10-17.md)保留。真实新局配对、完整四真人实体一局、动态显示/性能、电气和新机械实装仍分项待验。冻结包trial16-2026-10-15-v4不包含后续全部单台升级。
 
 ## 当前状态入口
 
@@ -9,6 +9,7 @@
 | 要查的内容 | 文档 |
 | --- | --- |
 | 全项目当前结果与责任 | [当前交接](CURRENT-DEVELOPMENT-HANDOFF.md) |
+| 配对/来源/目标流星灯、COM10尾两灯不亮 | [V0.39实现、四板部署及同板旧版对照](firmware/tile-meteor-cues-2026-10-17.md) |
 | 右键调试、开局配对、柔和呼吸、英文UI | [本轮集成与实际部署](firmware/debug-tools-pairing-rollout-2026-10-17.md)、[服务器修复](firmware/server-debug-pairing-2026-10-17.md)、[格子V0.38](firmware/tile-cue-pairing-2026-10-17.md)、[玩家英文/配对](firmware/player-tag-pair-freshness-2026-10-17.md) |
 | 16 格试玩开发、四板一批烧录 | [本轮发布与验收](firmware/trial16-release-2026-10-15.md) |
 | 当前设备IP、MAC、串口、实际固件 | [最后有证据的设备台账](firmware/current-device-connections.md)，不是实时在线状态 |

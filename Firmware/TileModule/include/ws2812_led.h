@@ -42,7 +42,12 @@ bool encode(const Rgb *pixels, std::size_t count, Symbol *symbols,
   return true;
 }
 
-enum class Mode : std::uint8_t { Scene, Off, Red, Green, Blue, Destination, Departure };
+enum class Mode : std::uint8_t { Scene, Off, Red, Green, Blue, Destination, Departure,
+                               Pairing, PairingSuccess, PairingClear };
+inline bool isCuePreview(Mode mode) {
+  return mode == Mode::Destination || mode == Mode::Departure || mode == Mode::Pairing ||
+         mode == Mode::PairingSuccess || mode == Mode::PairingClear;
+}
 inline const char *modeName(Mode mode) {
   switch (mode) {
     case Mode::Off: return "off";
@@ -51,6 +56,9 @@ inline const char *modeName(Mode mode) {
     case Mode::Blue: return "blue";
     case Mode::Destination: return "destination-preview";
     case Mode::Departure: return "departure-preview";
+    case Mode::Pairing: return "pairing-preview";
+    case Mode::PairingSuccess: return "pairing-success-preview";
+    case Mode::PairingClear: return "pairing-clear-preview";
     default: return "scene";
   }
 }
@@ -67,9 +75,11 @@ inline Command parseCommand(const char *text) {
   if (std::strcmp(text, "LED STATUS") == 0) return {true, true, Mode::Scene, 0};
   if (std::strcmp(text, "LED AUTO") == 0) return {true, false, Mode::Scene, 0};
   const char *prefixes[]{"LED OFF ", "LED RED ", "LED GREEN ", "LED BLUE ",
-                         "LED DESTINATION ", "LED DEPARTURE "};
-  const Mode modes[]{Mode::Off, Mode::Red, Mode::Green, Mode::Blue, Mode::Destination, Mode::Departure};
-  for (unsigned i = 0; i < 6; ++i) {
+                         "LED DESTINATION ", "LED DEPARTURE ", "LED PAIRING ",
+                         "LED PAIRING-SUCCESS ", "LED PAIRING-CLEAR "};
+  const Mode modes[]{Mode::Off, Mode::Red, Mode::Green, Mode::Blue, Mode::Destination, Mode::Departure,
+                     Mode::Pairing, Mode::PairingSuccess, Mode::PairingClear};
+  for (unsigned i = 0; i < sizeof(modes) / sizeof(modes[0]); ++i) {
     const auto length = std::strlen(prefixes[i]);
     if (std::strncmp(text, prefixes[i], length) != 0) continue;
     const char *number = text + length;
@@ -109,7 +119,7 @@ class Maintenance {
   bool color(std::uint32_t now, Rgb &out) {
     expire(now);  // Permanently retire the window, including a later millis wrap.
     const Mode current = mode(now);
-    if (current == Mode::Scene || current == Mode::Destination || current == Mode::Departure) return false;
+    if (current == Mode::Scene || isCuePreview(current)) return false;
     out = {0, 0, 0};
     if (current == Mode::Red) out.red = kDiagnosticLevel;
     if (current == Mode::Green) out.green = kDiagnosticLevel;

@@ -2214,6 +2214,13 @@ void printLedStatus() {
                 static_cast<unsigned long>(led_scene::kFrameMs),
                 static_cast<unsigned long>(runtime.max_gap_ms),
                 static_cast<unsigned long>(runtime.late_frames));
+  Serial.printf("[WS2812-FRAME] pattern=%s limit=%u peak_index=%u peak_channel=%u pixel0=requested_rgb pixels=",
+                runtime.pattern == led_scene::FrameKind::Meteor ? "meteor" : "ordinary",
+                led_scene::channelLimit(runtime.pattern), runtime.peak_index, runtime.peak_channel);
+  for (unsigned i = 0; i < kWs2812Count; ++i)
+    Serial.printf("%s%u,%u,%u", i ? ";" : "", runtime.pixels[i].red,
+                  runtime.pixels[i].green, runtime.pixels[i].blue);
+  Serial.println();
 }
 
 void printStatus() {
@@ -2303,7 +2310,8 @@ void printHelp() {
   Serial.println(F("  RESTART           restart ESP32-S3 for boot timing test"));
   Serial.println(F("  BRIGHTNESS 0..255 set LCD backlight PWM"));
   Serial.println(F("  LED STATUS        print driver and requested-pixel state"));
-  Serial.println(F("  LED DESTINATION|DEPARTURE 1..30  local cue preview, auto restore"));
+  Serial.println(F("  LED DESTINATION|DEPARTURE|PAIRING 1..30  meteor preview, auto restore"));
+  Serial.println(F("  LED PAIRING-SUCCESS|PAIRING-CLEAR 1..30  local pairing cue preview"));
   Serial.println(F("  LED OFF|RED|GREEN|BLUE seconds  local override, 1..30 s, level 8"));
   Serial.println(F("  LED AUTO          restore normal game lighting immediately"));
   Serial.println(F("  STATUS            print current state and power"));
@@ -2335,7 +2343,7 @@ void processCommand(char *command) {
   } else if (std::strncmp(command, "LED", 3) == 0) {
     const auto led_command = ws2812::parseCommand(command);
     if (!led_command.valid) {
-      Serial.println(F("ERR: LED STATUS, LED AUTO, or LED OFF|RED|GREEN|BLUE|DESTINATION|DEPARTURE 1..30"));
+      Serial.println(F("ERR: LED STATUS, LED AUTO, or LED OFF|RED|GREEN|BLUE|DESTINATION|DEPARTURE|PAIRING|PAIRING-SUCCESS|PAIRING-CLEAR 1..30"));
       return;
     }
     if (!led_command.status_only && !submitLedCommand(led_command, millis()))
@@ -2511,7 +2519,7 @@ void loop() {
                             gNetworkSnapshot.module_id) != 0));
     const bool movement_changed = movementContextChanged(next_network, gNetworkSnapshot);
     const std::uint32_t cue_now = millis();
-    if (pairingChanged(next_network.pairing, gNetworkSnapshot.pairing)) {
+    if (led_scene::pairingContextChanged(next_network.pairing, gNetworkSnapshot.pairing, cue_now)) {
       gPairingCueStartedMs = cue_now;
     }
     gNetworkSnapshot = next_network;
