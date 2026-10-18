@@ -229,3 +229,57 @@ rendering, firmware deployment and live acceptance are separate main-task gates.
 本轮唯一仓库修改是本进度报告的追加；本轮文件SHA另存到最终hair证据目录的 `handoff-files.json`。原1,362,537字节历史候选及其所有证据未覆盖。服务器源码和已交付 `00c978af...` 正常候选未修改或重编译，8组代码回归未重复；没有部署或操作线上状态。
 
 玩家任务另报告首轮ESP32普通固件编译遇编译器内部错误，并继续处理等价修复、用户新增RANDOM按钮/NameReview问题；这些属于玩家端后续构建事项。本轮字节对照通过不宣称玩家固件已经构建或实机验收通过。最终acceptance元数据、浏览器美术验收、统一交接及部署决策仍由主会话负责。本端素材对照任务无剩余阻塞，报告交由主会话审核。
+
+## Pi 升级预检及待启用方案（2026-10-18 02:16 EDT）
+
+主会话已通知本轮普通12MHz玩家候选为 `99f6a840…`，四台玩家屏由玩家任务逐台写验；本端先准备Pi升级，**须等主会话确认四屏写验完成才启用**。这段记录为预检/准备状态，不是部署完成记录。仅追加本报告，没有修改其他仓库文件、Git索引或现有网络改动。
+
+### 只读生产现况
+
+- 02:14:49和02:16:00 EDT两次只读检查：生产磁盘与运行进程均为 `fb03d800d45bd8759775404d792dcd9df88dd32893db6dad265fc63f23c9c7f7`，644832 bytes，PID1890195。游戏、AP、DHCP和watchdog均active/enabled，网络服务PID分别718/719/720。
+- `/etc/gridopoly/server.env` 没有头像版本或组件目录覆盖项；旧服务默认V1。`components-v1`现有31文件（30组件及manifest），`components-v2`尚不存在。只记录env整体哈希及非敏感配置，未输出PSK或SSH凭据。
+- 当前房间 `993580119`、游戏version33、16格棋盘、4真人0机器人，身份处于AvatarSetup。直接只读解析 `identity.bin` 并验证schema/长度/CRC，确认房间catalog=1、identity revision46。P1/P2/P3头像已确认、P4未确认，全部姓名未确认；没有正在生成的头像。
+- 三个已确认头像分别为P1 revision1/hash `e5cf7fbc099456f0`、P2 revision4/hash `94dd3d786c3b5d51`、P3 revision3/hash `be3df1ace877e276`，配方均catalog1。原始配方、姓名、席位状态及文件哈希已保存到本地证据。
+- 四台设备均online/eligible，席位与设备身份保留；配对complete、boundMask15。16格全部V0.39、online/assigned/reader stable，ORDER ready，四角0/4/8/12。
+- 持久化原件均为0600：`state.bin` 1952 bytes/SHA `0fe482125e7bcad50ab6bb4e8358f9d17e7328a6906f4ed4c20bd8dccb8b8a95`；`identity.bin` 1730 bytes/SHA `32717ae3ac3e4c2735768962b332e2135588c6e619d33149a8001b117c93d660`；`authority.meta` 295 bytes/SHA `82e7381a3404dda6c40628b9048817c0762f536dc97aee7b6af06fc7101bec7c`；`device-seats.bin` 52 bytes/SHA `2837706e6c6faf053cfee4311e6fd683ec0dcc9ca8babd962ff1df1cad50c9e7`。这是现场时点快照，后续玩家操作可能自然更新。
+
+证据：`C:/Users/kicof/AppData/Local/GridopolyAvatarV2Deploy/audit-20261018-061447/audit.json`、`audit-20261018-061558/audit.json`。目录可能由Windows应用映射至该应用LocalCache，但上述原路径可读取。
+
+### 已冻结的升级载荷
+
+重新对现成候选做文件哈希检查，未编译或重复回归。服务器645672 bytes/SHA `00c978afdb9fa19923c2458754cb69fd6e13d7f9f9fb186555a331c826c6bf20`；当前仓库、最终hair快照及本轮部署快照三处31组件逐文件相同，共 **1,353,679 bytes**，外部和内嵌manifest均为 `441d37f6a34db86a41c5d35e4b0cc78ac6bb7a9de75b39ee1ac8bf3b528ba96e`。
+
+本地待部署载荷在 `C:/Users/kicof/AppData/Local/GridopolyAvatarV2Deploy/payload/`，逐文件清单为同目录上一级 `payload-manifest.json`。窄范围部署及回退程序 `apply_remote.py`、上传入口 `deploy.py` 已准备并通过Python语法解析；未执行部署入口、未上传、未写Pi或重启服务。
+
+### 确认后的执行边界
+
+1. 重新检查实际旧二进制、当前有效V1身份和配置，上传并逐项核验载荷。以目录锁及同文件系统原子重命名安装完整V2目录；如已存在不同字节，拒绝覆盖已发布版本。
+2. 仅停止 `gridopoly` 游戏服务，让其正常落盘；在独立受限备份目录保存旧二进制、原env、全部游戏数据压缩包、停止后的身份及文件清单。AP、DHCP、watchdog不停止或重启。
+3. 原子替换游戏二进制；仅向原env追加 `GRIDOPOLY_AVATAR_COMPONENT_V2_ROOT=/usr/local/share/gridopoly/avatar/components-v2` 和 `GRIDOPOLY_AVATAR_CATALOG_VERSION=2`，保留其他配置。启动游戏服务后检查实际进程二进制和生效的这两项配置。
+4. 必要部署验证仅包括健康状态、31个V2组件HTTP返回字节、旧V1组件/已确认头像可访问、原房间catalog/身份保持、四屏及16格恢复、网络服务PID及配置/旧素材哈希保持。旧房间继续V1，下一次用户开新局才用V2；不自动开局或迁移已有配方。
+5. 部署失败时，当前仍为有效V1房间可恢复旧二进制和原env，保留当前游戏数据及已安装不可变V2组件。若已经产生V2房间，拒绝直接回退不支持V2的旧服务；先保留数据并报告，由主会话确定后续恢复。不会用旧数据快照覆盖玩家已完成的操作。
+
+当前本端准备完成，唯一启用前提是主会话明确通知四屏本轮写验完成。共享设备台账、全局交接及Git由主会话维护；新头像实屏观感、RANDOM和姓名页现场验收仍由主会话/玩家任务闭环。
+
+## Pi V2 配套部署完成（2026-10-18 02:19–02:21 EDT）
+
+主会话已独立核对COM28/27/29/7四份 `flash.json`，四屏均为 `99f6a840…`、各4段写验成功且NVS未写，COM7最后写验于06:18:58 UTC结束；随后明确通知本端启用已准备的窄范围部署。本端依此执行，未重编译或重复已通过的回归。
+
+### 实际部署和只读验证
+
+- 部署入口exit0/status `DEPLOYED`；实际运行PID **2086790**，`/proc/<pid>/exe` SHA-256 **`00c978afdb9fa19923c2458754cb69fd6e13d7f9f9fb186555a331c826c6bf20`**。只短停/启动 `gridopoly`。
+- 最终31个V2组件 **1,353,679 bytes**，内嵌manifest SHA **`441d37f6a34db86a41c5d35e4b0cc78ac6bb7a9de75b39ee1ac8bf3b528ba96e`**，已安装到 `/usr/local/share/gridopoly/avatar/components-v2`。安装后逐文件及31个 `/assets/avatar-components/v2/…` HTTP响应SHA均与冻结清单相同，缓存头为不可变资源策略。
+- 原env仅增加V2组件目录和 `GRIDOPOLY_AVATAR_CATALOG_VERSION=2` 两项；直接读取新进程环境确认两项已生效。旧env SHA `6a75fec645c2b68bd69a6b9babb3d73b0cc9435e20efe2b0c3b26214fbb4838c`，新env SHA `521c083e8036e91b87f9a6bb8f22325d4e0142ad24ba401b5f32a696fe616ca5`，其余字节保持。
+- **当前房间仍为 `993580119` / catalog1**；停止后备份身份与恢复后身份除在线位和房间identity revision外完全相同。配方、席位revision、头像revision/hash、姓名和身份阶段均保持，业务字段差异为空。游戏version41→50、identity revision54→62包含服务恢复/设备上下线变化，不声称版本号不变。
+- P4在02:16预检后、真正部署前已在原V1局确认头像（revision1/hash `9f772c3343b60277`）；本次以停机前最新数据为准保留此操作。P1/P2/P3仍为前述原头像。四个既有头像HTTP响应与停机备份文件SHA全部相同；V1组件HTTP访问通过。
+- 四台玩家屏均恢复online/eligible，席位1～4与原deviceId对应保持。16格全部online/assigned/reader stable、V0.39，ORDER ready。线上恢复不替代实屏观感或电池异常验收。
+- AP、DHCP、watchdog PID仍分别 **718/719/720**；相关配置/服务文件、V1组件和地产素材逐文件SHA全部保持。未改AP/热点、未应用工作区未提交网络修改、未新建房间、未修改Tag或主动提交头像。
+
+### 备份与证据
+
+- Pi受限备份：`/var/lib/gridopoly-avatar-v2-deploy/gridopoly-avatar-v2-deploy-20261018-061933`，目录0700；含 `previous-gridopoly_server`、`previous-server.env`、`candidate-server.env`、停止后的完整 `game-data.tar.gz` 和前后状态/组件检查清单。
+- `game-data.tar.gz` 为0600、7,581,663 bytes，SHA **`fcbf98814816c13f63ce1017f3aec99c5542d682b64f1184cf462aff44870c42`**。只读打开压缩包并对全部 **300个游戏数据文件** 重新计算SHA，与停止后的清单完全相同；旧二进制备份SHA再次确认是fb03d800完整值。没有执行回退，也没有写回旧数据。
+- Pi本轮上传载荷及窄范围回退程序保存在 `/home/kicofy/gridopoly-avatar-v2-deploy-20261018-061933`。旧服务回退仍受V1有效房间保护；如果用户后来创建V2房间，不可直接降回不支持V2的旧服务。
+- 本地证据：`C:/Users/kicof/AppData/Local/GridopolyAvatarV2Deploy/deployment-20261018-061933/`，含 `result.json`、`before.json`、`after.json`、`summary.json`、`component-http.json`、`existing-avatar-http.json`、`stopped-identity.json`、`stopped-file-hashes.json`、`protected-before.json`、`backup-verification.json`；stderr为空。
+
+本端这轮服务器/组件部署已完成，无部署阻塞。**下一次新局默认V2；当前V1局不会自动换成新头像。** 本端没有开新局，V2新局真实选头像及显示验收仍由主会话在用户允许的现场流程中推进。COM28/29电池通信异常由主会话/玩家任务安排物理恢复，本次不认领为已修复。仓库仅追加本报告，统一台账、交接和Git由主会话负责。
