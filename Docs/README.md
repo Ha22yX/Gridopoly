@@ -1,6 +1,6 @@
 # Gridopoly 文档中心
 
-更新：2026-10-15晚间。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)：16板normal V0.34、24V供电及线圈抬高后的读卡、真实16闭环/四角自动分配已有证据；USB热点20台及开机/重启恢复已验。COM29仍12MHz诊断、普通候选未部署；完整四真人实体游戏、动态显示/性能、电气和新机械实装待验。最新批量包仍trial16-2026-10-15-v4，冻结包与后续单台/网络部署有差异。
+更新：2026-10-17晚间。先读[当前开发交接](CURRENT-DEVELOPMENT-HANDOFF.md)：Pi 原右键菜单内资金/归属编辑已获用户确认，配对稳定性修复已部署；16格已具备按需房屋/旅馆图片，COM10 已升级 V0.38 平滑呼吸并获用户确认，另外15块仍 V0.37。四台玩家屏已升级英文/配对提示固件，保留弧形电池和防抖；画面、电量及LOCKED已确认，COM7首次电量通信异常经用户手动重开恢复。详见[本轮部署记录](firmware/debug-tools-pairing-rollout-2026-10-17.md)。真实新局配对、完整四真人实体一局、动态显示/性能、电气和新机械实装仍分项待验。冻结包 trial16-2026-10-15-v4 不包含后续全部单台升级。
 
 ## 当前状态入口
 
@@ -9,13 +9,14 @@
 | 要查的内容 | 文档 |
 | --- | --- |
 | 全项目当前结果与责任 | [当前交接](CURRENT-DEVELOPMENT-HANDOFF.md) |
+| 右键调试、开局配对、柔和呼吸、英文UI | [本轮集成与实际部署](firmware/debug-tools-pairing-rollout-2026-10-17.md)、[服务器修复](firmware/server-debug-pairing-2026-10-17.md)、[格子V0.38](firmware/tile-cue-pairing-2026-10-17.md)、[玩家英文/配对](firmware/player-tag-pair-freshness-2026-10-17.md) |
 | 16 格试玩开发、四板一批烧录 | [本轮发布与验收](firmware/trial16-release-2026-10-15.md) |
 | 当前设备IP、MAC、串口、实际固件 | [最后有证据的设备台账](firmware/current-device-connections.md)，不是实时在线状态 |
 | 候选包与批量刷写 | [本轮16格冻结包](firmware/trial16-release-2026-10-15.md)、[批量工具](../Tools/release/README.md)；[历史32格v4](firmware/batch32-game-release-2026-09-26.md) |
 | 全在线16/24/32/40环、开链测试与配对 | [跨端契约](firmware/ring-onboarding-contract-2026-09-26.md)、[单模块/地图修复](firmware/newgame-open-chain-fix-2026-09-26.md) |
-| 玩家输入 | [本轮输入批处理与局部刷新](firmware/player-16-trial-progress-2026-10-15.md)、[9月26日旋钮/手写修复](firmware/player-input-handwriting-fix-2026-09-26.md)；COM7已部署22ca，COM27/28为dfc4、COM29为12MHz诊断716ff623；精确卡点与Avatar手感仍待验 |
+| 玩家输入 | [输入批处理与局部刷新](firmware/player-16-trial-progress-2026-10-15.md)、[9月26日旋钮/手写修复](firmware/player-input-handwriting-fix-2026-09-26.md)；当前普通固件见设备台账，COM28手写和精确卡点仍待现场验证 |
 | 玩家电池底板 | [电路/接线/采购](hardware/player-usbc-battery-base-2026-09-27.md)、[RC6-TP当前设计候选](../PCB%20Files/PlayerConsolePower/Testpoints-2026-10-15/README.md) |
-| 电池功能是否已部署 | [固件接入证据](firmware/player-battery-telemetry-progress-2026-09-27.md)：源码/构建已完成，默认关闭，未部署 |
+| 电池功能是否已部署 | [弧形电池/充电防抖](firmware/player-battery-arc-ui-2026-10-17.md)、[上传后自动恢复](firmware/player-battery-warm-recovery-2026-10-17.md)：COM27/28/29已启用并有用户反馈，COM7仍关闭；长期精度/异常恢复另验 |
 | 新屏显示与第四屏 | [等待页修复](firmware/player-new-screen-display-progress-2026-10-15.md)、[COM29首次部署](firmware/player-fourth-screen-flash-2026-10-15.md)、[12MHz显示结果](firmware/player-com29-display-progress-2026-10-15.md) |
 | 热点与便携联网 | [7台关联调查](firmware/ap-capacity-investigation-2026-10-15.md)、[已购AWUS036ACM](firmware/portable-wifi-selection-2026-10-15.md)；[USB已部署及重启自启验收](firmware/usb-ap-deployment-2026-10-15.md)，20台同时接入已实证、36台待验 |
 | 线圈包围屏幕时的RFID故障 | [COM8单板实机调查](firmware/tile-rfid-screen-coupling-2026-10-15.md)；区分供电、芯片告警与实际UID读取 |
