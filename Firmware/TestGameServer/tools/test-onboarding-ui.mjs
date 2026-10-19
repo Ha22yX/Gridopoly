@@ -4,7 +4,8 @@ import fs from 'node:fs';
 const source=fs.readFileSync(new URL('../src/WebUi.h',import.meta.url),'utf8');
 const block=source.match(/\/\/ TESTABLE_ONBOARDING_HELPERS_BEGIN([\s\S]*?)\/\/ TESTABLE_ONBOARDING_HELPERS_END/);
 assert.ok(block);
-const helpers=Function(`${block[1]};return {normalizePlayerDevices,newGameRoster,pairingView,gameResult};`)();
+const i18n=source.match(/\/\/ TESTABLE_I18N_BEGIN([\s\S]*?)\/\/ TESTABLE_I18N_END/)[1];
+const helpers=Function(`${i18n}\n${block[1]};return {normalizePlayerDevices,newGameRoster,pairingView,gameResult};`)();
 const screens=Array.from({length:4},(_,index)=>({deviceId:index+1,online:true,eligible:true}));
 for(let humans=1;humans<=4;humans+=1){
   const model=helpers.newGameRoster(screens.slice(0,humans),true);

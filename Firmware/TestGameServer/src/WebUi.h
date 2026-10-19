@@ -41,10 +41,12 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
     .tile.pairing-target{outline:3px solid #B486F7;box-shadow:0 0 22px #B486F777}.board[data-size="40"] .tile{padding-inline:3px}.board[data-size="40"] .tile .n{font-size:8px}.board[data-size="40"] .tile.owned .n{padding-right:18px}.board[data-size="40"] .tile .owner-badge{top:8px;right:2px;min-width:16px;height:12px;padding:0 2px;border-radius:4px;font-size:7px}.board[data-size="40"] .tile .id{font-size:9px}.board[data-size="40"] .tile .id small{display:none}.board[data-size="40"] .tile .meta{font-size:7px}
     @media(max-width:980px){main{grid-template-columns:1fr}.board{min-height:0}.panel:first-child{padding:8px}.tile-art{opacity:.62}}
     @media(max-width:520px){.tile-debug-form{grid-template-columns:1fr}.tile-debug-actions{grid-template-columns:1fr}.tile-debug-meta{display:grid;gap:3px}.tile-debug-context{width:calc(100vw - 16px)}}
+      #ui-language{padding:7px 8px;max-width:110px}header{flex-wrap:wrap}.header-actions{flex-wrap:wrap;min-width:0}#status{overflow-wrap:anywhere}.controls button{min-width:0;overflow-wrap:anywhere}.kv b{min-width:0;overflow-wrap:anywhere}
+    @media(max-width:520px){header{gap:8px;padding:10px 12px}h1{font-size:14px}.header-actions{width:100%;gap:8px}#status{margin-right:auto;font-size:12px}.controls button{font-size:12px}}
   </style>
 </head>
 <body>
-<header><h1>GRIDOPOLY / TEST AUTHORITY</h1><div class="header-actions"><div id="status">连接中…</div><button id="settings-open" class="settings-open" type="button">设置</button></div></header>
+<header><h1>GRIDOPOLY / TEST AUTHORITY</h1><div class="header-actions"><div id="status">连接中…</div><select id="ui-language" aria-label="界面语言"><option value="zh-CN">中文</option><option value="en">English</option></select><button id="settings-open" class="settings-open" type="button">设置</button></div></header>
 <div id="settings-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title">
   <section class="settings-card">
     <h2 id="settings-title">测试设置</h2>
@@ -140,6 +142,393 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
 <script>
 const $=selector=>document.querySelector(selector);
 const esc=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+// TESTABLE_I18N_BEGIN
+const englishMessages={
+  "Gridopoly 测试主控": "Gridopoly Test Console",
+  "连接中…": "Connecting…",
+  "设置": "Settings",
+  "测试设置": "Test settings",
+  "调整机器人每执行一步动作前的等待时间，保存后立即生效并在重启后保留。": "Set how long bots wait before each action. Changes apply immediately and persist after a restart.",
+  "机器人动作间隔（毫秒）": "Bot action interval (ms)",
+  "建议 800–2000 ms；数值越大，机器人行动越慢。": "Suggested: 800–2000 ms. Higher values make bots play more slowly.",
+  "取消": "Cancel",
+  "保存设置": "Save settings",
+  "玩家": "Player",
+  "资金余额": "Cash balance",
+  "0–1,000,000 整数；等待掷骰或回合结束且无待处理事务时可保存。": "Whole numbers from 0 to 1,000,000. Save while awaiting a roll or at turn end, with no pending workflows.",
+  "重置": "Reset",
+  "保存资金": "Save cash",
+  "指定下一次目的地": "Set next destination",
+  "取消现有指定": "Clear destination",
+  "分配 Tag": "Assign Tag",
+  "解除 Tag": "Unbind Tag",
+  "分配玩家 Tag": "Assign player Tag",
+  "从所有在线格子模块稳定检测到的 HITAG S UID 中选择。": "Choose a HITAG S UID currently detected by any online tile module.",
+  "检测到的 Tag": "Detected Tags",
+  "正在读取…": "Loading…",
+  "等待全局 Tag 列表。": "Waiting for the global Tag list.",
+  "一个玩家和一个 Tag 均只允许一个绑定。": "Each player and each Tag can have only one binding.",
+  "确认分配": "Confirm assignment",
+  "格子模块分配": "Tile module assignment",
+  "右键选择地图格子": "Right-click a board tile",
+  "所有者": "Owner",
+  "修改归属不扣购买款。抵押、同组建筑及进行中的事务需先处理。": "Changing ownership does not charge the purchase price. Resolve mortgages, buildings in this group, and pending workflows first.",
+  "保存归属": "Save owner",
+  "在线格子模块": "Online tile modules",
+  "暂无在线模块": "No online modules",
+  "格子": "Tile",
+  "等待数据": "Waiting for data",
+  "类型": "Type",
+  "素材": "Artwork",
+  "价格": "Price",
+  "该格子当前没有临时分配。": "No temporary assignment for this tile.",
+  "分配到此格": "Assign to this tile",
+  "取消手动指定": "Clear manual anchor",
+  "选择在线模块后应用。": "Select an online module, then apply.",
+  "请选择棋盘上高亮的目的地": "Select a highlighted destination on the board",
+  "地图": "Map",
+  "回合": "Round",
+  "阶段": "Phase",
+  "当前回合": "Active player",
+  "等待决策": "Decision player",
+  "状态版本": "State version",
+  "Wi-Fi 玩家屏": "Wi-Fi player screens",
+  "事务": "Workflow",
+  "无待处理事务": "No pending workflow",
+  "换一个配对格子": "Use another pairing tile",
+  "银行建筑库存：等待数据": "Bank building inventory: waiting for data",
+  "掷骰": "Roll dice",
+  "确认棋子到位": "Confirm arrival",
+  "购买": "Buy",
+  "放弃并拍卖": "Decline & auction",
+  "结束回合": "End turn",
+  "支付离场费": "Pay release fee",
+  "抵押所选资产": "Mortgage asset",
+  "赎回所选资产": "Redeem asset",
+  "建设所选地产": "Build on property",
+  "出售所选建筑": "Sell building",
+  "清算所在整组建筑": "Sell all group buildings",
+  "确认支付债务": "Pay debt",
+  "确认无法偿还": "Declare bankruptcy",
+  "拍卖出价": "Place bid",
+  "退出本次拍卖": "Leave auction",
+  "继续执行卡片": "Resolve card",
+  "资产索引": "Asset index",
+  "拍卖金额": "Bid amount",
+  "开始新游戏": "Start new game",
+  "自动加入在线玩家屏，机器人补齐至 4 人。开局后按屏幕提示，依次在高亮格子配对棋子。单块模块或未闭环的串联也可测试，无需先分配格子。": "Online player screens join automatically; bots fill the remaining seats up to 4. Follow the screens to pair each token on a highlighted tile. A single module or an open chain also works for testing; no tile assignment is required first.",
+  "正在查找玩家屏…": "Finding player screens…",
+  "等待在线终端列表": "Waiting for player devices",
+  "棋盘模块与顺序": "Board modules & order",
+  "全部在线模块连成一个完整环、数量与当前地图一致且四角匹配时，自动按 ORDER 顺序分配格子。支持 16 / 24 / 32 / 40 格；右键指定角落可调整起点，开链仍按手动锚点分配。": "Tiles are assigned in ORDER sequence when all online modules form one complete ring, the count matches the map, and all four corners align. Supports 16 / 24 / 32 / 40 tiles. Right-click a corner to change the starting point. Open chains follow manual anchors.",
+  "刷新": "Refresh",
+  "尚未修改": "Not updated yet",
+  "正在读取临时分配…": "Loading temporary assignments…",
+  "暂无临时分配": "No temporary assignments",
+  "玩家操作": "Player actions",
+  "玩家资金": "Player cash",
+  "资产所有权": "Asset ownership",
+  "地图格数": "Map tile count",
+  "当前临时分配": "Current temporary assignments",
+  "大厅": "Lobby",
+  "等待掷骰": "Awaiting roll",
+  "等待棋子确认": "Awaiting arrival",
+  "购买决定": "Purchase decision",
+  "拍卖": "Auction",
+  "债务处理": "Debt resolution",
+  "回合结束": "Turn end",
+  "游戏结束": "Game over",
+  "等待卡片确认": "Awaiting card confirmation",
+  "起点": "Start",
+  "地产": "Property",
+  "交通枢纽": "Transit",
+  "基础设施": "Utility",
+  "费用": "Fee",
+  "限制区": "Hold",
+  "自由中庭": "Free Court",
+  "前往限制区": "Go to Hold",
+  "手动指定（锚点）": "Manual anchor",
+  "随 ORDER 分配 · 锚点 {0}": "Assigned by ORDER · anchor {0}",
+  "随 ORDER 分配": "Assigned by ORDER",
+  "自动分配空闲格": "Automatic free tile",
+  "尚未分配": "Not assigned yet",
+  "未启用 ORDER": "ORDER not enabled",
+  "正在识别接线": "Detecting connections",
+  "接线顺序已确认": "Order confirmed",
+  "等待指定一个格子": "Waiting for a tile anchor",
+  "接线信息已过期": "Connection data expired",
+  "接线或格子分配冲突": "Connection or assignment conflict",
+  "尚无接线信息": "No connection data",
+  " · 第 {0} 块": " · Module {0}",
+  "{0} 格闭环": "{0}-tile ring",
+  "闭环": "Ring",
+  "链": "Chain",
+  " · 上游 {0}": " · Upstream {0}",
+  "长边": "Straight",
+  "角落": "Corner",
+  "板型未设置": "Board type unset",
+  "请检查长边/角落固件": "Check the straight/corner firmware",
+  "角落数量应为 4 个": "Exactly 4 corners are required",
+  "相邻角落之间：16 / 24 / 32 / 40 格应分别有 3 / 5 / 7 / 9 块长边": "Adjacent corners need 3 / 5 / 7 / 9 straight modules for 16 / 24 / 32 / 40 tiles",
+  "环形连接不完整": "Incomplete ring",
+  "环形接线已断开": "Ring connection broken",
+  "手动锚点或格子占位与环形位置冲突": "Manual anchor or occupied tile conflicts with ring position",
+  "环内未包含全部在线模块，请检查环外模块或另一组接线": "Ring does not include every online module; check for modules outside this ring or a separate chain",
+  "环内模块数与当前游戏格子数不一致": "Ring module count differs from the current map size",
+  "当前地图的角落布局与实物环不匹配": "Map corners do not match the physical ring",
+  "检测到分叉接线": "Branch connection detected",
+  "环形模块数量与完整棋盘不符": "Ring module count does not match a complete board",
+  "运行时 +{0} 秒": "Uptime +{0} s",
+  "更新时间不可用": "Update time unavailable",
+  "无法读取玩家屏，请检查服务器连接": "Cannot read player screens; check the server connection",
+  "请接通至少一个支持棋子配对的玩家屏": "Connect at least one player screen that supports token pairing",
+  "玩家屏身份重复，请检查设备": "Duplicate player screen identities; check the devices",
+  "在线玩家屏超过 4 个，请断开不参加本局的屏幕": "More than 4 player screens are online; disconnect screens not joining this game",
+  "{0} 名真人 + {1} 个机器人 · 共 4 人": "{0} human(s) + {1} bot(s) · 4 players",
+  "本局未启用棋子配对": "Token pairing is disabled for this game",
+  "正在寻找在线读卡格子，请接通格子模块": "Looking for an online reader; connect a tile module",
+  "请先拿走高亮格子上的棋子，清空后再放入本人的棋子": "Remove any token from the highlighted tile, then place your own token",
+  "请把本人的棋子放入高亮格子的感应区": "Place your token in the highlighted tile's sensing area",
+  "绑定成功！请拿回自己的棋子": "Paired! Please take your token back",
+  "这个棋子已属于其他玩家，请拿走并换一个新棋子": "This token belongs to another player; remove it and use a different token",
+  "检测到多个棋子，请先拿走，只放入一个": "Multiple tokens detected; remove them and place only one",
+  "配对格子已离线，正在等待恢复；也可以换一个格子": "Pairing tile is offline. Waiting for it to reconnect; you can also choose another tile",
+  "配对超时，请重试或换一个格子": "Pairing timed out; retry or choose another tile",
+  "配对已暂停，重试后继续": "Pairing paused; retry to continue",
+  "所有真人棋子已绑定，请完成头像和姓名设置": "All human tokens are paired; finish avatar and name setup",
+  "配对状态未知，请刷新服务器状态": "Unknown pairing state; refresh the server status",
+  "{0} 获胜": "{0} wins",
+  "本局已结束": "This game has ended",
+  "读取超时": "Read timed out",
+  "在线": "Online",
+  "离线": "Offline",
+  " · 需更新固件或解决设备身份冲突": " · Update firmware or resolve the device identity conflict",
+  " · 当前 P{0}": " · Currently P{0}",
+  "尚未发现玩家屏": "No player screens found yet",
+  "棋子配对中": "PAIRING TOKEN",
+  "等待配对": "WAITING TO PAIR",
+  "已绑定 · 请拿回棋子": "PAIRED · TAKE TOKEN BACK",
+  "<span>身份流程</span><b>所有席位已就绪</b><span>统一开局倒计时</span><b>{0} 秒</b><span>状态</span><b>倒计时不会因玩家断线暂停</b>": "<span>Player setup</span><b>All seats ready</b><span>Start countdown</span><b>{0} s</b><span>Status</span><b>Countdown continues if a player disconnects</b>",
+  "<span>棋子配对</span><b>{0} / {1}</b><span>当前提示</span><b>{2}</b>{3}": "<span>Token pairing</span><b>{0} / {1}</b><span>Instructions</span><b>{2}</b>{3}",
+  "<span>轮到</span><b>P{0}</b><span>配对格子</span><b>{1}{2}</b>": "<span>Next player</span><b>P{0}</b><span>Pairing tile</span><b>{1}{2}</b>",
+  "正在选择": "Selecting…",
+  " · 第 {0} 格": " · Tile {0}",
+  "{0}<span>身份流程</span><b>棋子 → 头像 → 姓名 → 就绪</b><span>头像完成</span><b>{1} / {2}</b><span>名字完成</span><b>{3} / {4}</b><span>已就绪</span><b>{5} / {6}</b>": "{0}<span>Player setup</span><b>Token → Avatar → Name → Ready</b><span>Avatars done</span><b>{1} / {2}</b><span>Names done</span><b>{3} / {4}</b><span>Ready</span><b>{5} / {6}</b>",
+  "在线 · {0}": "Online · {0}",
+  "Wi-Fi 未连接": "Wi-Fi disconnected",
+  "开局倒计时": "Start countdown",
+  "身份设置": "Player setup",
+  "银行剩余：建筑 {0} · 地标 {1}": "Bank inventory: buildings {0} · landmarks {1}",
+  "<span>游戏结束</span><b>{0}</b><span>下一局</span><b>在下方开始新游戏，重新配对棋子</b>": "<span>Game over</span><b>{0}</b><span>Next game</span><b>Start a new game below and pair tokens again</b>",
+  "<span>卡片揭示</span><b>{0} #{1}</b><span>玩家</span><b>P{2}</b><span>状态</span><b>等待继续，尚未执行财务或移动效果</b>": "<span>Card reveal</span><b>{0} #{1}</b><span>Player</span><b>P{2}</b><span>Status</span><b>Awaiting confirmation; money and movement effects have not been applied</b>",
+  "<span>人工筹款</span><b>P{0} 需支付 ¥{1} 给 {2}</b><span>允许操作</span><b>出售建筑、抵押、交易、确认付款或破产</b>": "<span>Raise funds</span><b>P{0} owes ¥{1} to {2}</b><span>Allowed actions</span><b>Sell buildings, mortgage, trade, pay debt, or declare bankruptcy</b>",
+  "系统": "Bank",
+  "<span>拍卖揭示</span><b>资产 A{0}</b><span>屏幕就绪</span><b>{1} / {2}</b><span>状态</span><b>等待所有真人玩家</b>": "<span>Auction reveal</span><b>Asset A{0}</b><span>Screens ready</span><b>{1} / {2}</b><span>Status</span><b>Waiting for all human players</b>",
+  "<span>人工拍卖</span><b>资产 A{0}</b><span>当前价</span><b>¥{1}</b><span>最低出价</span><b>¥{2}</b><span>等待</span><b>P{3}</b>": "<span>Auction</span><b>Asset A{0}</b><span>Current bid</span><b>¥{1}</b><span>Minimum bid</span><b>¥{2}</b><span>Waiting for</span><b>P{3}</b>",
+  "<span>事务</span><b>无待处理事务</b>": "<span>Workflow</span><b>No pending workflow</b>",
+  "当前 P{0}": "Active: P{0}",
+  "所有玩家已就绪 · 即将开始": "All players ready · Starting soon",
+  "等待真人玩家完成身份设置": "Waiting for human players to finish setup",
+  "<div class=\"center\"><div><b>GRIDOPOLY</b><small>{0} 格 · {1} 位玩家 · {2}</small></div></div>": "<div class=\"center\"><div><b>GRIDOPOLY</b><small>{0} tiles · {1} players · {2}</small></div></div>",
+  " · 抵押": " · Mortgaged",
+  " · 所有者 {0}": " · Owner {0}",
+  " · P{0} 棋子配对格子": " · Token pairing tile for P{0}",
+  "<span class=\"owner-badge\" title=\"{0}\" aria-label=\"所有者 {1}\">{2}</span>": "<span class=\"owner-badge\" title=\"{0}\" aria-label=\"Owner {1}\">{2}</span>",
+  "<div class=\"player {0} {1}\" data-player-id=\"{2}\" tabindex=\"0\" title=\"右键设置目的地或分配Tag\" style=\"--player-color:{3}\"><i class=\"badge\">{4}</i><div><b>{5}{6}{7}</b><small style=\"display:block;color:var(--muted)\">{8} · {9} · 格 {10}{11}{12}</small></div><span class=\"money\">¥{13}</span></div>": "<div class=\"player {0} {1}\" data-player-id=\"{2}\" tabindex=\"0\" title=\"Right-click to set a destination or assign a Tag\" style=\"--player-color:{3}\"><i class=\"badge\">{4}</i><div><b>{5}{6}{7}</b><small style=\"display:block;color:var(--muted)\">{8} · {9} · Tile {10}{11}{12}</small></div><span class=\"money\">¥{13}</span></div>",
+  " · 限制区": " · In Hold",
+  " · 已破产": " · Bankrupt",
+  "调试资金调整": "Debug cash adjustment",
+  "调试归属修改": "Debug ownership change",
+  "地图已变更，临时分配目录已刷新。": "Map changed; temporary assignment catalog refreshed.",
+  "玩家已离开": "Player has left",
+  "玩家已破产": "Player is bankrupt",
+  "限制区内不可指定": "Unavailable while in Hold",
+  "当前阶段不可指定": "Unavailable in this phase",
+  "更换 Tag · {0}": "Change Tag · {0}",
+  "当前没有稳定检测到的 Tag。请把棋子放到任一在线格子模块。": "No Tag is being detected consistently. Place a token on any online tile module.",
+  "格 {0}": "Tile {0}",
+  "当前绑定 P{0}；确认后会原子转移。": "Currently bound to P{0}; confirming will transfer it atomically.",
+  "当前未绑定其他玩家。": "Not bound to another player.",
+  "检测位置未知": "Detection location unknown",
+  "为 P{0} 分配 Tag": "Assign Tag to P{0}",
+  "{0} · 选择任一格子模块当前稳定识别到的 UID。": "{0} · Choose a UID currently detected consistently by any tile module.",
+  "<option value=\"\">正在读取…</option>": "<option value=\"\">Loading…</option>",
+  "正在读取全局 Tag 列表…": "Loading the global Tag list…",
+  " · 已绑定 P{0}": " · Bound to P{0}",
+  "<option value=\"{0}\">{1} · {2} 个格子{3}</option>": "<option value=\"{0}\">{1} · {2} tile(s){3}</option>",
+  "<option value=\"\">暂无稳定检测的 Tag</option>": "<option value=\"\">No consistently detected Tags</option>",
+  "Tag目录 REV {0} · 绑定 REV {1}": "Tag catalog REV {0} · Bindings REV {1}",
+  "读取失败：{0}": "Read failed: {0}",
+  "请求超时": "Request timed out",
+  "正在提交权威绑定…": "Submitting Tag binding…",
+  "Tag {0} 已绑定到 P{1}": "Tag {0} bound to P{1}",
+  "绑定失败：{0}": "Binding failed: {0}",
+  "P{0} 的 Tag 绑定已解除": "Tag unbound from P{0}",
+  "解除失败：{0}": "Unbinding failed: {0}",
+  "玩家状态已变化，请重新选择": "Player state changed; please select again",
+  "{0} · 点击指定 · +{1}": "{0} · Click to select · +{1}",
+  "为 {0} 选择目的地 · 蓝色格均为合法骰距 +2～+12": "Choose a destination for {0} · Blue tiles are legal rolls of +2 to +12",
+  "正在设置下一次目的地…": "Setting next destination…",
+  "下一次目的地已设置 · P{0} → 格 {1}": "Next destination set · P{0} → Tile {1}",
+  "设置失败：{0}": "Could not set destination: {0}",
+  "正在取消指定目的地…": "Clearing destination…",
+  "已取消指定目的地": "Destination cleared",
+  "取消失败：{0}": "Could not cancel: {0}",
+  "银行": "Bank",
+  "已保存，当前值已从服务器回读。": "Saved and read back from the server.",
+  "当前：{0} · 待保存：{1}": "Current: {0} · Draft: {1}",
+  "请输入有效值": "Enter a valid value",
+  "载入最新值": "Load latest value",
+  "房间或地图已变化，请关闭菜单后重新右键此格。": "Room or map changed. Close this menu and right-click the tile again.",
+  "对局状态已变化，草稿已保留。请载入最新值后再保存。": "Game state changed; your draft is preserved. Load the latest value before saving.",
+  "<option value=\"0\">银行</option>": "<option value=\"0\">Bank</option>",
+  "修改后点击保存；关闭菜单不会提交。": "Click Save to apply. Closing this menu does not submit changes.",
+  "此对象在当前对局不可编辑，请关闭菜单。": "This object cannot be edited in the current game. Close the menu.",
+  "已载入当前值，尚未提交。": "Current value loaded; nothing submitted.",
+  "待保存；关闭菜单不会提交。": "Unsaved changes; closing this menu will not submit them.",
+  "正在保存…": "Saving…",
+  "已保存，正在回读当前值…": "Saved; reading back the current value…",
+  "房间已变化，请载入最新值": "Room changed; load the latest value",
+  "状态已变化，请载入最新值": "State changed; load the latest value",
+  "写入失败，原值已保留": "Write failed; the original value is preserved",
+  "提交内容不合法": "Invalid submission",
+  "请先赎回此资产": "Redeem this asset first",
+  "请先出售同组全部建筑": "Sell all buildings in this group first",
+  "请先完成当前事务或交易，并等待掷骰或回合结束": "Finish pending workflows or trades, then wait for a roll or turn end",
+  "请求超时，请核对当前值，确认是否已保存。": "Request timed out. Check the current value to see whether it was saved.",
+  "未保存：{0}": "Not saved: {0}",
+  "<div class=\"tile-debug-preview-grid\"><span>格子</span><b>{0} / {1}</b><span>类型</span><b>{2}</b><span>素材</span><b>{3}</b><span>价格</span><b>{4}</b></div>": "<div class=\"tile-debug-preview-grid\"><span>Tile</span><b>{0} / {1}</b><span>Type</span><b>{2}</b><span>Artwork</span><b>{3}</b><span>Price</span><b>{4}</b></div>",
+  "未知": "Unknown",
+  "无": "None",
+  "不可购买": "Not for sale",
+  "<div class=\"tile-debug-preview-grid\"><span>格子</span><b>请右键棋盘格</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div>": "<div class=\"tile-debug-preview-grid\"><span>Tile</span><b>Right-click a board tile</b><span>Type</span><b>-</b><span>Artwork</span><b>-</b><span>Price</span><b>-</b></div>",
+  "<b>当前占用此格</b>{0}": "<b>Modules on this tile</b>{0}",
+  "未购买": "Unowned",
+  "<b>当前占用此格</b><span>暂无模块分配到这里。</span>": "<b>Modules on this tile</b><span>No modules assigned here.</span>",
+  "该模块当前离线，只能清除现有分配。": "This module is offline; only clearing an existing assignment is available.",
+  "{0} · 可分配到当前格子。": "{0} · Can be assigned to this tile.",
+  "当前没有可用的在线格子模块。": "No online tile modules available.",
+  "当前地图目录尚未就绪，请刷新后重试。": "Map catalog is not ready. Refresh and try again.",
+  " / 已有分配": " / Assigned",
+  "<option value=\"\">暂无在线模块</option>": "<option value=\"\">No online modules</option>",
+  "<button type=\"button\" data-clear-tile-anchor=\"{0}\" {1}>取消手动指定</button>": "<button type=\"button\" data-clear-tile-anchor=\"{0}\" {1}>Clear manual anchor</button>",
+  "已指定 {0}，暂未生效": "Anchor set to {0}; not active yet",
+  "未分配": "Unassigned",
+  "无 deviceId": "No deviceId",
+  "<div class=\"tile-debug-empty\">暂无格子模块。模块联网后会显示在这里。</div>": "<div class=\"tile-debug-empty\">No tile modules yet. They will appear here when connected.</div>",
+  "正在读取模块、地图和临时分配…": "Loading modules, map, and temporary assignments…",
+  "已读取 {0} 个模块，{1} 项临时分配。": "Loaded {0} modules and {1} temporary assignments.",
+  "正在提交临时调试配置…": "Submitting temporary debug configuration…",
+  "提交失败：{0}": "Submission failed: {0}",
+  "请选择有效的在线格子模块和目标格子。": "Select a valid online tile module and a target tile.",
+  "已设为手动锚点，同串模块将按 ORDER 顺序分配。": "Manual anchor set. Modules in this chain will follow ORDER.",
+  "已取消手动指定；如同串仍有锚点，该模块会重新跟随分配。": "Manual anchor cleared. This module will follow another anchor in the same chain, if present.",
+  "正在读取当前设置…": "Loading current settings…",
+  "当前 {0} ms；允许 {1}–{2} ms。": "Current: {0} ms; allowed: {1}–{2} ms.",
+  "请输入 {0}–{1} 之间的整数毫秒数。": "Enter a whole number of milliseconds between {0} and {1}.",
+  "机器人动作间隔已设为 {0} ms": "Bot action interval set to {0} ms",
+  "保存失败：{0}": "Save failed: {0}",
+  "连接断开": "Disconnected",
+  "正在提交操作…": "Submitting action…",
+  "正在创建新游戏…": "Creating a new game…",
+  "操作已接受": "Action accepted",
+  "操作已接受 · 状态 {0}": "Action accepted · State {0}",
+  "新游戏已创建，请按玩家屏提示配对棋子。": "New game created. Follow the player screens to pair tokens.",
+  "未检测到支持配对的在线玩家屏，请检查连接后重试。": "No online player screens support pairing. Check the connections and try again.",
+  "在线玩家屏超过4台，请断开多余的屏幕后重试。": "More than 4 player screens are online. Disconnect the extra screens and try again.",
+  "当前服务器仅支持32格自动组队，请更新服务器或选择32格。": "This server only supports automatic rosters on 32-tile boards. Update the server or select 32 tiles.",
+  "请求超时，请先核对当前对局状态再重试。": "Request timed out. Check the current game state before retrying.",
+  "操作失败：{0}": "Action failed: {0}",
+  "新建游戏失败：{0}": "Could not create game: {0}",
+  "确认出售资产 A{0} 所在整个地区组的全部建筑和地标？地产所有权保留，建筑按规则回收。这会一次清空整组建筑。": "Sell all buildings and landmarks in the group containing asset A{0}? Ownership is retained and buildings are returned under the game rules. This clears the entire group's buildings at once.",
+  "临时分配已刷新。": "Temporary assignments refreshed.",
+  "界面语言": "Interface language"
+};
+let uiLanguage='zh-CN';
+function tr(message,...values){
+  const key=Array.isArray(message)?message.map((part,i)=>part+(i<values.length?'{'+i+'}':'')).join(''):String(message??'');
+  const template=uiLanguage==='en'&&Object.hasOwn(englishMessages,key)?englishMessages[key]:key;
+  return template.replace(/\{(\d+)\}/g,(match,index)=>Number(index)<values.length?String(values[Number(index)]):match);
+}
+// TESTABLE_I18N_END
+
+// Only UI-owned text is registered. Player names and protocol data are never
+// searched or replaced. Each callback retains the original message and values.
+const translatedText=new Map();
+const staticText=[],staticAttributes=[];
+function resolveUiText(value){
+  while(typeof value==='function')value=value();
+  return value;
+}
+function i18nText(element,renderText){
+  element.textContent=resolveUiText(renderText());
+  if(element.id)translatedText.set(element,renderText);
+}
+function initializeLanguage(){
+  try{uiLanguage=localStorage.getItem('gridopoly.ui.language')==='en'?'en':'zh-CN';}catch(_error){}
+  const walker=document.createTreeWalker(document.documentElement,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){
+    const node=walker.currentNode;
+    if(node.parentElement.closest('script,style,#ui-language'))continue;
+    const key=node.textContent.trim();
+    if(Object.hasOwn(englishMessages,key))staticText.push({node,key,lastValue:node.textContent,prefix:node.textContent.match(/^\s*/)[0],suffix:node.textContent.match(/\s*$/)[0]});
+  }
+  document.querySelectorAll('[title],[aria-label]').forEach(element=>{
+    for(const attribute of ['title','aria-label']){
+      const key=element.getAttribute(attribute);
+      if(Object.hasOwn(englishMessages,key))staticAttributes.push({element,attribute,key});
+    }
+  });
+  applyStaticLanguage();
+  $('#ui-language').addEventListener('change',event=>setUiLanguage(event.target.value));
+}
+function applyStaticLanguage(){
+  document.documentElement.lang=uiLanguage;
+  document.title=tr('Gridopoly 测试主控');
+  $('#ui-language').value=uiLanguage;
+  for(const entry of staticText){
+    // A renderer may reuse an initial text node for a selected tile's title.
+    // Once it holds dynamic content, the static label no longer owns that node.
+    if(entry.node.isConnected&&entry.node.textContent===entry.lastValue){
+      entry.lastValue=entry.prefix+tr(entry.key)+entry.suffix;
+      entry.node.textContent=entry.lastValue;
+    }
+  }
+  for(const {element,attribute,key} of staticAttributes)if(element.isConnected)element.setAttribute(attribute,tr(key));
+}
+function setUiLanguage(language){
+  uiLanguage=language==='en'?'en':'zh-CN';
+  try{localStorage.setItem('gridopoly.ui.language',uiLanguage);}catch(_error){}
+  applyStaticLanguage();
+  // Retain transient feedback while refreshing translated views from existing
+  // snapshots. Switching language performs no fetches and no game mutations.
+  for(const [element,renderText] of translatedText){
+    if(element.isConnected)element.textContent=resolveUiText(renderText());
+    else translatedText.delete(element);
+  }
+  const statusRender=translatedText.get($('#status'));
+  const contextStatus=$('#tile-debug-context-status');
+  const contextFeedback=translatedText.get(contextStatus),contextClass=contextStatus.className;
+  if(state)render(state,true);
+  if(statusRender)i18nText($('#status'),statusRender);
+  renderPlayerDevices();
+  renderTileDebug();
+  if(contextFeedback){i18nText(contextStatus,contextFeedback);contextStatus.className=contextClass;}
+  if(debugEdit){
+    if(debugEdit.kind==='owner'){
+      const bank=$('#debug-owner option[value="0"]');
+      if(bank)bank.textContent=tr('银行');
+    }
+    updateDebugEditPreview();
+  }
+  if(!$('#tag-binding-modal').hidden){
+    renderTagBindingOptions(tagBindingPlayerId,true);
+    renderTagBindingPreview();
+  }
+  constrainContextMenu($('#player-context-menu'));
+  constrainContextMenu($('#tile-debug-context-menu'));
+}
+
 const phases=['大厅','等待掷骰','等待棋子确认','购买决定','拍卖','债务处理','回合结束','游戏结束','等待卡片确认'];
 const kinds=['起点','地产','交通枢纽','基础设施','Chance','Community Chest','费用','限制区','自由中庭','前往限制区'];
 const actionBits={roll:1,confirm:2,buy:4,decline:8,end:16,mortgage:32,unmortgage:64,build:128,sell:256,sellgroup:256,holdfee:1024,paydebt:2048,bankrupt:4096,bid:8192,passbid:16384,cardcontinue:65536};
@@ -250,30 +639,30 @@ function tileDebugOrderFields(module){
 
 function tileDebugSourceLabel(module,assignment){
   const source=assignment&&assignment.source||module&&module.source;
-  if(source==='manual'||module&&module.orderAnchorTileId)return'手动指定（锚点）';
+  if(source==='manual'||module&&module.orderAnchorTileId)return tr('手动指定（锚点）');
   if(source==='order'){
     const anchor=assignment&&assignment.orderAnchorModuleId;
-    return anchor?`随 ORDER 分配 · 锚点 ${anchor}`:'随 ORDER 分配';
+    return anchor?tr`随 ORDER 分配 · 锚点 ${anchor}`:tr('随 ORDER 分配');
   }
-  return source==='auto'?'自动分配空闲格':'尚未分配';
+  return source==='auto'?tr('自动分配空闲格'):tr('尚未分配');
 }
 
 function tileDebugOrderLabel(module){
-  if(!module||!module.orderCapable)return'未启用 ORDER';
-  const labels={probing:'正在识别接线',ready:'接线顺序已确认',unanchored:'等待指定一个格子',stale:'接线信息已过期',conflict:'接线或格子分配冲突',legacy:'尚无接线信息'};
-  const index=module.orderIndex===null?'':` · 第 ${module.orderIndex+1} 块`;
+  if(!module||!module.orderCapable)return tr('未启用 ORDER');
+  const labels={probing:tr('正在识别接线'),ready:tr('接线顺序已确认'),unanchored:tr('等待指定一个格子'),stale:tr('接线信息已过期'),conflict:tr('接线或格子分配冲突'),legacy:tr('尚无接线信息')};
+  const index=module.orderIndex===null?'':tr` · 第 ${module.orderIndex+1} 块`;
   const ringLabel=Number.isInteger(module.orderRingSize)&&module.orderRingSize>=4&&
-    module.orderRingSize<=64&&module.orderRingSize%4===0?`${module.orderRingSize} 格闭环`:'闭环';
-  const chain=module.orderChainId?` · ${module.closedRing?ringLabel:'链'} ${module.orderChainId}`:'';
-  const upstream=module.orderUpstreamModuleId?` · 上游 ${module.orderUpstreamModuleId}`:'';
-  const role={long:'长边',corner:'角落',unknown:'板型未设置'}[module.moduleRole]||'板型未设置';
-  const reasons={unknown_module_role:'请检查长边/角落固件',invalid_corner_count:'角落数量应为 4 个',
-    invalid_corner_spacing:'相邻角落之间：16 / 24 / 32 / 40 格应分别有 3 / 5 / 7 / 9 块长边',incomplete_ring:'环形连接不完整',
-    ring_open:'环形接线已断开',ring_or_tile_conflict:'手动锚点或格子占位与环形位置冲突',
-    ring_online_set_mismatch:'环内未包含全部在线模块，请检查环外模块或另一组接线',
-    ring_size_mismatch:'环内模块数与当前游戏格子数不一致',
-    ring_board_layout_mismatch:'当前地图的角落布局与实物环不匹配',
-    multiple_downstream:'检测到分叉接线',cycle:'环形模块数量与完整棋盘不符'};
+    module.orderRingSize<=64&&module.orderRingSize%4===0?tr`${module.orderRingSize} 格闭环`:tr('闭环');
+  const chain=module.orderChainId?` · ${module.closedRing?ringLabel:tr('链')} ${module.orderChainId}`:'';
+  const upstream=module.orderUpstreamModuleId?tr` · 上游 ${module.orderUpstreamModuleId}`:'';
+  const role={long:tr('长边'),corner:tr('角落'),unknown:tr('板型未设置')}[module.moduleRole]||tr('板型未设置');
+  const reasons={unknown_module_role:tr('请检查长边/角落固件'),invalid_corner_count:tr('角落数量应为 4 个'),
+    invalid_corner_spacing:tr('相邻角落之间：16 / 24 / 32 / 40 格应分别有 3 / 5 / 7 / 9 块长边'),incomplete_ring:tr('环形连接不完整'),
+    ring_open:tr('环形接线已断开'),ring_or_tile_conflict:tr('手动锚点或格子占位与环形位置冲突'),
+    ring_online_set_mismatch:tr('环内未包含全部在线模块，请检查环外模块或另一组接线'),
+    ring_size_mismatch:tr('环内模块数与当前游戏格子数不一致'),
+    ring_board_layout_mismatch:tr('当前地图的角落布局与实物环不匹配'),
+    multiple_downstream:tr('检测到分叉接线'),cycle:tr('环形模块数量与完整棋盘不符')};
   const conflict=module.orderConflict?` · ${reasons[module.orderConflict]||module.orderConflict}`:'';
   return`${role} · ORDER：${labels[module.orderStatus]||labels.legacy}${index}${chain}${upstream}${conflict}`;
 }
@@ -358,10 +747,10 @@ function tileDebugAssignmentFor(data,moduleId){
 
 function tileDebugUpdatedAtLabel(value){
   const milliseconds=Number(value);
-  if(!Number.isFinite(milliseconds)||milliseconds<=0)return'尚未修改';
-  if(milliseconds<1e12)return`运行时 +${(milliseconds/1000).toFixed(1)} 秒`;
+  if(!Number.isFinite(milliseconds)||milliseconds<=0)return tr('尚未修改');
+  if(milliseconds<1e12)return tr`运行时 +${(milliseconds/1000).toFixed(1)} 秒`;
   const date=new Date(milliseconds);
-  return Number.isNaN(date.getTime())?'更新时间不可用':date.toLocaleString('zh-CN',{hour12:false});
+  return Number.isNaN(date.getTime())?tr('更新时间不可用'):date.toLocaleString(uiLanguage==='en'?'en-US':'zh-CN',{hour12:false});
 }
 // TESTABLE_TILE_DEBUG_HELPERS_END
 
@@ -408,9 +797,9 @@ function newGameRoster(devices,ready){
   const unique=new Set(online.map(device=>device.deviceId));
   const count=online.length;
   const valid=ready&&count>=1&&count<=4&&unique.size===count;
-  const message=!ready?'无法读取玩家屏，请检查服务器连接':count===0?'请接通至少一个支持棋子配对的玩家屏':
-    unique.size!==count?'玩家屏身份重复，请检查设备':count>4?'在线玩家屏超过 4 个，请断开不参加本局的屏幕':
-    `${count} 名真人 + ${4-count} 个机器人 · 共 4 人`;
+  const message=!ready?tr('无法读取玩家屏，请检查服务器连接'):count===0?tr('请接通至少一个支持棋子配对的玩家屏'):
+    unique.size!==count?tr('玩家屏身份重复，请检查设备'):count>4?tr('在线玩家屏超过 4 个，请断开不参加本局的屏幕'):
+    tr`${count} 名真人 + ${4-count} 个机器人 · 共 4 人`;
   return{valid,humans:count,bots:Math.max(0,4-count),message};
 }
 
@@ -430,7 +819,7 @@ function pairingView(pairing,roomId){
   const count=mask=>{let total=0;for(let bit=0;bit<4;bit+=1)if(Number(mask)&(1<<bit))total+=1;return total;};
   const required=Number(pairing.requiredHumanMask)||0;
   return{
-    message:messages[pairing.state]||'配对状态未知，请刷新服务器状态',
+    message:tr(messages[pairing.state]||'配对状态未知，请刷新服务器状态'),
     activePlayerId:Number(pairing.activePlayerId)||0,moduleId:String(pairing.moduleId||''),
     readerMapIndex:Number.isInteger(pairing.readerMapIndex)?pairing.readerMapIndex:255,
     required:count(required),bound:count((Number(pairing.boundMask)||0)&required),
@@ -441,7 +830,7 @@ function pairingView(pairing,roomId){
 function gameResult(next){
   if(!next||Number(next.phase)!==7)return null;
   const winner=(next.players||[]).find(player=>Number(player.id)===Number(next.winnerPlayerId));
-  return winner?`${String(winner.name||'').trim()||`P${winner.id}`} 获胜`:'本局已结束';
+  return winner?tr`${String(winner.name||'').trim()||`P${winner.id}`} 获胜`:tr('本局已结束');
 }
 // TESTABLE_ONBOARDING_HELPERS_END
 
@@ -459,8 +848,12 @@ async function refreshPlayerDevices(signal){
     playerDevicesReady=false;
     playerDevicesError=error.name==='AbortError'?'读取超时':error.message;
   }
+  renderPlayerDevices();
+}
+
+function renderPlayerDevices(){
   $('#device-list').innerHTML=playerDevices.map(device=>
-    `<span>${device.online?'●':'○'} ${esc(device.displayName||device.deviceId)} · ${device.online?'在线':'离线'}${device.eligible?'':' · 需更新固件或解决设备身份冲突'}${device.seatId?` · 当前 P${device.seatId}`:''}</span>`).join('')||'尚未发现玩家屏';
+    `<span>${device.online?'●':'○'} ${esc(device.displayName||device.deviceId)} · ${device.online?tr('在线'):tr('离线')}${device.eligible?'':tr(' · 需更新固件或解决设备身份冲突')}${device.seatId?tr` · 当前 P${device.seatId}`:''}</span>`).join('')||tr('尚未发现玩家屏');
   validateNewGameCounts(false);
 }
 
@@ -471,10 +864,10 @@ function hasIdentityFlag(player,flag){
 function identitySeatLabel(player){
   const pairing=state&&state.tagPairing;
   if(pairing&&pairing.enabled&&hasIdentityFlag(player,1)&&!player.tagUid){
-    return Number(pairing.activePlayerId)===Number(player.id)?['棋子配对中','generating']:['等待配对',''];
+    return Number(pairing.activePlayerId)===Number(player.id)?[tr('棋子配对中'),'generating']:[tr('等待配对'),''];
   }
   if(pairing&&pairing.enabled&&hasIdentityFlag(player,1)&&player.tagUid&&
-      !(Number(pairing.identityEditableMask)&(1<<(Number(player.id)-1))))return['已绑定 · 请拿回棋子','ready'];
+      !(Number(pairing.identityEditableMask)&(1<<(Number(player.id)-1))))return[tr('已绑定 · 请拿回棋子'),'ready'];
   if(hasIdentityFlag(player,32))return['READY','ready'];
   if(hasIdentityFlag(player,4))return['GENERATING','generating'];
   if(hasIdentityFlag(player,8)&&!hasIdentityFlag(player,16))return['NAME SETUP',''];
@@ -497,14 +890,14 @@ function renderIdentityWorkflow(next){
   if(Number(identity.phase)===2){
     const authorityNow=Date.now()+serverEpochOffsetMs;
     const remaining=Math.max(0,Number(identity.countdownDeadlineEpochMs||0)-authorityNow);
-    $('#workflow').innerHTML=`<span>身份流程</span><b>所有席位已就绪</b><span>统一开局倒计时</span><b>${(remaining/1000).toFixed(1)} 秒</b><span>状态</span><b>倒计时不会因玩家断线暂停</b>`;
+    $('#workflow').innerHTML=tr`<span>身份流程</span><b>所有席位已就绪</b><span>统一开局倒计时</span><b>${(remaining/1000).toFixed(1)} 秒</b><span>状态</span><b>倒计时不会因玩家断线暂停</b>`;
     return true;
   }
   const avatarCount=identityReadyCount({readyMask:identity.avatarFinalMask});
   const nameCount=identityReadyCount({readyMask:identity.nameFinalMask});
   const pairing=pairingView(next.tagPairing,next.roomId);
-  const pairingHtml=pairing?`<span>棋子配对</span><b>${pairing.bound} / ${pairing.required}</b><span>当前提示</span><b>${esc(pairing.message)}</b>${pairing.activePlayerId&&!pairing.complete?`<span>轮到</span><b>P${pairing.activePlayerId}</b><span>配对格子</span><b>${esc(pairing.moduleId||'正在选择')}${pairing.readerMapIndex<next.board.size?` · 第 ${pairing.readerMapIndex+1} 格`:''}</b>`:''}`:'';
-  $('#workflow').innerHTML=`${pairingHtml}<span>身份流程</span><b>棋子 → 头像 → 姓名 → 就绪</b><span>头像完成</span><b>${avatarCount} / ${playerCount}</b><span>名字完成</span><b>${nameCount} / ${playerCount}</b><span>已就绪</span><b>${ready} / ${playerCount}</b>`;
+  const pairingHtml=pairing?tr`<span>棋子配对</span><b>${pairing.bound} / ${pairing.required}</b><span>当前提示</span><b>${esc(pairing.message)}</b>${pairing.activePlayerId&&!pairing.complete?tr`<span>轮到</span><b>P${pairing.activePlayerId}</b><span>配对格子</span><b>${esc(pairing.moduleId||tr('正在选择'))}${pairing.readerMapIndex<next.board.size?tr` · 第 ${pairing.readerMapIndex+1} 格`:''}</b>`:''}`:'';
+  $('#workflow').innerHTML=tr`${pairingHtml}<span>身份流程</span><b>棋子 → 头像 → 姓名 → 就绪</b><span>头像完成</span><b>${avatarCount} / ${playerCount}</b><span>名字完成</span><b>${nameCount} / ${playerCount}</b><span>已就绪</span><b>${ready} / ${playerCount}</b>`;
   $('#pairing-actions').hidden=!pairing||!pairing.canRetry;
   $('#pairing-retry').disabled=actionInFlight||!pairing||!pairing.canRetry;
   return true;
@@ -567,7 +960,7 @@ function renderPlayerChips(){
     const chip=document.createElement('i');
     chip.className='chip';
     chip.style.setProperty('--player-color',playerColor(player.id));
-    chip.textContent=player.id;
+    i18nText(chip,()=>player.id);
     tile.querySelector('.chips').appendChild(chip);
   });
 }
@@ -631,7 +1024,7 @@ function reconcileVisualPositions(previous,next){
   }
 }
 
-function render(next){
+function render(next,languageOnly=false){
   const previous=state;
   const tileDebugCatalogChanged=previous&&
     (previous.roomId!==next.roomId||previous.board.id!==next.board.id||previous.board.size!==next.board.size);
@@ -650,36 +1043,36 @@ function render(next){
   if(next.identity&&Number.isFinite(Number(next.identity.serverEpochMs))){
     serverEpochOffsetMs=Number(next.identity.serverEpochMs)-Date.now();
   }
-  $('#status').textContent=next.wifi.connected?`在线 · ${next.wifi.ip}`:'Wi-Fi 未连接';
-  $('#map').textContent=next.board.id;
-  $('#round').textContent=next.round;
+  i18nText($('#status'),()=>next.wifi.connected?tr`在线 · ${next.wifi.ip}`:tr('Wi-Fi 未连接'));
+  i18nText($('#map'),()=>next.board.id);
+  i18nText($('#round'),()=>next.round);
   const identityActive=!next.identity||Number(next.identity.phase)===3;
-  $('#phase').textContent=identityActive?(phases[next.phase]||next.phase):
-    (Number(next.identity.phase)===2?'开局倒计时':'身份设置');
-  $('#active').textContent=identityActive&&!gameResult(next)?`P${next.activePlayer}`:'—';
-  $('#decision').textContent=identityActive&&!gameResult(next)?`P${next.decisionPlayer}`:'—';
-  $('#version').textContent=next.identity?`${next.version} · I${next.identity.revision}`:next.version;
-  $('#peers').textContent=next.espnowPeers;
+  i18nText($('#phase'),()=>identityActive?(tr(phases[next.phase])||next.phase):
+    (Number(next.identity.phase)===2?tr('开局倒计时'):tr('身份设置')));
+  i18nText($('#active'),()=>identityActive&&!gameResult(next)?`P${next.activePlayer}`:'—');
+  i18nText($('#decision'),()=>identityActive&&!gameResult(next)?`P${next.decisionPlayer}`:'—');
+  i18nText($('#version'),()=>next.identity?`${next.version} · I${next.identity.revision}`:next.version);
+  i18nText($('#peers'),()=>next.espnowPeers);
   const inventory=next.bankInventory;
-  $('#bank-inventory').textContent=inventory&&Number.isInteger(inventory.buildings)&&Number.isInteger(inventory.landmarks)?
-    `银行剩余：建筑 ${inventory.buildings} · 地标 ${inventory.landmarks}`:'银行建筑库存：等待数据';
+  i18nText($('#bank-inventory'),()=>inventory&&Number.isInteger(inventory.buildings)&&Number.isInteger(inventory.landmarks)?
+    tr`银行剩余：建筑 ${inventory.buildings} · 地标 ${inventory.landmarks}`:tr('银行建筑库存：等待数据'));
   if(renderIdentityWorkflow(next)){
     // Identity setup owns the workflow panel until the authority activates the game.
   }else if(gameResult(next)){
-    $('#workflow').innerHTML=`<span>游戏结束</span><b>${esc(gameResult(next))}</b><span>下一局</span><b>在下方开始新游戏，重新配对棋子</b>`;
+    $('#workflow').innerHTML=tr`<span>游戏结束</span><b>${esc(gameResult(next))}</b><span>下一局</span><b>在下方开始新游戏，重新配对棋子</b>`;
   }else if(next.card&&next.card.active&&next.card.stage===1){
-    $('#workflow').innerHTML=`<span>卡片揭示</span><b>${next.card.deck===1?'Chance':'Community Chest'} #${next.card.catalog}</b><span>玩家</span><b>P${next.card.player}</b><span>状态</span><b>等待继续，尚未执行财务或移动效果</b>`;
+    $('#workflow').innerHTML=tr`<span>卡片揭示</span><b>${next.card.deck===1?'Chance':'Community Chest'} #${next.card.catalog}</b><span>玩家</span><b>P${next.card.player}</b><span>状态</span><b>等待继续，尚未执行财务或移动效果</b>`;
   }else if(next.debt.active){
-    $('#workflow').innerHTML=`<span>人工筹款</span><b>P${next.debt.debtor} 需支付 ¥${next.debt.amount} 给 ${next.debt.creditor?`P${next.debt.creditor}`:'系统'}</b><span>允许操作</span><b>出售建筑、抵押、交易、确认付款或破产</b>`;
+    $('#workflow').innerHTML=tr`<span>人工筹款</span><b>P${next.debt.debtor} 需支付 ¥${next.debt.amount} 给 ${next.debt.creditor?`P${next.debt.creditor}`:tr('系统')}</b><span>允许操作</span><b>出售建筑、抵押、交易、确认付款或破产</b>`;
   }else if(next.auction.active){
     if(next.auction.opening){
-      $('#workflow').innerHTML=`<span>拍卖揭示</span><b>资产 A${next.auction.asset}</b><span>屏幕就绪</span><b>${maskBits(next.auction.readyMask)} / ${maskBits(next.auction.requiredReadyMask)}</b><span>状态</span><b>等待所有真人玩家</b>`;
+      $('#workflow').innerHTML=tr`<span>拍卖揭示</span><b>资产 A${next.auction.asset}</b><span>屏幕就绪</span><b>${maskBits(next.auction.readyMask)} / ${maskBits(next.auction.requiredReadyMask)}</b><span>状态</span><b>等待所有真人玩家</b>`;
     }else{
-      $('#workflow').innerHTML=`<span>人工拍卖</span><b>资产 A${next.auction.asset}</b><span>当前价</span><b>¥${next.auction.currentBid}</b><span>最低出价</span><b>¥${next.auction.minimumBid}</b><span>等待</span><b>P${next.auction.bidder}</b>`;
-      $('#bid').value=Math.max(Number($('#bid').value)||0,next.auction.minimumBid);
+      $('#workflow').innerHTML=tr`<span>人工拍卖</span><b>资产 A${next.auction.asset}</b><span>当前价</span><b>¥${next.auction.currentBid}</b><span>最低出价</span><b>¥${next.auction.minimumBid}</b><span>等待</span><b>P${next.auction.bidder}</b>`;
+      if(!languageOnly)$('#bid').value=Math.max(Number($('#bid').value)||0,next.auction.minimumBid);
     }
   }else{
-    $('#workflow').innerHTML='<span>事务</span><b>无待处理事务</b>';
+    $('#workflow').innerHTML=tr('<span>事务</span><b>无待处理事务</b>');
   }
 
   const side=next.board.size/4;
@@ -687,9 +1080,9 @@ function render(next){
   board.dataset.size=next.board.size;
   board.style.gridTemplateColumns=`repeat(${side+1},1fr)`;
   board.style.gridTemplateRows=`repeat(${side+1},1fr)`;
-  const centerStatus=identityActive?(gameResult(next)||`当前 P${next.activePlayer}`):
-    (Number(next.identity.phase)===2?'所有玩家已就绪 · 即将开始':'等待真人玩家完成身份设置');
-  board.innerHTML=`<div class="center"><div><b>GRIDOPOLY</b><small>${next.board.size} 格 · ${next.players.length} 位玩家 · ${esc(centerStatus)}</small></div></div>`;
+  const centerStatus=identityActive?(gameResult(next)||tr`当前 P${next.activePlayer}`):
+    (Number(next.identity.phase)===2?tr('所有玩家已就绪 · 即将开始'):tr('等待真人玩家完成身份设置'));
+  board.innerHTML=tr`<div class="center"><div><b>GRIDOPOLY</b><small>${next.board.size} 格 · ${next.players.length} 位玩家 · ${esc(centerStatus)}</small></div></div>`;
   next.tiles.forEach(tile=>{
     const [row,column]=boardPosition(tile.i,next.board.size);
     const element=document.createElement('div');
@@ -706,20 +1099,20 @@ function render(next){
       element.classList.add('owned');
       element.style.setProperty('--player-color',owner.color);
     }
-    const asset=tile.asset===255?'':`A${tile.asset} · ¥${tile.price} · L${tile.level}${tile.mortgaged?' · 抵押':''}`;
+    const asset=tile.asset===255?'':`A${tile.asset} · ¥${tile.price} · L${tile.level}${tile.mortgaged?tr(' · 抵押'):''}`;
     const art=visual[1]?`<img class="tile-art" src="/assets/tiles/${visual[1]}" alt="" loading="lazy" decoding="async">`:'';
-    element.title=`${String(tile.i).padStart(2,'0')} · ${visual[0]} · ${tile.id}${asset?` · ${asset}`:''}${owner?` · 所有者 ${owner.name}`:''}`;
+    element.title=`${String(tile.i).padStart(2,'0')} · ${visual[0]} · ${tile.id}${asset?` · ${asset}`:''}${owner?tr` · 所有者 ${owner.name}`:''}`;
     element.setAttribute('aria-label',element.title);
     const pairing=pairingView(next.tagPairing,next.roomId);
     if(pairing&&!pairing.complete&&pairing.readerMapIndex===tile.i){
       element.classList.add('pairing-target');
-      element.title+=` · P${pairing.activePlayerId} 棋子配对格子`;
+      element.title+=tr` · P${pairing.activePlayerId} 棋子配对格子`;
       element.setAttribute('aria-label',element.title);
     }
     element.dataset.baseTitle=element.title;
     const meta=asset?`<span class="meta">${asset}</span>`:'';
-    const ownerBadge=owner?`<span class="owner-badge" title="${esc(owner.name)}" aria-label="所有者 ${esc(owner.name)}">${esc(owner.label)}</span>`:'';
-    element.innerHTML=`${art}<span class="n">${String(tile.i).padStart(2,'0')} · ${esc(kinds[tile.kind]||tile.kind)}</span>${ownerBadge}<span class="id">${esc(visual[0])}<small>${esc(tile.id)}</small></span>${meta}<span class="chips"></span>`;
+    const ownerBadge=owner?tr`<span class="owner-badge" title="${esc(owner.name)}" aria-label="所有者 ${esc(owner.name)}">${esc(owner.label)}</span>`:'';
+    element.innerHTML=`${art}<span class="n">${String(tile.i).padStart(2,'0')} · ${esc(tr(kinds[tile.kind]||tile.kind))}</span>${ownerBadge}<span class="id">${esc(visual[0])}<small>${esc(tile.id)}</small></span>${meta}<span class="chips"></span>`;
     board.appendChild(element);
   });
   renderPlayerChips();
@@ -733,14 +1126,14 @@ function render(next){
     if(!identityActive){
       const identityState=identitySeatLabel(player);
       const role=hasIdentityFlag(player,2)?'BOT':'HUMAN';
-      return`<div class="player" data-player-id="${player.id}" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${tagMark}</b><small style="display:block;color:var(--muted)">${role} · ${player.connected?'在线':'离线'}</small></div><span class="identity-state ${identityState[1]}">${identityState[0]}</span></div>`;
+      return`<div class="player" data-player-id="${player.id}" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${tagMark}</b><small style="display:block;color:var(--muted)">${role} · ${player.connected?tr('在线'):tr('离线')}</small></div><span class="identity-state ${identityState[1]}">${identityState[0]}</span></div>`;
     }
-    return`<div class="player ${player.id===(gameResult(next)?next.winnerPlayerId:next.activePlayer)?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键设置目的地或分配Tag" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}${tagMark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?'在线':'离线'} · 格 ${player.position}${player.held?' · 限制区':''}${player.bankrupt?' · 已破产':''}</small></div><span class="money">¥${player.cash}</span></div>`;
+    return tr`<div class="player ${player.id===(gameResult(next)?next.winnerPlayerId:next.activePlayer)?'active':''} ${armed?'forced-armed':''}" data-player-id="${player.id}" tabindex="0" title="右键设置目的地或分配Tag" style="--player-color:${playerColor(player.id)}"><i class="badge">${avatar}</i><div><b>${esc(displayName)}${mark}${tagMark}</b><small style="display:block;color:var(--muted)">${esc(player.controller)} · ${player.connected?tr('在线'):tr('离线')} · 格 ${player.position}${player.held?tr(' · 限制区'):''}${player.bankrupt?tr(' · 已破产'):''}</small></div><span class="money">¥${player.cash}</span></div>`;
   }).join('');
   renderForcedRollSelection();
-  $('#events').innerHTML=next.events.slice().reverse().map(event=>`<div class="event">#${event.seq} ${event.kind===31?'调试资金调整':event.kind===32?'调试归属修改':`E${event.kind}`} · P${event.actor} → P${event.target} · A${event.asset} · ${event.amount}</div>`).join('');
+  $('#events').innerHTML=next.events.slice().reverse().map(event=>`<div class="event">#${event.seq} ${event.kind===31?tr('调试资金调整'):event.kind===32?tr('调试归属修改'):`E${event.kind}`} · P${event.actor} → P${event.target} · A${event.asset} · ${event.amount}</div>`).join('');
   updateActionButtons();
-  if(tileDebugCatalogChanged)refreshTileDebug('地图已变更，临时分配目录已刷新。');
+  if(tileDebugCatalogChanged)refreshTileDebug(()=>tr('地图已变更，临时分配目录已刷新。'));
 }
 
 function maskBits(mask){
@@ -770,10 +1163,10 @@ function setBusy(busy){
 function validateNewGameCounts(announce=true){
   const roster=newGameRoster(playerDevices,playerDevicesReady);
   $('#new').disabled=actionInFlight||!roster.valid;
-  $('#newgame-roster').textContent=roster.message+(playerDevicesError?`（${playerDevicesError}）`:'');
+  i18nText($('#newgame-roster'),()=>roster.message+(playerDevicesError?`（${tr(playerDevicesError)}）`:''));
   $('#newgame-roster').className=roster.valid?'':'error';
   if(announce){
-    $('#status').textContent=roster.message;
+    i18nText($('#status'),()=>roster.message);
     $('#status').className=roster.valid?'':'error';
   }
   return roster.valid;
@@ -801,17 +1194,17 @@ function updatePlayerContextControls(){
   const player=state.players.find(candidate=>candidate.id===contextPlayerId);
   const blocked=actionInFlight||!player||state.roomId!==contextPlayerRoomId;
   if(player&&state.roomId===contextPlayerRoomId)
-    $('#player-context-title').textContent=`P${player.id} · ${player.name}`;
+    i18nText($('#player-context-title'),()=>`P${player.id} · ${player.name}`);
   const schedule=$('#player-force-destination');
   schedule.disabled=blocked||!forcedRollSupported()||!playerCanScheduleDestination(player);
-  schedule.textContent=!player?'玩家已离开':player.bankrupt?'玩家已破产':player.held?'限制区内不可指定':
-    player.id===state.activePlayer&&state.phase!==1?'当前阶段不可指定':'指定下一次目的地';
+  i18nText(schedule,()=>!player?tr('玩家已离开'):player.bankrupt?tr('玩家已破产'):player.held?tr('限制区内不可指定'):
+    player.id===state.activePlayer&&state.phase!==1?tr('当前阶段不可指定'):tr('指定下一次目的地'));
   const clear=$('#player-clear-destination');
   clear.disabled=blocked;
   clear.hidden=!(player&&state.roomId===contextPlayerRoomId&&forcedRollSupported()&&state.forcedRoll.active&&state.forcedRoll.player===player.id);
   const tagUid=String(player&&player.tagUid||'');
   $('#player-assign-tag').disabled=blocked;
-  $('#player-assign-tag').textContent=tagUid?`更换 Tag · ${tagUid}`:'分配 Tag';
+  i18nText($('#player-assign-tag'),()=>tagUid?tr`更换 Tag · ${tagUid}`:tr('分配 Tag'));
   $('#player-clear-tag').disabled=blocked;
   $('#player-clear-tag').hidden=!tagUid;
 }
@@ -823,7 +1216,7 @@ function openPlayerContextMenu(playerId,x,y){
   closeTileDebugContextMenu();
   contextPlayerId=playerId;contextPlayerRoomId=state.roomId;
   const menu=$('#player-context-menu');
-  $('#player-context-title').textContent=`P${player.id} · ${player.name}`;
+  i18nText($('#player-context-title'),()=>`P${player.id} · ${player.name}`);
   startDebugEdit('cash',playerId);
   menu.hidden=false;
   updatePlayerContextControls();
@@ -864,16 +1257,30 @@ function renderTagBindingPreview(){
   const uid=$('#tag-binding-select').value;
   const tag=tagBindingState.tags.find(candidate=>candidate.uid===uid);
   if(!tag){
-    $('#tag-binding-preview').textContent='当前没有稳定检测到的 Tag。请把棋子放到任一在线格子模块。';
+    i18nText($('#tag-binding-preview'),()=>tr('当前没有稳定检测到的 Tag。请把棋子放到任一在线格子模块。'));
     $('#tag-binding-save').disabled=true;
     return;
   }
   const places=tag.sightings.filter(item=>item.currentlySeen).map(item=>
-    `${item.moduleId} / ${item.tileId||`格 ${item.mapIndex}`}`).join(' · ');
+    `${item.moduleId} / ${item.tileId||tr`格 ${item.mapIndex}`}`).join(' · ');
   const owner=tag.boundPlayerId&&tag.boundPlayerId!==tagBindingPlayerId?
-    `当前绑定 P${tag.boundPlayerId}；确认后会原子转移。`:'当前未绑定其他玩家。';
-  $('#tag-binding-preview').textContent=`UID ${tag.uid} · ${places||'检测位置未知'} · ${owner}`;
+    tr`当前绑定 P${tag.boundPlayerId}；确认后会原子转移。`:tr('当前未绑定其他玩家。');
+  i18nText($('#tag-binding-preview'),()=>`UID ${tag.uid} · ${places||tr('检测位置未知')} · ${owner}`);
   $('#tag-binding-save').disabled=false;
+}
+
+function renderTagBindingOptions(playerId,keepSelection=false){
+  const selected=$('#tag-binding-select').value;
+    const current=tagBindingState.bindings.find(binding=>binding.playerId===playerId);
+    const visible=tagBindingState.tags.filter(tag=>tag.currentlySeen)
+      .sort((left,right)=>right.lastSeenMs-left.lastSeenMs||left.uid.localeCompare(right.uid));
+    $('#tag-binding-select').innerHTML=visible.length?visible.map(tag=>{
+      const owner=tag.boundPlayerId?tr` · 已绑定 P${tag.boundPlayerId}`:'';
+      return tr`<option value="${tag.uid}">${tag.uid} · ${tag.sightings.filter(item=>item.currentlySeen).length} 个格子${owner}</option>`;
+    }).join(''):tr('<option value="">暂无稳定检测的 Tag</option>');
+    if(current&&visible.some(tag=>tag.uid===current.uid))$('#tag-binding-select').value=current.uid;
+
+  if(keepSelection&&visible.some(tag=>tag.uid===selected))$('#tag-binding-select').value=selected;
 }
 
 function closeTagBindingModal(){
@@ -887,26 +1294,19 @@ async function openTagBindingModal(playerId){
   hidePlayerContextMenu();
   tagBindingPlayerId=playerId;
   $('#tag-binding-modal').hidden=false;
-  $('#tag-binding-title').textContent=`为 P${player.id} 分配 Tag`;
-  $('#tag-binding-player').textContent=`${player.name||`P${player.id}`} · 选择任一格子模块当前稳定识别到的 UID。`;
-  $('#tag-binding-select').innerHTML='<option value="">正在读取…</option>';
+  i18nText($('#tag-binding-title'),()=>tr`为 P${player.id} 分配 Tag`);
+  i18nText($('#tag-binding-player'),()=>tr`${player.name||`P${player.id}`} · 选择任一格子模块当前稳定识别到的 UID。`);
+  $('#tag-binding-select').innerHTML=tr('<option value="">正在读取…</option>');
   $('#tag-binding-save').disabled=true;
-  $('#tag-binding-hint').textContent='正在读取全局 Tag 列表…';
+  i18nText($('#tag-binding-hint'),()=>tr('正在读取全局 Tag 列表…'));
   $('#tag-binding-hint').className='settings-hint';
   try{
     await refreshTagBindingState();
-    const current=tagBindingState.bindings.find(binding=>binding.playerId===playerId);
-    const visible=tagBindingState.tags.filter(tag=>tag.currentlySeen)
-      .sort((left,right)=>right.lastSeenMs-left.lastSeenMs||left.uid.localeCompare(right.uid));
-    $('#tag-binding-select').innerHTML=visible.length?visible.map(tag=>{
-      const owner=tag.boundPlayerId?` · 已绑定 P${tag.boundPlayerId}`:'';
-      return`<option value="${tag.uid}">${tag.uid} · ${tag.sightings.filter(item=>item.currentlySeen).length} 个格子${owner}</option>`;
-    }).join(''):'<option value="">暂无稳定检测的 Tag</option>';
-    if(current&&visible.some(tag=>tag.uid===current.uid))$('#tag-binding-select').value=current.uid;
-    $('#tag-binding-hint').textContent=`Tag目录 REV ${tagBindingState.tagRevision} · 绑定 REV ${tagBindingState.bindingRevision}`;
+    renderTagBindingOptions(playerId);
+    i18nText($('#tag-binding-hint'),()=>tr`Tag目录 REV ${tagBindingState.tagRevision} · 绑定 REV ${tagBindingState.bindingRevision}`);
     renderTagBindingPreview();
   }catch(error){
-    $('#tag-binding-hint').textContent=`读取失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#tag-binding-hint'),()=>tr`读取失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#tag-binding-hint').className='settings-hint error';
   }
 }
@@ -916,7 +1316,7 @@ async function saveTagBinding(){
   if(actionInFlight||!tagBindingPlayerId||!/^[0-9A-F]{8}$/.test(uid))return;
   const playerId=tagBindingPlayerId;
   setBusy(true);
-  $('#tag-binding-hint').textContent='正在提交权威绑定…';
+  i18nText($('#tag-binding-hint'),()=>tr('正在提交权威绑定…'));
   $('#tag-binding-hint').className='settings-hint';
   try{
     const response=await fetchWithTimeout(`/api/player-tag-binding?playerId=${tagBindingPlayerId}&uid=${uid}&expectedRevision=${tagBindingState.bindingRevision}`,
@@ -925,10 +1325,10 @@ async function saveTagBinding(){
     if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
     tagBindingState=normalizeTagBindingPayload(payload);
     closeTagBindingModal();
-    $('#status').textContent=`Tag ${uid} 已绑定到 P${playerId}`;
+    i18nText($('#status'),()=>tr`Tag ${uid} 已绑定到 P${playerId}`);
     await refresh(true);
   }catch(error){
-    $('#tag-binding-hint').textContent=`绑定失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#tag-binding-hint'),()=>tr`绑定失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#tag-binding-hint').className='settings-hint error';
   }finally{
     setBusy(false);
@@ -946,10 +1346,10 @@ async function clearPlayerTagBinding(playerId){
     const payload=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(payload.error||`HTTP ${response.status}`);
     tagBindingState=normalizeTagBindingPayload(payload);
-    $('#status').textContent=`P${playerId} 的 Tag 绑定已解除`;
+    i18nText($('#status'),()=>tr`P${playerId} 的 Tag 绑定已解除`);
     await refresh(true);
   }catch(error){
-    $('#status').textContent=`解除失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#status'),()=>tr`解除失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#status').className='error';
   }finally{
     setBusy(false);
@@ -982,7 +1382,7 @@ function renderForcedRollSelection(){
   const player=state.players.find(candidate=>candidate.id===forcedSelection.playerId);
   if(!playerCanScheduleDestination(player)){
     cancelForcedRollSelection();
-    $('#status').textContent='玩家状态已变化，请重新选择';
+    i18nText($('#status'),()=>tr('玩家状态已变化，请重新选择'));
     $('#status').className='error';
     return;
   }
@@ -992,10 +1392,9 @@ function renderForcedRollSelection(){
     const tile=document.querySelector(`#board .tile[data-tile-index="${entry.target}"]`);
     if(!tile)continue;
     tile.classList.add('forced-candidate');
-    tile.title=`${tile.dataset.baseTitle} · 点击指定 · +${entry.steps}`;
+    tile.title=tr`${tile.dataset.baseTitle} · 点击指定 · +${entry.steps}`;
   }
-  $('#forced-selection-text').textContent=
-    `为 ${player.name} 选择目的地 · 蓝色格均为合法骰距 +2～+12`;
+  i18nText($('#forced-selection-text'),()=>tr`为 ${player.name} 选择目的地 · 蓝色格均为合法骰距 +2～+12`);
   $('#forced-selection-banner').hidden=false;
 }
 
@@ -1013,7 +1412,7 @@ async function submitForcedRollTarget(target){
   const player=forcedSelection.playerId;
   let succeeded=false;
   setBusy(true);
-  $('#status').textContent='正在设置下一次目的地…';
+  i18nText($('#status'),()=>tr('正在设置下一次目的地…'));
   $('#status').className='';
   try{
     const response=await fetchWithTimeout(
@@ -1023,10 +1422,10 @@ async function submitForcedRollTarget(target){
     if(!response.ok)throw new Error(result.message||result.error||`HTTP ${response.status}`);
     succeeded=true;
     forcedSelection=null;
-    $('#status').textContent=`下一次目的地已设置 · P${player} → 格 ${String(target).padStart(2,'0')}`;
+    i18nText($('#status'),()=>tr`下一次目的地已设置 · P${player} → 格 ${String(target).padStart(2,'0')}`);
     $('#status').className='';
   }catch(error){
-    $('#status').textContent=`设置失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#status'),()=>tr`设置失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#status').className='error';
   }finally{
     setBusy(false);
@@ -1040,16 +1439,16 @@ async function clearForcedRollTarget(){
   hidePlayerContextMenu();
   cancelForcedRollSelection();
   setBusy(true);
-  $('#status').textContent='正在取消指定目的地…';
+  i18nText($('#status'),()=>tr('正在取消指定目的地…'));
   $('#status').className='';
   try{
     const response=await fetchWithTimeout('/api/forced-roll?cancel=1',
       {method:'POST',cache:'no-store'},8000);
     const result=await response.json();
     if(!response.ok)throw new Error(result.message||result.error||`HTTP ${response.status}`);
-    $('#status').textContent='已取消指定目的地';
+    i18nText($('#status'),()=>tr('已取消指定目的地'));
   }catch(error){
-    $('#status').textContent=`取消失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#status'),()=>tr`取消失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#status').className='error';
   }finally{
     setBusy(false);
@@ -1059,7 +1458,7 @@ async function clearForcedRollTarget(){
 
 function debugOwnerLabel(id){
   const player=state&&state.players.find(player=>player.id===Number(id));
-  return Number(id)===0?'银行':player?`P${player.id} · ${player.name}`:`P${id}`;
+  return Number(id)===0?tr('银行'):player?`P${player.id} · ${player.name}`:`P${id}`;
 }
 
 function debugEditValue(){
@@ -1082,7 +1481,7 @@ function debugControl(part,edit=debugEdit){return $(`#debug-${edit.kind}${part?'
 function debugValueLabel(kind,value){return kind==='cash'?`¥${Number(value).toLocaleString()}`:debugOwnerLabel(value);}
 function debugFeedback(message,error=false){
   if(!debugEdit)return;
-  debugControl('status').textContent=message;
+  i18nText(debugControl('status'),()=>typeof message==='function'?message():message);
   debugControl('status').className=`inline-edit-status${error?' error':''}`;
 }
 function constrainContextMenu(menu){
@@ -1100,17 +1499,17 @@ function updateDebugEditPreview(){
   if(edit.savedVersion&&sameRoom&&object&&state.version>=edit.savedVersion){
     edit.version=state.version;edit.savedVersion=0;
     debugControl('').value=edit.kind==='cash'?object.cash:object.owner;
-    debugFeedback('已保存，当前值已从服务器回读。');
+    debugFeedback(()=>tr('已保存，当前值已从服务器回读。'));
   }
   const stale=!sameRoom||movedMap||!object||state.version!==edit.version;
   const value=debugEditValue();
-  const current=sameRoom&&object?debugValueLabel(edit.kind,edit.kind==='cash'?object.cash:object.owner):edit.currentLabel;
-  debugControl('preview').textContent=`当前：${current} · 待保存：${value===null?'请输入有效值':debugValueLabel(edit.kind,value)}`;
+  const current=sameRoom&&object?debugValueLabel(edit.kind,edit.kind==='cash'?object.cash:object.owner):tr(edit.currentLabel);
+  i18nText(debugControl('preview'),()=>tr`当前：${current} · 待保存：${value===null?tr('请输入有效值'):debugValueLabel(edit.kind,value)}`);
   debugControl('save').disabled=actionInFlight||stale||value===null||Boolean(edit.savedVersion);
   debugControl('reset').disabled=actionInFlight||Boolean(edit.savedVersion)||movedMap;
-  debugControl('reset').textContent=stale?'载入最新值':'重置';
-  if(movedMap)debugFeedback('房间或地图已变化，请关闭菜单后重新右键此格。',true);
-  else if(stale&&!edit.savedVersion)debugFeedback('对局状态已变化，草稿已保留。请载入最新值后再保存。',true);
+  i18nText(debugControl('reset'),()=>stale?tr('载入最新值'):tr('重置'));
+  if(movedMap)debugFeedback(()=>tr('房间或地图已变化，请关闭菜单后重新右键此格。'),true);
+  else if(stale&&!edit.savedVersion)debugFeedback(()=>tr('对局状态已变化，草稿已保留。请载入最新值后再保存。'),true);
   constrainContextMenu($(edit.kind==='cash'?'#player-context-menu':'#tile-debug-context-menu'));
 }
 
@@ -1120,31 +1519,31 @@ function startDebugEdit(kind,id){
   debugEdit=null;
   if(!object)return;
   debugEdit={kind,id,roomId:state.roomId,version:state.version,savedVersion:0,boardId:state.board.id,boardSize:state.board.size,
-    currentLabel:debugValueLabel(kind,kind==='cash'?object.cash:object.owner)};
+    currentLabel:kind==='owner'&&object.owner===0?'银行':debugValueLabel(kind,kind==='cash'?object.cash:object.owner)};
   if(kind==='cash'){
     contextPlayerRoomId=state.roomId;
-    $('#player-context-title').textContent=`P${object.id} · ${object.name}`;
+    i18nText($('#player-context-title'),()=>`P${object.id} · ${object.name}`);
     updatePlayerContextControls();
   }
-  if(kind==='owner')$('#debug-owner').innerHTML='<option value="0">银行</option>'+state.players.filter(player=>!player.bankrupt)
+  if(kind==='owner')$('#debug-owner').innerHTML=tr('<option value="0">银行</option>')+state.players.filter(player=>!player.bankrupt)
     .map(player=>`<option value="${player.id}">${esc(debugOwnerLabel(player.id))}</option>`).join('');
   debugControl('').value=kind==='cash'?object.cash:object.owner;
-  debugFeedback('修改后点击保存；关闭菜单不会提交。');
+  debugFeedback(()=>tr('修改后点击保存；关闭菜单不会提交。'));
   updateDebugEditPreview();
 }
 
 function resetDebugEdit(){
   if(actionInFlight||!debugEdit||debugEdit.savedVersion||debugControl('reset').disabled)return;
   if(!debugEditObject(debugEdit.kind,debugEdit.id)){
-    debugFeedback('此对象在当前对局不可编辑，请关闭菜单。',true);return;
+    debugFeedback(()=>tr('此对象在当前对局不可编辑，请关闭菜单。'),true);return;
   }
   startDebugEdit(debugEdit.kind,debugEdit.id);
-  debugFeedback('已载入当前值，尚未提交。');
+  debugFeedback(()=>tr('已载入当前值，尚未提交。'));
 }
 
 function changedDebugEdit(){
   if(!debugEdit)return;
-  debugFeedback('待保存；关闭菜单不会提交。');
+  debugFeedback(()=>tr('待保存；关闭菜单不会提交。'));
   updateDebugEditPreview();
 }
 
@@ -1159,22 +1558,22 @@ async function saveDebugEdit(){
   clearTimeout(pollTimer);
   setBusy(true);
   if(refreshController)refreshController.abort();
-  debugFeedback('正在保存…');
+  debugFeedback(()=>tr('正在保存…'));
   try{
     const response=await fetchWithTimeout(`/api/debug/${edit.kind==='cash'?'player-cash':'asset-owner'}?${query}`,
       {method:'POST',cache:'no-store'},8000);
     const result=await response.json();
     if(!response.ok||result.ok!==true)throw new Error(result.message||`HTTP ${response.status}`);
     if(result.roomId!==edit.roomId||!state||state.roomId!==edit.roomId)throw new Error('room_changed');
-    if(debugEdit===edit){edit.savedVersion=result.version;debugFeedback('已保存，正在回读当前值…');}
+    if(debugEdit===edit){edit.savedVersion=result.version;debugFeedback(()=>tr('已保存，正在回读当前值…'));}
   }catch(error){
     const messages={room_changed:'房间已变化，请载入最新值',version_changed:'状态已变化，请载入最新值',
       persist_failed:'写入失败，原值已保留',invalid_debug_request:'提交内容不合法',
       'unmortgage this asset before changing ownership':'请先赎回此资产',
       'sell all buildings in this group before changing ownership':'请先出售同组全部建筑',
       'debug edits require await-roll or turn-end without pending workflows or trades':'请先完成当前事务或交易，并等待掷骰或回合结束'};
-    if(debugEdit===edit)debugFeedback(error.name==='AbortError'?'请求超时，请核对当前值，确认是否已保存。':
-      `未保存：${messages[error.message]||error.message}`,true);
+    if(debugEdit===edit)debugFeedback(()=>error.name==='AbortError'?tr('请求超时，请核对当前值，确认是否已保存。'):
+      tr`未保存：${tr(messages[error.message]||error.message)}`,true);
   }finally{
     setBusy(false);
     await refresh(true);
@@ -1184,11 +1583,11 @@ async function saveDebugEdit(){
 
 function tileDebugSetStatus(message,error=false){
   const element=$('#tile-debug-status');
-  element.textContent=message;
+  i18nText(element,()=>typeof message==='function'?message():message);
   element.className=`tile-debug-status${error?' error':''}`;
   const contextStatus=$('#tile-debug-context-status');
   if(contextStatus){
-    contextStatus.textContent=message;
+    i18nText(contextStatus,()=>typeof message==='function'?message():message);
     contextStatus.className=`tile-debug-context-status${error?' error':''}`;
   }
 }
@@ -1209,21 +1608,21 @@ function renderTileDebugPreview(){
   const preview=$('#tile-debug-preview');
   preview.style.setProperty('--preview-accent',tile?tile.accentRgb:'#42526A');
   preview.innerHTML=tile?
-    `<div class="tile-debug-preview-grid"><span>格子</span><b>${String(tile.mapIndex).padStart(2,'0')} / ${esc(tile.displayName||tile.tileId)}</b><span>类型</span><b>${esc(tile.kind||'未知')}</b><span>素材</span><b>${esc(tile.artworkKey||'无')}</b><span>价格</span><b>${tile.purchasePrice>0?`¥${tile.purchasePrice}`:'不可购买'}</b></div>`:
-    '<div class="tile-debug-preview-grid"><span>格子</span><b>请右键棋盘格</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div>';
+    tr`<div class="tile-debug-preview-grid"><span>格子</span><b>${String(tile.mapIndex).padStart(2,'0')} / ${esc(tile.displayName||tile.tileId)}</b><span>类型</span><b>${esc(tile.kind||tr('未知'))}</b><span>素材</span><b>${esc(tile.artworkKey||tr('无'))}</b><span>价格</span><b>${tile.purchasePrice>0?`¥${tile.purchasePrice}`:tr('不可购买')}</b></div>`:
+    tr('<div class="tile-debug-preview-grid"><span>格子</span><b>请右键棋盘格</b><span>类型</span><b>-</b><span>素材</span><b>-</b><span>价格</span><b>-</b></div>');
 }
 
 function renderTileDebugOccupancy(){
   const occupancy=$('#tile-debug-occupancy');
   const assignments=tileDebugState.assignments.filter(assignment=>assignment.tileId===contextTileId);
   occupancy.innerHTML=assignments.length?
-    `<b>当前占用此格</b>${assignments.map(assignment=>{
+    tr`<b>当前占用此格</b>${assignments.map(assignment=>{
       const module=tileDebugModuleFor(assignment.moduleId);
-      const owner=assignment.ownerPlayerId>0?`P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:'未购买';
+      const owner=assignment.ownerPlayerId>0?`P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:tr('未购买');
       const swatch=assignment.ownerPlayerId>0?assignment.ownerRgb:assignment.accentRgb;
       return`<span><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} · ${esc(assignment.deviceId)} · ${esc(owner)} · ${esc(tileDebugLeaseLabel(module))}</span>`;
     }).join('')}`:
-    '<b>当前占用此格</b><span>暂无模块分配到这里。</span>';
+    tr('<b>当前占用此格</b><span>暂无模块分配到这里。</span>');
 }
 
 function updateTileDebugControls(){
@@ -1253,13 +1652,13 @@ function selectTileDebugModule(){
   updateTileDebugControls();
   const contextStatus=$('#tile-debug-context-status');
   if(module&&!module.online){
-    contextStatus.textContent='该模块当前离线，只能清除现有分配。';
+    i18nText(contextStatus,()=>tr('该模块当前离线，只能清除现有分配。'));
     contextStatus.className='tile-debug-context-status error';
   }else if(module&&module.online){
-    contextStatus.textContent=`${tileDebugLeaseLabel(module)} · 可分配到当前格子。`;
+    i18nText(contextStatus,()=>tr`${tileDebugLeaseLabel(module)} · 可分配到当前格子。`);
     contextStatus.className='tile-debug-context-status';
   }else{
-    contextStatus.textContent='当前没有可用的在线格子模块。';
+    i18nText(contextStatus,()=>tr('当前没有可用的在线格子模块。'));
     contextStatus.className='tile-debug-context-status';
   }
 }
@@ -1291,15 +1690,14 @@ async function openTileDebugContextMenu(tile,x,y){
     catalogTile=tileDebugState.tiles.find(candidate=>candidate.tileId===tileId);
   }
   if(!catalogTile||!catalogCurrent()){
-    tileDebugSetStatus('当前地图目录尚未就绪，请刷新后重试。',true);
+    tileDebugSetStatus(()=>tr('当前地图目录尚未就绪，请刷新后重试。'),true);
     return;
   }
   hidePlayerContextMenu();
   contextTileId=catalogTile.tileId;
   startDebugEdit('owner',contextTileId);
-  $('#tile-debug-context-title').firstChild.textContent=
-    `${String(catalogTile.mapIndex).padStart(2,'0')} · ${catalogTile.displayName||catalogTile.tileId}`;
-  $('#tile-debug-context-subtitle').textContent=catalogTile.tileId;
+  i18nText($('#tile-debug-context-title').firstChild,()=>`${String(catalogTile.mapIndex).padStart(2,'0')} · ${catalogTile.displayName||catalogTile.tileId}`);
+  i18nText($('#tile-debug-context-subtitle'),()=>catalogTile.tileId);
   const previous=tileDebugModuleFor($('#tile-debug-module').value);
   const selected=(previous&&previous.online)?previous:tileDebugState.modules.find(module=>module.online);
   $('#tile-debug-module').value=selected?selected.moduleId:'';
@@ -1315,28 +1713,28 @@ async function openTileDebugContextMenu(tile,x,y){
 
 function renderTileDebug(){
   const previousModule=$('#tile-debug-module').value;
-  $('#tile-debug-revision').textContent=`REV ${tileDebugState.revision}`;
-  $('#tile-debug-updated').textContent=tileDebugUpdatedAtLabel(tileDebugState.updatedAtMs);
+  i18nText($('#tile-debug-revision'),()=>`REV ${tileDebugState.revision}`);
+  i18nText($('#tile-debug-updated'),()=>tileDebugUpdatedAtLabel(tileDebugState.updatedAtMs));
   const onlineModules=tileDebugState.modules.filter(module=>module.online);
   const selectedModule=onlineModules.find(module=>module.moduleId===previousModule)||onlineModules[0];
   $('#tile-debug-module').innerHTML=onlineModules.length?onlineModules.map(module=>
-    `<option value="${esc(module.moduleId)}">${esc(module.moduleId)} / ${esc(module.deviceId)} / ${esc(tileDebugLeaseLabel(module))}${module.assigned?' / 已有分配':''}</option>`
-  ).join(''):'<option value="">暂无在线模块</option>';
+    `<option value="${esc(module.moduleId)}">${esc(module.moduleId)} / ${esc(module.deviceId)} / ${esc(tileDebugLeaseLabel(module))}${module.assigned?tr(' / 已有分配'):''}</option>`
+  ).join(''):tr('<option value="">暂无在线模块</option>');
   $('#tile-debug-module').value=selectedModule?selectedModule.moduleId:'';
   const list=$('#tile-debug-list');
   list.innerHTML=tileDebugState.modules.length?tileDebugState.modules.map(module=>{
     const assignment=tileDebugAssignmentFor(tileDebugState,module.moduleId);
     const details=esc(tileDebugOrderLabel(module));
     const sourceLabel=esc(tileDebugSourceLabel(module,assignment));
-    const clearAnchor=module.orderAnchorTileId||module.source==='manual'?`<button type="button" data-clear-tile-anchor="${esc(module.moduleId)}" ${tileDebugInFlight||actionInFlight?'disabled':''}>取消手动指定</button>`:'';
-    const pending=module.orderAnchorTileId?`已指定 ${module.orderAnchorTileId}，暂未生效`:'未分配';
+    const clearAnchor=module.orderAnchorTileId||module.source==='manual'?tr`<button type="button" data-clear-tile-anchor="${esc(module.moduleId)}" ${tileDebugInFlight||actionInFlight?'disabled':''}>取消手动指定</button>`:'';
+    const pending=module.orderAnchorTileId?tr`已指定 ${module.orderAnchorTileId}，暂未生效`:tr('未分配');
     if(!assignment)return`<div class="tile-debug-row"><b>${esc(module.moduleId)} / ${esc(pending)}</b><small>${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small>${clearAnchor}</div>`;
     const owner=assignment.ownerPlayerId>0?
-      `P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:'未购买';
+      `P${assignment.ownerPlayerId} / ${assignment.ownerDisplayName||`P${assignment.ownerPlayerId}`}`:tr('未购买');
     const updated=assignment.updatedAtMs?` / ${tileDebugUpdatedAtLabel(assignment.updatedAtMs)}`:'';
     const swatch=assignment.ownerPlayerId>0?assignment.ownerRgb:assignment.accentRgb;
-    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||'无 deviceId')} / ${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small>${clearAnchor}</div>`;
-  }).join(''):'<div class="tile-debug-empty">暂无格子模块。模块联网后会显示在这里。</div>';
+    return`<div class="tile-debug-row"><b><i class="tile-debug-swatch" style="--swatch:${swatch}"></i>${esc(assignment.moduleId)} / ${esc(assignment.displayName||assignment.tileId)}</b><small>${String(assignment.mapIndex).padStart(2,'0')} / ${esc(assignment.tileId)} / ${esc(owner)} / REV ${assignment.revision}${esc(updated)}</small><small>${esc(assignment.deviceId||tr('无 deviceId'))} / ${esc(tileDebugLeaseLabel(module))} / ${sourceLabel}</small><small>${details}</small>${clearAnchor}</div>`;
+  }).join(''):tr('<div class="tile-debug-empty">暂无格子模块。模块联网后会显示在这里。</div>');
   if(!$('#tile-debug-context-menu').hidden)selectTileDebugModule();
   else updateTileDebugControls();
 }
@@ -1345,7 +1743,7 @@ async function refreshTileDebug(successMessage=''){
   if(tileDebugInFlight)return;
   tileDebugInFlight=true;
   updateTileDebugControls();
-  tileDebugSetStatus(successMessage||'正在读取模块、地图和临时分配…');
+  tileDebugSetStatus(()=>successMessage||tr('正在读取模块、地图和临时分配…'));
   try{
     const response=await fetchWithTimeout('/api/tile-debug/assignments',{cache:'no-store'},8000);
     const payload=await response.json().catch(()=>({}));
@@ -1355,10 +1753,10 @@ async function refreshTileDebug(successMessage=''){
        (nextState.roomId!==tileDebugState.roomId||nextState.boardId!==tileDebugState.boardId||
         nextState.boardSize!==tileDebugState.boardSize))closeTileDebugContextMenu();
     tileDebugState=nextState;
-    tileDebugSetStatus(successMessage||`已读取 ${tileDebugState.modules.length} 个模块，${tileDebugState.assignments.length} 项临时分配。`);
+    tileDebugSetStatus(()=>successMessage||tr`已读取 ${tileDebugState.modules.length} 个模块，${tileDebugState.assignments.length} 项临时分配。`);
     renderTileDebug();
   }catch(error){
-    tileDebugSetStatus(`读取失败：${error.name==='AbortError'?'请求超时':error.message}`,true);
+    tileDebugSetStatus(()=>tr`读取失败：${error.name==='AbortError'?tr('请求超时'):error.message}`,true);
   }finally{
     tileDebugInFlight=false;
     updateTileDebugControls();
@@ -1369,7 +1767,7 @@ async function mutateTileDebug(path,method,successMessage){
   if(tileDebugInFlight||actionInFlight)return false;
   tileDebugInFlight=true;
   updateTileDebugControls();
-  tileDebugSetStatus('正在提交临时调试配置…');
+  tileDebugSetStatus(()=>tr('正在提交临时调试配置…'));
   let succeeded=false;
   let returnedSnapshot=null;
   try{
@@ -1379,7 +1777,7 @@ async function mutateTileDebug(path,method,successMessage){
     succeeded=true;
     if(Array.isArray(result.tiles)&&Array.isArray(result.assignments))returnedSnapshot=result;
   }catch(error){
-    tileDebugSetStatus(`提交失败：${error.name==='AbortError'?'请求超时':error.message}`,true);
+    tileDebugSetStatus(()=>tr`提交失败：${error.name==='AbortError'?tr('请求超时'):error.message}`,true);
   }finally{
     tileDebugInFlight=false;
     updateTileDebugControls();
@@ -1402,11 +1800,11 @@ async function applyTileDebugAssignment(){
   const tileId=contextTileId;
   if(!module||!module.online||!tileDebugSafeIdentifier(moduleId)||
       !tileDebugSafeIdentifier(deviceId)||!tileId){
-    tileDebugSetStatus('请选择有效的在线格子模块和目标格子。',true);
+    tileDebugSetStatus(()=>tr('请选择有效的在线格子模块和目标格子。'),true);
     return;
   }
   const succeeded=await mutateTileDebug(`/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}&deviceId=${encodeURIComponent(deviceId)}&tileId=${encodeURIComponent(tileId)}`,'POST',
-    '已设为手动锚点，同串模块将按 ORDER 顺序分配。');
+    ()=>tr('已设为手动锚点，同串模块将按 ORDER 顺序分配。'));
   if(succeeded)closeTileDebugContextMenu();
 }
 
@@ -1414,14 +1812,14 @@ async function clearTileDebugAssignment(moduleId=$('#tile-debug-module').value){
   moduleId=tileDebugText(moduleId);
   if(!tileDebugSafeIdentifier(moduleId))return;
   const succeeded=await mutateTileDebug(`/api/tile-debug/assignment?moduleId=${encodeURIComponent(moduleId)}`,'DELETE',
-    '已取消手动指定；如同串仍有锚点，该模块会重新跟随分配。');
+    ()=>tr('已取消手动指定；如同串仍有锚点，该模块会重新跟随分配。'));
   if(succeeded)closeTileDebugContextMenu();
 }
 
 async function openSettings(){
   if(actionInFlight)return;
   $('#settings-modal').hidden=false;
-  $('#settings-hint').textContent='正在读取当前设置…';
+  i18nText($('#settings-hint'),()=>tr('正在读取当前设置…'));
   $('#settings-hint').className='settings-hint';
   try{
     const response=await fetchWithTimeout('/api/settings',{cache:'no-store'});
@@ -1430,11 +1828,11 @@ async function openSettings(){
     $('#bot-interval').min=settings.minimumMs;
     $('#bot-interval').max=settings.maximumMs;
     $('#bot-interval').value=settings.botActionIntervalMs;
-    $('#settings-hint').textContent=`当前 ${settings.botActionIntervalMs} ms；允许 ${settings.minimumMs}–${settings.maximumMs} ms。`;
+    i18nText($('#settings-hint'),()=>tr`当前 ${settings.botActionIntervalMs} ms；允许 ${settings.minimumMs}–${settings.maximumMs} ms。`);
     $('#bot-interval').focus();
     $('#bot-interval').select();
   }catch(error){
-    $('#settings-hint').textContent=`读取失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#settings-hint'),()=>tr`读取失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#settings-hint').className='settings-hint error';
   }
 }
@@ -1451,23 +1849,23 @@ async function saveSettings(){
   const minimum=Number(input.min);
   const maximum=Number(input.max);
   if(!Number.isInteger(interval)||interval<minimum||interval>maximum){
-    $('#settings-hint').textContent=`请输入 ${minimum}–${maximum} 之间的整数毫秒数。`;
+    i18nText($('#settings-hint'),()=>tr`请输入 ${minimum}–${maximum} 之间的整数毫秒数。`);
     $('#settings-hint').className='settings-hint error';
     input.focus();
     return;
   }
   setBusy(true);
-  $('#settings-hint').textContent='正在保存…';
+  i18nText($('#settings-hint'),()=>tr('正在保存…'));
   $('#settings-hint').className='settings-hint';
   try{
     const response=await fetchWithTimeout(`/api/settings?botIntervalMs=${interval}`,{method:'POST',cache:'no-store'},8000);
     const result=await response.json();
     if(!response.ok)throw new Error(result.error||`HTTP ${response.status}`);
-    $('#status').textContent=`机器人动作间隔已设为 ${result.botActionIntervalMs} ms`;
+    i18nText($('#status'),()=>tr`机器人动作间隔已设为 ${result.botActionIntervalMs} ms`);
     $('#status').className='';
     $('#settings-modal').hidden=true;
   }catch(error){
-    $('#settings-hint').textContent=`保存失败：${error.name==='AbortError'?'请求超时':error.message}`;
+    i18nText($('#settings-hint'),()=>tr`保存失败：${error.name==='AbortError'?tr('请求超时'):error.message}`);
     $('#settings-hint').className='settings-hint error';
   }finally{
     setBusy(false);
@@ -1507,7 +1905,7 @@ async function refresh(force=false){
     if(response.status===204){
       if(state&&state.identity&&Number(state.identity.phase)===2)renderIdentityWorkflow(state);
       pollDelay=state&&state.identity&&Number(state.identity.phase)===2?250:1000;
-      $('#status').textContent=state&&state.wifi.connected?`在线 · ${state.wifi.ip}`:'Wi-Fi 未连接';
+      i18nText($('#status'),()=>state&&state.wifi.connected?tr`在线 · ${state.wifi.ip}`:tr('Wi-Fi 未连接'));
       $('#status').className='';
       return;
     }
@@ -1521,7 +1919,7 @@ async function refresh(force=false){
     $('#status').className='';
   }catch(error){
     if(error.name==='AbortError'&&actionInFlight)return;
-    $('#status').textContent='连接断开';
+    i18nText($('#status'),()=>tr('连接断开'));
     $('#status').className='error';
     pollDelay=Math.min(5000,Math.max(1500,pollDelay*2));
   }finally{
@@ -1537,31 +1935,31 @@ async function send(path,feedbackSelector=''){
   const report=(message,failed=false)=>{
     if(!feedback)return;
     feedback.hidden=false;
-    feedback.textContent=message;
+    i18nText(feedback,()=>typeof message==='function'?message():message);
     feedback.className=failed?'error':'';
   };
   clearTimeout(pollTimer);
   setBusy(true);
   if(refreshController)refreshController.abort();
-  $('#status').textContent='正在提交操作…';
+  i18nText($('#status'),()=>tr('正在提交操作…'));
   $('#status').className='';
-  report('正在创建新游戏…');
+  report(()=>tr('正在创建新游戏…'));
   try{
     const response=await fetchWithTimeout(path,{method:'POST',cache:'no-store'},8000);
     const result=await response.json();
     if(!response.ok||result.ok===false)throw new Error(result.message||result.error||`HTTP ${response.status}`);
-    $('#status').textContent=result.version===undefined?'操作已接受':`操作已接受 · 状态 ${result.version}`;
-    report('新游戏已创建，请按玩家屏提示配对棋子。');
+    i18nText($('#status'),()=>result.version===undefined?tr('操作已接受'):tr`操作已接受 · 状态 ${result.version}`);
+    report(()=>tr('新游戏已创建，请按玩家屏提示配对棋子。'));
   }catch(error){
     const messages={
       no_eligible_players:'未检测到支持配对的在线玩家屏，请检查连接后重试。',
       too_many_players:'在线玩家屏超过4台，请断开多余的屏幕后重试。',
       automatic_players_require_32_tiles:'当前服务器仅支持32格自动组队，请更新服务器或选择32格。'
     };
-    const detail=error.name==='AbortError'?'请求超时，请先核对当前对局状态再重试。':messages[error.message]||error.message;
-    $('#status').textContent=`操作失败：${detail}`;
+    const detail=()=>error.name==='AbortError'?tr('请求超时，请先核对当前对局状态再重试。'):tr(messages[error.message]||error.message);
+    i18nText($('#status'),()=>tr`操作失败：${detail()}`);
     $('#status').className='error';
-    report(`新建游戏失败：${detail}`,true);
+    report(()=>tr`新建游戏失败：${detail()}`,true);
   }finally{
     setBusy(false);
     await refresh(true);
@@ -1570,7 +1968,7 @@ async function send(path,feedbackSelector=''){
 
 document.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{
   const sellGroup=button.dataset.action==='sellgroup';
-  if(sellGroup&&!window.confirm(`确认出售资产 A${$('#asset').value} 所在整个地区组的全部建筑和地标？地产所有权保留，建筑按规则回收。这会一次清空整组建筑。`))return;
+  if(sellGroup&&!window.confirm(tr`确认出售资产 A${$('#asset').value} 所在整个地区组的全部建筑和地标？地产所有权保留，建筑按规则回收。这会一次清空整组建筑。`))return;
   const action=sellGroup?'sell':button.dataset.action;
   const argument=sellGroup?'&arg=1':action==='sell'?'&arg=0':action==='bid'?`&arg=${$('#bid').value}`:action==='cardcontinue'&&state.card?`&arg=${state.card.instance}`:'';
   send(`/api/action?action=${action}&player=${state.decisionPlayer}&asset=${$('#asset').value}&expected=${state.version}${argument}`);
@@ -1594,7 +1992,7 @@ $('#pairing-retry').onclick=async()=>{
 $('#settings-open').onclick=openSettings;
 $('#settings-cancel').onclick=closeSettings;
 $('#settings-save').onclick=saveSettings;
-$('#tile-debug-refresh').onclick=()=>refreshTileDebug('临时分配已刷新。');
+$('#tile-debug-refresh').onclick=()=>refreshTileDebug(()=>tr('临时分配已刷新。'));
 $('#tile-debug-list').onclick=event=>{
   const button=event.target.closest('[data-clear-tile-anchor]');
   if(button&&!tileDebugInFlight&&!actionInFlight)clearTileDebugAssignment(button.dataset.clearTileAnchor);
@@ -1658,6 +2056,7 @@ $('#board').addEventListener('keydown',event=>{
 $('#settings-modal').onclick=event=>{if(event.target===$('#settings-modal'))closeSettings();};
 $('#bot-interval').addEventListener('keydown',event=>{if(event.key==='Enter')saveSettings();});
 document.addEventListener('pointerdown',event=>{
+  if(event.target.closest('#ui-language'))return;
   if(!event.target.closest('#player-context-menu'))hidePlayerContextMenu();
   if(!event.target.closest('#tile-debug-context-menu'))closeTileDebugContextMenu();
 });
@@ -1675,6 +2074,7 @@ window.addEventListener('resize',()=>{
 });
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)scheduleRefresh(0);});
 window.addEventListener('beforeunload',()=>{clearTimeout(pollTimer);if(refreshController)refreshController.abort();stopAllTokenAnimations();});
+initializeLanguage();
 refreshTileDebug();
 scheduleRefresh(0);
 </script>

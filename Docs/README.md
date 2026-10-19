@@ -1,5 +1,7 @@
 # Gridopoly 文档中心
 
+2026-10-19新增：[调试面板中英文切换](firmware/web-language-switch-2026-10-19.md)。已部署，右上角选择 English / 中文，刷新后记忆，右键编辑及设置草稿保留。
+
 2026-10-19新增：[管理专用热点 `gridopoly-admin`](firmware/admin-hotspot-2026-10-19.md)。连接后访问 `http://10.0.0.1`；与模块热点 `gridopoly` 分开，保留家庭 Wi-Fi 自动连接，管理服务开机自启。手机访问已获用户确认，离线及恢复验证见记录。
 
 [实物照片集 / Photo gallery](gallery/README.md)：整盘、玩家控制器、PCB与装配细节，包含全部11张新增照片和部件标注图。

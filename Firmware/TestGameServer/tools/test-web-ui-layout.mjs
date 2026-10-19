@@ -178,7 +178,7 @@ const tileDebugHelperBlock = source.match(
 );
 assert.ok(tileDebugHelperBlock, 'tile debug projection helper block was not found');
 const tileDebugHelpers = Function(
-  `${tileDebugHelperBlock[1]}; return {normalizeTileDebugData,tileDebugCssColor,tileDebugSafeIdentifier,tileDebugAssignmentFor,tileDebugUpdatedAtLabel,tileDebugSourceLabel,tileDebugOrderLabel};`,
+  `${source.match(/\/\/ TESTABLE_I18N_BEGIN([\s\S]*?)\/\/ TESTABLE_I18N_END/)[1]}\n${tileDebugHelperBlock[1]}; return {normalizeTileDebugData,tileDebugCssColor,tileDebugSafeIdentifier,tileDebugAssignmentFor,tileDebugUpdatedAtLabel,tileDebugSourceLabel,tileDebugOrderLabel};`,
 )();
 const tileDebugModel = tileDebugHelpers.normalizeTileDebugData({
   revision: 9,

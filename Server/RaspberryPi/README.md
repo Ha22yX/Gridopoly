@@ -1,5 +1,9 @@
 # Gridopoly Raspberry Pi Server
 
+## 调试页面语言（2026-10-19）
+
+右上角「设置」旁的 **English / 中文** 切换主面板、右键编辑、配对/ORDER和设置提示，当前浏览器记住选择。最终已部署0a2a7272…，无需更新模块固件；操作与验证见[语言切换记录](../../Docs/firmware/web-language-switch-2026-10-19.md)。
+
 ## 管理热点（2026-10-19）
 
 新增板载 Wi-Fi 管理热点 **`gridopoly-admin`**，连接后访问 **http://10.0.0.1**；保留家庭 Wi-Fi 自动连接及 ALFA USB 模块热点 `gridopoly` / `10.42.0.1`。管理服务已部署为开机自启，使用独立路由处理家庭网关同地址的情况。见[安装与运维](deploy/admin-ap/README.md)、[现场部署与验证](../../Docs/firmware/admin-hotspot-2026-10-19.md)。下面10月15日交付段落为历史时点，当前设备与网络状态以最新交接和上述记录为准。
