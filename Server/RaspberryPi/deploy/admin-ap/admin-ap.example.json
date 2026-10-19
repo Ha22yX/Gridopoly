@@ -1,0 +1,7 @@
+{
+  "ssid": "gridopoly-admin",
+  "passphrase": "replace-locally",
+  "country": "US",
+  "fallback_channel": 6,
+  "max_clients": 6
+}

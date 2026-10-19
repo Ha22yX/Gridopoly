@@ -28,7 +28,7 @@
 
 玩家：[当前实现](../player-console/current-player-console-baseline.md)、[头像/姓名](../player-console/player-avatar-setup-spec.md)、[UI](../player-console/player-console-ui-spec.md)、[验收](../player-console/player-console-acceptance-tests.md)、[手写](player-console-handwriting-neural.md)、[电池固件](player-battery-telemetry-progress-2026-09-27.md)。
 
-网络：[USB已部署及自启验收](usb-ap-deployment-2026-10-15.md)、[已购网卡来源](portable-wifi-selection-2026-10-15.md)、[旧7台调查](ap-capacity-investigation-2026-10-15.md)、[以太网AP备用方案](external-ap-deployment-2026-09-26.md)。目前US/信道6/HT20、gpusb0、游戏地址10.42.0.1；20台同时注册、USB恢复及Pi软件重启通过，36台与离线冷上电仍待验。
+网络：[独立管理热点 gridopoly-admin / 10.0.0.1](admin-hotspot-2026-10-19.md)、[USB已部署及自启验收](usb-ap-deployment-2026-10-15.md)、[已购网卡来源](portable-wifi-selection-2026-10-15.md)、[旧7台调查](ap-capacity-investigation-2026-10-15.md)、[以太网AP备用方案](external-ap-deployment-2026-09-26.md)。模块热点为US/信道6/HT20、gpusb0、游戏地址10.42.0.1；管理热点在板载无线另开，与家庭Wi-Fi共享信道，开机自启。20台同时注册、USB恢复及Pi软件重启是此前实测；36台与离线整机冷上电仍待验。
 
 ## 历史与协作
 

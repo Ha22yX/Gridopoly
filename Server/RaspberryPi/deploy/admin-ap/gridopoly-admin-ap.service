@@ -1,0 +1,21 @@
+[Unit]
+Description=Gridopoly dedicated management Wi-Fi hotspot
+Wants=NetworkManager.service
+After=NetworkManager.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/local/libexec/gridopoly-admin-ap
+ExecStopPost=/usr/local/libexec/gridopoly-admin-ap --cleanup
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+RuntimeDirectory=gridopoly-admin-ap
+RuntimeDirectoryMode=0700
+StateDirectory=gridopoly-admin-ap
+StateDirectoryMode=0750
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

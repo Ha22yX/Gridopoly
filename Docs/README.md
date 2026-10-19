@@ -1,5 +1,7 @@
 # Gridopoly 文档中心
 
+2026-10-19新增：[管理专用热点 `gridopoly-admin`](firmware/admin-hotspot-2026-10-19.md)。连接后访问 `http://10.0.0.1`；与模块热点 `gridopoly` 分开，保留家庭 Wi-Fi 自动连接，管理服务开机自启。手机访问已获用户确认，离线及恢复验证见记录。
+
 [实物照片集 / Photo gallery](gallery/README.md)：整盘、玩家控制器、PCB与装配细节，包含全部11张新增照片和部件标注图。
 
 2026-10-18新增：[四台玩家屏及V2头像部署](firmware/player-avatar-v2-rollout-2026-10-18.md)。四台均为普通12MHz应用99f6a840，RANDOM和姓名页闪动修复已上线；Pi00c978af及31组件已部署，新局默认V2，旧局保留V1。三台上传后电量失败已由用户双路断电恢复，后续采样有效，不记自动恢复。实际设备与待验项以[当前交接](CURRENT-DEVELOPMENT-HANDOFF.md)为准；下段为此前阶段汇总。
