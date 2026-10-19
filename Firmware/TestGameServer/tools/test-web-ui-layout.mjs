@@ -386,9 +386,16 @@ for (const count of [16, 24, 32, 40]) {
   const positions = Array.from({ length: count }, (_, index) => boardPosition(index, count));
 
   assert.deepEqual(positions[0], [side + 1, side + 1], `${count}: start corner`);
-  assert.deepEqual(positions[side], [side + 1, 1], `${count}: bottom-left corner`);
+  assert.deepEqual(positions[1], [side, side + 1], `${count}: tile 1 goes up the right edge`);
+  assert.deepEqual(positions[side], [1, side + 1], `${count}: top-right corner`);
   assert.deepEqual(positions[2 * side], [1, 1], `${count}: top-left corner`);
-  assert.deepEqual(positions[3 * side], [1, side + 1], `${count}: top-right corner`);
+  assert.deepEqual(positions[3 * side], [side + 1, 1], `${count}: bottom-left corner`);
+
+  positions.forEach(([row,column],index)=>{
+    const [nextRow,nextColumn]=positions[(index+1)%count];
+    assert.equal(Math.abs(row-nextRow)+Math.abs(column-nextColumn),1,
+      `${count}: consecutive tiles remain adjacent, including the wrap to Start`);
+  });
 
   for (const [row, column] of positions) {
     assert.ok(row >= 1 && row <= side + 1, `${count}: row ${row} is outside the board`);

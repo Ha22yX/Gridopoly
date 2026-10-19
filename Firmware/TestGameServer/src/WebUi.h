@@ -557,6 +557,78 @@ function tileVisual(id){
   return[id,null,'#42526A'];
 }
 
+function developmentArtworkUrl(tile){
+  if(tile.kind!==1||tile.asset===255||!Number.isInteger(tile.level)||tile.level<1||tile.level>5||
+      !Object.hasOwn(tileVisuals,tile.id))return '';
+  return `/assets/development/v1/web/${tileVisuals[tile.id][1].slice(0,-4)}-l${tile.level}.png`;
+}
+
+// Only retain artwork needed by the current board (at most 22 properties).
+// HTTP caching keeps previously visited levels available without retaining blobs.
+const developmentArtwork=new Map();
+let artworkTimer=null,artworkBusy=false,artworkNextStart=0;
+function syncDevelopmentArtwork(){
+  const needed=new Set(Array.from(document.querySelectorAll('[data-artwork-url]'),image=>image.dataset.artworkUrl));
+  for(const [url,entry] of developmentArtwork){
+    if(needed.has(url))continue;
+    entry.controller?.abort();
+    if(entry.objectUrl)URL.revokeObjectURL(entry.objectUrl);
+    developmentArtwork.delete(url);
+  }
+  for(const url of needed){
+    if(!developmentArtwork.has(url))developmentArtwork.set(url,{objectUrl:'',retryAt:0,failures:0,controller:null});
+  }
+  scheduleDevelopmentArtwork();
+}
+function scheduleDevelopmentArtwork(){
+  clearTimeout(artworkTimer);
+  if(artworkBusy)return;
+  const pending=[...developmentArtwork.entries()].filter(([,entry])=>!entry.objectUrl)
+    .sort((a,b)=>a[1].retryAt-b[1].retryAt);
+  if(!pending.length)return;
+  const [url,entry]=pending[0];
+  artworkTimer=setTimeout(()=>loadDevelopmentArtwork(url,entry),
+    Math.max(0,entry.retryAt-Date.now(),artworkNextStart-Date.now()));
+}
+async function loadDevelopmentArtwork(url,entry){
+  if(developmentArtwork.get(url)!==entry)return;
+  artworkBusy=true;
+  artworkNextStart=Date.now()+350; // One transfer at a time, under 3 starts/s.
+  entry.controller=new AbortController();
+  const timeout=setTimeout(()=>entry.controller.abort(),8000);
+  let objectUrl='',retryAfter=0;
+  try{
+    const response=await fetch(url,{signal:entry.controller.signal});
+    if(!response.ok){
+      const header=response.headers.get('Retry-After');
+      retryAfter=header?(Number.isFinite(Number(header))?Number(header)*1000:Date.parse(header)-Date.now()):0;
+      if(!Number.isFinite(retryAfter))retryAfter=0;
+      if(response.status===503||response.status===429)artworkNextStart=Date.now()+Math.max(1000,retryAfter);
+      throw new Error(`artwork HTTP ${response.status}`);
+    }
+    objectUrl=URL.createObjectURL(await response.blob());
+    const decoded=new Image();
+    decoded.src=objectUrl;
+    await decoded.decode();
+    if(developmentArtwork.get(url)!==entry)return;
+    entry.objectUrl=objectUrl;
+    objectUrl='';
+    for(const image of document.querySelectorAll('[data-artwork-url]')){
+      if(image.dataset.artworkUrl===url)image.src=entry.objectUrl;
+    }
+  }catch(error){
+    // Keep the base image visible and retry only while this level is on the board.
+    entry.failures++;
+    entry.retryAt=Date.now()+Math.max(retryAfter,Math.min(30000,1000*2**Math.min(entry.failures-1,5)));
+  }finally{
+    clearTimeout(timeout);
+    if(objectUrl)URL.revokeObjectURL(objectUrl);
+    entry.controller=null;
+    artworkBusy=false;
+    scheduleDevelopmentArtwork();
+  }
+}
+
 // TESTABLE_FORCED_ROLL_HELPERS_BEGIN
 const playerColors=['#58A7EB','#EF7168','#52DCB7','#F2C453','#C28AE8','#EA8A55'];
 function playerColor(playerId){
@@ -906,10 +978,12 @@ function renderIdentityWorkflow(next){
 function boardPosition(index,count){
   const side=count/4;
   if(index===0)return[side+1,side+1];
-  if(index<=side)return[side+1,side+1-index];
-  if(index<=2*side)return[2*side+1-index,1];
-  if(index<=3*side)return[1,index-2*side+1];
-  return[index-3*side+1,side+1];
+  // Mirror the presentation to match the physical ORDER chain. IDs and game
+  // movement keep their authoritative increasing-index order.
+  if(index<=side)return[side+1-index,side+1];
+  if(index<=2*side)return[1,2*side+1-index];
+  if(index<=3*side)return[index-2*side+1,1];
+  return[side+1,index-3*side+1];
 }
 
 function projectState(next,definition){
@@ -1100,7 +1174,9 @@ function render(next,languageOnly=false){
       element.style.setProperty('--player-color',owner.color);
     }
     const asset=tile.asset===255?'':`A${tile.asset} · ¥${tile.price} · L${tile.level}${tile.mortgaged?tr(' · 抵押'):''}`;
-    const art=visual[1]?`<img class="tile-art" src="/assets/tiles/${visual[1]}" alt="" loading="lazy" decoding="async">`:'';
+    const artworkUrl=developmentArtworkUrl(tile);
+    const artworkSource=developmentArtwork.get(artworkUrl)?.objectUrl||`/assets/tiles/${visual[1]}`;
+    const art=visual[1]?`<img class="tile-art" src="${artworkSource}" ${artworkUrl?`data-artwork-url="${artworkUrl}"`:''} alt="" loading="lazy" decoding="async">`:'';
     element.title=`${String(tile.i).padStart(2,'0')} · ${visual[0]} · ${tile.id}${asset?` · ${asset}`:''}${owner?tr` · 所有者 ${owner.name}`:''}`;
     element.setAttribute('aria-label',element.title);
     const pairing=pairingView(next.tagPairing,next.roomId);
@@ -1115,6 +1191,7 @@ function render(next,languageOnly=false){
     element.innerHTML=`${art}<span class="n">${String(tile.i).padStart(2,'0')} · ${esc(tr(kinds[tile.kind]||tile.kind))}</span>${ownerBadge}<span class="id">${esc(visual[0])}<small>${esc(tile.id)}</small></span>${meta}<span class="chips"></span>`;
     board.appendChild(element);
   });
+  syncDevelopmentArtwork();
   renderPlayerChips();
 
   $('#players').innerHTML=next.players.map(player=>{

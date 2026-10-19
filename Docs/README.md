@@ -1,5 +1,7 @@
 # Gridopoly 文档中心
 
+2026-10-19后续：[网页房屋/酒店图片及排列方向](firmware/web-development-artwork-2026-10-19.md)。已部署，按当前建造等级选图并限速下载；网页起点保留右下、编号沿右侧向上，实体ORDER不变。
+
 2026-10-19新增：[调试面板中英文切换](firmware/web-language-switch-2026-10-19.md)。已部署，右上角选择 English / 中文，刷新后记忆，右键编辑及设置草稿保留。
 
 2026-10-19新增：[管理专用热点 `gridopoly-admin`](firmware/admin-hotspot-2026-10-19.md)。连接后访问 `http://10.0.0.1`；与模块热点 `gridopoly` 分开，保留家庭 Wi-Fi 自动连接，管理服务开机自启。手机访问已获用户确认，离线及恢复验证见记录。
