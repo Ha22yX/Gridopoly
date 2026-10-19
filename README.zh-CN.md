@@ -8,7 +8,7 @@
 <p align="center">
   <a href="README.md">English</a> &middot;
   <a href="#为什么会有这个项目">项目故事</a> &middot;
-  <a href="#我的工作台">实物照片</a> &middot;
+  <a href="Docs/gallery/README.md">完整照片集</a> &middot;
   <a href="#现在做到哪了">当前进度</a> &middot;
   <a href="#仓库里有什么">代码与设计</a> &middot;
   <a href="#想自己做一套">动手复刻</a>
@@ -17,8 +17,8 @@
 <p align="center"><strong>16块智能格子</strong> &nbsp;·&nbsp; <strong>4台玩家控制屏</strong> &nbsp;·&nbsp; ESP32-S3 + Raspberry Pi</p>
 
 <p align="center">
-  <a href=".github/assets/photos/gridopoly-16-tile-board.jpg"><img src=".github/assets/photos/gridopoly-16-tile-board.jpg" width="900" alt="工作台上的Gridopoly实物原型：12块长边和4块角落围成棋盘，装有屏幕、LED、打印底座和实体棋子。" /></a><br />
-  <sub>工作台上的16格原型。自己设计的电路板、打印出来的零件，还有一点点成形的桌游。</sub>
+  <a href=".github/assets/photos/2026-10-18/gridopoly-workbench.jpg"><img src=".github/assets/photos/2026-10-18/gridopoly-workbench.jpg" width="900" alt="工作台上的16格Gridopoly棋盘、4枚实体棋子，以及照片中的3台玩家控制器。" /></a><br />
+  <sub>电路板、打印底座和棋子，终于拼成了桌上的16格棋盘。照片前方是其中3台玩家控制器。</sub>
 </p>
 
 ## 为什么会有这个项目
@@ -36,24 +36,24 @@
 <table>
   <tr>
     <td width="33%" align="center" valign="top">
-      <a href=".github/assets/photos/gridopoly-pcbs-and-base.jpg"><img src=".github/assets/photos/gridopoly-pcbs-and-base.jpg" width="190" alt="三块自制格子PCB连接在蓝色3D打印角落底座上。" /></a><br />
+      <a href=".github/assets/photos/2026-10-18/annotated/tile-corner-annotated.jpg"><img src=".github/assets/photos/2026-10-18/thumbs/tile-corner-annotated.jpg" width="280" alt="长边、角落、连接接口和打印底座。" /></a><br />
       <strong>棋盘下面是什么</strong><br />
-      <sub>自己设计的格子PCB，连接在打印底座上。</sub>
-    </td>
-    <td width="34%" align="center" valign="top">
-      <a href=".github/assets/photos/gridopoly-player-console-and-power.jpg"><img src=".github/assets/photos/gridopoly-player-console-and-power.jpg" width="190" alt="正在显示外貌设置的圆形玩家屏，连接着自制供电板和电池。" /></a><br />
-      <strong>每个人的控制器</strong><br />
-      <sub>圆形屏幕、旋钮、供电板和电池。</sub>
+      <sub>长边、角落、连接接口和打印底座。</sub>
     </td>
     <td width="33%" align="center" valign="top">
-      <a href=".github/assets/photos/gridopoly-rfid-piece.jpg"><img src=".github/assets/photos/gridopoly-rfid-piece.jpg" width="190" alt="上方粉色3D打印角色与下方黑色RFID标签，组合成棋盘可以识别的实体棋子。" /></a><br />
+      <a href=".github/assets/photos/2026-10-18/annotated/player-console-annotated.jpg"><img src=".github/assets/photos/2026-10-18/thumbs/player-console-annotated.jpg" width="280" alt="圆屏、供电板和电池，各自装在哪里。" /></a><br />
+      <strong>每个人的控制器</strong><br />
+      <sub>圆屏、供电板和电池，各自装在哪里。</sub>
+    </td>
+    <td width="33%" align="center" valign="top">
+      <a href=".github/assets/photos/2026-10-18/annotated/rfid-piece-annotated.jpg"><img src=".github/assets/photos/2026-10-18/thumbs/rfid-piece-annotated.jpg" width="280" alt="上面是打印角色，下面的黑色圆片是RFID Tag。" /></a><br />
       <strong>棋盘认得出的小棋子</strong><br />
-      <sub><strong>上方粉色：</strong>3D打印角色<br /><strong>下方黑色：</strong>RFID Tag<br />组合起来，就是一枚完整棋子。</sub>
+      <sub>上面是打印角色，下面的黑色圆片是RFID Tag。</sub>
     </td>
   </tr>
 </table>
 
-<sub>这些是真实开发过程中的照片，拍摄阶段有所不同。点击图片可以查看原图。</sub>
+这些标注图用引导线说明部件，点击可以放大。**[打开完整照片集 →](Docs/gallery/README.md)**，查看本次全部11张无标注照片，以及之前的开发照片。
 
 ## 玩起来是什么样
 

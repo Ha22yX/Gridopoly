@@ -1,0 +1,330 @@
+{
+  "added_on": "2026-10-18",
+  "date_note": "Import date; not a claim about photo capture dates.",
+  "conversion": "HEIC to sRGB JPEG; EXIF orientation applied; longest edge 2400px; no crop or annotations on web photos; metadata removed. Thumbnails use a 640px longest edge.",
+  "photos": [
+    {
+      "source": "IMG_1947.HEIC",
+      "source_sha256": "2590903c7d1baa3eb410e9cce156ee9b9881a70a20e27be1cc9062fbf6da383e",
+      "title_en": "A controller, from the side",
+      "title_zh": "玩家控制器的侧面",
+      "caption_en": "The round screen, power board and battery share one printed stand.",
+      "caption_zh": "圆屏、供电板和电池装进同一套打印支架。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "player-console-side.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 306353,
+        "sha256": "ecfbbb9a2ecbbbe2fee67f6c308d242a4640a1c87f0474eac5e55c027776973e"
+      },
+      "thumbnail": {
+        "file": "thumbs/player-console-side.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 25405,
+        "sha256": "ec4a3c6b9292f0d1db7cd01edd5027d6c01808d56d5243f53c81dc89055b3862"
+      }
+    },
+    {
+      "source": "IMG_1948.HEIC",
+      "source_sha256": "55251c5ebda719fa594dd8860be1893a30fb0653b625aa658b6d29fdcb0489ac",
+      "title_en": "How a corner joins the board",
+      "title_zh": "角落与长边怎样相连",
+      "caption_en": "One corner PCB and two long tile PCBs on a printed base.",
+      "caption_zh": "一块角落PCB与两块长边PCB，固定在打印底座上。",
+      "source_width": 3024,
+      "source_height": 4032,
+      "web": {
+        "file": "tile-corner-assembly.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 384790,
+        "sha256": "6306c164f73f1ffeff4380bc10723cf303402232126ef8113d83265089eae4e7"
+      },
+      "thumbnail": {
+        "file": "thumbs/tile-corner-assembly.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 40290,
+        "sha256": "25bd8d7eaf8e4ee9b4ebf4ff7a31afedb1d0e9b13d24ee43c31ae4ef1ed26f65"
+      }
+    },
+    {
+      "source": "IMG_1949.HEIC",
+      "source_sha256": "b6734e6f5e4ce247d48196bb5682d3b895fe2bd86ccd1986a66535c113d09b2e",
+      "title_en": "Sixteen modules, one frame",
+      "title_zh": "16块模块，拼成一整盘",
+      "caption_en": "The assembled board held upright, with the displays off.",
+      "caption_zh": "竖起来看的整盘结构；拍摄时屏幕未点亮。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "assembled-board-frame.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 439678,
+        "sha256": "eb4ffa4b756179d88033d9b332bdd514ca69de5f6371dcf32bf52544f3dd88ef"
+      },
+      "thumbnail": {
+        "file": "thumbs/assembled-board-frame.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 40178,
+        "sha256": "bafc037303ba2aca21fd557806a5479dcbf176bd60d8ee4dbcdf96aa476cc352"
+      }
+    },
+    {
+      "source": "IMG_1950.HEIC",
+      "source_sha256": "b4f2feec84ecf41da5471bcbc3cb53cc75ce0f7c056d710929fed3a48900b71c",
+      "title_en": "Another look at the power board",
+      "title_zh": "换个角度看供电板",
+      "caption_en": "A close look at the player power PCB and its connectors.",
+      "caption_zh": "玩家供电PCB和接口的近照。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "player-power-board-reverse-view.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 296679,
+        "sha256": "ab264fb3a157bc2191c14018e32abd6771e4a1058aeee9c6abe81b754af4eb32"
+      },
+      "thumbnail": {
+        "file": "thumbs/player-power-board-reverse-view.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 24514,
+        "sha256": "6a8ecada3c4224e69c2c998c8e4af2e93e6d054a6be7b8e026ad35e3911768ef"
+      }
+    },
+    {
+      "source": "IMG_1951.HEIC",
+      "source_sha256": "fd56575eccc9e091784af0d2ae1a2aa156eba6e0c6fafa2097d21d0ee9206a0a",
+      "title_en": "The player power board",
+      "title_zh": "玩家供电板",
+      "caption_en": "The photographed prototype is marked PLAYER POWER R1 RC4.",
+      "caption_zh": "照片中的原型板标有PLAYER POWER R1 RC4。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "player-power-board.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 318011,
+        "sha256": "4e9437443853a76a08dbc2bebb54cef37f68d1188bb04bac38b29e6c871b9536"
+      },
+      "thumbnail": {
+        "file": "thumbs/player-power-board.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 25559,
+        "sha256": "99cd59d9b5450708b6e8d7b0c0afcbac16213d20bcc88e4e7759235799907c1c"
+      }
+    },
+    {
+      "source": "IMG_1952.HEIC",
+      "source_sha256": "84fbd6ab47b20e75032ce03b380c02f5b76374886db7930f3e333c2cd48b719c",
+      "title_en": "Before fitting the display",
+      "title_zh": "安装屏幕之前",
+      "caption_en": "The populated long tile PCB, with its ESP32 module and perimeter LEDs.",
+      "caption_zh": "焊好元件的长边PCB，可以看到ESP32模组和周围的LED。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "long-tile-pcb.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 291289,
+        "sha256": "c8e70e9e5e8aa90cb56e0ee76e393d113ba70eec981daa272cfac85f3f6fd935"
+      },
+      "thumbnail": {
+        "file": "thumbs/long-tile-pcb.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 23943,
+        "sha256": "7d73be6526d366fd36b7c9dd7284ca5e7ba444758d63a807c76d72ea2b497feb"
+      }
+    },
+    {
+      "source": "IMG_1953.HEIC",
+      "source_sha256": "8b2469a724723e39a5719052baabd7f6b12c3238880f118a0708287ea37c545b",
+      "title_en": "With the display fitted",
+      "title_zh": "装上屏幕之后",
+      "caption_en": "The same style of long tile module with the LCD in place.",
+      "caption_zh": "长边模块装上LCD后的样子。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "long-tile-with-display.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 272355,
+        "sha256": "43d031d968141db9651c02b23d37dc50e7a00a17e660e367c89f5a3e08932228"
+      },
+      "thumbnail": {
+        "file": "thumbs/long-tile-with-display.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 21482,
+        "sha256": "23fbf6e49709d54d3d60beb68c9aaa3feb2125a1e9f56a82adf926a9d8e629ef"
+      }
+    },
+    {
+      "source": "IMG_1954.HEIC",
+      "source_sha256": "d0749c78ad4e6007eb43ac1e43856012ec653d4e6ae595654161b0550e944c21",
+      "title_en": "A little space underneath",
+      "title_zh": "屏幕下面留出的空间",
+      "caption_en": "A side view of the LCD, PCB and mounting standoffs.",
+      "caption_zh": "从侧面看LCD、PCB和安装支柱之间的距离。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "tile-display-side.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 242711,
+        "sha256": "a8635522ecc6c08585a69abae0c518b8035043c2f74c81ca4165008ae8db3424"
+      },
+      "thumbnail": {
+        "file": "thumbs/tile-display-side.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 19002,
+        "sha256": "942cd0298b794af5d655ec5c8c03f28ba52121cfa5b1967639909986c6884c67"
+      }
+    },
+    {
+      "source": "IMG_1955.HEIC",
+      "source_sha256": "7e0cd7973fe6e85798c994585ea0895a015b9752135ebd6141232b662977dd4f",
+      "title_en": "The coil around each tile",
+      "title_zh": "每个格子的读卡线圈",
+      "caption_en": "The rectangular RFID antenna before mounting around a display.",
+      "caption_zh": "围到屏幕周围之前的矩形RFID天线。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "rfid-coil.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 260725,
+        "sha256": "8793024661ab76f17b3e371e0b56672c69d99baec436afaa605b9b76fe9337f7"
+      },
+      "thumbnail": {
+        "file": "thumbs/rfid-coil.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 21567,
+        "sha256": "25ecb644de0254fc8b3767a3d27af6f0c6a63da735960760e12a8d7304e5fc3b"
+      }
+    },
+    {
+      "source": "IMG_1956.HEIC",
+      "source_sha256": "5341fdeac87cb3826d7b9813f448196f21101bf371d62914cec198aae0efe2fd",
+      "title_en": "Before the components go on",
+      "title_zh": "还没有焊上元件的时候",
+      "caption_en": "An unpopulated tile PCB: the traces and component pads are visible.",
+      "caption_zh": "尚未贴装的格子PCB，能看到走线和元件焊盘。",
+      "source_width": 4284,
+      "source_height": 5712,
+      "web": {
+        "file": "unpopulated-tile-pcb.jpg",
+        "width": 1800,
+        "height": 2400,
+        "bytes": 305760,
+        "sha256": "51b83199088a26b658982d4ccd7ee35a14eee682941eb6a9e321ecb4782a354a"
+      },
+      "thumbnail": {
+        "file": "thumbs/unpopulated-tile-pcb.jpg",
+        "width": 480,
+        "height": 640,
+        "bytes": 25517,
+        "sha256": "6dd3c2d18c35ebbb9b3aaa88d7f4d4601d9510bc3cc8c05cbecfe07fdd10c931"
+      }
+    },
+    {
+      "source": "IMG_1957.HEIC",
+      "source_sha256": "485ac5c56e62618050b7d288fc5ca837c44e54abdee23db9e3217e1ccf9505c6",
+      "title_en": "The board on my workbench",
+      "title_zh": "工作台上的整套原型",
+      "caption_en": "The powered 16-tile board, four pieces and three player consoles in this photo.",
+      "caption_zh": "照片里是已点亮的16格棋盘、4枚棋子和3台玩家控制器。",
+      "source_width": 5712,
+      "source_height": 4284,
+      "web": {
+        "file": "gridopoly-workbench.jpg",
+        "width": 2400,
+        "height": 1800,
+        "bytes": 749473,
+        "sha256": "51725788d3061f320f6bbf1a5a065402e496937077516887d4d6ed85a3697fa4"
+      },
+      "thumbnail": {
+        "file": "thumbs/gridopoly-workbench.jpg",
+        "width": 640,
+        "height": 480,
+        "bytes": 69759,
+        "sha256": "795d4e20e16250a707fcf0fd8d20bef81083bd62e133c2003d61037a3b57a636"
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "key": "player-console-annotated",
+      "source": "IMG_1947.HEIC",
+      "tool": "Built-in image_gen",
+      "web": {
+        "file": "annotated/player-console-annotated.jpg",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 183262,
+        "sha256": "d96dfd6cd3c7afbca4cd551f72390f64d5df8694a18c3876882215e664d3312f"
+      },
+      "thumbnail": {
+        "file": "thumbs/player-console-annotated.jpg",
+        "width": 840,
+        "height": 630,
+        "bytes": 70296,
+        "sha256": "fb747fedd8046c08fe0d63043a6a391e585d876f050fc363cbc7202c94d64170"
+      }
+    },
+    {
+      "key": "tile-corner-annotated",
+      "source": "IMG_1948.HEIC",
+      "tool": "Built-in image_gen",
+      "web": {
+        "file": "annotated/tile-corner-annotated.jpg",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 298166,
+        "sha256": "0ec4e3e96ed29238b149a6eb363fe4a459cdda0468ef5a7dc7c1e41812299b67"
+      },
+      "thumbnail": {
+        "file": "thumbs/tile-corner-annotated.jpg",
+        "width": 840,
+        "height": 630,
+        "bytes": 122666,
+        "sha256": "1f5c1f4050e22946c93405f71845741342110b309f244cc82e9a61f3cca66514"
+      }
+    },
+    {
+      "key": "rfid-piece-annotated",
+      "source": "gridopoly-rfid-piece.jpg",
+      "tool": "Built-in image_gen",
+      "web": {
+        "file": "annotated/rfid-piece-annotated.jpg",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 171375,
+        "sha256": "9778079a67c1ef6afe31c72264cec314d7f79f15633b71c8c007249730e75ae5"
+      },
+      "thumbnail": {
+        "file": "thumbs/rfid-piece-annotated.jpg",
+        "width": 840,
+        "height": 630,
+        "bytes": 65340,
+        "sha256": "0f293e91dd365f51e2de0f3ef43cb8838891755f44d3df91a912d6014a7e59e3"
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@
 <p align="center">
   <a href="README.zh-CN.md">简体中文</a> &middot;
   <a href="#why-this-exists">The story</a> &middot;
-  <a href="#on-my-workbench">Photos</a> &middot;
+  <a href="Docs/gallery/README.md">Photo gallery</a> &middot;
   <a href="#where-it-is-now">Progress</a> &middot;
   <a href="#inside-the-repository">Code &amp; design files</a> &middot;
   <a href="#build-your-own">Build your own</a>
@@ -17,8 +17,8 @@
 <p align="center"><strong>16 smart tiles</strong> &nbsp;·&nbsp; <strong>4 player consoles</strong> &nbsp;·&nbsp; ESP32-S3 + Raspberry Pi</p>
 
 <p align="center">
-  <a href=".github/assets/photos/gridopoly-16-tile-board.jpg"><img src=".github/assets/photos/gridopoly-16-tile-board.jpg" width="900" alt="The real Gridopoly prototype: twelve long tiles and four corners connected into a square board, with screens, LEDs, printed supports and physical pieces." /></a><br />
-  <sub>The 16-space prototype on my workbench. Custom boards, printed parts, and a game taking shape.</sub>
+  <a href=".github/assets/photos/2026-10-18/gridopoly-workbench.jpg"><img src=".github/assets/photos/2026-10-18/gridopoly-workbench.jpg" width="900" alt="The real 16-tile Gridopoly board on its printed frame, with four physical pieces and three player consoles shown in front." /></a><br />
+  <sub>The 16-space board, printed frame, and pieces finally together on my workbench. Three of the player consoles are shown here.</sub>
 </p>
 
 ## Why This Exists
@@ -36,24 +36,24 @@ That idea became **Gridopoly**. It's grown into my own hardware and software pro
 <table>
   <tr>
     <td width="33%" align="center" valign="top">
-      <a href=".github/assets/photos/gridopoly-pcbs-and-base.jpg"><img src=".github/assets/photos/gridopoly-pcbs-and-base.jpg" width="190" alt="Three custom tile PCBs joined at a corner on a blue 3D-printed base." /></a><br />
+      <a href=".github/assets/photos/2026-10-18/annotated/tile-corner-annotated.jpg"><img src=".github/assets/photos/2026-10-18/thumbs/tile-corner-annotated.jpg" width="280" alt="Long tiles, a corner, their connectors, and the printed base." /></a><br />
       <strong>The board, underneath</strong><br />
-      <sub>Custom tile PCBs join together on a printed base.</sub>
-    </td>
-    <td width="34%" align="center" valign="top">
-      <a href=".github/assets/photos/gridopoly-player-console-and-power.jpg"><img src=".github/assets/photos/gridopoly-player-console-and-power.jpg" width="190" alt="Round player screen showing avatar setup, connected to a custom power PCB and a battery." /></a><br />
-      <strong>Your own controller</strong><br />
-      <sub>A round screen, rotary control, power board, and battery.</sub>
+      <sub>Long tiles, a corner, their connectors, and the printed base.</sub>
     </td>
     <td width="33%" align="center" valign="top">
-      <a href=".github/assets/photos/gridopoly-rfid-piece.jpg"><img src=".github/assets/photos/gridopoly-rfid-piece.jpg" width="190" alt="A pink 3D-printed figure sits above a black RFID tag; together they form a recognizable game piece." /></a><br />
+      <a href=".github/assets/photos/2026-10-18/annotated/player-console-annotated.jpg"><img src=".github/assets/photos/2026-10-18/thumbs/player-console-annotated.jpg" width="280" alt="Where the screen, power board, and battery fit." /></a><br />
+      <strong>Your own controller</strong><br />
+      <sub>Where the screen, power board, and battery fit.</sub>
+    </td>
+    <td width="33%" align="center" valign="top">
+      <a href=".github/assets/photos/2026-10-18/annotated/rfid-piece-annotated.jpg"><img src=".github/assets/photos/2026-10-18/thumbs/rfid-piece-annotated.jpg" width="280" alt="A printed figure on top; a black RFID tag underneath." /></a><br />
       <strong>A piece the board can recognize</strong><br />
-      <sub><strong>Pink, above:</strong> 3D-printed figure<br /><strong>Black, below:</strong> RFID tag<br />Together: one physical game piece.</sub>
+      <sub>A printed figure on top; a black RFID tag underneath.</sub>
     </td>
   </tr>
 </table>
 
-<sub>Real build photos from different stages of the project. Click any photo for the full-size view.</sub>
+The callouts show what goes where; click to enlarge. **[Open the full photo gallery →](Docs/gallery/README.md)** for all 11 new, unannotated photos and the earlier build pictures.
 
 ## What Playing Looks Like
 
