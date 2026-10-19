@@ -125,7 +125,7 @@ static const char kWebUi[] PROGMEM = R"GRIDOPOLY_HTML(<!doctype html>
       <h2>开始新游戏</h2>
       <p>自动加入在线玩家屏，机器人补齐至 4 人。开局后按屏幕提示，依次在高亮格子配对棋子。单块模块或未闭环的串联也可测试，无需先分配格子。</p>
       <div id="device-list" class="device-list" aria-live="polite">正在查找玩家屏…</div>
-      <select id="size" aria-label="地图格数"><option>16</option><option>24</option><option selected>32</option><option>40</option></select>
+      <select id="size" aria-label="地图格数"><option selected>16</option><option>24</option><option>32</option><option>40</option></select>
       <p id="newgame-roster">等待在线终端列表</p>
       <button id="new" class="primary" disabled>开始新游戏</button>
       <p id="newgame-result" role="status" aria-live="polite" hidden></p>
