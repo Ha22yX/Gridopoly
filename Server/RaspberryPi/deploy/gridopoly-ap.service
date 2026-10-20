@@ -1,7 +1,7 @@
 [Unit]
 Description=Gridopoly isolated Wi-Fi access point
-After=NetworkManager-wait-online.service
-Wants=network-online.target
+After=NetworkManager.service
+Wants=NetworkManager.service
 Before=gridopoly-dnsmasq.service gridopoly.service
 
 [Service]

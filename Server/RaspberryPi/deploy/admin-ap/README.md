@@ -1,5 +1,7 @@
 # Dedicated management Wi-Fi
 
+Offline boot was verified on 2026-10-20 with an unreachable home-network target and autoconnect still enabled: both APs and all five Gridopoly services started automatically, and all 16 tiles recovered by the 30-second sample. A real management Wi-Fi client successfully fetched the panel without an upstream route. See the [boot verification record](../../../../Docs/firmware/offline-boot-verification-2026-10-20.md) for evidence, cleanup and the remaining physical cold-power test.
+
 Connect a phone or laptop to **`gridopoly-admin`**, then open **http://10.0.0.1**. Choose to stay connected if the device says this network has no Internet. The password is configured privately on the Pi; it is not included in this repository. This is a local management network, with manual browser access rather than a guaranteed captive-portal popup.
 
 | Connection | Hardware / interface | Purpose |

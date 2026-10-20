@@ -1,5 +1,9 @@
 # Gridopoly Raspberry Pi Server
 
+## 离线启动核验（2026-10-20）
+
+家庭Wi-Fi不可用时的软件重启已实测：游戏、模块AP/DHCP、watchdog和管理AP五服务自动运行，30秒时16格及ORDER已恢复；真实客户端连接 `gridopoly-admin` 访问 `http://10.0.0.1` 通过。仓库通用单元已移除网络上线等待，现场USB专用配置保持。详见[服务清单、验证和限制](../../Docs/firmware/offline-boot-verification-2026-10-20.md)。
+
 ## 网页建筑图片与排列（2026-10-19）
 
 当前服务端二进制06cff422…已部署。网页根据地产等级显示1～4栋房屋和酒店，下载排队并自动重试；网页排列已反转为起点右下、编号沿右侧向上，实体ORDER和资产编号保持。已验证线上B3的真实L1图片，16在线/16分配；见[实现与验证记录](../../Docs/firmware/web-development-artwork-2026-10-19.md)。以下部署版本为此前阶段。

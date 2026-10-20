@@ -1,7 +1,6 @@
 [Unit]
 Description=Gridopoly authoritative game server
-After=network-online.target gridopoly-ap.service gridopoly-dnsmasq.service
-Wants=network-online.target
+After=gridopoly-ap.service gridopoly-dnsmasq.service
 
 [Service]
 Type=simple

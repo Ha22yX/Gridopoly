@@ -1,5 +1,7 @@
 # Gridopoly 文档中心
 
+2026-10-20新增：[无家庭Wi-Fi开机自启核验](firmware/offline-boot-verification-2026-10-20.md)。离线软件重启后五服务自动运行，16格和ORDER恢复，管理热点真实访问通过；家庭连接与原对局已恢复保留。
+
 2026-10-19后续：[网页房屋/酒店图片及排列方向](firmware/web-development-artwork-2026-10-19.md)。已部署，按当前建造等级选图并限速下载；网页起点保留右下、编号沿右侧向上，实体ORDER不变。
 
 2026-10-19新增：[调试面板中英文切换](firmware/web-language-switch-2026-10-19.md)。已部署，右上角选择 English / 中文，刷新后记忆，右键编辑及设置草稿保留。
